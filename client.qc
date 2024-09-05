@@ -1594,7 +1594,18 @@ void() PlayerPostThink =
 	
 	if (!(self.flags & FL_ONGROUND))
 		self.jump_flag = self.velocity_z;
-		
+	
+	if (self.v_angle_z) {
+		self.angles = normalizeAngles180(self.v_angle);
+
+		if (fabs(self.angles_z) < 0.5) 
+			self.angles_z = 0;
+		else
+			self.angles_z = self.angles_z - sign(self.angles_z)*(fabs(self.angles_z)/40 + 0.2);
+
+		self.fixangle = 1;
+	}
+	
 	// vaulting off the top of stairs sucks, but the right place to fix this is the .exe
 	/*
 	if (self.flags & FL_ONGROUND)
