@@ -2,6 +2,9 @@
 #pragma autoproto
 //#define NO_CSQC 1		// uncomment for a CSQC-less build
 
+// automatically compiles the CSQC progs at the end
+#pragma sourcefile csprogs.src
+
 defs.qc
 constants.qc
 
@@ -39,6 +42,7 @@ doors.qc
 buttons.qc
 triggers.qc
 t_tele.qc
+t_instatele.qc
 t_level.qc
 t_ctrl.qc
 plats.qc
