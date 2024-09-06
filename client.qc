@@ -1570,6 +1570,8 @@ void() PlayerPreThink =
 				sound (self, CHAN_AUTO, "misc/ladder2.wav", 0.5, ATTN_NORM);
 		}
 	}
+	else
+		self.gravity = 0;
 
 	if (self.button2)
 	{
