@@ -152,7 +152,8 @@ void(entity e) void_unplunge =
 	e.model = "progs/player.mdl";
 
 	SUB_CallAsSelf(W_ResetWeaponState, e);	// restore weaponmodel
-	TintScreen(e,0);
+	//TintScreen(e,0);
+	csf_clear(e, 70);
 }
 
 // --------------------------------
@@ -318,7 +319,8 @@ void() void_fallthink =
 	plummet = 1 - plummet * plummet;	// exponential falloff seems to look more linear, since the player accelerates exponentially
 	plummet = min( ceil( plummet * 255 ), 255);
 	
-	TintScreenColor(self.enemy, plummet, self.fadecolor);
+	//TintScreenColor(self.enemy, plummet, self.fadecolor);
+	csf_set(self.enemy, plummet, self.fadecolor, 70);
 	
 	self.nextthink = time + 0.0333;
 }

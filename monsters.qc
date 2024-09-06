@@ -567,15 +567,15 @@ void() monster_start_go =
 	}
 
 	// check if the mapper placed them touching a killer liquid and grant them immunity to it
-	vector wtt;
-	wtt = WaterTest();
-	if (wtt_x)
-	{
-		if (wtt_y == CONTENT_LAVA || wtt_y == CONTENT_SLIME)
-		{
-			self.customflags |= CFL_LIQUID_IMMUNE;
-		}
-	}
+	// set liquiddamage_finished to a high value so the watercheck won't damage it
+	self.liquiddamage_finished = A_SHITLOAD;
+	monster_watercheck();
+	self.liquiddamage_finished = 0;
+
+	if (self.watertype == CONTENT_LAVA || self.watertype == CONTENT_SLIME)
+		self.customflags |= CFL_LIQUID_IMMUNE;
+
+
 	// ai_nav
 	//self.radius = (self.maxs_x - self.mins_x) * 0.7;
 
@@ -732,7 +732,7 @@ Swimmonster starts
 
 void() swimmonster_start_go =
 {
-	self.movetype = MOVETYPE_FLY;
+	self.movetype = MOVETYPE_STEP;
 	
 	// fix monsters dropping to floor because of QSS fix
 	if (self.oldorigin != VEC_ORIGIN)
@@ -751,7 +751,7 @@ void() swimmonster_start =
 {
 	monster_start();
 	// iw -- move these here so fish don't fall for a frame and a half
-	self.flags = self.flags | FL_SWIM;
+	self.flags |= FL_FLY + FL_SWIM2;
 
 	if (self.nextthink <= time)
 		swimmonster_start_go();

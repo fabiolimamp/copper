@@ -441,7 +441,8 @@ void() GibPlayer =
 	if (damage_attacker.classname == "trigger_void" || damage_attacker.classname == "func_void" )
 	{
 		sound (self, CHAN_VOICE, damage_attacker.noise2, 1, ATTN_NONE);
-		TintScreenColor(self, 255, '32 0 0');
+		csf_set(self, 255, '32 0 0',70);
+		//TintScreenColor(self, 255, '32 0 0');
 		//stuffcmd( self, "\nv_cshift 16 0 0 255\n");
 		return;
 	}

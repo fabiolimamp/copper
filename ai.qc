@@ -1105,11 +1105,11 @@ void(float dist) ai_floatmove_finish =
 	if (self.flags & (FL_FLY|FL_SWIM) == 0)
 		return;
 		
-	self.movetype = MOVETYPE_FLY;
+	//self.movetype = MOVETYPE_FLY;
 	move = self.origin - self.oldorigin;
 
 	// fish have short bounding boxes, which in quake physics land means they can noclip through ceilings
-	if (pointcontents(self.origin) == CONTENT_SOLID)
+	if (pointcontents2(self.origin) == CONTENT_SOLID)
 	{
 		setorigin(self, self.oldorigin);
 		//dprint("detected move into solid\n");
@@ -1177,13 +1177,14 @@ void(float dist) ai_floatmove_finish =
 	// FL_SWIM just invalidates any movement out of water, so simulate velocity 
 	// being clipped off at the surface instead
 	// TODO: support water volumes that end in other directions than up
-	if (self.flags & FL_SWIM)
+	/*if (self.flags & FL_SWIM)
 	{
 		if (!ai_fishmovecheck())
 			move_z = -1;
 	}
 	setorigin(self, self.oldorigin);
 	self.velocity = move / interv;
+	*/
 }
 
 
@@ -1250,7 +1251,7 @@ as part of normal melee-range attacks involving forward steps
 */
 void(float d) ai_rush =
 {
-	if (!ai_check_liquid()) return;
+	//if (!ai_check_liquid()) return;
 	ai_face();
 	
 	if ( !walkmove_jitter(self.ideal_yaw, d) )
@@ -1289,7 +1290,7 @@ The monster is in a melee attack, so get as close as possible to .enemy
 */
 float(float d) ai_charge =
 {
-	if (!ai_check_liquid()) return FALSE;
+	//if (!ai_check_liquid()) return FALSE;
 	
 	ai_face();
 	
@@ -1321,7 +1322,7 @@ void() ai_charge_side =
 	local	vector	dtemp;
 	local	float	heading;
 	
-	if (!ai_check_liquid()) return;
+	//if (!ai_check_liquid()) return;
 	
 // aim to the left of the enemy for a flyby
 
@@ -1448,9 +1449,9 @@ The monster is staying in one place for a while
 */
 void() ai_stand =
 {
-	if (!ai_check_liquid()) return;
+	//if (!ai_check_liquid()) return;
 	
-	if (self.flags & (FL_FLY|FL_SWIM))
+	if (self.flags & (FL_FLY|FL_SWIM|FL_SWIM2))
 		self.velocity = '0 0 0';
 	
 	if (FindTarget ())
@@ -1570,7 +1571,7 @@ The monster has an enemy it is trying to kill
 */
 void(float dist) ai_run =
 {
-	if (!ai_check_liquid()) return;	// died in slime/lava already
+	//if (!ai_check_liquid()) return;	// died in slime/lava already
 	
 	entity e;
 	
@@ -1669,6 +1670,6 @@ ai_nop
 */
 void() ai_nop =
 {
-	if (self.flags & (FL_FLY | FL_SWIM))
+	if (self.flags & (FL_FLY | FL_SWIM | FL_SWIM2))
 		self.velocity = '0 0 0';
 }

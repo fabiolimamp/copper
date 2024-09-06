@@ -1329,3 +1329,55 @@ void() trigger_monsterjump_box =
 	self.classname = "trigger_monsterjump";
 }
 
+
+
+
+/*
+===============================================================================
+trigger_ladder
+===============================================================================
+*/
+
+void() ladder_touch =
+{
+	if (other.classname != "player")
+		return;
+
+	if (self.customflags & CFL_LOCKED)
+		return;
+	
+	if (other.waterlevel > 2)
+		return;
+
+	// if the trigger has an angles field, check player's facing direction
+	if (self.movedir != '0 0 0')
+	{
+		makevectors (other.angles);
+		if (v_forward * self.movedir < 0)
+			return;		// not facing the right way
+	}
+	other.onladder = 1;
+	//if (!(other.flags & FL_INLIQUIDBRUSH)) other.prevgravity = other.gravity;
+	other.gravity = 0.00000001; //zero doesnt seem to work
+	other.waterlevel = 2;
+}
+
+/*QUAKED trigger_ladder (.5 .5 .5) ?
+invisible ladder entity. when player is touching this entity, he can climb by pushing 'jump'
+
+Keys:
+
+"angle" the direction player must be facing to climb ladder
+*/
+void() trigger_ladder =
+{
+	if (!SUB_ShouldSpawn()) return;
+	
+	precache_sound("misc/ladder.wav");
+	precache_sound("misc/ladder2.wav");
+
+	InitTrigger ();
+	setsize(self, self.mins, self.maxs + '0 0 16');
+	self.touch = ladder_touch;
+
+};

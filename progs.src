@@ -75,4 +75,7 @@ m_shalrath.qc	// registered
 m_enforcer.qc	// registered
 m_oldone.qc		// registered
 
+cshift.qc
+water.qc
+
 test.qc

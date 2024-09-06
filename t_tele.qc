@@ -90,7 +90,8 @@ or fire to force a telefrag. after 5 seconds it happens automatically.
 void(entity client, entity dst, float tfog, float nofwd) teleport_enter_limbo =
 {
 	ClearItemEffects(client);	// remove powerups to clear glows/tints
-	TintScreen(client, 255);
+	//TintScreen(client, 255);
+	csf_set(client, 255, '0 0 0', 110);
 	
 	client.flags |= FL_NOTARGET;
 	client.customflags |= CFL_LIMBO;
@@ -111,7 +112,8 @@ void(entity client, entity dst, float tfog, float nofwd) teleport_enter_limbo =
 
 void(entity client) teleport_exit_limbo =
 {
-	TintScreen(client, 0);
+	//TintScreen(client, 0);
+	csf_clear(client, 110);
 	RestoreItemEffects(client);
 	
 	client.flags = not(client.flags, FL_NOTARGET);

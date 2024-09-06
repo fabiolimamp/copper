@@ -423,7 +423,12 @@ void() StartFrame =
 	
 	framecount++;
 	//cvar_set("registered",ftos(framecount));
-	
+
+	if (framecount == 1) {
+		startupWaterBrushes();
+		CreateBackstop();
+	}
+
 #ifndef NO_CSQC
 	// assemble two bytes out of client count and a bitmask of who's dead to send to 
 	// players for display on the hud and scoreboard	
@@ -470,6 +475,113 @@ void() StartFrame =
 	activator = world;
 }
 
+
+
+//=================================================
+// EndFrame code from Preach
+//=================================================
+entity backstop;
+float prevframe;
+
+
+entity() spawn = {
+	entity e;
+	e = spawn_builtin();
+	if (nextent(e) != world)
+		return e;
+	// e is now the last entity on the list
+	// so we need to swap it with the backstop
+	entity f;
+	f = backstop;
+	f.think = e.think;
+	f.nextthink = e.nextthink;
+	f.classname = e.classname;
+	 
+	e.think = EndFrame;
+	e.nextthink = time;
+	e.classname = "backstop";
+	backstop = e;
+	
+	return f;
+}
+
+void() CreateBackstop = {
+	entity e, f, head;
+	//begin our list with the temp backstop
+	e = f = head = backstop;
+	// spawn() already contains the code to make a backstop
+	// so we just burn off enough entities that one appears
+	// at the back
+	do {
+		f = spawn();
+		e.chain = f;
+		e = e.chain;
+	} while (nextent(backstop) != world);
+
+	while (head != f) {
+		e = head;
+		head = e.chain;
+		remove(e);
+	}
+}
+
+float waterchecked, pointcontentchecks;
+float numents;
+entity lastwaterchecked;
+
+void() EndFrame = {
+	if (prevframe == framecount) {
+		return;
+	}
+	//dprint3("Liquid brushes checked: ", ftos(liquidbrushchecks), "\n");
+
+	//eprint(backstop);
+	//if(!nextent(backstop)) dprint("Backstop is last\n");
+	//else dprint("\bWARNING!!\b Backstop is not last\n");
+
+	prevframe = framecount;
+	// set ourselves up to think again next frame
+	backstop.nextthink = time + 0.002;
+	// prevent accidental modification of the backstop
+	self = world;
+	
+	if (framecount <= 2) {
+		return;
+	}
+
+	//gibswaterchecked = 0;
+	waterchecked = 0;
+	pointcontentchecks = 0;
+	numents = 0;
+	if (framecount >= 1) {
+		self = nextent(lastwaterchecked);
+		while (self != lastwaterchecked && pointcontentchecks < 3000) {
+			//numents++;
+			if (
+				(self.movetype == MOVETYPE_STEP ||
+				self.movetype == MOVETYPE_TOSS ||
+				self.movetype == MOVETYPE_BOUNCE ||
+				self.movetype == MOVETYPE_BOUNCEMISSILE
+			)
+				&& !(self.flags & FL_CLIENT)
+			) {
+				entity_watercheck();
+				//dprint3("pointcontentchecks checked: ", ftos(pointcontentchecks), "\n");
+			}
+			self = nextent(self);
+		}
+		//dprint3("Liquid brushes checked: ", ftos(pointcontentchecks), "\n");
+	}
+	lastwaterchecked = self;
+	/*self = nextent(world);
+	while (self) {
+		entity_watercheck();
+		self = nextent(self);
+	}*/
+
+	//dprint3("Total entities: ", ftos(numents), "\n");
+
+}
 /*
 ==============================================================================
 

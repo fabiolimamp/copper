@@ -406,6 +406,32 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .string model3 = map;
 
 
+// water
+entity liquidbrushfirst;
+.string liquidbrush;
+.float liquidtype;
+.vector liquidcolor;
+.float liquiddensity;
+.entity nextliquidbrush;
+.entity prevliquidbrush;
+
+.float liquiddamage_finished;
+.float liquiddamage_take;
+
+.float nextthink1;
+
+//ladders
+.float onladder;
+.float wasonladder;
+.float ladder_step_height;
+
+// cshift controller
+.entity csfcontroller;
+.vector csf_color, csf_color_prev;
+.float csf_density, csf_density_prev;
+.float csf_priority, csf_priority_prev;
+
+
 //===========================================================================
 // builtin functions
 //===========================================================================
@@ -423,7 +449,7 @@ void(string e) error				= #10;
 void(string e) objerror				= #11;
 float(vector v) vlen				= #12;
 float(vector v) vectoyaw			= #13;
-entity() spawn						= #14;
+entity() spawn_builtin				= #14;
 void(entity e) remove				= #15;
 
 // sets trace_* globals

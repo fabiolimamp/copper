@@ -76,6 +76,8 @@ void(entity targ, entity attacker, float dmgtype) Killed =
 			self.flags = self.flags - FL_FLY;
 		if (self.flags & FL_SWIM)
 			self.flags = self.flags - FL_SWIM;
+		if (self.flags & FL_SWIM2)
+			self.flags = self.flags - FL_SWIM2;
 
 		killed_monster();	// bump the monster counter
 		monster_death_use();
@@ -365,7 +367,7 @@ void( entity attacker ) T_ReactToDamage =
 	// all infighting cases follow:
 	
 	// fish should ignore monsters that aren't in the water with them
-	if (self.flags & FL_SWIM && pointcontents(attacker.origin) > CONTENT_WATER) return;
+	if (self.flags & (FL_SWIM | FL_SWIM2) && pointcontents(attacker.origin) > CONTENT_WATER) return;
 	
 	// get mad unless of the same class (except for soldiers)
 	// classname check replaced with new "type" check

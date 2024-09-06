@@ -971,6 +971,15 @@ void() PlayerJump =
 	
 	if (self.waterlevel >= WL_WAIST)
 	{
+		if (self.onladder)
+		{
+			self.velocity_z = 160;
+			return;
+		}
+
+		if (self.wasonladder)
+			return;
+
 		// fix for +jump not swimming upward as fast as +moveup
 		upspeed = cvar("cl_upspeed");
 		if (self.waterlevel < WL_EYES)
@@ -1028,6 +1037,7 @@ doesn't set self.waterlevel/self.watertype directly because it's also used by
 monsters, and faffing with those values makes them spam constant splash noises
 ============
 */
+/*
 vector() WaterTest =
 {
 	if (self.movetype == MOVETYPE_NOCLIP)
@@ -1074,12 +1084,14 @@ vector() WaterTest =
 	
 	return Vector(min(3,wl),wt,0);
 }
-
+*/
 /*
 ===========
 PlayerWaterTest
+deprecated, use checkClientInWaterBrush
 ============
 */
+/*
 void() PlayerWaterTest =
 {
 	vector wtt;
@@ -1091,7 +1103,7 @@ void() PlayerWaterTest =
 	self.waterlevel = max(wl,self.waterlevel);
 	self.watertype = min(wt,self.watertype);
 }
-
+*/
 /*
 ===========
 WaterMove
@@ -1153,7 +1165,7 @@ void() WaterMove =
 					{
 						i -= 75;
 						b = self.absmin + vec_scale(self.size, Vector(random(),random(),random()));
-						if (pointcontents(b) == CONTENT_WATER)
+						if (pointcontents2(b) == CONTENT_WATER)
 							bubble_spawn(b);
 					}
 				}
@@ -1177,7 +1189,11 @@ void() WaterMove =
 			}
 		}
 	}
-	
+
+	if (self.onladder) {
+		self.flags &~= FL_INWATER;
+	}
+
 	if (!self.waterlevel)
 	{
 		if (self.flags & FL_INWATER)
@@ -1201,7 +1217,7 @@ void() WaterMove =
 			if (self.waterlevel)
 			{
 				// biosuit protects from lava if it's 16u deep or less
-				if (!(has_biosuit(self) && pointcontents(self.origin - '0 0 7') != CONTENT_LAVA))
+				if (!(has_biosuit(self) && pointcontents2(self.origin - '0 0 7') != CONTENT_LAVA))
 					T_Damage (self, world, world, 10 * self.waterlevel, DMGTYPE_LAVA);
 			}
 		}
@@ -1215,7 +1231,7 @@ void() WaterMove =
 		}
 	}
 	
-	if ( !(self.flags & FL_INWATER) )
+	if ( !(self.flags & FL_INWATER) && !self.onladder && !self.wasonladder)
 	{	// player enter water sound
 		if (self.watertype == CONTENT_LAVA)
 			sound (self, CHAN_BODY, "player/inlava.wav", 1, ATTN_NORM);
@@ -1477,6 +1493,8 @@ void() PlayerPreThink =
 	if (initCleanup)
 	{
 		fog_setFromEnt( self, self );
+		csf_apply(self);
+		/*
 		if ( !( self.customflags & (CFL_PLUNGE|CFL_LIMBO) ) )
 		{
 			TintScreen(self, 0);
@@ -1485,6 +1503,7 @@ void() PlayerPreThink =
 		{
 			TintScreen(self, 255);
 		}
+		*/
 	}
 
 	if (intermission || self.deadflag == DEAD_SPECTATING )
@@ -1508,10 +1527,49 @@ void() PlayerPreThink =
 
 	self.wait = 0;
 	
-	PlayerWaterTest();
+	//PlayerWaterTest();
 	WaterMove();
-	if (self.waterlevel == WL_WAIST)
+	if (self.waterlevel == WL_WAIST && !self.onladder)
 		CheckWaterJump ();
+
+	if (self.onladder) {
+		
+		if (fabs(self.velocity_x) < 1 && fabs(self.velocity_y) < 1 &&
+			self.velocity_z < 0 && self.velocity_z > -42 &&
+			!(self.flags & FL_WATERJUMP) &&
+			self.v_angle_x < 90
+		) {
+			self.velocity_z = 0;
+		}
+
+		self.velocity_x *= 0.9;
+		self.velocity_y *= 0.9;
+
+		if (fabs(self.velocity_z) > 160) {
+			if (self.velocity_z > 0) self.velocity_z = 160;
+			else self.velocity_z = -160;
+		}
+
+		if (self.velocity_z == 0) {
+			self.ladder_step_height = self.origin_z + 49;
+		}
+
+		if (
+			(
+				(self.onladder && !self.wasonladder) ||
+				(self.onladder && self.wasonladder && fabs(self.origin_z - self.ladder_step_height) > 48)
+			) && (self.velocity_z != 0)
+
+		)
+		{
+			self.ladder_step_height = self.origin_z;
+
+			if (random() > 0.5)
+				sound (self, CHAN_AUTO, "misc/ladder.wav", 0.5, ATTN_NORM);
+			else
+				sound (self, CHAN_AUTO, "misc/ladder2.wav", 0.5, ATTN_NORM);
+		}
+	}
 
 	if (self.button2)
 	{
@@ -1538,7 +1596,22 @@ void() PlayerPreThink =
 	{
 		self.flags = self.flags | FL_FLY;
 	}
-	
+
+	// sanity check for cshift every few frames
+	if (framecount & 4) {
+		if (self.csf_priority == 0 && self.csf_density > 0)
+			csf_clear_all(self);
+	}
+
+	checkClientInWaterBrush();
+	if (self.onladder){
+		self.gravity = 0.00000001;
+		self.waterlevel = 2;
+	}
+	self.wasonladder = self.onladder;
+	self.onladder = 0;
+
+
 	// ai_nav
 	//nav_editorThink();
 }
@@ -1553,6 +1626,13 @@ Called every frame after physics are run
 */
 void() PlayerPostThink =
 {
+	checkClientInWaterBrush();
+
+	if (self.wasonladder){
+		self.gravity = 0.00000001;
+		self.waterlevel = 2;
+	}
+	
 	if ( intermission ) return;
 	
 	if (self.view_ofs == '0 0 0')
@@ -1605,7 +1685,7 @@ void() PlayerPostThink =
 
 		self.fixangle = 1;
 	}
-	
+
 	// vaulting off the top of stairs sucks, but the right place to fix this is the .exe
 	/*
 	if (self.flags & FL_ONGROUND)
