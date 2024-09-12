@@ -446,7 +446,7 @@ void() trigger_instateleport =
 	
 	precache_model ("progs/misc_empty.mdl");
 
-	local vector o;
+	//local vector o;
 
 	InitTrigger();
 	self.touch = instateleport_touch;

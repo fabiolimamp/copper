@@ -119,7 +119,7 @@ void() DecodeLevelParms =
 	self.armortype = parm9;
 	
 	//self.weapon = parm8;
-	W_Select(parm8);
+	W_ChangeWeapon(parm8);
 	armor_set_type(self);
 }
 
@@ -572,6 +572,7 @@ called each time a player is spawned
 */
 void() PutClientInServer =
 {
+	dprint("Client put\n");
 	local	entity spot;
 	
 	spot = SelectSpawnPoint();
@@ -599,7 +600,7 @@ void() PutClientInServer =
 
 	DecodeLevelParms();
 	SetChangeParms();
-	W_ResetWeaponState();
+	W_ChangeWeapon(self.weapon);
 	
 	// put global key type in the high bits so the CSQC hud gets to see it :/
 	self.worldtype = (self.worldtype & 255) + world.worldtype * 256;
@@ -657,7 +658,7 @@ void() PutClientInServer =
 	
 	self.view_ofs = '0 0 22';
 
-	player_stand1();
+	SUB_CallAsSelf(player_stand1, self.animcontroller);
 	
 	// spawns fire targets when spawned at
 	activator = self;
@@ -940,7 +941,7 @@ void() PlayerDeathThink =
 		
 		self.view_ofs = '0 0 22';
 		self.modelindex = modelindex_player;
-		player_stand1();
+		SUB_CallAsSelf(player_stand1, self.animcontroller);
 		W_ResetWeaponState();
 		
 		return;
@@ -1586,13 +1587,8 @@ void() PlayerPreThink =
 	if (time < self.pausetime)
 		self.velocity = '0 0 0';
 
-	if(time > self.attack_finished && 
-		!W_HasAmmo(self.weapon) && 
-		self.weapon != IT_AXE
-		)
-	{
-		W_SelectBestWeapon();
-	}
+	if (time > self.attack_finished && W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
+		W_ChangeWeapon(W_BestWeapon());
 
 	if (self.movetype == MOVETYPE_NOCLIP)
 	{
@@ -1647,7 +1643,10 @@ void() PlayerPostThink =
 		teleport_limbo_think();
 		return;
 	}
-	
+
+	if (self.impulse)
+		ImpulseCommands();
+
 	// do weapon stuff
 	W_WeaponFrame ();
 	// do health stuff
@@ -1729,6 +1728,12 @@ void() ClientKill =
 	*/
 }
 
+void() CreateAnimController = {
+	self.animcontroller = spawn();
+	self.animcontroller.owner = self;
+	self.animcontroller.classname = "animcontroller";
+}
+
 /*
 ===========
 ClientConnect
@@ -1744,6 +1749,9 @@ void() ClientConnect =
 	clients += 1;
 //	clientsAlive += 1;	// happens on putclientinserver
 	
+	if (self.animcontroller.classname != "animcontroller") CreateAnimController();
+
+	//eprint(self);
 // a client connecting during an intermission can cause problems
 	if (intermission)
 		ExitIntermission ();
@@ -1787,6 +1795,8 @@ void() ClientDisconnect =
 	}
 	sound (self, CHAN_BODY, "player/tornoff2.wav", 1, ATTN_NONE);
 	set_suicide_frame ();
+
+	if (self.animcontroller.classname == "animcontroller") remove(self.animcontroller);
 }
 
 /*

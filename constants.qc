@@ -143,6 +143,8 @@ const float	IT_NAILS				= 512;
 const float	IT_ROCKETS				= 1024;
 const float	IT_CELLS				= 2048;
 
+const float	IT_NO_WEAPON				= 4096;
+
 const float	IT_ARMOR1				= 8192;
 const float	IT_ARMOR2				= 16384;
 const float	IT_ARMOR3				= 32768;

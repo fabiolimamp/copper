@@ -1,4 +1,64 @@
 
+//=================================================================================================
+// Lightning Gun
+//=================================================================================================
+
+float() weaponanim_lg = {	// handled via animation loop4
+	if (self.attackhold && self.attack_finished > time) {
+		return FALSE;
+	}
+
+	if (self.attack_finished > time)
+		return FALSE;
+
+	SUB_CallAsSelf(player_light1, self.animcontroller);
+
+	self.weaponframe = 0;
+	
+	weaponanim_lg_loop();
+	
+	return TRUE;
+	
+}
+
+void() weaponanim_lg_loop = {
+	if (!self.attackhold && !self.attackpressed){
+		self.weaponframe = 0;
+		SUB_CallAsSelf(player_run, self.animcontroller);
+		return;
+	}
+
+
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+		W_ChangeWeapon(W_BestWeapon());
+		return;
+	}
+
+	if (self.weaponframe >= 4) {
+		self.weaponframe = 1;
+	}
+	else {
+		self.weaponframe++;
+	}
+	
+	self.attack_finished = time + 0.2;
+
+	self.currentammo = self.ammo_cells = self.ammo_cells - 1;
+
+	self.punchangle_x = -2;
+
+	self.effects |= EF_MUZZLEFLASH;
+
+	SuperDamageSound();
+	W_FireLightning();
+
+	
+
+	self.think = weaponanim_lg_loop;
+	self.nextthink = time + 0.1;
+}
+
+
 /*
 ===============
 
@@ -297,18 +357,18 @@ void() W_FireLightning =
 	local	vector		org;
 	local	float		cells;
 
-	if (self.ammo_cells < 1)
+	/*if (self.ammo_cells < 1)
 	{
 		W_SelectBestWeapon();
 		return;
 	}
-
+	*/
 // explode if under water
 	if (self.waterlevel > 1)
 	{
 		cells = self.ammo_cells;
-		self.ammo_cells = 0;
-		W_SetCurrentAmmo ();
+		self.currentammo = self.ammo_cells = 0;
+		//W_SetCurrentAmmo ();
 		T_RadiusDamage (self, self, 35*cells, world, DMGTYPE_EXPLOSION);
 		return;
 	}
@@ -320,7 +380,7 @@ void() W_FireLightning =
 	}
 	self.punchangle_x = -2;
 
-	self.currentammo = self.ammo_cells = self.ammo_cells - 1;
+	//self.currentammo = self.ammo_cells = self.ammo_cells - 1;
 	org = self.origin + '0 0 16'+ v_forward * 8;
 	
 	traceline2(org, org + v_forward * 720, self, TRACE_NOMONSTERS);

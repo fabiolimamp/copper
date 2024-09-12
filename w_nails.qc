@@ -1,3 +1,202 @@
+
+
+//=================================================================================================
+// Nailgun
+//=================================================================================================
+
+float() weaponanim_nailgun = {
+	// handled via animation loop4
+	if (self.attackhold && self.attack_finished > time) {
+		return FALSE;
+	}
+
+	if (self.attack_finished > time)
+		return FALSE;
+
+	SUB_CallAsSelf(player_nail1, self.animcontroller);
+
+	self.weaponframe = 0;
+	self.nextthink1 = time + 0.1;
+	
+	weaponanim_nailgun_loop();
+	
+	return TRUE;
+	
+}
+
+void() weaponanim_nailgun_loop = {
+	if (!self.attackhold && !self.attackpressed){
+		self.weaponframe = 0;
+		SUB_CallAsSelf(player_run, self.animcontroller);
+		return;
+	}
+
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+		W_ChangeWeapon(W_BestWeapon());
+		return;
+	}
+
+	if (self.weaponframe >= 8) {
+		self.weaponframe = 1;
+	}
+	else {
+		self.weaponframe++;
+	}
+
+	// frame correction so the firing rate isn't so dependent on the server framerate
+	if (time > self.nextthink1) {
+		if (self.weaponframe > 5) self.weaponframe = 1;
+		else if (self.weaponframe > 1) self.weaponframe = 5;
+	}
+
+	//float offs;
+	
+	if (self.weaponframe == 1 || self.weaponframe == 5) {
+
+		// fire rate timer. Don't set if on the first firing serverframe, since this will already be set by the startup animation function
+		if (self.attackhold) self.nextthink1 += 0.1;
+		
+		self.attack_finished = time + 0.2;
+
+		self.currentammo = self.ammo_nails = self.ammo_nails - 1;
+
+		self.punchangle_x = -2;
+
+		self.effects |= EF_MUZZLEFLASH;
+
+		SuperDamageSound();
+		W_FireNailgun();
+
+		self.cnt = cycle(self.cnt,8);
+	}
+	
+
+	self.think = weaponanim_nailgun_loop;
+	
+	self.nextthink = time + 0.025;
+}
+
+
+//=================================================================================================
+// Super Nailgun
+//=================================================================================================
+
+
+float() weaponanim_supernailgun = {
+	// handled via animation loop4
+	if (self.attackhold && self.attack_finished > time) {
+		return FALSE;
+	}
+	
+	if (self.attack_finished > time)
+		return FALSE;
+
+	SUB_CallAsSelf(player_nail1, self.animcontroller);
+
+	// firing sequence will restart from the current barrel position if it's still spinning
+	if (self.weaponframe > 8 && self.weaponframe <= 16){
+		self.weaponframe -= 8;
+	}
+	else if (self.weaponframe > 16 && self.weaponframe <= 40) {
+		self.weaponframe = rint((self.weaponframe - 16)/6) + 1;
+		self.effects |= EF_MUZZLEFLASH;
+	}
+	else {
+		self.weaponframe = 0;
+	}
+
+	self.attack_finished = time + 0.2;
+
+	self.nextthink1 = time + 0.1;
+
+	weaponanim_supernailgun_loop();
+	
+	return TRUE;
+	
+}
+
+void() weaponanim_supernailgun_loop = {
+
+	if (!self.attackhold && !self.attackpressed){
+		self.weaponframe += 8;
+		weaponanim_supernailgun_end();
+		SUB_CallAsSelf(player_run, self.animcontroller);
+		return;
+	}
+
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+		W_ChangeWeapon(W_BestWeapon());
+		return;
+	}
+
+	if (self.weaponframe >= 8) {
+		self.weaponframe = 1;
+	}
+	else {
+		self.weaponframe++;
+	}
+	
+	// frame correction so the firing rate isn't so dependent on the server frametime
+	if (time > self.nextthink1) {
+		if (self.weaponframe > 5) self.weaponframe = 1;
+		else if (self.weaponframe > 1) self.weaponframe = 5;
+	}
+	
+	//float offs;
+
+	if (self.weaponframe == 1 || self.weaponframe == 5) {
+		// fire rate timer. Don't set if on the first firing serverframe, since this will already be set by the startup animation function
+		if (self.attackhold) self.nextthink1 += 0.1;
+		
+		self.attack_finished = time + 0.2;
+
+		self.punchangle_x = -2;
+
+		self.effects |= EF_MUZZLEFLASH;
+
+		SuperDamageSound();
+
+		if (self.ammo_nails < 2) {
+			W_FirePerforator();
+			self.currentammo = self.ammo_nails = self.ammo_nails - 1;
+		}
+		else {
+			W_FireNailgun();
+			self.currentammo = self.ammo_nails = self.ammo_nails - 2;
+		}
+
+		self.cnt = cycle(self.cnt,8);
+	}
+
+
+	self.think = weaponanim_supernailgun_loop;
+	self.nextthink = time + 0.025;
+}
+
+
+void() weaponanim_supernailgun_end = {
+
+	if (self.weaponframe >= 59) {
+		self.weaponframe = 0;
+		return;
+	}
+	else {
+		self.weaponframe++;
+	}
+
+	if (self.weaponframe == 33) sound (self, 7, "weapons/spindn_click.wav", 0.15, ATTN_NORM);
+	if (self.weaponframe == 56) sound (self, 7, "weapons/spindn_click.wav", 0.3, ATTN_NORM);
+
+	self.think = weaponanim_supernailgun_end;
+	self.nextthink = time + 0.025;
+
+}
+
+
+
+//=================================================================================================
+
+
 /*
 ================
 spawn_touchblood
@@ -46,7 +245,7 @@ void() W_FireNailgun =
 	makevectors( v );
 
 	sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
-	self.currentammo = self.ammo_nails = self.ammo_nails - 1;
+	//self.currentammo = self.ammo_nails = self.ammo_nails - 1;
 	offset = VEC_ORIGIN;
 	if ( mod( self.cnt, 2 ) ) offset_x = -2.5;
 	else offset_x = 2.5;	
@@ -65,7 +264,7 @@ void() W_FirePerforator =
 {
 	vector offset;
 	sound (self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
-	self.currentammo = self.ammo_nails = self.ammo_nails - 2;
+	//self.currentammo = self.ammo_nails = self.ammo_nails - 2;
 	
 	if (mod(self.cnt, 4) == 0) offset = '0 0 1.25';
 	else if (mod(self.cnt, 4) == 1) offset = '1 0 1';
@@ -100,7 +299,7 @@ void() W_FirePerforator =
 		// first one to hit does its damage and then nerfs its 'buddy'
 	}
 }
-
+/*
 void() W_FireSpikes =
 {
 	if (self.ammo_nails < 1 || (self.ammo_nails < 2 && !(self.items & IT_NAILGUN)))
@@ -120,7 +319,7 @@ void() W_FireSpikes =
 	self.punchangle_x = -2;
 	
 	self.cnt = cycle(self.cnt,8);
-}
+}*/
 
 float() CheckValidSpikeTouch =
 {

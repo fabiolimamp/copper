@@ -8,11 +8,6 @@ THE AXE
 
 // SOUNDS
 
-void() W_AxeWhiffSound =
-{
-		sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
-}
-
 void() W_AxeHitSound =
 {
 	if (random() < 0.5)
@@ -22,49 +17,42 @@ void() W_AxeHitSound =
 }
 
 
-void(float foff) W_AxeCycle =
-{
-	// lip and touch_time are overloaded on the player for animation event timing
-	// lip = 10fps player anim clock (axe animates at 20 so player has to think on 20s)
-	// touch_time = timer for the actual weapon attack trace event
-	self.weaponframe = min(57, self.weaponframe + foff);
+
+float() weaponanim_axe = {
+	if (self.attack_finished > time)
+		return FALSE;
+
+	sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
 	
-	// entire axe swing anim is scheduled to be done by now
-	if (self.attack_finished <= time)
-	{
-		// stop the player anim cycle and restore normal thinking
-		W_SetIdleWeaponFrame();
-		player_run();
+	self.attack_finished = time + 0.5;
+	
+	self.weaponframe = floor(random()*4.99)*10 + 1;
+	
+	// converts weaponframe to a 0-4 integer selector for the player animation
+	player_axe_start(self.animcontroller, (self.weaponframe - 1)/10); 
+
+	self.think = weaponanim_axe_loop;
+	self.nextthink = time + 0.05;
+
+	return FALSE; // axe swing will never count as fired until it hits something
+}
+
+void() weaponanim_axe_loop = {
+	if (self.weaponframe % 10 == 3)
+		W_FireAxe();
+
+	if (self.weaponframe % 10 == 0) {
+		self.weaponframe = 0;
 		return;
 	}
-	
-	if (self.touch_time && self.touch_time <= time)
-	{
-		self.touch_time = 0;
-		W_FireAxe();
+	else {
+		self.weaponframe++;
 	}
-	// time for a regular animation think
-	else if (self.lip <= time)
-	{
-		self.think1();	// advance the player anim on the standard 10fps clock
-		self.lip = time + 0.1;
-	}
+
+	self.think = weaponanim_axe_loop;
 	self.nextthink = time + 0.05;
+
 }
-
-void() W_AxeThink = { self.think = W_AxeThink; W_AxeCycle(1);  } 
-void() W_AxeThinkReverse = {  self.think = W_AxeThinkReverse; W_AxeCycle(-1); } 
-
-void() W_AxeSwing =
-{
-	W_AxeWhiffSound();
-		self.weaponframe = 10 * (floor(4.99 * random()));
-		self.touch_time = time + 0.1;
-		self.attack_finished = time + 0.49;
-	self.think1 = player_axe;
-	W_AxeThink();
-}
-
 
 /*
 ================

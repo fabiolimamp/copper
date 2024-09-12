@@ -45,7 +45,7 @@ void() Cheat_Items =
 
 	self.items = self.items | IT_LIGHTNING;
 
-	W_Select(IT_ROCKET_LAUNCHER);
+	W_ChangeWeapon(IT_ROCKET_LAUNCHER);
 
 	stuffcmd(self,"bf\n");
 }
@@ -172,9 +172,16 @@ void() ImpulseCommands =
 {
 	if (!self.impulse) return;
 	
-	if (self.impulse < 9)
-	{
-		W_ChangeWeapon();
+	float ret;
+	if (self.impulse >= 1 && self.impulse <= 8) {
+		if (time < self.attack_finished) return;
+		
+		ret = W_ChangeSlot(self.impulse);
+		if (ret == WEAPONSTAT_NOAMMO)
+			sprint(self, "not enough ammo.\n");
+
+		if (ret == WEAPONSTAT_NOWEAPON)
+			sprint(self, "no weapon.\n");
 	}
 	else if (self.impulse >= 20 && self.impulse <= 39)
 	{
@@ -183,10 +190,10 @@ void() ImpulseCommands =
 	else switch(self.impulse)
 	{
 	case 10:
-		CycleWeaponCommand();
+		W_CycleWeapon(1);
 		break;
 	case 12:
-		CycleWeaponReverseCommand();
+		W_CycleWeapon(-1);
 		break;
 	case 11:
 		ServerflagsCommand();

@@ -373,7 +373,7 @@ void() ammo_touch =
 		SUB_CallAsSelf(W_SelectBestWeapon, other);
 	else
 		// if changed current ammo, update it	
-		SUB_CallAsSelf(W_SetCurrentAmmo, other);
+		SUB_CallAsSelf(W_UpdateCurrentAmmo, other);
 	
 	ItemTouched();
 }

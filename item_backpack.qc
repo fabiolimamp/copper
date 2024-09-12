@@ -125,7 +125,7 @@ void() BackpackTouch =
 		|| (!other.weapon))
 		SUB_CallAsSelf(W_SelectBestWeapon, other);		
 	else
-		SUB_CallAsSelf(W_SetCurrentAmmo, other);
+		SUB_CallAsSelf(W_UpdateCurrentAmmo, other);
 	ItemTouched();
 }
 

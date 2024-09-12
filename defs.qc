@@ -431,6 +431,10 @@ entity liquidbrushfirst;
 .float csf_density, csf_density_prev;
 .float csf_priority, csf_priority_prev;
 
+.entity animcontroller;
+.float attackhold;
+.float attackpressed;
+
 
 //===========================================================================
 // builtin functions

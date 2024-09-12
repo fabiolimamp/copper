@@ -1,3 +1,99 @@
+
+
+//=================================================================================================
+// Grenade Launcher
+//=================================================================================================
+
+float() weaponanim_grenade = {
+	if (self.attack_finished > time)
+		return FALSE;
+
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+		W_ChangeWeapon(W_BestWeapon());
+		return FALSE;
+	}
+
+	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
+
+	self.attack_finished = time + 0.6;
+	
+	SUB_CallAsSelf(player_rockatt1, self.animcontroller);
+	
+	self.effects = self.effects | EF_MUZZLEFLASH;
+
+	W_FireGrenade();
+
+	self.weaponframe = 1;
+	self.think = weaponanim_grenade_loop;
+	self.nextthink = time + 0.025;
+	
+	return TRUE;
+}
+
+void() weaponanim_grenade_loop = {
+
+	if (self.weaponframe >= 24) {
+		self.weaponframe = 0;
+		return;
+	}
+	else {
+		self.weaponframe++;
+	}
+
+	self.think = weaponanim_grenade_loop;
+	self.nextthink = time + 0.025;
+
+}
+
+
+//=================================================================================================
+// Rocket Launcher
+//=================================================================================================
+
+float() weaponanim_rocket = {
+	if (self.attack_finished > time)
+		return FALSE;
+
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+		W_ChangeWeapon(W_BestWeapon());
+		return FALSE;
+	}
+
+	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
+
+	self.attack_finished = time + 0.8;
+	
+	SUB_CallAsSelf(player_rockatt1, self.animcontroller);
+	
+	self.effects = self.effects | EF_MUZZLEFLASH;
+
+	W_FireRocket();
+
+	self.weaponframe = 1;
+	self.think = weaponanim_rocket_loop;
+	self.nextthink = time + 0.025;
+	
+	return TRUE;
+}
+
+void() weaponanim_rocket_loop = {
+
+	if (self.weaponframe >= 32) {
+		self.weaponframe = 0;
+		return;
+	}
+	else {
+		self.weaponframe++;
+	}
+
+	self.think = weaponanim_rocket_loop;
+	self.nextthink = time + 0.025;
+
+}
+
+
+
+
 /*
 ===============
 
@@ -82,7 +178,7 @@ void() W_FireRocket =
 	local entity missile;
 	local vector loc;
 	
-	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
+	//self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
 	
 	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
 
@@ -91,8 +187,8 @@ void() W_FireRocket =
 	makevectors (self.v_angle);
 	loc = self.origin + v_forward * 8 + '0 0 16';
 	
-		missile = launch_rocket( loc, v_forward * 1000 );
-		self.attack_finished = time + 0.8;
+	missile = launch_rocket( loc, v_forward * 1000 );
+	//self.attack_finished = time + 0.8;
 }
 
 //=============================================================================
@@ -140,7 +236,7 @@ void() W_FireGrenade =
 	float base;
 	vector gvel;
 	
-	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
+	//self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
 	sound (self, CHAN_WEAPON, "weapons/grenade.wav", 1, ATTN_NORM);
 	self.punchangle_x = -2;
 
@@ -157,7 +253,7 @@ void() W_FireGrenade =
 	}
 	
 	g = launch_grenade(self.origin, gvel);
-	self.attack_finished = time + 0.6;
+	//self.attack_finished = time + 0.6;
 	g.touch = GrenadeTouch;
 	g.th_die = GrenadeExplode;
 }

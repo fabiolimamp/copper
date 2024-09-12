@@ -211,6 +211,8 @@ void() worldspawn =
 	lastspawn = world;
 	startingserverflags = serverflags;
 
+	backstop = spawn_builtin();
+
 	InitBodyQueue ();
 	InitLightStyles();	// moved to lights.qc
 
@@ -596,7 +598,7 @@ void() bodyqueue =
 
 void() InitBodyQueue =
 {
-	entity bq;
+	/*entity bq;
 	bq = spawn();
 	bq.classname = "bodyqueue";
 	bq.owner = bq;
@@ -611,15 +613,19 @@ void() InitBodyQueue =
 		bodyqueue_head.owner = bq;
 		i++;
 	}
-	
-	/*
+
+	*/
+	bodyqueue_head = spawn();
+	bodyqueue_head.owner = bodyqueue_head;
+	bodyqueue_head.classname = "bodyqueue";
 	bodyqueue_head.owner = spawn();
 	bodyqueue_head.owner.classname = "bodyqueue";
 	bodyqueue_head.owner.owner = spawn();
 	bodyqueue_head.owner.owner.classname = "bodyqueue";
 	bodyqueue_head.owner.owner.owner = spawn();
 	bodyqueue_head.owner.owner.owner.classname = "bodyqueue";
-	bodyqueue_head.owner.owner.owner.owner = bodyqueue_head;*/
+	bodyqueue_head.owner.owner.owner.owner = bodyqueue_head;
+
 }
 
 

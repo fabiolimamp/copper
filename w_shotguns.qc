@@ -13,6 +13,117 @@ ssg:	12 * 5 = 60		/ 120 / 180 / 240 / 300
 ===============
 */
 
+
+
+//=================================================================================================
+// Shotgun
+//=================================================================================================
+
+float() weaponanim_shotgun = {
+	if (self.attack_finished > time)
+		return FALSE;
+
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+		W_ChangeWeapon(W_BestWeapon());
+		return FALSE;
+	}
+
+	self.currentammo = self.ammo_shells = self.ammo_shells - 1;
+
+	self.attack_finished = time + 0.5;
+	
+	SUB_CallAsSelf(player_shot1, self.animcontroller);
+	
+	self.effects = self.effects | EF_MUZZLEFLASH;
+
+	SuperDamageSound();
+	W_FireShotgun();
+
+	self.weaponframe = 1;
+	self.think = weaponanim_shotgun_loop;
+	self.nextthink = time + 0.025;
+	
+	return TRUE;
+}
+
+void() weaponanim_shotgun_loop = {
+
+	if (self.weaponframe >= 24) {
+		self.weaponframe = 0;
+		return;
+	}
+	else {
+		self.weaponframe++;
+	}
+
+	self.think = weaponanim_shotgun_loop;
+	self.nextthink = time + 0.025;
+
+}
+
+
+
+//=================================================================================================
+// Super Shotgun
+//=================================================================================================
+
+float() weaponanim_supershotgun = {
+	if (self.attack_finished > time)
+		return FALSE;
+
+	float stat = W_CheckWeapon(self.weapon, self);
+
+	if (stat != WEAPONSTAT_AVAILABLE){
+		//dprint("Not available!\n");
+		W_ChangeWeapon(W_BestWeapon());
+		return FALSE;
+	}
+
+	self.attack_finished = time + 0.7;
+	
+	SUB_CallAsSelf(player_shot1, self.animcontroller);
+	
+	self.effects = self.effects | EF_MUZZLEFLASH;
+	
+	SuperDamageSound();
+
+	if (self.ammo_shells == 1) {
+		W_FireShotgun();
+		self.currentammo = self.ammo_shells = self.ammo_shells - 1;
+	}
+	else {
+		W_FireSuperShotgun();
+		self.currentammo = self.ammo_shells = self.ammo_shells - 2;
+	}
+
+	self.weaponframe = 1;
+	self.think = weaponanim_supershotgun_loop;
+	self.nextthink = time + 0.025;
+	
+	return TRUE;
+}
+
+void() weaponanim_supershotgun_loop = {
+
+	if (self.weaponframe >= 21) {
+		self.weaponframe = 0;
+		return;
+	}
+	else {
+		self.weaponframe++;
+	}
+
+	self.think = weaponanim_supershotgun_loop;
+	self.nextthink = time + 0.025;
+
+}
+
+
+
+//=================================================================================================
+
+
+
 vector(vector dir, vector spread) SpreadVector = 
 {
 	return dir + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
@@ -146,12 +257,11 @@ void() W_FireShotgun =
 	self.punchangle_x = -2;
 	makevectors(self.v_angle);
 	
-	self.currentammo = self.ammo_shells = self.ammo_shells - 1;
 	dir = aim (self, AUTOAIM_DIST);
 
 	ClearMultiDamage ();
 	FireBullets (6, dir, '0.04 0.04 0');
-	self.attack_finished = time + 0.5;
+	//self.attack_finished = time + 0.5;
 	
 	ApplyMultiDamage ();
 }
@@ -173,24 +283,17 @@ void() W_FireSuperShotgun =
 		return;
 	}*/
 
-	if (self.currentammo == 1)
-	{
-		if (self.items & IT_SHOTGUN)
-			W_FireShotgun ();
-		return;
-	}
 		
 	sound (self ,CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM);	
 
 	self.punchangle_x = -4;
 	
-	self.currentammo = self.ammo_shells = self.ammo_shells - 2;
 	dir = aim (self, AUTOAIM_DIST);
 
 	ClearMultiDamage ();
 
 	FireBullets (14, dir, '0.14 0.08 0');
-	self.attack_finished = time + 0.7;
+	//self.attack_finished = time + 0.7;
 	
 	ApplyMultiDamage ();
 
