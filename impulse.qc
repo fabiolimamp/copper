@@ -174,7 +174,7 @@ void() ImpulseCommands =
 	
 	float ret;
 	if (self.impulse >= 1 && self.impulse <= 8) {
-		if (time < self.attack_finished) return;
+		//if (time < self.attack_finished) return;
 		
 		ret = W_ChangeSlot(self.impulse);
 		if (ret == WEAPONSTAT_NOAMMO)
