@@ -157,11 +157,11 @@ void() weaponanim_supernailgun_loop = {
 		SuperDamageSound();
 
 		if (self.ammo_nails < 2) {
-			W_FirePerforator();
+			W_FireNailgun();
 			self.currentammo = self.ammo_nails = self.ammo_nails - 1;
 		}
 		else {
-			W_FireNailgun();
+			W_FirePerforator();
 			self.currentammo = self.ammo_nails = self.ammo_nails - 2;
 		}
 
