@@ -130,7 +130,7 @@ void() StartWeapon =
 
 
 /*QUAKED weapon_shotgun (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
-Shotgun.
+Pistol.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -139,7 +139,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_shotgn.mdl" }) = weapon_shotgun : "Shotgun. 
+@PointClass base(Weapon) model({ "path": ":progs/g_shotgn.mdl" }) = weapon_shotgun : "Pistol. 
 5 Shells." []
 */
 void() weapon_shotgun =
@@ -148,14 +148,14 @@ void() weapon_shotgun =
 	precache_model3 ("progs/g_shotgn.mdl");
 	setmodel (self, "progs/g_shotgn.mdl");
 	self.items = IT_SHOTGUN;
-	self.ammo_shells = 5;
-	self.netname = "Shotgun";
+	self.ammo_shells = 0; //FlakTax
+	self.netname = "Pistol";
 	StartWeapon();
 }
 
 
 /*QUAKED weapon_supershotgun (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
-Double-barreled shotgun.
+Flak shotgun.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -164,7 +164,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_shot.mdl" }) = weapon_supershotgun : "Double-barreled shotgun.
+@PointClass base(Weapon) model({ "path": ":progs/g_shot.mdl" }) = weapon_supershotgun : "Flak Shotgun.
 10 shells." []
 */
 void() weapon_supershotgun =
@@ -173,8 +173,8 @@ void() weapon_supershotgun =
 	precache_model_safe ("progs/g_shot.mdl");
 	setmodel (self, "progs/g_shot.mdl");
 	self.items = IT_SUPER_SHOTGUN;
-	self.ammo_shells = 10;
-	self.netname = "Double-barreled Shotgun";
+	self.ammo_shells = 10; //FlakTax
+	self.netname = "Flak Shotgun";
 	StartWeapon();
 }
 
@@ -203,7 +203,7 @@ void() weapon_nailgun =
 }
 
 /*QUAKED weapon_supernailgun (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
-Perforator (Super Nailgun).
+Rebar Cannon.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -212,7 +212,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_nail2.mdl" }) = weapon_supernailgun : "Perforator (Super Nailgun).
+@PointClass base(Weapon) model({ "path": ":progs/g_nail2.mdl" }) = weapon_supernailgun : "Rebar Cannon.
 30 nails." []
 */
 void() weapon_supernailgun =
@@ -222,7 +222,7 @@ void() weapon_supernailgun =
 	setmodel (self, "progs/g_nail2.mdl");
 	self.items = IT_SUPER_NAILGUN;
 	self.ammo_nails = 30;
-	self.netname = "Perforator";
+	self.netname = "Rebar Cannon";
 	StartWeapon();
 }
 
@@ -236,7 +236,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_rock.mdl" }) = weapon_grenadelauncher : "Grenade launcher.
+@PointClass base(Weapon) model({ "path": ":progs/g_rock.mdl" }) = weapon_grenadelauncher : "Grenade Launcher.
 5 rockets." []
 */
 void() weapon_grenadelauncher =
@@ -251,7 +251,7 @@ void() weapon_grenadelauncher =
 }
 
 /*QUAKED weapon_rocketlauncher (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
-Rocket Launcher.
+Multi-Missile Launcher.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -260,7 +260,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_rock2.mdl" }) = weapon_rocketlauncher : "Rocket launcher.
+@PointClass base(Weapon) model({ "path": ":progs/g_rock2.mdl" }) = weapon_rocketlauncher : "Multi-Missile Launcher.
 5 rockets." []
 */
 void() weapon_rocketlauncher =
@@ -270,13 +270,13 @@ void() weapon_rocketlauncher =
 	setmodel (self, "progs/g_rock2.mdl");
 	self.items = IT_ROCKET_LAUNCHER;
 	self.ammo_rockets = 5;
-	self.netname = "Rocket Launcher";
+	self.netname = "Multi-Missile Launcher";
 	StartWeapon();
 }
 
 
 /*QUAKED weapon_lightning (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
-Thunderbolt Cannon.
+Flamethrower.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -285,7 +285,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_light.mdl" }) = weapon_lightning : "Thunderbolt.
+@PointClass base(Weapon) model({ "path": ":progs/g_light.mdl" }) = weapon_lightning : "Flamethrower.
 12 cells." []
 */
 void() weapon_lightning =
@@ -295,7 +295,7 @@ void() weapon_lightning =
 	setmodel (self, "progs/g_light.mdl");
 	self.items = IT_LIGHTNING;
 	self.ammo_cells = 12;
-	self.netname = "Thunderbolt";
+	self.netname = "Flamethrower";
 	StartWeapon();
 }
 
@@ -317,7 +317,7 @@ void() weapon_axe =
 	precache_model_safe ("progs/g_axe.mdl");
 	setmodel (self, "progs/g_axe.mdl");
 	self.items = IT_AXE;
-	self.netname = "Axe. Find some wood!";
+	self.netname = "Wrench";
 	StartWeapon();
 }
 
@@ -404,7 +404,7 @@ void() StartAmmo =
 20 shells for both Shotgun and SuperShotgun.
 
 Flags:
-"big" gives 40 instead of 20
+"big" gives 20 instead of 10
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -419,20 +419,20 @@ Keys:
             spawnflags & 1 ->   ":maps/b_shell1.bsp",
                                 ":maps/b_shell0.bsp"
         }}
-    ) = item_shells : "Shells, 20/40" []
+    ) = item_shells : "Shells, 10/20" []
 */
 void() item_shells =
 {
 	if (!SUB_ShouldSpawn()) return;
 	if (self.spawnflags & ITEM_AMMO_BIG)
 	{
-		self.ammo_shells = 40;
+		self.ammo_shells = 20; //FlakTax
 		precache_model_safe ("progs/m_shell2.mdl");
 		setmodel (self, "progs/m_shell2.mdl");
 	}
 	else
 	{
-		self.ammo_shells = 20;
+		self.ammo_shells = 10; //FlakTax
 		precache_model_safe ("progs/m_shell1.mdl");
 		setmodel (self, "progs/m_shell1.mdl");
 	}

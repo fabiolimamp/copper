@@ -1,0 +1,229 @@
+////////////////////////////////////////////////////////////////////////////////////////////////
+// multi-hit sword sweeping code by bmFbr, edits by Kebby
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void(vector org, vector vel, float damage) ImpactSpawn = {SpawnBlood(org, vel, damage);};
+.float	swordhitme;
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+float() weaponanim_wrench = {
+	if (self.attack_finished > time)
+		return FALSE;
+
+	sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
+	
+	self.attack_finished = time + 0.8;
+	
+	self.weaponframe = floor(random()*2.99)*20 + 1;	//floor(random()*4.99)*10 + 1; //(5 cycles, 10 frames)
+	
+	// converts weaponframe to a 0-4 integer selector for the player animation
+	player_axe_start(self.animcontroller, (self.weaponframe - 1)/20); //1/10  =  0,1,11,21,31,41-50 //(5 cycles, 10 frames)
+	
+	//new big wrench = (3 cycles, 20 frames)
+	//     0 idle
+	//  1-20 poke
+	// 21-40 swing
+	// 41-60 slam
+
+	self.think = weaponanim_wrench_loop; //<<<
+	self.nextthink = time + 0.05;
+
+	return FALSE; // axe swing will never count as fired until it hits something
+}
+
+void() weaponanim_wrench_loop = {
+	if (self.weaponframe % 20 == 3)
+		W_FireWrench(); //<<<
+
+	if (self.weaponframe % 20 == 0) {
+		self.weaponframe = 0;
+		return;
+	}
+	else {
+		self.weaponframe++;
+	}
+
+	self.think = weaponanim_wrench_loop; //<<<
+	self.nextthink = time + 0.05;
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void() wrench_hitsound = {
+	if (random() < 0.5)
+		sound (self, CHAN_WEAPON, "weapons/axhit1.wav", 1, ATTN_NORM);
+	else
+		sound (self, CHAN_WEAPON, "weapons/axhit2.wav", 1, ATTN_NORM);
+}
+//=============================================================================================
+void() W_FireWrench =
+{
+	local	vector	source;
+	
+	entity hitent1, hitent2;
+	vector hitpos1, hitpos2;
+	float shortest_hit1 = 1000;
+	float shortest_hit2 = 1000;
+
+	makevectors (self.v_angle);
+	source = self.origin + self.view_ofs - v_up*6;
+
+	traceline (source, source + v_forward*64 - v_right*40, FALSE, self);
+	if (trace_fraction < 1) {
+		shortest_hit1 = vlen(trace_endpos - source);
+		hitent1 = trace_ent;
+		hitpos1 = trace_endpos;
+ 	}
+
+	traceline (source, source + v_forward*76 - v_right*20, FALSE, self);
+	if (trace_fraction < 1) {
+		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
+			shortest_hit1 = vlen(trace_endpos - source);
+			hitent1 = trace_ent;
+			hitpos1 = trace_endpos;
+		}
+		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
+			shortest_hit2 = vlen(trace_endpos - source);
+			hitent2 = trace_ent;
+			hitpos2 = trace_endpos;
+		}
+	}
+
+	traceline (source, source + v_forward*88, FALSE, self);
+	if (trace_fraction < 1) {
+		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
+			shortest_hit1 = vlen(trace_endpos - source);
+			hitent1 = trace_ent;
+			hitpos1 = trace_endpos;
+		}
+		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
+			shortest_hit2 = vlen(trace_endpos - source);
+			hitent2 = trace_ent;
+			hitpos2 = trace_endpos;
+		}
+	}
+
+	traceline (source, source + v_forward*76 + v_right*20, FALSE, self);
+	if (trace_fraction < 1) {
+		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
+			shortest_hit1 = vlen(trace_endpos - source);
+			hitent1 = trace_ent;
+			hitpos1 = trace_endpos;
+		}
+		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
+			shortest_hit2 = vlen(trace_endpos - source);
+			hitent2 = trace_ent;
+			hitpos2 = trace_endpos;
+		}
+	}
+
+	traceline (source, source + v_forward*64 + v_right*40, FALSE, self);
+	if (trace_fraction < 1) {
+		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
+			shortest_hit1 = vlen(trace_endpos - source);
+			hitent1 = trace_ent;
+			hitpos1 = trace_endpos;
+		}
+		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
+			shortest_hit2 = vlen(trace_endpos - source);
+			hitent2 = trace_ent;
+			hitpos2 = trace_endpos;
+		}
+	}
+
+	if (shortest_hit1 == 1000 && shortest_hit2 == 1000) {
+		return;
+	}
+
+	self.show_hostile = time + 1; // hit something, so alert monsters
+	
+	vector dir = v_right * 20 - v_up*5; // direction for blood particles
+
+	if (shortest_hit1 < 1000) hitwrench(hitent1, hitpos1 - v_forward*4, dir);
+	if (shortest_hit2 < 1000 && hitent1 != hitent2) hitwrench(hitent2, hitpos2 - v_forward*4, dir);
+
+
+};
+//=============================================================================================
+void(entity hitent, vector org, vector dir) hitwrench = {
+	if (hitent.takedamage) 
+	{		
+		hitent.swordhitme = 1;
+
+		ImpactSpawn(org, dir, 60);
+
+		if (hitent.classname == "monster_zombie") //keep zombies Unbonkable
+			T_Damage(hitent, self, self, 59, DMGTYPE_MELEE);
+		else	
+			T_Damage(hitent, self, self, 60, DMGTYPE_MELEE);
+		
+		//johnfitz -- make clank sound when hitting brushmodels
+		if (hitent.movetype == MOVETYPE_PUSH || hitent.movetype == MOVETYPE_NONE)
+			wrench_hitsound();
+
+		if ((hitent.flags & FL_MONSTER) || (hitent.classname == "player"))
+		{	
+			wrench_hitsound();
+			
+			
+			if ((trace_ent.movetype == MOVETYPE_STEP || trace_ent.movetype == MOVETYPE_WALK) && 
+				// don't swat bosses or other non-standard-sized enemies around
+				trace_ent.maxs_x <= 32 && trace_ent.health > 0 && trace_ent.type != "boss")
+			{
+				local vector toss;
+				toss = v_forward;
+				toss_z = 0;
+				toss = normalize(toss) * 200;
+				toss_z = 150;
+				//bprint(vtos(toss));
+				//bprint("\n");
+				//toss *=  - vlen(head.maxs - head.mins)
+				trace_ent.origin_z = trace_ent.origin_z + 1;
+				trace_ent.velocity = toss;
+				trace_ent.flags = not(trace_ent.flags, FL_ONGROUND);
+			}
+			
+			
+			
+		}
+		//johnfitz
+
+		if (trace_ent.flags & FL_MONSTER)
+		{
+			if (trace_ent.type == "zombie")
+				zombie_knockdown(trace_ent);
+			wrench_hitsound();
+		}
+		else
+		{
+			sound (self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_IDLE);
+		}
+		
+		// do knockback with a quad
+		if (has_quad(self))
+		{
+			if ((trace_ent.movetype == MOVETYPE_STEP || trace_ent.movetype == MOVETYPE_WALK) && 
+				// don't swat bosses or other non-standard-sized enemies around
+				trace_ent.maxs_x <= 32 && trace_ent.health > 0 && trace_ent.type != "boss")
+			{
+				//local vector toss;
+				toss = v_forward;
+				toss_z = 0;
+				toss = normalize(toss) * 800;
+				toss_z = 150;
+				//bprint(vtos(toss));
+				//bprint("\n");
+				//toss *=  - vlen(head.maxs - head.mins)
+				trace_ent.origin_z = trace_ent.origin_z + 1;
+				trace_ent.velocity = toss;
+				trace_ent.flags = not(trace_ent.flags, FL_ONGROUND);
+			}
+		}
+	}
+	else	{	// hit wall
+		sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
+		gunshot(org);
+	}
+}

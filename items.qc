@@ -507,9 +507,9 @@ void(entity e) target_items_giveinv_min =
 		armor_give(e, arm, self.armortype, TRUE);
 
 	if (self.ammo_shells) e.ammo_shells =	max(e.ammo_shells,	zeroconvert(self.ammo_shells));
-	if (self.ammo_nails) e.ammo_nails =		max(e.ammo_nails,	zeroconvert(self.ammo_nails));
+	if (self.ammo_nails) e.ammo_nails =	max(e.ammo_nails,	zeroconvert(self.ammo_nails));
 	if (self.ammo_rockets) e.ammo_rockets =	max(e.ammo_rockets,	zeroconvert(self.ammo_rockets));
-	if (self.ammo_cells) e.ammo_cells =		max(e.ammo_cells,	zeroconvert(self.ammo_cells));
+	if (self.ammo_cells) e.ammo_cells =	max(e.ammo_cells,	zeroconvert(self.ammo_cells));
 }
 
 void(entity e) target_items_giveinv =
@@ -870,8 +870,8 @@ TEST: behaves like TAKE, but doesn't take anything
   - beware of how this interacts with triggers: it will only test the first client to touch a trigger in coop unless it has ALL_CLIENTS set
 
 Item Bitmask Reference:
-	SG	= 1		SSG	= 2
-	NG	= 4		SNG	= 8
+	SG	= 1	SSG	= 2
+	NG	= 4	SNG	= 8
 	GL	= 16	RL	= 32
 	LG	= 64	Axe	= 4096
 	
@@ -913,14 +913,14 @@ Spawnflag Usage:
 	weapon(choices) : "Force Select Weapon" = 
 	[
 		0 : "Don't"
-		1 : "Shotgun"
-		2 : "Super Shotgun"
+		1 : "Pistol"
+		2 : "Flak Shotgun"
 		4 : "Nailgun"
-		8 : "Perforator"
+		8 : "Rebar Cannon"
 		16 : "Grenade Laucher"
-		32 : "Rocket Launcher"
-		64 : "Lightning Gun"
-		4096 : "Axe"
+		32 : "Multi-Missile Launcher"
+		64 : "Flamethrower"
+		4096 : "Wrench"
 	]
 	noise(string) : "wav file to play on activator"
 ]

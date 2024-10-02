@@ -55,7 +55,7 @@ void() TallyHitpoints =
 		monster_health += self.health * num;
 	
 	if (self.classname == "monster_army")
-		ammo_total += 5 * DEBUG_DMG_PER_SHELL;
+		ammo_total += 4 * DEBUG_DMG_PER_SHELL; //FlakTax
 	//if (self.classname == "monster_enforcer")
 	//	ammo_total += 5 * DEBUG_DMG_PER_CELL;
 	if (self.classname == "monster_ogre")

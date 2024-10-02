@@ -31,6 +31,14 @@ w_lightning.qc
 w_shotguns.qc
 w_rockets.qc
 w_nails.qc
+w_1_wrench.qc
+w_2_pistol.qc
+w_3_flakshotgun.qc
+w_4_twinnailgun.qc
+w_5_rebarcannon.qc
+w_6_clustergrenade.qc
+w_7_clusterrocket.qc
+w_8_flamethrower.qc
 weapons_use.qc
 dev.qc
 impulse.qc

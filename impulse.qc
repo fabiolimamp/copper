@@ -174,14 +174,27 @@ void() ImpulseCommands =
 	
 	float ret;
 	if (self.impulse >= 1 && self.impulse <= 8) {
-		//if (time < self.attack_finished) return;
+			
+		
+		// --------------------------------
+		// Pistol Manual Reload
+		if (self.impulse == 2 && self.weapon == IT_SHOTGUN && pistol_ammo_count != 0) {
+			weaponanim_reloadpistol();
+			//pistol_ammo_count = 0;
+			self.impulse = 0; 
+			return;
+		}
+		// --------------------------------
+	
+	
+		if (time < self.attack_finished) return;
 		
 		ret = W_ChangeSlot(self.impulse);
 		if (ret == WEAPONSTAT_NOAMMO)
 			sprint(self, "not enough ammo.\n");
 
 		if (ret == WEAPONSTAT_NOWEAPON)
-			sprint(self, "no weapon.\n");
+			sprint(self, "no weapon.\n");		
 	}
 	else if (self.impulse >= 20 && self.impulse <= 39)
 	{
@@ -294,6 +307,18 @@ void() ImpulseCommands =
 	case 255:
 		Cheat_Quad();	
 		break;
+	/*
+	case 144:
+		// --------------------------------
+		// Pistol Manual Reload
+		if (self.weapon == IT_SHOTGUN) {
+			weaponanim_reloadpistol();
+			pistol_ammo_count = 0;
+			self.impulse = 0; 
+			return;
+		}
+		// --------------------------------
+	*/	
 		
 	default:
 		return;

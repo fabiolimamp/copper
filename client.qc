@@ -56,7 +56,7 @@ void() SetChangeParms =
 	parm2 = self.health;
 	parm3 = self.armorvalue;
 	// provide an ammo floor similar to the health floor on easy/medium
-	if (skill < 2 && self.ammo_shells < 25 && self.ammo_nails < 50)
+	if (skill < 2 && self.ammo_shells < 24 && self.ammo_nails < 50) //FlakTax
 		parm4 = max(self.ammo_shells, floor((50 - self.ammo_nails) / 2));
 	else
 		parm4 = self.ammo_shells;
@@ -72,7 +72,7 @@ void() SetNewParms =
 {
 	parm1 = IT_SHOTGUN | IT_AXE;
 	parm2 = 100;
-	parm4 = 25;
+	parm4 = 24; //FlakTax
 	parm8 = IT_SHOTGUN;
 	parm3 = 0;
 	parm5 = 0;
@@ -89,7 +89,7 @@ void() SetCoopParms =
 {
 	parm1 = self.items & IT_WEAPONS;
 	parm2 = 100;
-	parm4 = max(25,self.ammo_shells);
+	parm4 = max(24,self.ammo_shells); //FlakTax
 	if (parm1 & IT_SUPER_SHOTGUN)
 		parm8 = IT_SUPER_SHOTGUN;
 	else

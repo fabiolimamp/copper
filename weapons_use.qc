@@ -22,7 +22,7 @@ void() W_Precache =
 //	precache_sound ("items/damage3.wav");
 
 // ax sounds	
-	precache_sound ("weapons/ax1.wav");			// ax swoosh
+	precache_sound ("weapons/ax1.wav");		// ax swoosh
 	precache_sound2 ("weapons/axhit1.wav");		// ax hit meat
 	precache_sound2 ("weapons/axhit2.wav");		// ax hit meat 2
 	precache_sound ("player/axhit1.wav");		// ax hit me
@@ -30,9 +30,79 @@ void() W_Precache =
 	
 	precache_sound ("zombie/z_hit.wav");
 	
+	//=============================================================================================
+	precache_sound ("axhit3.wav");
+	precache_sound ("axhit4.wav");
+	precache_sound ("swordhit1.wav");
+	precache_sound ("swordhit2.wav");
+	precache_sound ("swordhit3.wav");
+	precache_sound ("pistol_shoot.wav");
+	precache_sound ("shotgn3.wav");
 	
+	precache_sound ("bullet_impact1.wav");
+	precache_sound ("bullet_impact2.wav");
+	precache_sound ("bullet_impact3.wav");
+	precache_sound ("bullet_impact4.wav");
+	precache_sound ("bullet_impact5.wav");
+	precache_sound ("bullet_impact6.wav");
+	precache_sound ("bullet_impact7.wav");
+	precache_sound ("bullet_impact8.wav");
+	precache_sound ("bullet_impact9.wav");
+	precache_sound ("bullet_impact10.wav");
+	precache_sound ("bullet_impact11.wav");
+	precache_sound ("bullet_impact12.wav");
+	/*
+	precache_sound ("bullet_woosh1.wav");
+	precache_sound ("bullet_woosh2.wav");
+	precache_sound ("bullet_woosh3.wav");
+	precache_sound ("bullet_woosh4.wav");
+	precache_sound ("bullet_woosh5.wav");
+	precache_sound ("bullet_woosh6.wav");
+	precache_sound ("bullet_woosh7.wav");
+	precache_sound ("bullet_woosh8.wav");
+	precache_sound ("bullet_woosh9.wav");
+	precache_sound ("bullet_woosh10.wav");
+	precache_sound ("bullet_woosh11.wav");
+	precache_sound ("bullet_woosh12.wav");
+	*/
+	precache_sound ("ammo_rattle.wav");
+	precache_sound ("gun_click.wav");
+	
+	precache_sound ("volley_fire1.wav");
+	precache_sound ("volley_fire2.wav");
+	precache_sound ("volley_fire3.wav");
+	precache_sound ("shotgun3.wav");
+	
+	precache_model ("progs/pellet.mdl");
+	precache_model ("progs/nail.mdl");
+	precache_model ("progs/tracer_long_yellow.mdl");
+	precache_model ("progs/mini_grenade.mdl");
+	
+	precache_model ("progs/rebar.mdl");
+	precache_sound ("penfire.wav");
+	precache_sound ("pierce1.wav");
+	precache_sound ("pierce2.wav");
+	precache_sound ("pierce3.wav");
+	precache_sound ("stick1.wav");
+	
+	precache_sound ("pistol_reload.wav");
+	precache_sound ("deadlock_reload.wav");
+	precache_sound ("grenade_reload.wav");
+	precache_sound ("pump_reload.wav");
+	precache_sound ("mag_drop.wav");
+	//precache_sound ("shell_load.wav");     // NO...
+		
+	precache_model ("progs/pistol_mag.mdl");
+	precache_model ("progs/bullet_casing.mdl");
+	
+	precache_model ("progs/flame1_thrower.mdl");
+	precache_model ("progs/flame1_ground.mdl");
+	precache_model ("progs/flame1_ignite.mdl");
+	precache_sound ("flamer.wav");
+	precache_sound ("flamer_loop.wav");
+	//=============================================================================================
 
-	/*precache_model ("progs/v_axe2.mdl");
+	precache_model ("progs/v_axe2.mdl");
 	precache_model ("progs/v_shot.mdl");
 	precache_model ("progs/v_nail.mdl");
 	precache_model ("progs/v_rock.mdl");
@@ -40,7 +110,7 @@ void() W_Precache =
 	precache_model ("progs/v_nail2.mdl");
 	precache_model ("progs/v_rock2.mdl");
 	precache_model ("progs/v_light.mdl");
-	*/
+	
 
 	for (float i = 0; i < 9; i++) {
 		if (weaponsclass[i].model != "") precache_model(weaponsclass[i].model);
@@ -89,12 +159,12 @@ weaponclass_t wpc_axe = {
 	IT_AXE,
 	1, // slot
 	0, // slotPos
-	"Axe", // name
+	"Wrench", // name
 	"progs/v_axe2.mdl", // model
 	0, // ammofield
 	0, // ammo_item
 	0, // ammo_usage
-	weaponanim_axe, // animfunction
+	weaponanim_wrench, // animfunction
 	SUB_Null // idlefunction
 };
 
@@ -103,12 +173,12 @@ weaponclass_t wpc_shotgun = {
 	IT_SHOTGUN,
 	2, // slot
 	0, // slotPos
-	"Shotgun", // name
-	"progs/v_shot40fps.mdl", // model
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	1, // ammo_usage
-	weaponanim_shotgun, // animfunction
+	"Pistol", // name
+	"progs/v_shot.mdl", // model
+	0, // ammofield
+	0, // ammo_item
+	0, // ammo_usage
+	weaponanim_pistol_ammo_reset, // animfunction
 	SUB_Null // idlefunction
 };
 
@@ -116,12 +186,12 @@ weaponclass_t wpc_supershotgun = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
 	0, // slotPos
-	"Super Shotgun", // name
-	"progs/v_shot2_40fps.mdl", // model
+	"Flak Shotgun", // name
+	"progs/v_shot2.mdl", // model
 	1, // ammofield
 	IT_SHELLS, // ammo_item
 	1, // ammo_usage
-	weaponanim_supershotgun, // animfunction
+	weaponanim_flakshotgun, // animfunction
 	SUB_Null // idlefunction
 };
 
@@ -130,11 +200,11 @@ weaponclass_t wpc_nailgun = {
 	4, // slot
 	0, // slotPos
 	"Nailgun", // name
-	"progs/v_nail_alk40fps.mdl", // model
+	"progs/v_nail.mdl", // model
 	2, // ammofield
 	IT_NAILS, // ammo_item
 	1, // ammo_usage
-	weaponanim_nailgun, // animfunction
+	weaponanim_twinnailgun, // animfunction
 	SUB_Null // idlefunction
 };
 
@@ -142,12 +212,12 @@ weaponclass_t wpc_supernailgun = {
 	IT_SUPER_NAILGUN,
 	5, // slot
 	0, // slotPos
-	"Super Nailgun", // name
-	"progs/v_nail3_v2.mdl", // model
+	"Rebar Cannon", // name
+	"progs/v_nail2.mdl", // model
 	2, // ammofield
 	IT_NAILS, // ammo_item
 	1, // ammo_usage
-	weaponanim_supernailgun, // animfunction
+	weaponanim_rebarcannon, // animfunction
 	SUB_Null // idlefunction
 };
 
@@ -156,11 +226,11 @@ weaponclass_t wpc_grenade = {
 	6, // slot
 	0, // slotPos
 	"Grenade Launcher", // name
-	"progs/v_rock_40fps.mdl", // model
+	"progs/v_rock.mdl", // model
 	3, // ammofield
 	IT_ROCKETS, // ammo_item
 	1, // ammo_usage
-	weaponanim_grenade, // animfunction
+	weaponanim_qbj3grenade, // animfunction	//weaponanim_clustergrenade	//weaponanim_volleygrenade
 	SUB_Null // idlefunction
 };
 
@@ -168,12 +238,12 @@ weaponclass_t wpc_rocket = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
 	0, // slotPos
-	"Rocket Launcher", // name
-	"progs/v_rock2_40fps.mdl", // model
+	"Multi-Missile Launcher", // name
+	"progs/v_rock2.mdl", // model
 	3, // ammofield
 	IT_ROCKETS, // ammo_item
 	1, // ammo_usage
-	weaponanim_rocket, // animfunction
+	weaponanim_boxrocket, // animfunction	//weaponanim_twinrocket,
 	SUB_Null // idlefunction
 };
 
@@ -181,12 +251,12 @@ weaponclass_t wpc_lg = {
 	IT_LIGHTNING,
 	8, // slot
 	0, // slotPos
-	"Lightning gun", // name
+	"Flamethrower", // name
 	"progs/v_light.mdl", // model
 	4, // ammofield
 	IT_CELLS, // ammo_item
 	1, // ammo_usage
-	weaponanim_lg, // animfunction
+	weaponanim_flamethrower, // animfunction
 	SUB_Null // idlefunction
 };
 
@@ -207,16 +277,16 @@ float MAX_WEAPON_NUM = 8;
 
 float(float weap) getWeapon = {
 	switch (weap) {
-		case IT_AXE:				return 1;
-		case IT_SHOTGUN:			return 2;
+		case IT_AXE:			return 1;
+		case IT_SHOTGUN:		return 2;
 		case IT_SUPER_SHOTGUN:		return 3;
-		case IT_NAILGUN:			return 4;
+		case IT_NAILGUN:		return 4;
 		case IT_SUPER_NAILGUN:		return 5;
 		case IT_GRENADE_LAUNCHER:	return 6;
 		case IT_ROCKET_LAUNCHER:	return 7;
-		case IT_LIGHTNING:			return 8;
+		case IT_LIGHTNING:		return 8;
 
-		default:					return 0;
+		default:			return 0;
 	}
 }
 
@@ -227,15 +297,15 @@ typedef struct {
 } weaponslot_t;
 
 weaponslot_t weaponslots[9] = {
-	{{wpc_no_weapon}, 1}, //0
-	{{wpc_axe}, 1}, //1
-	{{wpc_shotgun}, 1}, //2
-	{{wpc_supershotgun}, 1}, //3
-	{{wpc_nailgun}, 1}, //4
-	{{wpc_supernailgun}, 1}, //5
-	{{wpc_grenade}, 1}, //6
-	{{wpc_rocket}, 1}, //7
-	{{wpc_lg}, 1} //8
+	{{wpc_no_weapon}, 1}, 	//0
+	{{wpc_axe}, 1}, 	//1
+	{{wpc_shotgun}, 1}, 	//2
+	{{wpc_supershotgun}, 1},//3
+	{{wpc_nailgun}, 1}, 	//4
+	{{wpc_supernailgun}, 1},//5
+	{{wpc_grenade}, 1}, 	//6
+	{{wpc_rocket}, 1}, 	//7
+	{{wpc_lg}, 1} 		//8
 };
 
 
