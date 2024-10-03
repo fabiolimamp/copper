@@ -160,6 +160,9 @@ const float	IT_QUAD					= 4194304;
 const float	IT_POWERUPS				= IT_INVISIBILITY + IT_INVULNERABILITY + IT_SUIT + IT_QUAD;
 // more IT flags after this exceeds 1^23, causing FPU bugs and unpredictable behavior
 
+//overflowed original list, new Reliq-specific stuff goes here
+const float IT_VAMP                 = 1;
+
 // point content values
 const float	CONTENT_EMPTY		= -1;
 const float	CONTENT_SOLID		= -2;

@@ -315,6 +315,7 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .float		invincible_time, invincible_sound, invincible_finished;
 .float		invisible_time, invisible_sound, invisible_finished;
 .float		super_time, super_sound, super_damage_finished;
+.float		vamp_time, vamp_sound, vamp_finished;
 .float		rad_time, radsuit_finished;
 .float		nextmovesound;	// replaces swim_flag and fly_sound, both of which were timers
 .float		show_hostile;	// set to time+0.2 whenever a client fires a
@@ -355,6 +356,8 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .float		length, width, height;
 .float t_length = length;	// preserve old func_door_secret maphacks
 .float t_width = width;
+.float 	globehealth_cou;		//debug for counting health healed after vampirism rampamge
+.float 	globehealth_cou_short;	//for coagulating hp recieved calls
 
 
 .float		touch_time;
@@ -392,6 +395,9 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .vector		oldvelocity;	// necessary for getting projectiles to pass through .notrace entities
 .entity		trueowner;		// now this is getting dumb
 .void(float unlock) lock;	// so entities can define their own target_lock cleanup
+
+//overflowed og items list, made another for reliq stuff
+.float items_reliq;
 
 // OVERLOADS:
 .float rand = healamount;	// for trigger_timer

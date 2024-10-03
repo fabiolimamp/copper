@@ -373,6 +373,7 @@ void() PlayerDie =
 	self.modelindex = modelindex_player;	// don't use eyes
 
 	self.items = not(self.items, IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD);
+	self.items_reliq = not(self.items_reliq, IT_VAMP);
 	self.effects = 0;
 
 	self.animcontroller.think = SUB_Null;

@@ -31,6 +31,7 @@ void() SetChangeParms =
 		IT_KEY1 | IT_KEY2 | 
 		IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD
 		) );
+	self.items_reliq = self.items_reliq - (self.items_reliq & (IT_VAMP));
 	
 	// gung-ho players can run forward and grab weapons before other clients have
 	// finished connecting, causing them to miss out on the global distribution
@@ -70,7 +71,7 @@ void() SetChangeParms =
 	parm7 = self.ammo_cells;
 	parm8 = self.weapon;
 	parm9 = self.armortype;
-
+	parm10 = self.items_reliq;
 }
 
 void() SetNewParms =
@@ -128,6 +129,7 @@ void() DecodeLevelParms =
 	self.ammo_rockets = parm6;
 	self.ammo_cells = parm7;
 	self.armortype = parm9;
+	self.items_reliq = parm10;
 	
 	//self.weapon = parm8;
 	W_ChangeWeapon(parm8);
@@ -612,6 +614,7 @@ void() PutClientInServer =
 	self.super_damage_finished = 0;
 	self.radsuit_finished = 0;
 	self.invisible_finished = 0;
+	self.vamp_finished = 0;
 	self.notrace = 0;	// fix for dying with the ring
 	self.invincible_finished = 0;
 	self.invincible_time = 0;
@@ -1474,8 +1477,45 @@ void() CheckPowerups =
 			self.rad_time = 0;
 			self.radsuit_finished = 0;
 		}
-	}	
+	}
 
+	// vampirism (reliq)
+	if (self.vamp_finished)
+	{
+
+	// sound and screen flash when items starts to run out
+
+		if (self.vamp_finished < time + 3)
+		{
+			if (self.vamp_time == 1)
+			{
+				sprint (self, "You feel sated ...\n");
+				stuffcmd (self, "bf\n");
+				sound (self, CHAN_POWERUP, "items/vampfade.wav", 1, ATTN_NORM);
+				self.vamp_time = time + 1;
+			}	  
+			
+			if (self.vamp_time < time)
+			{
+				self.vamp_time = time + 1;
+				stuffcmd (self, "bf\n");
+			}
+		}
+
+		if (self.vamp_finished < time)
+		{	// just stopped
+			self.items_reliq = not(self.items_reliq, IT_VAMP);
+
+			dprint("\bVampirism Total Heal:\b ");
+			dprint(ftos(self.globehealth_cou));
+			dprint("\n");
+			self.globehealth_cou = 0;
+			
+			self.vamp_finished = 0;
+			self.vamp_time = 0;
+			//self.fw_screenshift = 1;
+		}
+	}
 }
 
 // a failed experiment to fix DOOF-DOOF-DOOFing down stairs
@@ -1601,6 +1641,22 @@ void() PlayerPreThink =
 	else
 	{
 		self.flags = self.flags | FL_JUMPRELEASED;
+	}
+
+	if (self.vamp_finished > time)
+	{
+		entity head;
+		head = findradiusplus(self.origin, 160, classname, "VampGlobe");
+		while (head)
+		{
+			if ((head.think != VampGlobeHome) && (head.flags & FL_ONGROUND))
+			{
+				head.nextthink = time + 0.05;
+				head.buddy = self;
+				head.think = VampGlobeHome;
+			}
+			head = head.chain;
+		}
 	}
 	
 // teleporters can force a non-moving pause time	

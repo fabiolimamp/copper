@@ -329,6 +329,12 @@ void() worldspawn =
 	precache_sound ("player/udeath.wav");		// player gib sound
 	precache_sound ("player/tornoff2.wav");		// gib sound
 
+	precache_sound ("items/vampstart.wav");
+	precache_sound ("items/vampfade.wav");
+	precache_sound ("items/vamppickup1.wav");
+	precache_sound ("items/vamppickup2.wav");
+	precache_sound ("items/vamppickup3.wav");
+
 // player pain sounds
 
 	precache_sound ("player/pain1.wav");
@@ -380,6 +386,8 @@ void() worldspawn =
 	//precache_model ("progs/s_spike.mdl");
 
 	precache_model ("progs/backpack.mdl");
+
+	precache_model ("progs/item_vampglobe.mdl");
 
 	precache_model ("progs/zom_gib.mdl");
 	

@@ -318,3 +318,182 @@ void() DropBackpack =
 	item.nextthink = time + 116;	// remove after 2 minutes
 	item.think = ItemDespawnBlink;	// blink 4 times
 }
+
+/*
+===============
+VampGlobe Stuff
+they're basically backpacks, really.
+===============
+*/
+void(entity attacker) CheckVampGlobe =
+{
+	float VampCouRemaining = 0;
+	//if they player doesn't have vampiric blood, don't bother
+	if (attacker.vamp_finished < time)
+	return;
+
+	//check what tier the monster is, so we know how many globes to drop
+	if ((self.classname == "monster_dog") ||
+		(self.classname ==  "monster_zombie") ||
+		(self.classname == "monster_army"))
+	{
+		self.cnt = 1;
+	}
+
+	else if ((self.classname == "monster_wizard") || 
+		(self.classname == "monster_enforcer") || 
+		(self.classname == "monster_knight") ||
+		(self.classname == "monster_tentacle"))
+	{
+		self.cnt = 2;
+	}
+
+	else if ((self.classname == "monster_hell_knight") ||
+		(self.classname == "monster_shield_knight") ||
+		(self.classname == "monster_ogre") ||
+		(self.classname == "monster_chaingunner"))
+	{
+		self.cnt = 3;
+	}
+
+	else if ((self.classname == "monster_shambler") ||
+		(self.classname == "monster_shalrath") ||
+		(self.classname == "monster_demon1") ||
+		(self.classname == "monster_amalgam"))
+	{
+		self.cnt = 4;
+	}
+
+	else if (self.classname == "monster_bigboy")
+	{
+		self.cnt = 10;
+	}
+	else
+	{
+	dprint("Fell off CheckVampGlobe\n");
+	return;
+	}
+
+	while(self.cnt > VampCouRemaining)
+	{
+		DropVampGlobe(attacker);
+		VampCouRemaining++;
+	}
+}
+
+/*
+===============
+DropVampGlobe
+===============
+*/
+void(entity player) DropVampGlobe =
+{
+	entity item;
+
+	item = spawn();
+	item.origin = self.origin + '0 0 24';
+
+	item.velocity_z = 300 + (random() * 100);
+	item.velocity_x = -150 + (random() * 300);
+	item.velocity_y = -150 + (random() * 300);
+	
+	item.flags = FL_ITEM;
+	item.solid = SOLID_TRIGGER;
+	item.movetype = MOVETYPE_TOSS;
+	item.classname = "VampGlobe";
+	setmodel (item, "progs/item_vampglobe.mdl");
+	item.touch = VampGlobeTouch;
+	setsize (item, '-16 -16 -24', '16 16 64');
+
+	if (player.vamp_finished > 4)
+	item.nextthink = player.vamp_finished - 4;	// remove after powerup runs out on player
+	else
+	item.nextthink = time;
+
+	item.think = ItemDespawnBlink;	// blink 4 times
+	return;
+}
+
+void() VampGlobeTouch =
+{
+	if (!CheckValidTouch()) return;
+
+	//for summary on health healed during powerup duration
+	other.globehealth_cou += 3;
+	//for coagulated (lol) health received prints so we don't spam console
+	//with tinylittleman hp received prints
+	other.globehealth_cou_short += 3;
+	
+	if (random() < 0.33)
+		sound(other, CHAN_ITEM, "items/vamppickup1.wav", 1, ATTN_NORM);
+	else if (random() > 0.5)
+		sound(other, CHAN_ITEM, "items/vamppickup2.wav", 1, ATTN_NORM);
+	else
+		sound(other, CHAN_ITEM, "items/vamppickup3.wav", 1, ATTN_NORM);
+
+	T_Heal(other,3,1,0);
+	SUB_Remove();
+}
+
+void() VampGlobeHome =
+{
+    float rate, dot;
+    vector lookat;
+    self.movetype = MOVETYPE_NOCLIP;
+    if (!self.distance)
+    {
+        self.distance = 35;
+    }
+    if (self.count == 0)
+    {
+        self.count = 1;
+        lookat = self.origin - self.origin;
+        lookat = normalize(lookat);
+        self.angles = vectoangles(lookat);
+    }
+
+    if ((self.buddy.health < 1)) //change this to the self/whatever we're using for checking of player is alive
+    {
+        remove(self);
+    }
+
+    self.nextthink = time + 0.04;
+    rate = 280;
+    self.distance += 55;
+    dot = normalize(self.velocity) * normalize(self.buddy.origin - self.origin);
+    self.owner = self.trueowner;
+
+    // good homing (full turn rate):
+    {
+        if (dot < 0)
+        {
+            rate *= min(1.4, 1.4 + fabs(dot));
+        }
+        self.velocity = self.distance * VampTurnToward(self.buddy, rate);
+    }
+
+    //small randomization on left/right vectors for flavour
+    self.velocity += Vector(random(),random(), 0) * 4;
+
+    self.think = VampGlobeHome;
+    self.oldvelocity = self.velocity;
+}
+
+vector(entity targ, float turnrate) VampTurnToward =
+{
+	vector	vel, aimdir, temp, temp2, out;
+
+	temp = targ.origin;
+	aimdir = temp - self.origin;
+	aimdir = normalize(aimdir);
+	vel = normalize(self.velocity);
+	
+	temp = CrossProduct(vel, aimdir);
+	out = rotateVectorAround(vel, temp, turnrate * 0.05);
+	
+	// don't turn past the desired direction
+	temp2 = CrossProduct(out, aimdir);
+	if ((temp * temp2) < 0)
+		return aimdir;
+	return out;
+}

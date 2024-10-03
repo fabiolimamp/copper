@@ -130,6 +130,7 @@ turn off glow and screen coloring while we're in a camera
 void(entity who) ClearItemEffects =
 {
 	who.items = not(who.items, IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD);
+	who.items_reliq = not(who.items_reliq, IT_VAMP);
 	who.effects = 0;
 
 	// remember how much time was left on the powerup

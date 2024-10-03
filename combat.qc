@@ -85,6 +85,8 @@ void(entity targ, entity attacker, float dmgtype) Killed =
 	if (self.classname == "player")
 		ClientObituary(dmgtype);
 	
+	CheckVampGlobe(attacker);
+	
 	self = oself;
 }
 
