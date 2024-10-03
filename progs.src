@@ -86,6 +86,8 @@ m_shalrath.qc	// registered
 m_enforcer.qc	// registered
 m_oldone.qc		// registered
 
+m_amalgam.qc    // reliq
+
 cshift.qc
 water.qc
 
