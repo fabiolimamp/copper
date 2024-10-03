@@ -15,6 +15,11 @@ void() SetChangeParms =
 		return;
 	}
 	
+	// mapvars are always passed down
+	parm14 = mapvars[0];
+	parm15 = mapvars[1];
+	parm16 = mapvars[2];
+
 	if (self.health <= 0)
 	{
 		SetNewParms ();
@@ -105,7 +110,13 @@ void() SetCoopParms =
 
 void() DecodeLevelParms =
 {
-	
+	float prev_mapvar_started;
+	prev_mapvar_started = mapvar_started;
+
+	//dprint("\b[CLIENT]\b Decode (Level) Parms\n");
+	// Map Variables are active (do not reset)
+	mapvar_started = TRUE;
+
 	if (world.model == "maps/start.bsp")
 		SetNewParms ();		// take away all stuff on starting new episode
 	
@@ -120,6 +131,15 @@ void() DecodeLevelParms =
 	
 	//self.weapon = parm8;
 	W_ChangeWeapon(parm8);
+
+	if (!prev_mapvar_started)
+	{
+		dprint("\b[CLIENT]\b Decode (Level) Parms\n");
+		mapvars[0] = parm14;
+		mapvars[1] = parm15;
+		mapvars[2] = parm16;
+	}
+
 	armor_set_type(self);
 }
 

@@ -55,6 +55,9 @@ void() trigger_relay_use =
 		return;
 	}
 	
+	if (!mapvar_check())
+		return;
+
 	if (self.spawnflags & SPAWN_RELAY_HOLD && self.attack_finished > time)
 	{
 		self.attack_finished = time + self.wait;

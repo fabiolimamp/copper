@@ -425,6 +425,11 @@ void() changelevel_touch =
 		}
 	}
 	
+	// flip on whichever mapvar is set into the changelevel trigger
+	if (self.jump_flag > 0 && self.jump_flag <= MAPV_TOTAL)
+		write_mapvar(self.jump_flag, MAPV_WRITE_ON);
+	
+	
 	activator = other;
 	SUB_UseTargetsSilent();	
 		// silent so that a 'message' key on the changelevel, which is meant for intermission text,
