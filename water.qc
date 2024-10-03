@@ -64,8 +64,8 @@ void() entity_watercheck = {
 		// Setting watertype here for standard liquid volumes
 		// conflicts with the engine content check later on the same frame,
 		// causing a spam of splash sounds
-		if (!touchedliquidbrush)
-			self.watertype = ct;
+		//if (!touchedliquidbrush)
+		//	self.watertype = ct;
 	}
 	else {
 		if (self.flags & FL_SWIM2) self.flags &~= FL_FLY;
@@ -346,8 +346,8 @@ void() monster_watercheck =
 		// Setting watertype here for standard liquid volumes
 		// conflicts with the engine content check later on the same frame,
 		// causing a spam of splash sounds
-		if (!touchedliquidbrush)
-			self.watertype = wt;
+		//if (!touchedliquidbrush)
+		//	self.watertype = wt;
 	}
 	else {
 
