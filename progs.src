@@ -47,6 +47,7 @@ world.qc
 client.qc
 player.qc
 monsters.qc
+move.qc
 doors.qc
 buttons.qc
 triggers.qc

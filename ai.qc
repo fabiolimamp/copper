@@ -1196,7 +1196,7 @@ movetogoalplus/walkmoveplus
 void(float dist) movetogoalplus =
 {
 	ai_floatmove_start();
-	movetogoal(dist);
+	movetogoal2(dist);
 	ai_floatmove_finish(dist);
 }
 
@@ -1206,7 +1206,7 @@ float(float yaw, float dist) walkmoveplus =
 	vector oldorg;
 	ai_floatmove_start();
 	oldorg = self.origin;
-	result = walkmove(yaw, dist);
+	result = walkmove2(yaw, dist);
 	if (oldorg == self.origin || !result)
 	{
 		ai_floatmove_finish(0);
