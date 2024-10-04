@@ -4,50 +4,28 @@
 
 
 
-//=============================================================================================
-
-float() weaponanim_pistol_ammo_reset = {
-		
-	// if (ammo > 0) shoot(); ammo - 1;
-	// else		reload(); ammo + 10;
-
-	
-	if (self.attack_finished > time)
-		return FALSE;
-
-	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
-		W_ChangeWeapon(W_BestWeapon());
-		return FALSE;
-	}
-	
-	// --------------------------------
-	// Pistol Auto Reload	
-	if (self.pistol_ammo_count <= 9)	//(0,1,2,3,4,5,6,7,8,9 = 10 shots)
-	{
-		self.pistol_ammo_count = self.pistol_ammo_count + 1;
-		weaponanim_pistol();		
-	}
-	else
-	{
-		//self.pistol_ammo_count = 0;
-		weaponanim_reloadpistol();
-	}
-	// --------------------------------
-		
-	return TRUE;
-}
-//=============================================================================================	
-	
 float() weaponanim_pistol = {
 		
 	if (self.attack_finished > time)
 		return FALSE;
 
+	// detects if a reload is still happening without having to rely on attack_finished
+	if (self.think == weaponanim_reloadpistol_loop) { 
+		return FALSE;
+	}
+
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
 		W_ChangeWeapon(W_BestWeapon());
 		return FALSE;
 	}
+	
+	if (self.pistol_ammo_count >= 10)
+	{
+		weaponanim_reloadpistol();
+		return FALSE;
+	}
 
+	self.pistol_ammo_count = self.pistol_ammo_count + 1;
 	self.attack_finished = time + 0.3;
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
@@ -104,19 +82,11 @@ float() weaponanim_reloadpistol = {
 		
 	if (self.attack_finished > time)
 		return FALSE;
-
-	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
-		W_ChangeWeapon(W_BestWeapon());
-		return FALSE;
-	}
-	
 	
 	Drop_PistolMag();
 	
-	
-	self.attack_finished = time + 1.25;
 
-	self.pistol_ammo_count = 0; //RESET ammo
+	self.nextthink1 = time + 1.25;
 	
 	sound (self, CHAN_AUTO, "gun_click.wav", 1, ATTN_NORM);
 
@@ -137,13 +107,21 @@ void() weaponanim_reloadpistol_loop = {
 	//if (self.weaponframe == 37) sound (self, CHAN_AUTO, "pistol_reload.wav", 1, ATTN_NORM);		
 	if (self.weaponframe == 37) sound (self, CHAN_AUTO, "deadlock_reload.wav", 1, ATTN_NORM);		
 	
-	if (self.weaponframe >= 55) {
-		
+	//if (self.weaponframe >= 49)	self.pistol_ammo_count = 0; //RESET ammo
+	//if (time >= self.attack_finished - 0.05) self.pistol_ammo_count = 0; //RESET ammo
+
+	if (self.weaponframe >= 54) {
+		self.pistol_ammo_count = 0;
 		self.weaponframe = 0;
+		self.think = SUB_Null;
 		return;
 	}
 	else {
 		self.weaponframe++;
+	}
+
+	if (time >= self.nextthink1) {
+		self.weaponframe = 54;
 	}
 
 	self.think = weaponanim_reloadpistol_loop;

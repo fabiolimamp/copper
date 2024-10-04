@@ -178,7 +178,7 @@ weaponclass_t wpc_shotgun = {
 	0, // ammofield
 	0, // ammo_item
 	0, // ammo_usage
-	weaponanim_pistol_ammo_reset, // animfunction
+	weaponanim_pistol, // animfunction
 	SUB_Null // idlefunction
 };
 
@@ -514,6 +514,11 @@ float(float weap) W_ChangeWeapon = {
 
 	float weapstat = W_CheckWeapon(weap, self);
 	if (weapstat < WEAPONSTAT_AVAILABLE){
+		return weapstat;
+	}
+
+	// don't reset anything if trying to change to the same weapon
+	if (self.weapon == weap){
 		return weapstat;
 	}
 
