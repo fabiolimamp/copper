@@ -328,6 +328,7 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .string		deathtype;		// keeps track of how the player died
 
 .float  	pistol_ammo_count;
+.float		pistol_lastreload_time;
 
 #ifndef NO_CSQC
 // fields for csqc HUD stats

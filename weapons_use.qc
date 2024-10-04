@@ -522,6 +522,9 @@ float(float weap) W_ChangeWeapon = {
 		return weapstat;
 	}
 
+	if (time > self.pistol_lastreload_time + 3.75) // reset pistol reload
+		self.pistol_ammo_count = 0;
+
 	weaponclass_t weapcl = weaponsclass[getWeapon(weap)];
 
 	self.attack_state = self.weapon;

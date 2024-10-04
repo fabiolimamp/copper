@@ -85,6 +85,7 @@ float() weaponanim_reloadpistol = {
 	
 	Drop_PistolMag();
 	
+	self.pistol_lastreload_time = time;
 
 	self.nextthink1 = time + 1.25;
 	
