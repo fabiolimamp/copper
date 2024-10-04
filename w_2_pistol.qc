@@ -18,7 +18,7 @@ float() weaponanim_pistol = {
 		W_ChangeWeapon(W_BestWeapon());
 		return FALSE;
 	}
-	
+
 	if (self.pistol_ammo_count >= 10)
 	{
 		weaponanim_reloadpistol();
@@ -56,13 +56,13 @@ void() weaponanim_pistol_loop = {
 	
 	if (self.weaponframe == 2) Eject_BulletCasing();
 	
-/*
-	if (self.pistol_ammo_count >=  10 && self.weaponframe >= 12) {
+
+	if (self.pistol_ammo_count >= 10 && time > (self.attack_finished - 0.1)) {
 		
-			weaponanim_reloadpistol(); //auto reload on 10th shot NOT WORKING???
+			weaponanim_reloadpistol(); 
 			return;
 		}
-*/
+
 	
 	if (self.weaponframe >= 21) {
 
@@ -78,10 +78,7 @@ void() weaponanim_pistol_loop = {
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-float() weaponanim_reloadpistol = {
-		
-	if (self.attack_finished > time)
-		return FALSE;
+void() weaponanim_reloadpistol = {
 	
 	Drop_PistolMag();
 	
@@ -98,8 +95,7 @@ float() weaponanim_reloadpistol = {
 	self.weaponframe = 25;
 	self.think = weaponanim_reloadpistol_loop;
 	self.nextthink = time + 0.05;
-	
-	return TRUE;
+
 }
 
 void() weaponanim_reloadpistol_loop = {
