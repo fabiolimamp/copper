@@ -3,9 +3,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// This *should* be a local number for 1 player only and not global - no clue how to do it right.
-
-float pistol_ammo_count;	//10 per mag
 
 //=============================================================================================
 
@@ -25,14 +22,14 @@ float() weaponanim_pistol_ammo_reset = {
 	
 	// --------------------------------
 	// Pistol Auto Reload	
-	if (pistol_ammo_count <= 9)	//(0,1,2,3,4,5,6,7,8,9 = 10 shots)
+	if (self.pistol_ammo_count <= 9)	//(0,1,2,3,4,5,6,7,8,9 = 10 shots)
 	{
-		pistol_ammo_count = pistol_ammo_count + 1;
+		self.pistol_ammo_count = self.pistol_ammo_count + 1;
 		weaponanim_pistol();		
 	}
 	else
 	{
-		//pistol_ammo_count = 0;
+		//self.pistol_ammo_count = 0;
 		weaponanim_reloadpistol();
 	}
 	// --------------------------------
@@ -64,9 +61,9 @@ float() weaponanim_pistol = {
 	
 	// --------------------------------
 	// Low Ammo Alert
-	if 	(pistol_ammo_count ==  10) sound (self, CHAN_AUTO, "ammo_rattle.wav", 1, ATTN_NORM);
-	else if (pistol_ammo_count ==  9) sound (self, CHAN_AUTO, "ammo_rattle.wav", 0.8, ATTN_NORM);
-	else if (pistol_ammo_count ==  8) sound (self, CHAN_AUTO, "ammo_rattle.wav", 0.6, ATTN_NORM);	
+	if 	(self.pistol_ammo_count ==  10) sound (self, CHAN_AUTO, "ammo_rattle.wav", 1, ATTN_NORM);
+	else if (self.pistol_ammo_count ==  9) sound (self, CHAN_AUTO, "ammo_rattle.wav", 0.8, ATTN_NORM);
+	else if (self.pistol_ammo_count ==  8) sound (self, CHAN_AUTO, "ammo_rattle.wav", 0.6, ATTN_NORM);	
 	// --------------------------------
 
 	self.weaponframe = 1;
@@ -82,7 +79,7 @@ void() weaponanim_pistol_loop = {
 	if (self.weaponframe == 2) Eject_BulletCasing();
 	
 /*
-	if (pistol_ammo_count >=  10 && self.weaponframe >= 12) {
+	if (self.pistol_ammo_count >=  10 && self.weaponframe >= 12) {
 		
 			weaponanim_reloadpistol(); //auto reload on 10th shot NOT WORKING???
 			return;
@@ -119,7 +116,7 @@ float() weaponanim_reloadpistol = {
 	
 	self.attack_finished = time + 1.25;
 
-	pistol_ammo_count = 0; //RESET ammo
+	self.pistol_ammo_count = 0; //RESET ammo
 	
 	sound (self, CHAN_AUTO, "gun_click.wav", 1, ATTN_NORM);
 
