@@ -199,9 +199,7 @@ void() ImpulseCommands =
 		}
 		// --------------------------------
 	
-	
-		if (time < self.attack_finished) return;
-		
+			
 		ret = W_ChangeSlot(self.impulse);
 		if (ret == WEAPONSTAT_NOAMMO)
 			sprint(self, "not enough ammo.\n");
