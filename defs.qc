@@ -422,7 +422,7 @@ entity liquidbrushfirst;
 .entity prevliquidbrush;
 
 .float liquiddamage_finished;
-.float liquiddamage_take;
+.entity liquiddamage_ent;
 
 .float nextthink1;
 

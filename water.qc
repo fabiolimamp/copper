@@ -2,7 +2,7 @@ float LIQUID_WATER = 0;
 float LIQUID_SLIME = 1;
 float LIQUID_LAVA = 2;
 
-float LIQUIDTYPE_CONVERSION[] = {-3. -4, -5};
+float LIQUIDTYPE_CONVERSION[3] = {-3, -4, -5};
 
 float touchedliquidbrush;
 
@@ -289,11 +289,11 @@ vector() WaterTest =
 	return Vector(min(3,wl),wt,0);
 }
 
-void() monster_watercheck =
+vector() monster_watercheck =
 {
 	// there are hacked takedamage cthons out there, and they're all in the lava
 	if (self.type == "boss")
-		return;
+		return '0 0 0';
 
 	float lvl;
 
@@ -318,8 +318,9 @@ void() monster_watercheck =
 		}
 	}
 
-
-
+	wtt = [wl, wt, 0];
+	//dprint5("Current waterlevel: ", ftos(wl), ", Current watertype: ", ftos(wt), "\n");
+	
 
 	if (wt <= CONTENT_WATER){
 		// swim monsters just "fly underwater" instead of actually swimming
@@ -363,7 +364,7 @@ void() monster_watercheck =
 				self.gravity = 1;
 			}
 		}
-
+		//dprint("Removing immunity\n");
 		self.flags &~= FL_INLIQUIDBRUSH;
 		//self.flags &~= FL_INWATER;
 
@@ -388,11 +389,15 @@ void() monster_watercheck =
 	// mapper, so give them special dispensation to not quietly die before the 
 	// player ever finds them. also, revoke their liquid rights once they leave, so 
 	// they just die instead of staying lost if they fall back in
+	//dprint4("Time: ", ftos(time), ", liquiddamage_finished: ", ftos(self.liquiddamage_finished));
+	//dprint3(", wt: ", ftos(wt), "\n");
 
-	if (time > self.liquiddamage_finished && (wt == CONTENT_LAVA || wt == CONTENT_SLIME)) {
-
-		if (self.customflags & CFL_LIQUID_IMMUNE)
-			return;
+	if (time > self.liquiddamage_finished && (wt == CONTENT_LAVA || wt == CONTENT_SLIME) && wl == 3) {
+		//dprint("In lava, checking\n");
+		if (self.customflags & CFL_LIQUID_IMMUNE){
+			//dprint("Immune!\n");
+			return wtt;
+		}
 
 		if (self.type == "zombie")
 		{
@@ -405,17 +410,21 @@ void() monster_watercheck =
 		else
 		{
 			if (wt == CONTENT_LAVA) {
-				delay_liquiddamage_set(lvl * 10);
+				//dprint5("Setting ", ftos(wl * 10), " lava damage to ", self.classname, "\n");
+
+				delay_liquiddamage_set(wl * 10);
 				self.liquiddamage_finished = time + 0.1;
 			}
 
 			if (wt == CONTENT_SLIME && self.classname != "monster_wizard") {
 				// scrags will happily fly down into slime, and they do spit green shit anyway
-				delay_liquiddamage_set(lvl * 5);
+				delay_liquiddamage_set(wl * 5);
 				self.liquiddamage_finished = time + 0.1;
 			}
 		}
 	}
+
+	return wtt;
 
 }
 
@@ -425,31 +434,31 @@ void() monster_watercheck =
 // Liquid damage is calculated during the endframe loop,
 // so applying it immediately can be dangerous because 
 // there will be a lot of shit going on if the monster gets killed
-void(float dmg) delay_liquiddamage_set = {
-	if (self.think != delay_liquiddamage_apply) {
-		self.think1 = self.think;
-		self.nextthink1 = self.nextthink;
-	}
-	self.liquiddamage_take = dmg;
-	self.think = delay_liquiddamage_apply;
-	self.nextthink = time + 0.001;
+void(float damg) delay_liquiddamage_set = {
+	entity dmgent = spawn();
+	dmgent.owner = self;
+
+	dmgent.dmg = damg;
+	dmgent.think = delay_liquiddamage_apply;
+	dmgent.nextthink = time + 0.001;
+	self.liquiddamage_ent = dmgent;
+
+	//eprint(dmgent);
 }
 
 void() delay_liquiddamage_apply = {	
+	//dprint5("Applying ", ftos(self.dmg), " damage to ", self.owner.classname, "\n");
+	T_Damage(self.owner, world, world, self.dmg);
 
-	// first run the saved think if that's the case,
-	// then deal the damage. So in case it gets killed by the damage,
-	// its think won't run after that
-	if (time >= self.nextthink1) {
-		self.nextthink = self.nextthink1;
-		if (self.think1) self.think1();
-		self.nextthink = 0;
-	}
-	else {
-		self.think = self.think1;
-		self.nextthink = self.nextthink1;
-	}
+	self.owner.liquiddamage_ent = world;
+	remove(self);
+}
 
-	T_Damage(self, world, world, self.liquiddamage_take);
-	self.liquiddamage_take = 0;
+void() delay_liquiddamage_clear = {
+	if (self.liquiddamage_ent.owner != self)
+		return;
+
+	remove(self.liquiddamage_ent);
+	self.liquiddamage_ent = world;
+	self.liquiddamage_finished = 0;
 }

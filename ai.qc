@@ -1430,7 +1430,7 @@ The monster is walking its beat
 void(float dist) ai_walk =
 {
 	//movedist = dist;
-	if (!ai_check_liquid()) return;
+	//if (!ai_check_liquid()) return;
 
 	// check for noticing a player
 	if (FindTarget ())

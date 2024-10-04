@@ -568,11 +568,12 @@ void() monster_start_go =
 
 	// check if the mapper placed them touching a killer liquid and grant them immunity to it
 	// set liquiddamage_finished to a high value so the watercheck won't damage it
-	self.liquiddamage_finished = A_SHITLOAD;
-	monster_watercheck();
-	self.liquiddamage_finished = 0;
+	//self.liquiddamage_finished = A_SHITLOAD;
 
-	if (self.watertype == CONTENT_LAVA || self.watertype == CONTENT_SLIME)
+	vector wtt = monster_watercheck();
+	delay_liquiddamage_clear(); // monster_watercheck sets up delayed damage if the monster is in lava. We don't want to apply that yet
+	dprint2(vtos(wtt),"\n");
+	if (wtt_y == CONTENT_LAVA || wtt_y == CONTENT_SLIME)
 		self.customflags |= CFL_LIQUID_IMMUNE;
 
 
