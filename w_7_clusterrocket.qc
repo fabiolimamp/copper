@@ -286,34 +286,34 @@ void() take_ammo = {
 
 void() weaponanim_boxrocket_loop = {
 
-	if	(self.weaponframe == 3) {
+	if	(self.weaponframe == 2) {
 		W_FireSpiralRocket(2);
 		self.effects = self.effects | EF_MUZZLEFLASH;
 	}
-	if	(self.weaponframe == 5) {
+	if	(self.weaponframe == 4) {
 		take_ammo();
 		W_FireSpiralRocket(3);
 		self.effects = self.effects | EF_MUZZLEFLASH;
 	}
-	if	(self.weaponframe == 7) {
+	if	(self.weaponframe == 6) {
 		W_FireSpiralRocket(4);
 		self.effects = self.effects | EF_MUZZLEFLASH;
 	}
-	if	(self.weaponframe == 9) {
+	if	(self.weaponframe == 8) {
 		take_ammo();
 		W_FireSpiralRocket(5);
 		self.effects = self.effects | EF_MUZZLEFLASH;
 	}
-	if	(self.weaponframe == 11) {
+	if	(self.weaponframe == 10) {
 		W_FireSpiralRocket(6);
 		self.effects = self.effects | EF_MUZZLEFLASH;
 	}
-	if	(self.weaponframe == 13) {
+	if	(self.weaponframe == 12) {
 		take_ammo();
 		W_FireSpiralRocket(7);
 		self.effects = self.effects | EF_MUZZLEFLASH;
 	}
-	if	(self.weaponframe == 15) {
+	if	(self.weaponframe == 14) {
 		W_FireSpiralRocket(8);
 		self.effects = self.effects | EF_MUZZLEFLASH;
 	}
