@@ -79,6 +79,9 @@ void() weaponanim_pistol_loop = {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 void() weaponanim_reloadpistol = {
+	if (self.think == weaponanim_reloadpistol_loop) { 
+		return;
+	}
 	
 	Drop_PistolMag();
 	
