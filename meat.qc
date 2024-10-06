@@ -86,7 +86,8 @@ void(string headmdl, float dm) GibSpray =
 		SUB_Remove();
 		return;
 	}
-		
+	
+	if (headmdl != "NULL")
 	ThrowHead (headmdl, dm);
 }
 

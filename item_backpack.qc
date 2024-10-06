@@ -431,7 +431,7 @@ void() VampGlobeTouch =
 	else
 		sound(other, CHAN_ITEM, "items/vamppickup3.wav", 1, ATTN_NORM);
 
-	T_Heal(other,3,1,0);
+	T_Heal(other,3,1);
 	SUB_Remove();
 }
 

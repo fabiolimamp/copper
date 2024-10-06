@@ -3,11 +3,12 @@
 
 AMALGAM
 Originally from reliq
+by Fairweather
 
 ==============================================================================
 */
 
-$cd id1/models/soldier3
+$cd id1/models/toothy3
 $origin 0 -6 24
 $base base		
 $skin skin
@@ -40,7 +41,7 @@ $frame prowl_17 prowl_18 prowl_19 prowl_20 prowl_21 prowl_22 prowl_23 prowl_24
 
 /*
 ==============================================================================
-SOLDIER CODE
+toothy CODE
 ==============================================================================
 */
 
@@ -54,7 +55,7 @@ void()	amalgam_stand7	=[	$stand7,	amalgam_stand8	] {ai_stand();}
 void()	amalgam_stand8	=[	$stand8,	amalgam_stand1	] {ai_stand();}
 
 void()	amalgam_walk1	=[	$prowl_1,	amalgam_walk2	] {
-if (random() < 0.2)
+if (random() < 0.4)
 	sound (self, CHAN_VOICE, "amalg/amalgidle.wav", 1, ATTN_IDLE);
 ai_walk(1);}
 void()	amalgam_walk2	=[	$prowl_2,	amalgam_walk3	] {ai_walk(1);}
@@ -82,7 +83,7 @@ void()	amalgam_walk23	=[	$prowl_23,	amalgam_walk24	] {ai_walk(1);}
 void()	amalgam_walk24	=[	$prowl_24,	amalgam_walk1	] {ai_walk(1);}
 
 void()	amalgam_run1	=[	$run1,		amalgam_run2	] {
-if (random() < 0.2 && time > self.show_hostile)
+if (random() < 0.4 && time > self.show_hostile)
 	sound (self, CHAN_VOICE, "amalg/amalgidle.wav", 1, ATTN_IDLE);
 ai_run(11);}
 void()	amalgam_run2	=[	$run2,		amalgam_run3	] {ai_run(15);}
@@ -95,10 +96,16 @@ void()	amalgam_run8	=[	$run8,		amalgam_run1	] {ai_run(8);}
 
 void()	amalgam_atk1	=[	$shoot2,	amalgam_atk2	] {ai_face();}
 void()	amalgam_atk2	=[	$shoot3,	amalgam_atk3	] {ai_face();}
-void()	amalgam_atk3	=[	$shoot4,	amalgam_atk4	] {ai_face(); amalgam_fire(); amalgam_fire(); amalgam_fire(); amalgam_fire();}
+void()	amalgam_atk3	=[	$shoot4,	amalgam_atk4	] {ai_face();}
 void()	amalgam_atk4	=[	$shoot5,	amalgam_atk5	] {ai_face();}
 void()	amalgam_atk5	=[	$shoot6,	amalgam_atk6	] {ai_face();}
-void()	amalgam_atk6	=[	$shoot7,	amalgam_run1	] {ai_face();}//ai_check_refire (amalgam_atk3);}
+void()	amalgam_atk6	=[	$shoot7,	amalgam_atk7	] {ai_face();}
+void()	amalgam_atk7	=[	$shoot6,	amalgam_atk8	] {ai_face();}
+void()	amalgam_atk8	=[	$shoot7,	amalgam_atk9	] {ai_face(); amalgam_fire();}
+void()	amalgam_atk9	=[	$shoot6,	amalgam_atk10	] {ai_face(); amalgam_fire(); amalgam_fire();}
+void()	amalgam_atk10	=[	$shoot7,	amalgam_atk11	] {ai_face(); amalgam_fire();}
+void()	amalgam_atk11	=[	$shoot6,	amalgam_atk12	] {ai_face(); amalgam_fire(); amalgam_fire();}
+void()	amalgam_atk12	=[	$shoot7,	amalgam_run1	] {ai_face();}
 
 
 void()	amalgam_pain1	=[	$pain1,		amalgam_pain2	] {}
@@ -127,18 +134,21 @@ void(entity attacker, float damage)	amalgam_pain =
 		if (r >= 0.5)
 		{
 			PainFinished(3);
-			AmalGoop_Spam(3);
+			AmalGoop_Spam(5);
 			amalgam_pain1 ();
-			sound (self, CHAN_VOICE, "amalg/amalgpain1.wav", 1, ATTN_NORM);
 		}
 		else if (r < 0.5)
 		{
 			PainFinished(3);
-			AmalGoop_Spam(3);
+			AmalGoop_Spam(5);
 			amalgam_painb1 ();
-			sound (self, CHAN_VOICE, "amalg/amalgpain2.wav", 1, ATTN_NORM);
 		}
 	}
+
+	if (r >= 0.5)
+		sound (self, CHAN_VOICE, "amalg/amalgpain1.wav", 1, ATTN_NORM);
+	else
+		sound (self, CHAN_VOICE, "amalg/amalgpain2.wav", 1, ATTN_NORM);
 }
 
 void() amalgam_fire =
@@ -159,7 +169,8 @@ void() amalgam_fire =
 	goop.movetype = MOVETYPE_TOSS;
 	goop.classname = "AmalGoop";
 	setmodel (goop, "progs/proj_amalgoop.mdl");
-	setsize (goop, '-8 -8 0', '8 8 16');
+	setsize (goop, '0 0 0', '0 0 0');
+	goop.angles_y = (random() * (random() * 256));
 
 	goop.touch = AmalGoop_Touch;
 	goop.think = SUB_Remove;
@@ -208,30 +219,23 @@ float() AmalgamCheckAttack =
 //=============================================================================
 
 
-void()	amalgam_die1	=[	$death1,	amalgam_die2	] {}
+void()	amalgam_die1	=[	$death1,	amalgam_die2	] {self.movetype = MOVETYPE_NONE;}
 void()	amalgam_die2	=[	$death2,	amalgam_die3	] {}
-void()	amalgam_die3	=[	$death3,	amalgam_die4	]
-{self.solid = SOLID_NOT;}
+void()	amalgam_die3	=[	$death3,	amalgam_die4	] {}
 void()	amalgam_die4	=[	$death4,	amalgam_die5	] {}
-void()	amalgam_die5	=[	$death5,	amalgam_die6	] {}
-void()	amalgam_die6	=[	$death6,	amalgam_die7	] {}
-void()	amalgam_die7	=[	$death7,	amalgam_die8	] {}
-void()	amalgam_die8	=[	$death8,	amalgam_die9	] {}
-void()	amalgam_die9	=[	$death9,	amalgam_die10	] {}
-void()	amalgam_die10	=[	$death10,	SUB_Null	] {}
-
-void()	amalgam_cdie1	=[	$deathc1,	amalgam_cdie2	] {}
-void()	amalgam_cdie2	=[	$deathc2,	amalgam_cdie3	] {ai_back(5);}
-void()	amalgam_cdie3	=[	$deathc3,	amalgam_cdie4	]
-{self.solid = SOLID_NOT;ai_back(4);}
-void()	amalgam_cdie4	=[	$deathc4,	amalgam_cdie5	] {ai_back(13);}
-void()	amalgam_cdie5	=[	$deathc5,	amalgam_cdie6	] {ai_back(3);}
-void()	amalgam_cdie6	=[	$deathc6,	amalgam_cdie7	] {ai_back(4);}
-void()	amalgam_cdie7	=[	$deathc7,	amalgam_cdie8	] {}
-void()	amalgam_cdie8	=[	$deathc8,	amalgam_cdie9	] {}
-void()	amalgam_cdie9	=[	$deathc9,	amalgam_cdie10	] {}
-void()	amalgam_cdie10	=[	$deathc10,	amalgam_cdie11	] {}
-void()	amalgam_cdie11	=[	$deathc11,	SUB_Null	] {}
+void()	amalgam_die5	=[	$death9,	amalgam_die6	] {}
+void()	amalgam_die6	=[	$death10,	amalgam_die7	] {}
+void()	amalgam_die7	=[	$death1,	amalgam_die8	] {}
+void()	amalgam_die8	=[	$death2,	amalgam_die9	] {}
+void()	amalgam_die9	=[	$death3,	amalgam_die10	] {}
+void()	amalgam_die10	=[	$death4,	amalgam_die11	] {}
+void()	amalgam_die11	=[	$death4,	amalgam_die12	] {}
+void()	amalgam_die12	=[	$death5,	amalgam_die13	] {AmalGoop_Spam(1); GibSpray("NULL", -75);}
+void()	amalgam_die13	=[	$death6,	amalgam_die14	] {AmalGoop_Spam(1); }
+void()	amalgam_die14	=[	$death7,	amalgam_die15	] {AmalGoop_Spam(1); }
+void()	amalgam_die15	=[	$death8,	amalgam_die16	] {AmalGoop_Spam(2); }
+void()	amalgam_die16	=[	$death9,	amalgam_die17	] {AmalGoop_Spam(2); GibSpray("NULL", -100);}
+void()	amalgam_die17	=[	$death10,	SUB_Null		] {GoopBlood(1); remove(self);}
 
 void(float drop_count) AmalGoop_Spam =
 {
@@ -252,15 +256,18 @@ void() AmalGoop_Drop =
 	item.origin = self.origin + '0 0 24';
 
 	item.velocity_z = 300 + (random() * 100);
-	item.velocity_x = -150 + (random() * 300);
-	item.velocity_y = -150 + (random() * 300);
+	item.velocity_x = crandom() * 300;
+	item.velocity_y = crandom() * 300;
 	
 	item.flags = FL_ITEM;
 	item.solid = SOLID_TRIGGER;
 	item.movetype = MOVETYPE_TOSS;
 	item.classname = "AmalGoop";
 	setmodel (item, "progs/proj_amalgoop.mdl");
-	setsize (item, '-8 -8 0', '8 8 16');
+	setsize (item, '0 0 0', '0 0 0');
+	item.angles_y = (random() * (random() * 256));
+
+	sound (self, CHAN_WEAPON, "amalg/amalgshoot.wav", .5, ATTN_NORM);
 
 	item.touch = AmalGoop_Touch;
 	item.think = SUB_Remove;
@@ -269,37 +276,69 @@ void() AmalGoop_Drop =
 
 void() AmalGoop_Touch =
 {
+	local float played_tink;
+
+	if (!played_tink) {
+		sound (self, CHAN_BODY, "weapons/tink1.wav", 1, ATTN_STATIC);
+		played_tink = 1;
+	}
+
 	if (!CheckValidTouch()) return;
 	if (other.flags & FL_MONSTER) return;
 	if (self.attack_finished > time) return;
 
-	T_Damage(other, self.owner, self, 5);
+	T_Damage(other, self.owner, self, 8);
 
 	if (random() > .5)
-	sound(self, CHAN_VOICE, "amalg/amalg_goop1.wav", .6, ATTN_NORM);
+		sound(self, CHAN_VOICE, "amalg/amalg_goop1.wav", .6, ATTN_NORM);
 	else
-	sound(self, CHAN_VOICE, "amalg/amalg_goop2.wav", .6, ATTN_NORM);
+		sound(self, CHAN_VOICE, "amalg/amalg_goop2.wav", .6, ATTN_NORM);
 
+	GoopBlood(0);
 	remove(self); //change this to an animation l8r
 }
 
+//this blood sprite stuff is by Kebby
+//thanks Kebby! - fw
+void(float forcebig) GoopBlood =
+{
+	entity spark = spawn();
+	spark.think = x_blood_01;
+	spark.touch = SUB_Null;
+	spark.nextthink = time;
+
+	if ((random() < .3) || (forcebig == 1))
+		setmodel (spark, "progs/s_blood_128x.spr");
+	else if (random() < .5)
+		setmodel (spark, "progs/s_blood_96x.spr");
+	else
+		setmodel (spark, "progs/s_blood_64x.spr");
+
+	setorigin (spark, self.origin + '0 0 16');
+}
+void() x_blood_01 = {                 snt(0.025); self.think = x_blood_02;};
+void() x_blood_02 = {self.frame += 1; snt(0.025); self.think = x_blood_03;};
+void() x_blood_03 = {self.frame += 1; snt(0.025); self.think = x_blood_04;};
+void() x_blood_04 = {self.frame += 1; snt(0.025); self.think = x_blood_05;};
+void() x_blood_05 = {self.frame += 1; snt(0.025); self.think = x_blood_06;};
+void() x_blood_06 = {self.frame += 1; snt(0.05); self.think = x_blood_07;};
+void() x_blood_07 = {self.frame += 1; snt(0.05); self.think = x_blood_08;};
+void() x_blood_08 = {self.frame += 1; snt(0.05); self.think = x_blood_09;};
+void() x_blood_09 = {self.frame += 1; snt(0.05); self.think = x_blood_10;};
+void() x_blood_10 = {self.frame += 1; snt(0.05); self.think = x_blood_11;};
+void() x_blood_11 = {self.frame += 1; snt(0.05); self.think = x_blood_12;};
+void() x_blood_12 = {self.frame += 1; snt(0.05); self.think = x_blood_13;};
+void() x_blood_13 = {self.frame += 1; snt(0.05); self.think = x_blood_14;};
+void() x_blood_14 = {self.frame += 1; snt(0.05); self.think = x_blood_15;};
+void() x_blood_15 = {self.frame += 1; snt(0.05); self.think = SUB_Remove;};
+
+void(float float_think) snt = {self.nextthink = time + float_think;};		//	snt();
+//the keb stops here!
 
 void() amalgam_die =
 {
-	 
-// check for gib
-	if (self.health < -80)
-	{
-		Gib("progs/h_guard.mdl", self.health);
-		return;
-	}
-
-// regular death
 	sound (self, CHAN_VOICE, "amalg/amalgdeath.wav", 1, ATTN_NORM);
-	if (random() < 0.5)
-		amalgam_die1 ();
-	else
-		amalgam_cdie1 ();
+	amalgam_die1 ();
 }
 
 void() monster_amalgam_spawn =
@@ -309,9 +348,9 @@ void() monster_amalgam_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/soldier.mdl");
+	setmodel (self, "progs/toothy.mdl");
 
-	setsize (self, VEC_HULL2_MIN, '32 32 40');
+	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
 	self.health = 400;
 
 	self.th_stand = amalgam_stand1;
@@ -347,7 +386,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier.mdl" }) = monster_amalgam : "Amalgam" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/toothy.mdl" }) = monster_amalgam : "Amalgam" []
 */
 void() monster_amalgam =
 {	
@@ -358,7 +397,7 @@ void() monster_amalgam =
 		remove(self);
 		return;
 	}
-	precache_model ("progs/soldier.mdl");
+	precache_model ("progs/toothy.mdl");
 	precache_model ("progs/h_guard.mdl");
 	precache_model ("progs/gib1.mdl");
 	precache_model ("progs/gib2.mdl");
@@ -375,10 +414,12 @@ void() monster_amalgam =
 	precache_sound ("amalg/amalgshoot.wav");
 	precache_sound ("amalg/amalgsight.wav");
 
-	precache_sound ("player/udeath.wav");		// gib death
+	precache_model ("progs/s_blood_128x.spr");
+	precache_model ("progs/s_blood_96x.spr");
+	precache_model ("progs/s_blood_64x.spr");
 	self.health = 400;
 
-	setsize (self, VEC_HULL2_MIN, '32 32 40');
+	setsize (self, '-32 -32 -32', '32 32 72');
 	if ( monster_spawnsetup( monster_amalgam_spawner ) ) return;
 	
 	addmonster(1);
