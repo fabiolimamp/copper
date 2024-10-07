@@ -87,7 +87,7 @@ void() weaponanim_reloadpistol = {
 	
 	self.pistol_lastreload_time = time;
 
-	self.nextthink1 = time + 1.25;
+	self.nextthink1 = time + 1.5;
 	
 	sound (self, CHAN_AUTO, "gun_click.wav", 1, ATTN_NORM);
 
@@ -107,7 +107,7 @@ void() weaponanim_reloadpistol_loop = {
 	//if (self.weaponframe == 37) sound (self, CHAN_AUTO, "pistol_reload.wav", 1, ATTN_NORM);		
 	if (self.weaponframe == 37) sound (self, CHAN_AUTO, "deadlock_reload.wav", 1, ATTN_NORM);		
 	
-	//if (self.weaponframe >= 49)	self.pistol_ammo_count = 0; //RESET ammo
+	if (self.weaponframe >= 49)	self.pistol_ammo_count = 0; //RESET ammo
 	//if (time >= self.attack_finished - 0.05) self.pistol_ammo_count = 0; //RESET ammo
 
 	if (self.weaponframe >= 54) {
