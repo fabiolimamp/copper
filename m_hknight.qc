@@ -147,10 +147,10 @@ void()	hknight_pain7	=[	$stand5,	hknight_run1	] {}
 
 //============================================================================
 
-void()	hknight_die1	=[	$death1,	hknight_die2	] {ai_forward(10);}
-void()	hknight_die2	=[	$death2,	hknight_die3	] {ai_forward(8);}
+void()	hknight_die1	=[	$death1,	hknight_die2	] {if (hknight_checkgib()) return; ai_forward(10);}
+void()	hknight_die2	=[	$death2,	hknight_die3	] {if (hknight_checkgib()) return; ai_forward(8);}
 void()	hknight_die3	=[	$death3,	hknight_die4	]
-{self.solid = SOLID_NOT; ai_forward(7);}
+{if (hknight_checkgib()) return; self.solid = SOLID_NOT; self.takedamage = DAMAGE_NO; ai_forward(7);}
 void()	hknight_die4	=[	$death4,	hknight_die5	] {}
 void()	hknight_die5	=[	$death5,	hknight_die6	] {}
 void()	hknight_die6	=[	$death6,	hknight_die7	] {}
@@ -172,14 +172,21 @@ void()	hknight_dieb7	=[	$deathb7,	hknight_dieb8	] {}
 void()	hknight_dieb8	=[	$deathb8,	hknight_dieb9	] {}
 void()	hknight_dieb9	=[	$deathb9,	SUB_Null	] {}
 
-void() hknight_die =
+float() hknight_checkgib =
 {
-// check for gib
 	if (self.health < -40)
 	{
 		Gib ("progs/h_hellkn.mdl", self.health);
-		return;
+		return TRUE;
 	}
+	return FALSE;
+
+}
+
+void() hknight_die =
+{
+// check for gib
+	if (hknight_checkgib()) return;
 
 // regular death
 	sound (self, CHAN_VOICE, "hknight/death1.wav", 1, ATTN_NORM);

@@ -90,8 +90,8 @@ void() shal_pain3       =[      $pain3, shal_pain4      ] {}
 void() shal_pain4       =[      $pain4, shal_pain5      ] {}
 void() shal_pain5       =[      $pain5, shal_run1      ] {}
 
-void() shal_death1      =[      $death1,        shal_death2     ] {}
-void() shal_death2      =[      $death2,        shal_death3     ] {self.solid = SOLID_NOT;}
+void() shal_death1      =[      $death1,        shal_death2     ] {if (shalrath_checkgib()) return;}
+void() shal_death2      =[      $death2,        shal_death3     ] {if (shalrath_checkgib()) return; self.takedamage = DAMAGE_NO; self.solid = SOLID_NOT;}
 void() shal_death3      =[      $death3,        shal_death4     ] {}
 void() shal_death4      =[      $death4,        shal_death5     ] {}
 void() shal_death5      =[      $death5,        shal_death6     ] {}
@@ -110,14 +110,21 @@ void( entity attacker, float damage ) shalrath_pain =
 	PainFinished(3);
 }
 
-void() shalrath_die =
+
+float() shalrath_checkgib =
 {
-// check for gib
 	if (self.health < -90)
 	{
 		Gib ("progs/h_shal.mdl", self.health);
-		return;
+		return TRUE;
 	}
+	return FALSE;
+}
+
+void() shalrath_die =
+{
+// check for gib
+	if (shalrath_checkgib()) return;
 
 	sound (self, CHAN_VOICE, "shalrath/death.wav", 1, ATTN_NORM);
 	shal_death1();

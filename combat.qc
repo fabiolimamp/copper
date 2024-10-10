@@ -26,7 +26,7 @@ void(entity targ, entity attacker, float dmgtype) Killed =
 	oself = self;
 	self = targ;
 	
-	if (self.health < -99)
+	if (self.health < -99 && self.classname == "player")
 		self.health = -99;		// don't let sbar look bad
 
 	if (self.movetype == MOVETYPE_PUSH || // doors, triggers, etc
@@ -46,7 +46,10 @@ void(entity targ, entity attacker, float dmgtype) Killed =
 	
 	self.enemy = attacker;
 	self.deadflag = DEAD_DYING;
-	self.takedamage = DAMAGE_NO;
+
+	if (!(self.flags & FL_MONSTER))
+		self.takedamage = DAMAGE_NO;
+
 	self.touch = SUB_Null;
 
 	if (coop && attacker.classname == "player")
@@ -521,19 +524,33 @@ void(entity targ, entity inflictor, entity attacker, float damage, float dmgtype
 	{
 		targ.dmg_take = targ.dmg_take + take;
 		targ.dmg_save = targ.dmg_save + save;
-		targ.dmg_inflictor = inflictor;
 	}
+	
+	// store inflictor data for possible gib velocity calculation
+	targ.dmg_inflictor = inflictor;
+
+	targ.inflictor_origin = inflictor.origin;
+	targ.inflictor_movetype = inflictor.movetype;
+	targ.inflictor_vel = inflictor.velocity;
 
 	// do the damage
 	
 	//bprint3("doing ", ftos(take), " damage\n");
 	targ.health = ceil(targ.health - take);	// be an integer dammit
 	
-	if (targ.health <= 0)
+	// already dying, so just accumulate damage for a gib check
+	if (targ.health <= 0 && targ.deadflag == DEAD_DYING)
 	{
+		targ.dmgtype_death = dmgtype;
+		return;
+	}
+	else if (targ.health <= 0)
+	{
+		targ.dmgtype_death = dmgtype;
 		Killed (targ, attacker, dmgtype);
 		return;
 	}
+
 
 	// react to the damage
 	oldself = self;

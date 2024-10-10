@@ -412,6 +412,7 @@ void(float float_think) snt = {self.nextthink = time + float_think;};		//	snt();
 void() amalgam_die =
 {
 	sound (self, CHAN_VOICE, "amalg/amalgdeath.wav", 1, ATTN_NORM);
+	self.takedamage = DAMAGE_NO;
 	amalgam_die1 ();
 }
 

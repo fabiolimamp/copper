@@ -245,7 +245,7 @@ float() projectile_valid_passthru =
 		return TRUE;
 	}
 	
-	if (other.deadflag == DEAD_DYING || // corpses not yet on the ground
+	if (//other.deadflag == DEAD_DYING || // corpses not yet on the ground
 		other.notrace  || 				// specially marked (monsterclip)
 		invis_miss_check(other,self.origin,self.velocity) || 
 		other.movetype == MOVETYPE_NOCLIP || // ignore noclipping players

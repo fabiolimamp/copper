@@ -137,9 +137,10 @@ void(entity attacker, float damage)	demon1_pain =
 }
 
 void()	demon1_die1		=[	$death1,		demon1_die2	] {
+if (demon_checkgib()) return;
 sound (self, CHAN_VOICE, "demon/ddeath.wav", 1, ATTN_NORM);}
-void()	demon1_die2		=[	$death2,		demon1_die3	] {}
-void()	demon1_die3		=[	$death3,		demon1_die4	] {}
+void()	demon1_die2		=[	$death2,		demon1_die3	] {if (demon_checkgib()) return;}
+void()	demon1_die3		=[	$death3,		demon1_die4	] {if (demon_checkgib()) return;self.takedamage = DAMAGE_NO;}
 void()	demon1_die4		=[	$death4,		demon1_die5	] {self.solid = SOLID_NOT;}
 void()	demon1_die5		=[	$death5,		demon1_die6	] {}
 void()	demon1_die6		=[	$death6,		demon1_die7	] {}
@@ -149,14 +150,20 @@ void()	demon1_die9		=[	$death9,		SUB_Null ] {}
 
 void() demon_die =
 {
-	if (self.health < -80)
-	{
-		Gib ("progs/h_demon.mdl", self.health);
-		return;
-	}
+	if (demon_checkgib()) return;
+
 	demon1_die1 ();
 }
 
+float() demon_checkgib =
+{
+	if (self.health < -80)
+	{
+		Gib ("progs/h_demon.mdl", self.health);
+		return TRUE;
+	}
+	return FALSE;
+}
 
 //============================================================================
 

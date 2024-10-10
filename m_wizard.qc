@@ -300,15 +300,15 @@ void()	wiz_pain2	=[	$pain2,		wiz_pain3	] {ai_nop();}
 void()	wiz_pain3	=[	$pain3,		wiz_pain4	] {ai_nop();}
 void()	wiz_pain4	=[	$pain4,		wiz_run1	] {ai_nop();}
 
-void()	wiz_death1	=[	$death1,		wiz_death2	] {
+void()	wiz_death1	=[	$death1,		wiz_death2	] {if (wiz_checkgib()) return;
 	self.velocity_x = -200 + 400*random();
 	self.velocity_y = -200 + 400*random();
 	self.velocity_z = 100 + 100*random();
 	self.flags = not(self.flags, FL_ONGROUND);
 	sound (self, CHAN_VOICE, "wizard/wdeath.wav", 1, ATTN_NORM);
 }
-void()	wiz_death2	=[	$death2,		wiz_death3	] {}
-void()	wiz_death3	=[	$death3,		wiz_death4	] {self.solid = SOLID_NOT; self.flags = not(self.flags, FL_ONGROUND);}
+void()	wiz_death2	=[	$death2,		wiz_death3	] {if (wiz_checkgib()) return;}
+void()	wiz_death3	=[	$death3,		wiz_death4	] {if (wiz_checkgib()) return; self.takedamage = DAMAGE_NO; self.solid = SOLID_NOT; self.flags = not(self.flags, FL_ONGROUND);}
 void()	wiz_death4	=[	$death4,		wiz_death5	] {}
 void()	wiz_death5	=[	$death5,		wiz_death6	] {}
 // would be nice to hold on frame 6 until the plunk, but SOLID_NOT things don't generate touch events
@@ -317,14 +317,20 @@ void()	wiz_death6	=[	$death6,		wiz_death7	] {}
 void()	wiz_death7	=[	$death7,		wiz_death8	] {}
 void()	wiz_death8	=[	$death8,		SUB_Null	] {}// deathvoidcheck(); }
 
-void() wiz_die =
+float() wiz_checkgib =
 {
-// check for gib
 	if (self.health < -40)
 	{
 		Gib ("progs/h_wizard.mdl", self.health);
-		return;
+		return TRUE;
 	}
+	return FALSE;
+}
+
+void() wiz_die =
+{
+// check for gib
+	if (wiz_checkgib()) return;
 
 	wiz_death1 ();
 }

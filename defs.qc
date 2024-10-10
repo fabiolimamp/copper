@@ -389,6 +389,11 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .entity		multidmg_chain;	// moved from combat.qc - for multidmg	
 .float		multi_dmg;
 
+.vector 	inflictor_origin;
+.float 		inflictor_movetype;
+.vector 	inflictor_vel;
+.float		dmgtype_death;
+
 .string		type;			// to make find()ing easier, and for tons of useful misc. classification
 .entity		buddy;			// a common entity reference without the specific implications of 'owner' or 'enemy'
 .float		strength;
