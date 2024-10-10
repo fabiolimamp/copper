@@ -80,7 +80,7 @@ void() W_FireFlakShotgun =
 	//RANDOM SPREAD
 	//Define_Flak_Spread(10, dir, '300 80 0');
 	
-	Define_Flak_Spread(14, dir, '350 60 0'); //14 pellets x 8 dmg = 112 total (4 dmg on second enemy cleaved)
+	Define_Flak_Spread(16, dir, '250 60 0'); //14 pellets x 8 dmg = 112 total (4 dmg on second enemy cleaved)
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -165,7 +165,8 @@ void() FlakTouch =
 			particle (self.origin, self.velocity*0.1, 73, 40);
 
 			sound_flakshotgun_impact();
-			projectile_passthru();
+			remove(self);
+			//projectile_passthru();
 			return;
 	}
 	if (!other.takedamage)	//do not get stuck on wall, remove with temp effect
@@ -201,7 +202,7 @@ void() FlakTouch_Bounce_1 =
 		self.dmg = 4; //to reduce cleave damage
 		particle (self.origin, self.velocity*0.1, 73, 40);
 		sound_flakshotgun_impact();
-		projectile_passthru();
+		//projectile_passthru();
 		return;
 	}
 	if (!other.takedamage)	//do not get stuck on wall, remove with temp effect
