@@ -49,7 +49,7 @@ void() weaponanim_flakshotgun_loop = {
 	if (self.weaponframe == 10) sound (self, CHAN_AUTO, "pump_reload.wav", 0.5, ATTN_NORM); //extra pump sfx
 	
 	
-	if (self.weaponframe >= 23) {
+	if (self.weaponframe >= 22) {
 		self.weaponframe = 0;
 		return;
 	}
@@ -62,73 +62,37 @@ void() weaponanim_flakshotgun_loop = {
 
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=====================================================================================================================
 
 void() W_FireFlakShotgun =
 {
-	sound (self, CHAN_WEAPON, "shotgun3.wav", 1, ATTN_NORM);
+	sound(self, CHAN_WEAPON, "shotgun3.wav", 1, ATTN_NORM);
 	sound_flakshotgun_fire();
 	
+	makevectors(self.v_angle);
 	
-	local vector dir;
-	dir = v_forward;
-	
-	self.velocity = self.velocity + (dir * -50) + '0 0 25';	// Knockback: Aim down, jump + shoot = 64 units (crate height)
+	self.velocity = self.velocity + (v_forward * -50) + '0 0 25';	// Knockback: Aim down, jump + shoot = 64 units (crate height)
 	
 	self.punchangle_x = -4;
 	
 	//RANDOM SPREAD
-	//Define_Flak_Spread(10, dir, '300 80 0');
 	
-	Define_Flak_Spread(16, dir, '250 60 0'); //14 pellets x 8 dmg = 112 total (4 dmg on second enemy cleaved)
-}
-////////////////////////////////////////////////////////////////////////////////////////////////
+	float shotcount = 16;
+	vector spread = '250 60 0';
+	vector view_origin = self.origin + self.view_ofs + v_forward*12 - v_up*4; //+ v_right* 8;
 
-void(float shotcount, vector dir, vector spread) Define_Flak_Spread =
-{
-	entity m;
 	vector mvel;
-	local vector	view_origin;
-
-	makevectors (self.v_angle);
-	
-	view_origin = ((self.origin + self.view_ofs) + v_forward* 12 + v_up* -4); //+ v_right* 8;
-
-	ClearMultiDamage ();
 	while (shotcount > 0)
 	{		
 		//RANDOM SPREAD
 		mvel = (v_forward * 2000) + (v_up * 100) + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
-		
-
-		//FIXED PATTERN
-		/*
-		if 	(shotcount == 10)	mvel = (v_forward * 2000) + (v_up * 100) + 300*v_right + crandom()*spread_y*v_up;
-		else if (shotcount ==  9)	mvel = (v_forward * 2000) + (v_up * 100) + 233*v_right + crandom()*spread_y*v_up;
-		else if (shotcount ==  8)	mvel = (v_forward * 2000) + (v_up * 100) + 166*v_right + crandom()*spread_y*v_up;
-		else if (shotcount ==  7)	mvel = (v_forward * 2000) + (v_up * 100) +  99*v_right + crandom()*spread_y*v_up;
-		else if (shotcount ==  6)	mvel = (v_forward * 2000) + (v_up * 100) +  33*v_right + crandom()*spread_y*v_up;
-		
-		else if (shotcount ==  5)	mvel = (v_forward * 2000) + (v_up * 100) + - 33*v_right + crandom()*spread_y*v_up;
-		else if (shotcount ==  4)	mvel = (v_forward * 2000) + (v_up * 100) + - 99*v_right + crandom()*spread_y*v_up;
-		else if (shotcount ==  3)	mvel = (v_forward * 2000) + (v_up * 100) + -166*v_right + crandom()*spread_y*v_up;
-		else if (shotcount ==  2)	mvel = (v_forward * 2000) + (v_up * 100) + -233*v_right + crandom()*spread_y*v_up;
-		else if (shotcount ==  1)	mvel = (v_forward * 2000) + (v_up * 100) + -300*v_right + crandom()*spread_y*v_up;
-		*/
-		
-		m = Launch_Flak(view_origin, mvel);
-		m.gravity = .5;
-		m.think = FlakThink;
-		m.touch = FlakTouch;
-		m.th_die = SUB_Remove;
-		m.buddy = self;		
-		
+		Launch_Flak(view_origin, mvel);
 		shotcount = shotcount - 1;
 	}
-	ApplyMultiDamage ();
-	
+
 }
-//=============================================================================================
+
+//=====================================================================================================================
 
 entity(vector org, vector vel) Launch_Flak =
 {
@@ -137,11 +101,18 @@ entity(vector org, vector vel) Launch_Flak =
 	flak = toss_projectile(org, vel, "impaler");
 	flak.lifetime_finished = time + 1.1;
 	flak.dmg = 8;
+	flak.gravity = .5;
+	flak.think = FlakThink;
+	flak.touch = FlakTouch;
+	flak.th_die = SUB_Remove;
+	flak.owner = self;
 
 	SUB_ChangeModel (flak, "progs/pellet.mdl");
 
 	return flak;
 }
+
+//=====================================================================================================================
 
 void() FlakThink =
 {
@@ -150,43 +121,37 @@ void() FlakThink =
 	self.oldvelocity = self.velocity;
 	self.nextthink = time + 0.05;
 }
-//=============================================================================================
 
 void() FlakTouch =
 {
-	if (other == self.owner ) return;		// don't touch owner
+	//if (other == self.owner ) return;		// don't touch owner
 	//if (CheckProjectilePassthru()) return;
-	
-	if ((other.takedamage == DAMAGE_AIM) || (other.takedamage == DAMAGE_YES))
-	{
-			T_Damage(other,self.buddy,self.buddy,self.dmg); //10x10 20x5 15x7
-			//dprint3("Dealing damage, health ", ftos(other.health), "\n");
-			self.dmg = 3; //to reduce cleave damage
-			particle (self.origin, self.velocity*0.1, 73, 40);
 
-			sound_flakshotgun_impact();
-			remove(self);
-			//projectile_passthru();
-			return;
-	}
-	if (!other.takedamage)	//do not get stuck on wall, remove with temp effect
-	{
-		//sound (self, CHAN_WEAPON, "weapons/bounce.wav", 1, ATTN_NORM);
-	
-		float chance = random();
 
-		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "weapons/ric1.wav", 0.25, ATTN_NORM);
-		else if (chance < 0.5)	sound (self, CHAN_AUTO, "weapons/ric2.wav", 0.25, ATTN_NORM);
-		else			sound (self, CHAN_AUTO, "weapons/ric3.wav", 0.25, ATTN_NORM);
-				
-		self.dmg = 3;
-		self.touch = FlakTouch_Bounce_1;
+
+	if (other.takedamage)
+	{
+		T_Damage(other, self.owner, self.owner, self.dmg); //10x10 20x5 15x7
+		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
+		self.dmg = 3; //to reduce cleave damage
+		particle (self.origin, self.velocity*0.1, 73, 40);
+
+		sound_flakshotgun_impact();
+
+		if (other.health <= 0) projectile_passthru();
+		else remove(self);
+		
+		return;
 	}
+
+	self.dmg = 3;
+	self.touch = FlakTouch_Bounce_1;
 	
-	// nonsense for combining quad SNG spike damage
-	if (self.buddy)	self.buddy.dmg = 0;
-	
-	//remove(self);
+	float chance = random();
+
+	if (chance < 0.33) sound(self, CHAN_AUTO, "weapons/ric1.wav", 0.25, ATTN_NORM);
+	else if (chance < 0.5) sound(self, CHAN_AUTO, "weapons/ric2.wav", 0.25, ATTN_NORM);
+	else sound(self, CHAN_AUTO, "weapons/ric3.wav", 0.25, ATTN_NORM);
 }
 //=============================================================================================
 
@@ -197,37 +162,15 @@ void() FlakTouch_Bounce_1 =
 
 	if ((other.takedamage == DAMAGE_AIM) || (other.takedamage == DAMAGE_YES))
 	{
-		T_Damage(other,self.buddy,self.buddy,self.dmg); //10x10 20x5 15x7
-		//dprint3("Dealing bounce damage, health ", ftos(other.health), "\n");
-		self.dmg = 4; //to reduce cleave damage
-		particle (self.origin, self.velocity*0.1, 73, 40);
+		T_Damage(other, self.owner, self.owner, self.dmg); //10x10 20x5 15x7
+		particle(self.origin, self.velocity*0.1, 73, 40);
 		sound_flakshotgun_impact();
 		//projectile_passthru();
-		return;
 	}
-	if (!other.takedamage)	//do not get stuck on wall, remove with temp effect
-	{
-		/*
-		self.velocity = '0 0 0';
-		T_MissileExplode();
-		BecomeExplosion();
-		return;
-		*/
-		
-		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-		WriteByte (MSG_BROADCAST, TE_SPIKE);
-		WriteCoord (MSG_BROADCAST, self.origin_x);
-		WriteCoord (MSG_BROADCAST, self.origin_y);
-		WriteCoord (MSG_BROADCAST, self.origin_z);
-		
-		remove(self);
-	}
-	
-	
-	// nonsense for combining quad SNG spike damage
-	if (self.buddy)	self.buddy.dmg = 0;
-	
-	//remove(self);
+	else
+		gunshot(self.origin);
+
+	remove(self);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
