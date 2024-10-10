@@ -17,13 +17,73 @@ vector(float dm) GibVelocityForHealth =
 	vector v;
 	float voom;
 	
-	v_x = 150 * crandom();
-	v_y = 150 * crandom();
-	v_z = 150 + 150 * random();
+	v_x = 100 * crandom();
+	v_y = 100 * crandom();
+	v_z = 100 + 100 * random();
 
 	voom = max(1, min(10, dm * dm / 5000));
 	
 	return v * voom;
+}
+
+vector(entity emitter, float dm) GibVelocityFromInflictor = {
+	if (!emitter.dmg_inflictor || emitter.dmg_inflictor == emitter)
+		return '0 0 0'; 
+
+	float pwr = clamp(dm * dm / 22, 10, 800);
+	
+	vector addvel = normalize(emitter.origin - emitter.inflictor_origin) * pwr;
+
+
+	addvel_z *= 0.7;
+
+	// explosions get a little more speed
+	if (emitter.dmgtype_death == DMGTYPE_EXPLOSION) {
+		addvel_x *= 3;
+		addvel_y *= 3;
+	}
+	else {
+		addvel_x *= 2.2;
+		addvel_y *= 2.2;
+	}
+
+	// Add a bit of velocity from the projectile itself.
+	// For a more dramatic effect with high-speed and relatively
+	// low damage projectiles that still may gib under quad,
+	// like the SNG and the Plasma Gun.
+	if (emitter.inflictor_movetype == MOVETYPE_FLYMISSILE && emitter.inflictor_vel != '0 0 0') {
+		float projlinvel = vlen(emitter.inflictor_vel);
+		addvel += emitter.inflictor_vel * min(projlinvel, 180)/projlinvel;
+	}
+
+	return addvel;
+}
+
+vector(vector vel) capGibVelocity = {
+	float linvel = vlen(vel);
+
+	// limit linear speed
+	if (linvel > 550) {
+		vel *= 550 / linvel;
+	}
+
+	// cap Z speed so gibs won't go flying too crazily up in the air
+	vel_z = min(500, vel_z);
+
+	return vel;
+}
+
+vector(entity emitter, float dm) GibVelocityComplete = {
+	vector vel;
+
+	vel = GibVelocityForHealth(dm);
+
+	if (emitter)
+		vel += GibVelocityFromInflictor(emitter, dm);
+
+	vel = capGibVelocity(vel);
+
+	return vel;
 }
 
 entity(string gibname, vector vel) ThrowGib =
@@ -66,7 +126,11 @@ void(string gibname, float dm) ThrowHead =
 	self.solid = SOLID_NOT;
 	self.view_ofs = '0 0 8';
 	setsize (self, '-16 -16 0', '16 16 56');
+
 	self.velocity += GibVelocityForHealth(dm);
+	self.velocity += GibVelocityFromInflictor(self, dm);
+	self.velocity = capGibVelocity(self.velocity);
+
 	self.origin_z = self.origin_z - 24;
 	self.flags = self.flags - (self.flags & FL_ONGROUND);
 	self.type = "head";
@@ -77,9 +141,9 @@ void(string gibname, float dm) ThrowHead =
 // Gib & GibSpray are split up since some monsters play special gib sounds (zombies/players)
 void(string headmdl, float dm) GibSpray =
 {
-	ThrowGib ("progs/gib1.mdl", GibVelocityForHealth(dm));
-	ThrowGib ("progs/gib2.mdl", GibVelocityForHealth(dm));
-	ThrowGib ("progs/gib3.mdl", GibVelocityForHealth(dm));
+	ThrowGib ("progs/gib1.mdl", GibVelocityComplete(self, dm));
+	ThrowGib ("progs/gib2.mdl", GibVelocityComplete(self, dm));
+	ThrowGib ("progs/gib3.mdl", GibVelocityComplete(self, dm));
 	
 	if (self.classname != "player" && damage_attacker.classname == "func_void" )
 	{

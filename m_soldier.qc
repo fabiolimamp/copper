@@ -246,10 +246,11 @@ float() SoldierCheckAttack =
 //=============================================================================
 
 
-void()	army_die1	=[	$death1,	army_die2	] {}
-void()	army_die2	=[	$death2,	army_die3	] {}
+void()	army_die1	=[	$death1,	army_die2	] {army_checkgib();}
+void()	army_die2	=[	$death2,	army_die3	] {army_checkgib();}
 void()	army_die3	=[	$death3,	army_die4	]
-{self.solid = SOLID_NOT;self.ammo_shells = 4;DropBackpack();} //FlakTax
+{if (army_checkgib()) return;
+self.solid = SOLID_NOT;self.takedamage = DAMAGE_NO; self.ammo_shells = 4;DropBackpack();} //FlakTax
 void()	army_die4	=[	$death4,	army_die5	] {}
 void()	army_die5	=[	$death5,	army_die6	] {}
 void()	army_die6	=[	$death6,	army_die7	] {}
@@ -271,17 +272,23 @@ void()	army_cdie9	=[	$deathc9,	army_cdie10	] {}
 void()	army_cdie10	=[	$deathc10,	army_cdie11	] {}
 void()	army_cdie11	=[	$deathc11,	SUB_Null	] {}
 
-
-void() army_die =
-{
-// check for gib
+float() army_checkgib =
+{	
 	if (self.health < -35)
 	{
 		Gib("progs/h_guard.mdl", self.health);
 		self.ammo_shells = 4; //FlakTax
 		DropBackpack();
-		return;
+		return TRUE;
 	}
+	return FALSE;
+}
+
+void() army_die =
+{
+// check for gib
+	if (army_checkgib())
+		return;
 
 // regular death
 	sound (self, CHAN_VOICE, "soldier/death1.wav", 1, ATTN_NORM);

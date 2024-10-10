@@ -403,10 +403,11 @@ void(entity attacker, float damage)	ogre_pain =
 		ogre_paind1 ();	// longest
 }
 
-void()	ogre_die1	=[	$death1,	ogre_die2	] {}
-void()	ogre_die2	=[	$death2,	ogre_die3	] {}
-void()	ogre_die3	=[	$death3,	ogre_die4	] {
+void()	ogre_die1	=[	$death1,	ogre_die2	] {if (ogre_checkgib()) return;}
+void()	ogre_die2	=[	$death2,	ogre_die3	] {if (ogre_checkgib()) return;}
+void()	ogre_die3	=[	$death3,	ogre_die4	] {if (ogre_checkgib()) return;
 	self.solid = SOLID_NOT;
+	self.takedamage = DAMAGE_NO;
 	ogre_dropammo();
 }
 void()	ogre_die4	=[	$death4,	ogre_die5	] {}
@@ -435,15 +436,22 @@ void()	ogre_bdie8	=[	$bdeath8,	ogre_bdie9	] {}
 void()	ogre_bdie9	=[	$bdeath9,	ogre_bdie10	] {}
 void()	ogre_bdie10	=[	$bdeath10,	SUB_Null	] {}
 
-void() ogre_die =
+float() ogre_checkgib = 
 {
-// check for gib
 	if (self.health < -80)
 	{
 		Gib ("progs/h_ogre.mdl", self.health);
 		ogre_dropammo();
-		return;
+		return TRUE;
 	}
+	return FALSE;
+}
+
+void() ogre_die =
+{
+// check for gib
+	if (ogre_checkgib()) return;
+	
 
 	sound (self, CHAN_VOICE, "ogre/ogdth.wav", 1, ATTN_NORM);
 	

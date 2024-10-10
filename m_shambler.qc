@@ -407,10 +407,10 @@ float() ShamCheckAttack =
 
 //============================================================================
 
-void() sham_death1      =[      $death1,       sham_death2     ] {}
-void() sham_death2      =[      $death2,       sham_death3     ] {}
-void() sham_death3      =[      $death3,       sham_death4     ] {}
-void() sham_death4      =[      $death4,       sham_death5     ] {self.solid = SOLID_NOT;}
+void() sham_death1      =[      $death1,       sham_death2     ] {if (sham_checkgib()) return;}
+void() sham_death2      =[      $death2,       sham_death3     ] {if (sham_checkgib()) return;}
+void() sham_death3      =[      $death3,       sham_death4     ] {if (sham_checkgib()) return;}
+void() sham_death4      =[      $death4,       sham_death5     ] {if (sham_checkgib()) return; self.takedamage = DAMAGE_NO; self.solid = SOLID_NOT;}
 void() sham_death5      =[      $death5,       sham_death6     ] {}
 void() sham_death6      =[      $death6,       sham_death7     ] {}
 void() sham_death7      =[      $death7,       sham_death8     ] {}
@@ -419,14 +419,20 @@ void() sham_death9      =[      $death9,       sham_death10    ] {}
 void() sham_death10     =[      $death10,      sham_death11    ] {}
 void() sham_death11     =[      $death11,      SUB_Null    ] {}
 
-void() sham_die =
-{
-// check for gib
+float() sham_checkgib =
+{	
 	if (self.health < -60)
 	{
 		Gib ("progs/h_shams.mdl", self.health);
-		return;
+		return TRUE;
 	}
+	return FALSE;
+}
+
+void() sham_die =
+{
+// check for gib
+	if (sham_checkgib()) return;
 
 // regular death
 	sound (self, CHAN_VOICE, "shambler/sdeath.wav", 1, ATTN_NORM);

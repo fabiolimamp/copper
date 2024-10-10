@@ -262,9 +262,10 @@ void(entity attacker, float damage)	enf_pain =
 
 
 
-void()	enf_die1	=[	$death1,	enf_die2	] {}
-void()	enf_die2	=[	$death2,	enf_die3	] {}
-void()	enf_die3	=[	$death3,	enf_die4	] {
+void()	enf_die1	=[	$death1,	enf_die2	] {if (enf_checkgib()) return;}
+void()	enf_die2	=[	$death2,	enf_die3	] {if (enf_checkgib()) return;}
+void()	enf_die3	=[	$death3,	enf_die4	] {if (enf_checkgib()) return;
+	self.takedamage = DAMAGE_NO;
 	self.solid = SOLID_NOT;
 	//self.ammo_cells = 5;
 	//DropBackpack();
@@ -281,9 +282,10 @@ void()	enf_die12	=[	$death12,	enf_die13	] {ai_forward(5);}
 void()	enf_die13	=[	$death13,	enf_die14	] {}
 void()	enf_die14	=[	$death14,	SUB_Null	] {}
 
-void()	enf_fdie1	=[	$fdeath1,	enf_fdie2	] {}
-void()	enf_fdie2	=[	$fdeath2,	enf_fdie3	] {}
-void()	enf_fdie3	=[	$fdeath3,	enf_fdie4	] {
+void()	enf_fdie1	=[	$fdeath1,	enf_fdie2	] {if (enf_checkgib()) return;}
+void()	enf_fdie2	=[	$fdeath2,	enf_fdie3	] {if (enf_checkgib()) return;}
+void()	enf_fdie3	=[	$fdeath3,	enf_fdie4	] {if (enf_checkgib()) return;
+	self.takedamage = DAMAGE_NO;
 	self.solid = SOLID_NOT;
 	//self.ammo_cells = 5;
 	//DropBackpack();
@@ -297,15 +299,21 @@ void()	enf_fdie9	=[	$fdeath9,	enf_fdie10	] {}
 void()	enf_fdie10	=[	$fdeath10,	enf_fdie11	] {}
 void()	enf_fdie11	=[	$fdeath11,	SUB_Null	] {}
 
+float() enf_checkgib =
+{
+	if (self.health < -35)
+	{
+		Gib ("progs/h_mega.mdl", self.health);
+		return TRUE;
+	}
+	return FALSE;
+}
 
 void() enf_die =
 {
 // check for gib
-	if (self.health < -35)
-	{
-		Gib ("progs/h_mega.mdl", self.health);
-		return;
-	}
+
+	if (enf_checkgib()) return;
 
 // regular death
 	sound (self, CHAN_VOICE, "enforcer/death1.wav", 1, ATTN_NORM);

@@ -155,11 +155,12 @@ void() FlakThink =
 void() FlakTouch =
 {
 	if (other == self.owner ) return;		// don't touch owner
-	if (CheckProjectilePassthru()) return;
+	//if (CheckProjectilePassthru()) return;
 	
 	if ((other.takedamage == DAMAGE_AIM) || (other.takedamage == DAMAGE_YES))
 	{
 			T_Damage(other,self.buddy,self.buddy,self.dmg); //10x10 20x5 15x7
+			//dprint3("Dealing damage, health ", ftos(other.health), "\n");
 			self.dmg = 3; //to reduce cleave damage
 			particle (self.origin, self.velocity*0.1, 73, 40);
 
@@ -196,6 +197,7 @@ void() FlakTouch_Bounce_1 =
 	if ((other.takedamage == DAMAGE_AIM) || (other.takedamage == DAMAGE_YES))
 	{
 		T_Damage(other,self.buddy,self.buddy,self.dmg); //10x10 20x5 15x7
+		//dprint3("Dealing bounce damage, health ", ftos(other.health), "\n");
 		self.dmg = 4; //to reduce cleave damage
 		particle (self.origin, self.velocity*0.1, 73, 40);
 		sound_flakshotgun_impact();

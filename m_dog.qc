@@ -233,9 +233,9 @@ void(entity attacker, float damage) dog_pain =
 	}
 }
 
-void() dog_die1		=[	$death1,	dog_die2	] {}
-void() dog_die2		=[	$death2,	dog_die3	] {}
-void() dog_die3		=[	$death3,	dog_die4	] {self.solid = SOLID_NOT; }
+void() dog_die1		=[	$death1,	dog_die2	] {if (dog_checkgib()) return;}
+void() dog_die2		=[	$death2,	dog_die3	] {if (dog_checkgib()) return;}
+void() dog_die3		=[	$death3,	dog_die4	] {if (dog_checkgib()) return; self.solid = SOLID_NOT; self.takedamage = DAMAGE_NO;}
 void() dog_die4		=[	$death4,	dog_die5	] {}
 void() dog_die5		=[	$death5,	dog_die6	] {}
 void() dog_die6		=[	$death6,	dog_die7	] {}
@@ -253,15 +253,20 @@ void() dog_dieb7	=[	$deathb7,	dog_dieb8	] {}
 void() dog_dieb8	=[	$deathb8,	dog_dieb9	] {}
 void() dog_dieb9	=[	$deathb9,	SUB_Null	] {}
 
+float() dog_checkgib =
+{
+	if (self.health < -35)
+	{
+		Gib ("progs/h_dog.mdl", self.health);
+		return TRUE;
+	}
+	return FALSE;
+}
 
 void() dog_die =
 {
 // check for gib
-	if (self.health < -35)
-	{
-		Gib ("progs/h_dog.mdl", self.health);
-		return;
-	}
+	if (dog_checkgib()) return;
 
 // regular death
 	sound (self, CHAN_VOICE, "dog/ddeath.wav", 1, ATTN_NORM);
