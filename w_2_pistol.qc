@@ -25,7 +25,13 @@ float() weaponanim_pistol = {
 		return FALSE;
 	}
 
-	self.pistol_ammo_count = self.pistol_ammo_count + 1;
+	self.pistol_ammo_count++;
+
+	if (self.pistol_ammo_count >= 10)
+	{
+		self.pistol_lastreload_time = time;
+	}
+	
 	self.attack_finished = time + 0.3;
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
@@ -111,7 +117,6 @@ void() weaponanim_reloadpistol_loop = {
 	//if (time >= self.attack_finished - 0.05) self.pistol_ammo_count = 0; //RESET ammo
 
 	if (self.weaponframe >= 54) {
-		self.pistol_ammo_count = 0;
 		self.weaponframe = 0;
 		self.think = SUB_Null;
 		return;
