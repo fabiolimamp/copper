@@ -45,12 +45,12 @@ float(float yaw, float dist) walkmove2 = {
 
 float(float yaw, float dist) StepDirection = {
 
-	
+	self.ideal_yaw = yaw;
 
 	if (self.classname != "monster_amalgam")
 	{
-		self.ideal_yaw = yaw;
 		
+
 		ChangeYaw();
 
 		float delta = self.angles_y - self.ideal_yaw;
@@ -136,7 +136,7 @@ void(entity enm, float dist) NewChaseDir = {
 	if (turnaround != DI_NODIR && StepDirection(turnaround, dist) )
 		return;
 
-	if (self.classname != "monster_amalgam") self.ideal_yaw = olddir;		// can't move
+	self.ideal_yaw = olddir;		// can't move
 
 	// if a bridge was pulled out from underneath a monster, it may not have
 	// a valid standing position at all
