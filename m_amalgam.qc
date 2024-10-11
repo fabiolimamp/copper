@@ -37,45 +37,57 @@ toothy CODE
 ==============================================================================
 */
 
-void()	amalgam_stand1	=[	$amalg_idle1,	amalgam_stand2	] {ai_stand(); AmalgamIdleNoise();}
-void()	amalgam_stand2	=[	$amalg_idle2,	amalgam_stand3	] {ai_stand();}
-void()	amalgam_stand3	=[	$amalg_idle3,	amalgam_stand4	] {ai_stand();}
-void()	amalgam_stand4	=[	$amalg_idle4,	amalgam_stand5	] {ai_stand();}
-void()	amalgam_stand5	=[	$amalg_idle5,	amalgam_stand6	] {ai_stand();}
-void()	amalgam_stand6	=[	$amalg_idle6,	amalgam_stand7	] {ai_stand();}
-void()	amalgam_stand7	=[	$amalg_idle7,	amalgam_stand8	] {ai_stand();}
-void()	amalgam_stand8	=[	$amalg_idle8,	amalgam_stand9	] {ai_stand();}
-void()	amalgam_stand9	=[	$amalg_idle9,	amalgam_stand10	] {ai_stand();}
-void()	amalgam_stand10	=[	$amalg_idle10,	amalgam_stand11	] {ai_stand();}
-void()	amalgam_stand11	=[	$amalg_idle11,	amalgam_stand12	] {ai_stand();}
-void()	amalgam_stand12	=[	$amalg_idle12,	amalgam_stand13	] {ai_stand();}
-void()	amalgam_stand13	=[	$amalg_idle13,	amalgam_stand14	] {ai_stand();}
-void()	amalgam_stand14	=[	$amalg_idle14,	amalgam_stand15	] {ai_stand();}
-void()	amalgam_stand15	=[	$amalg_idle15,	amalgam_stand16	] {ai_stand();}
-void()	amalgam_stand16	=[	$amalg_idle16,	amalgam_stand17	] {ai_stand();}
-void()	amalgam_stand17	=[	$amalg_idle17,	amalgam_stand18	] {ai_stand(); AmalgamIdleNoise();}
-void()	amalgam_stand18	=[	$amalg_idle18,	amalgam_stand19	] {ai_stand();}
-void()	amalgam_stand19	=[	$amalg_idle19,	amalgam_stand20	] {ai_stand();}
-void()	amalgam_stand20	=[	$amalg_idle20,	amalgam_stand21	] {ai_stand();}
-void()	amalgam_stand21	=[	$amalg_idle21,	amalgam_stand22	] {ai_stand();}
-void()	amalgam_stand22	=[	$amalg_idle22,	amalgam_stand23	] {ai_stand();}
-void()	amalgam_stand23	=[	$amalg_idle23,	amalgam_stand24	] {ai_stand();}
-void()	amalgam_stand24	=[	$amalg_idle24,	amalgam_stand25	] {ai_stand();}
-void()	amalgam_stand25	=[	$amalg_idle25,	amalgam_stand26	] {ai_stand();}
-void()	amalgam_stand26	=[	$amalg_idle26,	amalgam_stand27	] {ai_stand();}
-void()	amalgam_stand27	=[	$amalg_idle27,	amalgam_stand28	] {ai_stand();}
-void()	amalgam_stand28	=[	$amalg_idle28,	amalgam_stand29	] {ai_stand();}
-void()	amalgam_stand29	=[	$amalg_idle29,	amalgam_stand30	] {ai_stand();}
-void()	amalgam_stand30	=[	$amalg_idle30,	amalgam_stand31	] {ai_stand();}
-void()	amalgam_stand31	=[	$amalg_idle31,	amalgam_stand32	] {ai_stand();}
-void()	amalgam_stand32	=[	$amalg_idle32,	amalgam_stand33	] {ai_stand();}
-void()	amalgam_stand33	=[	$amalg_idle33,	amalgam_stand34	] {ai_stand();}
-void()	amalgam_stand34	=[	$amalg_idle34,	amalgam_stand35	] {ai_stand();}
-void()	amalgam_stand35	=[	$amalg_idle35,	amalgam_stand36	] {ai_stand();}
-void()	amalgam_stand36	=[	$amalg_idle36,	amalgam_stand37	] {ai_stand();}
-void()	amalgam_stand37	=[	$amalg_idle37,	amalgam_stand38	] {ai_stand();}
-void()	amalgam_stand38	=[	$amalg_idle38,	amalgam_stand39	] {ai_stand();}
-void()	amalgam_stand39	=[	$amalg_idle39,	amalgam_stand1	] {ai_stand();}
+void() amalgam_ai_stand =
+{
+	if (FindTarget ())
+		return;
+	
+	if (time > self.pausetime && self.goalentity)
+	{
+		self.th_walk ();
+		return;
+	}
+}
+
+void()	amalgam_stand1	=[	$amalg_idle1,	amalgam_stand2	] {amalgam_ai_stand(); AmalgamIdleNoise();}
+void()	amalgam_stand2	=[	$amalg_idle2,	amalgam_stand3	] {amalgam_ai_stand();}
+void()	amalgam_stand3	=[	$amalg_idle3,	amalgam_stand4	] {amalgam_ai_stand();}
+void()	amalgam_stand4	=[	$amalg_idle4,	amalgam_stand5	] {amalgam_ai_stand();}
+void()	amalgam_stand5	=[	$amalg_idle5,	amalgam_stand6	] {amalgam_ai_stand();}
+void()	amalgam_stand6	=[	$amalg_idle6,	amalgam_stand7	] {amalgam_ai_stand();}
+void()	amalgam_stand7	=[	$amalg_idle7,	amalgam_stand8	] {amalgam_ai_stand();}
+void()	amalgam_stand8	=[	$amalg_idle8,	amalgam_stand9	] {amalgam_ai_stand();}
+void()	amalgam_stand9	=[	$amalg_idle9,	amalgam_stand10	] {amalgam_ai_stand();}
+void()	amalgam_stand10	=[	$amalg_idle10,	amalgam_stand11	] {amalgam_ai_stand();}
+void()	amalgam_stand11	=[	$amalg_idle11,	amalgam_stand12	] {amalgam_ai_stand();}
+void()	amalgam_stand12	=[	$amalg_idle12,	amalgam_stand13	] {amalgam_ai_stand();}
+void()	amalgam_stand13	=[	$amalg_idle13,	amalgam_stand14	] {amalgam_ai_stand();}
+void()	amalgam_stand14	=[	$amalg_idle14,	amalgam_stand15	] {amalgam_ai_stand();}
+void()	amalgam_stand15	=[	$amalg_idle15,	amalgam_stand16	] {amalgam_ai_stand();}
+void()	amalgam_stand16	=[	$amalg_idle16,	amalgam_stand17	] {amalgam_ai_stand();}
+void()	amalgam_stand17	=[	$amalg_idle17,	amalgam_stand18	] {amalgam_ai_stand(); AmalgamIdleNoise();}
+void()	amalgam_stand18	=[	$amalg_idle18,	amalgam_stand19	] {amalgam_ai_stand();}
+void()	amalgam_stand19	=[	$amalg_idle19,	amalgam_stand20	] {amalgam_ai_stand();}
+void()	amalgam_stand20	=[	$amalg_idle20,	amalgam_stand21	] {amalgam_ai_stand();}
+void()	amalgam_stand21	=[	$amalg_idle21,	amalgam_stand22	] {amalgam_ai_stand();}
+void()	amalgam_stand22	=[	$amalg_idle22,	amalgam_stand23	] {amalgam_ai_stand();}
+void()	amalgam_stand23	=[	$amalg_idle23,	amalgam_stand24	] {amalgam_ai_stand();}
+void()	amalgam_stand24	=[	$amalg_idle24,	amalgam_stand25	] {amalgam_ai_stand();}
+void()	amalgam_stand25	=[	$amalg_idle25,	amalgam_stand26	] {amalgam_ai_stand();}
+void()	amalgam_stand26	=[	$amalg_idle26,	amalgam_stand27	] {amalgam_ai_stand();}
+void()	amalgam_stand27	=[	$amalg_idle27,	amalgam_stand28	] {amalgam_ai_stand();}
+void()	amalgam_stand28	=[	$amalg_idle28,	amalgam_stand29	] {amalgam_ai_stand();}
+void()	amalgam_stand29	=[	$amalg_idle29,	amalgam_stand30	] {amalgam_ai_stand();}
+void()	amalgam_stand30	=[	$amalg_idle30,	amalgam_stand31	] {amalgam_ai_stand();}
+void()	amalgam_stand31	=[	$amalg_idle31,	amalgam_stand32	] {amalgam_ai_stand();}
+void()	amalgam_stand32	=[	$amalg_idle32,	amalgam_stand33	] {amalgam_ai_stand();}
+void()	amalgam_stand33	=[	$amalg_idle33,	amalgam_stand34	] {amalgam_ai_stand();}
+void()	amalgam_stand34	=[	$amalg_idle34,	amalgam_stand35	] {amalgam_ai_stand();}
+void()	amalgam_stand35	=[	$amalg_idle35,	amalgam_stand36	] {amalgam_ai_stand();}
+void()	amalgam_stand36	=[	$amalg_idle36,	amalgam_stand37	] {amalgam_ai_stand();}
+void()	amalgam_stand37	=[	$amalg_idle37,	amalgam_stand38	] {amalgam_ai_stand();}
+void()	amalgam_stand38	=[	$amalg_idle38,	amalgam_stand39	] {amalgam_ai_stand();}
+void()	amalgam_stand39	=[	$amalg_idle39,	amalgam_stand1	] {amalgam_ai_stand();}
 
 
 void()	amalgam_walk1	=[	$amalg_idle1,	amalgam_walk2	] {ai_walk(1); AmalgamIdleNoise();}
@@ -125,6 +137,7 @@ void() AmalgamIdleNoise =
 }
 
 void()	amalgam_run1	=[	$amalg_idle1,	amalgam_run2	] {
+	 self.buddy.speed = 50;
 	if (random() < 0.4)
 		sound (self, CHAN_VOICE, "amalg/amalgidle.wav", 1, ATTN_IDLE);
 	ai_run(16);}
@@ -166,7 +179,7 @@ void()	amalgam_run36	=[	$amalg_idle24,	amalgam_run37	] {ai_run(8);}
 void()	amalgam_run37	=[	$amalg_idle22,	amalgam_run38	] {ai_run(8);}
 void()	amalgam_run38	=[	$amalg_idle23,	amalgam_run39	] {ai_run(8);}
 void()	amalgam_run39	=[	$amalg_idle24,	amalgam_run1	] {ai_run(8);}
-
+/*
 void()	amalgam_atk1	=[	$shoot1,	amalgam_atk2	] {ai_face();}
 void()	amalgam_atk2	=[	$shoot2,	amalgam_atk3	] {ai_face();}
 void()	amalgam_atk3	=[	$shoot3,	amalgam_atk4	] {ai_face();}
@@ -179,14 +192,26 @@ void()	amalgam_atk9	=[	$shoot9,	amalgam_atk10	] {ai_face(); amalgam_fire(); amal
 void()	amalgam_atk10	=[	$shoot10,	amalgam_atk11	] {ai_face(); amalgam_fire();}
 void()	amalgam_atk11	=[	$shoot11,	amalgam_atk12	] {ai_face(); amalgam_fire(); amalgam_fire();}
 void()	amalgam_atk12	=[	$shoot12,	amalgam_run1	] {ai_face();}
+*/
+void()	amalgam_atk1	=[	$shoot1,	amalgam_atk2	] {self.buddy.speed = 200;}
+void()	amalgam_atk2	=[	$shoot2,	amalgam_atk3	] {}
+void()	amalgam_atk3	=[	$shoot3,	amalgam_atk4	] {}
+void()	amalgam_atk4	=[	$shoot4,	amalgam_atk5	] {}
+void()	amalgam_atk5	=[	$shoot5,	amalgam_atk6	] {}
+void()	amalgam_atk6	=[	$shoot6,	amalgam_atk7	] {}
+void()	amalgam_atk7	=[	$shoot7,	amalgam_atk8	] {}
+void()	amalgam_atk8	=[	$shoot8,	amalgam_atk9	] {amalgam_fire();}
+void()	amalgam_atk9	=[	$shoot9,	amalgam_atk10	] {amalgam_fire(); amalgam_fire();}
+void()	amalgam_atk10	=[	$shoot10,	amalgam_atk11	] {amalgam_fire();}
+void()	amalgam_atk11	=[	$shoot11,	amalgam_atk12	] {amalgam_fire(); amalgam_fire();}
+void()	amalgam_atk12	=[	$shoot12,	amalgam_run1	] {}
 
-
-void()	amalg_pain1	=[	$amalg_pain1,		amalg_pain2	] {}
+void()	amalg_pain1	=[	$amalg_pain1,		amalg_pain2	] { self.buddy.speed = 0;}
 void()	amalg_pain2	=[	$amalg_pain2,		amalg_pain3	] {}
 void()	amalg_pain3	=[	$amalg_pain3,		amalg_pain4	] {}
 void()	amalg_pain4	=[	$amalg_pain4,		amalgam_run1	] {}
 
-void()	amalg_painb1	=[	$amalg_painb1,	amalg_painb2	] {}
+void()	amalg_painb1	=[	$amalg_painb1,	amalg_painb2	] { self.buddy.speed = 0;}
 void()	amalg_painb2	=[	$amalg_painb2,	amalg_painb3	] {ai_painforward(13);}
 void()	amalg_painb3	=[	$amalg_painb3,	amalg_painb4	] {ai_painforward(9);}
 void()	amalg_painb4	=[	$amalg_painb4,	amalg_painb5	] {}
@@ -307,7 +332,7 @@ void()	amalgam_die13	=[	$death13,	amalgam_die14	] {AmalGoop_Spam(1); }
 void()	amalgam_die14	=[	$death14,	amalgam_die15	] {AmalGoop_Spam(1); }
 void()	amalgam_die15	=[	$death15,	amalgam_die16	] {AmalGoop_Spam(2); }
 void()	amalgam_die16	=[	$death16,	amalgam_die17	] {AmalGoop_Spam(2); GibSpray("NULL", -100);}
-void()	amalgam_die17	=[	$death16,	SUB_Null		] {GoopBlood(1); remove(self);}
+void()	amalgam_die17	=[	$death16,	SUB_Null		] {GoopBlood(1); remove(self.buddy); remove(self);}
 
 void(float drop_count) AmalGoop_Spam =
 {
@@ -413,8 +438,23 @@ void() amalgam_die =
 {
 	sound (self, CHAN_VOICE, "amalg/amalgdeath.wav", 1, ATTN_NORM);
 	self.takedamage = DAMAGE_NO;
+	self.buddy.speed = 0;
 	amalgam_die1 ();
 }
+
+void() amalgam_spin_think =
+{
+	self.owner.movetype = MOVETYPE_NOCLIP;
+	//if (self.speed)
+	//	self.owner.angles_y += self.speed/10;
+
+    
+	self.owner.avelocity_y = self.speed;
+
+	self.think = amalgam_spin_think;
+	self.nextthink = time + 0.1;
+}
+
 
 void() monster_amalgam_spawn =
 {
@@ -435,6 +475,13 @@ void() monster_amalgam_spawn =
 	self.th_pain = amalg_pain;
 	self.th_die = amalgam_die;
 	self.th_checkattack = AmalgamCheckAttack;
+
+	self.buddy = spawn();
+	self.buddy.classname = "amalgam_spin";
+	self.buddy.nextthink = time + 0.025;
+	self.buddy.think = amalgam_spin_think;
+	self.buddy.owner = self;
+	self.buddy.speed = 50;
 
 	if (self.deathtype == string_null)
 		self.deathtype = "was shlorped by the Amalgam";

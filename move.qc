@@ -44,17 +44,22 @@ float(float yaw, float dist) walkmove2 = {
 }
 
 float(float yaw, float dist) StepDirection = {
-	float delta;
 
-	self.ideal_yaw = yaw;
-	ChangeYaw();
+	
 
-	delta = self.angles_y - self.ideal_yaw;
-
-	if (delta > 45 && delta < 315) 
-		// not turned far enough, so don't take the step
-		return TRUE;
+	if (self.classname != "monster_amalgam")
+	{
+		self.ideal_yaw = yaw;
 		
+		ChangeYaw();
+
+		float delta = self.angles_y - self.ideal_yaw;
+
+		if (delta > 45 && delta < 315) 
+			// not turned far enough, so don't take the step
+			return TRUE;
+	}
+
 	if (walkmove2(yaw, dist)) 
 		return TRUE;
 	
@@ -131,7 +136,7 @@ void(entity enm, float dist) NewChaseDir = {
 	if (turnaround != DI_NODIR && StepDirection(turnaround, dist) )
 		return;
 
-	self.ideal_yaw = olddir;		// can't move
+	if (self.classname != "monster_amalgam") self.ideal_yaw = olddir;		// can't move
 
 	// if a bridge was pulled out from underneath a monster, it may not have
 	// a valid standing position at all
@@ -157,7 +162,7 @@ float(entity goal, float dist) CloseEnough = {
 
 void(float dist) movetogoal2 = {
 	
-	if (!(self.flags & FL_SWIM2)) {
+	if (!(self.flags & FL_SWIM2) && self.classname != "monster_amalgam") {
 		movetogoal(dist);
 		return;
 	}
