@@ -205,7 +205,10 @@ float(vector org) pointcontents2 = {
 float (entity e, entity brush) getWaterLevelFromBrush = {
 	// same method as the engine's internal function:
 	// - horizontal axes checked against entity's origin
-	// - vertical axis checked against entity's bottom limit and view_ofs 
+	// - vertical axis checked against entity's bottom limit and view_ofs
+	float z_ofs;
+	if (e.classname == "player") z_ofs = e.view_ofs_z;
+	
 	if (e.origin_x > brush.absmax_x) 
 		return 0;
 	if (e.origin_x < brush.absmin_x)
@@ -216,14 +219,14 @@ float (entity e, entity brush) getWaterLevelFromBrush = {
 		return 0;
 	if (e.absmin_z > brush.absmax_z)
 		return 0;
-	if (e.absmax_z - e.view_ofs_z < brush.absmin_z)
+	if (e.absmax_z - z_ofs < brush.absmin_z)
 		return 0;
 	
 	
 	float lvl;
 	float depth = brush.absmax_z - e.absmin_z;
 
-	if (depth > (e.view_ofs_z - e.mins_z + 2))
+	if (depth > (z_ofs - e.mins_z + 2))
 		lvl = 3;
 	else if (depth > (e.absmax_z - e.absmin_z)/2) {
 		lvl = 2;
