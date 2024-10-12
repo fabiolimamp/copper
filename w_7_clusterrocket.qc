@@ -2,13 +2,77 @@
 // EE code by bmFbr, (bad) edits by Kebby
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-float 	FL_PROJECTILE			= 32768;
-.entity		sibling;
-float(float in, float def) defaultFl = {
-	if (in) return in;
-	else return def;
+
+float() weaponanim_boxrocket = {
+	if (self.attack_finished > time)
+		return FALSE;
+
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+		W_ChangeWeapon(W_BestWeapon());
+		return FALSE;
+	}
+
+	self.attack_finished = time + 1.6;
+	
+	SUB_CallAsSelf(player_rockatt1, self.animcontroller);
+	
+	boxrocket_launch('0 -6 -16', 1);
+	
+	self.weaponframe = 1;
+	self.think = weaponanim_boxrocket_loop;
+	self.nextthink = time + 0.05;
+	
+	return TRUE;
 }
-.float damagetype;
+
+void() weaponanim_boxrocket_loop = {
+
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+		self.attack_finished = time + 0.05;
+		W_ChangeWeapon(W_BestWeapon());
+		return FALSE;
+	}
+	/*
+	if (self.weaponframe == 2)  boxrocket_launch('0 6 -16', FALSE);
+	if (self.weaponframe == 4)  boxrocket_launch('0 -6 -32', TRUE);
+	if (self.weaponframe == 6)  boxrocket_launch('0 -6 -32', FALSE);
+	if (self.weaponframe == 8)  boxrocket_launch('0 -6 -16', TRUE);
+	if (self.weaponframe == 10) boxrocket_launch('0 6 -16', FALSE);
+	if (self.weaponframe == 12) boxrocket_launch('0 -6 -32', TRUE);
+	if (self.weaponframe == 14) boxrocket_launch('0 6 -32', FALSE);
+	*/
+	if (self.weaponframe == 2)  boxrocket_launch('0 -2 -16', 0);
+	if (self.weaponframe == 4)  boxrocket_launch('0  2 -16', 1);
+	if (self.weaponframe == 6)  boxrocket_launch('0  6 -16', 0);
+	if (self.weaponframe == 8)  boxrocket_launch('0 -6 -24', 1);
+	if (self.weaponframe == 10) boxrocket_launch('0 -2 -24', 0);
+	if (self.weaponframe == 12) boxrocket_launch('0  2 -24', 1);
+	if (self.weaponframe == 14) boxrocket_launch('0  6 -24', 0);
+
+
+	if (self.weaponframe >= 32) {
+		self.weaponframe = 0;
+		return;
+	}
+	else {
+		self.weaponframe++;
+	}
+
+	self.think = weaponanim_boxrocket_loop;
+	self.nextthink = time + 0.05;
+
+}
+
+
+//=====================================================================================================================
+
+void(vector ofs, float ammoUsage) boxrocket_launch = {
+	self.currentammo = self.ammo_rockets = self.ammo_rockets - ammoUsage;
+	self.punchangle_x = -2;
+	self.effects = self.effects | EF_MUZZLEFLASH;
+
+	W_FireSpiralRocket(ofs);
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /*
@@ -58,31 +122,22 @@ void() weaponanim_twinrocket_loop = {
 
 void() spiralrocket_touch =
 {
-	local float	damg, rdamg, dmgtype;
+	local float	damg, rdamg;
 
 	if (other == self.owner)
 		return;		// don't explode on owner
 
 	if (pointcontents(self.origin) == CONTENT_SKY)	{
-		remove(self.sibling);
+		remove(self.buddy);
 		remove(self);
 		return;
 	}
 
-	// rocket can have a custom damage
-	if (self.dmg) {
-		damg = zeroconvert(self.dmg);
-		rdamg = damg;
-	}
-	else {
-		damg = 50 + random()*10;
-		rdamg = 60;
-	}
-
-	dmgtype = defaultFl(self.damagetype, DMGTYPE_EXPLOSION);
+	damg = 50 + random()*10;
+	rdamg = 60;
 
 	if (other.health)
-		T_Damage(other, self, self.owner, damg, dmgtype);
+		T_Damage(other, self, self.owner, damg, DMGTYPE_EXPLOSION);
 		
 	
 	// don't do radius damage to the other, because all the damage
@@ -94,7 +149,7 @@ void() spiralrocket_touch =
 
 	self.origin = self.origin - 8*normalize(prev_vel);
 
-	remove(self.sibling);
+	remove(self.buddy);
 	//BecomeExplosion ();
 	/*
 	if (other.classname == "monster_shambler")
@@ -111,11 +166,11 @@ void() spiralrocket_touch =
 
 void() spiralrocket_think = {
 	if (time > self.attack_finished) {
-		if (self.sibling) remove(self.sibling);
+		if (self.buddy) remove(self.buddy);
 		remove(self);
 	}
 
-	entity ptr = self.sibling;
+	entity ptr = self.buddy;
 	
 	float interval = 0.025;
 
@@ -157,7 +212,6 @@ void(vector org, vector dir, float init_angle) launch_spiralrocket = {
 	newmis.movetype = MOVETYPE_FLYMISSILE;
 	newmis.solid = SOLID_BBOX;
 	newmis.classname = "missile";
-	newmis.flags = newmis.flags | FL_PROJECTILE;
 	newmis.touch = spiralrocket_touch;
 	newmis.angles = vectoangles(dir);
 	newmis.velocity = dir * 1000;
@@ -167,8 +221,8 @@ void(vector org, vector dir, float init_angle) launch_spiralrocket = {
 	setsize (newmis, '0 0 0', '0 0 0');
 	setorigin (newmis, org);
 
-	newmis.sibling = pointer;
-	pointer.sibling = newmis;
+	newmis.buddy = pointer;
+	pointer.buddy = newmis;
 
 	newmis.attack_finished = time + 5;
 
@@ -181,17 +235,13 @@ void(vector org, vector dir, float init_angle) launch_spiralrocket = {
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-void(float count) W_FireSpiralRocket =
+void(vector ofs) W_FireSpiralRocket =
 {
 	local	vector dir, org;
 
-	
 	//self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
 	
-	
 	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
-
-	self.punchangle_x = -2;
 
 	makevectors (self.v_angle);
 	dir = aim(self, 1000);
@@ -205,128 +255,9 @@ void(float count) W_FireSpiralRocket =
 	traceline(org2, org2 + v_forward * 24, FALSE, self);
 	launch_spiralrocket(org2 + v_forward*24 * trace_fraction, dir, 180);
 	*/
-	
-	if	(count == 1){
-		org = self.origin + self.view_ofs - v_up*16 + v_right * -6;
-		traceline(org, org + v_forward * 24, FALSE, self);
-		launch_spiralrocket(org + v_forward*24 * trace_fraction, dir, 0);
-	}
-	else if	(count == 2){
-		org = self.origin + self.view_ofs - v_up*16 + v_right * 6;
-		traceline(org, org + v_forward * 24, FALSE, self);
-		launch_spiralrocket(org + v_forward*24 * trace_fraction, dir, 0);
-	}
-	else if	(count == 3){
-		org = self.origin + self.view_ofs - v_up*32 + v_right * -6;
-		traceline(org, org + v_forward * 24, FALSE, self);
-		launch_spiralrocket(org + v_forward*24 * trace_fraction, dir, 0);
-	}
-	else if	(count == 4){
-		org = self.origin + self.view_ofs - v_up*32 + v_right * 6;
-		traceline(org, org + v_forward * 24, FALSE, self);
-		launch_spiralrocket(org + v_forward*24 * trace_fraction, dir, 0);
-	}
-	else if	(count == 5){
-		org = self.origin + self.view_ofs - v_up*16 + v_right * -6;
-		traceline(org, org + v_forward * 24, FALSE, self);
-		launch_spiralrocket(org + v_forward*24 * trace_fraction, dir, 0);
-	}
-	else if	(count == 6){
-		org = self.origin + self.view_ofs - v_up*16 + v_right * 6;
-		traceline(org, org + v_forward * 24, FALSE, self);
-		launch_spiralrocket(org + v_forward*24 * trace_fraction, dir, 0);
-	}
-	else if	(count == 7){
-		org = self.origin + self.view_ofs - v_up*32 + v_right * -6;
-		traceline(org, org + v_forward * 24, FALSE, self);
-		launch_spiralrocket(org + v_forward*24 * trace_fraction, dir, 0);
-	}
-	else if	(count == 8){
-		org = self.origin + self.view_ofs - v_up*32 + v_right * 6;
-		traceline(org, org + v_forward * 24, FALSE, self);
-		launch_spiralrocket(org + v_forward*24 * trace_fraction, dir, 0);
-	}
+
+	org = self.origin + self.view_ofs + v_up*ofs_z + v_right*ofs_y;
+	traceline(org, org + v_forward * 24, FALSE, self);
+	launch_spiralrocket(org + v_forward*24 * trace_fraction, dir, 0);
 	
 };
-////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-float() weaponanim_boxrocket = {
-	if (self.attack_finished > time)
-		return FALSE;
-
-	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
-		W_ChangeWeapon(W_BestWeapon());
-		return FALSE;
-	}
-
-	self.attack_finished = time + 1.6;
-	
-	SUB_CallAsSelf(player_rockatt1, self.animcontroller);
-	
-	self.effects = self.effects | EF_MUZZLEFLASH;
-
-
-	W_FireSpiralRocket(1);
-	take_ammo();
-	
-	self.weaponframe = 1;
-	self.think = weaponanim_boxrocket_loop;
-	self.nextthink = time + 0.05;
-	
-	return TRUE;
-}
-
-void() take_ammo = {
-	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
-}
-
-void() weaponanim_boxrocket_loop = {
-
-	if	(self.weaponframe == 2) {
-		W_FireSpiralRocket(2);
-		self.effects = self.effects | EF_MUZZLEFLASH;
-	}
-	if	(self.weaponframe == 4) {
-		take_ammo();
-		W_FireSpiralRocket(3);
-		self.effects = self.effects | EF_MUZZLEFLASH;
-	}
-	if	(self.weaponframe == 6) {
-		W_FireSpiralRocket(4);
-		self.effects = self.effects | EF_MUZZLEFLASH;
-	}
-	if	(self.weaponframe == 8) {
-		take_ammo();
-		W_FireSpiralRocket(5);
-		self.effects = self.effects | EF_MUZZLEFLASH;
-	}
-	if	(self.weaponframe == 10) {
-		W_FireSpiralRocket(6);
-		self.effects = self.effects | EF_MUZZLEFLASH;
-	}
-	if	(self.weaponframe == 12) {
-		take_ammo();
-		W_FireSpiralRocket(7);
-		self.effects = self.effects | EF_MUZZLEFLASH;
-	}
-	if	(self.weaponframe == 14) {
-		W_FireSpiralRocket(8);
-		self.effects = self.effects | EF_MUZZLEFLASH;
-	}
-	if (self.weaponframe >= 42) {
-		self.weaponframe = 0;
-		return;
-	}
-	else {
-		self.weaponframe++;
-	}
-
-	self.think = weaponanim_boxrocket_loop;
-	self.nextthink = time + 0.05;
-
-}
-//=============================================================================================
