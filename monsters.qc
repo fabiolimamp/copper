@@ -572,7 +572,7 @@ void() monster_start_go =
 
 	vector wtt = monster_watercheck();
 	delay_liquiddamage_clear(); // monster_watercheck sets up delayed damage if the monster is in lava. We don't want to apply that yet
-	dprint2(vtos(wtt),"\n");
+	//dprint2(vtos(wtt),"\n");
 	if (wtt_y == CONTENT_LAVA || wtt_y == CONTENT_SLIME)
 		self.customflags |= CFL_LIQUID_IMMUNE;
 
