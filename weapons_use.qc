@@ -507,7 +507,7 @@ void() W_Attack = {
 
 
 
-float(float weap) W_ChangeWeapon = {
+float(float weap, optional float forcereset = FALSE) W_ChangeWeapon = {
 
 	if (self.animcontroller.owner != self)
 		return 0;
@@ -518,7 +518,7 @@ float(float weap) W_ChangeWeapon = {
 	}
 
 	// don't reset anything if trying to change to the same weapon
-	if (self.weapon == weap){
+	if (self.weapon == weap && !forcereset){
 		return weapstat;
 	}
 

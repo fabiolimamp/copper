@@ -965,7 +965,7 @@ void() PlayerDeathThink =
 		self.view_ofs = '0 0 22';
 		self.modelindex = modelindex_player;
 		SUB_CallAsSelf(player_stand1, self.animcontroller);
-		W_ResetWeaponState();
+		W_ChangeWeapon(self.weapon, TRUE);
 		
 		return;
 	}
