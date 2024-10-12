@@ -439,6 +439,11 @@ void() amalgam_die =
 	sound (self, CHAN_VOICE, "amalg/amalgdeath.wav", 1, ATTN_NORM);
 	self.takedamage = DAMAGE_NO;
 	self.buddy.speed = 0;
+
+	// disable directional gibs
+	self.inflictor_vel = VEC_ORIGIN;
+	self.inflictor_origin = self.origin;
+
 	amalgam_die1 ();
 }
 
