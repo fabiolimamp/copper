@@ -31,7 +31,7 @@ float() weaponanim_rebarcannon = {
 
 void() weaponanim_rebarcannon_loop = {
 
-	if (self.weaponframe >= 24) {
+	if (self.weaponframe >= 20) {
 		self.weaponframe = 0;
 		return;
 	}
