@@ -122,13 +122,13 @@ float(float weap) W_HasAmmo =
 {
 	if (!weap || weap == IT_AXE) return TRUE;
 	
-	if (weap == IT_SUPER_SHOTGUN)	return (self.ammo_shells >= 2);
-	if (weap == IT_SHOTGUN)			return (self.ammo_shells >= 1);
-	if (weap == IT_NAILGUN)			return (self.ammo_nails >= 1);
-	if (weap == IT_SUPER_NAILGUN)	return (self.ammo_nails >= 2);
-	if (weap == IT_LIGHTNING)		return (self.ammo_cells >= 1);
-	if (weap == IT_GRENADE_LAUNCHER || weap == IT_ROCKET_LAUNCHER)
-		return (self.ammo_rockets >= 1);
+	if (weap == IT_SUPER_SHOTGUN)		return (self.ammo_shells >= 2);
+	if (weap == IT_SHOTGUN)				return (self.ammo_shells >= 1);
+	if (weap == IT_NAILGUN)				return (self.ammo_nails >= 1);
+	if (weap == IT_SUPER_NAILGUN)		return (self.ammo_nails >= 2);
+	if (weap == IT_LIGHTNING)			return (self.ammo_cells >= 1);
+	if (weap == IT_GRENADE_LAUNCHER)	return (self.ammo_rockets >= 1);
+	if (weap == IT_ROCKET_LAUNCHER)		return (self.ammo_rockets >= 4);
 		
 	return FALSE;
 }
@@ -379,7 +379,7 @@ void() W_ResetWeaponState =
 	else if (self.weapon == IT_ROCKET_LAUNCHER)
 		self.weaponmodel = "progs/v_rock2.mdl";
 	else if (self.weapon == IT_LIGHTNING)
-		self.weaponmodel = "progs/v_light.mdl";
+		self.weaponmodel = "progs/v_shot.mdl";
 	else
 		self.weaponmodel = string_null;
 

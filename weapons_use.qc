@@ -247,16 +247,16 @@ weaponclass_t wpc_rocket = {
 	SUB_Null // idlefunction
 };
 
-weaponclass_t wpc_lg = {
+weaponclass_t wpc_lmg = {
 	IT_LIGHTNING,
 	8, // slot
 	0, // slotPos
-	"Flamethrower", // name
-	"progs/v_light.mdl", // model
+	"LMG", // name
+	"progs/v_shot.mdl", // model
 	4, // ammofield
 	IT_CELLS, // ammo_item
 	1, // ammo_usage
-	weaponanim_flamethrower, // animfunction
+	weaponanim_LMG, // animfunction
 	SUB_Null // idlefunction
 };
 
@@ -270,7 +270,7 @@ weaponclass_t weaponsclass[9] = {
 	wpc_supernailgun,
 	wpc_grenade,
 	wpc_rocket,
-	wpc_lg
+	wpc_lmg
 };
 
 float MAX_WEAPON_NUM = 8;
@@ -305,7 +305,7 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_supernailgun}, 1},//5
 	{{wpc_grenade}, 1}, 	//6
 	{{wpc_rocket}, 1}, 	//7
-	{{wpc_lg}, 1} 		//8
+	{{wpc_lmg}, 1} 		//8
 };
 
 
@@ -355,6 +355,7 @@ void() W_WeaponFrame = {
 	else {
 		self.attackpressed = 0;
 		self.attackhold = 0;
+		LMG_reset(); //FIXME: fucking dickhead
 	}
 }
 

@@ -305,6 +305,8 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .float()	th_checkattack;
 .entity		oldenemy;		// mad at this player before taking damage
 .float 		attack_finished;
+.float		LMG_rof; //FIXME
+.float		LMG_spread;
 .float		pain_finished;
 .float		search_time;
 .float		attack_state;
