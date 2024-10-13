@@ -27,7 +27,7 @@ float() weaponanim_flakshotgun = {
 
 	self.currentammo = self.ammo_shells = self.ammo_shells - 2; //2 shells to fire
 
-	self.attack_finished = time + 1.05;
+	self.attack_finished = time + 1.2;
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	
@@ -77,8 +77,8 @@ void() W_FireFlakShotgun =
 	
 	//RANDOM SPREAD
 	
-	float shotcount = 16;
-	vector spread = '250 60 0';
+	float shotcount = 14;
+	vector spread = '260 60 0';
 	vector view_origin = self.origin + self.view_ofs + v_forward*12 - v_up*4; //+ v_right* 8;
 
 	vector mvel;
@@ -100,7 +100,7 @@ entity(vector org, vector vel) Launch_Flak =
 	//gunshot(org);
 	flak = toss_projectile(org, vel, "impaler");
 	flak.lifetime_finished = time + 1.1;
-	flak.dmg = 8;
+	flak.dmg = 7;
 	flak.gravity = .5;
 	flak.think = FlakThink;
 	flak.touch = FlakTouch;
