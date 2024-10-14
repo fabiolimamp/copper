@@ -16,12 +16,12 @@ void() LMG_reset = {
 	else
 		self.LMG_spread = 0;
 
-	if (self.dmg > 15)
-		self.dmg -= 0.03;
+	if (self.lip > 15)
+		self.lip -= 0.05;
 	else
-		self.dmg = 15;
+		self.lip = 15;
 	dprint("\bDamage\b: ");
-	dprint(ftos(self.dmg));
+	dprint(ftos(self.lip));
 	dprint("\n\bROF\b: ");
 	dprint(ftos(self.LMG_rof));
 	dprint("\n");
@@ -37,6 +37,12 @@ float() weaponanim_LMG = {
 	}
 
 	self.currentammo = self.ammo_cells = self.ammo_cells - 1;
+
+	dprint("\bDamage\b: ");
+	dprint(ftos(self.lip));
+	dprint("\n\bROF\b: ");
+	dprint(ftos(self.LMG_rof));
+	dprint("\n");
 
 	if (!self.LMG_rof)
 		self.LMG_rof = 1;
@@ -74,7 +80,7 @@ float(float spread) LMG_increasespread = {
 
 float(float dmg) LMG_increasedamage = {
 	if (dmg <= 40)
-		return dmg + 1;
+		return dmg + 1.2;
 	else
 		return 40;
 }
@@ -87,7 +93,7 @@ void() weaponanim_LMG_loop = {
 	if (self.weaponframe == 2) {
 		self.LMG_rof = LMG_increaserof(self.LMG_rof);
 		self.LMG_spread = LMG_increasespread(self.LMG_spread);
-		self.dmg = LMG_increasedamage(self.dmg);
+		self.lip = LMG_increasedamage(self.lip);
 	}
 	
 	if (self.weaponframe >= 4) {
@@ -188,7 +194,7 @@ void() W_FireLMGRecoil =
 	
 	traceline(org, org + v_forward * 16, FALSE, self);
 		
-	FireLMGbullets2 (1, self.dmg, org + v_forward * 16 * trace_fraction, dir, spread, 2, FALSE, 1);
+	FireLMGbullets2 (1, self.lip, org + v_forward * 16 * trace_fraction, dir, spread, 2, FALSE, 1);
 	self.punchangle_x = -1;	//punch AFTER makevectors	
 	
 	//----------------------------------------------------------------------------
