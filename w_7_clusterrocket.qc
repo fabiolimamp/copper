@@ -137,7 +137,7 @@ void() spiralrocket_touch =
 	rdamg = 60;
 
 	if (other.health)
-		T_Damage(other, self, self.owner, damg, DMGTYPE_EXPLOSION);
+		T_Damage(other, self, self.owner, damg, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );
 		
 	
 	// don't do radius damage to the other, because all the damage
@@ -145,7 +145,7 @@ void() spiralrocket_touch =
 	// Radius damage type will always be EXPLOSION
 	vector prev_vel = self.velocity;
 	//self.velocity = '0 0 0';
-	T_RadiusDamage (self, self.owner, rdamg, other, DMGTYPE_EXPLOSION);
+	T_RadiusDamage (self, self.owner, rdamg, other, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );
 
 	self.origin = self.origin - 8*normalize(prev_vel);
 
@@ -212,10 +212,10 @@ void(vector org, vector dir, float init_angle) launch_spiralrocket = {
 	newmis.movetype = MOVETYPE_FLYMISSILE;
 	newmis.solid = SOLID_BBOX;
 	newmis.classname = "missile";
+	newmis.type = "missile";
 	newmis.touch = spiralrocket_touch;
 	newmis.angles = vectoangles(dir);
 	newmis.velocity = dir * 1000;
-	newmis.dmg = 70;
 
 	setmodel (newmis, "progs/missile.mdl");
 	setsize (newmis, '0 0 0', '0 0 0');

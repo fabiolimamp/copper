@@ -587,8 +587,9 @@ void(entity inflictor, entity attacker, float damage, entity ignore, float dmgty
 {
 	// note: find downed zombies to gib first, then do radius damage, or else the radius 
 	// damage will knock far away zombies down, then immediately gib them too
-	if ((dmgtype & DMGTYPE_EXPLOSION) && damage > 48)
+	if (((dmgtype & DMGTYPE_EXPLOSION) && damage > 72) || dmgtype & DMGTYPE_ZKILL)
 		T_GibDownedZombies(inflictor.origin, damage);
+	
 	
 	float 	points, dist;
 	entity	head;
