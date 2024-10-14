@@ -5,11 +5,26 @@
 //used in W_WeaponFrame, couldn't figure out a way to handle it from here
 //TODO: cleanup
 void() LMG_reset = {
+
+	if (self.LMG_rof > 1)
+		self.LMG_rof -= 0.01;
+	else
 		self.LMG_rof = 1;
+
+	if (self.LMG_spread > 0)
+		self.LMG_spread -= 0.05;
+	else
 		self.LMG_spread = 0;
-		dprint("Reset!\n");
-		dprint(ftos(time));
-		dprint("\n");
+
+	if (self.dmg > 15)
+		self.dmg -= 0.03;
+	else
+		self.dmg = 15;
+	dprint("\bDamage\b: ");
+	dprint(ftos(self.dmg));
+	dprint("\n\bROF\b: ");
+	dprint(ftos(self.LMG_rof));
+	dprint("\n");
 }
 
 float() weaponanim_LMG = {
@@ -27,7 +42,6 @@ float() weaponanim_LMG = {
 		self.LMG_rof = 1;
 
 	self.attack_finished = time + (0.3 / self.LMG_rof);
-
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	
@@ -46,16 +60,23 @@ float() weaponanim_LMG = {
 
 float(float rof) LMG_increaserof = {
 	if (rof <= 3.6)
-		return rof + 0.07;
+		return rof + 0.1;
 	else
 		return 3.6;
 }
 
 float(float spread) LMG_increasespread = {
 	if (spread <= 0.1)
-		return spread + 0.002;
+		return spread + 0.003;
 	else
 		return 0.1;
+}
+
+float(float dmg) LMG_increasedamage = {
+	if (dmg <= 40)
+		return dmg + 1;
+	else
+		return 40;
 }
 
 void() weaponanim_LMG_loop = {
@@ -66,6 +87,7 @@ void() weaponanim_LMG_loop = {
 	if (self.weaponframe == 2) {
 		self.LMG_rof = LMG_increaserof(self.LMG_rof);
 		self.LMG_spread = LMG_increasespread(self.LMG_spread);
+		self.dmg = LMG_increasedamage(self.dmg);
 	}
 	
 	if (self.weaponframe >= 4) {
@@ -166,7 +188,7 @@ void() W_FireLMGRecoil =
 	
 	traceline(org, org + v_forward * 16, FALSE, self);
 		
-	FireLMGbullets2 (1, 30, org + v_forward * 16 * trace_fraction, dir, spread, 2, FALSE, 1);
+	FireLMGbullets2 (1, self.dmg, org + v_forward * 16 * trace_fraction, dir, spread, 2, FALSE, 1);
 	self.punchangle_x = -1;	//punch AFTER makevectors	
 	
 	//----------------------------------------------------------------------------
