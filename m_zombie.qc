@@ -498,21 +498,27 @@ void(entity attacker, float take) zombie_pain =
 	local float r;
 	
 	// always reset health
-	self.health = 60;
+	// except for flak, let it accumulate for a bit
+	if (!(self.dmg_inflictor.classname == "flak" && time <= self.air_finished))
+		self.health = 60;
 
-	if (take < 9)
-		return;
-	if (self.customflags & CFL_KNOCKEDDOWN )
+	if (self.dmg_inflictor.classname == "flak")
+		self.air_finished = time + 0.1;
+
+	if (take < 9 && self.dmg_inflictor.classname != "flak")
+		return;	
+	if (self.customflags & CFL_KNOCKEDDOWN && self.dmg_inflictor.classname != "flak")
 		return;
 
 	// go down immediately if hit is big enough or frequent enough
-	if (take >= 25 || self.pain_finished > time)
+	if (take >= 25 || self.pain_finished > time || self.health <= 35)
 	{
+		self.air_finished = 0;
 		self.health = 60;
 		zombie_paine1();
 		return;
 	}
-	
+
 	// if hit again in next few seconds while not in pain frames, definitely drop
 	if (self.customflags & CFL_INPAIN )
 	{

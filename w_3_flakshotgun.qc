@@ -98,7 +98,7 @@ entity(vector org, vector vel) Launch_Flak =
 {
 	entity flak;
 	//gunshot(org);
-	flak = toss_projectile(org, vel, "impaler");
+	flak = toss_projectile(org, vel, "flak");
 	flak.lifetime_finished = time + 1.1;
 	flak.dmg = 7;
 	flak.gravity = .5;
@@ -131,7 +131,7 @@ void() FlakTouch =
 
 	if (other.takedamage)
 	{
-		T_Damage(other, self.owner, self.owner, self.dmg); //10x10 20x5 15x7
+		T_Damage(other, self, self.owner, self.dmg); //10x10 20x5 15x7
 		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
 		self.dmg = 3; //to reduce cleave damage
 		particle (self.origin, self.velocity*0.1, 73, 40);
@@ -162,7 +162,7 @@ void() FlakTouch_Bounce_1 =
 
 	if ((other.takedamage == DAMAGE_AIM) || (other.takedamage == DAMAGE_YES))
 	{
-		T_Damage(other, self.owner, self.owner, self.dmg); //10x10 20x5 15x7
+		T_Damage(other, self, self.owner, self.dmg); //10x10 20x5 15x7
 		particle(self.origin, self.velocity*0.1, 73, 40);
 		sound_flakshotgun_impact();
 		//projectile_passthru();
