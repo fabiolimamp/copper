@@ -46,8 +46,7 @@ void(entity h, float t) powerup_vampirism =
 	precache_vamp();
 	h.items_reliq |= IT_VAMP;
 	h.vamp_finished = time + t;
-	TintScreenColor(h, 32, '255 0 0');
-	//h.fw_screenshift = 1;
+	csf_set(h, 32, '255 0 0', 100);
 	h.vamp_time = 1;
 }
 

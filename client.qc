@@ -1506,7 +1506,7 @@ void() CheckPowerups =
 		{	// just stopped
 			self.items_reliq = not(self.items_reliq, IT_VAMP);
 
-			TintScreenColor(self, 0, '0 0 0'); //FIXME: is this how it's done?
+			csf_clear(self, 100);
 
 			dprint("\bVampirism Total Heal:\b ");
 			dprint(ftos(self.globehealth_cou));
