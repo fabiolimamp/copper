@@ -511,12 +511,16 @@ void(entity attacker, float take) zombie_pain =
 		return;
 
 	// go down immediately if hit is big enough or frequent enough
-	if (take >= 25 || self.pain_finished > time || self.health <= 35)
+
+	if (!(self.dmg_inflictor.classname == "flak" && time < attacker.super_damage_finished))
 	{
-		self.air_finished = 0;
-		self.health = 60;
-		zombie_paine1();
-		return;
+		if (take >= 25 || self.pain_finished > time || self.health <= 35)	
+		{
+			self.air_finished = 0;
+			self.health = 60;
+			zombie_paine1();
+			return;
+		}
 	}
 
 	// if hit again in next few seconds while not in pain frames, definitely drop
