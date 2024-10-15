@@ -137,7 +137,6 @@ void() AmalgamIdleNoise =
 }
 
 void()	amalgam_run1	=[	$amalg_idle1,	amalgam_run2	] {
-	 self.buddy.speed = 50;
 	if (random() < 0.4)
 		sound (self, CHAN_VOICE, "amalg/amalgidle.wav", 1, ATTN_IDLE);
 	ai_run(16);}
@@ -193,7 +192,10 @@ void()	amalgam_atk10	=[	$shoot10,	amalgam_atk11	] {ai_face(); amalgam_fire();}
 void()	amalgam_atk11	=[	$shoot11,	amalgam_atk12	] {ai_face(); amalgam_fire(); amalgam_fire();}
 void()	amalgam_atk12	=[	$shoot12,	amalgam_run1	] {ai_face();}
 */
-void()	amalgam_atk1	=[	$shoot1,	amalgam_atk2	] {self.buddy.speed = 200;}
+void()	amalgam_atk1	=[	$shoot1,	amalgam_atk2	] {
+	self.movetype = MOVETYPE_NOCLIP; //MOVETYPE_STEP apparently doesn't get avelocity applied
+	self.avelocity_y = 200;
+}
 void()	amalgam_atk2	=[	$shoot2,	amalgam_atk3	] {}
 void()	amalgam_atk3	=[	$shoot3,	amalgam_atk4	] {}
 void()	amalgam_atk4	=[	$shoot4,	amalgam_atk5	] {}
@@ -206,12 +208,12 @@ void()	amalgam_atk10	=[	$shoot10,	amalgam_atk11	] {amalgam_fire();}
 void()	amalgam_atk11	=[	$shoot11,	amalgam_atk12	] {amalgam_fire(); amalgam_fire();}
 void()	amalgam_atk12	=[	$shoot12,	amalgam_run1	] {}
 
-void()	amalg_pain1	=[	$amalg_pain1,		amalg_pain2	] { self.buddy.speed = 0;}
+void()	amalg_pain1	=[	$amalg_pain1,		amalg_pain2	] {self.avelocity_y = 0;}
 void()	amalg_pain2	=[	$amalg_pain2,		amalg_pain3	] {}
 void()	amalg_pain3	=[	$amalg_pain3,		amalg_pain4	] {}
 void()	amalg_pain4	=[	$amalg_pain4,		amalgam_run1	] {}
 
-void()	amalg_painb1	=[	$amalg_painb1,	amalg_painb2	] { self.buddy.speed = 0;}
+void()	amalg_painb1	=[	$amalg_painb1,	amalg_painb2	] {self.avelocity_y = 0;}
 void()	amalg_painb2	=[	$amalg_painb2,	amalg_painb3	] {ai_painforward(13);}
 void()	amalg_painb3	=[	$amalg_painb3,	amalg_painb4	] {ai_painforward(9);}
 void()	amalg_painb4	=[	$amalg_painb4,	amalg_painb5	] {}
@@ -332,7 +334,7 @@ void()	amalgam_die13	=[	$death13,	amalgam_die14	] {AmalGoop_Spam(1); }
 void()	amalgam_die14	=[	$death14,	amalgam_die15	] {AmalGoop_Spam(1); }
 void()	amalgam_die15	=[	$death15,	amalgam_die16	] {AmalGoop_Spam(2); }
 void()	amalgam_die16	=[	$death16,	amalgam_die17	] {AmalGoop_Spam(2); GibSpray("NULL", -100);}
-void()	amalgam_die17	=[	$death16,	SUB_Null		] {GoopBlood(1); remove(self.buddy); remove(self);}
+void()	amalgam_die17	=[	$death16,	SUB_Null		] {GoopBlood(1); remove(self);}
 
 void(float drop_count) AmalGoop_Spam =
 {
@@ -438,7 +440,6 @@ void() amalgam_die =
 {
 	sound (self, CHAN_VOICE, "amalg/amalgdeath.wav", 1, ATTN_NORM);
 	self.takedamage = DAMAGE_NO;
-	self.buddy.speed = 0;
 
 	// disable directional gibs
 	self.inflictor_vel = VEC_ORIGIN;
@@ -447,18 +448,6 @@ void() amalgam_die =
 	amalgam_die1 ();
 }
 
-void() amalgam_spin_think =
-{
-	self.owner.movetype = MOVETYPE_NOCLIP;
-	//if (self.speed)
-	//	self.owner.angles_y += self.speed/10;
-
-    
-	self.owner.avelocity_y = self.speed;
-
-	self.think = amalgam_spin_think;
-	self.nextthink = time + 0.1;
-}
 
 
 void() monster_amalgam_spawn =
@@ -481,12 +470,6 @@ void() monster_amalgam_spawn =
 	self.th_die = amalgam_die;
 	self.th_checkattack = AmalgamCheckAttack;
 
-	self.buddy = spawn();
-	self.buddy.classname = "amalgam_spin";
-	self.buddy.nextthink = time + 0.025;
-	self.buddy.think = amalgam_spin_think;
-	self.buddy.owner = self;
-	self.buddy.speed = 50;
 
 	if (self.deathtype == string_null)
 		self.deathtype = "was shlorped by the Amalgam";
