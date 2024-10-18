@@ -316,7 +316,7 @@ void() instateleport_touch =
 		setorigin(other, neworg + [0, 0, frac * 32]);
 		entity oself = self;
 		self = other;
-		droptofloor(0,0);
+		droptofloor();
 		self = oself;
 	}
 	else
@@ -435,10 +435,16 @@ void() instateleport_reactivate =
 	self.use = instateleport_use;
 }
 
-/*QUAKED trigger_teleport (.5 .5 .5) ? PLAYER_ONLY SILENT
+/*QUAKED trigger_instateleport (.5 .5 .5) ? PLAYER_ONLY SILENT
 Any object touching this will be transported to the corresponding info_teleport_destination entity. You must set the "target" field, and create an object with a "targetname" field that matches.
 
 If the trigger_teleport has a targetname, it will only teleport entities when it has been fired.
+*/
+/*FGD
+@SolidClass base(Trigger, Teleport) = trigger_instateleport : "Trigger: Teleporter. 
+Any object touching this will be transported to the corresponding info_teleport_destination entity.
+
+The 'Not Triggerable' spawnflag: default behavior for a teleporter with a targetname is to only teleport what's touching it when triggered. this will preserve ordinary no-targetname behavior (if you're using the teleporter's targetname for a killtarget for example)." []
 */
 void() trigger_instateleport =
 {
@@ -456,7 +462,7 @@ void() trigger_instateleport =
 
 	self.use = instateleport_use;
 
-	self.count = -1;
+
 	if (!(self.spawnflags & TELEPORT_SILENT))
 	{
 		precache_sound_safe ("ambience/hum1.wav");
@@ -468,6 +474,34 @@ void() trigger_instateleport =
 		self.use = instateleport_reactivate;
 }
 
+/*QUAKED trigger_instateleport_destination (.5 .5 .5) ? PRESERVE_PITCH SHOW_EFFECT DONT_FORCEDROP
+Instant teleport destination. 
+This ideally should match the same size and shape of the trigger_instateleport brush.
+
+- 'mangle' field: sets an optional angle offset compared to the trigger_instateleport that entities will be turned by. This will make stuff go out at a different orientation than the teleport trigger, including pointing up/downwards, or with a side roll. Uses the 'pitch yaw roll' notation, but you can just follow Trenchbroom's white directional arrow when rotating the instadestination brush.
+
+- 'Show teleport effect' flag: Draw the teleport fog effect (which is disabled by default for teleport instadestinations).
+
+- 'Don't force drop to floor' flag: By default, if the player is onground when teleporting in, they'll be forced to the ground after going out at the destination, in order to avoid getting stuck. In case you deliberately want to teleport the player to a mid-air position, this flag disables this behavior.
+*/
+/*FGD
+@SolidClass base(Trigger, Teleport) = trigger_instateleport_destination : "Instant teleport destination. 
+This ideally should match the same size and shape of the trigger_instateleport brush.
+
+- 'mangle' field: sets an optional angle offset compared to the trigger_instateleport that entities will be turned by. This will make stuff go out at a different orientation than the teleport trigger, including pointing up/downwards, or with a side roll. Uses the 'pitch yaw roll' notation, but you can just follow Trenchbroom's white directional arrow when rotating the instadestination brush.
+
+- 'Show teleport effect' flag: Draw the teleport fog effect (which is disabled by default for teleport instadestinations).
+
+- 'Don't force drop to floor' flag: By default, if the player is onground when teleporting in, they'll be forced to the ground after going out at the destination, in order to avoid getting stuck. In case you deliberately want to teleport the player to a mid-air position, this flag disables this behavior.
+" [
+	mangle(string) : "Angle offset" : : "Check detailed description below."
+	spawnflags(flags) = [
+		2: "Preserve pitch angle" : 0 : "Makes players maintain their original pitch view angles even when the destination has a pitch offset."
+		4: "Show teleport effect" : 0 : "Draw the teleport fog effect (which is disabled by default for teleport instadestinations)."
+		32: "Don't force drop to floor" : 0 : "By default, if the player is onground when teleporting in, they'll be forced to the ground after going out at the destination, in order to avoid getting stuck. In case you deliberately want to teleport the player to a mid-air position, this flag disables this behavior."
+	]
+]
+*/
 
 void() trigger_instateleport_destination =
 {

@@ -189,8 +189,7 @@ void() W_FireLMGRecoil =
 	vector dir = aim (self, 100000);
 	vector spread;
 
-	spread = self.LMG_spread;
-	spread_z = 0;
+	spread = [self.LMG_spread, self.LMG_spread, 0];
 	
 	traceline(org, org + v_forward * 16, FALSE, self);
 		

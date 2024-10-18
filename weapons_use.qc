@@ -141,6 +141,7 @@ typedef struct {
 	ammo_cells
 };
 
+float() weaponanim_null = {return FALSE;}
 
 weaponclass_t wpc_no_weapon = {
 	IT_NO_WEAPON,
@@ -151,7 +152,7 @@ weaponclass_t wpc_no_weapon = {
 	0, // ammofield
 	0, // ammo_item
 	0, // ammo_usage
-	SUB_Null, // animfunction
+	weaponanim_null, // animfunction
 	SUB_Null // idlefunction
 };
 
