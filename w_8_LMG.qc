@@ -20,11 +20,9 @@ void() LMG_reset = {
 		self.lip -= 0.05;
 	else
 		self.lip = 15;
-	dprint("\bDamage\b: ");
-	dprint(ftos(self.lip));
-	dprint("\n\bROF\b: ");
-	dprint(ftos(self.LMG_rof));
-	dprint("\n");
+	
+	//dprint5("\bDamage\b: ",ftos(self.lip), "\n\bROF\b: ", ftos(self.LMG_rof), "\n");
+	
 }
 
 float() weaponanim_LMG = {
