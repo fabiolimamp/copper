@@ -22,7 +22,7 @@ $frame magatt8 magatt9 magatt10 magatt11 magatt12 magatt13
 
 $frame pain1 pain2 pain3 pain4
 
-$frame death1 death2 death3 death4 death5 death6 death7 death8
+$frame death1 death2 death3 death4 death5 death6 death7 death8 death9 death10
 
 /*
 =================
@@ -315,7 +315,9 @@ void()	wiz_death5	=[	$death5,		wiz_death6	] {}
 // if they did it would be a lot easier to remove dead scrags and heads in func_voids
 void()	wiz_death6	=[	$death6,		wiz_death7	] {}
 void()	wiz_death7	=[	$death7,		wiz_death8	] {}
-void()	wiz_death8	=[	$death8,		SUB_Null	] {}// deathvoidcheck(); }
+void()	wiz_death8	=[	$death8,		wiz_death9	] {}
+void()	wiz_death9	=[	$death9,		wiz_death10	] {}
+void()	wiz_death10	=[	$death10,		SUB_Null	] {}
 
 float() wiz_checkgib =
 {
