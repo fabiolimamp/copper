@@ -162,7 +162,7 @@ float(entity goal, float dist) CloseEnough = {
 
 void(float dist) movetogoal2 = {
 	
-	if (!(self.flags & FL_SWIM2) && self.classname != "monster_amalgam") {
+	if (!(self.flags & FL_SWIM2)) {// && self.classname != "monster_amalgam") {
 		movetogoal(dist);
 		return;
 	}
