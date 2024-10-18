@@ -27,7 +27,7 @@ float() weaponanim_flakshotgun = {
 
 	self.currentammo = self.ammo_shells = self.ammo_shells - 2; //2 shells to fire
 
-	self.attack_finished = time + 1.2;
+	self.attack_finished = time + 1.05;
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	
@@ -71,7 +71,8 @@ void() W_FireFlakShotgun =
 	
 	makevectors(self.v_angle);
 	
-	self.velocity = self.velocity + (v_forward * -50) + '0 0 25';	// Knockback: Aim down, jump + shoot = 64 units (crate height)
+	if (self.flags & FL_ONGROUND)
+		self.velocity = self.velocity + (v_forward * -100) + '0 0 25';	// Knockback: Aim down, jump + shoot = 64 units (crate height)
 	
 	self.punchangle_x = -4;
 	
@@ -120,6 +121,9 @@ void() FlakThink =
 	self.flags = not(self.flags, FL_ONGROUND);
 	self.oldvelocity = self.velocity;
 	self.nextthink = time + 0.05;
+
+	if (self.lifetime_finished < time)
+		remove(self);
 }
 
 void() FlakTouch =
@@ -131,9 +135,8 @@ void() FlakTouch =
 
 	if (other.takedamage)
 	{
-		T_Damage(other, self, self.owner, self.dmg); //10x10 20x5 15x7
+		T_Damage(other, self, self.owner, 4); //10x10 20x5 15x7
 		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
-		self.dmg = 3; //to reduce cleave damage
 		particle (self.origin, self.velocity*0.1, 73, 40);
 
 		sound_flakshotgun_impact();
@@ -144,8 +147,8 @@ void() FlakTouch =
 		return;
 	}
 
-	self.dmg = 3;
 	self.touch = FlakTouch_Bounce_1;
+	self.lifetime_finished = time + 0.5;
 	
 	float chance = random();
 
@@ -162,15 +165,13 @@ void() FlakTouch_Bounce_1 =
 
 	if ((other.takedamage == DAMAGE_AIM) || (other.takedamage == DAMAGE_YES))
 	{
-		T_Damage(other, self, self.owner, self.dmg); //10x10 20x5 15x7
+		T_Damage(other, self, self.owner, 4); //10x10 20x5 15x7
 		particle(self.origin, self.velocity*0.1, 73, 40);
 		sound_flakshotgun_impact();
 		//projectile_passthru();
 	}
 	else
 		gunshot(self.origin);
-
-	remove(self);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
