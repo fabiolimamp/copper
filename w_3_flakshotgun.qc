@@ -99,6 +99,7 @@ entity(vector org, vector vel) Launch_Flak =
 	flak.think = FlakThink;
 	flak.touch = FlakTouch;
 	flak.th_die = SUB_Remove;
+	flak.alpha = 1;
 	flak.owner = self;
 
 	SUB_ChangeModel (flak, "progs/pellet.mdl");
@@ -114,6 +115,16 @@ void() FlakThink =
 	self.flags = not(self.flags, FL_ONGROUND);
 	self.oldvelocity = self.velocity;
 	self.nextthink = time + 0.05;
+
+	float fadetime = 0.4;
+
+	float fadestart = self.lifetime_finished - fadetime;
+
+	if (fadestart < time)
+	{
+		self.alpha = 1 - ((time - fadestart) / (self.lifetime_finished - fadestart));
+		if (self.alpha == 0) self.alpha = -1;
+	}
 
 	if (self.lifetime_finished < time)
 		remove(self);
