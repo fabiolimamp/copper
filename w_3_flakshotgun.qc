@@ -70,22 +70,16 @@ void() W_FireFlakShotgun =
 	sound_flakshotgun_fire();
 	
 	makevectors(self.v_angle);
-	
-	if (self.flags & FL_ONGROUND)
-		self.velocity = self.velocity + (v_forward * -100) + '0 0 25';	// Knockback: Aim down, jump + shoot = 64 units (crate height)
-	
+	//self.velocity = self.velocity + (v_forward * -100) + '0 0 25';
 	self.punchangle_x = -4;
 	
-	//RANDOM SPREAD
-	
-	float shotcount = 14;
-	vector spread = '260 60 0';
+	float shotcount = 22;
+	vector spread = '280 60 0';
 	vector view_origin = self.origin + self.view_ofs + v_forward*12 - v_up*4; //+ v_right* 8;
 
 	vector mvel;
 	while (shotcount > 0)
-	{		
-		//RANDOM SPREAD
+	{
 		mvel = (v_forward * 2000) + (v_up * 100) + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
 		Launch_Flak(view_origin, mvel);
 		shotcount = shotcount - 1;
@@ -101,7 +95,6 @@ entity(vector org, vector vel) Launch_Flak =
 	//gunshot(org);
 	flak = toss_projectile(org, vel, "flak");
 	flak.lifetime_finished = time + 1.1;
-	flak.dmg = 7;
 	flak.gravity = .5;
 	flak.think = FlakThink;
 	flak.touch = FlakTouch;
@@ -128,11 +121,6 @@ void() FlakThink =
 
 void() FlakTouch =
 {
-	//if (other == self.owner ) return;		// don't touch owner
-	//if (CheckProjectilePassthru()) return;
-
-
-
 	if (other.takedamage)
 	{
 		T_Damage(other, self, self.owner, 4); //10x10 20x5 15x7
@@ -168,7 +156,6 @@ void() FlakTouch_Bounce_1 =
 		T_Damage(other, self, self.owner, 4); //10x10 20x5 15x7
 		particle(self.origin, self.velocity*0.1, 73, 40);
 		sound_flakshotgun_impact();
-		//projectile_passthru();
 	}
 	else
 		gunshot(self.origin);
