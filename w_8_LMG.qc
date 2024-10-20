@@ -215,7 +215,7 @@ vector(float shotcount, float dmg, vector org, vector dir, vector spread, float 
 	//ClearMultiDamage();
 	while (shotcount > 0)
 	{
-		direction = dir + weighted_crandom_lmg(centerbias)*spread_x*rt + weighted_crandom_lmg(centerbias)*spread_y*up;
+		direction = dir + weighted_crandom(centerbias)*spread_x*rt + weighted_crandom(centerbias)*spread_y*up;
 
 		traceline (org, org + direction*2048, FALSE, self);
 		endpoint = trace_endpos;
@@ -326,15 +326,7 @@ void(float damage, vector dir, float penetrate) LMGTraceAttack =
 	}
 		
 };
-////////////////////////////////////////////////////////////////////////////////////////////////
 
-float(float runs) weighted_crandom_lmg = {
-    float ret = 0;
-    for (float i = 0; i < runs; i++) {
-        ret += random() * 1/runs;
-    }
-    return 2*(ret - 0.5);
-}
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////

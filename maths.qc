@@ -197,6 +197,16 @@ vector(vector b, vector a, float r) rotateVectorAround =
 	return b*cos + cross*sin + a*dot*(1-cos);
 }
 
+float(float runs) weighted_crandom =
+{
+    float ret = 0;
+    
+    for (float i = 0; i < runs; i++)
+        ret += random() * 1/runs;
+    
+    return 2*(ret - 0.5);
+}
+
 float() crandom =
 {
 	return 2*(random() - 0.5);
