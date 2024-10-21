@@ -452,6 +452,17 @@ entity liquidbrushfirst;
 .float attackpressed;
 
 
+// rotate
+.vector neworigin;
+.vector rotate;
+.float  endtime;
+.float  rotate_type;
+.string path;
+.string group;
+.string event;
+.float  duration;
+.vector finalangle;
+
 //===========================================================================
 // builtin functions
 //===========================================================================

@@ -33,52 +33,7 @@ float TELEDEST_STYLE_INSTANT = 1;
 
 //=================================================================================================
 
-// high precision vectoyaw
-float(vector vec) vectoyaw2 =
-{
-    float b = 0.596227;
 
-    // Extract the sign bits
-    float ux_s  =  vec_x < 0 ? -1 : 1;
-    float uy_s  =  vec_y < 0 ? -1 : 1;
-
-    // Determine the quadrant offset
-    float q;
-    if (ux_s > 0 && uy_s > 0) q = 0;
-    else if (ux_s < 0 && uy_s > 0) q = 1;
-    else if (ux_s < 0 && uy_s < 0) q = 2;
-    else q = 3;
-
-    // Calculate the arctangent in the first quadrant
-    float bxy_a = fabs( b * vec_x * vec_y );
-    float num = bxy_a + vec_y * vec_y;
-    float atan_1q =  num / ( vec_x * vec_x + bxy_a + num );
-
-    // Translate it to the proper quadrant
-    float uatan_2q = ux_s < 0 ? 1 - atan_1q : atan_1q;
-    if (q >= 2) uatan_2q = 1 - uatan_2q;
-    return (q + uatan_2q) * 90;
-}
-
-float(float x) sign = {
-	if (x > 0) {
-		return 1;
-	}
-	else if (x < 0) {
-		return -1;
-	}
-
-	return 0;
-};
-
-// normalizes an angle vector to the -180/+179 range
-vector(vector ang) normalizeAngles180 = {
-	ang_x = ang_x - floor((ang_x+180)/360) * 360;
-	ang_y = ang_y - floor((ang_y+180)/360) * 360;
-	ang_z = ang_z - floor((ang_z+180)/360) * 360;
-
-	return ang;
-};
 
 //=================================================================================================
 

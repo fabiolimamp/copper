@@ -90,5 +90,6 @@ m_amalgam.qc    // reliq
 
 cshift.qc
 water.qc
+rotators.qc
 
 test.qc
