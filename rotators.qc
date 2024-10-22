@@ -986,6 +986,17 @@ void() func_movewall =
 /*QUAKED rotate_object (0 .5 .8) ?
 This defines an object to be rotated.  Used as the target of func_rotate_door.
 */
+/*FGD
+@SolidClass base(Appearflags, Targetname) color(0 128 204) = rotate_object :
+"This defines an object to be rotated.
+
+Used as the target of func_rotate_door or func_rotate_entity point entities. Refer to them for more details.
+
+Make this entity target the info_rotate entity used as pivot point.
+" [
+	target(string) : "Name of info_rotate point entity"
+]
+*/
 void() rotate_object =
 {
 	if (!SUB_ShouldSpawn()) return;

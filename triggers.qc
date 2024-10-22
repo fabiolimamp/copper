@@ -1369,6 +1369,20 @@ Keys:
 
 "angle" the direction player must be facing to climb ladder
 */
+/*FGD
+@SolidClass base(Appearflags, Targetname) color(128 128 64) = trigger_ladder :
+"Invisible ladder trigger.
+
+When player is touching this entity, they'll move on the direction they're facing when pressing forward, or be able to move straight up/down with the jump/moveup/movedown keys.
+
+The 'angle' key is optional. When set, the player will only stick to the ladder while facing this direction.
+
+The recommended way to set up a ladder trigger is to make it 16 units deep jutting out of whatever solid you're putting it up against. If you have a brushwork ladder on a wall, you can make that a func_illusionary or func_detail_illusionary and put the trigger covering it. Making the trigger too thin, or flush on a solid surface, will make it difficult for the player to climb. We also recommend having the top of the trigger at the same height as the floor you want the player to step out to.
+"
+[
+	angle(integer) : "Angle" : : "Optional. If set, the player will only stick to the ladder while facing this direction. If you need to set angle 0, use 360 instead."
+]
+*/
 void() trigger_ladder =
 {
 	if (!SUB_ShouldSpawn()) return;
