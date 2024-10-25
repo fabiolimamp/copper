@@ -584,6 +584,17 @@ void() SightSound =
 		sound (self, CHAN_VOICE, "soldier/sight1.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_shalrath")
 		sound (self, CHAN_VOICE, "shalrath/sight.wav", 1, ATTN_NORM);
+	else if (self.classname == "monster_swarmer")
+	{
+		local float	rsnd2;
+		rsnd2 = random();
+		if (rsnd2 < 0.33)
+			sound (self, CHAN_VOICE, "swarmer/sight1.wav", 1, ATTN_NORM);
+		else if (rsnd2 < 0.66)
+			sound (self, CHAN_VOICE, "swarmer/sight2.wav", 1, ATTN_NORM);
+		else
+			sound (self, CHAN_VOICE, "swarmer/sight3.wav", 1, ATTN_NORM);
+	}
 }
 
 void() FoundTarget =
