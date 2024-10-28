@@ -217,7 +217,7 @@ weaponclass_t wpc_supernailgun = {
 	"progs/v_nail2.mdl", // model
 	2, // ammofield
 	IT_NAILS, // ammo_item
-	1, // ammo_usage
+	10, // ammo_usage
 	weaponanim_rebarcannon, // animfunction
 	SUB_Null // idlefunction
 };
