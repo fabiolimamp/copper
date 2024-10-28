@@ -48,24 +48,16 @@ void() weaponanim_rebarcannon_loop = {
 
 void() W_FireRebarCannon =
 {
-	entity m;
-	float base;
-	vector mvel;
-	
 	sound (self, CHAN_WEAPON, "penfire.wav", 1, ATTN_NORM);
 	self.punchangle_x = -2;
 
 	makevectors (self.v_angle);
-	base = 1400;
+	float base = 1400;
 	
-	mvel = (v_forward * base) + (v_up * 150) + (v_right * 10) + (v_up * 10);
-
-	m = launch_impaler(self.origin, mvel);
-	m.gravity = .75;
-	m.think = ImpalerThink;
-	m.touch = ImpalerTouch;
-	m.th_die = SUB_Remove;
-	m.buddy = self;
+	vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15;
+	vector mvel = v_forward*base + v_up*160;
+	
+	launch_impaler(org, mvel);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -76,14 +68,29 @@ void() ImpalerInwallThink =
 	self.touch = SUB_Null;
 	self.movetype = MOVETYPE_NONE;
 	self.solid = SOLID_NOT;
-	self.think = SUB_Remove;
-	self.nextthink = time + 15;
+	self.alpha = 1;
+	self.think = ImpalerFade;
+	self.nextthink = time + 10;
+}
+
+void() ImpalerFade =
+{
+	self.alpha -= 0.025;
+	
+	if (self.alpha <= 0)
+	{
+		remove(self);
+		return;
+	}
+
+	self.think = ImpalerFade;
+	self.nextthink = time + 0.05;
 }
 
 void() ImpalerThink =
 {
 	self.angles = vectoangles(self.velocity);
-	self.flags = not(self.flags, FL_ONGROUND);
+	self.flags &~= FL_ONGROUND;
 	self.oldvelocity = self.velocity;
 	self.nextthink = time + 0.05;
 }
@@ -93,10 +100,17 @@ entity(vector org, vector vel) launch_impaler =
 {
 	entity impaler;
 	gunshot(org);
+
 	impaler = toss_projectile(org, vel, "impaler");
 	impaler.lifetime_finished = time + 2.5;
-
+	
 	SUB_ChangeModel (impaler, "progs/rebar.mdl");
+
+	impaler.owner = self;
+	impaler.gravity = .75;
+	impaler.think = ImpalerThink;
+	impaler.touch = ImpalerTouch;
+	impaler.th_die = SUB_Remove;
 
 	return impaler;
 }
@@ -111,14 +125,14 @@ void(float dm) GibSprayHeadless =
 
 void() ImpalerTouch =
 {
-	if (other == self.owner ) return;		// don't touch owner
 	if (CheckProjectilePassthru()) return;
-	if ((other.takedamage == DAMAGE_AIM) || (other.takedamage == DAMAGE_YES))
+	
+	if (other.takedamage)
 	{
 			if (other.classname == "monster_zombie")
-				T_Damage(other,self.buddy,self.buddy,59);
+				T_Damage(other, self, self.owner, 59);
 			else
-				T_Damage(other,self.buddy,self.buddy,100);
+				T_Damage(other, self, self.owner, 100);
 
 			GibSprayHeadless(20);
 			particle (self.origin, self.velocity*0.1, 73, 40);
@@ -134,17 +148,14 @@ void() ImpalerTouch =
 			return;
 	}
 
-	if (!other.takedamage)
-	{
-		sound (self, CHAN_AUTO, "stick1.wav", 0.5, ATTN_NORM);
-		gunshot(self.origin);
+	
+	sound (self, CHAN_AUTO, "stick1.wav", 0.5, ATTN_NORM);
+	gunshot(self.origin);
 
-		//stick in the wall if we hit worldspawn as we know that won't move
-		if (other == world)
-		{
+	//stick in the wall if we hit worldspawn as we know that won't move
+	if (other == world)
 		ImpalerInwallThink();
-		}
-		else
+	else
 		remove(self);
-	}
+	
 }
