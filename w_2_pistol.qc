@@ -240,14 +240,17 @@ void() W_FirePistolRecoil =
 	
 	vector org = self.origin + self.view_ofs - v_up * 8 + v_right *  8;
 	
-	vector dir = aim (self, 100000);
+	//vector dir = aim (self, 100000);
 	vector spread;
 
 	spread_x = 0.015; // horizontal
 	spread_y = 0.015; // vertical
 	spread_z = 0;
 	
-	traceline(org, org + v_forward * 16, FALSE, self);
+	// aim point directly in front of the crosshair
+	traceline(self.origin + self.view_ofs, self.origin + self.view_ofs + v_forward * 10000, FALSE, self);
+
+	vector dir = normalize(trace_endpos - org);
 		
 	FireBullets2 (1, 20, org + v_forward * 16 * trace_fraction, dir, spread, 2, FALSE, 1);
 		
