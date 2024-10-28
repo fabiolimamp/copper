@@ -16,7 +16,7 @@ float() weaponanim_boxrocket = {
 	
 	SUB_CallAsSelf(player_rockatt1, self.animcontroller);
 	
-	boxrocket_launch('0 -6 -16', 1);
+	boxrocket_launch('0 -6 -8', 1);
 	
 	self.weaponframe = 1;
 	self.think = weaponanim_boxrocket_loop;
@@ -41,13 +41,13 @@ void() weaponanim_boxrocket_loop = {
 	if (self.weaponframe == 12) boxrocket_launch('0 -6 -32', TRUE);
 	if (self.weaponframe == 14) boxrocket_launch('0 6 -32', FALSE);
 	*/
-	if (self.weaponframe == 2)  boxrocket_launch('0 -2 -16', 0);
-	if (self.weaponframe == 4)  boxrocket_launch('0  2 -16', 1);
-	if (self.weaponframe == 6)  boxrocket_launch('0  6 -16', 0);
-	if (self.weaponframe == 8)  boxrocket_launch('0 -6 -24', 1);
-	if (self.weaponframe == 10) boxrocket_launch('0 -2 -24', 0);
-	if (self.weaponframe == 12) boxrocket_launch('0  2 -24', 1);
-	if (self.weaponframe == 14) boxrocket_launch('0  6 -24', 0);
+	if (self.weaponframe == 2)  boxrocket_launch('0 -2 -8', 0);
+	if (self.weaponframe == 4)  boxrocket_launch('0  2 -8', 1);
+	if (self.weaponframe == 6)  boxrocket_launch('0  6 -8', 0);
+	if (self.weaponframe == 8)  boxrocket_launch('0 -6 -12', 1);
+	if (self.weaponframe == 10) boxrocket_launch('0 -2 -12', 0);
+	if (self.weaponframe == 12) boxrocket_launch('0  2 -12', 1);
+	if (self.weaponframe == 14) boxrocket_launch('0  6 -12', 0);
 
 
 	if (self.weaponframe >= 32) {
@@ -73,6 +73,22 @@ void(vector ofs, float ammoUsage) boxrocket_launch = {
 
 	W_FireSpiralRocket(ofs);
 }
+
+void(vector ofs) W_FireSpiralRocket =
+{
+	local	vector dir, org;
+
+	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
+
+	makevectors (self.v_angle);
+	dir = aim(self, 1000);
+
+	org = self.origin + self.view_ofs + v_up*ofs_z + v_right*ofs_y;
+	traceline(org, org + v_forward * 15, FALSE, self);
+	launch_spiralrocket(org + v_forward*15 * trace_fraction, dir, 0);
+	
+};
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /*
@@ -235,29 +251,3 @@ void(vector org, vector dir, float init_angle) launch_spiralrocket = {
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-void(vector ofs) W_FireSpiralRocket =
-{
-	local	vector dir, org;
-
-	//self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
-	
-	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
-
-	makevectors (self.v_angle);
-	dir = aim(self, 1000);
-
-	/*
-	org = self.origin + self.view_ofs - v_up*8 + v_right * 8;	// '0 0 10';
-	traceline(org, org + v_forward * 24, FALSE, self);
-	launch_spiralrocket(org + v_forward*24 * trace_fraction, dir, 0);
-	//float ang = 0;
-	org2 = self.origin + self.view_ofs - v_up*8 + v_right * -8;	// '0 0 10';
-	traceline(org2, org2 + v_forward * 24, FALSE, self);
-	launch_spiralrocket(org2 + v_forward*24 * trace_fraction, dir, 180);
-	*/
-
-	org = self.origin + self.view_ofs + v_up*ofs_z + v_right*ofs_y;
-	traceline(org, org + v_forward * 24, FALSE, self);
-	launch_spiralrocket(org + v_forward*24 * trace_fraction, dir, 0);
-	
-};
