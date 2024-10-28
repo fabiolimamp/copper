@@ -78,10 +78,12 @@ void() W_FireFlakShotgun =
 	vector view_origin = self.origin + self.view_ofs + v_forward*12 - v_up*4; //+ v_right* 8;
 
 	vector mvel;
+	entity fl;
 	while (shotcount > 0)
 	{
 		mvel = (v_forward * 2000) + (v_up * 100) + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
-		Launch_Flak(view_origin, mvel);
+		fl = Launch_Flak(view_origin, mvel);
+		fl.count = shotcount;
 		shotcount = shotcount - 1;
 	}
 
@@ -97,10 +99,12 @@ entity(vector org, vector vel) Launch_Flak =
 	flak.lifetime_finished = time + 1.1;
 	flak.gravity = .5;
 	flak.think = FlakThink;
+	flak.nextthink = time + 0.05;
 	flak.touch = FlakTouch;
 	flak.th_die = SUB_Remove;
 	flak.alpha = 1;
 	flak.owner = self;
+	flak.oldvelocity = flak.velocity;
 
 	SUB_ChangeModel (flak, "progs/pellet.mdl");
 
@@ -111,9 +115,12 @@ entity(vector org, vector vel) Launch_Flak =
 
 void() FlakThink =
 {
+	
 	self.angles = vectoangles(self.velocity);
 	self.flags = not(self.flags, FL_ONGROUND);
 	self.oldvelocity = self.velocity;
+
+	self.think = FlakThink;
 	self.nextthink = time + 0.05;
 
 	float fadetime = 0.4;
@@ -129,6 +136,43 @@ void() FlakThink =
 	if (self.lifetime_finished < time)
 		remove(self);
 }
+
+
+void() FlakBounce =
+{
+	vector dir = normalize(self.oldvelocity);
+	vector spot1 = self.origin - (4*dir);
+	vector spot2 = self.origin + (4*dir);
+	traceline (spot1, spot2, FALSE, self); 
+	self.flags &~= FL_ONGROUND;
+
+	/*
+	Vector reflection around normal
+	r = d − 2(d*n)n
+	r => reflected vector, d => entrance vector, n => surface normal, d*n => dot product
+
+	1.5 => "overbounce", same calculation applied by the engine to reduce velocity depending on impact angle on MOVETYPE_BOUNCE ents
+	*/
+	vector newdir = self.oldvelocity - (2 * (self.oldvelocity * trace_plane_normal / 1.5)) * trace_plane_normal;
+	//self.velocity = newdir * vlen(self.oldvelocity);
+	self.velocity = newdir;
+
+	setorigin(self, self.origin + normalize(newdir));
+
+	self.oldvelocity = self.velocity;
+	self.angles = vectoangles(self.velocity);
+
+	// physics loop clips velocity only after this touch function runs, so it needs to be set again at the next frame
+	self.think = Flak_setvelocity;
+	self.nextthink = time + 0.01;
+}
+
+void() Flak_setvelocity = {
+	self.velocity = self.oldvelocity;
+	self.think = FlakThink;
+	self.nextthink = time + 0.01;
+}
+
 
 void() FlakTouch =
 {
@@ -146,7 +190,10 @@ void() FlakTouch =
 		return;
 	}
 
-	self.touch = FlakTouch_Bounce_1;
+	FlakBounce();
+	gunshot(self.origin);
+
+	self.touch = FlakTouch_2;
 	self.lifetime_finished = time + 0.5;
 	
 	float chance = random();
@@ -157,19 +204,23 @@ void() FlakTouch =
 }
 //=============================================================================================
 
-void() FlakTouch_Bounce_1 =
+
+void() FlakTouch_2 =
 {
 	if (other == self.owner ) return;		// don't touch owner
 	if (CheckProjectilePassthru()) return;
 
-	if ((other.takedamage == DAMAGE_AIM) || (other.takedamage == DAMAGE_YES))
+	FlakBounce();
+
+	if (other.takedamage)
 	{
 		T_Damage(other, self, self.owner, 4); //10x10 20x5 15x7
 		particle(self.origin, self.velocity*0.1, 73, 40);
 		sound_flakshotgun_impact();
+		return;
 	}
-	else
-		gunshot(self.origin);
+	
+	gunshot(self.origin);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
