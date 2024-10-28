@@ -73,11 +73,12 @@ const float	SOLID_SLIDEBOX			= 3;	// touch on edge, but not an onground
 const float	SOLID_BSP				= 4;	// bsp clip, touch on edge, block
 
 // range values
-const float	RANGE_MELEE				= 0;	// 0-120
-const float	RANGE_NEAR				= 1;	// 120-500
-const float	RANGE_MID				= 2;	// 500-900, max ranged attack dist
-const float	RANGE_FAR				= 3;	// 900-1250, max awake dist
-const float	RANGE_TOOFAR			= 4;	// 1250+
+const float	RANGE_HUG				= 0;	// 0-80
+const float	RANGE_MELEE				= 1;	// 80-120
+const float	RANGE_NEAR				= 2;	// 120-500
+const float	RANGE_MID				= 3;	// 500-900, max ranged attack dist
+const float	RANGE_FAR				= 4;	// 900-1250, max awake dist
+const float	RANGE_TOOFAR			= 5;	// 1250+
 
 // deadflag values
 const float	DEAD_NO					= 0;

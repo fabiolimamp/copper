@@ -87,10 +87,11 @@ m_enforcer.qc	// registered
 m_oldone.qc		// registered
 
 m_amalgam.qc    // reliq
-m_swarmer.qc
+m_swarmer.qc 	// Alkaline
+m_sploder.qc 	// Dwell
 
 cshift.qc
 water.qc
-rotators.qc
+rotators.qc 	// sorry Lun
 
 test.qc

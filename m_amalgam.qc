@@ -297,7 +297,7 @@ float() AmalgamCheckAttack =
 	if (!CheckClearAttack()) return FALSE;
 
 	// missile attack
-	if (enemy_range == RANGE_MELEE)
+	if (enemy_range <= RANGE_MELEE)
 		chance = 0.9;
 	else if (enemy_range == RANGE_NEAR)
 		chance = 0.7;

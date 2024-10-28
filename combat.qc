@@ -583,7 +583,7 @@ void(entity targ, entity inflictor, entity attacker, float damage, float dmgtype
 T_RadiusDamage
 ============
 */
-void(entity inflictor, entity attacker, float damage, entity ignore, optional float dmgtype = DMGTYPE_EXPLOSION) T_RadiusDamage =
+void(entity inflictor, entity attacker, float damage, entity ignore, optional float dmgtype = DMGTYPE_EXPLOSION, optional float radius, optional float(float, float) formula) T_RadiusDamage =
 {
 	// note: find downed zombies to gib first, then do radius damage, or else the radius 
 	// damage will knock far away zombies down, then immediately gib them too
@@ -593,8 +593,11 @@ void(entity inflictor, entity attacker, float damage, entity ignore, optional fl
 	
 	float 	points, dist;
 	entity	head;
+
+	if (!radius) 
+		radius = min(512, damage + 40);
 	
-	head = findradius(inflictor.origin, min(512, damage + 40));
+	head = findradius(inflictor.origin, radius);
 	
 	while (head)
 	{
@@ -604,7 +607,11 @@ void(entity inflictor, entity attacker, float damage, entity ignore, optional fl
 			if ((head.movetype == MOVETYPE_PUSH || head.th_die == multi_killed) && head.type != "explobox")
 			{
 				dist = vlen (inflictor.origin - BoundsCenter(head));
-				points = damage - (0.5 * dist);
+
+				if (formula)
+					points = formula(dist, damage);
+				else
+					points = damage - (0.5 * dist);
 
 				// a grenade at rest touching shootable should intuitively trigger it
 				if ( !(inflictor.type == "grenade" && BoundsTouching(inflictor.origin, inflictor.origin, head.absmin, head.absmax, 2)) )
@@ -614,7 +621,12 @@ void(entity inflictor, entity attacker, float damage, entity ignore, optional fl
 			else
 			{
 				dist = vlen (inflictor.origin - head.origin);
-				points = damage - (0.5 * dist);
+
+				if (formula)
+					points = formula(dist, damage);
+				else
+					points = damage - (0.5 * dist);
+				
 				if (head == attacker && inflictor.type != "explobox")	// barrels never did half-self-splash in vanilla
 					points *= 0.5;
 			}

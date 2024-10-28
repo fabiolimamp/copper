@@ -70,7 +70,7 @@ float() enforcer_check_attack =
 	if (enemy_range >= RANGE_FAR) return FALSE;
 	if (!enforcer_clear_attack()) return FALSE;
 
-	if (enemy_range == RANGE_MELEE)
+	if (enemy_range <= RANGE_MELEE)
 	{
 		chance = 0.9;
 		self.attack_finished = 0;

@@ -287,7 +287,7 @@ Returns FALSE if movement should continue
 */
 float() OgreCheckAttack =
 {
-	if (enemy_range == RANGE_MELEE && z_overlap(self.enemy))
+	if (enemy_range <= RANGE_MELEE && z_overlap(self.enemy))
 	{
 		if (CanDamage (self.enemy, self.origin))
 		{

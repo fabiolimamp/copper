@@ -43,6 +43,8 @@ float(entity targ) range =
 	d = eyeline(targ);
 	//d_z *= 2;	// don't melee guys way above or below you
 	r = vlen(d);
+	if (r < 80)
+		return RANGE_HUG;
 	if (r < 120)
 		return RANGE_MELEE;
 	if (r < 500)
@@ -423,7 +425,7 @@ void (void() th) ai_check_refire =
 		
 	// distance checks
 	enemy_range == range(self.enemy);
-	if (enemy_range == RANGE_MELEE)
+	if (enemy_range <= RANGE_MELEE)
 	{
 		self.attack_finished = 0;
 		return;
@@ -473,7 +475,7 @@ float() CheckAttack =
 	if (!CheckClearAttack()) return FALSE;
 
 	// always melee immediately when close enough
-	if ((enemy_range == RANGE_MELEE  && z_overlap(self.enemy)) || 
+	if ((enemy_range <= RANGE_MELEE  && z_overlap(self.enemy)) || 
 		(has_invis(self.enemy) && random() < 0.1) )	// wave arms randomly now and then if target is invisible
 	{
 		if (self.th_melee)
@@ -486,7 +488,7 @@ float() CheckAttack =
 	if (!self.th_missile) return FALSE;
 	if (enemy_range >= RANGE_FAR) return FALSE;
 	
-	if (enemy_range == RANGE_MELEE)
+	if (enemy_range <= RANGE_MELEE)
 	{
 		chance = 0.9;
 		self.attack_finished = 0;
@@ -718,7 +720,7 @@ float() FindTarget =
 	// - bumping into a dog
 	if (has_invis(client))
 	{
-		if (!(r == RANGE_MELEE && self.classname == "monster_dog" && client.classname == "player"))
+		if (!(r <= RANGE_MELEE && self.classname == "monster_dog" && client.classname == "player"))
 		{
 			if (client.show_hostile < time)
 				return FALSE;
@@ -1664,6 +1666,8 @@ void(float dist) ai_run =
 			}
 			return;
 		}
+		else if (self.classname == "monster_sploder")
+			ai_face();
 	}
 	
 	if (self.attack_state == AS_SLIDING)

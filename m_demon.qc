@@ -80,7 +80,7 @@ float() DemonCheckCharge =
 	if ( fabs(edir_z) > vlen(edir) / 2)
 		return FALSE;		// too much height change
 	
-	if ( range(self.enemy) == RANGE_MELEE )
+	if ( range(self.enemy) <= RANGE_MELEE )
 		return FALSE;		// defer to regular attack
 
 	// charge		

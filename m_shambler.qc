@@ -279,7 +279,7 @@ void() sham_magic1     =[      $magic1,       sham_magic2    ] {ai_face();
 void() sham_magic2     =[      $magic2,       sham_magic3    ] {ai_face();}
 void() sham_magic2nm     =[      $magic2,       sham_magic3    ]
 {
-	if (range(self.enemy) == RANGE_MELEE)
+	if (range(self.enemy) <= RANGE_MELEE)
 	{
 		sham_melee();
 		return;
@@ -356,7 +356,7 @@ Returns FALSE if movement should continue
 */
 float() ShamCheckAttack =
 {
-	if (enemy_range == RANGE_MELEE && CheckClearAttack() && z_overlap(self.enemy))
+	if (enemy_range <= RANGE_MELEE && CheckClearAttack() && z_overlap(self.enemy))
 	{
 		if (vdist(self.origin, self.enemy.origin) > 95)
 		{

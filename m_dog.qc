@@ -288,7 +288,7 @@ Returns TRUE if a melee attack would hit right now
 */
 float()	CheckDogMelee =
 {
-	if (enemy_range == RANGE_MELEE && z_overlap(self.enemy))
+	if (enemy_range <= RANGE_MELEE && z_overlap(self.enemy))
 	{	// FIXME: check canreach
 		self.attack_state = AS_MELEE;
 		return TRUE;

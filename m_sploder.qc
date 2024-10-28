@@ -1,0 +1,358 @@
+/*
+==============================================================================
+
+sploder
+
+==============================================================================
+*/
+$frame run1 run2 run3 run4 run5 run6 run7 run8 run9 run10 run11
+
+$frame walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 walk10 walk11 walk12 walk13
+
+$frame stand1 stand2 stand3 stand4 stand5 stand6 stand7 stand8 stand9 stand10
+$frame stand11 stand12 stand13 stand14 stand15 stand16 stand17 stand18 stand19 
+$frame stand20 stand21 stand22 stand23 stand24 stand25
+
+$frame stunned_a1 stunned_a2 stunned_a3 stunned_a4 stunned_a5 stunned_a6 stunned_a7 stunned_a8 stunned_a9 stunned_a10
+
+$frame stunned_b1 stunned_b2 stunned_b3 stunned_b4 stunned_b5 stunned_b6 stunned_b7 stunned_b8 stunned_b9 stunned_b10
+
+$frame stunned_c1 stunned_c2 stunned_c3 stunned_c4 stunned_c5 stunned_c6 stunned_c7 stunned_c8 stunned_c9 stunned_c10
+
+ 
+void()	sploder_stand1		=[	$stand1,	sploder_stand2		] {ai_stand();}
+void()	sploder_stand2		=[	$stand2,	sploder_stand3		] {ai_stand();}
+void()	sploder_stand3		=[	$stand3,	sploder_stand4		] {ai_stand();}
+void()	sploder_stand4		=[	$stand4,	sploder_stand5		] {ai_stand();}
+void()	sploder_stand5		=[	$stand5,	sploder_stand6		] {ai_stand();}
+void()	sploder_stand6		=[	$stand6,	sploder_stand7		] {ai_stand();}
+void()	sploder_stand7		=[	$stand7,	sploder_stand8		] {ai_stand();}
+void()	sploder_stand8		=[	$stand8,	sploder_stand9		] {ai_stand();}
+void()	sploder_stand9		=[	$stand9,	sploder_stand10	] {ai_stand();}
+void()	sploder_stand10	=[	$stand10,	sploder_stand11	] {ai_stand();}
+void()	sploder_stand11	=[	$stand11,	sploder_stand12	] {ai_stand();}
+void()	sploder_stand12	=[	$stand12,	sploder_stand13	] {ai_stand();}
+void()	sploder_stand13	=[	$stand13,	sploder_stand14	] {ai_stand();}
+void()	sploder_stand14	=[	$stand14,	sploder_stand15	] {ai_stand();}
+void()	sploder_stand15	=[	$stand15,	sploder_stand16	] {ai_stand();}
+void()	sploder_stand16	=[	$stand16,	sploder_stand17	] {ai_stand();}
+void()	sploder_stand17	=[	$stand17,	sploder_stand18	] {ai_stand();}
+void()	sploder_stand18	=[	$stand18,	sploder_stand19	] {ai_stand();}
+void()	sploder_stand19	=[	$stand19,	sploder_stand20	] {ai_stand();}
+void()	sploder_stand20	=[	$stand20,	sploder_stand21	] {ai_stand();}
+void()	sploder_stand21	=[	$stand21,	sploder_stand22	] {ai_stand();}
+void()	sploder_stand22	=[	$stand22,	sploder_stand23	] {ai_stand();}
+void()	sploder_stand23	=[	$stand23,	sploder_stand24	] {ai_stand();}
+void()	sploder_stand24	=[	$stand24,	sploder_stand25	] {ai_stand();}
+void()	sploder_stand25	=[	$stand25,	sploder_stand1		] {ai_stand();}
+
+void()	sploder_stunned_a1	=[	$stunned_a1,	sploder_stunned_a2	] {}
+void()	sploder_stunned_a2	=[	$stunned_a2,	sploder_stunned_a3	] {}
+void()	sploder_stunned_a3	=[	$stunned_a3,	sploder_stunned_a4	] {}
+void()	sploder_stunned_a4	=[	$stunned_a4,	sploder_stunned_a5	] {}
+void()	sploder_stunned_a5	=[	$stunned_a5,	sploder_stunned_a6	] {}
+void()	sploder_stunned_a6	=[	$stunned_a6,	sploder_stunned_a7	] {}
+void()	sploder_stunned_a7	=[	$stunned_a7,	sploder_stunned_a8	] {}
+void()	sploder_stunned_a8	=[	$stunned_a8,	sploder_stunned_a9	] {}
+void()	sploder_stunned_a9	=[	$stunned_a9,	sploder_run1		] {}
+
+void()	sploder_stunned_b1	=[	$stunned_b1,	sploder_stunned_b2	] {}
+void()	sploder_stunned_b2	=[	$stunned_b2,	sploder_stunned_b3	] {}
+void()	sploder_stunned_b3	=[	$stunned_b3,	sploder_stunned_b4	] {}
+void()	sploder_stunned_b4	=[	$stunned_b4,	sploder_stunned_b5	] {}
+void()	sploder_stunned_b5	=[	$stunned_b5,	sploder_stunned_b6	] {}
+void()	sploder_stunned_b6	=[	$stunned_b6,	sploder_stunned_b7	] {}
+void()	sploder_stunned_b7	=[	$stunned_b7,	sploder_stunned_b8	] {}
+void()	sploder_stunned_b8	=[	$stunned_b8,	sploder_stunned_b9	] {}
+void()	sploder_stunned_b9	=[	$stunned_b9,	sploder_run1		] {}
+//i wasn't typing that 3 times, go fuck yourself - lain
+void()	sploder_stunned_c1	=[	$stunned_c1,	sploder_stunned_c2	] {}
+void()	sploder_stunned_c2	=[	$stunned_c2,	sploder_stunned_c3	] {}
+void()	sploder_stunned_c3	=[	$stunned_c3,	sploder_stunned_c4	] {}
+void()	sploder_stunned_c4	=[	$stunned_c4,	sploder_stunned_c5	] {}
+void()	sploder_stunned_c5	=[	$stunned_c5,	sploder_stunned_c6	] {}
+void()	sploder_stunned_c6	=[	$stunned_c6,	sploder_stunned_c7	] {}
+void()	sploder_stunned_c7	=[	$stunned_c7,	sploder_stunned_c8	] {}
+void()	sploder_stunned_c8	=[	$stunned_c8,	sploder_stunned_c9	] {}
+void()	sploder_stunned_c9	=[	$stunned_c9,	sploder_run1		] {}
+
+
+void()	sploder_walk1		=[	$walk1,		sploder_walk2		] {ai_walk(3);}
+void()	sploder_walk2		=[	$walk2,		sploder_walk3		] {ai_walk(2);}
+void()	sploder_walk3		=[	$walk3,		sploder_walk4		] {ai_walk(4);}
+void()	sploder_walk4		=[	$walk4,		sploder_walk5		] {ai_walk(3);}
+void()	sploder_walk5		=[	$walk5,		sploder_walk6		] {ai_walk(3);}
+void()	sploder_walk6		=[	$walk6,		sploder_walk7		] {ai_walk(3);}
+void()	sploder_walk7		=[	$walk7,		sploder_walk8		] {ai_walk(3);}
+void()	sploder_walk8		=[	$walk8,		sploder_walk9		] {ai_walk(2);}
+void()	sploder_walk9		=[	$walk9,		sploder_walk10		] {ai_walk(4);}
+void()	sploder_walk10		=[	$walk10,	sploder_walk11		] {ai_walk(3);}
+void()	sploder_walk11		=[	$walk11,	sploder_walk12		] {ai_walk(3);}
+void()	sploder_walk12		=[	$walk12,	sploder_walk13		] {ai_walk(3);}
+void()	sploder_walk13		=[	$walk13,	sploder_walk1		] {ai_walk(3);}
+
+void()	sploder_run1		=[	$run1,		sploder_run2		] {
+	nmfast();
+	sploder_run(28);
+	Sploder_Forget();
+}
+void()	sploder_run2		=[	$run2,		sploder_run3		] {nmfast(); sploder_run(28);}
+void()	sploder_run3		=[	$run3,		sploder_run4		] {nmfast(); sploder_run(28);}
+void()	sploder_run4		=[	$run4,		sploder_run5		] {nmfast(); sploder_run(28);}
+void()	sploder_run5		=[	$run5,		sploder_run6		] {nmfast(); sploder_run(28);}
+void()	sploder_run6		=[	$run6,		sploder_run7		] {nmfast(); sploder_run(28);}
+void()	sploder_run7		=[	$run7,		sploder_run8		] {nmfast(); sploder_run(28);}
+void()	sploder_run8		=[	$run8,		sploder_run9		] {nmfast(); sploder_run(28);}
+void()	sploder_run9		=[	$run9,		sploder_run10		] {nmfast(); sploder_run(28);}
+void()	sploder_run10		=[	$run10,		sploder_run11		] {nmfast(); sploder_run(28);}
+void()	sploder_run11		=[	$run11,		sploder_run1		] {nmfast(); sploder_run(28);}
+
+float(entity e) sploder_visible =
+{
+	return (visible(e) && !has_invis(e));
+}
+
+void() Sploder_Forget =
+{
+	if (!self.rad_time)	// time to be RAD
+	{
+		// we just woke up, don't forget right away, because if we were awoken
+		// by another monster waking we'll just stay here.
+		self.rad_time = time + 30;
+	}
+	
+	if (time < self.rad_time)
+		return;
+		
+	if (!sploder_visible(self.enemy))
+	{
+		if (sploder_visible(self.oldenemy))
+		{
+			self.enemy = self.oldenemy;
+		}
+		else
+		{
+			self.enemy = world;
+		}
+		self.oldenemy = world;
+	}
+	if (!self.enemy)
+	{
+		self.rad_time = 0;	// reset the clock
+		ai_stand();
+	}
+}
+
+/*
+float(float dist, float dmg) SploderBlastRadius =
+{
+	local	float	final_dmg;
+	
+	if(dist < 32)
+		return	dmg;
+	else if(dist > 192)
+		return 0;
+	
+	final_dmg = (dist - 32) / 16;
+	final_dmg = final_dmg * final_dmg * (-1);
+	final_dmg = ceil(final_dmg + 100) / 100;
+	final_dmg = final_dmg * dmg;
+	
+	return final_dmg;
+};
+*/
+
+float(float dist, float dmg) SploderBlastRadius =
+{
+	local	float	final_dmg;
+	
+	if(dist < 32)
+		return	dmg;
+	else if(dist > 190)
+		return 0;
+	
+	final_dmg = 0.02 * dist + 0.93;
+	final_dmg = sin(final_dmg * 57.32484);
+	final_dmg = 50 * final_dmg + 50;
+
+	final_dmg = final_dmg / 100;
+	final_dmg = rint(final_dmg * dmg);
+	
+	return final_dmg;
+}
+
+void() sploder_explode =
+{
+	sound (self, CHAN_VOICE, "zombie/z_gib.wav", 1, ATTN_NORM);
+	GibSpray ("progs/gib3.mdl", self.health);
+	
+	if (skill != 3)
+		//T_RadiusDamage (self, self, 190, 60, SploderBlastRadius, world);
+		T_RadiusDamage (self, self, 60, world, DMGTYPE_EXPLOSION, 190, SploderBlastRadius);
+	else
+		T_RadiusDamage (self, self, 100, world, DMGTYPE_EXPLOSION, 190, SploderBlastRadius);
+
+	sound (self, CHAN_BODY, "weapons/r_exp3.wav", 1, ATTN_NORM);
+	BecomeExplosion();
+}
+
+void()	sploder_die =
+{
+	if (self.think == sploder_explode)
+		return;	// already exploding
+	self.enemy = activator;
+	self.think = sploder_explode;
+	self.nextthink = time + 0.05;	// infini-sploder crash fixed
+};
+
+void(entity attacker, float damage)	sploder_pain =
+{
+	self.rad_time = time + 60;
+
+	if (self.pain_finished > time)
+		return;
+	PainFinished(1.5);
+	
+		if (self.frame <= 49)
+	{
+		if ((self.frame == 1) || (self.frame == 5) || (self.frame == 6) || (self.frame == 11))
+			{
+			sploder_stunned_a1();
+			}
+		
+		if ((self.frame == 3) || (self.frame == 8) || (self.frame == 9))
+			{
+			sploder_stunned_b1();
+			}
+		
+		if ((self.frame == 2) || (self.frame == 4) || (self.frame == 7) || (self.frame == 10))
+			{
+			sploder_stunned_c1();
+			}
+		
+		if ((self.frame >= 11) && (self.frame <= 49))
+			{
+			sploder_stunned_a1();	
+			}
+		
+		
+	}
+
+	sound (self, CHAN_VOICE, "sploder/sploder_pain.wav", 1, ATTN_NORM);
+};
+
+float()	SploderCheckDistance =
+{
+	if (EntitiesTouching(self, self.enemy))
+		return TRUE;
+	
+	if (range(self.enemy) == RANGE_HUG)// && z_overlap(self.enemy))
+	{
+		return TRUE;
+	}
+	return FALSE;
+};
+
+void() SploderScream =
+{
+	if(self.cnt <= 0)
+	{
+		sound (self, CHAN_VOICE, "sploder/sploder_scream.wav", 1, ATTN_NORM);
+		self.cnt = 6;
+	}
+	else
+	{
+		self.cnt--;
+	}
+};
+
+void(float dist)sploder_run =
+{
+	if(!SploderCheckDistance())
+	{
+		ai_run(dist);
+		SploderScream();
+	}
+	else
+	{
+		Killed(self,self.enemy, DMGTYPE_MELEE);
+	}
+};
+
+//===========================================================================
+
+void() monster_sploder_spawn =
+{
+	self.classname = "monster_sploder";
+		
+	self.solid = SOLID_SLIDEBOX;
+
+	setmodel (self, "progs/sploder.mdl");
+
+	setsize (self, '-16 -16 -24', '16 16 24');
+	self.health = 40;
+	
+	self.cnt = 0;
+	self.rad_time = 0;
+	
+	self.customflags |= CFL_MELEEONLY;
+
+	self.th_stand = sploder_stand1;
+	self.th_walk = sploder_walk1;
+	self.th_run = sploder_run1;
+	self.th_die = sploder_die;
+	self.th_pain = sploder_pain;
+	self.th_checkattack = CheckAttack;
+
+	if (self.deathtype == string_null)
+		self.deathtype = "was detonated by a Sploder";
+
+	nmspeed(0.075);
+
+	walkmonster_start ();
+};
+
+void() monster_sploder_spawner = {mon_spawner_use(monster_sploder_spawn);}
+
+/*QUAKED monster_sploder (1 0 0) (-16 -16 -24) (16 16 24) AMBUSH ? ? ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
+sploder, 40 health points.
+
+Flags:
+"ambush" only wake up on seeing the player, not another monster getting angry
+"Triggered"	will not spawn until triggered - triggering again will wake him up. Set 'count' to make this a multi-use spawner.
+"NoTfog" 	supress teleport glitter when spawned with 'triggered'
+"NoTelefrag" will silently fail to spawn if doing so would telefrag an existing monster. will try again automatically 2x/second until it succeeds.
+"Instawake" spawn angry at activator
+
+Keys:
+"target" entity to trigger when killed
+"targetname" entity name
+"movedir" set to a velocity to make the monster jump on awakening
+*/
+/*FGD
+@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/sploder.mdl" }) = monster_sploder : "Sploder" []
+*/
+void() monster_sploder =
+{
+	if (!SUB_ShouldSpawn()) return;
+	if (nomonster()) return;
+	if (deathmatch)
+	{
+		remove(self);
+		return;
+	}
+	precache_model ("progs/sploder.mdl");
+
+	precache_sound ("sploder/sploder_idle.wav");
+	precache_sound ("sploder/sploder_scream.wav");
+	precache_sound ("sploder/sploder_pain.wav");
+	precache_sound ("zombie/z_gib.wav");
+
+	self.health = 40;
+	setsize (self, '-16 -16 -24', '16 16 24');
+
+	if ( monster_spawnsetup( monster_sploder_spawner ) ) return;
+	
+	addmonster(1);
+	monster_sploder_spawn();
+};

@@ -124,7 +124,7 @@ void(float step) ai_swarmer_run = {
 	self.ideal_yaw = self.ideal_yaw + crandom();
 
 	if (self.origin == _origin) {
-		if (enemy_range == RANGE_MELEE) {
+		if (enemy_range <= RANGE_MELEE) {
 			self.ideal_yaw = eYaw;
 			ChangeYaw();
 		}
