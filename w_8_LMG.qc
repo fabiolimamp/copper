@@ -14,12 +14,13 @@ float() weaponanim_LMG = {
 
 	self.currentammo = self.ammo_cells = self.ammo_cells - 1;
 
-	dprint("\bDamage\b: ");
+	/*dprint("\bDamage\b: ");
 	dprint(ftos(self.lip));
 	dprint("\n\bROF\b: ");
 	dprint(ftos(self.LMG_rof));
 	dprint("\n");
-
+	*/
+	
 	if (!self.LMG_rof)
 		self.LMG_rof = 1;
 
