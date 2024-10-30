@@ -70,10 +70,10 @@ float(float rof) LMG_increaserof = {
 }
 
 float(float spread) LMG_increasespread = {
-	if (spread <= 0.1)
-		return spread + 0.003;
+	if (spread <= 0.2)
+		return spread + 0.01;
 	else
-		return 0.1;
+		return 0.2;
 }
 
 float(float dmg) LMG_increasedamage = {
