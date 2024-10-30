@@ -176,6 +176,8 @@ void() Flak_setvelocity = {
 
 void() FlakTouch =
 {
+	if (CheckProjectilePassthru()) return;
+	
 	if (other.takedamage)
 	{
 		T_Damage(other, self, self.owner, 4); //10x10 20x5 15x7
