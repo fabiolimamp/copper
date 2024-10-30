@@ -332,10 +332,10 @@ void() BulletCasingTouch1 =
 void() Eject_BulletCasing =
 {
 	makevectors(self.v_angle);
-	vector vel = (v_forward * 100) + (v_right * 240) + (v_up * 80);
+	vector vel = v_forward * 100 + v_right * (200 + 60*random()) + v_up * (60 + 30 * random());
 	vector org = self.origin + self.view_ofs + (v_forward * 32) + (v_right * 12) + (v_up * -12);
 	
-	entity casing = toss_projectile(org, vel, "grenade");
+	entity casing = toss_projectile(org, vel, "casing");
 	casing.owner = self;
 	casing.lifetime_finished = time + 2;
 	casing.touch = BulletCasingTouch1;
