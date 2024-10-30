@@ -223,7 +223,7 @@ void(vector org, vector dir, float init_angle) launch_spiralrocket = {
 	
 	setorigin (pointer, org);
 
-	newmis = spawn();
+	entity newmis = spawn();
 	newmis.owner = self;
 	newmis.movetype = MOVETYPE_FLYMISSILE;
 	newmis.solid = SOLID_BBOX;
