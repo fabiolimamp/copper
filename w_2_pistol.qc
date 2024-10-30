@@ -229,7 +229,7 @@ void(float shotcount, float dmg, vector org, vector dir, vector spread) FirePist
 		
 		if (trace_fraction != 1.0)
 		{
-			BulletImpact (20, direction);
+			BulletImpact (dmg, direction);
 		}
 		
 		if (trace_debug) dprint("bullet is over\n\n");
