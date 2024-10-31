@@ -65,20 +65,21 @@ void() weaponanim_LMG_loop = {
 float LMG_MAXCOUNT = 24;
 
 void() lmg_reset = {
-	if (time > self.lmg_cooldown_finished){
+	if (time < self.lmg_cooldown_finished)
+		return;
 
-		// ROF/damage stay more sustained in between bursts
-		self.lmg_rof = max(self.lmg_rof - 0.8, 0);
-		// spread reduces at a way faster rate
-		self.lmg_spread = max(self.lmg_rof - 2, 0);
+	// ROF/damage stay more sustained in between bursts
+	self.lmg_rof = max(self.lmg_rof - 0.8, 0);
+	// spread reduces at a way faster rate
+	self.lmg_spread = max(self.lmg_rof - 2, 0);
 
-		self.lmg_cooldown_finished = time + 0.05;
-	}
+	self.lmg_cooldown_finished = time + 0.05;
+	
 }
 
 void() lmg_increaseShot = {
 	self.lmg_rof = min(self.lmg_rof + 1, LMG_MAXCOUNT);
-	// spread increases faster
+	// spread increases/saturates faster
 	self.lmg_spread = min(self.lmg_spread + 1.3, LMG_MAXCOUNT);
 }
 
