@@ -20,11 +20,8 @@ float() weaponanim_LMG = {
 	dprint(ftos(self.LMG_rof));
 	dprint("\n");
 	*/
-	
-	if (!self.LMG_rof)
-		self.LMG_rof = 1;
 
-	self.attack_finished = time + (0.3 / self.LMG_rof);
+	self.attack_finished = time + (0.3 / lmg_getROF());
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	
@@ -47,11 +44,8 @@ void() weaponanim_LMG_loop = {
 	
 	if (self.weaponframe == 2) Eject_LMGbulletCasing();
 
-	if (self.weaponframe == 2) {
-		self.LMG_rof = LMG_increaserof(self.LMG_rof);
-		self.LMG_spread = LMG_increasespread(self.LMG_spread);
-		self.lip = LMG_increasedamage(self.lip);
-	}
+	if (self.weaponframe == 2) lmg_increaseShot();
+
 	
 	if (self.weaponframe >= 4) {
 			self.weaponframe = 0;
@@ -69,49 +63,94 @@ void() weaponanim_LMG_loop = {
 
 //used in W_WeaponFrame, couldn't figure out a way to handle it from here
 //TODO: cleanup
-void() LMG_reset = {
+/*void() LMG_reset = {
+	self.LMG_rof = max(self.LMG_rof - 0.01, 1);
+	self.LMG_spread = max(self.LMG_spread - 0.05, 0);
+	self.lip = max(self.lip - 0.05, 15);
 
-	if (self.LMG_rof > 1)
-		self.LMG_rof -= 0.01;
-	else
-		self.LMG_rof = 1;
-
-	if (self.LMG_spread > 0)
-		self.LMG_spread -= 0.05;
-	else
-		self.LMG_spread = 0;
-
-	if (self.lip > 15)
-		self.lip -= 0.05;
-	else
-		self.lip = 15;
-	
 	//dprint5("\bDamage\b: ",ftos(self.lip), "\n\bROF\b: ", ftos(self.LMG_rof), "\n");
-	
+}
+*/
+
+// number of shots it takes to get to max stats
+float LMG_MAXCOUNT = 24;
+
+void() lmg_reset = {
+	if (time > self.lmg_cooldown_finished){
+
+		// ROF/damage stay more sustained in between bursts
+		self.lmg_rof = max(self.lmg_rof - 0.8, 0);
+		// spread reduces at a way faster rate
+		self.lmg_spread = max(self.lmg_rof - 2, 0);
+
+		self.lmg_cooldown_finished = time + 0.05;
+	}
 }
 
+void() lmg_increaseShot = {
+	self.lmg_rof = min(self.lmg_rof + 1, LMG_MAXCOUNT);
+	// spread increases faster
+	self.lmg_spread = min(self.lmg_spread + 1.3, LMG_MAXCOUNT);
+}
+
+float() lmg_getROF = {
+	return lerp(1, 3.6, self.lmg_rof/LMG_MAXCOUNT);
+}
+
+vector() lmg_getSpread = {
+	float spread = lerp(0, 0.2, self.lmg_spread/LMG_MAXCOUNT);
+	return [spread, spread, 0];
+}
+
+// damage follows ROF variation
+float() lmg_getDamage = {
+	return lerp(15, 40, self.lmg_rof/LMG_MAXCOUNT);
+}
+
+
+/*
 float(float rof) LMG_increaserof = {
-	if (rof <= 3.6)
-		return rof + 0.1;
-	else
-		return 3.6;
+	rof += 0.1;
+	if (rof > 3.6) return 3.6;
+	else return rof;
 }
 
 float(float spread) LMG_increasespread = {
-	if (spread <= 0.2)
-		return spread + 0.01;
-	else
-		return 0.2;
+	spread += 0.01;
+	if (spread > 0.2) return 0.2;
+	else return spread;
 }
 
 float(float dmg) LMG_increasedamage = {
-	if (dmg <= 40)
-		return dmg + 1.2;
-	else
-		return 40;
+	dmg += 1.2;
+	if (dmg > 40) return 40;
+	else return dmg;
 }
-
+*/
 //=====================================================================================================================
+void() W_FireLMG =
+{
+	sound (self, CHAN_WEAPON, "pistol_shoot.wav", 1, ATTN_NORM);	
+	
+	makevectors(self.v_angle);
+	
+	
+	vector org = self.origin + self.view_ofs - v_up * 8;
+	vector dir = aim(self, 100000);
+	//vector spread = [self.LMG_spread, self.LMG_spread, 0];
+
+	vector spread = lmg_getSpread();
+	float dmg = lmg_getDamage();
+	
+	traceline(org, org + v_forward * 16, FALSE, self);
+		
+	ClearMultiDamage ();
+	FireLmgBullets (1, dmg, org + v_forward * 16 * trace_fraction, dir, spread);
+	ApplyMultiDamage ();
+
+	self.punchangle_x = -1;	//punch AFTER makevectors	
+	
+};
 
 void(float shotcount, float dmg, vector org, vector dir, vector spread) FireLmgBullets =
 {
@@ -186,28 +225,6 @@ void(float shotcount, float dmg, vector org, vector dir, vector spread) FireLmgB
 	}
 }
 
-void() W_FireLMG =
-{
-	sound (self, CHAN_WEAPON, "pistol_shoot.wav", 1, ATTN_NORM);	
-	
-	makevectors (self.v_angle);
-	
-	vector org = self.origin + self.view_ofs - v_up * 8;
-	
-	vector dir = aim (self, 100000);
-	vector spread;
-
-	spread = [self.LMG_spread, self.LMG_spread, 0];
-	
-	traceline(org, org + v_forward * 16, FALSE, self);
-		
-	ClearMultiDamage ();
-	FireLmgBullets (1, self.lip, org + v_forward * 16 * trace_fraction, dir, spread);
-	ApplyMultiDamage ();
-
-	self.punchangle_x = -1;	//punch AFTER makevectors	
-	
-};
 
 
 //=============================================================================================

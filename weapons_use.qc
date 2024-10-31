@@ -356,8 +356,10 @@ void() W_WeaponFrame = {
 	else {
 		self.attackpressed = 0;
 		self.attackhold = 0;
-		LMG_reset(); //FIXME: fucking dickhead
 	}
+
+	// don't cool down LMG while it's firing
+	if (!(self.attackpressed && self.weapon == IT_LIGHTNING)) lmg_reset();
 }
 
 
