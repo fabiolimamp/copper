@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// piercing projectile Impaler code by Fairweather, edits by Kebby
+// piercing projectile Impaler code by Fairweather, edits by Kebby and bmFbr
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 float() weaponanim_rebarcannon = {
@@ -61,41 +61,6 @@ void() W_FireRebarCannon =
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-void() ImpalerInwallThink =
-{
-	self.origin = self.origin - 2*normalize(self.velocity);	// move origin away from walls when stuck
-								// helps prevent "void-lighting"
-	self.touch = SUB_Null;
-	self.movetype = MOVETYPE_NONE;
-	self.solid = SOLID_NOT;
-	self.alpha = 1;
-	self.think = ImpalerFade;
-	self.nextthink = time + 10;
-}
-
-void() ImpalerFade =
-{
-	self.alpha -= 0.025;
-	
-	if (self.alpha <= 0)
-	{
-		remove(self);
-		return;
-	}
-
-	self.think = ImpalerFade;
-	self.nextthink = time + 0.05;
-}
-
-void() ImpalerThink =
-{
-	self.angles = vectoangles(self.velocity);
-	self.flags &~= FL_ONGROUND;
-	self.oldvelocity = self.velocity;
-	self.nextthink = time + 0.05;
-}
-//=============================================================================================
-
 entity(vector org, vector vel) launch_impaler =
 {
 	entity impaler;
@@ -115,13 +80,31 @@ entity(vector org, vector vel) launch_impaler =
 	return impaler;
 }
 
-void(float dm) GibSprayHeadless =
+void() ImpalerThink =
 {
-	ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(dm));
-	ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(dm));
+	self.angles = vectoangles(self.velocity);
+	self.flags &~= FL_ONGROUND;
+	self.oldvelocity = self.velocity;
+	self.nextthink = time + 0.05;
 }
 
+void() ImpalerFade =
+{
+	self.alpha -= 0.025;
+	
+	if (self.alpha <= 0)
+	{
+		remove(self);
+		return;
+	}
+
+	self.think = ImpalerFade;
+	self.nextthink = time + 0.05;
+}
+
+
 //=============================================================================================
+
 
 void() ImpalerTouch =
 {
@@ -129,33 +112,77 @@ void() ImpalerTouch =
 	
 	if (other.takedamage)
 	{
-			if (other.classname == "monster_zombie")
-				T_Damage(other, self, self.owner, 59);
-			else
-				T_Damage(other, self, self.owner, 100);
+		if (other.classname == "monster_zombie")
+			T_Damage(other, self, self.owner, 59);
+		else
+			T_Damage(other, self, self.owner, 100);
 
-			GibSprayHeadless(20);
-			particle (self.origin, self.velocity*0.1, 73, 40);
+		if (other.solid != SOLID_BSP) {
+			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
+			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
+		}
 
-			float chance = random();
+		particle (self.origin, self.velocity*0.1, 73, 40);
 
-			if 	(chance < 0.33)	sound (self, CHAN_AUTO, "pierce1.wav", 1, ATTN_NORM);
-			else if (chance < 0.5)	sound (self, CHAN_AUTO, "pierce2.wav", 1, ATTN_NORM);
-			else			sound (self, CHAN_AUTO, "pierce3.wav", 1, ATTN_NORM);
+		float chance = random();
 
-			projectile_passthru();
+		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "pierce1.wav", 1, ATTN_NORM);
+		else if (chance < 0.5)	sound (self, CHAN_AUTO, "pierce2.wav", 1, ATTN_NORM);
+		else			sound (self, CHAN_AUTO, "pierce3.wav", 1, ATTN_NORM);
 
-			return;
+		projectile_passthru();
+
+		return;
 	}
 
 	
 	sound (self, CHAN_AUTO, "stick1.wav", 0.5, ATTN_NORM);
 	gunshot(self.origin);
 
-	//stick in the wall if we hit worldspawn as we know that won't move
-	if (other == world)
-		ImpalerInwallThink();
+	
+	if (other.solid == SOLID_BSP && other.classname != "func_movewall") {
+		self.movetype = MOVETYPE_NONE;
+		self.solid = SOLID_NOT;
+		self.owner = other;
+		self.touch = SUB_Null;
+		// move origin away from walls when stuck, helps prevent "void-lighting"
+		setorigin(self, self.origin - 2*normalize(self.velocity));
+
+		self.oldorigin = other.absmin;
+
+		// set state 1 to rebars attached to non-world entities (for movement and validity checks)
+		if (other != world) self.state = 1;
+		
+		self.alpha = 1;
+		self.think = ImpalerFade;
+		self.nextthink = time + 10;
+	}
 	else
 		remove(self);
 	
+}
+
+
+void() updateRebars =
+{
+	entity e = find(world, classname, "impaler");
+	while (e)
+	{
+		// hole is in a valid non-world solid entity
+		if (e.owner && e.owner.solid == SOLID_BSP)
+		{
+			if (e.owner.absmin != e.oldorigin)
+			{
+				setorigin(e, e.origin - e.oldorigin + e.owner.absmin);
+				e.oldorigin = e.owner.absmin;
+			}
+		}
+
+		// hole was originally in a non-world entity, but it was removed or changed to non-solid
+		else if (e.state) { 
+			remove(e);
+		}
+
+		e = find(e, classname, "impaler");
+	}
 }

@@ -558,7 +558,7 @@ void() EndFrame = {
 	if (framecount <= 2) {
 		return;
 	}
-
+	updateRebars();
 	//gibswaterchecked = 0;
 	waterchecked = 0;
 	pointcontentchecks = 0;
