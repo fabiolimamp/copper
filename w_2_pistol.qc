@@ -340,7 +340,8 @@ void() Eject_BulletCasing =
 	casing.lifetime_finished = time + 2;
 	casing.touch = BulletCasingTouch1;
 	casing.th_die = SUB_Remove;
-	casing.avelocity = '-200 -400 0'; //'0 -200 0'
+	//casing.avelocity = '-200 -400 0'; //'0 -200 0'
+	casing.avelocity = [-170 - crandom()*60, -370 - crandom() * 60, 0];
 	SUB_ChangeModel (casing, "progs/bullet_casing.mdl");
 	
 }
