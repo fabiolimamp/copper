@@ -61,17 +61,6 @@ void() weaponanim_LMG_loop = {
 
 //=====================================================================================================================
 
-//used in W_WeaponFrame, couldn't figure out a way to handle it from here
-//TODO: cleanup
-/*void() LMG_reset = {
-	self.LMG_rof = max(self.LMG_rof - 0.01, 1);
-	self.LMG_spread = max(self.LMG_spread - 0.05, 0);
-	self.lip = max(self.lip - 0.05, 15);
-
-	//dprint5("\bDamage\b: ",ftos(self.lip), "\n\bROF\b: ", ftos(self.LMG_rof), "\n");
-}
-*/
-
 // number of shots it takes to get to max stats
 float LMG_MAXCOUNT = 24;
 
@@ -108,26 +97,9 @@ float() lmg_getDamage = {
 }
 
 
-/*
-float(float rof) LMG_increaserof = {
-	rof += 0.1;
-	if (rof > 3.6) return 3.6;
-	else return rof;
-}
 
-float(float spread) LMG_increasespread = {
-	spread += 0.01;
-	if (spread > 0.2) return 0.2;
-	else return spread;
-}
-
-float(float dmg) LMG_increasedamage = {
-	dmg += 1.2;
-	if (dmg > 40) return 40;
-	else return dmg;
-}
-*/
 //=====================================================================================================================
+
 void() W_FireLMG =
 {
 	sound (self, CHAN_WEAPON, "pistol_shoot.wav", 1, ATTN_NORM);	
