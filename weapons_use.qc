@@ -133,12 +133,13 @@ typedef struct {
 	void() idlefunction;
 } weaponclass_t;
 
-.float ammofieldlist[5] = {
+.float ammofieldlist[6] = {
 	currentammo,
 	ammo_shells,
 	ammo_nails, 
 	ammo_rockets,
-	ammo_cells
+	ammo_cells,
+	pistol_ammo_count
 };
 
 float() weaponanim_null = {return FALSE;}
@@ -176,7 +177,7 @@ weaponclass_t wpc_shotgun = {
 	0, // slotPos
 	"Pistol", // name
 	"progs/v_shot.mdl", // model
-	0, // ammofield
+	5, // ammofield
 	0, // ammo_item
 	0, // ammo_usage
 	weaponanim_pistol, // animfunction
@@ -526,8 +527,8 @@ float(float weap, optional float forcereset = FALSE) W_ChangeWeapon = {
 		return weapstat;
 	}
 
-	if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count >= 10) // reset pistol reload
-		self.pistol_ammo_count = 0;
+	if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0) // reset pistol reload
+		self.pistol_ammo_count = 10;
 
 	weaponclass_t weapcl = weaponsclass[getWeapon(weap)];
 
@@ -537,7 +538,7 @@ float(float weap, optional float forcereset = FALSE) W_ChangeWeapon = {
 	self.items &~= (IT_SHELLS | IT_NAILS | IT_ROCKETS | IT_CELLS);
 	self.items |= weapcl.ammo_item;
 
-	if (weapcl.ammo_usage > 0) {
+	if (weapcl.ammofield) {
 		self.currentammo = self.(ammofieldlist[weapcl.ammofield]);
 	}
 	else {

@@ -19,15 +19,16 @@ float() weaponanim_pistol = {
 		return FALSE;
 	}
 
-	if (self.pistol_ammo_count >= 10)
+	if (self.pistol_ammo_count <= 0)
 	{
 		weaponanim_reloadpistol();
 		return FALSE;
 	}
+	self.pistol_ammo_count--;
 
-	self.pistol_ammo_count++;
+	self.currentammo = self.pistol_ammo_count;
 
-	if (self.pistol_ammo_count >= 10)
+	if (self.pistol_ammo_count <= 0)
 	{
 		self.pistol_lastreload_time = time;
 	}
@@ -45,9 +46,9 @@ float() weaponanim_pistol = {
 	
 	// --------------------------------
 	// Low Ammo Alert
-	if 	(self.pistol_ammo_count ==  10) sound (self, CHAN_AUTO, "ammo_rattle.wav", 1, ATTN_NORM);
-	else if (self.pistol_ammo_count ==  9) sound (self, CHAN_AUTO, "ammo_rattle.wav", 0.8, ATTN_NORM);
-	else if (self.pistol_ammo_count ==  8) sound (self, CHAN_AUTO, "ammo_rattle.wav", 0.6, ATTN_NORM);	
+	if 	(self.pistol_ammo_count ==  0) sound (self, CHAN_AUTO, "ammo_rattle.wav", 1, ATTN_NORM);
+	else if (self.pistol_ammo_count ==  1) sound (self, CHAN_AUTO, "ammo_rattle.wav", 0.8, ATTN_NORM);
+	else if (self.pistol_ammo_count ==  2) sound (self, CHAN_AUTO, "ammo_rattle.wav", 0.6, ATTN_NORM);	
 	// --------------------------------
 
 	self.weaponframe = 1;
@@ -60,7 +61,7 @@ float() weaponanim_pistol = {
 void() weaponanim_pistol_loop = {	
 	if (self.weaponframe == 2) Eject_BulletCasing();
 	
-	if (self.pistol_ammo_count >= 10 && time > (self.attack_finished - 0.1))
+	if (self.pistol_ammo_count <= 0 && time > (self.attack_finished - 0.1))
 	{
 		weaponanim_reloadpistol(); 
 		return;
@@ -112,7 +113,8 @@ void() weaponanim_reloadpistol_loop = {
 	//if (self.weaponframe == 37) sound (self, CHAN_AUTO, "pistol_reload.wav", 1, ATTN_NORM);		
 	if (self.weaponframe == 37) sound (self, CHAN_AUTO, "deadlock_reload.wav", 1, ATTN_NORM);		
 	
-	if (self.weaponframe >= 49)	self.pistol_ammo_count = 0; //RESET ammo
+	if (self.weaponframe >= 49)	self.pistol_ammo_count = 10; //RESET ammo
+	self.currentammo = self.pistol_ammo_count;
 	//if (time >= self.attack_finished - 0.05) self.pistol_ammo_count = 0; //RESET ammo
 
 	if (self.weaponframe >= 54) {

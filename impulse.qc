@@ -191,7 +191,7 @@ void() ImpulseCommands =
 		
 		// --------------------------------
 		// Pistol Manual Reload
-		if (self.impulse == 2 && self.weapon == IT_SHOTGUN && self.pistol_ammo_count != 0) {
+		if (self.impulse == 2 && self.weapon == IT_SHOTGUN && self.pistol_ammo_count != 10) {
 			weaponanim_reloadpistol();
 			//pistol_ammo_count = 0;
 			self.impulse = 0; 
