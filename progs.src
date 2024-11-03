@@ -90,6 +90,9 @@ m_amalgam.qc    // reliq
 m_swarmer.qc 	// Alkaline
 m_sploder.qc 	// Dwell
 
+m_soldier_pistol.qc //QBJ3
+m_soldier_rocket.qc //QBJ3
+
 cshift.qc
 water.qc
 rotators.qc 	// sorry Lun

@@ -203,7 +203,7 @@ void() weapon_nailgun =
 	setmodel (self, "progs/g_nail.mdl");
 	self.items = IT_NAILGUN;
 	self.ammo_nails = 30;
-	self.netname = "Twin Nailgun";
+	self.netname = "Twin Nailguns";
 	StartWeapon();
 }
 
