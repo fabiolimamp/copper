@@ -97,6 +97,8 @@ void() instateleport_touch =
 		return;
 
 	if (self.customflags & CFL_LOCKED) return;
+	
+	if (other.customflags & CFL_DONTTELEPORT) return;
 
 	if (other.movetype == MOVETYPE_NOCLIP) return;
 

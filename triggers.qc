@@ -116,6 +116,7 @@ void() InitTrigger =
 
 	self.modelindex = 0;
 	self.model = string_null;
+	self.customflags |= CFL_DONTTELEPORT;
 }
 
 /*
@@ -1029,7 +1030,7 @@ void() trigger_push_touch =
 
 	if (other.classname == "flak" || other.classname == "impaler")
 		return;
-	
+
 	if (self.spawnflags & PUSH_ADD_VEL)
 	{
 		if (time != self.dmgtime)
