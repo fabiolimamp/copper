@@ -139,12 +139,13 @@ const float	IT_ROCKET_LAUNCHER		= 32;
 const float	IT_LIGHTNING			= 64;
 const float	IT_WEAPONS				= 127 + 4096;
 
+const float	IT_NO_WEAPON				= 128;
+
 const float	IT_SHELLS				= 256;
 const float	IT_NAILS				= 512;
 const float	IT_ROCKETS				= 1024;
 const float	IT_CELLS				= 2048;
 
-const float	IT_NO_WEAPON				= 4096;
 
 const float	IT_ARMOR1				= 8192;
 const float	IT_ARMOR2				= 16384;
