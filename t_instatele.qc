@@ -476,7 +476,7 @@ void() trigger_instateleport_destination =
 	self.style = TELEDEST_STYLE_INSTANT;
 
 	//SetAngles();
-
+	fog_fixKeys();
 	if (!self.mangle && self.angles) self.mangle = self.angles;
 
 	// flips the stealth flag

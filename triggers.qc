@@ -1027,6 +1027,9 @@ void() trigger_push_touch =
 		other.type == "gib" || other.type == "head"))	// suck up gibs too, why not
 		return;
 
+	if (other.classname == "flak" || other.classname == "impaler")
+		return;
+	
 	if (self.spawnflags & PUSH_ADD_VEL)
 	{
 		if (time != self.dmgtime)
