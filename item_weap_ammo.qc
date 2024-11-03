@@ -128,8 +128,7 @@ void() StartWeapon =
 @baseclass size(-16 -16 0, 16 16 56) color(0 0 200) base(Item) = Weapon []
 */
 
-
-/*QUAKED weapon_shotgun (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+/*QUAKED weapon_pistol (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
 Pistol.
 
 Keys:
@@ -139,22 +138,24 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_shotgn.mdl" }) = weapon_shotgun : "Pistol. 
+@PointClass base(Weapon) model({ "path": ":progs/g_pistol.mdl" }) = weapon_pistol : "Pistol. 
 5 Shells." []
 */
-void() weapon_shotgun =
+void() weapon_pistol =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model3 ("progs/g_shotgn.mdl");
-	setmodel (self, "progs/g_shotgn.mdl");
+	precache_model3 ("progs/g_pistol.mdl");
+	setmodel (self, "progs/g_pistol.mdl");
 	self.items = IT_SHOTGUN;
 	self.ammo_shells = 0; //FlakTax
-	self.netname = "Pistol";
+	self.netname = "Stechkin Pistol";
 	StartWeapon();
 }
 
+void() weapon_shotgun = {weapon_pistol();} //for legacy compat
 
-/*QUAKED weapon_supershotgun (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+
+/*QUAKED weapon_flak (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
 Flak shotgun.
 
 Keys:
@@ -164,22 +165,26 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_shot.mdl" }) = weapon_supershotgun : "Flak Shotgun.
+@PointClass base(Weapon) model({ "path": ":progs/g_shot.mdl" }) = weapon_flak : "Flak Shotgun.
 10 shells." []
 */
-void() weapon_supershotgun =
+void() weapon_flak =
 {
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe ("progs/g_shot.mdl");
 	setmodel (self, "progs/g_shot.mdl");
 	self.items = IT_SUPER_SHOTGUN;
 	self.ammo_shells = 10; //FlakTax
-	self.netname = "Flak Shotgun";
+	self.netname = "KS-23 FLAK";
 	StartWeapon();
 }
 
+void() weapon_supershotgun = {weapon_flak();} //for legacy compat
+
+
+
 /*QUAKED weapon_nailgun (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
-Nailgun.
+Twin Nailgun.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -188,7 +193,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_nail.mdl" }) = weapon_nailgun : "Nailgun.
+@PointClass base(Weapon) model({ "path": ":progs/g_nail.mdl" }) = weapon_nailgun : "Twin Nailgun.
 30 nails." []
 */
 void() weapon_nailgun =
@@ -198,11 +203,11 @@ void() weapon_nailgun =
 	setmodel (self, "progs/g_nail.mdl");
 	self.items = IT_NAILGUN;
 	self.ammo_nails = 30;
-	self.netname = "Nailgun";
+	self.netname = "Twin Nailgun";
 	StartWeapon();
 }
 
-/*QUAKED weapon_supernailgun (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+/*QUAKED weapon_rebar (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
 Rebar Cannon.
 
 Keys:
@@ -212,10 +217,10 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_nail2.mdl" }) = weapon_supernailgun : "Rebar Cannon.
+@PointClass base(Weapon) model({ "path": ":progs/g_nail2.mdl" }) = weapon_rebar : "Rebar Cannon.
 30 nails." []
 */
-void() weapon_supernailgun =
+void() weapon_rebar =
 {
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe ("progs/g_nail2.mdl");
@@ -225,6 +230,8 @@ void() weapon_supernailgun =
 	self.netname = "Rebar Cannon";
 	StartWeapon();
 }
+
+void() weapon_supernailgun = {weapon_rebar();} //for legacy compat
 
 /*QUAKED weapon_grenadelauncher (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
 Grenade Launcher.
@@ -246,12 +253,12 @@ void() weapon_grenadelauncher =
 	setmodel (self, "progs/g_rock.mdl");
 	self.items = IT_GRENADE_LAUNCHER;
 	self.ammo_rockets = 5;
-	self.netname = "Grenade Launcher";
+	self.netname = "RG-6 Grenade Launcher";
 	StartWeapon();
 }
 
-/*QUAKED weapon_rocketlauncher (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
-Multi-Missile Launcher.
+/*QUAKED weapon_mmml (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+Multi Mini-Missile Launcher.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -260,23 +267,24 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_rock2.mdl" }) = weapon_rocketlauncher : "Multi-Missile Launcher.
-5 rockets." []
+@PointClass base(Weapon) model({ "path": ":progs/g_rock2.mdl" }) = weapon_mmml : "Multi Mini-Missile Launcher.
+8 rockets." []
 */
-void() weapon_rocketlauncher =
+void() weapon_mmml =
 {
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe ("progs/g_rock2.mdl");
 	setmodel (self, "progs/g_rock2.mdl");
 	self.items = IT_ROCKET_LAUNCHER;
-	self.ammo_rockets = 5;
-	self.netname = "Multi-Missile Launcher";
+	self.ammo_rockets = 8;
+	self.netname = "Multi Mini-Missile Launcher";
 	StartWeapon();
 }
 
+void() weapon_rocketlauncher = {weapon_mmml();} //for legacy compat
 
-/*QUAKED weapon_lightning (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
-Flamethrower.
+/*QUAKED weapon_lmg (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+The Prototype.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -285,22 +293,24 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_light.mdl" }) = weapon_lightning : "Flamethrower.
+@PointClass base(Weapon) model({ "path": ":progs/g_light.mdl" }) = weapon_lmg : "The Prototype.
 12 cells." []
 */
-void() weapon_lightning =
+void() weapon_lmg =
 {
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe ("progs/g_light.mdl");
 	setmodel (self, "progs/g_light.mdl");
 	self.items = IT_LIGHTNING;
 	self.ammo_cells = 12;
-	self.netname = "Flamethrower";
+	self.netname = "Prototype";
 	StartWeapon();
 }
 
-/*QUAKED weapon_axe (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
-The axe, should you happen to make the player start without one.
+void() weapon_lightning = {weapon_lmg();} //for legacy compat
+
+/*QUAKED weapon_wrench (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+The Wrench, should you happen to make the player start without one.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -309,17 +319,19 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_axe.mdl" }) = weapon_axe : "Axe." []
+@PointClass base(Weapon) model({ "path": ":progs/g_wrench.mdl" }) = weapon_wrench : "Wrench." []
 */
-void() weapon_axe =
+void() weapon_wrench =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model_safe ("progs/g_axe.mdl");
-	setmodel (self, "progs/g_axe.mdl");
+	precache_model_safe ("progs/g_wrench.mdl");
+	setmodel (self, "progs/g_wrench.mdl");
 	self.items = IT_AXE;
-	self.netname = "Wrench";
+	self.netname = "Skullcracker";
 	StartWeapon();
 }
+
+void() weapon_axe = {weapon_wrench();} //for legacy compat
 
 
 // ===============================================================================

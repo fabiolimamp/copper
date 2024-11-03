@@ -333,8 +333,8 @@ void() monster_tarbaby_spawn =
 
 void() monster_tarbaby_spawner = {mon_spawner_use(monster_tarbaby_spawn);}
 
-/*QUAKED monster_tarbaby (1 0 0) (-16 -16 -24) (16 16 24) AMBUSH ? ? ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
-Spawn (Tarbaby), 80 health points.
+/*QUAKED monster_spawn (1 0 0) (-16 -16 -24) (16 16 24) AMBUSH ? ? ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
+Spawn, 80 health points.
 
 Flags:
 "ambush" only wake up on seeing the player, not another monster getting angry
@@ -350,9 +350,9 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/tarbaby.mdl" }) = monster_tarbaby : "Spawn" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/tarbaby.mdl" }) = monster_spawn : "Spawn" []
 */
-void() monster_tarbaby =
+void() monster_spawn =
 {
 	if (!SUB_ShouldSpawn()) return;
 	if (nomonster()) return;
@@ -376,3 +376,5 @@ void() monster_tarbaby =
 	addmonster(1);
 	monster_tarbaby_spawn();
 }
+
+void() monster_tarbaby = {monster_spawn();}

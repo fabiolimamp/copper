@@ -600,8 +600,8 @@ void() monster_demon_spawn =
 
 void() monster_demon_spawner = {mon_spawner_use(monster_demon_spawn);}
 
-/*QUAKED monster_demon1 (1 0 0) (-32 -32 -24) (32 32 40) AMBUSH ? ? ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
-Fiend (Demon), 300 health points.
+/*QUAKED monster_fiend (1 0 0) (-32 -32 -24) (32 32 40) AMBUSH ? ? ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
+Fiend, 300 health points.
 
 Flags:
 "ambush"	only wake up on seeing the player, not another monster getting angry
@@ -616,9 +616,9 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/demon.mdl" }) = monster_demon1 : "Fiend" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/demon.mdl" }) = monster_fiend : "Fiend" []
 */
-void() monster_demon1 =
+void() monster_fiend =
 {
 	if (!SUB_ShouldSpawn()) return;
 	if (nomonster()) return;
@@ -645,3 +645,5 @@ void() monster_demon1 =
 	addmonster(1);
 	monster_demon_spawn();
 }
+
+void() monster_demon1 = {monster_fiend();}
