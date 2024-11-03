@@ -193,7 +193,7 @@ void()	amalgam_atk11	=[	$shoot11,	amalgam_atk12	] {ai_face(); amalgam_fire(); am
 void()	amalgam_atk12	=[	$shoot12,	amalgam_run1	] {ai_face();}
 */
 void()	amalgam_atk1	=[	$shoot1,	amalgam_atk2	] {
-	self.movetype = MOVETYPE_NOCLIP; //MOVETYPE_STEP apparently doesn't get avelocity applied
+	self.movetype = MOVETYPE_FLY; //MOVETYPE_STEP apparently doesn't get avelocity applied
 	self.avelocity_y = 200;
 }
 void()	amalgam_atk2	=[	$shoot2,	amalgam_atk3	] {}
