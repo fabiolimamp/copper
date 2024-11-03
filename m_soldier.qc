@@ -94,13 +94,15 @@ void()	army_run8	=[	$run8,		army_run1	] {ai_run(8);}
 
 void()	army_atk1	=[	$shoot1,	army_atk2	] {nmfast();ai_face();}
 void()	army_atk2	=[	$shoot2,	army_atk3	] {nmfast();ai_face();}
-void()	army_atk3	=[	$shoot3,	army_atk4	] {nmfast();ai_face(); army_aim(); }
-void()	army_atk4	=[	$shoot4,	army_atk5	] {nmfast();ai_face();}
-void()	army_atk5	=[	$shoot5,	army_atk6	] {nmfast();ai_face(); army_fire(); }
-void()	army_atk6	=[	$shoot6,	army_atk7	] {ai_face();}
-void()	army_atk7	=[	$shoot7,	army_atk8	] {ai_face(); ai_check_refire (army_atk3);}
-void()	army_atk8	=[	$shoot8,	army_atk9	] {ai_face(); ai_attack_finished (0.3 + random() + random());}
-void()	army_atk9	=[	$shoot9,	army_run1	] {ai_face();}
+void()	army_atk3	=[	$shoot1,	army_atk4	] {nmfast();ai_face(); sound (self, CHAN_AUTO, "pump_reload.wav", 0.5, ATTN_NORM);}
+void()	army_atk4	=[	$shoot2,	army_atk5	] {nmfast();ai_face();}
+void()	army_atk5	=[	$shoot3,	army_atk6	] {nmfast();ai_face(); army_aim(); }
+void()	army_atk6	=[	$shoot4,	army_atk7	] {nmfast();ai_face();}
+void()	army_atk7	=[	$shoot5,	army_atk8	] {nmfast();ai_face(); army_fire(); }
+void()	army_atk8	=[	$shoot6,	army_atk9	] {ai_face();}
+void()	army_atk9	=[	$shoot7,	army_atk10	] {ai_face(); ai_check_refire (army_atk3);}
+void()	army_atk10	=[	$shoot8,	army_atk11	] {ai_face(); ai_attack_finished (0.3 + random() + random());}
+void()	army_atk11	=[	$shoot9,	army_run1	] {ai_face();}
 
 
 void()	army_pain1	=[	$pain1,		army_pain2	] {}
@@ -198,7 +200,7 @@ void() army_fire =
 
 	// lunaran: moved multidamage here
 	ClearMultiDamage ();
-	FireBullets (4, dir, '0.1 0.1 0');
+	FireBullets (8, dir, '0.1 0.1 0');
 	ApplyMultiDamage ();
 }
 
