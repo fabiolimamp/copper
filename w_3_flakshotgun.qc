@@ -101,9 +101,7 @@ entity(vector org, vector vel) Launch_Flak =
 	flak.think = FlakThink;
 	flak.nextthink = time + 0.05;
 	flak.touch = FlakTouch;
-	flak.th_die = SUB_Remove;
 	flak.alpha = 1;
-	flak.owner = self;
 	flak.oldvelocity = flak.velocity;
 
 	SUB_ChangeModel (flak, "progs/pellet.mdl");
@@ -117,7 +115,7 @@ void() FlakThink =
 {
 	
 	self.angles = vectoangles(self.velocity);
-	self.flags = not(self.flags, FL_ONGROUND);
+	self.flags &~= FL_ONGROUND;
 	self.oldvelocity = self.velocity;
 
 	self.think = FlakThink;
@@ -180,7 +178,7 @@ void() FlakTouch =
 	
 	if (other.takedamage)
 	{
-		T_Damage(other, self, self.owner, 4); //10x10 20x5 15x7
+		T_Damage(other, self, self.trueowner, 4); //10x10 20x5 15x7
 		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
 		particle (self.origin, self.velocity*0.1, 73, 40);
 
@@ -209,14 +207,13 @@ void() FlakTouch =
 
 void() FlakTouch_2 =
 {
-	if (other == self.owner ) return;		// don't touch owner
 	if (CheckProjectilePassthru()) return;
 
 	FlakBounce();
 
 	if (other.takedamage)
 	{
-		T_Damage(other, self, self.owner, 4); //10x10 20x5 15x7
+		T_Damage(other, self, self.trueowner, 4); //10x10 20x5 15x7
 		particle(self.origin, self.velocity*0.1, 73, 40);
 		sound_flakshotgun_impact();
 		return;
