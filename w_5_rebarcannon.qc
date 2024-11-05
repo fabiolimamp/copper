@@ -71,17 +71,22 @@ entity(vector org, vector vel) launch_impaler =
 	
 	SUB_ChangeModel (impaler, "progs/rebar.mdl");
 
-	impaler.owner = self;
 	impaler.gravity = .75;
 	impaler.think = ImpalerThink;
 	impaler.touch = ImpalerTouch;
-	impaler.th_die = SUB_Remove;
+	impaler.alpha = 1;
 
 	return impaler;
 }
 
 void() ImpalerThink =
 {
+	if (time > self.lifetime_finished)
+	{
+		ImpalerFade();
+		return;
+	}
+
 	self.angles = vectoangles(self.velocity);
 	self.flags &~= FL_ONGROUND;
 	self.oldvelocity = self.velocity;
@@ -96,6 +101,13 @@ void() ImpalerFade =
 	{
 		remove(self);
 		return;
+	}
+
+	if (!self.state)
+	{
+		self.angles = vectoangles(self.velocity);
+		self.flags &~= FL_ONGROUND;
+		self.oldvelocity = self.velocity;
 	}
 
 	self.think = ImpalerFade;
@@ -113,9 +125,9 @@ void() ImpalerTouch =
 	if (other.takedamage)
 	{
 		if (other.classname == "monster_zombie")
-			T_Damage(other, self, self.owner, 59);
+			T_Damage(other, self, self.trueowner, 59);
 		else
-			T_Damage(other, self, self.owner, 100);
+			T_Damage(other, self, self.trueowner, 100);
 
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
@@ -130,9 +142,11 @@ void() ImpalerTouch =
 		else if (chance < 0.5)	sound (self, CHAN_AUTO, "pierce2.wav", 1, ATTN_NORM);
 		else			sound (self, CHAN_AUTO, "pierce3.wav", 1, ATTN_NORM);
 
-		projectile_passthru();
-
-		return;
+		// doesn't go through doors
+		if (other.classname != "func_door" && other.classname != "func_door_secret"){
+			projectile_passthru();
+			return;
+		}
 	}
 
 	
@@ -148,10 +162,11 @@ void() ImpalerTouch =
 		// move origin away from walls when stuck, helps prevent "void-lighting"
 		setorigin(self, self.origin - 2*normalize(self.velocity));
 
-		self.oldorigin = other.absmin;
+		self.pos1 = other.absmin;
 
-		// set state 1 to rebars attached to non-world entities (for movement and validity checks)
-		if (other != world) self.state = 1;
+		// set state 2 to rebars attached to non-world entities (for movement and validity checks)
+		if (other != world) self.state = 2;
+		else self.state = 1;
 		
 		self.alpha = 1;
 		self.think = ImpalerFade;
@@ -168,19 +183,22 @@ void() updateRebars =
 	entity e = find(world, classname, "impaler");
 	while (e)
 	{
-		// hole is in a valid non-world solid entity
-		if (e.owner && e.owner.solid == SOLID_BSP)
+		if (e.state)
 		{
-			if (e.owner.absmin != e.oldorigin)
+			// hole is in a valid non-world solid entity
+			if (e.owner && e.owner.solid == SOLID_BSP)
 			{
-				setorigin(e, e.origin - e.oldorigin + e.owner.absmin);
-				e.oldorigin = e.owner.absmin;
+				if (e.owner.absmin != e.pos1)
+				{
+					setorigin(e, e.origin - e.pos1 + e.owner.absmin);
+					e.pos1 = e.owner.absmin;
+				}
 			}
-		}
 
-		// hole was originally in a non-world entity, but it was removed or changed to non-solid
-		else if (e.state) { 
-			remove(e);
+			// hole was originally in a non-world entity, but it was removed or changed to non-solid
+			else if (e.state == 2) { 
+				remove(e);
+			}
 		}
 
 		e = find(e, classname, "impaler");
