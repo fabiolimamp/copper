@@ -205,8 +205,8 @@ void() instateleport_touch =
 
 	if (t.mangle != '0 0 0')
 	{
-		other.angles = vectoangles(f_forward*p_forward_x - t_right*p_forward_y + t_up*p_forward_z);
-		other.angles_y = vectoyaw2(f_forward*p_forward_x - t_right*p_forward_y + t_up*p_forward_z);
+		other.angles = vectoangles2(f_forward*p_forward_x - t_right*p_forward_y + t_up*p_forward_z);
+		//other.angles_y = vectoyaw2(f_forward*p_forward_x - t_right*p_forward_y + t_up*p_forward_z);
 	}
 	else
 		other.angles = pAngle;
@@ -343,7 +343,7 @@ void() instateleport_touch =
 				// At this point angles already follow the v_angle
 				// convention, so no X inversion is necessary
 				makevectors(other.angles);
-				other.angles_z = atan2(v_right*t_up, v_up*t_up);
+				other.angles_z = vectoyaw2([v_up*t_up, v_right*t_up, 0]);
 			}
 		}
 

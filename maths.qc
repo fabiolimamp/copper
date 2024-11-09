@@ -51,31 +51,42 @@ vector(vector ang) normalizeAngles180 =
 
 	return ang;
 }
-// high precision vectoyaw
+
+// high precision vectoyaw/atan2
 float(vector vec) vectoyaw2 =
 {
-    float b = 0.596227;
+	float b = 0.596227;
 
-    // Extract the sign bits
-    float ux_s  =  vec_x < 0 ? -1 : 1;
-    float uy_s  =  vec_y < 0 ? -1 : 1;
+	// Extract the sign bits
+	float ux_s  =  vec_x < 0 ? -1 : 1;
+	float uy_s  =  vec_y < 0 ? -1 : 1;
 
-    // Determine the quadrant offset
-    float q;
-    if (ux_s > 0 && uy_s > 0) q = 0;
-    else if (ux_s < 0 && uy_s > 0) q = 1;
-    else if (ux_s < 0 && uy_s < 0) q = 2;
-    else q = 3;
+	// Determine the quadrant offset
+	float q;
+	if (ux_s >= 0 && uy_s >= 0) q = 0;
+	else if (ux_s < 0 && uy_s >= 0) q = 1;
+	else if (ux_s < 0 && uy_s < 0) q = 2;
+	else q = 3;
 
-    // Calculate the arctangent in the first quadrant
-    float bxy_a = fabs( b * vec_x * vec_y );
-    float num = bxy_a + vec_y * vec_y;
-    float atan_1q =  num / ( vec_x * vec_x + bxy_a + num );
+	// Calculate the arctangent in the first quadrant
+	float bxy_a = fabs( b * vec_x * vec_y );
+	float num = bxy_a + vec_y * vec_y;
+	float atan_1q =  num / ( vec_x * vec_x + bxy_a + num );
 
-    // Translate it to the proper quadrant
-    float uatan_2q = ux_s < 0 ? 1 - atan_1q : atan_1q;
-    if (q >= 2) uatan_2q = 1 - uatan_2q;
-    return (q + uatan_2q) * 90;
+	// Translate it to the proper quadrant
+	float uatan_2q = ux_s < 0 ? 1 - atan_1q : atan_1q;
+	if (q >= 2) uatan_2q = 1 - uatan_2q;
+	return (q + uatan_2q) * 90;
+}
+
+// high precision vectoangles
+vector(vector vec) vectoangles2 =
+{
+
+	float yaw = vectoyaw2(vec);
+	float forward = sqrt(vec_x*vec_x + vec_y*vec_y);
+	float pitch = vectoyaw2([forward, vec_z, 0]);
+	return [pitch, yaw, 0];
 }
 
 float(float x) sign = {
@@ -130,6 +141,7 @@ float(float num) tan =
 	return temp_x / temp_y;
 }
  
+ /*
 float(float y, float x) atan2 =
 {
 	local vector ang; //temporary used to calculate trig values
@@ -138,7 +150,7 @@ float(float y, float x) atan2 =
 	ang_y = y;
 	return vectoyaw(ang);
 }
-
+*/
 vector(vector a, vector b) CrossProduct =
 {
 	vector c;
@@ -257,12 +269,12 @@ vector(vector b, vector a, float r) rotateVectorAround =
 
 float(float runs) weighted_crandom =
 {
-    float ret = 0;
-    
-    for (float i = 0; i < runs; i++)
-        ret += random() * 1/runs;
-    
-    return 2*(ret - 0.5);
+	float ret = 0;
+	
+	for (float i = 0; i < runs; i++)
+		ret += random() * 1/runs;
+	
+	return 2*(ret - 0.5);
 }
 
 float() crandom =
@@ -330,7 +342,7 @@ float(vector dest, float speed, float th) BallisticTheta =
 		{
 			oldtheta = theta;
 			tan_theta = tan(theta);
-			theta = atan2(a*tan_theta*tan_theta - c, 2*a*tan_theta + b);
+			theta = vectoyaw2([2*a*tan_theta + b, a*tan_theta*tan_theta - c, 0]);
 			y += 1;
 		}
 
