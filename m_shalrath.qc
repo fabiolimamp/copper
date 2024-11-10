@@ -431,7 +431,7 @@ void() monster_shalrath_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 	
-	setmodel (self, "progs/shalrath.mdl");
+	setmodel (self, "progs/shalrath_qbj.mdl");
 	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
 	self.health = 400;
 
@@ -472,7 +472,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shalrath.mdl" }) = monster_shalrath : "Vore" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shalrath_qbj.mdl" }) = monster_shalrath : "Vore" []
 */
 void() monster_shalrath =
 {
@@ -483,7 +483,7 @@ void() monster_shalrath =
 		remove(self);
 		return;
 	}
-	precache_model2 ("progs/shalrath.mdl");
+	precache_model2 ("progs/shalrath_qbj.mdl");
 	precache_model2 ("progs/h_shal.mdl");
 	precache_model2 ("progs/v_spike.mdl");
 	precache_model2 ("progs/v_spike2.mdl");

@@ -52,7 +52,7 @@ void() W_FireQBJ3Grenade =
 	
 	sound (self, CHAN_WEAPON, "weapons/grenade.wav", 1, ATTN_NORM);
 	
-	sound (self, CHAN_AUTO, "grenade_reload.wav", 0.5, ATTN_NORM);
+	sound (self, CHAN_AUTO, "grenade/grenade_reload.wav", 0.5, ATTN_NORM);
 	
 	self.punchangle_x = -2;
 
@@ -80,7 +80,7 @@ entity(vector org, vector vel) launch_qbj3grenade =
 	grenade = toss_projectile(org, vel, "grenade");
 	grenade.lifetime_finished = time + 2.5;
 	grenade.avelocity = '300 300 300';
-	SUB_ChangeModel (grenade, "progs/mini_grenade.mdl");
+	SUB_ChangeModel (grenade, "progs/proj_minigrenade.mdl");
 	
 	return grenade;
 }
@@ -200,7 +200,7 @@ entity(vector org, vector vel) launch_minigrenade =
 	grenade = toss_projectile(org, vel, "grenade");
 	grenade.lifetime_finished = time + 2.5;
 	grenade.avelocity = '300 300 300';
-	SUB_ChangeModel (grenade, "progs/mini_grenade.mdl");
+	SUB_ChangeModel (grenade, "progs/proj_minigrenade.mdl");
 	
 	return grenade;
 }

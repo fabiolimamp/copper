@@ -355,7 +355,7 @@ void() monster_wizard_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/wizard.mdl");
+	setmodel (self, "progs/wizard_qbj.mdl");
 
 	setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
 	self.health = 80;
@@ -394,7 +394,7 @@ Keys:
 "targetname" entity name
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/wizard.mdl" }) = monster_wizard : "Scrag" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/wizard_qbj.mdl" }) = monster_wizard : "Scrag" []
 */
 void() monster_wizard =
 {
@@ -405,7 +405,7 @@ void() monster_wizard =
 		remove(self);
 		return;
 	}
-	precache_model ("progs/wizard.mdl");
+	precache_model ("progs/wizard_qbj.mdl");
 	precache_model ("progs/h_wizard.mdl");
 	precache_model ("progs/w_spike.mdl");
 	precache_model ("progs/w_spike2.mdl");

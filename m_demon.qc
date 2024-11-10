@@ -574,7 +574,7 @@ void() monster_demon_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/demon.mdl");
+	setmodel (self, "progs/demon_qbj.mdl");
 
 	//setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
 	setsize (self, VEC_HULL2_MIN, '32 32 40');
@@ -616,7 +616,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/demon.mdl" }) = monster_fiend : "Fiend" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/demon_qbj.mdl" }) = monster_fiend : "Fiend" []
 */
 void() monster_fiend =
 {
@@ -627,7 +627,7 @@ void() monster_fiend =
 		remove(self);
 		return;
 	}
-	precache_model ("progs/demon.mdl");
+	precache_model ("progs/demon_qbj.mdl");
 	precache_model ("progs/h_demon.mdl");
 
 	precache_sound ("demon/ddeath.wav");

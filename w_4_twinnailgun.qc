@@ -137,7 +137,7 @@ entity(vector org, vector vel) launch_twinnail =
 	spike.nextthink = time + 10; //stick lifetime
 	spike.think = SUB_Remove;
 	
-	SUB_ChangeModel (spike, "progs/nail.mdl");	
+	SUB_ChangeModel (spike, "progs/proj_nail.mdl");	
 	
 	spike.dmg = 9;
 	

@@ -357,7 +357,7 @@ void() monster_dog_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/dog.mdl");
+	setmodel (self, "progs/dog_qbj.mdl");
 
 	setsize (self, '-32 -32 -24', '32 32 40');
 	self.health = 35;
@@ -398,7 +398,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-32 -32 -24, 32 32 40) model({ "path": ":progs/dog.mdl" }) = monster_dog : "Rottweiler" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 40) model({ "path": ":progs/dog_qbj.mdl" }) = monster_dog : "Rottweiler" []
 */
 void() monster_dog =
 {
@@ -410,7 +410,7 @@ void() monster_dog =
 		return;
 	}
 	precache_model ("progs/h_dog.mdl");
-	precache_model ("progs/dog.mdl");
+	precache_model ("progs/dog_qbj.mdl");
 
 	precache_sound ("dog/dattack1.wav");
 	precache_sound ("dog/ddeath.wav");

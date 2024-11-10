@@ -46,7 +46,7 @@ float() weaponanim_flakshotgun = {
 void() weaponanim_flakshotgun_loop = {
 
 	
-	if (self.weaponframe == 10) sound (self, CHAN_AUTO, "pump_reload.wav", 0.5, ATTN_NORM); //extra pump sfx
+	if (self.weaponframe == 10) sound (self, CHAN_AUTO, "flak/pump_reload.wav", 0.5, ATTN_NORM); //extra pump sfx
 	
 	
 	if (self.weaponframe >= 22) {
@@ -66,8 +66,12 @@ void() weaponanim_flakshotgun_loop = {
 
 void() W_FireFlakShotgun =
 {
-	sound(self, CHAN_WEAPON, "shotgun3.wav", 1, ATTN_NORM);
-	sound_flakshotgun_fire();
+	sound(self, CHAN_WEAPON, "flak/shotgun3.wav", 1, ATTN_NORM);
+	
+	float r = random();
+	if 	(r < 0.33)	sound (self, CHAN_AUTO, "flak/volley_fire1.wav", 1, ATTN_NORM);
+	else if (r < 0.66)	sound (self, CHAN_AUTO, "flak/volley_fire2.wav", 1, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "flak/volley_fire3.wav", 1, ATTN_NORM);
 	
 	makevectors(self.v_angle);
 	//self.velocity = self.velocity + (v_forward * -100) + '0 0 25';
@@ -104,7 +108,7 @@ entity(vector org, vector vel) Launch_Flak =
 	flak.alpha = 1;
 	flak.oldvelocity = flak.velocity;
 
-	SUB_ChangeModel (flak, "progs/pellet.mdl");
+	SUB_ChangeModel (flak, "progs/proj_pellet.mdl");
 
 	return flak;
 }
@@ -227,25 +231,22 @@ void() FlakTouch_2 =
 void() sound_flakshotgun_impact =
 {
 	float r = random();
-	if 	(r < 0.03)	sound (self, CHAN_AUTO, "bullet_impact1.wav", 1, ATTN_NORM);
-	else if (r < 0.06)	sound (self, CHAN_AUTO, "bullet_impact2.wav", 1, ATTN_NORM);
-	else if (r < 0.09)	sound (self, CHAN_AUTO, "bullet_impact3.wav", 1, ATTN_NORM);
-	else if (r < 0.12)	sound (self, CHAN_AUTO, "bullet_impact4.wav", 1, ATTN_NORM);
-	else if (r < 0.15)	sound (self, CHAN_AUTO, "bullet_impact5.wav", 1, ATTN_NORM);
-	else if (r < 0.18)	sound (self, CHAN_AUTO, "bullet_impact6.wav", 1, ATTN_NORM);
-	else if (r < 0.21)	sound (self, CHAN_AUTO, "bullet_impact7.wav", 1, ATTN_NORM);
-	else if (r < 0.24)	sound (self, CHAN_AUTO, "bullet_impact8.wav", 1, ATTN_NORM);
-	else if (r < 0.27)	sound (self, CHAN_AUTO, "bullet_impact9.wav", 1, ATTN_NORM);
-	else if (r < 0.30)	sound (self, CHAN_AUTO, "bullet_impact10.wav", 1, ATTN_NORM);
-	else if (r < 0.33)	sound (self, CHAN_AUTO, "bullet_impact11.wav", 1, ATTN_NORM);
-	else if (r < 0.36)	sound (self, CHAN_AUTO, "bullet_impact12.wav", 1, ATTN_NORM);
+	/*if 	(r < 0.03)	sound (self, CHAN_AUTO, "flak/bullet_impact1.wav", 1, ATTN_NORM);
+	else if (r < 0.06)	sound (self, CHAN_AUTO, "flak/bullet_impact2.wav", 1, ATTN_NORM);
+	else if (r < 0.09)	sound (self, CHAN_AUTO, "flak/bullet_impact3.wav", 1, ATTN_NORM);
+	else if (r < 0.12)	sound (self, CHAN_AUTO, "flak/bullet_impact4.wav", 1, ATTN_NORM);
+	else if (r < 0.15)	sound (self, CHAN_AUTO, "flak/bullet_impact5.wav", 1, ATTN_NORM);
+	else if (r < 0.18)	sound (self, CHAN_AUTO, "flak/bullet_impact6.wav", 1, ATTN_NORM);
+	else if (r < 0.21)	sound (self, CHAN_AUTO, "flak/bullet_impact7.wav", 1, ATTN_NORM);
+	else if (r < 0.24)	sound (self, CHAN_AUTO, "flak/bullet_impact8.wav", 1, ATTN_NORM);
+	else if (r < 0.27)	sound (self, CHAN_AUTO, "flak/bullet_impact9.wav", 1, ATTN_NORM);
+	else if (r < 0.30)	sound (self, CHAN_AUTO, "flak/bullet_impact10.wav", 1, ATTN_NORM);
+	else if (r < 0.33)	sound (self, CHAN_AUTO, "flak/bullet_impact11.wav", 1, ATTN_NORM);
+	else if (r < 0.36)	sound (self, CHAN_AUTO, "flak/bullet_impact12.wav", 1, ATTN_NORM);
+	*/
+	if 	(r < 0.083)	sound (self, CHAN_AUTO, "flak/bullet_impact1.wav", 1, ATTN_NORM);
+	else if (r < 0.16)	sound (self, CHAN_AUTO, "flak/bullet_impact2.wav", 1, ATTN_NORM);
+	else if (r < 0.25)	sound (self, CHAN_AUTO, "flak/bullet_impact3.wav", 1, ATTN_NORM);
+	else if (r < 0.33)	sound (self, CHAN_AUTO, "flak/bullet_impact4.wav", 1, ATTN_NORM);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
-
-void() sound_flakshotgun_fire =
-{
-	float r = random();
-	if 	(r < 0.33)	sound (self, CHAN_AUTO, "volley_fire1.wav", 1, ATTN_NORM);
-	else if (r < 0.66)	sound (self, CHAN_AUTO, "volley_fire2.wav", 1, ATTN_NORM);
-	else			sound (self, CHAN_AUTO, "volley_fire3.wav", 1, ATTN_NORM);
-}

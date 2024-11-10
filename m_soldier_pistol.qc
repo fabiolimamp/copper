@@ -312,7 +312,7 @@ void() monster_pistolarmy_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/soldier.mdl");
+	setmodel (self, "progs/soldier_qbj.mdl");
 
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 35;
@@ -350,7 +350,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier.mdl" }) = monster_army_pistol : "Pistol Grunt" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_qbj.mdl" }) = monster_army_pistol : "Pistol Grunt" []
 */
 void() monster_army_pistol =
 {	
@@ -361,7 +361,7 @@ void() monster_army_pistol =
 		remove(self);
 		return;
 	}
-	precache_model ("progs/soldier.mdl");
+	precache_model ("progs/soldier_qbj.mdl");
 	precache_model ("progs/h_guard.mdl");
 	precache_model ("progs/gib1.mdl");
 	precache_model ("progs/gib2.mdl");

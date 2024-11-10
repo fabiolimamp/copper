@@ -18,8 +18,7 @@ void() W_Precache =
 	precache_model ("progs/lavaball.mdl");	
 	precache_sound ("weapons/lhit.wav");		//lightning
 	precache_sound ("weapons/lstart.wav");		//lightning start
-	precache_sound ("weapons/spindn_click.wav");
-//	precache_sound ("items/damage3.wav");
+	//	precache_sound ("items/damage3.wav");
 
 // ax sounds	
 	precache_sound ("weapons/ax1.wav");		// ax swoosh
@@ -31,88 +30,62 @@ void() W_Precache =
 	precache_sound ("zombie/z_hit.wav");
 	
 	//=============================================================================================
-	precache_sound ("axhit3.wav");
-	precache_sound ("axhit4.wav");
-	precache_sound ("swordhit1.wav");
-	precache_sound ("swordhit2.wav");
-	precache_sound ("swordhit3.wav");
-	precache_sound ("pistol_shoot.wav");
-	precache_sound ("shotgn3.wav");
-	
-	precache_sound ("bullet_impact1.wav");
-	precache_sound ("bullet_impact2.wav");
-	precache_sound ("bullet_impact3.wav");
-	precache_sound ("bullet_impact4.wav");
-	precache_sound ("bullet_impact5.wav");
-	precache_sound ("bullet_impact6.wav");
-	precache_sound ("bullet_impact7.wav");
-	precache_sound ("bullet_impact8.wav");
-	precache_sound ("bullet_impact9.wav");
-	precache_sound ("bullet_impact10.wav");
-	precache_sound ("bullet_impact11.wav");
-	precache_sound ("bullet_impact12.wav");
-	/*
-	precache_sound ("bullet_woosh1.wav");
-	precache_sound ("bullet_woosh2.wav");
-	precache_sound ("bullet_woosh3.wav");
-	precache_sound ("bullet_woosh4.wav");
-	precache_sound ("bullet_woosh5.wav");
-	precache_sound ("bullet_woosh6.wav");
-	precache_sound ("bullet_woosh7.wav");
-	precache_sound ("bullet_woosh8.wav");
-	precache_sound ("bullet_woosh9.wav");
-	precache_sound ("bullet_woosh10.wav");
-	precache_sound ("bullet_woosh11.wav");
-	precache_sound ("bullet_woosh12.wav");
-	*/
-	precache_sound ("ammo_rattle.wav");
-	precache_sound ("gun_click.wav");
-	
-	precache_sound ("volley_fire1.wav");
-	precache_sound ("volley_fire2.wav");
-	precache_sound ("volley_fire3.wav");
-	precache_sound ("shotgun3.wav");
-	
-	precache_model ("progs/pellet.mdl");
-	precache_model ("progs/nail.mdl");
-	precache_model ("progs/tracer_long_yellow.mdl");
-	precache_model ("progs/mini_grenade.mdl");
-	
-	precache_model ("progs/rebar.mdl");
-	precache_sound ("penfire.wav");
-	precache_sound ("pierce1.wav");
-	precache_sound ("pierce2.wav");
-	precache_sound ("pierce3.wav");
-	precache_sound ("stick1.wav");
-	
-	precache_sound ("pistol_reload.wav");
-	precache_sound ("deadlock_reload.wav");
-	precache_sound ("grenade_reload.wav");
-	precache_sound ("pump_reload.wav");
-	precache_sound ("mag_drop.wav");
-	//precache_sound ("shell_load.wav");     // NO...
-		
+
 	precache_model ("progs/pistol_mag.mdl");
 	precache_model ("progs/bullet_casing.mdl");
-
-	precache_model ("progs/lmg_proj.mdl");
 	
-	precache_model ("progs/flame1_thrower.mdl");
-	precache_model ("progs/flame1_ground.mdl");
-	precache_model ("progs/flame1_ignite.mdl");
-	precache_sound ("flamer.wav");
-	precache_sound ("flamer_loop.wav");
+	precache_sound ("pistol/deadlock_reload.wav");
+	precache_sound ("pistol/pistol_shoot.wav");
+	precache_sound ("pistol/ammo_rattle.wav");
+	precache_sound ("pistol/gun_click.wav");
+	precache_sound ("pistol/mag_drop.wav");
+	
 	//=============================================================================================
 
-	precache_model ("progs/v_axe2.mdl");
-	precache_model ("progs/v_shot.mdl");
-	precache_model ("progs/v_nail.mdl");
-	precache_model ("progs/v_rock.mdl");
-	precache_model ("progs/v_shot2.mdl");
-	precache_model ("progs/v_nail2.mdl");
-	precache_model ("progs/v_rock2.mdl");
-	precache_model ("progs/v_light.mdl");
+	precache_model ("progs/proj_pellet.mdl");
+	precache_sound ("flak/bullet_impact1.wav");
+	precache_sound ("flak/bullet_impact2.wav");
+	precache_sound ("flak/bullet_impact3.wav");
+	precache_sound ("flak/bullet_impact4.wav");
+	precache_sound ("flak/volley_fire1.wav");
+	precache_sound ("flak/volley_fire2.wav");
+	precache_sound ("flak/volley_fire3.wav");
+	precache_sound ("flak/shotgun3.wav");
+	precache_sound ("flak/pump_reload.wav");
+
+	//=============================================================================================
+
+	precache_model ("progs/proj_rebar.mdl");
+	precache_sound ("rebar/penfire.wav");
+	precache_sound ("rebar/pierce1.wav");
+	precache_sound ("rebar/pierce2.wav");
+	precache_sound ("rebar/pierce3.wav");
+	precache_sound ("rebar/stick1.wav");
 	
+	//=============================================================================================
+
+	precache_sound ("grenade/grenade_reload.wav");
+	precache_model ("progs/proj_minigrenade.mdl");
+	
+	
+	precache_model ("progs/proj_missile.mdl");
+
+	//=============================================================================================
+
+	precache_model ("progs/proj_lmg.mdl");
+	precache_sound ("lmg/fire1.wav");
+	precache_sound ("lmg/fire2.wav");
+	precache_sound ("lmg/fire3.wav");
+	precache_sound ("lmg/fire4.wav");
+
+
+	precache_model ("progs/proj_nail.mdl");
+	precache_model ("progs/tracer_long_yellow.mdl");
+	
+
+	//=============================================================================================
+
+
 
 	for (float i = 0; i < 9; i++) {
 		if (weaponsclass[i].model != "") precache_model(weaponsclass[i].model);
@@ -164,7 +137,7 @@ weaponclass_t wpc_axe = {
 	1, // slot
 	0, // slotPos
 	"Wrench", // name
-	"progs/v_axe2.mdl", // model
+	"progs/v_wrench.mdl", // model
 	0, // ammofield
 	0, // ammo_item
 	0, // ammo_usage
@@ -178,7 +151,7 @@ weaponclass_t wpc_shotgun = {
 	2, // slot
 	0, // slotPos
 	"Pistol", // name
-	"progs/v_shot.mdl", // model
+	"progs/v_pistol.mdl", // model
 	5, // ammofield
 	0, // ammo_item
 	0, // ammo_usage
@@ -191,7 +164,7 @@ weaponclass_t wpc_supershotgun = {
 	3, // slot
 	0, // slotPos
 	"Flak Shotgun", // name
-	"progs/v_shot2.mdl", // model
+	"progs/v_flakshotgun.mdl", // model
 	1, // ammofield
 	IT_SHELLS, // ammo_item
 	1, // ammo_usage
@@ -203,8 +176,8 @@ weaponclass_t wpc_nailgun = {
 	IT_NAILGUN,
 	4, // slot
 	0, // slotPos
-	"Nailgun", // name
-	"progs/v_nail.mdl", // model
+	"Twin Nailgun", // name
+	"progs/v_tnailgun.mdl", // model
 	2, // ammofield
 	IT_NAILS, // ammo_item
 	1, // ammo_usage
@@ -217,7 +190,7 @@ weaponclass_t wpc_supernailgun = {
 	5, // slot
 	0, // slotPos
 	"Rebar Cannon", // name
-	"progs/v_nail2.mdl", // model
+	"progs/v_rebar.mdl", // model
 	2, // ammofield
 	IT_NAILS, // ammo_item
 	10, // ammo_usage
@@ -230,7 +203,7 @@ weaponclass_t wpc_grenade = {
 	6, // slot
 	0, // slotPos
 	"Grenade Launcher", // name
-	"progs/v_rock.mdl", // model
+	"progs/v_grenlauncher.mdl", // model
 	3, // ammofield
 	IT_ROCKETS, // ammo_item
 	1, // ammo_usage
@@ -243,7 +216,7 @@ weaponclass_t wpc_rocket = {
 	7, // slot
 	0, // slotPos
 	"Multi-Missile Launcher", // name
-	"progs/v_rock2.mdl", // model
+	"progs/v_mmml.mdl", // model
 	3, // ammofield
 	IT_ROCKETS, // ammo_item
 	1, // ammo_usage
@@ -256,7 +229,7 @@ weaponclass_t wpc_lmg = {
 	8, // slot
 	0, // slotPos
 	"LMG", // name
-	"progs/v_shot.mdl", // model
+	"progs/v_lmg.mdl", // model
 	4, // ammofield
 	IT_CELLS, // ammo_item
 	1, // ammo_usage

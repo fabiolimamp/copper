@@ -479,7 +479,7 @@ void() monster_amalgam_spawn =
 
 void() monster_amalgam_spawner = {mon_spawner_use(monster_amalgam_spawn);}
 
-/*QUAKED monster_amalgam (1 0 0) (-16 -16 -24) (16 16 40) AMBUSH ? ? ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
+/*QUAKED monster_amalgam (1 0 0) (-32 -32 -32) (32 32 72) AMBUSH ? ? ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
 Amalgam, 60 health points.
 
 Flags:
@@ -496,7 +496,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/toothy.mdl" }) = monster_amalgam : "Amalgam" []
+@PointClass base(Monster) size(-32 -32 -32, 32 32 72) model({ "path": ":progs/toothy.mdl" }) = monster_amalgam : "Amalgam" []
 */
 void() monster_amalgam =
 {	

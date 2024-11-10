@@ -331,7 +331,7 @@ void() monster_enforcer_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/enforcer.mdl");
+	setmodel (self, "progs/enforcer_qbj.mdl");
 
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 80;
@@ -369,7 +369,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/enforcer.mdl" }) = monster_enforcer : "Enforcer" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/enforcer_qbj.mdl" }) = monster_enforcer : "Enforcer" []
 */
 void() monster_enforcer =
 {
@@ -380,7 +380,7 @@ void() monster_enforcer =
 		remove(self);
 		return;
 	}
-	precache_model2 ("progs/enforcer.mdl");
+	precache_model2 ("progs/enforcer_qbj.mdl");
 	precache_model2 ("progs/h_mega.mdl");
 	precache_model2 ("progs/laser.mdl");
 

@@ -103,8 +103,19 @@ float() lmg_getDamage = {
 
 void() W_FireLMG =
 {
-	sound (self, CHAN_WEAPON, "pistol_shoot.wav", 1, ATTN_NORM);	
-	
+	//sound (self, CHAN_WEAPON, "pistol_shoot.wav", 1, ATTN_NORM);
+
+	float rnd = random();
+
+	if (rnd < 0.25)
+		sound (self, CHAN_AUTO, "lmg/fire1.wav", 1, ATTN_NORM);
+	else if (rnd < 0.5)
+		sound (self, CHAN_AUTO, "lmg/fire2.wav", 1, ATTN_NORM);
+	else if (rnd < 0.75)
+		sound (self, CHAN_AUTO, "lmg/fire3.wav", 1, ATTN_NORM);
+	else
+		sound (self, CHAN_AUTO, "lmg/fire4.wav", 1, ATTN_NORM);
+
 	makevectors(self.v_angle);
 	
 	
@@ -233,7 +244,7 @@ void(vector src, vector endpos) drawLmgTracer =
 		seg = spawn();
 		seg.classname = "lmgbeam";
 
-		setmodel(seg, "progs/lmg_proj.mdl");
+		setmodel(seg, "progs/proj_lmg.mdl");
 		setsize(seg, VEC_ORIGIN, VEC_ORIGIN);	
 		setorigin(seg, src + vec * 63 * segments);
 

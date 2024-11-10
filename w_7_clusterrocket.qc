@@ -233,7 +233,7 @@ void(vector org, vector dir, float init_angle) launch_spiralrocket = {
 	newmis.angles = vectoangles(dir);
 	newmis.velocity = dir * 1000;
 
-	setmodel (newmis, "progs/missile.mdl");
+	setmodel (newmis, "progs/proj_missile.mdl");
 	setsize (newmis, '0 0 0', '0 0 0');
 	setorigin (newmis, org);
 

@@ -48,7 +48,7 @@ void() weaponanim_rebarcannon_loop = {
 
 void() W_FireRebarCannon =
 {
-	sound (self, CHAN_WEAPON, "penfire.wav", 1, ATTN_NORM);
+	sound (self, CHAN_WEAPON, "rebar/penfire.wav", 1, ATTN_NORM);
 	self.punchangle_x = -2;
 
 	makevectors (self.v_angle);
@@ -69,7 +69,7 @@ entity(vector org, vector vel) launch_impaler =
 	impaler = toss_projectile(org, vel, "impaler");
 	impaler.lifetime_finished = time + 2.5;
 	
-	SUB_ChangeModel (impaler, "progs/rebar.mdl");
+	SUB_ChangeModel (impaler, "progs/proj_rebar.mdl");
 
 	impaler.gravity = .75;
 	impaler.think = ImpalerThink;
@@ -138,9 +138,9 @@ void() ImpalerTouch =
 
 		float chance = random();
 
-		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "pierce1.wav", 1, ATTN_NORM);
-		else if (chance < 0.5)	sound (self, CHAN_AUTO, "pierce2.wav", 1, ATTN_NORM);
-		else			sound (self, CHAN_AUTO, "pierce3.wav", 1, ATTN_NORM);
+		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "rebar/pierce1.wav", 1, ATTN_NORM);
+		else if (chance < 0.5)	sound (self, CHAN_AUTO, "rebar/pierce2.wav", 1, ATTN_NORM);
+		else			sound (self, CHAN_AUTO, "rebar/pierce3.wav", 1, ATTN_NORM);
 
 		// doesn't go through doors
 		if (other.classname != "func_door" && other.classname != "func_door_secret"){
@@ -150,7 +150,7 @@ void() ImpalerTouch =
 	}
 
 	
-	sound (self, CHAN_AUTO, "stick1.wav", 0.5, ATTN_NORM);
+	sound (self, CHAN_AUTO, "rebar/stick1.wav", 0.5, ATTN_NORM);
 	gunshot(self.origin);
 
 	

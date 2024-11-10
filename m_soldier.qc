@@ -94,7 +94,7 @@ void()	army_run8	=[	$run8,		army_run1	] {ai_run(8);}
 
 void()	army_atk1	=[	$shoot1,	army_atk2	] {nmfast();ai_face();}
 void()	army_atk2	=[	$shoot2,	army_atk3	] {nmfast();ai_face();}
-void()	army_atk3	=[	$shoot1,	army_atk4	] {nmfast();ai_face(); sound (self, CHAN_AUTO, "pump_reload.wav", 0.5, ATTN_NORM);}
+void()	army_atk3	=[	$shoot1,	army_atk4	] {nmfast();ai_face(); sound (self, CHAN_AUTO, "flak/pump_reload.wav", 0.5, ATTN_NORM);}
 void()	army_atk4	=[	$shoot2,	army_atk5	] {nmfast();ai_face();}
 void()	army_atk5	=[	$shoot3,	army_atk6	] {nmfast();ai_face(); army_aim(); }
 void()	army_atk6	=[	$shoot4,	army_atk7	] {nmfast();ai_face();}
@@ -307,7 +307,7 @@ void() monster_army_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/soldier.mdl");
+	setmodel (self, "progs/soldier_qbj.mdl");
 
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 35;
@@ -345,7 +345,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier.mdl" }) = monster_army : "Grunt" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_qbj.mdl" }) = monster_army : "Grunt" []
 */
 void() monster_army =
 {	
@@ -356,7 +356,7 @@ void() monster_army =
 		remove(self);
 		return;
 	}
-	precache_model ("progs/soldier.mdl");
+	precache_model ("progs/soldier_qbj.mdl");
 	precache_model ("progs/h_guard.mdl");
 	precache_model ("progs/gib1.mdl");
 	precache_model ("progs/gib2.mdl");

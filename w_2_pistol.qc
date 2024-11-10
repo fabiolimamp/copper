@@ -46,9 +46,9 @@ float() weaponanim_pistol = {
 	
 	// --------------------------------
 	// Low Ammo Alert
-	if 	(self.pistol_ammo_count ==  0) sound (self, CHAN_AUTO, "ammo_rattle.wav", 1, ATTN_NORM);
-	else if (self.pistol_ammo_count ==  1) sound (self, CHAN_AUTO, "ammo_rattle.wav", 0.8, ATTN_NORM);
-	else if (self.pistol_ammo_count ==  2) sound (self, CHAN_AUTO, "ammo_rattle.wav", 0.6, ATTN_NORM);	
+	if 	(self.pistol_ammo_count ==  0) sound (self, CHAN_AUTO, "pistol/ammo_rattle.wav", 1, ATTN_NORM);
+	else if (self.pistol_ammo_count ==  1) sound (self, CHAN_AUTO, "pistol/ammo_rattle.wav", 0.8, ATTN_NORM);
+	else if (self.pistol_ammo_count ==  2) sound (self, CHAN_AUTO, "pistol/ammo_rattle.wav", 0.6, ATTN_NORM);	
 	// --------------------------------
 
 	self.weaponframe = 1;
@@ -95,7 +95,7 @@ void() weaponanim_reloadpistol = {
 
 	self.nextthink1 = time + 1.5;
 	
-	sound (self, CHAN_AUTO, "gun_click.wav", 1, ATTN_NORM);
+	sound (self, CHAN_AUTO, "pistol/gun_click.wav", 1, ATTN_NORM);
 
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
@@ -110,8 +110,7 @@ void() weaponanim_reloadpistol = {
 void() weaponanim_reloadpistol_loop = {
 	
 	
-	//if (self.weaponframe == 37) sound (self, CHAN_AUTO, "pistol_reload.wav", 1, ATTN_NORM);		
-	if (self.weaponframe == 37) sound (self, CHAN_AUTO, "deadlock_reload.wav", 1, ATTN_NORM);		
+	if (self.weaponframe == 37) sound (self, CHAN_AUTO, "pistol/deadlock_reload.wav", 1, ATTN_NORM);		
 	
 	if (self.weaponframe >= 49)	self.pistol_ammo_count = 10; //RESET ammo
 	self.currentammo = self.pistol_ammo_count;
@@ -139,7 +138,7 @@ void() weaponanim_reloadpistol_loop = {
 
 void() W_FirePistol =
 {
-	sound (self, CHAN_WEAPON, "pistol_shoot.wav", 1, ATTN_NORM);	
+	sound (self, CHAN_WEAPON, "pistol/pistol_shoot.wav", 1, ATTN_NORM);	
 	
 	makevectors (self.v_angle);
 	
@@ -286,7 +285,7 @@ void() DropMagTouch1 =
 {
 	if (CheckProjectilePassthru()) return;
 
-	sound (self, CHAN_AUTO, "mag_drop.wav", 0.1, ATTN_NORM);	// drop sound
+	sound (self, CHAN_AUTO, "pistol/mag_drop.wav", 0.1, ATTN_NORM);	// drop sound
 
 	if (self.velocity == '0 0 0')
 		self.avelocity = '0 0 0';

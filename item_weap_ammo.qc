@@ -165,14 +165,14 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_shot.mdl" }) = weapon_flak : "Flak Shotgun.
+@PointClass base(Weapon) model({ "path": ":progs/g_flakshotgun.mdl" }) = weapon_flak : "Flak Shotgun.
 10 shells." []
 */
 void() weapon_flak =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model_safe ("progs/g_shot.mdl");
-	setmodel (self, "progs/g_shot.mdl");
+	precache_model_safe ("progs/g_flakshotgun.mdl");
+	setmodel (self, "progs/g_flakshotgun.mdl");
 	self.items = IT_SUPER_SHOTGUN;
 	self.ammo_shells = 10; //FlakTax
 	self.netname = "KS-23 FLAK";
@@ -193,14 +193,14 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_nail.mdl" }) = weapon_nailgun : "Twin Nailgun.
+@PointClass base(Weapon) model({ "path": ":progs/g_tnailgun.mdl" }) = weapon_nailgun : "Twin Nailgun.
 30 nails." []
 */
 void() weapon_nailgun =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model_safe ("progs/g_nail.mdl");
-	setmodel (self, "progs/g_nail.mdl");
+	precache_model_safe ("progs/g_tnailgun.mdl");
+	setmodel (self, "progs/g_tnailgun.mdl");
 	self.items = IT_NAILGUN;
 	self.ammo_nails = 30;
 	self.netname = "Twin Nailguns";
@@ -217,14 +217,14 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_nail2.mdl" }) = weapon_rebar : "Rebar Cannon.
+@PointClass base(Weapon) model({ "path": ":progs/g_rebar.mdl" }) = weapon_rebar : "Rebar Cannon.
 30 nails." []
 */
 void() weapon_rebar =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model_safe ("progs/g_nail2.mdl");
-	setmodel (self, "progs/g_nail2.mdl");
+	precache_model_safe ("progs/g_rebar.mdl");
+	setmodel (self, "progs/g_rebar.mdl");
 	self.items = IT_SUPER_NAILGUN;
 	self.ammo_nails = 30;
 	self.netname = "Rebar Cannon";
@@ -243,14 +243,14 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_rock.mdl" }) = weapon_grenadelauncher : "Grenade Launcher.
+@PointClass base(Weapon) model({ "path": ":progs/g_grenlauncher.mdl" }) = weapon_grenadelauncher : "Grenade Launcher.
 5 rockets." []
 */
 void() weapon_grenadelauncher =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model_safe ("progs/g_rock.mdl");
-	setmodel (self, "progs/g_rock.mdl");
+	precache_model_safe ("progs/g_grenlauncher.mdl");
+	setmodel (self, "progs/g_grenlauncher.mdl");
 	self.items = IT_GRENADE_LAUNCHER;
 	self.ammo_rockets = 5;
 	self.netname = "RG-6 Grenade Launcher";
@@ -267,14 +267,14 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_rock2.mdl" }) = weapon_mmml : "Multi Mini-Missile Launcher.
+@PointClass base(Weapon) model({ "path": ":progs/g_mmml.mdl" }) = weapon_mmml : "Multi Mini-Missile Launcher.
 8 rockets." []
 */
 void() weapon_mmml =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model_safe ("progs/g_rock2.mdl");
-	setmodel (self, "progs/g_rock2.mdl");
+	precache_model_safe ("progs/g_mmml.mdl");
+	setmodel (self, "progs/g_mmml.mdl");
 	self.items = IT_ROCKET_LAUNCHER;
 	self.ammo_rockets = 8;
 	self.netname = "Multi Mini-Missile Launcher";
@@ -293,14 +293,14 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_light.mdl" }) = weapon_lmg : "The Prototype.
+@PointClass base(Weapon) model({ "path": ":progs/g_lmg.mdl" }) = weapon_lmg : "The Prototype.
 12 cells." []
 */
 void() weapon_lmg =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model_safe ("progs/g_light.mdl");
-	setmodel (self, "progs/g_light.mdl");
+	precache_model_safe ("progs/g_lmg.mdl");
+	setmodel (self, "progs/g_lmg.mdl");
 	self.items = IT_LIGHTNING;
 	self.ammo_cells = 12;
 	self.netname = "Prototype";

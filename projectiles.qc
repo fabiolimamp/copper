@@ -467,7 +467,7 @@ entity(vector org, vector vel) launch_rocket =
 	missile.touch = T_MissileTouch;
 	missile.type = "missile";
 	
-	SUB_ChangeModel (missile, "progs/missile.mdl");
+	SUB_ChangeModel (missile, "progs/proj_missile.mdl");
 	
 	return missile;
 }
@@ -503,7 +503,7 @@ entity(vector org, vector vel) launch_grenade =
 	grenade = toss_projectile(org, vel, "grenade");
 	grenade.lifetime_finished = time + 2.5;
 	grenade.avelocity = '300 300 300';
-	SUB_ChangeModel (grenade, "progs/grenade.mdl");
+	SUB_ChangeModel (grenade, "progs/proj_grenade.mdl");
 	
 	return grenade;
 }
