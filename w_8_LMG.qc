@@ -108,17 +108,17 @@ void() W_FireLMG =
 	makevectors(self.v_angle);
 	
 	
-	vector org = self.origin + self.view_ofs - v_up * 8;
+	vector org = self.origin + self.view_ofs - v_up * 8 + v_right * 4;
 	vector dir = aim(self, 100000);
 	//vector spread = [self.LMG_spread, self.LMG_spread, 0];
 
 	vector spread = lmg_getSpread();
 	float dmg = lmg_getDamage();
 	
-	traceline(org, org + v_forward * 16, FALSE, self);
+	traceline(org, org + v_forward * 24, FALSE, self);
 		
 	ClearMultiDamage ();
-	FireLmgBullets (1, dmg, org + v_forward * 16 * trace_fraction, dir, spread);
+	FireLmgBullets (1, dmg, org + v_forward * 24 * trace_fraction, dir, spread);
 	ApplyMultiDamage ();
 
 	self.punchangle_x = -1;	//punch AFTER makevectors	
@@ -156,7 +156,8 @@ void(float shotcount, float dmg, vector org, vector dir, vector spread) FireLmgB
 
 			if (!(vlen(org - trace_endpos) < 128 && trace_ent.solid == SOLID_BSP))
 			{
-				drawTracer(org, direction, trace_endpos);
+				//drawTracer(org, direction, trace_endpos);
+				drawLmgTracer(org, trace_endpos);
 			}
 			// if we've already pelted a monster enough to kill it, let additional bullets add 
 			// up for possible gibs (ala quake), but trace them again through the target for 
@@ -199,6 +200,63 @@ void(float shotcount, float dmg, vector org, vector dir, vector spread) FireLmgB
 }
 
 
+void() lmgTracerFade = {
+	self.think = lmgTracerFade;
+	self.nextthink = time + 0.025;
+
+	self.alpha -= 0.2;
+
+	if (self.alpha <= 0)
+		remove(self);
+};
+
+void(vector src, vector endpos) drawLmgTracer =
+{
+
+	float shotdistance = vlen(src - endpos) + 32;
+
+	//	how many railbeam models do we need to draw
+	//	where 32 = the length of our beam model
+	float segments = floor(shotdistance / 63);
+	float endsegment = TRUE;
+
+	vector vec = normalize(endpos - src);
+	vector ang = vectoangles2(vec);
+	//ang_y = vectoyaw2(vec);
+	//ang_x = -vectopitch(vec);
+
+	entity seg;
+	
+	src -= vec*32;
+	while (segments) {
+
+		seg = spawn();
+		seg.classname = "lmgbeam";
+
+		setmodel(seg, "progs/lmg_proj.mdl");
+		setsize(seg, VEC_ORIGIN, VEC_ORIGIN);	
+		setorigin(seg, src + vec * 63 * segments);
+
+		seg.angles = ang;
+		seg.owner = self;
+		seg.skin = 3;
+		
+		seg.think = lmgTracerFade;
+		seg.nextthink = time + 0.1;
+
+		seg.alpha = 0.8;
+
+		segments = segments - 1;
+
+		// Plays impact sound where the shot hits (at the last segment).
+		// Segments are drawn in an inverse order, so the last one is the first to spawn.
+		if (endsegment) {
+			endsegment = FALSE;
+			//sound(seg, CHAN_AUTO, "rider/thump.wav", 1, ATTN_STATIC);
+		}
+	}
+
+}
 
 //=============================================================================================
 

@@ -94,6 +94,8 @@ void() W_Precache =
 		
 	precache_model ("progs/pistol_mag.mdl");
 	precache_model ("progs/bullet_casing.mdl");
+
+	precache_model ("progs/lmg_proj.mdl");
 	
 	precache_model ("progs/flame1_thrower.mdl");
 	precache_model ("progs/flame1_ground.mdl");
