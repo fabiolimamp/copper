@@ -283,19 +283,27 @@ void(float skn, float amt) StartArmor =
 {
 	if (!SUB_ShouldSpawn()) return;
 
-	self.skin = skn;
+	
 	self.armorvalue = amt;
-	if (skn == 2)
+	if (skn == 2){
 		self.armortype = ARMORTYPE_RED;
-	else if (skn == 1)
+		precache_model_safe ("progs/armor_red.mdl");
+		setmodel (self, "progs/armor_red.mdl");
+	}
+	else if (skn == 1){
 		self.armortype = ARMORTYPE_YELLOW;
-	else
+		precache_model_safe ("progs/armor_yellow.mdl");
+		setmodel (self, "progs/armor_yellow.mdl");
+	}
+	else{
 		self.armortype = ARMORTYPE_GREEN;
+		precache_model_safe ("progs/armor_green.mdl");
+		setmodel (self, "progs/armor_green.mdl");
+	}
 
 	self.touch = armor_touch;
 	self.type = "armor";
-	precache_model_safe ("progs/armor.mdl");
-	setmodel (self, "progs/armor.mdl");
+
 	
 	if (deathmatch == 1 || deathmatch == 3)
 		self.wait = 20;
@@ -305,7 +313,7 @@ void(float skn, float amt) StartArmor =
 }
 
 
-/*QUAKED item_armor1 (0 .5 .5) (-16 -16 0) (16 16 32) ? ? SUSPENDED
+/*QUAKED item_armor1 (0 .5 .5) (-16 -16 0) (16 16 56) ? ? SUSPENDED
 Green armor, gives 100 points.
 
 Keys:
@@ -315,12 +323,12 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass size(-16 -16 0, 16 16 56) color(0 180 180) base(Item) model({ "path": ":progs/armor.mdl" }) =
+@PointClass size(-16 -16 0, 16 16 56) color(0 180 180) base(Item) model({ "path": ":progs/armor_green.mdl" }) =
 	item_armor1 : "Green armor (100pts, 30%)" []
 */
 void() item_armor1 = { StartArmor(0,100); }
 
-/*QUAKED item_armor2 (0 .5 .5) (-16 -16 0) (16 16 32) ? ? SUSPENDED
+/*QUAKED item_armor2 (0 .5 .5) (-16 -16 0) (16 16 56) ? ? SUSPENDED
 Yellow armor, gives 150 points.
 
 Keys:
@@ -330,12 +338,12 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass size(-16 -16 0, 16 16 56) color(180 0 180) base(Item) model({ "path": ":progs/armor.mdl", "skin": 1 }) =
+@PointClass size(-16 -16 0, 16 16 56) color(180 0 180) base(Item) model({ "path": ":progs/armor_yellow.mdl" }) =
 	item_armor2 : "Yellow armor (150pts, 50%)" []
 */
 void() item_armor2 = { StartArmor(1,150); }
 
-/*QUAKED item_armorInv (0 .5 .5) (-16 -16 0) (16 16 32) ? ? SUSPENDED
+/*QUAKED item_armorInv (0 .5 .5) (-16 -16 0) (16 16 56) ? ? SUSPENDED
 Red armor, gives 200 armor points.
 
 Keys:
@@ -345,7 +353,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass size(-16 -16 0, 16 16 56) color(180 0 0) base(Item) model({ "path": ":progs/armor.mdl", "skin": 2 }) =
+@PointClass size(-16 -16 0, 16 16 56) color(180 0 0) base(Item) model({ "path": ":progs/armor_red.mdl" }) =
 	item_armorInv : "Red armor (200pts, 70%)" []
 */
 void() item_armorInv = { StartArmor(2,200); }
