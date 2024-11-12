@@ -615,6 +615,7 @@ void() PutClientInServer =
 	self.radsuit_finished = 0;
 	self.invisible_finished = 0;
 	self.vamp_finished = 0;
+	self.gorgon_finished = 0;
 	self.notrace = 0;	// fix for dying with the ring
 	self.invincible_finished = 0;
 	self.invincible_time = 0;
@@ -1517,6 +1518,41 @@ void() CheckPowerups =
 			self.vamp_finished = 0;
 			self.vamp_time = 0;
 			//self.fw_screenshift = 1;
+		}
+	}
+
+
+	// gorgon sledgehammer
+	if (self.gorgon_finished)
+	{
+
+	// sound and screen flash when items starts to run out
+
+		if (self.gorgon_finished < time + 3)
+		{
+			if (self.gorgon_time == 1)
+			{
+				sprint (self, "You feel sated ...\n");
+				stuffcmd (self, "bf\n");
+				sound (self, CHAN_POWERUP, "items/vampfade.wav", 1, ATTN_NORM);
+				self.gorgon_time = time + 1;
+			}	  
+			
+			if (self.gorgon_time < time)
+			{
+				self.gorgon_time = time + 1;
+				stuffcmd (self, "bf\n");
+			}
+		}
+
+		if (self.gorgon_finished < time)
+		{	// just stopped
+			self.items_reliq &~= IT_GORGON;
+
+			csf_clear(self, 100);
+
+			self.gorgon_finished = 0;
+			self.gorgon_time = 0;
 		}
 	}
 }
