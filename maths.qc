@@ -82,9 +82,19 @@ float(vector vec) vectoyaw2 =
 // high precision vectoangles
 vector(vector vec) vectoangles2 =
 {
-	float yaw = vectoyaw2(vec);
-	float forward = vlen([vec_x, vec_y, 0]);
-	float pitch = vectoyaw2([forward, vec_z, 0]);
+	float yaw, forward, pitch;
+	
+	if (vec_x == 0 && vec_y == 0)
+	{
+		yaw = 0;
+		if (vec_z > 0) pitch = 90;
+		else pitch = 270;
+	}
+	else {
+		yaw = vectoyaw2(vec);
+		forward = vlen([vec_x, vec_y, 0]);
+		pitch = vectoyaw2([forward, vec_z, 0]);
+	}
 	return [pitch, yaw, 0];
 }
 
