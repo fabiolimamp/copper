@@ -1532,9 +1532,9 @@ void() CheckPowerups =
 		{
 			if (self.gorgon_time == 1)
 			{
-				sprint (self, "You feel sated ...\n");
+				sprint (self, "Gorgon Sledgehammer expiring ...\n");
 				stuffcmd (self, "bf\n");
-				sound (self, CHAN_POWERUP, "items/vampfade.wav", 1, ATTN_NORM);
+				sound (self, CHAN_POWERUP, "items/gorgonfade.wav", 1, ATTN_NORM);
 				self.gorgon_time = time + 1;
 			}	  
 			
@@ -1553,6 +1553,14 @@ void() CheckPowerups =
 
 			self.gorgon_finished = 0;
 			self.gorgon_time = 0;
+
+			if (self.weapon == IT_AXE)
+			{
+				if (W_CheckWeapon(IT_AXE, self) == WEAPONSTAT_AVAILABLE)
+					W_ChangeWeapon(IT_AXE, TRUE); // force weapon reset to restore wrench model
+				else
+					W_SelectBestWeapon();
+			}
 		}
 	}
 }

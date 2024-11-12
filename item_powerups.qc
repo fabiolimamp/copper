@@ -63,6 +63,11 @@ void(entity h, float t) powerup_gorgon =
 	h.gorgon_finished = time + t;
 	csf_set(h, 32, '192 192 192', 100);
 	h.gorgon_time = 1;
+
+	entity oself = self;
+	self = h;
+	W_ChangeWeapon(IT_AXE, TRUE);
+	self = oself;
 }
 /*
 ===============
@@ -119,6 +124,9 @@ void() powerup_touch =
 
 	if (self.classname == "item_artifact_vampirism")
 		powerup_vampirism(other, 30);
+
+	if (self.classname == "item_artifact_gorgon")
+		powerup_gorgon(other, 15);
 
 	ItemTouched();
 }
@@ -371,6 +379,8 @@ GORGON SLEDGEHAMMER
 void() precache_gorgon =
 {
 	precache_model_safe ("progs/item_gorgon.mdl");
+	precache_model_safe ("progs/v_gorgon.mdl");
+	precache_model_safe ("progs/debris.mdl");
 	precache_sound_safe ("items/gorgonstart.wav");
 	precache_sound_safe ("items/gorgonfade.wav");
 	precache_sound_safe ("items/gorgonhit.wav");

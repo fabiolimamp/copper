@@ -39,6 +39,7 @@ w_5_rebarcannon.qc
 w_6_clustergrenade.qc
 w_7_clusterrocket.qc
 w_8_LMG.qc
+w_gorgon.qc
 weapons_use.qc
 dev.qc
 impulse.qc

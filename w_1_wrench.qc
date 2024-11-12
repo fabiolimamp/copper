@@ -8,8 +8,15 @@ void(vector org, vector vel, float damage) ImpactSpawn = {SpawnBlood(org, vel, d
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 float() weaponanim_wrench = {
+	
+	if (has_gorgon(self))
+		return weaponanim_gorgon();
+
+
 	if (self.attack_finished > time)
 		return FALSE;
+
+
 
 	sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
 	
