@@ -51,7 +51,8 @@ vector(entity emitter, float dm) GibVelocityFromInflictor = {
 	// For a more dramatic effect with high-speed and relatively
 	// low damage projectiles that still may gib under quad,
 	// like the SNG and the Plasma Gun.
-	if (emitter.inflictor_movetype == MOVETYPE_FLYMISSILE && emitter.inflictor_vel != '0 0 0') {
+	if (emitter.inflictor_customflags & CFL_PROJECTILE && emitter.inflictor_vel != '0 0 0') {
+		dprint4(emitter.classname, ": adding velocity from inflictor ", emitter.dmg_inflictor.classname, "\n");
 		float projlinvel = vlen(emitter.inflictor_vel);
 		addvel += emitter.inflictor_vel * min(projlinvel, 180)/projlinvel;
 	}
@@ -150,7 +151,9 @@ void(string headmdl, float dm) GibSpray =
 		SUB_Remove();
 		return;
 	}
-	
+
+	self.customflags |= CFL_GIBBED;
+
 	if (headmdl != "NULL")
 	ThrowHead (headmdl, dm);
 }
@@ -190,9 +193,12 @@ void(vector org, vector vel) SpawnMeatSpray =
 SpawnBlood
 ================
 */
-void(vector org, vector vel, float damage) SpawnBlood =
+void(vector org, vector vel, float damage, optional entity victim) SpawnBlood =
 {
-	particle (org, vel*0.1, 73, damage*2);
+	if (victim && victim.customflags & CFL_STONED)
+		particle (org, vel*0.1, 5, damage*2);
+	else
+		particle (org, vel*0.1, 73, damage*2);
 }
 
 //============================================================================

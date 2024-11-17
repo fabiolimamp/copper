@@ -83,15 +83,15 @@ void() W_FireGorgon =
 		
 		targ.customflags = targ.customflags | CFL_AXEHITME;
 		
-		if (targ.flags & FL_MONSTER)
+		if (targ.flags & FL_MONSTER && !(targ.customflags & CFL_STONED))
 		{
 			Gorgon_TurnStatue(targ);
 			W_GorgonHitSound();
 		}
 		else
 		{
-			T_Damage (targ, self, self, 24, DMGTYPE_MELEE);
-			sound (self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_IDLE);
+			T_Damage (targ, self, self, 48, DMGTYPE_MELEE);
+			//sound (self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_IDLE);
 			SpawnBlood (org, '0 0 0', 20);
 		}
 		
@@ -109,22 +109,110 @@ void(entity targ) Gorgon_TurnStatue =
 {
 	if (!(targ.flags & FL_MONSTER) || targ.health <= 0)
 		return;
+	if (targ.customflags & CFL_STONED)
+		return;
+	if (targ.type == "boss")
+		return;
 
-	targ.think = SUB_Null;
-	targ.nextthink = 0;
+	targ.enemy = self;
+	targ.customflags |= CFL_STONED + CFL_PROJECTILE;
+	targ.think = statue_think;
+	targ.nextthink = time + 0.05;
 
-	targ.touch = SUB_Null;
+	targ.touch = statue_touch;
 	targ.th_pain = statue_pain;
 	targ.th_die = statue_die;
-	targ.health = 5;
+	targ.health = 9999;
+	targ.movetype = MOVETYPE_BOUNCE;
 	targ.flags &~= FL_FLY;
 	targ.flags &~= FL_SWIM;
 	targ.flags &~= FL_SWIM2;
 }
 
+void() statue_think =
+{
+	self.oldvelocity = self.velocity;
+	self.nextthink = time + 0.05;
+	self.think = statue_think;
+}
+
+void() statue_restorevelocity =
+{
+	self.velocity = self.oldvelocity;
+	self.flags &~= FL_ONGROUND;
+	self.nextthink = time + 0.05;
+	self.think = statue_think;
+}
+
+void() statue_checkvelocity =
+{
+	float dot = normalize(self.velocity) * normalize(self.oldvelocity);
+	dprint4("current velocity: ", vtos(self.velocity), ", oldvelocity: ", vtos(self.oldvelocity));
+	dprint3(", dot: ", ftos(dot), "\n");
+	if (vlen(self.oldvelocity) > 400 && ( dot < -0.1))
+	{
+		dprint("crash!\n");
+		
+		self.velocity = self.oldvelocity;
+		self.health = 1;
+		T_Damage(self, self, self.enemy, 100);
+		return;
+	}
+	dprint("Dont crash\n");
+	self.oldvelocity = self.velocity;
+
+	self.nextthink = time + 0.05;
+	self.think = statue_think;
+}
+
+void() statue_touch =
+{
+	float linvel = vlen(self.velocity);
+	//dprint2(ftos(linvel), "\n");
+	if (other.takedamage && other.flags & FL_MONSTER)
+	{
+		
+		float dmg = clamp(linvel - 200, 0, 500)*5;
+
+		if (dmg)
+		{
+			T_Damage(other, self, self.enemy, dmg);
+			
+			if (!other || other.customflags & CFL_GIBBED)
+			{
+				self.think = statue_restorevelocity;
+				self.nextthink = time + 0.001;
+			}
+		}
+	}
+	self.oldvelocity = self.velocity;
+	if (linvel > 400 && other.solid == SOLID_BSP) {
+		self.think = statue_checkvelocity;
+		self.nextthink = time + 0.001;
+		/*
+		self.health = 1;
+		T_Damage(self, self, self.enemy, 100);
+		*/
+		//self.nextthink = 0;
+	}
+}
+
 void(entity attacker, float damage) statue_pain =
 {
+	//dprint("Pain!\n");
+	self.velocity += GibVelocityFromInflictor(self, damage*2);
+	if (self.flags & FL_ONGROUND)
+		self.velocity_z += clamp(damage*2, 100, 300);
+	else
+		self.velocity_z += min(damage*2, 100);
 
+	self.velocity_z = min(self.velocity_z, 600);
+	
+	if (vlen(self.velocity) > 2000)
+		self.velocity = normalize(self.velocity) * 2000;
+
+	//dprint2(vtos(self.velocity), "\n");
+	self.flags &~= FL_ONGROUND;
 }
 
 void() statue_die =

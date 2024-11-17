@@ -204,7 +204,7 @@ spawn_touchblood
 only used by nailguns so now it's here
 ================
 */
-void(float damage) spawn_touchblood =
+void(entity victim, float damage) spawn_touchblood =
 {
 	local vector	vel;
 
@@ -215,7 +215,7 @@ void(float damage) spawn_touchblood =
 	// nailguns don't do traces so there is no valid trace plane normal
 	// (which explains why nailgun blood spurts always seemed to be caught in some strange wind)
 	
-	SpawnBlood (self.origin + vel, vel * 40, damage);
+	SpawnBlood (self.origin + vel, vel * 40, damage, victim);
 }
 
 
@@ -345,7 +345,7 @@ void() spike_touch =
 	{
 		if (other.takedamage)
 		{
-			spawn_touchblood (self.dmg);
+			spawn_touchblood (other, self.dmg);
 			T_Damage (other, self, self.trueowner, self.dmg);
 		}
 		else

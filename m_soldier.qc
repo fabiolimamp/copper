@@ -261,10 +261,10 @@ void()	army_die8	=[	$death8,	army_die9	] {}
 void()	army_die9	=[	$death9,	army_die10	] {}
 void()	army_die10	=[	$death10,	SUB_Null	] {}
 
-void()	army_cdie1	=[	$deathc1,	army_cdie2	] {}
-void()	army_cdie2	=[	$deathc2,	army_cdie3	] {ai_back(5);}
-void()	army_cdie3	=[	$deathc3,	army_cdie4	]
-{self.solid = SOLID_NOT;self.ammo_shells = 4;DropBackpack();ai_back(4);} //FlakTax
+void()	army_cdie1	=[	$deathc1,	army_cdie2	] {army_checkgib();}
+void()	army_cdie2	=[	$deathc2,	army_cdie3	] {army_checkgib();ai_back(5);}
+void()	army_cdie3	=[	$deathc3,	army_cdie4	] {if (army_checkgib()) return;
+	self.solid = SOLID_NOT;self.ammo_shells = 4;DropBackpack();ai_back(4);} //FlakTax
 void()	army_cdie4	=[	$deathc4,	army_cdie5	] {ai_back(13);}
 void()	army_cdie5	=[	$deathc5,	army_cdie6	] {ai_back(3);}
 void()	army_cdie6	=[	$deathc6,	army_cdie7	] {ai_back(4);}

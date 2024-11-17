@@ -163,7 +163,7 @@ void() twinnail_touch =
 
 	if (other.takedamage)
 	{
-		spawn_touchblood (self.dmg);
+		spawn_touchblood (other, self.dmg);
 		T_Damage (other, self, self.trueowner, self.dmg);
 	}
 	else

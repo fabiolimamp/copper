@@ -327,6 +327,9 @@ T_ReactToDamage
 */
 void( entity attacker ) T_ReactToDamage =
 {
+	// ignore if turned to stone
+	if (self.customflags & CFL_STONED) return;
+
 	if (self.flags & FL_MONSTER)
 	{
 		monster_alt_use(
@@ -530,7 +533,7 @@ void(entity targ, entity inflictor, entity attacker, float damage, float dmgtype
 	targ.dmg_inflictor = inflictor;
 
 	targ.inflictor_origin = inflictor.origin;
-	targ.inflictor_movetype = inflictor.movetype;
+	targ.inflictor_customflags = inflictor.customflags;
 	targ.inflictor_vel = inflictor.velocity;
 
 	// do the damage

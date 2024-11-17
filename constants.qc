@@ -42,6 +42,9 @@ const float	CFL_MELEEONLY		= 1024;	// has no ranged attack (monster)
 const float	CFL_LIMBO			= 2048;	// waiting in teleport limbo (coop, player)
 const float	CFL_OMNIVISION		= 4096;	// eyes in back of head
 const float CFL_DONTTELEPORT	= 8192; // don't teleport this entity on instateleports
+const float CFL_STONED 			= 16384;// turned into statue by Gorgon Hammer
+const float CFL_GIBBED			= 32768;// turned into tiny bits
+const float CFL_PROJECTILE		= 65536;// projectile
 
 // serverflags
 const float	SVFL_EPISODE1		= 1;

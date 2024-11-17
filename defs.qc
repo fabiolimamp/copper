@@ -394,7 +394,7 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .float		multi_dmg;
 
 .vector 	inflictor_origin;
-.float 		inflictor_movetype;
+.float 		inflictor_customflags;
 .vector 	inflictor_vel;
 .float		dmgtype_death;
 

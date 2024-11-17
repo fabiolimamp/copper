@@ -87,6 +87,7 @@ void() W_FireFlakShotgun =
 	{
 		mvel = (v_forward * 2000) + (v_up * 100) + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
 		fl = Launch_Flak(view_origin, mvel);
+		//fl.customflags &~= CFL_PROJECTILE;
 		fl.count = shotcount;
 		shotcount = shotcount - 1;
 	}
@@ -184,7 +185,7 @@ void() FlakTouch =
 	{
 		T_Damage(other, self, self.trueowner, 4); //10x10 20x5 15x7
 		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
-		particle (self.origin, self.velocity*0.1, 73, 40);
+		SpawnBlood(self.origin, self.velocity, 40, other);
 
 		sound_flakshotgun_impact();
 
@@ -218,7 +219,7 @@ void() FlakTouch_2 =
 	if (other.takedamage)
 	{
 		T_Damage(other, self, self.trueowner, 4); //10x10 20x5 15x7
-		particle(self.origin, self.velocity*0.1, 73, 40);
+		SpawnBlood(self.origin, self.velocity, 40, other);
 		sound_flakshotgun_impact();
 		return;
 	}
