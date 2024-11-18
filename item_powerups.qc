@@ -55,6 +55,7 @@ void(entity h, float t) powerup_vampirism =
 powerup_gorgon
 ===============
 */
+/*
 void(entity h, float t) powerup_gorgon =
 {
 	sprint (h, "Gorgon Sledgehammer whatever ...\n");
@@ -69,6 +70,7 @@ void(entity h, float t) powerup_gorgon =
 	W_ChangeWeapon(IT_AXE, TRUE);
 	self = oself;
 }
+*/
 /*
 ===============
 powerup_invisibility
@@ -125,8 +127,8 @@ void() powerup_touch =
 	if (self.classname == "item_artifact_vampirism")
 		powerup_vampirism(other, 30);
 
-	if (self.classname == "item_artifact_gorgon")
-		powerup_gorgon(other, 15);
+	//if (self.classname == "item_artifact_gorgon")
+	//	powerup_gorgon(other, 15);
 
 	ItemTouched();
 }
@@ -376,6 +378,7 @@ GORGON SLEDGEHAMMER
 
 ===============================================================================
 */
+/*
 void() precache_gorgon =
 {
 	precache_model_safe ("progs/item_gorgon.mdl");
@@ -385,21 +388,9 @@ void() precache_gorgon =
 	precache_sound_safe ("items/gorgonfade.wav");
 	precache_sound_safe ("items/gorgonhit.wav");
 }
-
-
-/*QUAKED item_artifact_gorgon (0 .5 .5) (-16 -16 -24) (16 16 32) ? ? SUSPENDED
-Turns monsters into smashable concrete
-
-Keys:
-"target/2/3/4/k" - entity to trigger when picked up
-"targetname" - will not spawn until triggered
-"wait" - will respawn after 'wait' seconds. fires targets every time.
-"count" - limit number of times to respawn
 */
-/*FGD
-@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/item_gorgon.mdl" }) = item_artifact_gorgon : 
-	"Turns monsters into smashable concrete"[]
-*/
+
+/*
 void() item_artifact_gorgon =
 {
 	if (!SUB_ShouldSpawn()) return;
@@ -415,4 +406,4 @@ void() item_artifact_gorgon =
 		self.wait = 60;
 	StartItem ();
 }
-
+*/

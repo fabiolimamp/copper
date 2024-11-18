@@ -1523,6 +1523,7 @@ void() CheckPowerups =
 
 
 	// gorgon sledgehammer
+	/*
 	if (self.gorgon_finished)
 	{
 
@@ -1563,6 +1564,7 @@ void() CheckPowerups =
 			}
 		}
 	}
+	*/
 }
 
 // a failed experiment to fix DOOF-DOOF-DOOFing down stairs

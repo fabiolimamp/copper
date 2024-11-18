@@ -389,7 +389,7 @@ float() W_BestWeapon = {
 float(float weap, entity cl) W_CheckWeapon = {
 	weaponclass_t weapcl = weaponsclass[getWeapon(weap)];
 
-	if (has_gorgon(cl) && weap == IT_AXE) return WEAPONSTAT_AVAILABLE;
+	//if (has_gorgon(cl) && weap == IT_AXE) return WEAPONSTAT_AVAILABLE;
 	
 	if (weap == IT_NO_WEAPON) return WEAPONSTAT_AVAILABLE;
 
@@ -522,8 +522,8 @@ float(float weap, optional float forcereset = FALSE) W_ChangeWeapon = {
 		self.currentammo = 0;
 	}
 
-	if (has_gorgon(self) && weap == IT_AXE)
-		weapcl.model = "progs/v_gorgon.mdl";
+	//if (has_gorgon(self) && weap == IT_AXE)
+	//	weapcl.model = "progs/v_gorgon.mdl";
 	
 	self.weaponmodel = weapcl.model;
 	

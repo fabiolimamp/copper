@@ -12,7 +12,7 @@ float() weaponanim_gorgon = {
 	if (self.attack_finished > time)
 		return FALSE;
 
-	sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
+	//sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
 	
 	self.attack_finished = time + 0.5;
 	
@@ -24,7 +24,7 @@ float() weaponanim_gorgon = {
 	self.think = weaponanim_gorgon_loop;
 	self.nextthink = time + 0.05;
 
-	return FALSE; // axe swing will never count as fired until it hits something
+	return FALSE; 
 }
 
 void() weaponanim_gorgon_loop = {
@@ -49,10 +49,8 @@ void() weaponanim_gorgon_loop = {
 
 void() W_GorgonHitSound =
 {
-	//if (random() < 0.5)
-		sound (self, CHAN_WEAPON, "items/gorgonhit.wav", 1, ATTN_NORM);
-	//else
-	//	sound (self, CHAN_WEAPON, "weapons/axhit2.wav", 1, ATTN_NORM);
+	//sound (self, CHAN_WEAPON, "items/gorgonhit.wav", 1, ATTN_NORM);
+
 }
 
 

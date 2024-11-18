@@ -9,8 +9,8 @@ void(vector org, vector vel, float damage) ImpactSpawn = {SpawnBlood(org, vel, d
 
 float() weaponanim_wrench = {
 	
-	if (has_gorgon(self))
-		return weaponanim_gorgon();
+	//if (has_gorgon(self))
+	//	return weaponanim_gorgon();
 
 
 	if (self.attack_finished > time)
