@@ -470,6 +470,12 @@ void(entity targ, entity inflictor, entity attacker, float damage, float dmgtype
 		attacker.frags = 0;
 	}
 
+	// if player has berserk, reduce damage taken by 50%
+	if (targ.classname == "player" && has_berserk(targ))
+	{
+		damage = ceil(damage * 0.5);
+	}
+
 	// figure momentum add
 	if ( (inflictor != world) && (targ.movetype == MOVETYPE_WALK) )
 	{

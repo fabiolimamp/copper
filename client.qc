@@ -31,7 +31,7 @@ void() SetChangeParms =
 		IT_KEY1 | IT_KEY2 | 
 		IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD
 		) );
-	self.items_reliq = self.items_reliq - (self.items_reliq & (IT_VAMP));
+	self.items_reliq = self.items_reliq - (self.items_reliq & (IT_VAMP | IT_BERSERK));
 	
 	// gung-ho players can run forward and grab weapons before other clients have
 	// finished connecting, causing them to miss out on the global distribution
@@ -615,7 +615,8 @@ void() PutClientInServer =
 	self.radsuit_finished = 0;
 	self.invisible_finished = 0;
 	self.vamp_finished = 0;
-	self.gorgon_finished = 0;
+	//self.gorgon_finished = 0;
+	self.berserk_finished = 0;
 	self.notrace = 0;	// fix for dying with the ring
 	self.invincible_finished = 0;
 	self.invincible_time = 0;
@@ -1521,6 +1522,36 @@ void() CheckPowerups =
 		}
 	}
 
+	if (self.berserk_finished) {
+		if (self.berserk_finished < time + 3) {
+			if (self.berserk_time == 1) {
+				sprint(self, "Your rage subsides ...\n");
+				stuffcmd(self, "bf\n");
+				
+				sound (self, CHAN_WEAPON, "items/axe_powerup2.wav", 1, ATTN_NORM);
+				self.berserk_time = time + 1;
+			}
+
+			if (self.berserk_time < time) {
+				self.berserk_time = time + 1;
+				stuffcmd(self, "bf\n");
+			}
+		}
+
+		if (self.berserk_finished < time) {
+			// Just stopped
+			self.items_reliq = self.items_reliq - IT_BERSERK;
+			self.berserk_finished = 0;
+			self.berserk_time = 0;
+			csf_clear(self, 100);
+		}
+
+		if (self.berserk_finished > time) {
+			self.effects = self.effects | EF_DIMLIGHT;
+		} else {
+			self.effects = self.effects - (self.effects & EF_DIMLIGHT);
+		}
+	}	
 
 	// gorgon sledgehammer
 	/*

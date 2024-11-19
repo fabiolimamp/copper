@@ -71,6 +71,31 @@ void(entity h, float t) powerup_gorgon =
 	self = oself;
 }
 */
+
+/*
+===============
+powerup_berserk
+===============
+*/
+void(entity h, float t) powerup_berserk =
+{
+
+	if (h.classname != "player")
+		return;
+		
+	sprint(h, "You begin frothing with a berserkers rage ...\n\b10x melee damage AND 50% damage reduction\b\n");
+	h.items_reliq |= IT_BERSERK;
+	h.berserk_finished = time + t;
+	h.berserk_time = 1;
+	csf_set(h, 32, '255 0 0', 100);
+	
+	entity oself = self;
+	self = h;
+	W_ChangeWeapon(IT_AXE, TRUE);
+	self = oself;
+	
+}
+
 /*
 ===============
 powerup_invisibility
@@ -407,3 +432,52 @@ void() item_artifact_gorgon =
 	StartItem ();
 }
 */
+
+
+
+/*
+===============================================================================
+
+BERSKER
+
+===============================================================================
+*/
+// TODO(JP): Set actual media
+void() precache_berserk =
+{
+	precache_model ("progs/item_berserk.mdl");
+	precache_model ("progs/v_berserk.mdl");
+	precache_sound_safe ("items/axe_powerup.wav");
+	precache_sound_safe ("items/axe_powerup2.wav");
+	precache_sound_safe ("items/axe_powerup3.wav");	
+}
+
+/*QUAKED item_artifact_berserk (0 .5 .5) (-16 -16 -24) (16 16 32) ? ? SUSPENDED
+Berserk. Player get a 11x damage axe.
+
+Keys:
+"target/2/3/4/k" - entity to trigger when picked up
+"targetname" - will not spawn until triggered
+"wait" - will respawn after 'wait' seconds. fires targets every time.
+"count" - limit number of times to respawn
+*/
+/*FGD
+@PointClass size(-16 -16 -24, 16 16 32) base(Item) model({ "path": ":progs/item_berserk.mdl" }) =
+	item_artifact_berserk : "Berserk" []
+*/
+void() item_artifact_berserk =
+{
+	if (!SUB_ShouldSpawn()) return;
+	self.touch = powerup_touch;
+
+	precache_berserk();
+	setmodel (self, "progs/item_berserk.mdl");
+	self.netname = "Berserk";
+	self.noise = "items/axe_powerup.wav";
+	self.items_reliq = IT_BERSERK;
+	setsize (self, '-16 -16 -24', '16 16 32');
+	if (deathmatch)
+		self.wait = 60;
+	StartItem ();
+}
+

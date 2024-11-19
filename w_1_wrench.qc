@@ -11,7 +11,8 @@ float() weaponanim_wrench = {
 	
 	//if (has_gorgon(self))
 	//	return weaponanim_gorgon();
-
+	if (has_berserk(self))
+		return weaponanim_flail();
 
 	if (self.attack_finished > time)
 		return FALSE;

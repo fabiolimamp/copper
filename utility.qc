@@ -196,7 +196,8 @@ float(entity who) has_quad = { return (who.items & IT_QUAD || who.super_damage_f
 float(entity who) has_invuln = { return (who.items & IT_INVULNERABILITY || who.invincible_finished > time); }
 float(entity who) has_biosuit = { return (who.items & IT_SUIT || who.radsuit_finished > time); }
 float(entity who) has_vamp = { return !!(who.items_reliq & IT_VAMP || who.vamp_finished > time); }
-float(entity who) has_gorgon = { return !!(who.items_reliq & IT_GORGON || who.gorgon_finished > time); }
+//float(entity who) has_gorgon = { return !!(who.items_reliq & IT_GORGON || who.gorgon_finished > time); }
+float(entity who) has_berserk = { return !!(who.items_reliq & IT_BERSERK || who.berserk_finished > time); }
 
 //============================================================================
 
