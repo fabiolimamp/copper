@@ -1544,12 +1544,20 @@ void() CheckPowerups =
 			self.berserk_finished = 0;
 			self.berserk_time = 0;
 			csf_clear(self, 100);
+
+			if (self.weapon == IT_AXE)
+			{
+				if (W_CheckWeapon(IT_AXE, self) == WEAPONSTAT_AVAILABLE)
+					W_ChangeWeapon(IT_AXE, TRUE); // force weapon reset to restore wrench model
+				else
+					W_SelectBestWeapon();
+			}
 		}
 
 		if (self.berserk_finished > time) {
-			self.effects = self.effects | EF_DIMLIGHT;
+			self.effects |= EF_DIMLIGHT;
 		} else {
-			self.effects = self.effects - (self.effects & EF_DIMLIGHT);
+			self.effects &~= EF_DIMLIGHT;
 		}
 	}	
 
