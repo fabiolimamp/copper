@@ -185,7 +185,7 @@ void() FlakTouch =
 	{
 		T_Damage(other, self, self.trueowner, 4); //10x10 20x5 15x7
 		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
-		SpawnBlood(self.origin, self.velocity, 40, other);
+		SpawnBlood(self.origin, self.velocity, 40);
 
 		sound_flakshotgun_impact();
 
@@ -219,7 +219,7 @@ void() FlakTouch_2 =
 	if (other.takedamage)
 	{
 		T_Damage(other, self, self.trueowner, 4); //10x10 20x5 15x7
-		SpawnBlood(self.origin, self.velocity, 40, other);
+		SpawnBlood(self.origin, self.velocity, 40);
 		sound_flakshotgun_impact();
 		return;
 	}

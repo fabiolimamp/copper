@@ -155,6 +155,9 @@ void() powerup_touch =
 	//if (self.classname == "item_artifact_gorgon")
 	//	powerup_gorgon(other, 15);
 
+	if (self.classname == "item_artifact_berserk")
+		powerup_berserk(other, 30);
+
 	ItemTouched();
 }
 
@@ -438,22 +441,21 @@ void() item_artifact_gorgon =
 /*
 ===============================================================================
 
-BERSKER
+BERSERK
 
 ===============================================================================
 */
-// TODO(JP): Set actual media
 void() precache_berserk =
 {
 	precache_model ("progs/item_berserk.mdl");
 	precache_model ("progs/v_berserk.mdl");
-	precache_sound_safe ("items/axe_powerup.wav");
-	precache_sound_safe ("items/axe_powerup2.wav");
-	precache_sound_safe ("items/axe_powerup3.wav");	
+	precache_sound_safe ("items/berserk_pickup.wav");
+	precache_sound_safe ("items/berserk_fade.wav");
+	precache_sound_safe ("items/berserk_fire.wav");	
 }
 
 /*QUAKED item_artifact_berserk (0 .5 .5) (-16 -16 -24) (16 16 32) ? ? SUSPENDED
-Berserk. Player get a 11x damage axe.
+Berserk. Player get a 10x damage melee and 50% damage reduction.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -463,7 +465,7 @@ Keys:
 */
 /*FGD
 @PointClass size(-16 -16 -24, 16 16 32) base(Item) model({ "path": ":progs/item_berserk.mdl" }) =
-	item_artifact_berserk : "Berserk" []
+	item_artifact_berserk : "Berserk. Player gets a 10x damage melee and 50% damage reduction." []
 */
 void() item_artifact_berserk =
 {
@@ -473,7 +475,7 @@ void() item_artifact_berserk =
 	precache_berserk();
 	setmodel (self, "progs/item_berserk.mdl");
 	self.netname = "Berserk";
-	self.noise = "items/axe_powerup.wav";
+	self.noise = "items/berserk_pickup.wav";
 	self.items_reliq = IT_BERSERK;
 	setsize (self, '-16 -16 -24', '16 16 32');
 	if (deathmatch)

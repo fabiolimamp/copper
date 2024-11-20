@@ -215,7 +215,7 @@ void(entity victim, float damage) spawn_touchblood =
 	// nailguns don't do traces so there is no valid trace plane normal
 	// (which explains why nailgun blood spurts always seemed to be caught in some strange wind)
 	
-	SpawnBlood (self.origin + vel, vel * 40, damage, victim);
+	SpawnBlood (self.origin + vel, vel * 40, damage);
 }
 
 

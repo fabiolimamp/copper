@@ -146,7 +146,7 @@ vector(float damage, vector dir) BulletImpact =
 
 	if (trace_ent.takedamage)
 	{
-		SpawnBlood (org, vel*40, damage, trace_ent);
+		SpawnBlood (org, vel*40, damage);
 		AddMultiDamage (trace_ent, damage);
 	}
 	else gunshot(org);

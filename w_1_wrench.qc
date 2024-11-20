@@ -2,7 +2,6 @@
 // multi-hit sword sweeping code by bmFbr, edits by Kebby
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-void(vector org, vector vel, float damage) ImpactSpawn = {SpawnBlood(org, vel, damage);};
 .float	swordhitme;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -12,7 +11,7 @@ float() weaponanim_wrench = {
 	//if (has_gorgon(self))
 	//	return weaponanim_gorgon();
 	if (has_berserk(self))
-		return weaponanim_flail();
+		return weaponanim_berserk();
 
 	if (self.attack_finished > time)
 		return FALSE;
@@ -160,7 +159,7 @@ void(entity hitent, vector org, vector dir) hitwrench = {
 	{		
 		hitent.swordhitme = 1;
 
-		ImpactSpawn(org, dir, 60);
+		SpawnBlood(org, dir, 60);
 
 		if (hitent.classname == "monster_zombie") //keep zombies Unbonkable
 			T_Damage(hitent, self, self, 59, DMGTYPE_MELEE);

@@ -193,11 +193,11 @@ void(vector org, vector vel) SpawnMeatSpray =
 SpawnBlood
 ================
 */
-void(vector org, vector vel, float damage, optional entity victim) SpawnBlood =
+void(vector org, vector vel, float damage) SpawnBlood =
 {
-	if (victim && victim.customflags & CFL_STONED)
-		particle (org, vel*0.1, 5, damage*2);
-	else
+	//if (victim && victim.customflags & CFL_STONED)
+	//	particle (org, vel*0.1, 5, damage*2);
+	//else
 		particle (org, vel*0.1, 73, damage*2);
 }
 
