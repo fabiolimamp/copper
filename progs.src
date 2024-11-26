@@ -3,7 +3,9 @@
 //#define NO_CSQC 1		// uncomment for a CSQC-less build
 
 // automatically compiles the CSQC progs at the end
-//#pragma sourcefile csprogs.src
+#ifndef NOCSQC
+#pragma sourcefile csprogs.src
+#endif
 
 defs.qc
 constants.qc

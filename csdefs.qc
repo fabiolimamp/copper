@@ -205,8 +205,8 @@ const float FILE_WRITE		= 2;
 
 //Builtin list
 
-vector(vector fwd, optional vector up) vectoangles2 = #51; /*
-		Returns the angles (+x=UP) required to orient an entity to look in the given direction. The 'up' argument is required if you wish to set a roll angle, otherwise it will be limited to just monster-style turning. */
+//vector(vector fwd, optional vector up) vectoangles2 = #51; /*
+//		Returns the angles (+x=UP) required to orient an entity to look in the given direction. The 'up' argument is required if you wish to set a roll angle, otherwise it will be limited to just monster-style turning. */
 
 float(float angle) sin = #60;
 float(float angle) cos = #61;
