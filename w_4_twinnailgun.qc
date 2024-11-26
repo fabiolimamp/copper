@@ -106,6 +106,7 @@ void(float offs) W_FireTwinNailgun =
 {
 	sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
 
+	makevectors(self.v_angle);
 	vector dir = aim(self, AUTOAIM_DIST);
 	vector org = self.origin + self.view_ofs + v_forward*11 + v_right*offs - v_up*6;
 
