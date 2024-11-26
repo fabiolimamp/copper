@@ -288,8 +288,12 @@ void Hud_DrawSBar(vector pos)
 		Hud_DrawLargeValue(pos + '96 0', value, 25);
 
 	value = clampf(getstatf(STAT_AMMO), 999);
+
 	Hud_DrawCurrentAmmoIcon(pos + '224 0');
-	Hud_DrawLargeValue(pos+'320 0', value, 10);
+	if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN)
+		Hud_DrawLargeValue(pos+'320 0', value, 3);
+	else
+		Hud_DrawLargeValue(pos+'320 0', value, 10);
 };
 
 // ================================================================
@@ -600,7 +604,12 @@ void Hud_DrawModernRight(vector pos, float expanded)
 	//if (getstatf(STAT_ACTIVEWEAPON) != IT_AXE)
 	//{
 		Hud_DrawCurrentAmmoIcon(pos + '-24 -24');
-		Hud_DrawLargeValue(pos + '-32 -24', clampf(getstatf(STAT_AMMO), 999), 10);
+
+
+		if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN)
+			Hud_DrawLargeValue(pos + '-32 -24', clampf(getstatf(STAT_AMMO), 999), 3);
+		else
+			Hud_DrawLargeValue(pos + '-32 -24', clampf(getstatf(STAT_AMMO), 999), 10);
 	//}
 	
 	if (!expanded) return;
