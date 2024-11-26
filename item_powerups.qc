@@ -44,7 +44,7 @@ void(entity h, float t) powerup_vampirism =
 	else
 	sprint (h, "Bloodshed leaves a parting gift ...\n");
 	precache_vamp();
-	h.items_reliq |= IT_VAMP;
+	h.items_qbj |= IT_VAMP;
 	h.vamp_finished = time + t;
 	csf_set(h, 32, '255 0 0', 100);
 	h.vamp_time = 1;
@@ -60,7 +60,7 @@ void(entity h, float t) powerup_gorgon =
 {
 	sprint (h, "Gorgon Sledgehammer whatever ...\n");
 	//precache_vamp();
-	h.items_reliq |= IT_GORGON;
+	h.items_qbj |= IT_GORGON;
 	h.gorgon_finished = time + t;
 	csf_set(h, 32, '192 192 192', 100);
 	h.gorgon_time = 1;
@@ -84,7 +84,7 @@ void(entity h, float t) powerup_berserk =
 		return;
 		
 	sprint(h, "You begin frothing with a berserkers rage ...\n\b10x melee damage AND 50% damage reduction\b\n");
-	h.items_reliq |= IT_BERSERK;
+	h.items_qbj |= IT_BERSERK;
 	h.berserk_finished = time + t;
 	h.berserk_time = 1;
 	csf_set(h, 32, '255 0 0', 100);
@@ -390,7 +390,7 @@ void() item_artifact_vampirism =
 	setmodel (self, "progs/item_vamp.mdl");
 	self.netname = "Vampiric Blood";
 	self.noise = "items/vampstart.wav";
-	self.items_reliq = IT_VAMP;
+	self.items_qbj = IT_VAMP;
 	setsize (self, '-16 -16 -24', '16 16 32');
 	if (deathmatch)
 		self.wait = 60;
@@ -428,7 +428,7 @@ void() item_artifact_gorgon =
 	setmodel (self, "progs/item_gorgon.mdl");
 	self.netname = "Gorgon Sledgehammer";
 	self.noise = "items/gorgonstart.wav";
-	self.items_reliq = IT_GORGON;
+	self.items_qbj = IT_GORGON;
 	setsize (self, '-16 -16 -24', '16 16 32');
 	if (deathmatch)
 		self.wait = 60;
@@ -476,7 +476,7 @@ void() item_artifact_berserk =
 	setmodel (self, "progs/item_berserk.mdl");
 	self.netname = "Berserk";
 	self.noise = "items/berserk_pickup.wav";
-	self.items_reliq = IT_BERSERK;
+	self.items_qbj = IT_BERSERK;
 	setsize (self, '-16 -16 -24', '16 16 32');
 	if (deathmatch)
 		self.wait = 60;

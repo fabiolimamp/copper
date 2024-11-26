@@ -411,7 +411,7 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .void(float unlock) lock;	// so entities can define their own target_lock cleanup
 
 //overflowed og items list, made another for reliq stuff
-.float items_reliq;
+.float items_qbj;
 
 // OVERLOADS:
 .float rand = healamount;	// for trigger_timer

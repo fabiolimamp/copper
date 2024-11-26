@@ -31,7 +31,7 @@ void() SetChangeParms =
 		IT_KEY1 | IT_KEY2 | 
 		IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD
 		) );
-	self.items_reliq = self.items_reliq - (self.items_reliq & (IT_VAMP | IT_BERSERK));
+	self.items_qbj = self.items_qbj - (self.items_qbj & (IT_VAMP | IT_BERSERK));
 	
 	// gung-ho players can run forward and grab weapons before other clients have
 	// finished connecting, causing them to miss out on the global distribution
@@ -71,7 +71,7 @@ void() SetChangeParms =
 	parm7 = self.ammo_cells;
 	parm8 = self.weapon;
 	parm9 = self.armortype;
-	parm10 = self.items_reliq;
+	parm10 = self.items_qbj;
 }
 
 void() SetNewParms =
@@ -129,7 +129,7 @@ void() DecodeLevelParms =
 	self.ammo_rockets = parm6;
 	self.ammo_cells = parm7;
 	self.armortype = parm9;
-	self.items_reliq = parm10;
+	self.items_qbj = parm10;
 	
 	//self.weapon = parm8;
 	W_ChangeWeapon(parm8);
@@ -1507,7 +1507,7 @@ void() CheckPowerups =
 
 		if (self.vamp_finished < time)
 		{	// just stopped
-			self.items_reliq = not(self.items_reliq, IT_VAMP);
+			self.items_qbj = not(self.items_qbj, IT_VAMP);
 
 			csf_clear(self, 100);
 
@@ -1540,7 +1540,7 @@ void() CheckPowerups =
 
 		if (self.berserk_finished < time) {
 			// Just stopped
-			self.items_reliq = self.items_reliq - IT_BERSERK;
+			self.items_qbj = self.items_qbj - IT_BERSERK;
 			self.berserk_finished = 0;
 			self.berserk_time = 0;
 			csf_clear(self, 100);
@@ -1587,7 +1587,7 @@ void() CheckPowerups =
 
 		if (self.gorgon_finished < time)
 		{	// just stopped
-			self.items_reliq &~= IT_GORGON;
+			self.items_qbj &~= IT_GORGON;
 
 			csf_clear(self, 100);
 

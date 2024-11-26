@@ -139,7 +139,7 @@ void() Cheat_Vamp =
 	if(deathmatch || coop)
 		return;
 	stuffcmd(self, "bf\n");
-	self.items_reliq = self.items_reliq | IT_VAMP;
+	self.items_qbj = self.items_qbj | IT_VAMP;
 	powerup_vampirism(self, 30);
 	//self.fw_screenshift = 1;
 }
