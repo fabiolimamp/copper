@@ -24,6 +24,8 @@ float() weaponanim_pistol = {
 		weaponanim_reloadpistol();
 		return FALSE;
 	}
+	
+	self.weaponreload_perc = 0;
 	self.pistol_ammo_count--;
 
 	self.currentammo = self.pistol_ammo_count;
@@ -100,7 +102,8 @@ void() weaponanim_reloadpistol = {
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	
-	
+	self.weaponreload_perc = 1/24;
+
 	self.weaponframe = 25;
 	self.think = weaponanim_reloadpistol_loop;
 	self.nextthink = time + 0.05;
@@ -112,7 +115,17 @@ void() weaponanim_reloadpistol_loop = {
 	
 	if (self.weaponframe == 37) sound (self, CHAN_AUTO, "pistol/deadlock_reload.wav", 1, ATTN_NORM);		
 	
-	if (self.weaponframe >= 49)	self.pistol_ammo_count = 10; //RESET ammo
+	
+	if (self.weaponframe >= 49)
+	{
+		self.pistol_ammo_count = 10; //RESET ammo
+		self.weaponreload_perc = 0;
+	}
+	else
+		self.weaponreload_perc = min(self.weaponreload_perc + 1/24, 1);
+
+
+
 	self.currentammo = self.pistol_ammo_count;
 	//if (time >= self.attack_finished - 0.05) self.pistol_ammo_count = 0; //RESET ammo
 

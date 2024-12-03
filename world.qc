@@ -269,6 +269,8 @@ void() worldspawn =
 			clientstat(STAT_TINTCOLOR_R, 2, tint_color_x);
 			clientstat(STAT_TINTCOLOR_G, 2, tint_color_y);
 			clientstat(STAT_TINTCOLOR_B, 2, tint_color_z);
+			clientstat(STAT_ITEMS_QBJ, 2, items_qbj);
+			clientstat(STAT_RELOADPERC, 2, weaponreload_perc);
 		}
 #endif
 	}

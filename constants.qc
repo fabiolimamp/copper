@@ -295,6 +295,8 @@ const float STAT_TINTAMOUNT		= 34;
 const float STAT_TINTCOLOR_R	= 35;	// you can send a vector as a stat but there's no accompanying getstatv
 const float STAT_TINTCOLOR_G	= 36;	// so we have to send the three components separately and getstatf them
 const float STAT_TINTCOLOR_B	= 37;
+const float STAT_ITEMS_QBJ		= 38;
+const float STAT_RELOADPERC		= 39;
 
 
 // temporary entities

@@ -335,6 +335,7 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 
 .float  	pistol_ammo_count;
 .float		pistol_lastreload_time;
+.float		weaponreload_perc;
 
 #ifndef NO_CSQC
 // fields for csqc HUD stats

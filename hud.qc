@@ -19,7 +19,7 @@ const float weaponbits[8] = { 12, 0, 1, 2, 3, 4, 5, 6 };
 const string weaponflash[6] = { "gfx/inv_","gfx/inv2_","gfx/inva2_","gfx/inva3_","gfx/inva4_","gfx/inva1_" };	// use selected glow as a better last frame
 const string weaponlabel[8] = {	"axe","shotgun","sshotgun","nailgun","snailgun","rlaunch","srlaunch","lightng" };
 
-float stat_items, stat_items2, stat_health, keytype;
+float stat_items, stat_items2, stat_items_qbj, stat_health, keytype;
 float paintime, lookseed;
 float itemtimes[30];
 float baralpha;
@@ -160,6 +160,30 @@ void(vector pos, float value, float threshhold, float left = FALSE, float zeropa
 	}
 };
 
+
+void(vector pos, float value, float left = FALSE, float zeropad = 0) Hud_DrawTinyValue =
+{
+	float c;
+	float len;
+	string s;
+
+	s = FormatFloat(floor(value), zeropad, "0");
+	len = strlen(s);
+	if (!left)
+		pos_x -= 4 * len;
+
+	
+	while (len>0)
+	{
+		len--;
+		c = str2chr(s, len);
+
+		drawsubpic(pos + len*'4 0', '4 8', "mininumbers", [c*8, 0], '4 8', '1 1 1', 1, 0);
+	}
+	
+};
+
+
 void(float type, vector pos) Hud_DrawAmmoCount =
 {
 	string s;
@@ -270,6 +294,8 @@ void Hud_DrawCurrentAmmoIcon(vector pos)
 		drawpic(pos, "sb_cellsb", '24 24', '1 1 1', 1, 0);
 }
 
+void Hud_DrawPistolBullets(vector pos);
+
 void Hud_DrawSBar(vector pos)
 {
 	float value;
@@ -289,11 +315,13 @@ void Hud_DrawSBar(vector pos)
 
 	value = clampf(getstatf(STAT_AMMO), 999);
 
-	Hud_DrawCurrentAmmoIcon(pos + '224 0');
 	if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN)
-		Hud_DrawLargeValue(pos+'320 0', value, 3);
-	else
+		Hud_DrawPistolBullets(pos+'224 0' + '8 0');
+		//Hud_DrawLargeValue(pos+'320 0', value, 3);
+	else {
+		Hud_DrawCurrentAmmoIcon(pos + '224 0');
 		Hud_DrawLargeValue(pos+'320 0', value, 10);
+	}
 };
 
 // ================================================================
@@ -325,6 +353,14 @@ void Hud_DrawInvuln(vector pos)
 void Hud_DrawQuad(vector pos)
 {
 	drawpic(pos, strcat(powerupflash[HUD_FlashTime(22)], "quad"), '16 16', '1 1 1', 1, 0);
+}
+void Hud_DrawVamp(vector pos)
+{
+	drawpic(pos, strcat(powerupflash[HUD_FlashTime(27)], "vamp"), '16 16', '1 1 1', 1, 0);
+}
+void Hud_DrawBerserk(vector pos)
+{
+	drawpic(pos, strcat(powerupflash[HUD_FlashTime(28)], "berserk"), '16 16', '1 1 1', 1, 0);
 }
 
 float Hud_DrawKeys(vector pos, float it)
@@ -398,6 +434,56 @@ void Hud_DrawSigils(vector pos)
 		else pulse = 1;
 		drawpic(pos + '24 0', "sb_sigil4", '8 16', '1 1 1', pulse, 0);
 	}
+}
+
+void Hud_DrawSigilsSmall(vector pos)
+{
+	float pulse;
+	if (stat_items2 & 32)
+	{
+		if (time < itemtimes[23] + 1.5) pulse = 1.2 - 2 * ((time - itemtimes[23]) % 0.5);
+		else pulse = 1;
+		drawpic(pos, "sb_sigilsm1", '8 8', '1 1 1', pulse, 0);
+	}
+	if (stat_items2 & 64)
+	{
+		if (time < itemtimes[24] + 1.5) pulse = 1.2 - 2 * ((time - itemtimes[24]) % 0.5);
+		else pulse = 1;
+		drawpic(pos + '9 0', "sb_sigilsm2", '8 8', '1 1 1', pulse, 0);
+	}
+	if (stat_items2 & 128)
+	{
+		if (time < itemtimes[25] + 1.5) pulse = 1.2 - 2 * ((time - itemtimes[25]) % 0.5);
+		else pulse = 1;
+		drawpic(pos + '16 0', "sb_sigilsm3", '8 8', '1 1 1', pulse, 0);
+	}
+	if (stat_items2 & 256)
+	{
+		if (time < itemtimes[26] + 1.5) pulse = 1.2 - 2 * ((time - itemtimes[26]) % 0.5);
+		else pulse = 1;
+		drawpic(pos + '24 0', "sb_sigilsm4", '8 8', '1 1 1', pulse, 0);
+	}
+}
+
+void Hud_DrawPistolBullets(vector pos)
+{
+	float i, amt;
+	if (getstatf(STAT_RELOADPERC)) {
+		amt = rint(getstatf(STAT_RELOADPERC)*10);
+		for (i = 0; i < amt; i++)
+		{
+			drawpic(pos + '72 0' - ('8 0'*i), "bullit", '8 24', '1 1 1', 1, 0);
+		}
+
+		return;
+	}
+
+	amt = getstatf(STAT_AMMO);
+	for (i = 0; i < amt; i++)
+	{
+		drawpic(pos + '8 0'*i, "bullit", '8 24', '1 1 1', 1, 0);
+	}
+
 }
 
 void Hud_DrawMultiplayerSwatch(vector pos, float p)
@@ -494,6 +580,24 @@ void Hud_DrawIBarPowerups(vector pos)
 		Hud_DrawInvuln(pos + '16 0');
 	if (stat_items & IT_QUAD)
 		Hud_DrawQuad(pos + '48 0');
+	if (stat_items_qbj & IT_BERSERK)
+		Hud_DrawBerserk(pos + '64 0');
+	if (stat_items_qbj & IT_VAMP)
+		Hud_DrawVamp(pos + '80 0');
+}
+
+void Hud_DrawIBarLevelStats(vector pos)
+{
+
+	//void(vector pos, float value, float left = FALSE, float zeropad = 0)
+
+	vector offs = '12 0';
+	Hud_DrawTinyValue(pos + offs, getstatf(STAT_MONSTERS));
+	Hud_DrawTinyValue(pos + offs + '20 0', getstatf(STAT_TOTALMONSTERS));
+
+	offs = '68 0';
+	Hud_DrawTinyValue(pos + offs, getstatf(STAT_SECRETS));
+	Hud_DrawTinyValue(pos + offs + '16 0', getstatf(STAT_TOTALSECRETS));
 }
 
 void Hud_DrawIBar(vector pos)
@@ -518,12 +622,12 @@ void Hud_DrawIBar(vector pos)
 	Hud_DrawKeys(pos + '208 8', IT_KEY2);
 
 	Hud_DrawIBarPowerups(pos + '224 8');
-	Hud_DrawSigils(pos + '288 8');
+	Hud_DrawSigilsSmall(pos + '288 0');
 		
 	if (!coop && !deathmatch)
-		return;
-
-	Hud_DrawMultiplayer(pos + '192 0', '32 0', MP_NARROW);
+		Hud_DrawIBarLevelStats(pos + '192 0');
+	else
+		Hud_DrawMultiplayer(pos + '192 0', '32 0', MP_NARROW);
 };
 
 // ================================================================
@@ -595,6 +699,16 @@ void Hud_DrawModernLeft(vector pos, float expanded)
 	if (stat_items & IT_QUAD)
 	{
 		Hud_DrawQuad(pos);
+		pos += '0 -16';
+	}
+	if (stat_items_qbj & IT_BERSERK)
+	{
+		Hud_DrawBerserk(pos);
+		pos += '0 -16';
+	}
+	if (stat_items_qbj & IT_VAMP)
+	{
+		Hud_DrawVamp(pos);
 	}
 	
 }
@@ -603,13 +717,17 @@ void Hud_DrawModernRight(vector pos, float expanded)
 {
 	//if (getstatf(STAT_ACTIVEWEAPON) != IT_AXE)
 	//{
-		Hud_DrawCurrentAmmoIcon(pos + '-24 -24');
-
-
+		
 		if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN)
-			Hud_DrawLargeValue(pos + '-32 -24', clampf(getstatf(STAT_AMMO), 999), 3);
+		{
+			//Hud_DrawLargeValue(pos + '-32 -24', clampf(getstatf(STAT_AMMO), 999), 3);
+			Hud_DrawPistolBullets(pos + '-80 -24');
+		}
 		else
+		{
+			Hud_DrawCurrentAmmoIcon(pos + '-24 -24');
 			Hud_DrawLargeValue(pos + '-32 -24', clampf(getstatf(STAT_AMMO), 999), 10);
+		}
 	//}
 	
 	if (!expanded) return;
@@ -686,11 +804,13 @@ void() HUD_UpdateStats =
 	olditems2 = stat_items2;	
 	stat_items = getstatbits(STAT_ITEMS, 0, 23);
 	stat_items2 = getstatbits(STAT_ITEMS, 23, 9);
+	stat_items_qbj = getstatf(STAT_ITEMS_QBJ);
 	keytype = getstatbits(STAT_KEYCOUNTS, 8, 8);
 	scr_tint = getstatf(STAT_TINTAMOUNT);
 	scr_tintcolor_x = getstatf(STAT_TINTCOLOR_R);
 	scr_tintcolor_y = getstatf(STAT_TINTCOLOR_G);
 	scr_tintcolor_z = getstatf(STAT_TINTCOLOR_B);
+	stat_items_qbj = getstatf(STAT_ITEMS_QBJ);
 		
 	skill = cvar("skill");
 	// gl_cshiftpercent isn't native to OG quake, so the cvar call fails and returns 0 
@@ -941,6 +1061,8 @@ void() Hud_Init
 		precache_pic(strcat(powerupflash[i], "invul"), TRUE);
 		precache_pic(strcat(powerupflash[i], "suit"), TRUE);
 		precache_pic(strcat(powerupflash[i], "quad"), TRUE);
+		precache_pic(strcat(powerupflash[i], "vamp"), TRUE);
+		precache_pic(strcat(powerupflash[i], "berserk"), TRUE);
 	}
 	for (i = 0; i < 6; i++)
 	{
