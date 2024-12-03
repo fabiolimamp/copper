@@ -161,25 +161,27 @@ void(vector pos, float value, float threshhold, float left = FALSE, float zeropa
 };
 
 
-void(vector pos, float value, float left = FALSE, float zeropad = 0) Hud_DrawTinyValue =
+float(vector pos, float value, float left = FALSE, float zeropad = 0) Hud_DrawTinyValue =
 {
 	float c;
-	float len;
+	float len, i;
 	string s;
 
 	s = FormatFloat(floor(value), zeropad, "0");
-	len = strlen(s);
+	i = len = strlen(s);
 	if (!left)
 		pos_x -= 4 * len;
 
 	
-	while (len>0)
+	while (i>0)
 	{
-		len--;
-		c = str2chr(s, len);
+		i--;
+		c = stof(substring(s, i, 1));
 
-		drawsubpic(pos + len*'4 0', '4 8', "mininumbers", [c*8, 0], '4 8', '1 1 1', 1, 0);
+		drawsubpic(pos + i*'4 0', '4 8', "gfx/mininumbers", [c/12, 0], [1/12, 1], '1 1 1', 1, 0);
 	}
+
+	return len;
 	
 };
 
@@ -472,7 +474,7 @@ void Hud_DrawPistolBullets(vector pos)
 		amt = rint(getstatf(STAT_RELOADPERC)*10);
 		for (i = 0; i < amt; i++)
 		{
-			drawpic(pos + '72 0' - ('8 0'*i), "bullit", '8 24', '1 1 1', 1, 0);
+			drawpic(pos + '72 0' - ('8 0'*i), "gfx/bullit", '8 24', '1 1 1', 1, 0);
 		}
 
 		return;
@@ -481,7 +483,7 @@ void Hud_DrawPistolBullets(vector pos)
 	amt = getstatf(STAT_AMMO);
 	for (i = 0; i < amt; i++)
 	{
-		drawpic(pos + '8 0'*i, "bullit", '8 24', '1 1 1', 1, 0);
+		drawpic(pos + '8 0'*i, "gfx/bullit", '8 24', '1 1 1', 1, 0);
 	}
 
 }
@@ -590,14 +592,21 @@ void Hud_DrawIBarLevelStats(vector pos)
 {
 
 	//void(vector pos, float value, float left = FALSE, float zeropad = 0)
+	float ret;
 
-	vector offs = '12 0';
-	Hud_DrawTinyValue(pos + offs, getstatf(STAT_MONSTERS));
-	Hud_DrawTinyValue(pos + offs + '20 0', getstatf(STAT_TOTALMONSTERS));
+	drawpic(pos + '4 1', "gfx/icon_kills", '8 8', '1 1 1', 1, 0);
 
-	offs = '68 0';
-	Hud_DrawTinyValue(pos + offs, getstatf(STAT_SECRETS));
-	Hud_DrawTinyValue(pos + offs + '16 0', getstatf(STAT_TOTALSECRETS));
+	vector offs = '13 1';
+	ret = Hud_DrawTinyValue(pos + offs, getstatf(STAT_MONSTERS), TRUE);
+	drawsubpic(pos + offs + [ret*4, 0] , '4 8', "gfx/mininumbers", [10/12, 0], [1/12, 1], '1 1 1', 1, 0);
+	Hud_DrawTinyValue(pos + offs + [ret*4 + 4, 0], getstatf(STAT_TOTALMONSTERS), TRUE);
+
+	drawpic(pos + '56 1', "gfx/icon_secrets", '8 8', '1 1 1', 1, 0);
+	
+	offs = '65 1';
+	ret = Hud_DrawTinyValue(pos + offs, getstatf(STAT_SECRETS), TRUE);
+	drawsubpic(pos + offs + [ret*4, 0], '4 8', "gfx/mininumbers", [10/12, 0], [1/12, 1], '1 1 1', 1, 0);
+	Hud_DrawTinyValue(pos + offs + [ret*4 + 4, 0], getstatf(STAT_TOTALSECRETS), TRUE);
 }
 
 void Hud_DrawIBar(vector pos)
@@ -1068,6 +1077,12 @@ void() Hud_Init
 	{
 		precache_pic(strcat(weaponflash[i], "axe"), TRUE);
 	}
+
+	precache_pic("gfx/bullit", TRUE);
+	precache_pic("gfx/mininumbers", TRUE);
+	precache_pic("gfx/icon_kills", TRUE);
+	precache_pic("gfx/icon_secrets", TRUE);
+	
 	
 	precache_pic("gfx/sb_mkey1", TRUE);
 	precache_pic("gfx/sb_mkey2", TRUE);
