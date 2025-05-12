@@ -386,7 +386,7 @@ void() monster_rocketarmy_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/soldier_qbj.mdl");
+	setmodel (self, "progs/soldier_rocket_qbj.mdl");
 
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 35;
@@ -435,7 +435,7 @@ void() monster_army_rocket =
 		remove(self);
 		return;
 	}
-	precache_model ("progs/soldier_qbj.mdl");
+	precache_model ("progs/soldier_rocket_qbj.mdl");
 	precache_model ("progs/h_guard.mdl");
 	precache_model ("progs/gib1.mdl");
 	precache_model ("progs/gib2.mdl");
