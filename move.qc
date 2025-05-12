@@ -160,6 +160,20 @@ float(entity goal, float dist) CloseEnough = {
 	return TRUE;
 }
 
+float(entity goal, float dist) CloseEnoughFUCKFISH = {
+    vector delta = goal.origin - self.origin;
+
+    // If any axis difference is greater than the allowed distance, return FALSE
+    if (fabs(delta_x) > dist)
+        return FALSE;
+    if (fabs(delta_y) > dist)
+        return FALSE;
+    if (fabs(delta_z) > dist)
+        return FALSE;
+
+    return TRUE;
+};
+
 void(float dist) movetogoal2 = {
 	
 	if (!(self.flags & FL_SWIM2)) {// && self.classname != "monster_amalgam") {
@@ -175,8 +189,16 @@ void(float dist) movetogoal2 = {
 		return;
 
 	// if the next step hits the enemy, return immediately
-	if (self.enemy && CloseEnough(goal, dist))
-		return;
+	if (self.classname == "monster_fish")
+	{
+		if (self.enemy && CloseEnoughFUCKFISH(goal, dist))
+			return;
+	}
+	else
+	{
+		if (self.enemy && CloseEnough(goal, dist))
+			return;
+	}
 
 	// bump around...
 	if ((random() < 0.333) || !StepDirection(self.ideal_yaw, dist)) {
