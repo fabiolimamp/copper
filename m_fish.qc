@@ -321,7 +321,7 @@ void() monster_fish_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/fish.mdl");
+	setmodel (self, "progs/fish_qbj.mdl");
 
 	setsize (self, '-16 -16 -16', '16 16 16');
 	//setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
@@ -368,7 +368,7 @@ Keys:
 "targetname" entity name
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -16, 16 16 16) model({ "path": ":progs/fish.mdl" }) = monster_fish : "Rotfish" []
+@PointClass base(Monster) size(-16 -16 -16, 16 16 16) model({ "path": ":progs/fish_qbj.mdl" }) = monster_fish : "Rotfish" []
 */
 void() monster_fish =
 {
@@ -379,7 +379,7 @@ void() monster_fish =
 		remove(self);
 		return;
 	}
-	precache_model2 ("progs/fish.mdl");
+	precache_model2 ("progs/fish_qbj.mdl");
 	precache_model ("progs/zom_gib.mdl");
 	precache_sound2 ("fish/death.wav");
 	precache_sound2 ("fish/bite.wav");
