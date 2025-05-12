@@ -159,6 +159,10 @@ void() ImpalerTouch =
 		self.solid = SOLID_NOT;
 		self.owner = other;
 		self.touch = SUB_Null;
+		// change model so that smoke doesn't appear when stuck to moving brushes
+		setmodel(self, "progs/proj_rebar_nosmoke.mdl");
+
+
 		// move origin away from walls when stuck, helps prevent "void-lighting"
 		setorigin(self, self.origin - 2*normalize(self.velocity));
 

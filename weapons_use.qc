@@ -56,6 +56,7 @@ void() W_Precache =
 	//=============================================================================================
 
 	precache_model ("progs/proj_rebar.mdl");
+	precache_model ("progs/proj_rebar_nosmoke.mdl");
 	precache_sound ("rebar/penfire.wav");
 	precache_sound ("rebar/pierce1.wav");
 	precache_sound ("rebar/pierce2.wav");
