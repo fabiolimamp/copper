@@ -299,6 +299,28 @@ void() worldspawn =
 	precache_sound ("player/gasp2.wav");		// taking breath
 	precache_sound ("player/h2odeath.wav");		// drowning death
 
+	// footsteps
+	precache_sound ("player/footstep1.wav"); //solidground
+	precache_sound ("player/footstep2.wav");
+	precache_sound ("player/footstep3.wav");
+	precache_sound ("player/footstep4.wav");
+	precache_sound ("player/footstep5.wav");
+	precache_sound ("player/footstep6.wav");
+	precache_sound ("player/footstep7.wav");
+	precache_sound ("player/footstep8.wav");
+	precache_sound ("player/footstep9.wav");
+	precache_sound ("player/footstep10.wav");
+	precache_sound ("player/waterstep1.wav"); //water
+	precache_sound ("player/waterstep2.wav");
+	precache_sound ("player/waterstep3.wav");
+	precache_sound ("player/waterstep4.wav");
+	precache_sound ("player/waterstep5.wav");
+	precache_sound ("player/waterstep6.wav");
+	precache_sound ("player/waterstep7.wav");
+	precache_sound ("player/waterstep8.wav");
+	precache_sound ("player/waterstep9.wav");
+	precache_sound ("player/waterstep10.wav");
+
 	precache_sound ("misc/talk.wav");			// talk
 	precache_sound ("player/teledth1.wav");		// telefrag
 	precache_sound ("misc/r_tele1.wav");		// teleport sounds

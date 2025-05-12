@@ -100,7 +100,166 @@ void()	player_run =[	$rockrun1,	player_run	]
 			self.owner.walkframe = 0;
 		self.frame = self.owner.frame = self.owner.frame + self.owner.walkframe;
 	}
+
+	if ((self.walkframe == 2 || self.walkframe == 5) && 
+		self.flags & FL_ONGROUND) 
+	{
+		vector spdcheck;
+		spdcheck = (self.velocity);
+		spdcheck_z = 0;
+		if ( vlen (spdcheck) > 50)
+		play_footstep();
+	}
+
 	self.owner.walkframe = self.owner.walkframe + 1;
+}
+
+void()	play_footstep =
+{
+	float rand = random();
+	float stepvol = .2;
+
+	if (self.movetype == MOVETYPE_NOCLIP)
+		return;
+
+	if (!self.laststep)
+		self.laststep = 1;
+
+	if (self.waterlevel == WL_NONE)
+	{
+		if ((rand < 0.11) && (self.laststep != 1))
+		{
+			sound (self, CHAN_BODY, "player/footstep1.wav",  stepvol, ATTN_NORM);
+			self.laststep = 1;
+			return;
+		}
+
+		if ((rand < 0.22) && (self.laststep != 2))
+		{
+			sound (self, CHAN_BODY, "player/footstep2.wav",  stepvol, ATTN_NORM);
+			self.laststep = 2;
+			return;
+		}
+
+		if ((rand < 0.33) && (self.laststep != 3))
+		{
+			sound (self, CHAN_BODY, "player/footstep3.wav",  stepvol, ATTN_NORM);
+			self.laststep = 3;
+			return;
+		}
+
+		if ((rand < 0.44) && (self.laststep != 4))
+		{
+			sound (self, CHAN_BODY, "player/footstep4.wav",  stepvol, ATTN_NORM);
+			self.laststep = 4;
+			return;
+		}
+
+		if ((rand < 0.55) && (self.laststep != 5))
+		{
+			sound (self, CHAN_BODY, "player/footstep5.wav",  stepvol, ATTN_NORM);
+			self.laststep = 5;
+			return;
+		}
+
+		if ((rand < 0.66) && (self.laststep != 6))
+		{
+			sound (self, CHAN_BODY, "player/footstep6.wav",  stepvol, ATTN_NORM);
+			self.laststep = 6;
+			return;
+		}
+
+		if ((rand < 0.77) && (self.laststep != 7))
+		{
+			sound (self, CHAN_BODY, "player/footstep7.wav",  stepvol, ATTN_NORM);
+			self.laststep = 7;
+			return;
+		}
+
+		if ((rand < 0.88) && (self.laststep != 8))
+		{
+			sound (self, CHAN_BODY, "player/footstep8.wav",  stepvol, ATTN_NORM);
+			self.laststep = 8;
+			return;
+		}
+
+		if ((rand <= 1) && (self.laststep != 9))
+		{
+			sound (self, CHAN_BODY, "player/footstep9.wav",  stepvol, ATTN_NORM);
+			self.laststep = 9;
+			return;
+		}
+		else
+			sound (self, CHAN_BODY, "player/footstep10.wav",  stepvol, ATTN_NORM);
+	}
+
+	if ((self.waterlevel != WL_NONE) && (self.waterlevel < WL_EYES))
+	{
+		if ((rand < 0.11) && (self.laststep != 1))
+		{
+			sound (self, CHAN_BODY, "player/waterstep1.wav",  stepvol, ATTN_NORM);
+			self.laststep = 1;
+			return;
+		}
+	
+		if ((rand < 0.22) && (self.laststep != 2))
+		{
+			sound (self, CHAN_BODY, "player/waterstep2.wav",  stepvol, ATTN_NORM);
+			self.laststep = 1;
+			return;
+		}
+	
+		if ((rand < 0.33) && (self.laststep != 3))
+		{
+			sound (self, CHAN_BODY, "player/waterstep3.wav",  stepvol, ATTN_NORM);
+			self.laststep = 3;
+			return;
+		}
+	
+		if ((rand < 0.44) && (self.laststep != 4))
+		{
+			sound (self, CHAN_BODY, "player/waterstep4.wav",  stepvol, ATTN_NORM);
+			self.laststep = 4;
+			return;
+		}
+	
+		if ((rand < 0.55) && (self.laststep != 5))
+		{
+			sound (self, CHAN_BODY, "player/waterstep5.wav",  stepvol, ATTN_NORM);
+			self.laststep = 5;
+			return;
+		}
+	
+		if ((rand < 0.66) && (self.laststep != 6))
+		{
+			sound (self, CHAN_BODY, "player/waterstep6.wav",  stepvol, ATTN_NORM);
+			self.laststep = 6;
+			return;
+		}
+	
+		if ((rand < 0.77) && (self.laststep != 7))
+		{
+			sound (self, CHAN_BODY, "player/waterstep7.wav",  stepvol, ATTN_NORM);
+			self.laststep = 7;
+			return;
+		}
+	
+		if ((rand < 0.88) && (self.laststep != 8))
+		{
+			sound (self, CHAN_BODY, "player/waterstep8.wav",  stepvol, ATTN_NORM);
+			self.laststep = 8;
+			return;
+		}
+	
+		if ((rand <= 1) && (self.laststep != 9))
+		{
+			sound (self, CHAN_BODY, "player/waterstep9.wav",  stepvol, ATTN_NORM);
+			self.laststep = 9;
+			return;
+		}
+		else
+			sound (self, CHAN_BODY, "player/waterstep10.wav",  stepvol, ATTN_NORM);
+	}
 }
 
 

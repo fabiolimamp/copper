@@ -390,6 +390,7 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 //.float	lefty;			// moved to .customflags
 //.float	axhitme;		// moved to .customflags
 //.float	zapped;			// moved to .customflags
+.float		laststep;		// footsteps
 .float		customflags;	// inpain, axehitme, zapped, etc, see constants.qc
 .float		healamount;		// moved from items.qc - only used on health boxes
 .float		dmgtime;		// moved from client.qc - used in drowning code & as a coop aggro timer
