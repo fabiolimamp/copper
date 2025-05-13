@@ -170,14 +170,16 @@ void(entity hitent, vector org, vector dir) hitwrench = {
 		if (hitent.movetype == MOVETYPE_PUSH || hitent.movetype == MOVETYPE_NONE)
 			wrench_hitsound();
 
+		dprint(hitent.classname);
+
 		if ((hitent.flags & FL_MONSTER) || (hitent.classname == "player"))
 		{	
 			wrench_hitsound();
 			
 			
-			if ((trace_ent.movetype == MOVETYPE_STEP || trace_ent.movetype == MOVETYPE_WALK) && 
+			if ((hitent.movetype == MOVETYPE_STEP || hitent.movetype == MOVETYPE_WALK) && 
 				// don't swat bosses or other non-standard-sized enemies around
-				trace_ent.maxs_x <= 32 && trace_ent.health > 0 && trace_ent.type != "boss")
+				hitent.maxs_x <= 32 && hitent.health > 0 && hitent.type != "boss")
 			{
 				local vector toss;
 				toss = v_forward;
@@ -187,9 +189,9 @@ void(entity hitent, vector org, vector dir) hitwrench = {
 				//bprint(vtos(toss));
 				//bprint("\n");
 				//toss *=  - vlen(head.maxs - head.mins)
-				trace_ent.origin_z = trace_ent.origin_z + 1;
-				trace_ent.velocity = toss;
-				trace_ent.flags = not(trace_ent.flags, FL_ONGROUND);
+				hitent.origin_z = hitent.origin_z + 1;
+				hitent.velocity = toss;
+				hitent.flags = not(hitent.flags, FL_ONGROUND);
 			}
 			
 			
