@@ -99,25 +99,25 @@ void()	hknight_stand9	=[	$stand9,	hknight_stand1	] {ai_stand();}
 
 void()	hknight_walk1	=[	$walk1,		hknight_walk2	] {
 hk_idle_sound();
-ai_walk(2);}
-void()	hknight_walk2	=[	$walk2,		hknight_walk3	] {ai_walk(5);}
-void()	hknight_walk3	=[	$walk3,		hknight_walk4	] {ai_walk(5);}
-void()	hknight_walk4	=[	$walk4,		hknight_walk5	] {ai_walk(4);}
-void()	hknight_walk5	=[	$walk5,		hknight_walk6	] {ai_walk(4);}
+ai_walk(3);}
+void()	hknight_walk2	=[	$walk2,		hknight_walk3	] {ai_walk(2);}
+void()	hknight_walk3	=[	$walk3,		hknight_walk4	] {ai_walk(3);}
+void()	hknight_walk4	=[	$walk4,		hknight_walk5	] {ai_walk(2);}
+void()	hknight_walk5	=[	$walk5,		hknight_walk6	] {ai_walk(2);}
 void()	hknight_walk6	=[	$walk6,		hknight_walk7	] {ai_walk(2);}
-void()	hknight_walk7	=[	$walk7,		hknight_walk8	] {ai_walk(2);}
+void()	hknight_walk7	=[	$walk7,		hknight_walk8	] {ai_walk(3);}
 void()	hknight_walk8	=[	$walk8,		hknight_walk9	] {ai_walk(3);}
-void()	hknight_walk9	=[	$walk9,		hknight_walk10	] {ai_walk(3);}
-void()	hknight_walk10	=[	$walk10,	hknight_walk11	] {ai_walk(4);}
-void()	hknight_walk11	=[	$walk11,	hknight_walk12	] {ai_walk(3);}
-void()	hknight_walk12	=[	$walk12,	hknight_walk13	] {ai_walk(4);}
-void()	hknight_walk13	=[	$walk13,	hknight_walk14	] {ai_walk(6);}
+void()	hknight_walk9	=[	$walk9,		hknight_walk10	] {ai_walk(2);}
+void()	hknight_walk10	=[	$walk10,	hknight_walk11	] {ai_walk(3);}
+void()	hknight_walk11	=[	$walk11,	hknight_walk12	] {ai_walk(2);}
+void()	hknight_walk12	=[	$walk12,	hknight_walk13	] {ai_walk(2);}
+void()	hknight_walk13	=[	$walk13,	hknight_walk14	] {ai_walk(2);}
 void()	hknight_walk14	=[	$walk14,	hknight_walk15	] {ai_walk(2);}
-void()	hknight_walk15	=[	$walk15,	hknight_walk16	] {ai_walk(2);}
-void()	hknight_walk16	=[	$walk16,	hknight_walk17	] {ai_walk(4);}
-void()	hknight_walk17	=[	$walk17,	hknight_walk18	] {ai_walk(3);}
+void()	hknight_walk15	=[	$walk15,	hknight_walk16	] {ai_walk(3);}
+void()	hknight_walk16	=[	$walk16,	hknight_walk17	] {ai_walk(2);}
+void()	hknight_walk17	=[	$walk17,	hknight_walk18	] {ai_walk(2);}
 void()	hknight_walk18	=[	$walk18,	hknight_walk19	] {ai_walk(3);}
-void()	hknight_walk19	=[	$walk19,	hknight_walk20	] {ai_walk(3);}
+void()	hknight_walk19	=[	$walk19,	hknight_walk20	] {ai_walk(2);}
 void()	hknight_walk20	=[	$walk20,	hknight_walk1	] {ai_walk(2);}
 
 //===========================================================================
@@ -276,7 +276,7 @@ void(float h_offset, float v_offset) hknight_shot =
 
 	makevectors(vec);
 	vec = normalize(v_forward) + '0 0 0.05' * v_offset;
-	hknight_bolt(vec, '0 0 8');
+	hknight_bolt(vec, '0 0 16');
 }
 
 void(float v_offset) hknight_shot2 =
@@ -290,25 +290,40 @@ void(float v_offset) hknight_shot2 =
 	hknight_bolt(vec, '0 0 22');
 }
 
+void(float v_offset) hknight_shot3 = //new forearm sword-gun shot thing
+{
+	vector	vec;
 
-// direct fire franken-anim
-void()	hknight_magicnm1	=[	$magica1,	/* 79 */	hknight_magicnm2	] {ai_face();ai_forward(1);}
-void()	hknight_magicnm2	=[	$magica2,	/* 80 */	hknight_magicnm3	] {ai_face();ai_forward(1);}
-void()	hknight_magicnm3	=[	$magica3,	/* 81 */	hknight_magicnm4	] {ai_face();}
-void()	hknight_magicnm4	=[	$magica4,	/* 82 */	hknight_magicnm5	] {ai_face();}
-void()	hknight_magicnm5	=[	$magica6,	/* 84 */	hknight_magicnm6	] {ai_face();}
-void()	hknight_magicnm6	=[	$magica7,	/* 85 */	hknight_magicnm7	] {ai_face();}
-void()	hknight_magicnm7	=[	$magica5,	/* 83 */	hknight_magicnm8	] {ai_face();}
-void()	hknight_magicnm8	=[	$magica8,	/* 86 */	hknight_magicnm9	] {nmfast(); ai_face();}
-void()	hknight_magicnm9	=[	$magicb7,	/* *99 */	hknight_magicnm10	] {nmfast(); ai_face(); hknight_shot2(2); ai_back(1);}
-void()	hknight_magicnm10	=[	$magicb11,	/* *103 */	hknight_magicnm11	] {nmfast(); ai_face(); hknight_shot2(1);}	
-void()	hknight_magicnm11	=[	$magicb9,	/* *101 */	hknight_magicnm12	] {nmfast(); ai_face(); hknight_shot2(0);}	
-void()	hknight_magicnm12	=[	$magicb10,	/* *102 */	hknight_magicnm13	] {nmfast(); ai_face(); hknight_shot2(-1);}	
-void()	hknight_magicnm13	=[	$magicb6,	/* *98 */	hknight_magicnm14	] {nmfast(); ai_face(); hknight_shot2(-2);}	
-void()	hknight_magicnm14	=[	$magicb4,	/* 96 */	hknight_magicnm15	] {nmfast();}
-void()	hknight_magicnm15	=[	$magicb3,	/* 95 */	hknight_magicnm16	] {}
-void()	hknight_magicnm16	=[	$magicb2,	/* 94 */	hknight_magicnm17	] {ai_back(1);}
-void()	hknight_magicnm17	=[	$magicb1,	/* 93 */	hknight_run1	]	  {ai_back(1);ai_face();}
+	vec = enemy_vispos() - self.origin;
+	vec += enemy_aim_vertical();
+	
+	vec = normalize(vec) + '0 0 0.02' * v_offset;
+	hknight_bolt(vec, '0 0 20' + -14 * v_right);
+}
+
+
+// direct fire gun-sword attack
+void()	hknight_magicnm1	=[	$magicb1,			hknight_magicnm2	] {ai_face();ai_forward(1);}
+void()	hknight_magicnm2	=[	$magicb2,			hknight_magicnm3	] {ai_face();ai_forward(1);}
+void()	hknight_magicnm3	=[	$magicb3,			hknight_magicnm4	] {ai_face();}
+void()	hknight_magicnm4	=[	$magicb4,			hknight_magicnm5	] {ai_face();}
+void()	hknight_magicnm5	=[	$magicb5,			hknight_magicnm6	] {ai_face();}
+void()	hknight_magicnm6	=[	$magicb6,			hknight_magicnm7	] {ai_face();}
+void()	hknight_magicnm7	=[	$magicb7,			hknight_magicnm8	] {ai_face();}
+void()	hknight_magicnm8	=[	$magicb8,			hknight_magicnm9	] {nmfast(); ai_face();}
+void()	hknight_magicnm9	=[	$magicb9,			hknight_magicnm10	] {nmfast(); ai_face(); hknight_shot3(2); ai_back(1);}
+void()	hknight_magicnm10	=[	$magicb8,			hknight_magicnm11	] {nmfast(); ai_face(); hknight_shot3(1);}	
+void()	hknight_magicnm11	=[	$magicb9,			hknight_magicnm12	] {nmfast(); ai_face(); hknight_shot3(2);}
+void()	hknight_magicnm12	=[	$magicb8,			hknight_magicnm13	] {nmfast(); ai_face(); hknight_shot3(1);}	
+void()	hknight_magicnm13	=[	$magicb9,			hknight_magicnm14	] {nmfast(); ai_face(); hknight_shot3(0);}
+void()	hknight_magicnm14	=[	$magicb8,			hknight_magicnm15	] {nmfast(); ai_face(); hknight_shot3(1);}	
+void()	hknight_magicnm15	=[	$magicb9,			hknight_magicnm16	] {nmfast(); ai_face(); hknight_shot3(0);}
+void()	hknight_magicnm16	=[	$magicb8,			hknight_magicnm17	] {nmfast(); ai_face(); hknight_shot3(-1);}	
+void()	hknight_magicnm17	=[	$magicb9,			hknight_magicnm18	] {nmfast(); ai_face(); hknight_shot3(-2);}	
+void()	hknight_magicnm18	=[	$magicb10,			hknight_magicnm19	] {nmfast();}
+void()	hknight_magicnm19	=[	$magicb11,			hknight_magicnm20	] {}
+void()	hknight_magicnm20	=[	$magicb12,			hknight_magicnm21	] {ai_back(1);}
+void()	hknight_magicnm21	=[	$magicb13,			hknight_run1	]	  {ai_back(1);ai_face();}
 
 
 
@@ -321,19 +336,19 @@ void()	hknight_magicc5 =[	$magicc5,	hknight_magicc6	] {nmfast(); ai_face();
 	if (skill == 3)
 		self.think = hknight_magicc6nm;
 }
-void()	hknight_magicc6 =[	$magicc6,	hknight_magicc7	] {ai_face(); hknight_shot(-2, crandom());}
-void()	hknight_magicc7 =[	$magicc7,	hknight_magicc8	] {ai_face(); hknight_shot(-1, crandom());}
-void()	hknight_magicc8 =[	$magicc8,	hknight_magicc9	] {ai_face(); hknight_shot( 0, crandom());}
-void()	hknight_magicc9 =[	$magicc9,	hknight_magicc10] {ai_face(); hknight_shot( 1, crandom());}
-void()	hknight_magicc10 =[	$magicc10,	hknight_magicc11] {ai_face(); hknight_shot( 2, crandom());}
-void()	hknight_magicc11 =[	$magicc11,	hknight_run1]	  {ai_face(); hknight_shot( 3, crandom());}
+void()	hknight_magicc6 =[	$magicc6,	hknight_magicc7	] {ai_face(); hknight_shot(3.5, crandom());}
+void()	hknight_magicc7 =[	$magicc7,	hknight_magicc8	] {ai_face(); hknight_shot(3, crandom());}
+void()	hknight_magicc8 =[	$magicc8,	hknight_magicc9	] {ai_face(); hknight_shot(2, crandom());}
+void()	hknight_magicc9 =[	$magicc9,	hknight_magicc10] {ai_face(); hknight_shot(1, crandom());}
+void()	hknight_magicc10 =[	$magicc10,	hknight_magicc11] {ai_face(); hknight_shot(0.5, crandom());}
+void()	hknight_magicc11 =[	$magicc11,	hknight_run1]	  {ai_face(); hknight_shot(0, crandom());}
 
 // nightmare: faster sweep with an extra, centered bolt
-void()	hknight_magicc6nm =[	$magicc6,	hknight_magicc7nm	] {nmfast(); ai_face(); hknight_shot(-2.6, crandom() ); hknight_shot(-1.6, crandom() );}
-void()	hknight_magicc7nm =[	$magicc7,	hknight_magicc8nm	] {nmfast(); ai_face(); hknight_shot( -0.6, crandom() ); }
+void()	hknight_magicc6nm =[	$magicc6,	hknight_magicc7nm	] {nmfast(); ai_face(); hknight_shot(2.6, crandom() ); hknight_shot(1.6, crandom() );}
+void()	hknight_magicc7nm =[	$magicc7,	hknight_magicc8nm	] {nmfast(); ai_face(); hknight_shot( 0.6, crandom() ); }
 void()	hknight_magicc8nm =[	$magicc8,	hknight_magicc9nm	] {nmfast(); ai_face(); hknight_shot(0, crandom()); }
-void()	hknight_magicc9nm =[	$magicc9,	hknight_magicc10nm	] {nmfast(); ai_face(); hknight_shot( 0.6, crandom() );}
-void()	hknight_magicc10nm =[	$magicc10,	hknight_magicc11nm	] {nmfast(); ai_face(); hknight_shot( 1.6, crandom() ); hknight_shot( 2.6, crandom() );}
+void()	hknight_magicc9nm =[	$magicc9,	hknight_magicc10nm	] {nmfast(); ai_face(); hknight_shot( -0.6, crandom() );}
+void()	hknight_magicc10nm =[	$magicc10,	hknight_magicc11nm	] {nmfast(); ai_face(); hknight_shot( 0, crandom() ); hknight_shot( -0.5, crandom() );}
 void()	hknight_magicc11nm =[	$magicc11,	hknight_run1]	  	  {nmfast(); }
 
 //===========================================================================
@@ -471,10 +486,10 @@ void() hknight_melee =
 
 void() hknight_ranged =
 {
-	if (skill == 3 && random() < 0.5)
-		hknight_magicnm1();
-	else
+	if ((enemy_range <= RANGE_MID) && (random() < 0.2))
 		hknight_magicc1();
+	else
+		hknight_magicnm1();
 }
 
 void() monster_hell_knight_spawn =
@@ -484,7 +499,7 @@ void() monster_hell_knight_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/hknight.mdl");
+	setmodel (self, "progs/hknight_qbj.mdl");
 
 	setsize (self, '-16 -16 -24', '16 16 40');
 
@@ -523,7 +538,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/hknight.mdl" }) = monster_hell_knight : "Death knight" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/hknight_qbj.mdl" }) = monster_hell_knight : "Death knight" []
 */
 void() monster_hell_knight =
 {
@@ -534,7 +549,7 @@ void() monster_hell_knight =
 		remove(self);
 		return;
 	}
-	precache_model2 ("progs/hknight.mdl");
+	precache_model2 ("progs/hknight_qbj.mdl");
 	precache_model2 ("progs/k_spike.mdl");
 	precache_model2 ("progs/k_spike2.mdl");
 	precache_model2 ("progs/h_hellkn.mdl");
