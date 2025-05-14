@@ -252,7 +252,7 @@ void()	army_die1	=[	$death1,	army_die2	] {army_checkgib();}
 void()	army_die2	=[	$death2,	army_die3	] {army_checkgib();}
 void()	army_die3	=[	$death3,	army_die4	]
 {if (army_checkgib()) return;
-self.solid = SOLID_NOT;self.takedamage = DAMAGE_NO; self.ammo_shells = 4;DropBackpack();} //FlakTax
+self.solid = SOLID_NOT;self.takedamage = DAMAGE_NO; self.ammo_shells = 4;DropBackpack(0);} //FlakTax
 void()	army_die4	=[	$death4,	army_die5	] {}
 void()	army_die5	=[	$death5,	army_die6	] {}
 void()	army_die6	=[	$death6,	army_die7	] {}
@@ -264,7 +264,7 @@ void()	army_die10	=[	$death10,	SUB_Null	] {}
 void()	army_cdie1	=[	$deathc1,	army_cdie2	] {army_checkgib();}
 void()	army_cdie2	=[	$deathc2,	army_cdie3	] {army_checkgib();ai_back(5);}
 void()	army_cdie3	=[	$deathc3,	army_cdie4	] {if (army_checkgib()) return;
-	self.solid = SOLID_NOT;self.ammo_shells = 4;DropBackpack();ai_back(4);} //FlakTax
+	self.solid = SOLID_NOT;self.ammo_shells = 4;DropBackpack(0);ai_back(4);} //FlakTax
 void()	army_cdie4	=[	$deathc4,	army_cdie5	] {ai_back(13);}
 void()	army_cdie5	=[	$deathc5,	army_cdie6	] {ai_back(3);}
 void()	army_cdie6	=[	$deathc6,	army_cdie7	] {ai_back(4);}
@@ -280,7 +280,7 @@ float() army_checkgib =
 	{
 		Gib("progs/h_guard.mdl", self.health);
 		self.ammo_shells = 4; //FlakTax
-		DropBackpack();
+		DropBackpack(0);
 		return TRUE;
 	}
 	return FALSE;

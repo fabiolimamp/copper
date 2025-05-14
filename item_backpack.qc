@@ -247,7 +247,7 @@ void() item_backpack =
 DropBackpack
 ===============
 */
-void() DropBackpack =
+void(float skin_num) DropBackpack =
 {
 	entity item;
 
@@ -314,6 +314,8 @@ void() DropBackpack =
 			return;
 		}
 	}
+
+	item.skin = skin_num;
 	
 	item.nextthink = time + 116;	// remove after 2 minutes
 	item.think = ItemDespawnBlink;	// blink 4 times

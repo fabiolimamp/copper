@@ -133,7 +133,7 @@ void() ogre_dropammo =
 	// reduced grenade drops from ogres
 	// don't want to have to keep soaking them up with pointless zombie squads early on
 	self.ammo_rockets = 1;
-	DropBackpack();
+	DropBackpack(3);
 }
 
 

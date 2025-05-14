@@ -542,7 +542,7 @@ void() PlayerDie =
 	set_respawn_delay();	// coop 1 respawn lockout
 	
 	if ((deathmatch || coop) && mapname != "start")
-		DropBackpack();
+		DropBackpack(0);
 	if (coop) // save the keys
 		TransferKeys();
 	
