@@ -33,7 +33,7 @@ void()	sploder_stand10	=[	$stand10,	sploder_stand11	] {ai_stand();}
 void()	sploder_stand11	=[	$stand11,	sploder_stand12	] {ai_stand();}
 void()	sploder_stand12	=[	$stand12,	sploder_stand13	] {ai_stand();}
 void()	sploder_stand13	=[	$stand13,	sploder_stand14	] {ai_stand();}
-void()	sploder_stand14	=[	$stand14,	sploder_stand15	] {ai_stand();}
+void()	sploder_stand14	=[	$stand14,	sploder_stand15	] {ai_stand(); SploderIdleNoise();}
 void()	sploder_stand15	=[	$stand15,	sploder_stand16	] {ai_stand();}
 void()	sploder_stand16	=[	$stand16,	sploder_stand17	] {ai_stand();}
 void()	sploder_stand17	=[	$stand17,	sploder_stand18	] {ai_stand();}
@@ -81,14 +81,14 @@ void()	sploder_walk1		=[	$walk1,		sploder_walk2		] {ai_walk(3);}
 void()	sploder_walk2		=[	$walk2,		sploder_walk3		] {ai_walk(2);}
 void()	sploder_walk3		=[	$walk3,		sploder_walk4		] {ai_walk(4);}
 void()	sploder_walk4		=[	$walk4,		sploder_walk5		] {ai_walk(3);}
-void()	sploder_walk5		=[	$walk5,		sploder_walk6		] {ai_walk(3);}
+void()	sploder_walk5		=[	$walk5,		sploder_walk6		] {ai_walk(3); SploderIdleNoise();}
 void()	sploder_walk6		=[	$walk6,		sploder_walk7		] {ai_walk(3);}
 void()	sploder_walk7		=[	$walk7,		sploder_walk8		] {ai_walk(3);}
 void()	sploder_walk8		=[	$walk8,		sploder_walk9		] {ai_walk(2);}
 void()	sploder_walk9		=[	$walk9,		sploder_walk10		] {ai_walk(4);}
 void()	sploder_walk10		=[	$walk10,	sploder_walk11		] {ai_walk(3);}
 void()	sploder_walk11		=[	$walk11,	sploder_walk12		] {ai_walk(3);}
-void()	sploder_walk12		=[	$walk12,	sploder_walk13		] {ai_walk(3);}
+void()	sploder_walk12		=[	$walk12,	sploder_walk13		] {ai_walk(3); SploderIdleNoise();}
 void()	sploder_walk13		=[	$walk13,	sploder_walk1		] {ai_walk(3);}
 
 void()	sploder_run1		=[	$run1,		sploder_run2		] {
@@ -106,6 +106,19 @@ void()	sploder_run8		=[	$run8,		sploder_run9		] {nmfast(); sploder_run(28);}
 void()	sploder_run9		=[	$run9,		sploder_run10		] {nmfast(); sploder_run(28);}
 void()	sploder_run10		=[	$run10,		sploder_run11		] {nmfast(); sploder_run(28);}
 void()	sploder_run11		=[	$run11,		sploder_run1		] {nmfast(); sploder_run(28);}
+
+void() SploderIdleNoise =
+{
+	if (random() > 0.2)
+		return;
+
+	if (random() > 0.66)
+ 		sound (self, CHAN_VOICE, "sploder/sploder_idle1.wav", 1, ATTN_IDLE);
+	else if (random() > 0.5)
+		sound (self, CHAN_VOICE, "sploder/sploder_idle2.wav", 1, ATTN_IDLE);
+	else
+		sound (self, CHAN_VOICE, "sploder/sploder_idle3.wav", 1, ATTN_IDLE);
+}
 
 float(entity e) sploder_visible =
 {
@@ -257,7 +270,10 @@ void() SploderScream =
 {
 	if(self.cnt <= 0)
 	{
-		sound (self, CHAN_VOICE, "sploder/sploder_scream.wav", 1, ATTN_NORM);
+		if (self.style > 0)
+			sound (self, CHAN_VOICE, "sploder/sploder_scream.wav", 1, ATTN_NORM);
+		else
+			sound (self, CHAN_VOICE, "sploder/sploder_scream2.wav", 1, ATTN_NORM);
 		self.cnt = 6;
 	}
 	else
@@ -309,6 +325,8 @@ void() monster_sploder_spawn =
 
 	nmspeed(0.075);
 
+	if (random() < 0.5) self.style = 1;
+
 	walkmonster_start ();
 };
 
@@ -343,8 +361,11 @@ void() monster_sploder =
 	}
 	precache_model ("progs/sploder.mdl");
 
-	precache_sound ("sploder/sploder_idle.wav");
+	precache_sound ("sploder/sploder_idle1.wav");
+	precache_sound ("sploder/sploder_idle2.wav");
+	precache_sound ("sploder/sploder_idle3.wav");
 	precache_sound ("sploder/sploder_scream.wav");
+	precache_sound ("sploder/sploder_scream2.wav");
 	precache_sound ("sploder/sploder_pain.wav");
 	precache_sound ("zombie/z_gib.wav");
 
