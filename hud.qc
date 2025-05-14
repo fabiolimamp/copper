@@ -483,7 +483,7 @@ void Hud_DrawPistolBullets(vector pos)
 	amt = getstatf(STAT_AMMO);
 	for (i = 0; i < amt; i++)
 	{
-		drawpic(pos + '8 0'*i, "gfx/bullit", '8 24', '1 1 1', 1, 0);
+		drawpic(pos + '72 0' - ('8 0'*i), "gfx/bullit", '8 24', '1 1 1', 1, 0);
 	}
 
 }
