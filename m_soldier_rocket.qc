@@ -358,8 +358,8 @@ float() rocketarmy_checkgib =
 	if (self.health < -35)
 	{
 		Gib("progs/h_guard.mdl", self.health);
-		self.ammo_shells = 4; //FlakTax
-		DropBackpack();
+		self.ammo_rockets = 1; //FlakTax
+		DropBackpack(3);
 		return TRUE;
 	}
 	return FALSE;

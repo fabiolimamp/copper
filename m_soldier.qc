@@ -191,7 +191,7 @@ void() army_fire =
 	
 	ai_face();
 	self.effects = self.effects | EF_MUZZLEFLASH;	
-	sound (self, CHAN_WEAPON, "soldier/sattck1.wav", 1, ATTN_NORM);	
+	sound (self, CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM);	
 
 // fire somewhat behind the player, so a dodging player is harder to hit
 //	dir = enemy_vispos() - self.enemy.velocity*0.2;
@@ -366,7 +366,7 @@ void() monster_army =
 	precache_sound ("soldier/idle.wav");
 	precache_sound ("soldier/pain1.wav");
 	precache_sound ("soldier/pain2.wav");
-	precache_sound ("soldier/sattck1.wav");
+	precache_sound ("weapons/shotgn2.wav");
 	precache_sound ("soldier/sight1.wav");
 
 	precache_sound ("player/udeath.wav");		// gib death
