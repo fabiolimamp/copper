@@ -709,3 +709,38 @@ float (entity e, float healamt, float overheal) T_Heal =
 
 	return TRUE;
 }
+
+float (entity e, float aramt) T_GiveArmor =
+
+
+{
+	float armax, arceil;
+
+	aramt = ceil(aramt);
+
+	e.armortype = ARMORTYPE_RELIQ;
+
+	if (e.classname == "player")
+	{
+		armax = e.max_armor;
+		arceil = 250;
+			aramt = min(aramt, arceil - e.armorvalue);
+		aramt = floor(aramt);	// this should never come in as a float in the first place, buuut
+		if (aramt <= 0)
+			return FALSE;
+		e.armortime = time + 5;
+		e.armorvalue = e.armorvalue + aramt;
+		armor_set_type(e);
+		return TRUE;
+	}
+
+	if (e.max_health >= 0)
+		aramt = min(aramt, e.max_health - e.health);	
+
+	if (aramt <= 0)
+		return FALSE;
+
+	e.health = e.health + aramt;
+	return TRUE;
+
+}

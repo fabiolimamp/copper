@@ -504,7 +504,7 @@ void(entity e) target_items_giveinv_min =
 	
 	float arm = zeroconvert(self.armorvalue);
 	if (arm > e.armorvalue)
-		armor_give(e, arm, self.armortype, TRUE);
+		T_GiveArmor(e, arm);
 
 	if (self.ammo_shells) e.ammo_shells =	max(e.ammo_shells,	zeroconvert(self.ammo_shells));
 	if (self.ammo_nails) e.ammo_nails =	max(e.ammo_nails,	zeroconvert(self.ammo_nails));
@@ -524,7 +524,7 @@ void(entity e) target_items_giveinv =
 			T_Heal(e, self.health, TRUE);
 			
 		if (self.armorvalue)
-			armor_give(e, zeroconvert(self.armorvalue), self.armortype, FALSE);
+			T_GiveArmor(e, zeroconvert(self.armorvalue));
 
 		if (self.ammo_shells) e.ammo_shells += zeroconvert(self.ammo_shells);
 		if (self.ammo_nails) e.ammo_nails += zeroconvert(self.ammo_nails);
@@ -694,24 +694,12 @@ void(entity e) target_items_setinv =
 	if (self.armorvalue)
 	{
 		e.armorvalue = zeroconvert(self.armorvalue);
-		if (self.armortype)
-		{
-			e.armortype = self.armortype;
-		}
-		else	// value but no type: assume a color from amount given
-		{
-			if (self.armorvalue > 150)
-				e.armortype = ARMORTYPE_RED;
-			else if (self.armorvalue > 100)
-				e.armortype = ARMORTYPE_YELLOW;
-			else
-				e.armortype = ARMORTYPE_GREEN;
-		}
+		e.armortype = ARMORTYPE_RELIQ;
 		armor_set_type(e);
 	}
 	else if (self.armortype && e.armorvalue)	// type but not value: override color on player
 	{
-		e.armortype = self.armortype;
+		e.armortype = ARMORTYPE_RELIQ;
 		armor_set_type(e);
 	}
 
@@ -954,14 +942,7 @@ void() target_items =
 	}
 	
 	// snap armor color to only allowed values
-	if (self.armortype >= ARMORTYPE_RED)
-		self.armortype = ARMORTYPE_RED;
-	else if (self.armortype >= ARMORTYPE_YELLOW)
-		self.armortype = ARMORTYPE_YELLOW;
-	else if (self.armortype >= ARMORTYPE_GREEN)
-		self.armortype = ARMORTYPE_GREEN;
-	else
-		self.armortype = 0;
+	self.armortype = ARMORTYPE_RELIQ;
 	
 	if (self.noise != string_null)
 		precache_sound_safe(self.noise);

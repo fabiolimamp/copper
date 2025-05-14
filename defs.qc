@@ -320,8 +320,9 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .float		super_time, super_sound, super_damage_finished;
 .float		vamp_time, vamp_sound, vamp_finished;
 //.float		gorgon_time, gorgon_finished;
-.float		berserk_time, berserk_finished, berserk_sound
-;
+.float		berserk_time, berserk_finished, berserk_sound;
+.float		armortime;
+.float		max_armor;
 .float		rad_time, radsuit_finished;
 .float		nextmovesound;	// replaces swim_flag and fly_sound, both of which were timers
 .float		show_hostile;	// set to time+0.2 whenever a client fires a

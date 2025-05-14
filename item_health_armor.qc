@@ -158,13 +158,13 @@ armortype = 0-1 protection rate
 ===============================================================================
 */
 
-float ARMORTYPE_GREEN = 0.3;
-float ARMORTYPE_YELLOW = 0.5;
-float ARMORTYPE_RED = 0.7;
+float ARMORTYPE_RELIQ = 0.5;
 
 /*
 ============
 armor_set_type
+
+coverage derived from last armor grabbed, but drops off to a lower tier below 100 * type
 ============
 */
 void(entity e) armor_set_type =
@@ -178,158 +178,84 @@ void(entity e) armor_set_type =
 		e.armortype = 0.0;
 		return;
 	}
-	
-	if (e.armortype < ARMORTYPE_YELLOW)
-		e.items |= IT_ARMOR1;
-	else if (e.armortype < ARMORTYPE_RED)
-		e.items |= IT_ARMOR2;
-	else
-		e.items |= IT_ARMOR3;
+
+	e.items |= IT_ARMOR2;
 	
 	e.armorvalue = min(e.armorvalue, 500);
 }
 
-
-/*
-============
-armor_give
-============
-*/
-float(entity e, float amt, float absorb, float replace) armor_give =
-{
-	if (!amt)
-		return FALSE;
-	if (replace)
-	{
-		if (absorb < e.armortype)
-		{
-			// strength downgrade, quantity upgrade
-			// quake's original armor comparison test weighted both amounts by their protection
-			// strength with a straight multiply (a.type * a.amt > e.type * e.amt) to determine 
-			// which was "worth" more. with the current values, those breakeven points fall on
-			// 42, 60, and 107, so we round those off to make it easier for players to notice
-			// and learn the pickup cutoffs
-			if (absorb == ARMORTYPE_GREEN && e.armortype == ARMORTYPE_RED && e.armorvalue > 40)
-				return FALSE;
-			if (absorb == ARMORTYPE_GREEN && e.armortype == ARMORTYPE_YELLOW && e.armorvalue > 60)
-				return FALSE;
-			if (absorb == ARMORTYPE_YELLOW && e.armortype == ARMORTYPE_RED && e.armorvalue > 100)
-				return FALSE;
-		}
-		else if (absorb == e.armortype)
-		{	// strength match or strict downgrade
-			if (amt <= e.armorvalue)
-				return FALSE;
-		}
-		else
-		{	// strength upgrade
-			if (amt < e.armorvalue)
-			{	// weird edge case: strength upgrade, quantity downgrade
-				// we can accumulate enough of a weak armor (by picking up backpacks or
-				// through target_items horseplay) that we can be shut out of picking up
-				// a stronger one, so let the player keep a portion of their saved-up 
-				// extra armor at the new strength
-				
-				if (absorb == ARMORTYPE_RED && e.armortype == ARMORTYPE_GREEN)
-					amt = floor((amt * 3 + e.armorvalue) / 4);	// keep 1/4 of the excess
-				else
-					amt = floor((amt + e.armorvalue) / 2);		// keep 1/2 if it
-			}
-		}
-		e.armorvalue = amt;
-		e.armortype = absorb;
-	}
-	else
-	{
-		if (absorb > e.armortype)
-			e.armortype = absorb;
-		else if (e.armortype == 0)
-			e.armortype = ARMORTYPE_GREEN;
-		e.armorvalue += amt;
-	}
-	
-	armor_set_type(e);
-	return TRUE;
-}
-
-
-/*
-============
-armor_touch
-============
-*/
 void() armor_touch =
 {
-	if (!CheckValidTouch()) return;
-	
-	if (!armor_give(other, self.armorvalue, self.armortype, TRUE))
+	if (other.classname != "player")
 		return;
 
-	sound(other, CHAN_ITEM, "items/armor1.wav", 1, ATTN_NORM);
-	sprint(other, "You got armor\n");
+	if ( !CheckValidTouch() ) return;
 
-	stuffcmd (other, "bf\n");
+	T_GiveArmor(other, self.armorvalue);
+
+	other.items = (other.items |= IT_ARMOR2);
+
+	if (self.cnt == 1)
+	{
+		sprint(other, "You got an Armor Shard  \b+5\b");
+		//sprint(other, "\x92");
+		//sprint(other, "\x93");
+		sprint(other, "\n");
+		sound(other, CHAN_ITEM, "items/armor_shard.wav", 1, ATTN_NORM);
+		stuffcmd (other, "bf\n");
+	}
+
+	if (self.cnt == 2)
+	{
+		sprint(other, "You got Light Armor  \b+25\b");
+		//sprint(other, "\x92");
+		//sprint(other, "\x93");
+		sprint(other, "\n");
+		sound(other, CHAN_ITEM, "items/armor_light.wav", 1, ATTN_NORM);
+		stuffcmd (other, "bf\n");
+	}
+
+	if (self.cnt == 3)
+	{
+		sprint(other, "You got Heavy Armor  \b+100\b");
+		//sprint(other, "\x92");
+		//sprint(other, "\x93");
+		sprint(other, "\n");
+		sound(other, CHAN_ITEM, "items/armor_heavy.wav", 1, ATTN_NORM);
+		stuffcmd (other, "bf\n");
+	}
+
 	ItemTouched();
 }
 
-// ===============================================================================
+/*QUAKED item_armor_shard (0 .5 .5) (-16 -16 0) (16 16 32) ? ? SUSPENDED
+Amror shard, gives 5pts @ 50%, stackable.
 
-/*
-============
-StartArmor
-============
+Keys:
+"target/2/3/4/k" - entity to trigger when picked up
+"targetname" - will not spawn until triggered
+"wait" - will respawn after 'wait' seconds. fires targets every time.
+"count" - limit number of times to respawn
 */
-void(float skn, float amt) StartArmor =
+/*FGD
+@PointClass size(-16 -16 0, 16 16 56) color(180 0 180) base(Item) model({ "path": ":progs/item_armor_shard.mdl" }) =
+	item_armor_shard : "Amror shard (5pts, 50%, stackble)" []
+*/
+void() item_armor_shard =
 {
-	if (!SUB_ShouldSpawn()) return;
-
-	
-	self.armorvalue = amt;
-	if (skn == 2){
-		self.armortype = ARMORTYPE_RED;
-		precache_model_safe ("progs/armor_red.mdl");
-		setmodel (self, "progs/armor_red.mdl");
-	}
-	else if (skn == 1){
-		self.armortype = ARMORTYPE_YELLOW;
-		precache_model_safe ("progs/armor_yellow.mdl");
-		setmodel (self, "progs/armor_yellow.mdl");
-	}
-	else{
-		self.armortype = ARMORTYPE_GREEN;
-		precache_model_safe ("progs/armor_green.mdl");
-		setmodel (self, "progs/armor_green.mdl");
-	}
-
 	self.touch = armor_touch;
-	self.type = "armor";
-
-	
-	if (deathmatch == 1 || deathmatch == 3)
-		self.wait = 20;
-
+	self.armortype = ARMORTYPE_RELIQ;
+	self.armorvalue = 5;
+	self.cnt = 1;
+	precache_model ("progs/item_armor_shard.mdl");
+	setmodel (self, "progs/item_armor_shard.mdl");
 	setsize (self, '-16 -16 0', '16 16 56');
-	StartItem ();
-}
 
+	StartItem();
+};
 
-/*QUAKED item_armor1 (0 .5 .5) (-16 -16 0) (16 16 56) ? ? SUSPENDED
-Green armor, gives 100 points.
-
-Keys:
-"target/2/3/4/k" - entity to trigger when picked up
-"targetname" - will not spawn until triggered
-"wait" - will respawn after 'wait' seconds. fires targets every time.
-"count" - limit number of times to respawn
-*/
-/*FGD
-@PointClass size(-16 -16 0, 16 16 56) color(0 180 180) base(Item) model({ "path": ":progs/armor_green.mdl" }) =
-	item_armor1 : "Green armor (100pts, 30%)" []
-*/
-void() item_armor1 = { StartArmor(0,100); }
-
-/*QUAKED item_armor2 (0 .5 .5) (-16 -16 0) (16 16 56) ? ? SUSPENDED
-Yellow armor, gives 150 points.
+/*QUAKED item_armor_light (0 .5 .5) (-16 -16 0) (16 16 32) ? ? SUSPENDED
+Light armor, gives 25pts @ 50%, non-stackable.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -338,13 +264,24 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass size(-16 -16 0, 16 16 56) color(180 0 180) base(Item) model({ "path": ":progs/armor_yellow.mdl" }) =
-	item_armor2 : "Yellow armor (150pts, 50%)" []
+@PointClass size(-16 -16 0, 16 16 56) color(180 0 180) base(Item) model({ "path": ":progs/item_armor_light.mdl" }) =
+	item_armor_light : "Light Amror (25pts, 50%, non-stackble)" []
 */
-void() item_armor2 = { StartArmor(1,150); }
+void() item_armor_light =
+{
+	self.touch = armor_touch;
+	self.armortype = ARMORTYPE_RELIQ;
+	self.armorvalue = 25;
+	self.cnt = 2;
+	precache_model ("progs/item_armor_light.mdl");
+	setmodel (self, "progs/item_armor_light.mdl");
+	setsize (self, '-16 -16 0', '16 16 56');
 
-/*QUAKED item_armorInv (0 .5 .5) (-16 -16 0) (16 16 56) ? ? SUSPENDED
-Red armor, gives 200 armor points.
+	StartItem();
+};
+
+/*QUAKED item_armor_heavy (0 .5 .5) (-16 -16 0) (16 16 32) ? ? SUSPENDED
+Heavy armor, gives 100pts @ 50%, stackable.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -353,9 +290,35 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass size(-16 -16 0, 16 16 56) color(180 0 0) base(Item) model({ "path": ":progs/armor_red.mdl" }) =
-	item_armorInv : "Red armor (200pts, 70%)" []
+@PointClass size(-16 -16 0, 16 16 56) color(180 0 180) base(Item) model({ "path": ":progs/item_armor_heavy.mdl" }) =
+	item_armor_heavy : "Heavy armor (100pts, 50%, stackble)" []
 */
-void() item_armorInv = { StartArmor(2,200); }
+void() item_armor_heavy =
+{
+	self.touch = armor_touch;
+	self.armortype = ARMORTYPE_RELIQ;
+	self.armorvalue = 100;
+	self.cnt = 3;
+	precache_model ("progs/item_armor_heavy.mdl");
+	setmodel (self, "progs/item_armor_heavy.mdl");
+	setsize (self, '-16 -16 0', '16 16 56');
 
+	StartItem();
+};
 
+void() item_armor1 =
+{
+	item_armor_light();
+};
+
+void() item_armor2 =
+{
+	item_armor_heavy();
+};
+
+void() item_armorInv =
+{
+	item_armor_heavy();
+};
+
+// ===============================================================================

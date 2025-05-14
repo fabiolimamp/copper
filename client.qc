@@ -86,6 +86,8 @@ void() SetNewParms =
 	parm7 = 0;
 	parm9 = 0;
 //	parm10 = 0;
+
+	armor_set_type(self);
 }
 
 
@@ -107,6 +109,8 @@ void() SetCoopParms =
 	parm7 = 0;
 	parm9 = 0;
 //	parm10 = 0;
+
+	armor_set_type(self);
 }
 
 void() DecodeLevelParms =
@@ -602,7 +606,8 @@ void() PutClientInServer =
 	
 	self.max_health = 100;
 	self.health = self.max_health;
-	
+	self.max_armor = 100;
+
 	self.takedamage = DAMAGE_AIM;
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_WALK;
@@ -857,7 +862,37 @@ void() PlayerHealthTick =
 	}
 	
 	
-}	
+}
+
+// the player's armor will always rot off to the soft max
+void() PlayerArmorTick = 
+{
+	if ( time < self.armortime )
+		return;
+	if ( self.armorvalue <= 0 )
+		return;
+
+	float armax = self.max_armor;
+
+	if (self.armorvalue > armax) {
+		if (self.waterlevel < WL_EYES)
+			self.dmg = 0;	// clear drown damage when overhealed
+		self.armorvalue -= 1;
+		self.armortime = time + 1;
+	}
+	else
+	{
+		if (self.dmg > 0 && (self.waterlevel < WL_EYES || has_biosuit(self) ) ) {
+			if (skill > 2)
+				self.armorvalue = min(armax, self.health + ceil(self.dmg/4));
+			else
+				self.armorvalue = min(armax, self.health + ceil(self.dmg/2));
+			self.dmg = max(0, self.dmg - 1);
+			self.armortime = time + 0.5;
+		}	
+	}
+}
+
 
 
 /*
@@ -1815,6 +1850,7 @@ void() PlayerPostThink =
 	W_WeaponFrame ();
 	// do health stuff
 	PlayerHealthTick();
+	PlayerArmorTick();
 
 	// check to see if player landed and play landing sound	
 	if ((self.jump_flag < -300) && (self.flags & FL_ONGROUND) && (self.health > 0))

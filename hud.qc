@@ -276,12 +276,8 @@ void Hud_DrawArmorIcon(vector pos)
 		*/
 			drawpic(pos, "sb_armor666", '24 24', '1 1 1', 1, 0);
 	}
-	else if (stat_items & IT_ARMOR3)
-		drawpic(pos, "sb_armor3b", '24 24', '1 1 1', 1, 0);
-	else if (stat_items & IT_ARMOR2)
+	if (stat_items & IT_ARMOR2)
 		drawpic(pos, "sb_armor2b", '24 24', '1 1 1', 1, 0);
-	else if (stat_items & IT_ARMOR1)
-		drawpic(pos, "sb_armor1b", '24 24', '1 1 1', 1, 0);
 
 }
 void Hud_DrawCurrentAmmoIcon(vector pos)
