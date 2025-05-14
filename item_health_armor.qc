@@ -172,7 +172,7 @@ void(entity e) armor_set_type =
 	if (e.classname != "player")
 		return;
 	
-	e.items = not(e.items, (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3));
+	e.items = not(e.items, (IT_ARMOR2));
 	if (!e.armorvalue)
 	{
 		e.armortype = 0.0;

@@ -567,7 +567,6 @@ float(entity e) target_items_testinv =
 {
 	if (self.health > 0 && self.health > e.health) return FALSE;
 	if (self.armorvalue && self.armorvalue > e.armorvalue) return FALSE;
-	if (self.armortype && self.armortype > e.armortype) return FALSE;
 
 	if (self.svflags)
 	{
