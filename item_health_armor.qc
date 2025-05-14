@@ -228,7 +228,7 @@ void() armor_touch =
 	ItemTouched();
 }
 
-/*QUAKED item_armor_shard (0 .5 .5) (-16 -16 0) (16 16 32) ? ? SUSPENDED
+/*QUAKED item_armor_shard (0 .5 .5) (-8 -8 0) (8 8 32) ? ? SUSPENDED
 Amror shard, gives 5pts @ 50%, stackable.
 
 Keys:
@@ -238,7 +238,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass size(-16 -16 0, 16 16 56) color(180 0 180) base(Item) model({ "path": ":progs/item_armor_shard.mdl" }) =
+@PointClass size(-8 -8 0, 8 8 32) color(180 0 180) base(Item) model({ "path": ":progs/item_armor_shard.mdl" }) =
 	item_armor_shard : "Amror shard (5pts, 50%, stackble)" []
 */
 void() item_armor_shard =
@@ -249,13 +249,13 @@ void() item_armor_shard =
 	self.cnt = 1;
 	precache_model ("progs/item_armor_shard.mdl");
 	setmodel (self, "progs/item_armor_shard.mdl");
-	setsize (self, '-16 -16 0', '16 16 56');
+	setsize (self, '-8 -8 0', '8 8 32');
 
 	StartItem();
 };
 
 /*QUAKED item_armor_light (0 .5 .5) (-16 -16 0) (16 16 32) ? ? SUSPENDED
-Light armor, gives 25pts @ 50%, non-stackable.
+Light armor, gives 25pts @ 50%, stackable.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -265,7 +265,7 @@ Keys:
 */
 /*FGD
 @PointClass size(-16 -16 0, 16 16 56) color(180 0 180) base(Item) model({ "path": ":progs/item_armor_light.mdl" }) =
-	item_armor_light : "Light Amror (25pts, 50%, non-stackble)" []
+	item_armor_light : "Light Amror (25pts, 50%, stackble)" []
 */
 void() item_armor_light =
 {
