@@ -691,9 +691,33 @@ float (entity e, float healamt, float overheal) T_Heal =
 			
 		e.health = e.health + healamt;
 
+		if (self.classname == "item_health")
+			if (self.spawnflags & ITEM_HEALTH_MEGA)
+			{
+				sprint(e, "Picked up a Megahealth");
+				sprint(e, " \b+\b");
+				sprint(e, "100");
+			}
+				else if (self.spawnflags & ITEM_HEALTH_ROTTEN)
+			{
+				sprint(e, "Picked up a Rotten Health Pack");
+				sprint(e, " \b+\b");
+				sprint(e, "15");
+			}
+				else
+			{
+				sprint(e, "Picked up a Health Pack");
+				sprint(e, " \b+\b");
+				sprint(e, "25");
+			}
+		else
+		{
+			sprint(e, "You are healed by ");
+			sprint(e, ftos(healamt));
+		}
+
 		// moved here from healthtouch so any source of healing prints messages
-		sprint(e, "You are healed by ");
-		sprint(e, ftos(healamt));
+		sprint(e, "\x90\x91");
 		sprint(e, "\n");
 		stuffcmd (e, "bf\n");
 		return TRUE;

@@ -197,33 +197,26 @@ void() armor_touch =
 
 	if (self.cnt == 1)
 	{
-		sprint(other, "You got an Armor Shard  \b+5\b");
-		//sprint(other, "\x92");
-		//sprint(other, "\x93");
-		sprint(other, "\n");
+		sprint(other, "You got an Armor Shard \b+5\b");
 		sound(other, CHAN_ITEM, "items/armor_shard.wav", 1, ATTN_NORM);
-		stuffcmd (other, "bf\n");
 	}
 
 	if (self.cnt == 2)
 	{
-		sprint(other, "You got Light Armor  \b+25\b");
-		//sprint(other, "\x92");
-		//sprint(other, "\x93");
-		sprint(other, "\n");
+		sprint(other, "You got Light Armor \b+\b25");
 		sound(other, CHAN_ITEM, "items/armor_light.wav", 1, ATTN_NORM);
-		stuffcmd (other, "bf\n");
 	}
 
 	if (self.cnt == 3)
 	{
-		sprint(other, "You got Heavy Armor  \b+100\b");
-		//sprint(other, "\x92");
-		//sprint(other, "\x93");
-		sprint(other, "\n");
+		sprint(other, "You got Heavy Armor \b+\b100");
 		sound(other, CHAN_ITEM, "items/armor_heavy.wav", 1, ATTN_NORM);
-		stuffcmd (other, "bf\n");
 	}
+
+	sprint(other, "\x92");
+	sprint(other, "\x93");
+	sprint(other, "\n");
+	stuffcmd (other, "bf\n");
 
 	ItemTouched();
 }
