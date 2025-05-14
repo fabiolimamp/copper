@@ -455,14 +455,14 @@ float SPAWN_TGTITEMS_MIN = 16;
 	]
 	items(flags) =
 	[
-		1 : "Shotgun" : 0
-		2 : "Super Shotgun" : 0
-		4 : "Nailgun" : 0
-		8 : "Perforator" : 0
+		1 : "Pistol" : 0
+		2 : "Flak Shotgun" : 0
+		4 : "Twin Nailguns" : 0
+		8 : "Rebar Cannon" : 0
 		16 : "Grenade Laucher" : 0
-		32 : "Rocket Launcher" : 0
-		64 : "Lightning Gun" : 0
-		4096 : "Axe" : 0
+		32 : "Multi Mini-Missile Launcher" : 0
+		64 : "The Prototype" : 0
+		4096 : "Wrench" : 0
 		131072 : "Silver Key" : 0
 		262144 : "Gold Key" : 0
 		524288 : "Ring" : 0
@@ -834,7 +834,6 @@ Keyvalues:
 "ammo_shells" number of shells player should receive - same for _cells, _rockets, and _nails
 "health" health (will overheal beyond 100)
 "armorvalue" armor (protection color scales automatically)
-"armortype" armor strength (0.3+ green, 0.5+ yellow, 0.7+ red)
 "weapon" item bitflag (not impulse number!) of the weapon the player should swap to (if he has it)
 "items" bitmask of what items the player should get (see below for reference)
 "svflags" bitmask of serverflags to alter (1/2/4/8 are the episode runes, 16+ are invisible)

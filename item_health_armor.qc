@@ -175,7 +175,7 @@ void(entity e) armor_set_type =
 	e.items = not(e.items, (IT_ARMOR2));
 	if (!e.armorvalue)
 	{
-		e.armortype = 0.0;
+		e.armortype = 0;
 		return;
 	}
 
