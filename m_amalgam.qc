@@ -319,7 +319,7 @@ float() AmalgamCheckAttack =
 
 
 void()	amalgam_die1	=[	$death1,	amalgam_die2	] {self.movetype = MOVETYPE_NONE;}
-void()	amalgam_die2	=[	$death2,	amalgam_die3	] {}
+void()	amalgam_die2	=[	$death2,	amalgam_die3	] {SpawnMeatSpray(self.origin + v_forward*16, crandom() * 100 * v_right);}
 void()	amalgam_die3	=[	$death3,	amalgam_die4	] {}
 void()	amalgam_die4	=[	$death4,	amalgam_die5	] {}
 void()	amalgam_die5	=[	$death5,	amalgam_die6	] {}
@@ -327,18 +327,20 @@ void()	amalgam_die6	=[	$death6,	amalgam_die7	] {}
 void()	amalgam_die7	=[	$death7,	amalgam_die8	] {}
 void()	amalgam_die8	=[	$death8,	amalgam_die9	] {}
 void()	amalgam_die9	=[	$death9,	amalgam_die10	] {}
-void()	amalgam_die10	=[	$death10,	amalgam_die11	] {}
-void()	amalgam_die11	=[	$death11,	amalgam_die12	] {}
-void()	amalgam_die12	=[	$death12,	amalgam_die13	] {AmalGoop_Spam(1); GibSpray("NULL", -75);}
-void()	amalgam_die13	=[	$death13,	amalgam_die14	] {AmalGoop_Spam(1); }
-void()	amalgam_die14	=[	$death14,	amalgam_die15	] {AmalGoop_Spam(1); }
-void()	amalgam_die15	=[	$death15,	amalgam_die16	] {AmalGoop_Spam(2); }
-void()	amalgam_die16	=[	$death16,	amalgam_die17	] {AmalGoop_Spam(2); GibSpray("NULL", -100);}
-void()	amalgam_die17	=[	$death16,	SUB_Null		] {GoopBlood(1); remove(self);}
+void()	amalgam_die10	=[	$death10,	amalgam_die11	] {SpawnMeatSpray(self.origin + v_forward*16, crandom() * 100 * v_right);}
+void()	amalgam_die11	=[	$death11,	amalgam_die12	] {AmalGoop_Spam(2);}
+void()	amalgam_die12	=[	$death12,	amalgam_die13	] {AmalGoop_Spam(2);}
+void()	amalgam_die13	=[	$death13,	amalgam_die14	] {AmalGoop_Spam(2);}
+void()	amalgam_die14	=[	$death14,	amalgam_die15	] {AmalGoop_Spam(1);}
+void()	amalgam_die15	=[	$death15,	amalgam_die16	] {AmalGoop_Spam(1);}
+void()	amalgam_die16	=[	$death16,	amalgam_die17	] {SpawnMeatSpray(self.origin + v_forward*16, crandom() * 100 * v_right);}
+void()	amalgam_die17	=[	$death16,	SUB_Null		] {AmalGoop_Spam(4); GoopBlood(1); remove(self);}
 
 void(float drop_count) AmalGoop_Spam =
 {
 	float i;
+	
+	i = 0;
 
     while(i < drop_count)
     {
