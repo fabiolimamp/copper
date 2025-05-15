@@ -400,7 +400,7 @@ void() monster_rocketarmy_spawn =
 	self.th_checkattack = RocketSoldierCheckAttack;
 
 	if (self.deathtype == string_null)
-		self.deathtype = "was shot by a Grunt";
+		self.deathtype = "was exploded by a Rocket Trenchknight";
 
 	walkmonster_start ();
 }

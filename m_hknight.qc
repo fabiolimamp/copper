@@ -515,7 +515,7 @@ void() monster_hell_knight_spawn =
 	self.type = "brigade";	// no infighting amongst the hell death brigade legion squad
 
 	if (self.deathtype == string_null)
-		self.deathtype = "was slain by a Death Knight";
+		self.deathtype = "was dominated by a Champion";
 
 	walkmonster_start ();
 }

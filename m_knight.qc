@@ -267,7 +267,7 @@ void() monster_knight_spawn =
 	self.th_checkattack = CheckAttack;
 
 	if (self.deathtype == string_null)
-		self.deathtype = "was slashed by a Knight";
+		self.deathtype = "was bashed by a Knight";
 
 	nmspeed(0.075);
 

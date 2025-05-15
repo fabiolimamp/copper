@@ -324,7 +324,7 @@ void() monster_pistolarmy_spawn =
 	self.th_checkattack = PistolSoldierCheckAttack;
 
 	if (self.deathtype == string_null)
-		self.deathtype = "was shot by a Grunt";
+		self.deathtype = "was struck during a Pistol Trenchknight-involved shooting and later died from their injuries";
 
 	walkmonster_start ();
 }

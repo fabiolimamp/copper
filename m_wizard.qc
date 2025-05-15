@@ -369,7 +369,7 @@ void() monster_wizard_spawn =
 	self.th_checkattack = WizardCheckAttack;
 
 	if (self.deathtype == string_null)
-		self.deathtype = "was scragged by a Scrag";
+		self.deathtype = "was served by a Servitor";
 
 	self.height = zeroconvertdefault(self.height, 35);
 	self.jump_flag = self.height;	// remember original value for short term nav tweaking

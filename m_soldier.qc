@@ -321,7 +321,7 @@ void() monster_army_spawn =
 	self.th_checkattack = SoldierCheckAttack;
 
 	if (self.deathtype == string_null)
-		self.deathtype = "was shot by a Grunt";
+		self.deathtype = "was pwned by a Shotgun Trenchknight";
 
 	walkmonster_start ();
 }

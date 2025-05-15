@@ -321,7 +321,7 @@ void() monster_sploder_spawn =
 	self.th_checkattack = CheckAttack;
 
 	if (self.deathtype == string_null)
-		self.deathtype = "was detonated by a Sploder";
+		self.deathtype = "was popped by a Blister";
 
 	nmspeed(0.075);
 
