@@ -345,7 +345,7 @@ void() monster_enforcer_spawn =
 	self.th_checkattack = enforcer_check_attack;
 
 	if (self.deathtype == string_null)
-		self.deathtype = "was blasted by an Enforcer";
+		self.deathtype = "was blasted by a Plasma Trenchknight";
 
 	walkmonster_start();
 }

@@ -373,7 +373,7 @@ void() monster_dog_spawn =
 	self.th_checkattack = DogCheckAttack;
 
 	if (self.deathtype == string_null)
-		self.deathtype = "was mauled by a Rottweiler";
+		self.deathtype = "was mauled by a Trench Hound";
 
 	nmspeed(0.07);
 

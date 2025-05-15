@@ -444,7 +444,7 @@ void() monster_shalrath_spawn =
 	self.th_checkattack = CheckAttack;
 
 	if (self.deathtype == string_null)
-		self.deathtype = "was exploded by a Vore";
+		self.deathtype = "was exploded by a Shalrath";
 		
 	//self.think = walkmonster_start;
 	//self.nextthink = time + 0.1 + random ()*0.1;	

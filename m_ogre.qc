@@ -499,7 +499,7 @@ void() monster_ogre_spawn =
 	self.th_checkattack = OgreCheckAttack;
 
 	if (self.deathtype == string_null)
-		self.deathtype = "was destroyed by an Ogre";
+		self.deathtype = "was blasted by a Grenadier";
 
 	walkmonster_start();
 }

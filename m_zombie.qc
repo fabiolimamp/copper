@@ -665,7 +665,7 @@ void() monster_zombie_spawn =
 	setmodel (self, "progs/zombie.mdl");
 
 	if (self.deathtype == string_null)
-		self.deathtype = "joins the Zombies";
+		self.deathtype = "was crumbled by a Golem";
 		
 	setsize (self, '-16 -16 -24', '16 16 40');
 	if (self.spawnflags & SPAWN_CRUCIFIED)
@@ -704,7 +704,7 @@ void() monster_zombie_spawn =
 void() monster_zombie_spawner = {mon_spawner_use(monster_zombie_spawn);}
 
 /*QUAKED monster_zombie (1 0 0) (-16 -16 -24) (16 16 32) CRUCIFIED AMBUSH LYING ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
-Zombie, 60 health points.  If crucified, stick the bounding box back 12 pixels into the wall to look right.
+Golem (Zombie), 60 health points.  If crucified, stick the bounding box back 12 pixels into the wall to look right.
 
 Flags:
 "crucified" stick the bounding box 12 pixels back into a wall to look right.
@@ -722,7 +722,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/zombie.mdl" }) = monster_zombie : "Zombie" 
+@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/zombie.mdl" }) = monster_zombie : "Golem (Zombie)" 
 [
 	spawnflags(Flags) = 
 	[

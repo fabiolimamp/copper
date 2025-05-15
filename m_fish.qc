@@ -338,12 +338,7 @@ void() monster_fish_spawn =
 	self.th_checkattack = fish_check_attack;
 
 	if (self.deathtype == string_null)
-	{
-		if (skill == 3 && random() < 0.5)
-			self.deathtype = "died from fish damage";
-		else
-			self.deathtype = "was fed to the Rotfish";
-	}
+		self.deathtype = "was flayed by a Fleshworm";
 
 	nmspeed(0.075); // look at 'em go
 
@@ -354,7 +349,7 @@ void() monster_fish_spawner = {mon_spawner_use(monster_fish_spawn);}
 
 
 /*QUAKED monster_fish (1 0 0) (-16 -16 -16) (16 16 16) AMBUSH ? ? ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
-Rotfish, 35 health points.
+Fleshworm, 35 health points.
 
 Flags:
 "ambush" only wake up on seeing the player, not another monster getting angry
@@ -368,7 +363,7 @@ Keys:
 "targetname" entity name
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -16, 16 16 16) model({ "path": ":progs/fish_qbj.mdl" }) = monster_fish : "Rotfish" []
+@PointClass base(Monster) size(-16 -16 -16, 16 16 16) model({ "path": ":progs/fish_qbj.mdl" }) = monster_fish : "Fleshworm" []
 */
 void() monster_fish =
 {
