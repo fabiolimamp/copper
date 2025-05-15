@@ -332,7 +332,7 @@ void() monster_pistolarmy_spawn =
 void() monster_pistolarmy_spawner = {mon_spawner_use(monster_pistolarmy_spawn);}
 
 /*QUAKED monster_army_pistol (1 0 0) (-16 -16 -24) (16 16 40) AMBUSH ? ? ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
-Pistol Grunt, 30 health points.
+Pistol Trenchknight (Pistol Grunt), 30 health points.
 
 Flags:
 "ambush" only wake up on seeing the player, not another monster getting angry
@@ -348,7 +348,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_qbj.mdl" }) = monster_army_pistol : "Pistol Grunt" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_pistol_qbj.mdl" }) = monster_army_pistol : "Pistol Trenchknight (Pistol Grunt)" []
 */
 void() monster_army_pistol =
 {	

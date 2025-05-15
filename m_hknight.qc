@@ -523,7 +523,7 @@ void() monster_hell_knight_spawn =
 void() monster_hell_knight_spawner = {mon_spawner_use(monster_hell_knight_spawn);}
 
 /*QUAKED monster_hell_knight (1 0 0) (-16 -16 -24) (16 16 40) AMBUSH ? ? ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
-"Death" Knight, 250 health points.
+Champion (Death Knight), 250 health points.
 
 Flags:
 "ambush" only wake up on seeing the player, not another monster getting angry
@@ -538,7 +538,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/hknight_qbj.mdl" }) = monster_hell_knight : "Death knight" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/hknight_qbj.mdl" }) = monster_hell_knight : "Champion (Death Knight)" []
 */
 void() monster_hell_knight =
 {
