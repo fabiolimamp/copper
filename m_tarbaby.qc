@@ -308,7 +308,7 @@ void() monster_tarbaby_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/tarbaby.mdl");
+	setmodel (self, "progs/spawn_qbj.mdl");
 
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 80;
@@ -350,7 +350,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/tarbaby.mdl" }) = monster_spawn : "Spawn" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/spawn_qbj.mdl" }) = monster_spawn : "Spawn" []
 */
 void() monster_spawn =
 {
@@ -361,7 +361,7 @@ void() monster_spawn =
 		remove(self);
 		return;
 	}
-	precache_model2 ("progs/tarbaby.mdl");
+	precache_model2 ("progs/spawn_qbj.mdl");
 
 	precache_sound2 ("blob/death1.wav");
 	precache_sound2 ("blob/hit1.wav");
