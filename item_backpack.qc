@@ -335,46 +335,24 @@ void(entity attacker) CheckVampGlobe =
 	return;
 
 	//check what tier the monster is, so we know how many globes to drop
-	if ((self.classname == "monster_dog") ||
-		(self.classname ==  "monster_zombie") ||
-		(self.classname == "monster_army"))
-	{
-		self.cnt = 1;
-	}
-
-	else if ((self.classname == "monster_wizard") || 
+	if ((self.classname == "monster_wizard") || 
 		(self.classname == "monster_enforcer") || 
-		(self.classname == "monster_knight") ||
-		(self.classname == "monster_tentacle"))
-	{
+		(self.classname == "monster_knight"))
 		self.cnt = 2;
-	}
 
 	else if ((self.classname == "monster_hell_knight") ||
 		(self.classname == "monster_shield_knight") ||
-		(self.classname == "monster_ogre") ||
-		(self.classname == "monster_chaingunner"))
-	{
+		(self.classname == "monster_ogre"))
 		self.cnt = 3;
-	}
 
 	else if ((self.classname == "monster_shambler") ||
 		(self.classname == "monster_shalrath") ||
 		(self.classname == "monster_demon1") ||
-		(self.classname == "monster_amalgam"))
-	{
+		(self.classname == "monster_amalgam") ||
+		(self.classname == "monster_spawn"))
 		self.cnt = 4;
-	}
-
-	else if (self.classname == "monster_bigboy")
-	{
-		self.cnt = 10;
-	}
-	else
-	{
-	dprint("Fell off CheckVampGlobe\n");
-	return;
-	}
+	
+	else self.cnt = 1;
 
 	while(self.cnt > VampCouRemaining)
 	{
@@ -421,10 +399,10 @@ void() VampGlobeTouch =
 	if (!CheckValidTouch()) return;
 
 	//for summary on health healed during powerup duration
-	other.globehealth_cou += 3;
+	other.globehealth_cou += 5;
 	//for coagulated (lol) health received prints so we don't spam console
 	//with tinylittleman hp received prints
-	other.globehealth_cou_short += 3;
+	other.globehealth_cou_short += 5;
 	
 	if (random() < 0.33)
 		sound(other, CHAN_ITEM, "items/vamppickup1.wav", 1, ATTN_NORM);
@@ -440,19 +418,19 @@ void() VampGlobeTouch =
 void() VampGlobeHome =
 {
     float rate, dot;
-    vector lookat;
+    //vector lookat;
     self.movetype = MOVETYPE_NOCLIP;
     if (!self.distance)
     {
         self.distance = 35;
     }
-    if (self.count == 0)
-    {
-        self.count = 1;
-        lookat = self.origin - self.origin;
-        lookat = normalize(lookat);
-        self.angles = vectoangles(lookat);
-    }
+   //if (self.count == 0)
+   //{
+   //    self.count = 1;
+   //    lookat = self.origin - self.origin;
+   //    lookat = normalize(lookat);
+   //    self.angles = vectoangles(lookat);
+   //}
 
     if ((self.buddy.health < 1)) //change this to the self/whatever we're using for checking of player is alive
     {
@@ -460,8 +438,11 @@ void() VampGlobeHome =
     }
 
     self.nextthink = time + 0.04;
-    rate = 280;
-    self.distance += 55;
+    rate = 400;
+
+	if (self.distance < 500)
+    	self.distance += 55;
+
     dot = normalize(self.velocity) * normalize(self.buddy.origin - self.origin);
     self.owner = self.trueowner;
 

@@ -358,12 +358,12 @@ void() precache_vamp =
 
 /*QUAKED item_artifact_vampirism (0 .5 .5) (-16 -16 -24) (16 16 32) ? ? SUSPENDED
 Vampiric Blood. Causes monsters to drop health orbs on death when killed by the player.
-Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
+Health orbs heal 5 per drop, and monsters drop more orbs based on their tier.
 
-1 Globe - Zombie, Grunt, Dog
-2 Globes - Scrag, Enforcer, Knight, Tentacle
-3 Globes - Death Knight, Shield Knight, Ogre
-4 Globes - Shambler, Vore, Fiend, Amalgam
+1 Globe - Zombie, Grunts, Dog
+2 Globes - Scrag, Enforcer, Knight
+3 Globes - Death Knight, Ogre
+4 Globes - Shambler, Vore, Fiend, Amalgam, Spawn
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -376,10 +376,10 @@ Keys:
 	"Vampiric Blood. Causes monsters to drop health orbs on death when killed by the player.
 Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 
-1 Globe - Zombie, Grunt, Dog
-2 Globes - Scrag, Enforcer, Knight, Tentacle
-3 Globes - Death Knight, Shield Knight, Ogre
-4 Globes - Shambler, Vore, Fiend, Amalgam"[]
+1 Globe - Zombie, Grunts, Dog
+2 Globes - Scrag, Enforcer, Knight
+3 Globes - Death Knight, Ogre
+4 Globes - Shambler, Vore, Fiend, Amalgam, Spawn"[]
 */
 void() item_artifact_vampirism =
 {
