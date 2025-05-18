@@ -1546,9 +1546,9 @@ void() CheckPowerups =
 
 			csf_clear(self, 100);
 
-			dprint("\bVampirism Total Heal:\b ");
-			dprint(ftos(self.globehealth_cou));
-			dprint("\n");
+			bprint("\bVampirism Total Heal:\b ");
+			bprint(ftos(self.globehealth_cou));
+			bprint("\n");
 			self.globehealth_cou = 0;
 			
 			self.vamp_finished = 0;
