@@ -154,8 +154,8 @@ void(string headmdl, float dm) GibSpray =
 
 	self.customflags |= CFL_GIBBED;
 
-	//if (headmdl != "NULL")
-	//ThrowHead (headmdl, dm);
+	if (headmdl != "NULL")
+		ThrowHead (headmdl, dm);
 	self.think = SUB_Remove;
 }
 
