@@ -266,14 +266,43 @@ void() amalgam_fire =
 	goop.solid = SOLID_TRIGGER;
 	goop.movetype = MOVETYPE_TOSS;
 	goop.classname = "AmalGoop";
-	setmodel (goop, "progs/proj_amalgoop.mdl");
+
+	if (skill != 3)
+	{
+		goop.touch = AmalGoop_Touch;
+		setmodel(goop, "progs/proj_amalgoop.mdl");
+		goop.dmg = 8;
+	}
+	else if (random() < 0.2)
+	{
+		goop.touch = amalgamNightmareBoom;
+		setmodel(goop, "progs/proj_amalgoop_explo.mdl");
+		goop.dmg = 35;
+	}
+	else
+	{
+		goop.touch = AmalGoop_Touch;
+		setmodel(goop, "progs/proj_amalgoop.mdl");
+		goop.dmg = 8;
+	}
+
 	setsize (goop, '0 0 0', '0 0 0');
 	goop.angles_y = (random() * (random() * 256));
 	goop.avelocity = '10 150 10';
+	goop.skin = self.skin;
 
-	goop.touch = AmalGoop_Touch;
 	goop.think = SUB_Remove;
 	goop.nextthink = time + 15;
+}
+
+void() amalgamNightmareBoom = 
+{
+	if (!CheckValidTouch()) return;
+	if (other.flags & FL_MONSTER) return;
+	if (self.attack_finished > time) return;
+
+	kaboom(self.origin, self.dmg, self, TRUE);
+	SUB_Remove();
 }
 
 /*
@@ -368,9 +397,11 @@ void() AmalGoop_Drop =
 	setmodel (item, "progs/proj_amalgoop.mdl");
 	setsize (item, '0 0 0', '0 0 0');
 	item.angles_y = (random() * (random() * 256));
+	item.skin = self.skin;
 
 	sound (self, CHAN_WEAPON, "amalg/amalgshoot.wav", .5, ATTN_NORM);
 
+	item.dmg = 8;
 	item.touch = AmalGoop_Touch;
 	item.think = SUB_Remove;
 	item.nextthink = time + 20;
@@ -390,10 +421,12 @@ void() AmalGoop_Touch =
 	if (other.flags & FL_MONSTER) return;
 	if (self.attack_finished > time) return;
 
-	T_Damage(other, self.owner, self, 8);
+	T_Damage(other, self.owner, self, self.dmg);
 
 	if (random() > .5)
+	{
 		sound(self, CHAN_VOICE, "amalg/amalg_goop1.wav", .6, ATTN_NORM);
+	}
 	else
 		sound(self, CHAN_VOICE, "amalg/amalg_goop2.wav", .6, ATTN_NORM);
 
@@ -516,6 +549,7 @@ void() monster_amalgam =
 	precache_model ("progs/gib3.mdl");
 
 	precache_model ("progs/proj_amalgoop.mdl");
+	precache_model ("progs/proj_amalgoop_explo.mdl");
 	precache_sound ("amalg/amalg_goop1.wav");
 	precache_sound ("amalg/amalg_goop2.wav");
 
