@@ -82,6 +82,10 @@ void(float step) ai_swarmer_run = {
 	float enemy_range2D;
 	vector vec;
 
+	dprint(ftos(step));
+	dprint("\n");
+	if (!self.enemy) return;
+
 	vector prev_org = self.origin;
 	ai_run(step);
 	if (self.origin == prev_org) return;
@@ -93,7 +97,7 @@ void(float step) ai_swarmer_run = {
 	if (enemy_vis) {
 		if (enemy_range2D < 512) {
 			if (enemy_range2D < 192)
-				self.frame = (self.frame + 8);
+			self.frame = (self.frame + 8);
 			
 			loopStep = 12;
 			_count = floor(128 / loopStep);
@@ -408,6 +412,7 @@ void() monster_swarmer_spawn =
 	self.th_pain = swarmer_pain;
 	self.th_die = swarmer_die;
 	self.th_melee = swarmer_melee;
+	self.th_checkattack = CheckAttack;
 	self.yaw_speed = 35;
 	
 	if (self.deathtype == string_null)
