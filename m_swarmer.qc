@@ -177,7 +177,7 @@ void() swarmer_meleeAttack =
 	delta = self.enemy.origin - self.origin;
 	dist = vlen(delta);
 	dist = (dist - self.enemy.maxs_x) - self.maxs_x;
-	if (dist > 16)
+	if (dist > 24)
 		return;
 	
 	rSnd = random();
