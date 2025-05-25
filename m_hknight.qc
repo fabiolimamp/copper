@@ -242,18 +242,56 @@ void(vector dir, vector org) hknight_bolt =
 	if (skill == 3)
 	{
 		spike = launch_projectile(self.origin + org + dir * 20, dir * 600, "knightspike");	// FLYMISSILE
+		spike.avelocity = [0, 0, random()*500 + 150];
 		SUB_ChangeModel (spike, "progs/k_spike2.mdl");
 		spike.dmg = 16 + 8 * random();
 	}
 	else
 	{
 		spike = launch_projectile(self.origin + org + dir * 20, dir * 400, "knightspike");	// FLYMISSILE
+		spike.avelocity = [0, 0, random()*500 + 150];
 		SUB_ChangeModel (spike, "progs/k_spike.mdl");
 		spike.dmg = 8;
 	}
 
-	spike.touch = spike_touch;
+	spike.touch = HknightImpalerTouch;
 	sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
+}
+
+void(vector org_offset) hknight_bolt2 =
+{
+    entity spike;
+    vector shot_origin, target_pos, direction;
+    
+    shot_origin = self.origin + org_offset;
+    
+    target_pos = enemy_vispos();
+    target_pos += enemy_aim_vertical();
+    
+    //calculate direction from actual firing position to target
+    direction = normalize(target_pos - shot_origin);
+    
+    //slight random spread
+    makevectors(vectoangles(direction));
+    direction = direction + v_right * (random() - 0.5) * 0.06 + v_up * (random() - 0.5) * 0.06;
+    direction = normalize(direction);
+    
+    if (skill == 3)
+    {
+        spike = launch_projectile(shot_origin + direction * 20, direction * 600, "knightspike");  // FLYMISSILE
+        spike.avelocity = [0, 0, random()*500 + 150];
+        SUB_ChangeModel (spike, "progs/k_spike2.mdl");
+        spike.dmg = 16 + 8 * random();
+    }
+    else
+    {
+        spike = launch_projectile(shot_origin + direction * 20, direction * 400, "knightspike");  // FLYMISSILE
+        spike.avelocity = [0, 0, random()*500 + 150];
+        SUB_ChangeModel (spike, "progs/k_spike.mdl");
+        spike.dmg = 8;
+    }
+    spike.touch = HknightImpalerTouch;
+    sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
 }
 
 void(float h_offset, float v_offset) hknight_shot =
@@ -292,13 +330,74 @@ void(float v_offset) hknight_shot2 =
 
 void(float v_offset) hknight_shot3 = //new forearm sword-gun shot thing
 {
-	vector	vec;
+    makevectors(self.angles);
+    hknight_bolt2('0 0 20' + 14 * v_right);
+}
 
-	vec = enemy_vispos() - self.origin;
-	vec += enemy_aim_vertical();
+void() HknightImpalerThink =
+{
+	if (time > self.lifetime_finished)
+	{
+		HknightImpalerFade();
+		return;
+	}
+
+	self.angles = vectoangles(self.velocity);
+	self.flags &~= FL_ONGROUND;
+	self.oldvelocity = self.velocity;
+	self.nextthink = time + 0.05;
+}
+
+void() HknightImpalerFade =
+{
+	self.alpha -= 0.025;
 	
-	vec = normalize(vec) + '0 0 0.02' * v_offset;
-	hknight_bolt(vec, '0 0 20' + -14 * v_right);
+	if (self.alpha <= 0)
+	{
+		remove(self);
+		return;
+	}
+
+	self.think = HknightImpalerFade;
+	self.nextthink = time + 0.05;
+}
+
+
+//=============================================================================================
+
+
+void() HknightImpalerTouch =
+{
+	if (CheckProjectilePassthru()) return;
+
+	if (other.takedamage)
+		T_Damage (other, self, self.trueowner, self.dmg);
+
+	
+	if (other.solid == SOLID_BSP && other.classname != "func_movewall") {
+		self.movetype = MOVETYPE_NONE;
+		self.solid = SOLID_NOT;
+		self.owner = other;
+		self.touch = SUB_Null;
+		// change model so that smoke doesn't appear when stuck to moving brushes
+		setmodel(self, "progs/k_spike_cold.mdl");
+
+		sound (self, CHAN_AUTO, "weapons/tink1.wav", 0.5, ATTN_NORM);
+		gunshot(self.origin);
+
+
+		// move origin away from walls when stuck, helps prevent "void-lighting"
+		setorigin(self, self.origin - 18*normalize(self.velocity));
+
+		self.pos1 = other.absmin;
+		
+		self.alpha = 1;
+		self.think = HknightImpalerFade;
+		self.nextthink = time + 10;
+	}
+	else
+		remove(self);
+	
 }
 
 
@@ -551,6 +650,7 @@ void() monster_hell_knight =
 	}
 	precache_model2 ("progs/hknight_qbj.mdl");
 	precache_model2 ("progs/k_spike.mdl");
+	precache_model2 ("progs/k_spike_cold.mdl");
 	precache_model2 ("progs/k_spike2.mdl");
 	precache_model2 ("progs/h_hellkn.mdl");
 
