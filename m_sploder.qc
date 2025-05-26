@@ -211,6 +211,8 @@ void() sploder_explode =
 
 void()	sploder_die =
 {
+	AmalGoop_Spam(2);
+
 	if (self.think == sploder_explode)
 		return;	// already exploding
 	self.enemy = activator;
@@ -368,6 +370,15 @@ void() monster_sploder =
 	precache_sound ("sploder/sploder_scream2.wav");
 	precache_sound ("sploder/sploder_pain.wav");
 	precache_sound ("zombie/z_gib.wav");
+
+	//required for Nightmare additions
+	precache_model ("progs/proj_amalgoop.mdl");
+	precache_model ("progs/proj_amalgoop_explo.mdl");
+	precache_sound ("amalg/amalg_goop1.wav");
+	precache_sound ("amalg/amalg_goop2.wav");
+	precache_model ("progs/s_blood_128x.spr");
+	precache_model ("progs/s_blood_96x.spr");
+	precache_model ("progs/s_blood_64x.spr");
 
 	self.health = 40;
 	setsize (self, '-16 -16 -24', '16 16 24');
