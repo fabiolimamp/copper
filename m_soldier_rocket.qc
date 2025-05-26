@@ -83,24 +83,24 @@ void()	rocketarmy_walk24	=[	$prowl_24,	rocketarmy_walk1	] {ai_walk(1);}
 void()	rocketarmy_run1	=[	$run1,		rocketarmy_run2	] {
 if (random() < 0.2 && time > self.show_hostile)
 	sound (self, CHAN_VOICE, "soldier/idle.wav", 1, ATTN_IDLE);
-ai_run(11);}
-void()	rocketarmy_run2	=[	$run2,		rocketarmy_run3	] {ai_run(15);}
-void()	rocketarmy_run3	=[	$run3,		rocketarmy_run4	] {ai_run(10);}
-void()	rocketarmy_run4	=[	$run4,		rocketarmy_run5	] {ai_run(10);}
-void()	rocketarmy_run5	=[	$run5,		rocketarmy_run6	] {ai_run(8);}
-void()	rocketarmy_run6	=[	$run6,		rocketarmy_run7	] {ai_run(15);}
-void()	rocketarmy_run7	=[	$run7,		rocketarmy_run8	] {ai_run(10);}
-void()	rocketarmy_run8	=[	$run8,		rocketarmy_run1	] {ai_run(8);}
+nmfast(); ai_run(11);}
+void()	rocketarmy_run2	=[	$run2,		rocketarmy_run3	] {nmfast(); ai_run(15);}
+void()	rocketarmy_run3	=[	$run3,		rocketarmy_run4	] {nmfast(); ai_run(10);}
+void()	rocketarmy_run4	=[	$run4,		rocketarmy_run5	] {nmfast(); ai_run(10);}
+void()	rocketarmy_run5	=[	$run5,		rocketarmy_run6	] {nmfast(); ai_run(8);}
+void()	rocketarmy_run6	=[	$run6,		rocketarmy_run7	] {nmfast(); ai_run(15);}
+void()	rocketarmy_run7	=[	$run7,		rocketarmy_run8	] {nmfast(); ai_run(10);}
+void()	rocketarmy_run8	=[	$run8,		rocketarmy_run1	] {nmfast(); ai_run(8);}
 
 void()	rocketarmy_atk1	=[	$shoot1,	rocketarmy_atk2	] {nmfast();ai_face();}
 void()	rocketarmy_atk2	=[	$shoot2,	rocketarmy_atk3	] {nmfast();ai_face();}
 void()	rocketarmy_atk3	=[	$shoot3,	rocketarmy_atk4	] {nmfast();ai_face(); rocketarmy_aim(); }
 void()	rocketarmy_atk4	=[	$shoot4,	rocketarmy_atk5	] {nmfast();ai_face();}
 void()	rocketarmy_atk5	=[	$shoot5,	rocketarmy_atk6	] {nmfast();ai_face(); rocketarmy_fire(); }
-void()	rocketarmy_atk6	=[	$shoot6,	rocketarmy_atk7	] {ai_face();}
-void()	rocketarmy_atk7	=[	$shoot7,	rocketarmy_atk8	] {ai_face(); ai_check_refire (rocketarmy_atk3);}
-void()	rocketarmy_atk8	=[	$shoot8,	rocketarmy_atk9	] {ai_face(); ai_attack_finished (0.3 + random() + random());}
-void()	rocketarmy_atk9	=[	$shoot9,	rocketarmy_run1	] {ai_face();}
+void()	rocketarmy_atk6	=[	$shoot6,	rocketarmy_atk7	] {nmfast(); ai_face();}
+void()	rocketarmy_atk7	=[	$shoot7,	rocketarmy_atk8	] {nmfast(); ai_face();}
+void()	rocketarmy_atk8	=[	$shoot8,	rocketarmy_atk9	] {nmfast(); ai_face(); ai_attack_finished (0.3 + random() + random());}
+void()	rocketarmy_atk9	=[	$shoot9,	rocketarmy_run1	] {nmfast(); ai_face();}
 
 
 void()	rocketarmy_pain1	=[	$pain1,		rocketarmy_pain2	] {}
@@ -193,6 +193,7 @@ void() rocketarmy_fire =
 }
 
 const float SOLDIER_MISSILE_VEL = 800;
+const float SOLDIER_MISSILE_VEL_NM = 1100;
 
 void() SoldierMissile =
 {
@@ -214,7 +215,10 @@ void() SoldierMissile =
 		dir = normalize(dir);
 	}
 	
-	missile = launch_projectile(self.origin + '0 0 10' + v_forward * 16, dir * SOLDIER_MISSILE_VEL, "voreball");
+	if (skill >= 3)
+		missile = launch_projectile(self.origin + '0 0 10' + v_forward * 16, dir * SOLDIER_MISSILE_VEL_NM, "voreball");
+	else
+		missile = launch_projectile(self.origin + '0 0 10' + v_forward * 16, dir * SOLDIER_MISSILE_VEL, "voreball");
 
 	SUB_ChangeModel (missile, "progs/proj_missile.mdl");
 
@@ -222,7 +226,7 @@ void() SoldierMissile =
 	missile.think = MissileHome;
 	missile.enemy = self.enemy;
 	missile.touch = ShalMissileTouch;
-	missile.lifetime_finished = time + 30;	 // blow up after a while
+	missile.lifetime_finished = time + 5;	 // blow up after a while
 	if (skill == 3) missile.dest = self.dest;
 }
 
@@ -390,6 +394,8 @@ void() monster_rocketarmy_spawn =
 
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 35;
+
+	nmspeed (0.07);
 
 	self.th_stand = rocketarmy_stand1;
 	self.th_walk = rocketarmy_walk1;
