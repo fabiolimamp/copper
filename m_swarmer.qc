@@ -404,7 +404,6 @@ void() monster_swarmer_spawn =
 	setsize(self, '-6 -6 -24', '6 6 32');
 	
 	self.health = 10;
-
 		
 	self.th_stand = swarmer_stand1;
 	self.th_walk = swarmer_walk1;
@@ -414,6 +413,9 @@ void() monster_swarmer_spawn =
 	self.th_melee = swarmer_melee;
 	self.th_checkattack = CheckAttack;
 	self.yaw_speed = 35;
+
+	if (skill == 3)
+		self.alpha = 0.2;
 	
 	if (self.deathtype == string_null)
 		self.deathtype = "was swarmed by a Swarmer";
