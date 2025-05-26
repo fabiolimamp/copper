@@ -83,22 +83,22 @@ void()	army_walk24	=[	$prowl_24,	army_walk1	] {ai_walk(1);}
 void()	army_run1	=[	$run1,		army_run2	] {
 if (random() < 0.2 && time > self.show_hostile)
 	sound (self, CHAN_VOICE, "soldier/idle.wav", 1, ATTN_IDLE);
-ai_run(11);}
-void()	army_run2	=[	$run2,		army_run3	] {ai_run(15);}
-void()	army_run3	=[	$run3,		army_run4	] {ai_run(10);}
-void()	army_run4	=[	$run4,		army_run5	] {ai_run(10);}
-void()	army_run5	=[	$run5,		army_run6	] {ai_run(8);}
-void()	army_run6	=[	$run6,		army_run7	] {ai_run(15);}
-void()	army_run7	=[	$run7,		army_run8	] {ai_run(10);}
-void()	army_run8	=[	$run8,		army_run1	] {ai_run(8);}
+nmfast(); ai_run(11);}
+void()	army_run2	=[	$run2,		army_run3	] {nmfast(); ai_run(15);}
+void()	army_run3	=[	$run3,		army_run4	] {nmfast(); ai_run(10);}
+void()	army_run4	=[	$run4,		army_run5	] {nmfast(); ai_run(10);}
+void()	army_run5	=[	$run5,		army_run6	] {nmfast(); ai_run(8);}
+void()	army_run6	=[	$run6,		army_run7	] {nmfast(); ai_run(15);}
+void()	army_run7	=[	$run7,		army_run8	] {nmfast(); ai_run(10);}
+void()	army_run8	=[	$run8,		army_run1	] {nmfast(); ai_run(8);}
 
 void()	army_atk1	=[	$shoot1,	army_atk2	] {nmfast();ai_face();}
 void()	army_atk2	=[	$shoot2,	army_atk3	] {nmfast();ai_face();}
-void()	army_atk3	=[	$shoot1,	army_atk4	] {nmfast();ai_face(); sound (self, CHAN_AUTO, "flak/pump_reload.wav", 0.5, ATTN_NORM);}
-void()	army_atk4	=[	$shoot2,	army_atk5	] {nmfast();ai_face();}
-void()	army_atk5	=[	$shoot3,	army_atk6	] {nmfast();ai_face(); army_aim(); }
-void()	army_atk6	=[	$shoot4,	army_atk7	] {nmfast();ai_face();}
-void()	army_atk7	=[	$shoot5,	army_atk8	] {nmfast();ai_face(); army_fire(); }
+void()	army_atk3	=[	$shoot1,	army_atk4	] {ai_face(); sound (self, CHAN_AUTO, "flak/pump_reload.wav", 0.5, ATTN_NORM);}
+void()	army_atk4	=[	$shoot2,	army_atk5	] {ai_face();}
+void()	army_atk5	=[	$shoot3,	army_atk6	] {ai_face(); army_aim(); }
+void()	army_atk6	=[	$shoot4,	army_atk7	] {ai_face();}
+void()	army_atk7	=[	$shoot5,	army_atk8	] {ai_face(); army_fire(); }
 void()	army_atk8	=[	$shoot6,	army_atk9	] {ai_face();}
 void()	army_atk9	=[	$shoot7,	army_atk10	] {ai_face(); ai_check_refire (army_atk3);}
 void()	army_atk10	=[	$shoot8,	army_atk11	] {ai_face(); ai_attack_finished (0.3 + random() + random());}
@@ -311,6 +311,8 @@ void() monster_army_spawn =
 
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 35;
+
+	nmspeed(0.05);
 
 	self.th_stand = army_stand1;
 	self.th_walk = army_walk1;
