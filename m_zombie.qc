@@ -140,21 +140,70 @@ ATTACKS
 =============================================================================
 */
 
-void() ZombieGrenadeTouch =
+void() ZombieImpalerTouch =
 {
 	if (CheckProjectilePassthru()) return;
 
 	if (other.takedamage)
+		T_Damage (other, self, self.trueowner, 10);
+
+	float chance = random();
+	if 	(chance < 0.33)	sound (self, CHAN_AUTO, "rebar/pierce1.wav", 0.2, ATTN_NORM);
+	else if (chance < 0.5)	sound (self, CHAN_AUTO, "rebar/pierce2.wav", 0.2, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "rebar/pierce3.wav", 0.2, ATTN_NORM);
+
+	
+	if (other.solid == SOLID_BSP && other.classname != "func_movewall") {
+		self.movetype = MOVETYPE_NONE;
+		self.solid = SOLID_NOT;
+		self.owner = other;
+		self.touch = SUB_Null;
+		// change model so that smoke doesn't appear when stuck to moving brushes
+		setmodel(self, "progs/proj_rebar_zom_nosmoke.mdl");
+
+		sound (self, CHAN_AUTO, "weapons/tink1.wav", 0.5, ATTN_NORM);
+		gunshot(self.origin);
+
+		// move origin away from walls when stuck, helps prevent "void-lighting"
+		setorigin(self, self.origin - 5*normalize(self.velocity));
+
+		self.pos1 = other.absmin;
+		
+		self.alpha = 1;
+		self.think = ZombieImpalerFade;
+		self.nextthink = time + 10;
+	}
+	else
+		remove(self);
+	
+}
+
+void() ZombieImpalerThink =
+{
+	if (time > self.lifetime_finished)
 	{
-		T_Damage (other, self, self.trueowner, 10 );
-		sound (self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_NORM);
-		remove (self);
+		ZombieImpalerFade();
 		return;
 	}
-	sound (self, CHAN_WEAPON, "zombie/z_miss.wav", 1, ATTN_NORM);	// bounce sound
-	self.velocity = '0 0 0';
-	self.avelocity = '0 0 0';
-	self.touch = SUB_Remove;
+
+	self.angles = vectoangles(self.velocity);
+	self.flags &~= FL_ONGROUND;
+	self.oldvelocity = self.velocity;
+	self.nextthink = time + 0.05;
+}
+
+void() ZombieImpalerFade =
+{
+	self.alpha -= 0.025;
+	
+	if (self.alpha <= 0)
+	{
+		remove(self);
+		return;
+	}
+
+	self.think = ZombieImpalerFade;
+	self.nextthink = time + 0.05;
 }
 
 /*
@@ -185,9 +234,10 @@ void(vector st) ZombieFireGrenade =
 	missile = toss_projectile(org, lerpVector(goodvel, badvel, saturate(0.2 + dist/400)),"zgrenade");
 
 	missile.lifetime_finished = time + 2.5;
-	missile.touch = ZombieGrenadeTouch;
+	missile.touch = ZombieImpalerTouch;
+	missile.think = ZombieImpalerThink;
 	missile.th_die = SUB_Remove;
-	SUB_ChangeModel (missile, "progs/zom_gib.mdl");
+	SUB_ChangeModel (missile, "progs/proj_rebar_zom.mdl");
 }
 
 
@@ -750,6 +800,8 @@ void() monster_zombie =
 	precache_model ("progs/zombienm.mdl");
 	precache_model ("progs/h_zombie.mdl");
 	precache_model ("progs/h_zombnm.mdl");
+	precache_model ("progs/proj_rebar_zom.mdl");
+	precache_model ("progs/proj_rebar_zom_nosmoke.mdl");
 	precache_model ("progs/zom_gib.mdl");
 
 	precache_sound ("zombie/z_idle.wav");
