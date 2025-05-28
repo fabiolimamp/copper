@@ -211,6 +211,7 @@ void() sploder_explode =
 
 void()	sploder_die =
 {
+	if (skill > 2)
 	AmalGoop_Spam(2);
 
 	if (self.think == sploder_explode)
@@ -226,7 +227,11 @@ void(entity attacker, float damage)	sploder_pain =
 
 	if (self.pain_finished > time)
 		return;
+	
 	PainFinished(1.5);
+
+	if (skill > 2)
+		AmalGoop_Spam(2);
 	
 		if (self.frame <= 49)
 	{
