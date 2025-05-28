@@ -2,21 +2,21 @@
 
 void(entity e, float a, float b) genHeal = {};
 
-void() swarmer_stand1 = [ 0, swarmer_stand2 ]{ai_stand();	genHeal(self, 1, 0);};
-void() swarmer_stand2 = [ 1, swarmer_stand3 ]{ai_stand();};
-void() swarmer_stand3 = [ 2, swarmer_stand4 ]{ai_stand();};
-void() swarmer_stand4 = [ 3, swarmer_stand5 ]{ai_stand();};
-void() swarmer_stand5 = [ 4, swarmer_stand6 ]{ai_stand();};
-void() swarmer_stand6 = [ 5, swarmer_stand7 ]{ai_stand();};
-void() swarmer_stand7 = [ 6, swarmer_stand8 ]{ai_stand();};
-void() swarmer_stand8 = [ 7, swarmer_stand9 ]{ai_stand();	genHeal(self, 1, 0);};
-void() swarmer_stand9 = [ 8, swarmer_stand10 ]{ai_stand();};
-void() swarmer_stand10 = [ 9, swarmer_stand11 ]{ai_stand();};
-void() swarmer_stand11 = [ 10, swarmer_stand12 ]{ai_stand();};
-void() swarmer_stand12 = [ 11, swarmer_stand13 ]{ai_stand();};
-void() swarmer_stand13 = [ 12, swarmer_stand14 ]{ai_stand();};
-void() swarmer_stand14 = [ 13, swarmer_stand15 ]{ai_stand();};
-void() swarmer_stand15 = [ 14, swarmer_stand1 ]{ai_stand();};
+void() swarmer_stand1 = [ 0, swarmer_stand2    ]{swarmer_transparency(); ai_stand();	genHeal(self, 1, 0);};
+void() swarmer_stand2 = [ 1, swarmer_stand3    ]{swarmer_transparency(); ai_stand();};
+void() swarmer_stand3 = [ 2, swarmer_stand4    ]{swarmer_transparency(); ai_stand();};
+void() swarmer_stand4 = [ 3, swarmer_stand5    ]{swarmer_transparency(); ai_stand();};
+void() swarmer_stand5 = [ 4, swarmer_stand6    ]{swarmer_transparency(); ai_stand();};
+void() swarmer_stand6 = [ 5, swarmer_stand7    ]{swarmer_transparency(); ai_stand();};
+void() swarmer_stand7 = [ 6, swarmer_stand8    ]{swarmer_transparency(); ai_stand();};
+void() swarmer_stand8 = [ 7, swarmer_stand9    ]{swarmer_transparency(); ai_stand();	genHeal(self, 1, 0);};
+void() swarmer_stand9 = [ 8, swarmer_stand10   ]{swarmer_transparency(); ai_stand();};
+void() swarmer_stand10 = [ 9, swarmer_stand11  ]{swarmer_transparency(); ai_stand();};
+void() swarmer_stand11 = [ 10, swarmer_stand12 ]{swarmer_transparency(); ai_stand();};
+void() swarmer_stand12 = [ 11, swarmer_stand13 ]{swarmer_transparency(); ai_stand();};
+void() swarmer_stand13 = [ 12, swarmer_stand14 ]{swarmer_transparency(); ai_stand();};
+void() swarmer_stand14 = [ 13, swarmer_stand15 ]{swarmer_transparency(); ai_stand();};
+void() swarmer_stand15 = [ 14, swarmer_stand1  ]{swarmer_transparency(); ai_stand();};
 
 void() swarmer_footStep = {
 	local float rSnd;
@@ -40,23 +40,23 @@ void() swarmer_footStep = {
 };
 
 
-void() swarmer_walk1 = [ 15, swarmer_walk2 ]{ai_walk(1);genHeal(self, 1, 0);};
-void() swarmer_walk2 = [ 16, swarmer_walk3 ]{ai_walk(1);};
-void() swarmer_walk3 = [ 17, swarmer_walk4 ]{ai_walk(0);};
-void() swarmer_walk4 = [ 18, swarmer_walk5 ]{ai_walk(1);};
-void() swarmer_walk5 = [ 19, swarmer_walk6 ]{ai_walk(2);};
-void() swarmer_walk6 = [ 20, swarmer_walk7 ]{ai_walk(3);};
-void() swarmer_walk7 = [ 21, swarmer_walk8 ]{ai_walk(4);};
-void() swarmer_walk8 = [ 22, swarmer_walk9 ]{ai_walk(4);genHeal(self, 1, 0);};
-void() swarmer_walk9 = [ 23, swarmer_walk10 ]{ai_walk(2);};
-void() swarmer_walk10 = [ 24, swarmer_walk11 ]{ai_walk(0);};
-void() swarmer_walk11 = [ 25, swarmer_walk12 ]{ai_walk(0);};
-void() swarmer_walk12 = [ 26, swarmer_walk13 ]{ai_walk(0);};
-void() swarmer_walk13 = [ 27, swarmer_walk14 ]{ai_walk(2);};
-void() swarmer_walk14 = [ 28, swarmer_walk15 ]{ai_walk(4);};
-void() swarmer_walk15 = [ 29, swarmer_walk16 ]{ai_walk(6);genHeal(self, 1, 0);};
-void() swarmer_walk16 = [ 30, swarmer_walk17 ]{ai_walk(7);};
-void() swarmer_walk17 = [ 31, swarmer_walk18 ]{ai_walk(3);};
+void() swarmer_walk1 = [ 15, swarmer_walk2   ]{swarmer_transparency(); ai_walk(1);genHeal(self, 1, 0);};
+void() swarmer_walk2 = [ 16, swarmer_walk3   ]{swarmer_transparency(); ai_walk(1);};
+void() swarmer_walk3 = [ 17, swarmer_walk4   ]{swarmer_transparency(); ai_walk(0);};
+void() swarmer_walk4 = [ 18, swarmer_walk5   ]{swarmer_transparency(); ai_walk(1);};
+void() swarmer_walk5 = [ 19, swarmer_walk6   ]{swarmer_transparency(); ai_walk(2);};
+void() swarmer_walk6 = [ 20, swarmer_walk7   ]{swarmer_transparency(); ai_walk(3);};
+void() swarmer_walk7 = [ 21, swarmer_walk8   ]{swarmer_transparency(); ai_walk(4);};
+void() swarmer_walk8 = [ 22, swarmer_walk9   ]{swarmer_transparency(); ai_walk(4);genHeal(self, 1, 0);};
+void() swarmer_walk9 = [ 23, swarmer_walk10  ]{swarmer_transparency(); ai_walk(2);};
+void() swarmer_walk10 = [ 24, swarmer_walk11 ]{swarmer_transparency(); ai_walk(0);};
+void() swarmer_walk11 = [ 25, swarmer_walk12 ]{swarmer_transparency(); ai_walk(0);};
+void() swarmer_walk12 = [ 26, swarmer_walk13 ]{swarmer_transparency(); ai_walk(0);};
+void() swarmer_walk13 = [ 27, swarmer_walk14 ]{swarmer_transparency(); ai_walk(2);};
+void() swarmer_walk14 = [ 28, swarmer_walk15 ]{swarmer_transparency(); ai_walk(4);};
+void() swarmer_walk15 = [ 29, swarmer_walk16 ]{swarmer_transparency(); ai_walk(6);genHeal(self, 1, 0);};
+void() swarmer_walk16 = [ 30, swarmer_walk17 ]{swarmer_transparency(); ai_walk(7);};
+void() swarmer_walk17 = [ 31, swarmer_walk18 ]{swarmer_transparency(); ai_walk(3);};
 void() swarmer_walk18 = [ 32, swarmer_walk1 ]{
 	local float rSnd;
 
@@ -140,15 +140,16 @@ void(float step) ai_swarmer_run = {
 	
 };
 
-void() swarmer_run1 = [ 33, swarmer_run2 ]{ai_swarmer_run(24);/*genHeal(self, 1, 0);*/};
-void() swarmer_run2 = [ 34, swarmer_run3 ]{ai_swarmer_run(24);swarmer_footStep();};
-void() swarmer_run3 = [ 35, swarmer_run4 ]{ai_swarmer_run(24);};
-void() swarmer_run4 = [ 36, swarmer_run5 ]{ai_swarmer_run(24);};
-void() swarmer_run5 = [ 37, swarmer_run6 ]{ai_swarmer_run(24);};
-void() swarmer_run6 = [ 38, swarmer_run7 ]{ai_swarmer_run(24);swarmer_footStep();};
-void() swarmer_run7 = [ 39, swarmer_run8 ]{ai_swarmer_run(24);};
+void() swarmer_run1 = [ 33, swarmer_run2 ]{swarmer_transparency(); ai_swarmer_run(24);/*genHeal(self, 1, 0);*/};
+void() swarmer_run2 = [ 34, swarmer_run3 ]{swarmer_transparency(); ai_swarmer_run(24);swarmer_footStep();};
+void() swarmer_run3 = [ 35, swarmer_run4 ]{swarmer_transparency(); ai_swarmer_run(24);};
+void() swarmer_run4 = [ 36, swarmer_run5 ]{swarmer_transparency(); ai_swarmer_run(24);};
+void() swarmer_run5 = [ 37, swarmer_run6 ]{swarmer_transparency(); ai_swarmer_run(24);};
+void() swarmer_run6 = [ 38, swarmer_run7 ]{swarmer_transparency(); ai_swarmer_run(24);swarmer_footStep();};
+void() swarmer_run7 = [ 39, swarmer_run8 ]{swarmer_transparency(); ai_swarmer_run(24);};
 void() swarmer_run8 = [ 40, swarmer_run1 ]{
 	local float rSnd;
+	swarmer_transparency();
 	ai_swarmer_run(24);
 	if (time > self.air_finished) {
 		rSnd = random();
@@ -204,32 +205,42 @@ void(float step) ai_swarmer_charge =
 	walkmove2(self.angles_y, step);
 };
 
-void() swarmer_atkl1 = [ 49, swarmer_atkl2 ]{ai_swarmer_charge(24);};
-void() swarmer_atkl2 = [ 50, swarmer_atkl3 ]{ai_swarmer_charge(24);};
-void() swarmer_atkl3 = [ 51, swarmer_atkl4 ]{ai_swarmer_charge(24);};
-void() swarmer_atkl4 = [ 52, swarmer_atkl5 ]{ai_swarmer_charge(24);swarmer_meleeAttack();};
-void() swarmer_atkl5 = [ 53, swarmer_atkl6 ]{ai_swarmer_charge(24);};
-void() swarmer_atkl6 = [ 54, swarmer_atkl7 ]{ai_swarmer_charge(24);};
-void() swarmer_atkl7 = [ 55, swarmer_atkl8 ]{ai_swarmer_charge(24);};
-void() swarmer_atkl8 = [ 56, swarmer_run1 ]{ai_swarmer_charge(24);};
+void() swarmer_atkl1 = [ 49, swarmer_atkl2 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkl2 = [ 50, swarmer_atkl3 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkl3 = [ 51, swarmer_atkl4 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkl4 = [ 52, swarmer_atkl5 ]{swarmer_transparency(); ai_swarmer_charge(24);swarmer_meleeAttack();};
+void() swarmer_atkl5 = [ 53, swarmer_atkl6 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkl6 = [ 54, swarmer_atkl7 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkl7 = [ 55, swarmer_atkl8 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkl8 = [ 56, swarmer_run1  ]{swarmer_transparency(); ai_swarmer_charge(24);};
 
-void() swarmer_atkr1 = [ 57, swarmer_atkr2 ]{ai_swarmer_charge(24);};
-void() swarmer_atkr2 = [ 58, swarmer_atkr3 ]{ai_swarmer_charge(24);};
-void() swarmer_atkr3 = [ 59, swarmer_atkr4 ]{ai_swarmer_charge(24);};
-void() swarmer_atkr4 = [ 60, swarmer_atkr5 ]{ai_swarmer_charge(24);swarmer_meleeAttack();};
-void() swarmer_atkr5 = [ 61, swarmer_atkr6 ]{ai_swarmer_charge(24);};
-void() swarmer_atkr6 = [ 62, swarmer_atkr7 ]{ai_swarmer_charge(24);};
-void() swarmer_atkr7 = [ 63, swarmer_atkr8 ]{ai_swarmer_charge(24);};
-void() swarmer_atkr8 = [ 64, swarmer_run1 ]{ai_swarmer_charge(24);};
+void() swarmer_atkr1 = [ 57, swarmer_atkr2 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkr2 = [ 58, swarmer_atkr3 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkr3 = [ 59, swarmer_atkr4 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkr4 = [ 60, swarmer_atkr5 ]{swarmer_transparency(); ai_swarmer_charge(24);swarmer_meleeAttack();};
+void() swarmer_atkr5 = [ 61, swarmer_atkr6 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkr6 = [ 62, swarmer_atkr7 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkr7 = [ 63, swarmer_atkr8 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkr8 = [ 64, swarmer_run1  ]{swarmer_transparency(); ai_swarmer_charge(24);};
 
-void() swarmer_atkm1 = [ 65, swarmer_atkm2 ]{ai_swarmer_charge(24);};
-void() swarmer_atkm2 = [ 66, swarmer_atkm3 ]{ai_swarmer_charge(24);};
-void() swarmer_atkm3 = [ 67, swarmer_atkm4 ]{ai_swarmer_charge(24);};
-void() swarmer_atkm4 = [ 68, swarmer_atkm5 ]{ai_swarmer_charge(24);swarmer_meleeAttack();};
-void() swarmer_atkm5 = [ 69, swarmer_atkm6 ]{ai_swarmer_charge(24);};
-void() swarmer_atkm6 = [ 70, swarmer_atkm7 ]{ai_swarmer_charge(24);};
-void() swarmer_atkm7 = [ 71, swarmer_atkm8 ]{ai_swarmer_charge(24);};
-void() swarmer_atkm8 = [ 72, swarmer_run1 ]{ai_swarmer_charge(24);};
+void() swarmer_atkm1 = [ 65, swarmer_atkm2 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkm2 = [ 66, swarmer_atkm3 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkm3 = [ 67, swarmer_atkm4 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkm4 = [ 68, swarmer_atkm5 ]{swarmer_transparency(); ai_swarmer_charge(24);swarmer_meleeAttack();};
+void() swarmer_atkm5 = [ 69, swarmer_atkm6 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkm6 = [ 70, swarmer_atkm7 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkm7 = [ 71, swarmer_atkm8 ]{swarmer_transparency(); ai_swarmer_charge(24);};
+void() swarmer_atkm8 = [ 72, swarmer_run1  ]{swarmer_transparency(); ai_swarmer_charge(24);};
+
+void() swarmer_transparency =
+{
+	if (skill < 3) return;
+    if (!self.enemy) return;
+	dprint(ftos(self.alpha));
+
+    float dist = vlen(self.origin - self.enemy.origin);
+	self.alpha = 1.0 - (0.8 * sqrt((dist - 100) / 300.0));
+};
 
 void() swarmer_melee =
 {
