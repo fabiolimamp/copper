@@ -302,7 +302,7 @@ void() weapon_lmg =
 	precache_model_safe ("progs/g_lmg.mdl");
 	setmodel (self, "progs/g_lmg.mdl");
 	self.items = IT_LIGHTNING;
-	self.ammo_cells = 12;
+	self.ammo_cells = 50;
 	self.netname = "Prototype";
 	StartWeapon();
 }
@@ -563,13 +563,13 @@ void() item_cells =
 	if (!SUB_ShouldSpawn()) return;
 	if (self.spawnflags & ITEM_AMMO_BIG)
 	{
-		self.ammo_cells = 12;
+		self.ammo_cells = 40;
 		precache_model_safe ("progs/m_cells2.mdl");
 		setmodel (self, "progs/m_cells2.mdl");
 	}
 	else
 	{
-		self.ammo_cells = 6;
+		self.ammo_cells = 20;
 		precache_model_safe ("progs/m_cells1.mdl");
 		setmodel (self, "progs/m_cells1.mdl");
 	}
