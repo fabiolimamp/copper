@@ -391,16 +391,10 @@ void(entity attacker, float damage)	ogre_pain =
 	if (skill == 3)
 		r *= random();	// nightmare: make the long stuns rare
 	
-	if (r < 0.25)
-		ogre_painb1 ();	// shortest
-	else if (r < 0.5)
+	if (r > 0.12) //since we removed the other pain anims, i recalculated the base chance of the pain anims. longest is 12% #funfact
 		ogre_pain1 ();
-	else if (r < 0.75)
-		ogre_painc1 ();
-	else if (r < 0.88)
-		ogre_paine1 ();
 	else
-		ogre_paind1 ();	// longest
+		ogre_paind1 ();
 }
 
 void()	ogre_die1	=[	$death1,	ogre_die2	] {if (ogre_checkgib()) return;}
