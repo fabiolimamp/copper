@@ -449,13 +449,11 @@ void (void() th) ai_check_refire =
 // for speedy nightmare think rates on melee monsters
 void(float rate) nmspeed =
 {
-	if (skill == 3)
 		self.walkframe = rate;
-	else
-		self.walkframe = 0.1;
 }
 void() nmfast =
 {
+	if !(skill == 3) return;
 	if (self.health > 0 && self.nextthink > 0)
 		self.nextthink = time + self.walkframe;
 }
