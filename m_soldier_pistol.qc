@@ -93,22 +93,67 @@ void()	pistolarmy_run6	=[	$run6,		pistolarmy_run7	] {nmfast(); ai_run(15);}
 void()	pistolarmy_run7	=[	$run7,		pistolarmy_run8	] {nmfast(); ai_run(10);}
 void()	pistolarmy_run8	=[	$run8,		pistolarmy_run1	] {nmfast(); ai_run(8);}
 
-void()	pistolarmy_atk1		    =[	$shoot1,	pistolarmy_atk2		    ] {nmfast();ai_face();}
-void()	pistolarmy_atk2		    =[	$shoot2,	pistolarmy_atk3		    ] {nmfast();ai_face(); pistolarmy_aim();}
-void()	pistolarmy_atk3		    =[	$shoot3,	pistolarmy_atk4		    ] {nmfast();ai_face(); }
-void()	pistolarmy_atk4		    =[	$shoot4,	pistolarmy_atk5		    ] {nmfast();ai_face(); pistolarmy_fire();}
-void()	pistolarmy_atk5		    =[	$shoot2,	pistolarmy_atk6		    ] {nmfast();ai_face(); pistolarmy_aim();}
-void()	pistolarmy_atk6		    =[	$shoot3,	pistolarmy_atk7		    ] {nmfast();ai_face();}
-void()	pistolarmy_atk7		    =[	$shoot4,	pistolarmy_atk8		    ] {nmfast();ai_face(); pistolarmy_fire();}
-void()	pistolarmy_atk8		    =[	$shoot2,	pistolarmy_atk9		    ] {nmfast();ai_face(); pistolarmy_aim();}
-void()	pistolarmy_atk9		    =[	$shoot3,	pistolarmy_atk10		] {nmfast();ai_face();}
-void()	pistolarmy_atk10		=[	$shoot4,	pistolarmy_atk11		] {nmfast();ai_face(); pistolarmy_fire(); ai_check_refire (pistolarmy_atk2);}
-void()	pistolarmy_atk11		=[	$shoot2,	pistolarmy_atk12		] {nmfast();ai_face();}
-void()	pistolarmy_atk12		=[	$shoot3,	pistolarmy_atk13		] {nmfast();ai_face();}
-void()	pistolarmy_atk13	    =[	$shoot4,	pistolarmy_atk14        ] {nmfast(); ai_face();}
-void()	pistolarmy_atk14	    =[	$shoot7,	pistolarmy_atk15        ] {nmfast(); ai_face();}
-void()	pistolarmy_atk15	    =[	$shoot8,	pistolarmy_atk16        ] {nmfast(); ai_face(); ai_attack_finished (0.3 + random() + random());}
-void()	pistolarmy_atk16	    =[	$shoot9,	pistolarmy_run1	        ] {nmfast(); ai_face();}
+void()	pistolarmy_atk1		=[	$shoot1,	pistolarmy_atk2		] {nmfast(); ai_face();}
+void()	pistolarmy_atk2		=[	$shoot2,	pistolarmy_atk3		] {nmfast(); ai_face();}
+void()	pistolarmy_atk3		=[	$shoot3,	pistolarmy_atk4		] {nmfast(); ai_face(); pistolarmy_aim();}
+void()	pistolarmy_atk4		=[	$shoot4,	pistolarmy_atk5		] {nmfast(); ai_face();}
+void()	pistolarmy_atk5		=[	$shoot5,	pistolarmy_atk6		] {nmfast(); ai_face(); pistolarmy_fire();}
+void()	pistolarmy_atk6		=[	$shoot3,	pistolarmy_atk7		] {nmfast(); ai_face(); pistolarmy_aim();}
+void()	pistolarmy_atk7		=[	$shoot4,	pistolarmy_atk8		] {nmfast(); ai_face();}
+void()	pistolarmy_atk8		=[	$shoot5,	pistolarmy_atk9		] {nmfast(); ai_face(); pistolarmy_fire();}
+void()	pistolarmy_atk9		=[	$shoot3,	pistolarmy_atk10	] {nmfast(); ai_face(); pistolarmy_aim();}
+void()	pistolarmy_atk10	=[	$shoot4,	pistolarmy_atk11	] {nmfast(); ai_face();}
+void()	pistolarmy_atk11	=[	$shoot5,	pistolarmy_atk12	] {nmfast(); ai_face(); pistolarmy_fire(); pistolarmy_nm_repeat(pistolarmy_atk3);}
+void()	pistolarmy_atk12	=[	$shoot6,	pistolarmy_atk13	] {nmfast(); ai_face();}
+void()	pistolarmy_atk13	=[	$shoot7,	pistolarmy_atk14    ] {nmfast(); ai_face();}
+void()	pistolarmy_atk14	=[	$shoot8,	pistolarmy_atk15    ] {nmfast(); ai_face();}
+void()	pistolarmy_atk15	=[	$shoot9,	pistolarmy_run1    ] {nmfast(); ai_face(); ai_attack_finished (0.3 + random() + random());}
+
+void(void() th) pistolarmy_nm_repeat =
+{
+	if (skill != 3) return;
+	if (!alive(self.enemy)) return;
+
+	if (chaingunner_clear_attack)
+	{
+		self.cnt += 1;
+		self.think = th;
+		return;
+	}
+
+	self.cnt = 0;
+}
+
+float() chaingunner_clear_attack =
+{
+	vector spot1, spot2;
+
+	if (has_invis(self.enemy)) return TRUE;	// blast away
+
+	spot1 = self.origin;
+	spot2 = enemy_vispos() + self.enemy.view_ofs;
+
+	traceline2(spot1, spot2, self, TRACE_WATER);
+
+	if ((trace_inopen && trace_inwater) || (trace_ent != self.enemy))
+	{
+		if (self.cnt <= 4)
+		{
+			self.cnt++;
+			dprint("\bBlind Shots:\b ");
+			dprint(ftos(self.cnt));
+			dprint("\n");
+			return TRUE;
+		}
+		else
+		{
+			self.cnt = 0;
+			return FALSE;
+		}
+	}
+	self.cnt = 0;
+	return TRUE;
+}
 
 
 void()	pistolarmy_pain1	=[	$pain1,		pistolarmy_pain2	] {}
@@ -316,7 +361,7 @@ void() monster_pistolarmy_spawn =
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 35;
 
-	nmspeed(0.070);
+	nmspeed(0.075);
 
 	self.th_stand = pistolarmy_stand1;
 	self.th_walk = pistolarmy_walk1;
