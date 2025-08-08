@@ -575,10 +575,10 @@ float(entity e) target_items_testinv =
 	}	
 
 
-	if (self.ammo_shells && self.ammo_shells > e.ammo_shells) return FALSE;
-	if (self.ammo_nails && self.ammo_nails > e.ammo_nails) return FALSE;
-	if (self.ammo_rockets && self.ammo_rockets > e.ammo_rockets) return FALSE;
-	if (self.ammo_cells && self.ammo_cells > e.ammo_cells) return FALSE;
+	//if (self.ammo_shells && self.ammo_shells > e.ammo_shells) return FALSE;
+	//if (self.ammo_nails && self.ammo_nails > e.ammo_nails) return FALSE;
+	//if (self.ammo_rockets && self.ammo_rockets > e.ammo_rockets) return FALSE;
+	//if (self.ammo_cells && self.ammo_cells > e.ammo_cells) return FALSE;
 
 	if (self.items)
 	{

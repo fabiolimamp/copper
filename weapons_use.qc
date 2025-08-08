@@ -82,8 +82,13 @@ void() W_Precache =
 
 	precache_model ("progs/proj_nail.mdl");
 	precache_model ("progs/tracer_long_yellow.mdl");
-	
 
+	//=============================================================================================
+	
+	precache_model ("progs/v_bloodgem.mdl");
+	precache_model ("progs/railtrail_red.mdl");
+	precache_sound ("rail/rail_fire1.wav");	
+	
 	//=============================================================================================
 
 
@@ -230,11 +235,11 @@ weaponclass_t wpc_lmg = {
 	8, // slot
 	0, // slotPos
 	"LMG", // name
-	"progs/v_lmg.mdl", // model
+	"progs/v_bloodgem.mdl", // model
 	4, // ammofield
 	IT_CELLS, // ammo_item
 	1, // ammo_usage
-	weaponanim_LMG, // animfunction
+	weaponanim_bloodgem, // animfunction
 	SUB_Null // idlefunction
 };
 

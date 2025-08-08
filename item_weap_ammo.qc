@@ -563,18 +563,18 @@ void() item_cells =
 	if (!SUB_ShouldSpawn()) return;
 	if (self.spawnflags & ITEM_AMMO_BIG)
 	{
-		self.ammo_cells = 40;
+		self.ammo_cells = 1;
 		precache_model_safe ("progs/m_cells2.mdl");
 		setmodel (self, "progs/m_cells2.mdl");
 	}
 	else
 	{
-		self.ammo_cells = 20;
+		self.ammo_cells = 3;
 		precache_model_safe ("progs/m_cells1.mdl");
 		setmodel (self, "progs/m_cells1.mdl");
 	}
 	self.weapon = 4;
-	self.netname = "cells";
+	self.netname = "sanguine";
 	StartAmmo();
 }
 
