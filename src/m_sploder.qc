@@ -197,6 +197,7 @@ float(float dist, float dmg) SploderBlastRadius =
 void() sploder_explode =
 {
 	sound (self, CHAN_VOICE, "zombie/z_gib.wav", 1, ATTN_NORM);
+	
 	GibSpray ("progs/gib3.mdl", self.health);
 	
 	if (skill != 3)
@@ -384,6 +385,7 @@ void() monster_sploder =
 	precache_model ("progs/s_blood_128x.spr");
 	precache_model ("progs/s_blood_96x.spr");
 	precache_model ("progs/s_blood_64x.spr");
+	precache_model ("progs/gib3.mdl");
 
 	self.health = 40;
 	setsize (self, '-16 -16 -24', '16 16 24');
