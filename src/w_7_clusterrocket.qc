@@ -1,0 +1,262 @@
+////////////////////////////////////////////////////////////////////////////////////////////////
+// EE code by bmFbr, (bad) edits by Kebby
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+float() weaponanim_boxrocket = {
+	if (self.attack_finished > time)
+		return FALSE;
+
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+		W_ChangeWeapon(W_BestWeapon());
+		return FALSE;
+	}
+
+	self.attack_finished = time + 1.6;
+	
+	SUB_CallAsSelf(player_rockatt1, self.animcontroller);
+	
+	boxrocket_launch('0 -6 -8', 1);
+	
+	self.weaponframe = 1;
+	self.think = weaponanim_boxrocket_loop;
+	self.nextthink = time + 0.05;
+	
+	return TRUE;
+}
+
+void() weaponanim_boxrocket_loop = {
+
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+		self.attack_finished = time + 0.05;
+		W_ChangeWeapon(W_BestWeapon());
+		return FALSE;
+	}
+	/*
+	if (self.weaponframe == 2)  boxrocket_launch('0 6 -16', FALSE);
+	if (self.weaponframe == 4)  boxrocket_launch('0 -6 -32', TRUE);
+	if (self.weaponframe == 6)  boxrocket_launch('0 -6 -32', FALSE);
+	if (self.weaponframe == 8)  boxrocket_launch('0 -6 -16', TRUE);
+	if (self.weaponframe == 10) boxrocket_launch('0 6 -16', FALSE);
+	if (self.weaponframe == 12) boxrocket_launch('0 -6 -32', TRUE);
+	if (self.weaponframe == 14) boxrocket_launch('0 6 -32', FALSE);
+	*/
+	if (self.weaponframe == 2)  boxrocket_launch('0 -2 -8', 0);
+	if (self.weaponframe == 4)  boxrocket_launch('0  2 -8', 1);
+	if (self.weaponframe == 6)  boxrocket_launch('0  6 -8', 0);
+	if (self.weaponframe == 8)  boxrocket_launch('0 -6 -12', 1);
+	if (self.weaponframe == 10) boxrocket_launch('0 -2 -12', 0);
+	if (self.weaponframe == 12) boxrocket_launch('0  2 -12', 1);
+	if (self.weaponframe == 14) boxrocket_launch('0  6 -12', 0);
+
+
+	if (self.weaponframe >= 32) {
+		self.weaponframe = 0;
+		return;
+	}
+	else {
+		self.weaponframe++;
+	}
+
+	self.think = weaponanim_boxrocket_loop;
+	self.nextthink = time + 0.05;
+
+}
+
+
+//=====================================================================================================================
+
+void(vector ofs, float ammoUsage) boxrocket_launch = {
+	self.currentammo = self.ammo_rockets = self.ammo_rockets - ammoUsage;
+	self.punchangle_x = -2;
+	self.effects = self.effects | EF_MUZZLEFLASH;
+
+	W_FireSpiralRocket(ofs);
+}
+
+void(vector ofs) W_FireSpiralRocket =
+{
+	local	vector dir, org;
+
+	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
+
+	makevectors (self.v_angle);
+	dir = aim(self, 1000);
+
+	org = self.origin + self.view_ofs + v_up*ofs_z + v_right*ofs_y;
+	traceline(org, org + v_forward * 15, FALSE, self);
+	launch_spiralrocket(org + v_forward*15 * trace_fraction, dir, 0);
+	
+};
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+float() weaponanim_twinrocket = {
+	if (self.attack_finished > time)
+		return FALSE;
+
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+		W_ChangeWeapon(W_BestWeapon());
+		return FALSE;
+	}
+
+	self.currentammo = self.ammo_rockets = self.ammo_rockets - 2;
+
+	self.attack_finished = time + 1.2;
+	
+	SUB_CallAsSelf(player_rockatt1, self.animcontroller);
+	
+	self.effects = self.effects | EF_MUZZLEFLASH;
+
+	//W_FireRocket();
+	W_FireSpiralRocket();
+
+	self.weaponframe = 1;
+	self.think = weaponanim_twinrocket_loop;
+	self.nextthink = time + 0.05;
+	
+	return TRUE;
+}
+
+void() weaponanim_twinrocket_loop = {
+
+	if (self.weaponframe >= 32) {
+		self.weaponframe = 0;
+		return;
+	}
+	else {
+		self.weaponframe++;
+	}
+
+	self.think = weaponanim_twinrocket_loop;
+	self.nextthink = time + 0.05;
+
+}
+*/
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void() spiralrocket_touch =
+{
+	local float	damg, rdamg;
+
+	if (other == self.owner)
+		return;		// don't explode on owner
+
+	if (pointcontents(self.origin) == CONTENT_SKY)	{
+		remove(self.buddy);
+		remove(self);
+		return;
+	}
+
+	damg = 50 + random()*10;
+	rdamg = 60;
+
+	if (other.health)
+		T_Damage(other, self, self.owner, damg, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );
+		
+	
+	// don't do radius damage to the other, because all the damage
+	// was done in the impact.
+	// Radius damage type will always be EXPLOSION
+	vector prev_vel = self.velocity;
+	//self.velocity = '0 0 0';
+	T_RadiusDamage (self, self.owner, rdamg, other, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );
+
+	self.origin = self.origin - 8*normalize(prev_vel);
+
+	remove(self.buddy);
+
+	if (other.classname == "monster_shambler")
+		BecomeMiniBlast(2); //weak, no TE_effects
+	else
+		BecomeMiniBlast(0); //normal, no TE_effects
+};
+//=============================================================================================
+
+void(float blasttype) BecomeMiniBlast = 
+{
+	// no extra explosion effects for minis, too much spam, sprites only
+	
+	if (blasttype == 2)
+		setmodel (self, "progs/s_explo2.spr");
+	else
+		setmodel (self, "progs/s_explod.spr");
+	
+	self.movetype = MOVETYPE_NONE;
+	self.velocity = '0 0 0';
+	self.touch = SUB_Null;
+	self.solid = SOLID_NOT;
+	s_explode1 ();
+}
+//=============================================================================
+
+void(vector org, vector dir, float init_angle) launch_spiralrocket = {
+	//local	entity missile;
+
+	entity pointer = spawn();
+	pointer.owner = self;
+	pointer.enemy = self.enemy;
+	pointer.movetype = MOVETYPE_NOCLIP;
+	pointer.solid = SOLID_NOT;
+	setorigin (pointer, org);	
+	pointer.think = SUB_Remove;
+	pointer.nextthink = time + 6;
+	pointer.classname = "spiralrocket_pointer";
+	pointer.velocity = dir * 1000;
+	pointer.ideal_yaw = init_angle;
+
+	vector ang = vectoangles(dir);
+	makevectors([-ang_x, ang_y, ang_z]);
+	pointer.dest1 = v_right;
+	pointer.dest2 = v_up;
+	
+	setorigin (pointer, org);
+
+	entity newmis = spawn();
+	newmis.owner = self;
+	newmis.movetype = MOVETYPE_FLYMISSILE;
+	newmis.solid = SOLID_BBOX;
+	newmis.classname = "missile";
+	newmis.type = "missile";
+	newmis.touch = spiralrocket_touch;
+	newmis.angles = vectoangles(dir);
+	newmis.velocity = dir * 1000;
+
+	setmodel (newmis, "progs/proj_missile.mdl");
+	setsize (newmis, '0 0 0', '0 0 0');
+	setorigin (newmis, org);
+
+	newmis.buddy = pointer;
+	pointer.buddy = newmis;
+
+	newmis.attack_finished = time + 5;
+
+	//newmis.nextthink = time + 0.25; //0.05;
+	newmis.nextthink = time + 0.1; //0.05;
+	newmis.think = spiralrocket_think;
+	
+	
+	//newmis = missile;
+};
+//=============================================================================
+
+void() spiralrocket_think = {
+	if (time > self.attack_finished) {
+		if (self.buddy) remove(self.buddy);
+		remove(self);
+	}
+
+	entity ptr = self.buddy;
+	
+	float interval = 0.025;
+
+	ptr.ideal_yaw += 36;
+
+	vector dest = ptr.origin + ptr.velocity*interval + cos(ptr.ideal_yaw)*ptr.dest1*6 + sin(ptr.ideal_yaw)*ptr.dest2*6;
+
+	self.velocity = (dest - self.origin)/interval;
+	self.avelocity_z = -540;
+
+	self.nextthink = time + interval;
+}
