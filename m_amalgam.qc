@@ -348,7 +348,7 @@ float() AmalgamCheckAttack =
 
 
 void()	amalgam_die1	=[	$death1,	amalgam_die2	] {self.movetype = MOVETYPE_NONE;}
-void()	amalgam_die2	=[	$death2,	amalgam_die3	] {SpawnMeatSpray(self.origin + v_forward*16, crandom() * 100 * v_right);}
+void()	amalgam_die2	=[	$death2,	amalgam_die3	] {SpawnMeatUndConcreteBurst(self.origin + v_forward*16, crandom() * 100 * v_right, 5);}
 void()	amalgam_die3	=[	$death3,	amalgam_die4	] {}
 void()	amalgam_die4	=[	$death4,	amalgam_die5	] {}
 void()	amalgam_die5	=[	$death5,	amalgam_die6	] {}
@@ -356,14 +356,71 @@ void()	amalgam_die6	=[	$death6,	amalgam_die7	] {}
 void()	amalgam_die7	=[	$death7,	amalgam_die8	] {}
 void()	amalgam_die8	=[	$death8,	amalgam_die9	] {}
 void()	amalgam_die9	=[	$death9,	amalgam_die10	] {}
-void()	amalgam_die10	=[	$death10,	amalgam_die11	] {SpawnMeatSpray(self.origin + v_forward*16, crandom() * 100 * v_right);}
+void()	amalgam_die10	=[	$death10,	amalgam_die11	] {SpawnMeatUndConcreteBurst(self.origin + v_forward*16, crandom() * 100 * v_right, 5);}
 void()	amalgam_die11	=[	$death11,	amalgam_die12	] {AmalGoop_Spam(2);}
 void()	amalgam_die12	=[	$death12,	amalgam_die13	] {AmalGoop_Spam(2);}
 void()	amalgam_die13	=[	$death13,	amalgam_die14	] {AmalGoop_Spam(2);}
 void()	amalgam_die14	=[	$death14,	amalgam_die15	] {AmalGoop_Spam(1);}
 void()	amalgam_die15	=[	$death15,	amalgam_die16	] {AmalGoop_Spam(1);}
-void()	amalgam_die16	=[	$death16,	amalgam_die17	] {SpawnMeatSpray(self.origin + v_forward*16, crandom() * 100 * v_right);}
+void()	amalgam_die16	=[	$death16,	amalgam_die17	] {SpawnMeatUndConcreteBurst(self.origin + v_forward*16, crandom() * 100 * v_right, 5);}
 void()	amalgam_die17	=[	$death16,	SUB_Null		] {AmalGoop_Spam(4); GoopBlood(1); remove(self);}
+
+void(vector org, vector vel, float count) SpawnMeatUndConcreteBurst =
+{
+    local float i;
+    local vector randvel;
+
+    for (i = 0; i < count; i = i + 1)
+    {
+        randvel = vel;
+        randvel = randvel + v_right * (crandom() * 200);
+        randvel = randvel + v_up * (crandom() * 200);
+        randvel = randvel + v_forward * (crandom() * 200);
+
+        SpawnMeatUndConcreteSpray(org, randvel);
+    }
+};
+
+
+void(vector org, vector vel) SpawnMeatUndConcreteSpray =
+{
+    entity meat;
+    vector mvel;
+    float r;
+    string gibmdl;
+
+    mvel = vel;
+    mvel_z += 250 + 50 * random();
+
+    meat = toss_projectile(org, mvel, "gib");
+    meat.type = "gib";
+    meat.avelocity = '3000 1000 2000';
+    meat.lifetime_finished = time + 30;
+
+    r = floor(random() * 9);
+
+    if (r == 0)
+        gibmdl = "progs/gibs/gib_conc_1.mdl";
+    else if (r == 1)
+        gibmdl = "progs/gibs/gib_conc_2.mdl";
+    else if (r == 2)
+        gibmdl = "progs/gibs/gib_conc_3.mdl";
+    else if (r == 3)
+        gibmdl = "progs/gibs/gib_gen_1.mdl";
+    else if (r == 4)
+        gibmdl = "progs/gibs/gib_gen_2.mdl";
+    else if (r == 5)
+        gibmdl = "progs/gibs/gib_gen_3.mdl";
+    else if (r == 6)
+        gibmdl = "progs/gibs/gib_gen_4.mdl";
+    else if (r == 7)
+        gibmdl = "progs/gibs/gib_gen_5.mdl";
+    else
+        gibmdl = "progs/gibs/gib_gen_6.mdl";
+
+    SUB_ChangeModel(meat, gibmdl);
+};
+
 
 void(float drop_count) AmalGoop_Spam =
 {

@@ -303,7 +303,7 @@ float() enf_checkgib =
 {
 	if (self.health < -35)
 	{
-		Gib ("progs/h_mega.mdl", self.health);
+		Gib ("progs/gibs/gibhead_enforcer.mdl", self.health);
 		return TRUE;
 	}
 	return FALSE;
@@ -381,7 +381,7 @@ void() monster_enforcer =
 		return;
 	}
 	precache_model2 ("progs/enforcer_qbj.mdl");
-	precache_model2 ("progs/h_mega.mdl");
+	precache_model2 ("progs/gibs/gibhead_enforcer.mdl");
 	precache_model2 ("progs/laser.mdl");
 
 	precache_sound2 ("enforcer/death1.wav");

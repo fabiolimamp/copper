@@ -191,7 +191,7 @@ float() shalrath_checkgib =
 {
 	if (self.health < -90)
 	{
-		Gib ("progs/h_shal.mdl", self.health);
+		Gib ("progs/gibs/gibhead_vore.mdl", self.health);
 		return TRUE;
 	}
 	return FALSE;
@@ -295,7 +295,7 @@ void() ShalHome =
 			|| self.owner.customflags & CFL_PLUNGE )	// or falls in a hole
 		{
 			self.deadflag = TRUE;
-			setmodel(self, "progs/v_spike2.mdl");	// stop sparkling
+			setmodel(self, "progs/proj_voreball2.mdl");	// stop sparkling
 			setsize(self, VEC_ORIGIN, VEC_ORIGIN);
 		}
 	}
@@ -412,7 +412,7 @@ void() ShalMissile =
 	
 	missile = launch_projectile(self.origin + '0 0 10' + v_forward * 16, dir * SHAL_BALL_VEL, "voreball");
 
-	SUB_ChangeModel (missile, "progs/v_spike.mdl");
+	SUB_ChangeModel (missile, "progs/proj_voreball.mdl");
 
 	missile.avelocity = '300 300 300';
 	missile.nextthink = time + 0.1;
@@ -484,9 +484,9 @@ void() monster_shalrath =
 		return;
 	}
 	precache_model2 ("progs/shalrath_qbj.mdl");
-	precache_model2 ("progs/h_shal.mdl");
-	precache_model2 ("progs/v_spike.mdl");
-	precache_model2 ("progs/v_spike2.mdl");
+	precache_model2 ("progs/gibs/gibhead_vore.mdl");
+	precache_model2 ("progs/proj_voreball.mdl");
+	precache_model2 ("progs/proj_voreball2.mdl");
 	
 	precache_sound2 ("shalrath/attack.wav");
 	precache_sound2 ("shalrath/attack2.wav");

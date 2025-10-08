@@ -257,7 +257,7 @@ float() dog_checkgib =
 {
 	if (self.health < -35)
 	{
-		Gib ("progs/h_dog.mdl", self.health);
+		Gib ("progs/gibs/gibhead_dog.mdl", self.health);
 		return TRUE;
 	}
 	return FALSE;
@@ -409,7 +409,7 @@ void() monster_dog =
 		remove(self);
 		return;
 	}
-	precache_model ("progs/h_dog.mdl");
+	precache_model ("progs/gibs/gibhead_dog.mdl");
 	precache_model ("progs/dog_qbj.mdl");
 
 	precache_sound ("dog/dattack1.wav");

@@ -434,7 +434,7 @@ float() ogre_checkgib =
 {
 	if (self.health < -80)
 	{
-		Gib ("progs/h_ogre.mdl", self.health);
+		Gib ("progs/gibs/gibhead_ogre.mdl", self.health);
 		ogre_dropammo();
 		return TRUE;
 	}
@@ -530,7 +530,7 @@ void() monster_ogre =
 	}
 
 	precache_model ("progs/ogre.mdl");
-	precache_model ("progs/h_ogre.mdl");
+	precache_model ("progs/gibs/gibhead_ogre.mdl");
 	precache_model ("progs/proj_grenade.mdl");
 
 	precache_sound ("ogre/ogdrag.wav");

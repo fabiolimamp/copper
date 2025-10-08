@@ -222,7 +222,7 @@ float() knight_checkgib =
 {
 	if (self.health < -40)
 	{
-		Gib ("progs/h_knight.mdl", self.health);
+		Gib ("progs/gibs/gibhead_knight.mdl", self.health);
 		return TRUE;
 	}
 	return FALSE;
@@ -304,7 +304,7 @@ void() monster_knight =
 		return;
 	}
 	precache_model ("progs/knight_qbj.mdl");
-	precache_model ("progs/h_knight.mdl");
+	precache_model ("progs/gibs/gibhead_knight.mdl");
 	precache_sound ("knight/kdeath.wav");
 	precache_sound ("knight/khurt.wav");
 	precache_sound ("knight/ksight.wav");

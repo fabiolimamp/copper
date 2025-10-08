@@ -323,7 +323,7 @@ float() swarmer_checkgib =
 {	
 	if (self.health < -40)
 	{
-		Gib("progs/h_zombie.mdl", self.health);
+		Gib("progs/gibs/gibhead_swarmer.mdl", self.health);
 		return TRUE;
 	}
 	return FALSE;
@@ -369,7 +369,7 @@ void(entity attacker, float take) swarmer_pain = {
 void() monster_swarmer_precaches =
 {
 	precache_model("progs/swarmer.mdl");
-	precache_model("progs/h_zombie.mdl");
+	precache_model("progs/gibs/gibhead_swarmer.mdl");
 	precache_model("progs/zom_gib.mdl");
 	precache_sound("swarmer/sight1.wav");
 	precache_sound("swarmer/sight2.wav");

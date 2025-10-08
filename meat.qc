@@ -142,9 +142,74 @@ void(string gibname, float dm) ThrowHead =
 // Gib & GibSpray are split up since some monsters play special gib sounds (zombies/players)
 void(string headmdl, float dm) GibSpray =
 {
-	ThrowGib ("progs/gib1.mdl", GibVelocityComplete(self, dm));
-	ThrowGib ("progs/gib2.mdl", GibVelocityComplete(self, dm));
-	ThrowGib ("progs/gib3.mdl", GibVelocityComplete(self, dm));
+	float r;
+
+	// Shambler-specific gib handling
+	if (headmdl == "progs/gibs/gibhead_shambler.mdl" || headmdl == "progs/gibs/gib_shambler_6.mdl")
+	{
+		ThrowGib("progs/gibs/gib_shambler_1.mdl", GibVelocityComplete(self, dm));
+		ThrowGib("progs/gibs/gib_shambler_3.mdl", GibVelocityComplete(self, dm));
+
+		r = random();
+		if (r < 0.2)
+			ThrowGib("progs/gibs/gib_shambler_2.mdl", GibVelocityComplete(self, dm));
+		else if (r < 0.6)
+			ThrowGib("progs/gibs/gib_shambler_4.mdl", GibVelocityComplete(self, dm));
+		else
+			ThrowGib("progs/gibs/gib_shambler_5.mdl", GibVelocityComplete(self, dm));
+	}
+	else
+	{
+		// Default generic gib handling
+		ThrowGib("progs/gibs/gib_gen_1.mdl", GibVelocityComplete(self, dm));
+		ThrowGib("progs/gibs/gib_gen_2.mdl", GibVelocityComplete(self, dm));
+
+		r = random();
+		if (r < 0.5)
+			ThrowGib("progs/gibs/gib_gen_3.mdl", GibVelocityComplete(self, dm));
+		else
+			ThrowGib("progs/gibs/gib_gen_4.mdl", GibVelocityComplete(self, dm));
+
+		r = random();
+		if (r < 0.5)
+			ThrowGib("progs/gibs/gib_gen_5.mdl", GibVelocityComplete(self, dm));
+		else
+			ThrowGib("progs/gibs/gib_gen_6.mdl", GibVelocityComplete(self, dm));
+	}
+
+	if (self.classname != "player" && damage_attacker.classname == "func_void")
+	{
+		SUB_Remove();
+		return;
+	}
+
+	self.customflags |= CFL_GIBBED;
+
+	if (headmdl != "NULL")
+		ThrowHead(headmdl, dm);
+
+	self.think = SUB_Remove;
+}
+
+
+void(string headmdl, float dm) GibSprayConc =
+{
+	float r;
+
+	ThrowGib ("progs/gibs/gib_gen_1.mdl", GibVelocityComplete(self, dm));
+	ThrowGib ("progs/gibs/gib_gen_2.mdl", GibVelocityComplete(self, dm));
+
+	r = random();
+	if (r < 0.5)
+		ThrowGib ("progs/gibs/gib_gen_3.mdl", GibVelocityComplete(self, dm));
+	else
+		ThrowGib ("progs/gibs/gib_gen_4.mdl", GibVelocityComplete(self, dm));
+
+	r = random();
+	if (r < 0.5)
+		ThrowGib ("progs/gibs/gib_gen_5.mdl", GibVelocityComplete(self, dm));
+	else
+		ThrowGib ("progs/gibs/gib_gen_6.mdl", GibVelocityComplete(self, dm));
 	
 	if (self.classname != "player" && damage_attacker.classname == "func_void" )
 	{

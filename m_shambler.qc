@@ -423,7 +423,10 @@ float() sham_checkgib =
 {	
 	if (self.health < -60)
 	{
-		Gib ("progs/h_shams.mdl", self.health);
+		if (random() > 0.05)
+			Gib ("progs/gibs/gibhead_shambler.mdl", self.health);
+		else
+			Gib ("progs/gibs/gib_shambler_6.mdl", self.health); //low chance to drop an arse instead of head
 		return TRUE;
 	}
 	return FALSE;
@@ -501,8 +504,15 @@ void() monster_shambler =
 	}
 	precache_model ("progs/shambler.mdl");
 	precache_model ("progs/s_light.mdl");
-	precache_model ("progs/h_shams.mdl");
 	precache_model ("progs/bolt.mdl");
+
+	precache_model ("progs/gibs/gib_shambler_1.mdl");
+	precache_model ("progs/gibs/gib_shambler_2.mdl");
+	precache_model ("progs/gibs/gib_shambler_3.mdl");
+	precache_model ("progs/gibs/gib_shambler_4.mdl");
+	precache_model ("progs/gibs/gib_shambler_5.mdl");
+	precache_model ("progs/gibs/gib_shambler_6.mdl");
+	precache_model ("progs/gibs/gibhead_shambler.mdl");
 	
 	precache_sound ("shambler/sattck1.wav");
 	precache_sound ("shambler/sboom.wav");

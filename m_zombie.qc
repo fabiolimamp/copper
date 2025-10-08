@@ -599,7 +599,7 @@ void() zombie_die =
 	if (self.customflags & CFL_RETURNED)
 		GibSpray ("progs/h_zombnm.mdl", self.health);
 	else
-		GibSpray ("progs/h_zombie.mdl", self.health);
+		GibSpray ("progs/gibs/gibhead_zombie.mdl", self.health);
 	
 	if (skill != 3) return;
 	
@@ -798,7 +798,7 @@ void() monster_zombie =
 	
 	precache_model ("progs/zombie.mdl");
 	precache_model ("progs/zombienm.mdl");
-	precache_model ("progs/h_zombie.mdl");
+	precache_model ("progs/gibs/gibhead_zombie.mdl");
 	precache_model ("progs/h_zombnm.mdl");
 	precache_model ("progs/proj_rebar_zom.mdl");
 	precache_model ("progs/proj_rebar_zom_nosmoke.mdl");

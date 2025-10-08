@@ -176,7 +176,7 @@ float() hknight_checkgib =
 {
 	if (self.health < -40)
 	{
-		Gib ("progs/h_hellkn.mdl", self.health);
+		Gib ("progs/gibs/gibhead_hellknight.mdl", self.health);
 		return TRUE;
 	}
 	return FALSE;
@@ -652,7 +652,7 @@ void() monster_hell_knight =
 	precache_model2 ("progs/k_spike.mdl");
 	precache_model2 ("progs/k_spike_cold.mdl");
 	precache_model2 ("progs/k_spike2.mdl");
-	precache_model2 ("progs/h_hellkn.mdl");
+	precache_model2 ("progs/gibs/gibhead_hellknight.mdl");
 
 	
 	precache_sound2 ("hknight/attack1.wav");

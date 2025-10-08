@@ -278,7 +278,7 @@ float() army_checkgib =
 {	
 	if (self.health < -35)
 	{
-		Gib("progs/h_guard.mdl", self.health);
+		Gib("progs/gibs/gibhead_grunt_s.mdl", self.health);
 		self.ammo_shells = 4; //FlakTax
 		DropBackpack(0);
 		return TRUE;
@@ -359,7 +359,7 @@ void() monster_army =
 		return;
 	}
 	precache_model ("progs/soldier_qbj.mdl");
-	precache_model ("progs/h_guard.mdl");
+	precache_model ("progs/gibs/gibhead_grunt_s.mdl");
 	precache_model ("progs/gib1.mdl");
 	precache_model ("progs/gib2.mdl");
 	precache_model ("progs/gib3.mdl");

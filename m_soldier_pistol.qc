@@ -329,7 +329,7 @@ float() pistolarmy_checkgib =
 {	
 	if (self.health < -35)
 	{
-		Gib("progs/h_guard.mdl", self.health);
+		Gib("progs/gibs/gibhead_grunt_p.mdl", self.health);
 		return TRUE;
 	}
 	return FALSE;
@@ -408,7 +408,7 @@ void() monster_army_pistol =
 		return;
 	}
 	precache_model ("progs/soldier_pistol_qbj.mdl");
-	precache_model ("progs/h_guard.mdl");
+	precache_model ("progs/gibs/gibhead_grunt_p.mdl");
 	precache_model ("progs/gib1.mdl");
 	precache_model ("progs/gib2.mdl");
 	precache_model ("progs/gib3.mdl");

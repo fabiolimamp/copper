@@ -323,7 +323,7 @@ float() wiz_checkgib =
 {
 	if (self.health < -40)
 	{
-		Gib ("progs/h_wizard.mdl", self.health);
+		Gib ("progs/gibs/gibhead_scrag.mdl", self.health);
 		return TRUE;
 	}
 	return FALSE;
@@ -406,7 +406,7 @@ void() monster_wizard =
 		return;
 	}
 	precache_model ("progs/wizard_qbj.mdl");
-	precache_model ("progs/h_wizard.mdl");
+	precache_model ("progs/gibs/gibhead_scrag.mdl");
 	precache_model ("progs/w_spike.mdl");
 	precache_model ("progs/w_spike2.mdl");
 

@@ -395,9 +395,25 @@ void() worldspawn =
 	precache_model ("progs/player.mdl");
 	precache_model ("progs/eyes.mdl");
 	precache_model ("progs/h_player.mdl");
-	precache_model ("progs/gib1.mdl");
-	precache_model ("progs/gib2.mdl");
-	precache_model ("progs/gib3.mdl");
+
+
+	precache_model ("progs/gibs/gib_gen_1.mdl"); // generic gibs
+	precache_model ("progs/gibs/gib_gen_2.mdl");
+	precache_model ("progs/gibs/gib_gen_3.mdl");
+	precache_model ("progs/gibs/gib_gen_4.mdl");
+	precache_model ("progs/gibs/gib_gen_5.mdl");
+	precache_model ("progs/gibs/gib_gen_6.mdl");
+
+	precache_model ("progs/gibs/gib_conc_1.mdl"); // concrete alt gibs
+	precache_model ("progs/gibs/gib_conc_2.mdl");
+	precache_model ("progs/gibs/gib_conc_3.mdl");
+
+	precache_model ("progs/gibs/gib_shambler_1.mdl"); // shambler specific gibs
+	precache_model ("progs/gibs/gib_shambler_2.mdl");
+	precache_model ("progs/gibs/gib_shambler_3.mdl");
+	precache_model ("progs/gibs/gib_shambler_4.mdl");
+	precache_model ("progs/gibs/gib_shambler_5.mdl");
+	precache_model ("progs/gibs/gib_shambler_6.mdl");
 
 	precache_model ("progs/s_bubble.spr");	// drowning bubbles
 	precache_model ("progs/s_explod.spr");	// sprite explosion

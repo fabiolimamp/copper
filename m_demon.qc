@@ -159,7 +159,7 @@ float() demon_checkgib =
 {
 	if (self.health < -80)
 	{
-		Gib ("progs/h_demon.mdl", self.health);
+		Gib ("progs/gibs/gibhead_demon.mdl", self.health);
 		return TRUE;
 	}
 	return FALSE;
@@ -628,7 +628,7 @@ void() monster_fiend =
 		return;
 	}
 	precache_model ("progs/demon_qbj.mdl");
-	precache_model ("progs/h_demon.mdl");
+	precache_model ("progs/gibs/gibhead_demon.mdl");
 
 	precache_sound ("demon/ddeath.wav");
 	precache_sound ("demon/dhit2.wav");
