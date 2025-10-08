@@ -479,7 +479,7 @@ void() monster_ogre_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/ogre.mdl");
+	setmodel (self, "progs/ogre_qbj.mdl");
 
 	setsize (self, VEC_HULL2_MIN, '32 32 40');
 	self.health = 200;
@@ -518,7 +518,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/ogre.mdl" }) = monster_ogre : "Ogre" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/ogre_qbj.mdl" }) = monster_ogre : "Ogre" []
 */
 void() monster_ogre =
 {
@@ -530,7 +530,7 @@ void() monster_ogre =
 		return;
 	}
 
-	precache_model ("progs/ogre.mdl");
+	precache_model ("progs/ogre_qbj.mdl");
 	precache_model ("progs/gibs/gibhead_ogre.mdl");
 	precache_model ("progs/proj_grenade.mdl");
 
