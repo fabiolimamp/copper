@@ -256,30 +256,30 @@ Spawnflag Usage:
 @PointClass base(Ammo)
     model(
         {{
-            spawnflags & 1 ->   ":maps/b_shell1.bsp",
-                                ":maps/b_shell0.bsp"
+            spawnflags & 1 ->   ":progs/m_shell2.mdl",
+                                ":progs/m_shell1.mdl"
         }}
     ) = item_shells : "Shells, 10/20" []
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 1 ->   ":maps/b_nail1.bsp",
-                                ":maps/b_nail0.bsp"
+            spawnflags & 1 ->   ":progs/m_nails2.mdl",
+                                ":progs/m_nails1.mdl"
         }}
     ) = item_spikes : "Nailgun/Perforator ammo, 25/50" []
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 1 ->   ":maps/b_rock1.bsp",
-                                ":maps/b_rock0.bsp"
+            spawnflags & 1 ->   ":progs/m_rock2.mdl",
+                                ":progs/m_rock1.mdl"
         }}
     ) =
     item_rockets : "Rockets, 4/8" []
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 1 ->   ":maps/b_batt1.bsp",
-                                ":maps/b_batt0.bsp"
+            spawnflags & 1 ->   ":progs/m_cells2.mdl",
+                                ":progs/m_cells1.mdl"
         }}
     ) =
     item_cells : "The Invoker, 1/2" []
