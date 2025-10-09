@@ -138,8 +138,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_pistol.mdl" }) = weapon_pistol : "Pistol. 
-5 Shells." []
+@PointClass base(Weapon) model({ "path": ":progs/g_pistol.mdl" }) = weapon_pistol : "Pistol." []
 */
 void() weapon_pistol =
 {
@@ -498,7 +497,7 @@ void() item_spikes =
 3 ammo points (rockets) for the Rocket/Grenade Launcher.
 
 Flags:
-"big" gives 6 instead of 3
+"big" gives 8 instead of 4
     
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up

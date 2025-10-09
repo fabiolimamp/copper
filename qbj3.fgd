@@ -237,8 +237,7 @@ Spawnflag Usage:
 // item_weap_ammo.qc
 //
 @baseclass size(-16 -16 0, 16 16 56) color(0 0 200) base(Item) = Weapon []
-@PointClass base(Weapon) model({ "path": ":progs/g_pistol.mdl" }) = weapon_pistol : "Pistol. 
-5 Shells." []
+@PointClass base(Weapon) model({ "path": ":progs/g_pistol.mdl" }) = weapon_pistol : "Pistol." []
 @PointClass base(Weapon) model({ "path": ":progs/g_flakshotgun.mdl" }) = weapon_flak : "Flak Shotgun.
 10 shells." []
 @PointClass base(Weapon) model({ "path": ":progs/g_tnailgun.mdl" }) = weapon_nailgun : "Twin Nailgun.
@@ -252,7 +251,7 @@ Spawnflag Usage:
 @PointClass base(Weapon) model({ "path": ":progs/g_invoker.mdl" }) = weapon_invoker : "The Invoker.
 1 cell." []
 @PointClass base(Weapon) model({ "path": ":progs/g_wrench.mdl" }) = weapon_wrench : "Wrench." []
-@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 1 : "Large box (2x)" : 0 ] ]
+@baseclass size(-16 -16 0, 16 16 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 1 : "Large box (2x)" : 0 ] ]
 @PointClass base(Ammo)
     model(
         {{
@@ -319,16 +318,16 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 @baseclass = svFlags [
 	svflags(Flags) =
 	[
-		1		: "Episode 1" : 0
-		2		: "Episode 2" : 0
-		4		: "Episode 3" : 0
-		8		: "Episode 4" : 0
-		16		: "Bit 5" :  0
-		32		: "Bit 6" :  0
-		64		: "Bit 7" :  0
-		128		: "Bit 8" :  0
-		256		: "Bit 9" :  0
-		512		: "Bit 10" : 0
+		1	: "Episode 1" : 0
+		2	: "Episode 2" : 0
+		4	: "Episode 3" : 0
+		8	: "Episode 4" : 0
+		16	: "Bit 5" :  0
+		32	: "Bit 6" :  0
+		64	: "Bit 7" :  0
+		128	: "Bit 8" :  0
+		256	: "Bit 9" :  0
+		512	: "Bit 10" : 0
 		1024	: "Bit 11" : 0
 		2048	: "Bit 12" : 0
 		4096	: "Bit 13" : 0
@@ -415,16 +414,16 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 @PointClass base(PlayerClass) = info_player_start2 : "Player episode return point. Fires targets when a player spawns here." [
 	svflags(Flags) =
 	[
-		1		: "Episode 1" : 0
-		2		: "Episode 2" : 0
-		4		: "Episode 3" : 0
-		8		: "Episode 4" : 0
-		16		: "Bit 5" :  0
-		32		: "Bit 6" :  0
-		64		: "Bit 7" :  0
-		128		: "Bit 8" :  0
-		256		: "Bit 9" :  0
-		512		: "Bit 10" : 0
+		1	: "Episode 1" : 0
+		2	: "Episode 2" : 0
+		4	: "Episode 3" : 0
+		8	: "Episode 4" : 0
+		16	: "Bit 5" :  0
+		32	: "Bit 6" :  0
+		64	: "Bit 7" :  0
+		128	: "Bit 8" :  0
+		256	: "Bit 9" :  0
+		512	: "Bit 10" : 0
 		1024	: "Bit 11" : 0
 		2048	: "Bit 12" : 0
 		4096	: "Bit 13" : 0
@@ -493,7 +492,7 @@ Alt Target Pattern: 'target' when starting to open, 'target2' when opened, 'targ
 	speed2(integer) : "Close Speed (if different from open speed)" : 0
 	sounds(choices) : "Sound" : 0 = 
 	[
-        0: "Silent"
+        	0: "Silent"
 		1: "Stone"
 		2: "Machine"
 		3: "Stone Chain"
@@ -517,9 +516,9 @@ Alt Target Pattern: 'target' when starting to open, 'target2' when opened, 'targ
 		1 : "Starts Open" : 0
 		4 : "Don't link with touching" : 0
 		8 : "Gold Key" : 0
-        16 : "Silver Key" : 0
-        32 : "Toggle" : 0
-        64 : "Crusher" : 0
+	        16 : "Silver Key" : 0
+        	32 : "Toggle" : 0
+        	64 : "Crusher" : 0
 	]
 ]
 @SolidClass base(Appearflags, Targetname, Target, Func) = func_door_secret : 
@@ -554,7 +553,7 @@ Activating this door with a trigger while it is opening will have no effect. Act
 		2 : "Move left first" : 0
 		4 : "Move down first" : 0
 		8 : "Not shootable" : 0
-        16 : "Always shootable" : 0
+        	16 : "Always shootable" : 0
 	]
 ]
 
