@@ -215,7 +215,7 @@ BIOSUIT
 */
 void() precache_envirosuit =
 {
-	precache_model_safe ("progs/suit.mdl");
+	precache_model_safe ("progs/item_suit.mdl");
 	precache_sound_safe ("items/suit.wav");
 	precache_sound_safe ("items/suit2.wav");
 }
@@ -229,7 +229,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/suit.mdl" }) =
+@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/item_suit.mdl" }) =
 	item_artifact_envirosuit : "Envirosuit. Player takes no damage from water or slime for 30 seconds. Lava damage is reduced by one height step, enabling wading in foot-deep lava." []
 */
 void() item_artifact_envirosuit =
@@ -239,7 +239,7 @@ void() item_artifact_envirosuit =
 
 	precache_envirosuit();
 	self.noise = "items/suit.wav";
-	setmodel (self, "progs/suit.mdl");
+	setmodel (self, "progs/item_suit.mdl");
 	self.netname = "Biosuit";
 	self.items = IT_SUIT;
 	setsize (self, '-16 -16 -8', '16 16 48');
