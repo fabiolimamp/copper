@@ -171,7 +171,7 @@ PENTAGRAM
 */
 void() precache_invulnerability =
 {
-	precache_model_safe ("progs/invul.mdl");
+	precache_model_safe ("progs/item_invul.mdl");
 	precache_sound_safe ("items/protect.wav");
 	precache_sound_safe ("items/protect2.wav");
 	precache_sound_safe ("items/protect3.wav");
@@ -186,7 +186,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/invul.mdl" }) =
+@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/item_invul.mdl" }) =
 	item_artifact_invulnerability : "Pentagram of Protection. Player is invulnerable for 30 seconds (both health and armor)." []
 */
 void() item_artifact_invulnerability =
@@ -196,7 +196,7 @@ void() item_artifact_invulnerability =
 	precache_invulnerability();
 	
 	self.noise = "items/protect.wav";
-	setmodel (self, "progs/invul.mdl");
+	setmodel (self, "progs/item_invul.mdl");
 	self.netname = "Pentagram of Protection";
 	self.items = IT_INVULNERABILITY;
 	setsize (self, '-16 -16 -24', '16 16 32');
@@ -258,7 +258,7 @@ RING OF SHADOWS
 */
 void() precache_invisibility =
 {
-	precache_model_safe ("progs/invis.mdl");
+	precache_model_safe ("progs/item_invis.mdl");
 	precache_sound_safe ("items/inv1.wav");
 	precache_sound_safe ("items/inv2.wav");
 	precache_sound_safe ("items/inv3.wav");
@@ -275,7 +275,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/invis.mdl" }) = 
+@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/item_invis.mdl" }) = 
 	item_artifact_invisibility : "Ring of Shadows. Player is invisible for 30 seconds. Monsters will not awaken on sight, but they will on hearing sound (like gunfire). Awakened monsters will try to attack an invisible player and do an inaccurate job, possibly starting infights. 
 monster_dog can still smell an invisible player, but monster_tarbaby can't find the player at all." []
 */
@@ -285,7 +285,7 @@ void() item_artifact_invisibility =
 	self.touch = powerup_touch;
 	precache_invisibility();
 	self.noise = "items/inv1.wav";
-	setmodel (self, "progs/invis.mdl");
+	setmodel (self, "progs/item_invis.mdl");
 	self.netname = "Ring of Shadows";
 	self.items = IT_INVISIBILITY;
 	setsize (self, '-16 -16 -24', '16 16 32');
@@ -304,7 +304,7 @@ QUAD
 */
 void() precache_super_damage =
 {
-	precache_model_safe ("progs/quaddama.mdl");
+	precache_model_safe ("progs/item_quaddama.mdl");
 	precache_sound_safe ("items/damage.wav");
 	precache_sound_safe ("items/damage2.wav");
 	precache_sound_safe ("items/damage3.wav");
@@ -320,7 +320,7 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/quaddama.mdl" }) = item_artifact_super_damage : 
+@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/item_quaddama.mdl" }) = item_artifact_super_damage : 
 	"Quad Damage. Player's attacks do 4x damage and they stop paying attention to anything else." []
 */
 void() item_artifact_super_damage =
@@ -329,7 +329,7 @@ void() item_artifact_super_damage =
 	self.touch = powerup_touch;
 
 	precache_super_damage();
-	setmodel (self, "progs/quaddama.mdl");
+	setmodel (self, "progs/item_quaddama.mdl");
 	self.netname = "Quad Damage";
 	self.noise = "items/damage.wav";
 	self.items = IT_QUAD;
