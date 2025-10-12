@@ -518,7 +518,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/ogre_qbj.mdl" }) = monster_ogre : "Ogre" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/ogre_qbj.mdl", "skin": skin }) = monster_ogre : "Ogre" []
 */
 void() monster_ogre =
 {

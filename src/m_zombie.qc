@@ -746,7 +746,7 @@ void() monster_zombie_spawn =
 		self.th_die = zombie_die;
 		self.th_missile = zombie_missile;
 		self.th_checkattack = CheckAttack;
-		self.skin = 0;
+		//self.skin = 0;
 		
 		walkmonster_start();
 	}
@@ -773,7 +773,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/zombie_qbj.mdl" }) = monster_zombie : "Golem (Zombie)" 
+@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/zombie_qbj.mdl", "skin": skin }) = monster_zombie : "Golem (Zombie)" 
 [
 	spawnflags(Flags) = 
 	[

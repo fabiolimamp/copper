@@ -1823,50 +1823,63 @@ Alt Target Pattern: in distance mode, target is fading object, target2 on begin 
 //
 // m_ogre.qc
 //
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/ogre_qbj.mdl" }) = monster_ogre : "Ogre" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/ogre_qbj.mdl", "skin": skin }) = monster_ogre : "Ogre"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_demon.qc
 //
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/demon_qbj.mdl" }) = monster_fiend : "Fiend" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/demon_qbj.mdl", "skin": skin }) = monster_fiend : "Fiend"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_shambler.qc
 //
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shambler_qbj.mdl" }) = monster_shambler : "Shambler" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shambler_qbj.mdl", "skin": skin }) = monster_shambler : "Shambler"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_knight.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/knight_qbj.mdl" }) = monster_knight : "Knight" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/knight_qbj.mdl", "skin": skin }) = monster_knight : "Knight"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	2: "Statue"	3: "Statue Mossy"	]]
 
 
 //
 // m_soldier.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_qbj.mdl" }) = monster_army : "Shotgun Trenchknight (Shotgun Grunt)" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_qbj.mdl", "skin": skin }) = monster_army : "Shotgun Trenchknight (Shotgun Grunt)"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_wizard.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/wizard_qbj.mdl" }) = monster_wizard : "Scrag" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/wizard_qbj.mdl", "skin": skin }) = monster_wizard : "Scrag"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_dog.qc
 //
-@PointClass base(Monster) size(-32 -32 -24, 32 32 40) model({ "path": ":progs/dog_qbj.mdl" }) = monster_dog : "Rottweiler" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 40) model({ "path": ":progs/dog_qbj.mdl", "skin": skin }) = monster_dog : "Rottweiler"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_zombie.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/zombie_qbj.mdl" }) = monster_zombie : "Golem (Zombie)" 
+@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/zombie_qbj.mdl", "skin": skin }) = monster_zombie : "Golem (Zombie)" 
 [
+	skin(choices) : "Skin" : 0 =
+	[	
+		0: "Default"
+		1: "Alternate"
+	]
+
 	spawnflags(Flags) = 
 	[
 		1 : "Crucified" : 0
@@ -1898,31 +1911,36 @@ Setup is weird and special: it must find two func_doors each with a 'target' (no
 //
 // m_tarbaby.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/spawn_qbj.mdl" }) = monster_spawn : "Spawn" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/spawn_qbj.mdl", "skin": skin }) = monster_spawn : "Spawn"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_hknight.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/hknight_qbj.mdl" }) = monster_hell_knight : "Champion (Death Knight)" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/hknight_qbj.mdl", "skin": skin }) = monster_hell_knight : "Champion (Death Knight)"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_fish.qc
 //
-@PointClass base(Monster) size(-16 -16 -16, 16 16 16) model({ "path": ":progs/fish_qbj.mdl" }) = monster_fish : "Fleshworm" []
+@PointClass base(Monster) size(-16 -16 -16, 16 16 16) model({ "path": ":progs/fish_qbj.mdl", "skin": skin }) = monster_fish : "Fleshworm"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_shalrath.qc
 //
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shalrath_qbj.mdl" }) = monster_shalrath : "Vore" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shalrath_qbj.mdl", "skin": skin }) = monster_shalrath : "Vore"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_enforcer.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/enforcer_qbj.mdl" }) = monster_enforcer : "Enforcer" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/enforcer_qbj.mdl", "skin": skin }) = monster_enforcer : "Enforcer"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
@@ -1948,31 +1966,36 @@ death will trigger the finale cutscene, unless 'Don't end level' is checked, in 
 //
 // m_amalgam.qc
 //
-@PointClass base(Monster) size(-32 -32 -32, 32 32 72) model({ "path": ":progs/toothy_qbj.mdl" }) = monster_amalgam : "Amalgam" []
+@PointClass base(Monster) size(-32 -32 -32, 32 32 72) model({ "path": ":progs/toothy_qbj.mdl", "skin": skin }) = monster_amalgam : "Amalgam"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_swarmer.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/swarmer_qbj.mdl" }) = monster_swarmer : "Swarmer" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/swarmer_qbj.mdl", "skin": skin }) = monster_swarmer : "Swarmer"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_sploder.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/sploder_qbj.mdl" }) = monster_sploder : "Sploder" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/sploder_qbj.mdl", "skin": skin }) = monster_sploder : "Sploder"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_soldier_pistol.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_pistol_qbj.mdl" }) = monster_army_pistol : "Pistol Trenchknight (Pistol Grunt)" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_pistol_qbj.mdl", "skin": skin }) = monster_army_pistol : "Pistol Trenchknight (Pistol Grunt)"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //
 // m_soldier_rocket.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_rocket_qbj.mdl" }) = monster_army_rocket : "Rocket Trenchknight (Rocket Grunt)" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_rocket_qbj.mdl", "skin": skin }) = monster_army_rocket : "Rocket Trenchknight (Rocket Grunt)"
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
 //

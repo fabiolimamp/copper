@@ -396,7 +396,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_pistol_qbj.mdl" }) = monster_army_pistol : "Pistol Trenchknight (Pistol Grunt)" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_pistol_qbj.mdl", "skin": skin }) = monster_army_pistol : "Pistol Trenchknight (Pistol Grunt)" []
 */
 void() monster_army_pistol =
 {	

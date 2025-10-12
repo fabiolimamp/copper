@@ -376,7 +376,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/spawn_qbj.mdl" }) = monster_spawn : "Spawn" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/spawn_qbj.mdl", "skin": skin }) = monster_spawn : "Spawn" []
 */
 void() monster_spawn =
 {

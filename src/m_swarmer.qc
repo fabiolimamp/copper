@@ -454,7 +454,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/swarmer_qbj.mdl" }) = monster_swarmer : "Swarmer" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/swarmer_qbj.mdl", "skin": skin }) = monster_swarmer : "Swarmer" []
 */
 void() monster_swarmer =
 {

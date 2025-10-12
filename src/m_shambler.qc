@@ -491,7 +491,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shambler_qbj.mdl" }) = monster_shambler : "Shambler" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shambler_qbj.mdl", "skin": skin }) = monster_shambler : "Shambler" []
 */
 void() monster_shambler =
 {

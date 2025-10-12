@@ -394,7 +394,7 @@ Keys:
 "targetname" entity name
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/wizard_qbj.mdl" }) = monster_wizard : "Scrag" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/wizard_qbj.mdl", "skin": skin }) = monster_wizard : "Scrag" []
 */
 void() monster_wizard =
 {
