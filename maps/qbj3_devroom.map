@@ -6,8 +6,8 @@
 "wad" "C:/QUAKE_DEV2/Wads/dev_tools_kebby.wad"
 "classname" "worldspawn"
 "_tb_def" "external:C:/Program Files (x86)/Steam/steamapps/common/Quake/rerelease/qbj3_git/qbj3.fgd"
-"_tb_mod" "qbj3_git"
 "sky" "dev_skybox_"
+"_tb_mod" "qbj3_git"
 }
 // entity 1
 {
