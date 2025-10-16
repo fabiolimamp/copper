@@ -7,6 +7,7 @@ WEAPONS
 */
 
 float	ITEM_AMMO_BIG = 1;
+float	ITEM_AMMO_YOOGE = 2;
 
 
 void(entity e) bound_ammo =
