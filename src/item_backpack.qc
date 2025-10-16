@@ -344,7 +344,7 @@ void(float ammo_type) DropEnemyAmmo =
 	item.solid = SOLID_TRIGGER;
 	item.movetype = MOVETYPE_TOSS;
 	
-	if 	(ammo_type == 1)	setmodel (item, "progs/m_shell0.mdl");
+	if 	(ammo_type == 1)	setmodel (item, "progs/ammo/shells_drop.mdl");
 	else if (ammo_type == 2)	setmodel (item, "progs/m_nails0.mdl");
 	else if (ammo_type == 3)	setmodel (item, "progs/m_rock0.mdl");
 	else				setmodel (item, "progs/backpack.mdl");

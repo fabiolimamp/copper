@@ -436,7 +436,7 @@ void() worldspawn =
 
 	precache_model ("progs/zom_gib.mdl");
 	
-	precache_model ("progs/m_shell0.mdl");	// dropped shell pickup (replaces backpack)
+	precache_model ("progs/ammo/shells_drop.mdl");	// dropped shell pickup (replaces backpack)
 	precache_model ("progs/m_nails0.mdl");	// dropped nails pickup (replaces backpack)
 	precache_model ("progs/m_rock0.mdl");	// dropped rocket pickup (replaces backpack)
 }

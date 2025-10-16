@@ -434,22 +434,30 @@ Keys:
 */
 void() item_shells =
 {
-	if (!SUB_ShouldSpawn()) return;
-	if (self.spawnflags & ITEM_AMMO_BIG)
-	{
-		self.ammo_shells = 20; //FlakTax
-		precache_model_safe ("progs/m_shell2.mdl");
-		setmodel (self, "progs/m_shell2.mdl");
-	}
-	else
-	{
-		self.ammo_shells = 10; //FlakTax
-		precache_model_safe ("progs/m_shell1.mdl");
-		setmodel (self, "progs/m_shell1.mdl");
-	}
-	self.weapon = 1;
-	self.netname = "shells";
-	StartAmmo();
+    if (!SUB_ShouldSpawn()) return;
+
+    if (self.spawnflags & ITEM_AMMO_YOOGE)
+    {
+        self.ammo_shells = 50;
+        precache_model_safe("progs/ammo/shells_large.mdl");
+        setmodel(self, "progs/ammo/shells_large.mdl");
+    }
+    else if (self.spawnflags & ITEM_AMMO_BIG)
+    {
+        self.ammo_shells = 16;
+        precache_model_safe("progs/ammo/shells_med.mdl");
+        setmodel(self, "progs/ammo/shells_med.mdl");
+    }
+    else
+    {
+        self.ammo_shells = 8;
+        precache_model_safe("progs/ammo/shells_small.mdl");
+        setmodel(self, "progs/ammo/shells_small.mdl");
+    }
+
+    self.weapon = 1;
+    self.netname = "shells";
+    StartAmmo();
 }
 
 /*QUAKED item_spikes (0 .5 .5) (0 0 0) (32 32 32) BIG ? SUSPENDED
