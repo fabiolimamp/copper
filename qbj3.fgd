@@ -212,9 +212,9 @@ Spawnflag Usage:
 @PointClass size(0 0 0, 32 32 24) color(0 128 128) base(Item) 
 	model(
         {{
-            spawnflags & 2 ->   ":maps/b_bh100.bsp",
-            spawnflags & 1 ->   ":maps/b_bh10.bsp",
-                                ":maps/b_bh25.bsp"
+            spawnflags & 2 ->   ":progs/tb/health_2.mdl",
+            spawnflags & 1 ->   ":progs/tb/health_0.mdl",
+                                ":progs/tb/health_1.mdl"
         }}
     ) =
     item_health : "Health pack, +25" 

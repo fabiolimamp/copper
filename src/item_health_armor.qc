@@ -54,19 +54,19 @@ void() item_health_go
 
 	if (self.spawnflags & ITEM_HEALTH_ROTTEN)
 	{
-		setmodel(self, "progs/m_h15.mdl");
+		setmodel(self, "progs/ammo/health_small.mdl");
 		self.noise = "items/r_item1.wav";
 		self.healamount = 15;
 	}
 	else if (self.spawnflags & ITEM_HEALTH_MEGA)
 	{
-		setmodel(self, "progs/m_h100.mdl");
+		setmodel(self, "progs/ammo/health_large.mdl");
 		self.noise = "items/r_item2.wav";
 		self.healamount = 100;
 	}
 	else
 	{
-		setmodel(self, "progs/m_h25.mdl");
+		setmodel(self, "progs/ammo/health_med.mdl");
 		self.noise = "items/health1.wav";
 		self.healamount = 25;
 	}
@@ -126,17 +126,17 @@ void() item_health =
 	if (!SUB_ShouldSpawn()) return;
 	if (self.spawnflags & ITEM_HEALTH_MEGA)
 	{
-		precache_model_safe("progs/m_h100.mdl");
+		precache_model_safe("progs/ammo/health_large.mdl");
 		precache_sound_safe("items/r_item2.wav");
 	}
 	else if (self.spawnflags & ITEM_HEALTH_ROTTEN)
 	{
-		precache_model_safe("progs/m_h15.mdl");
+		precache_model_safe("progs/ammo/health_small.mdl");
 		precache_sound_safe("items/r_item1.wav");
 	}
 	else
 	{
-		precache_model_safe("progs/m_h25.mdl");
+		precache_model_safe("progs/ammo/health_med.mdl");
 		precache_sound_safe("items/health1.wav");
 	}
 
