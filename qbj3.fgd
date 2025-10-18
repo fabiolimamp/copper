@@ -251,37 +251,41 @@ Spawnflag Usage:
 @PointClass base(Weapon) model({ "path": ":progs/g_invoker.mdl" }) = weapon_invoker : "The Invoker.
 1 cell." []
 @PointClass base(Weapon) model({ "path": ":progs/g_wrench.mdl" }) = weapon_wrench : "Wrench." []
-@baseclass size(-16 -16 0, 16 16 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 1 : "Large box (2x)" : 0 ] ]
+@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 2 : "YOOGE box (5x)" 1 : "Large box (2x)" : 0 ] ]
 @PointClass base(Ammo)
     model(
         {{
-            spawnflags & 1 ->   ":progs/m_shell2.mdl",
-                                ":progs/m_shell1.mdl"
+            spawnflags & 2 ->   ":progs/tb/shells_2.mdl",
+            spawnflags & 1 ->   ":progs/tb/shells_1.mdl",
+                                ":progs/tb/shells_0.mdl"
         }}
-    ) = item_shells : "Shells, 10/20" []
+    ) = item_shells : "Shells, 8/16/40" []
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 1 ->   ":progs/m_nails2.mdl",
-                                ":progs/m_nails1.mdl"
+            spawnflags & 2 ->   ":progs/tb/nails_2.mdl",
+            spawnflags & 1 ->   ":progs/tb/nails_1.mdl",
+                                ":progs/tb/nails_0.mdl"
         }}
-    ) = item_spikes : "Nailgun/Perforator ammo, 25/50" []
+    ) = item_spikes : "Nailgun/Rebar ammo, 25/50/100" []
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 1 ->   ":progs/m_rock2.mdl",
-                                ":progs/m_rock1.mdl"
+            spawnflags & 2 ->   ":progs/tb/rockets_2.mdl",
+            spawnflags & 1 ->   ":progs/tb/rockets_1.mdl",
+                                ":progs/tb/rockets_0.mdl"
         }}
     ) =
-    item_rockets : "Rockets, 4/8" []
+    item_rockets : "Rockets/Grenades 4/8/20" []
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 1 ->   ":progs/m_cells2.mdl",
-                                ":progs/m_cells1.mdl"
+            spawnflags & 2 ->   ":progs/tb/cells_2.mdl",
+            spawnflags & 1 ->   ":progs/tb/cells_1.mdl",
+                                ":progs/tb/cells_0.mdl"
         }}
     ) =
-    item_cells : "The Invoker, 1/2" []
+    item_cells : "The Invoker, 1/2/5" []
 
 
 //
@@ -1849,9 +1853,9 @@ Alt Target Pattern: in distance mode, target is fading object, target2 on begin 
 
 
 //
-// m_soldier.qc
+// m_soldier_shotgun.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_qbj.mdl", "skin": skin }) = monster_army : "Shotgun Trenchknight (Shotgun Grunt)"
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_shotgun_qbj.mdl", "skin": skin }) = monster_army : "Shotgun Trenchknight (Shotgun Grunt)"
 [skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 

@@ -409,14 +409,15 @@ void() StartAmmo =
 }
 
 /*FGD
-@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 1 : "Large box (2x)" : 0 ] ]
+@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 2 : "YOOGE box (5x)" 1 : "Large box (2x)" : 0 ] ]
 */
 
 /*QUAKED item_shells (0 .5 .5) (0 0 0) (32 32 32) BIG ? SUSPENDED
-20 shells for both Shotgun and SuperShotgun.
+10 shells for the Flak Shotgun.
 
 Flags:
-"big" gives 20 instead of 10
+"big" gives 16 instead of 8
+"YOOGE" gives 40
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -431,41 +432,42 @@ Keys:
             spawnflags & 1 ->   ":maps/b_shell1.bsp",
                                 ":maps/b_shell0.bsp"
         }}
-    ) = item_shells : "Shells, 10/20" []
+    ) = item_shells : "Shells, 8/16/40" []
 */
 void() item_shells =
 {
-    if (!SUB_ShouldSpawn()) return;
-
-    if (self.spawnflags & ITEM_AMMO_YOOGE)
-    {
-        self.ammo_shells = 50;
-        precache_model_safe("progs/ammo/shells_large.mdl");
-        setmodel(self, "progs/ammo/shells_large.mdl");
-    }
-    else if (self.spawnflags & ITEM_AMMO_BIG)
-    {
-        self.ammo_shells = 16;
-        precache_model_safe("progs/ammo/shells_med.mdl");
-        setmodel(self, "progs/ammo/shells_med.mdl");
-    }
-    else
-    {
-        self.ammo_shells = 8;
-        precache_model_safe("progs/ammo/shells_small.mdl");
-        setmodel(self, "progs/ammo/shells_small.mdl");
-    }
-
-    self.weapon = 1;
-    self.netname = "shells";
-    StartAmmo();
+	if (!SUB_ShouldSpawn()) return;
+	
+	if (self.spawnflags & ITEM_AMMO_YOOGE)
+	{
+		self.ammo_shells = 40;
+		precache_model_safe("progs/ammo/shells_large.mdl");
+		setmodel(self, "progs/ammo/shells_large.mdl");
+	}
+	else if (self.spawnflags & ITEM_AMMO_BIG)
+	{
+		self.ammo_shells = 16;
+		precache_model_safe("progs/ammo/shells_med.mdl");
+		setmodel(self, "progs/ammo/shells_med.mdl");
+	}
+	else
+	{
+		self.ammo_shells = 8;
+		precache_model_safe("progs/ammo/shells_small.mdl");
+		setmodel(self, "progs/ammo/shells_small.mdl");
+	}
+	
+	self.weapon = 1;
+	self.netname = "shells";
+	StartAmmo();
 }
 
 /*QUAKED item_spikes (0 .5 .5) (0 0 0) (32 32 32) BIG ? SUSPENDED
-25 ammo points (spikes) for Perforator and Super Perforator.
+30 ammo points (spikes) for the Twin Nailguns and Rebar Cannon.
 
 Flags:
 "big" gives 50 instead of 25
+"YOOGE" gives 125
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -480,22 +482,29 @@ Keys:
             spawnflags & 1 ->   ":maps/b_nail1.bsp",
                                 ":maps/b_nail0.bsp"
         }}
-    ) = item_spikes : "Nailgun/Perforator ammo, 25/50" []
+    ) = item_spikes : "Nailgun/Perforator ammo, 25/50/125" []
 */
 void() item_spikes =
 {
 	if (!SUB_ShouldSpawn()) return;
-	if (self.spawnflags & ITEM_AMMO_BIG)
+	
+	if (self.spawnflags & ITEM_AMMO_YOOGE)
+	{
+		self.ammo_nails = 125;
+		precache_model_safe("progs/ammo/nails_large.mdl");
+		setmodel(self, "progs/ammo/nails_large.mdl");
+	}
+	else if (self.spawnflags & ITEM_AMMO_BIG)
 	{
 		self.ammo_nails = 50;
-		precache_model_safe ("progs/m_nails2.mdl");
-		setmodel (self, "progs/m_nails2.mdl");
+		precache_model_safe ("progs/ammo/nails_med.mdl");
+		setmodel (self, "progs/ammo/nails_med.mdl");
 	}
 	else
 	{
 		self.ammo_nails = 25;
-		precache_model_safe ("progs/m_nails1.mdl");
-		setmodel (self, "progs/m_nails1.mdl");
+		precache_model_safe ("progs/ammo/nails_small.mdl");
+		setmodel (self, "progs/ammo/nails_small.mdl");
 	}
 	self.weapon = 2;
 	self.netname = "nails";
@@ -503,10 +512,11 @@ void() item_spikes =
 }
 
 /*QUAKED item_rockets (0 .5 .5) (0 0 0) (32 32 32) BIG ? SUSPENDED
-3 ammo points (rockets) for the Rocket/Grenade Launcher.
+4 ammo points (rockets) for the Rocket/Grenade Launcher.
 
 Flags:
 "big" gives 8 instead of 4
+"YOOGE" gives 20
     
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -522,22 +532,29 @@ Keys:
                                 ":maps/b_rock0.bsp"
         }}
     ) =
-    item_rockets : "Rockets, 4/8" []
+    item_rockets : "Rockets, 4/8/20" []
 */
 void() item_rockets =
 {
 	if (!SUB_ShouldSpawn()) return;
-	if (self.spawnflags & ITEM_AMMO_BIG)
+	
+	if (self.spawnflags & ITEM_AMMO_YOOGE)
+	{
+		self.ammo_rockets = 20;
+		precache_model_safe("progs/ammo/rockets_large.mdl");
+		setmodel(self, "progs/ammo/rockets_large.mdl");
+	}	
+	else if (self.spawnflags & ITEM_AMMO_BIG)
 	{
 		self.ammo_rockets = 8;
-		precache_model_safe ("progs/m_rock2.mdl");
-		setmodel (self, "progs/m_rock2.mdl");
+		precache_model_safe ("progs/ammo/rockets_med.mdl");
+		setmodel (self, "progs/ammo/rockets_med.mdl");
 	}
 	else
 	{
 		self.ammo_rockets = 4;
-		precache_model_safe ("progs/m_rock1.mdl");
-		setmodel (self, "progs/m_rock1.mdl");
+		precache_model_safe ("progs/ammo/rockets_small.mdl");
+		setmodel (self, "progs/ammo/rockets_small.mdl");
 	}
 	self.weapon = 3;
 	self.netname = "rockets";
@@ -549,6 +566,7 @@ void() item_rockets =
 
 Flags:
 "big" gives 2 instead of 1
+"YOOGE" gives 5
     
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -564,22 +582,29 @@ Keys:
                                 ":maps/b_batt0.bsp"
         }}
     ) =
-    item_cells : "The Invoker, 1/2" []
+    item_cells : "The Invoker, 1/2/5" []
 */
 void() item_cells =
 {
 	if (!SUB_ShouldSpawn()) return;
+	
+	if (self.spawnflags & ITEM_AMMO_YOOGE)
+	{
+		self.ammo_cells = 5;
+		precache_model_safe("progs/ammo/cells_large.mdl");
+		setmodel(self, "progs/ammo/cells_large.mdl");
+	}		
 	if (self.spawnflags & ITEM_AMMO_BIG)
 	{
 		self.ammo_cells = 2;
-		precache_model_safe ("progs/m_cells2.mdl");
-		setmodel (self, "progs/m_cells2.mdl");
+		precache_model_safe ("progs/ammo/cells_med.mdl");
+		setmodel (self, "progs/ammo/cells_med.mdl");
 	}
 	else
 	{
 		self.ammo_cells = 1;
-		precache_model_safe ("progs/m_cells1.mdl");
-		setmodel (self, "progs/m_cells1.mdl");
+		precache_model_safe ("progs/ammo/cells_small.mdl");
+		setmodel (self, "progs/ammo/cells_small.mdl");
 	}
 	self.weapon = 4;
 	self.netname = "sanguine";

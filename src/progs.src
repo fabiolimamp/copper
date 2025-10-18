@@ -67,16 +67,15 @@ walls.qc
 sound.qc
 mapvar.qc
 
-fog.qc			// atmosfear
-t_void.qc		// bottomless pits
-fx.qc			// more dots
+fog.qc		// atmosfear
+t_void.qc	// bottomless pits
+fx.qc		// more dots
 
 // prefixed all these so I can more easily open all the monster files at once
 m_ogre.qc
 m_demon.qc
 m_shambler.qc
 m_knight.qc
-m_soldier.qc
 m_wizard.qc
 m_dog.qc
 m_zombie.qc
@@ -84,16 +83,17 @@ m_boss.qc
 
 m_tarbaby.qc	// registered
 m_hknight.qc	// registered
-m_fish.qc		// registered
+m_fish.qc	// registered
 m_shalrath.qc	// registered
 m_enforcer.qc	// registered
-m_oldone.qc		// registered
+m_oldone.qc	// registered
 
 m_amalgam.qc    // reliq
 m_swarmer.qc 	// Alkaline
 m_sploder.qc 	// Dwell
 
 m_soldier_pistol.qc //QBJ3
+m_soldier_shotgun.qc //QBJ3
 m_soldier_rocket.qc //QBJ3
 
 cshift.qc

@@ -340,26 +340,19 @@ void() swarmer_die =
 
 
 	r = random();
-	if (r < (1 / 3))
-		sound(self, CHAN_VOICE, "swarmer/death1.wav", 1, ATTN_NORM);
-	else if ((r < (2 / 3)))
-		sound(self, CHAN_VOICE, "swarmer/death2.wav", 1, ATTN_NORM);
-	else
-		sound(self, CHAN_VOICE, "swarmer/death3.wav", 1, ATTN_NORM);
+	if 	(r < (1 / 3))	sound(self, CHAN_VOICE, "swarmer/death1.wav", 1, ATTN_NORM);
+	else if ((r < (2 / 3)))	sound(self, CHAN_VOICE, "swarmer/death2.wav", 1, ATTN_NORM);
+	else			sound(self, CHAN_VOICE, "swarmer/death3.wav", 1, ATTN_NORM);
 
 	r = random();
 	
 	self.solid = SOLID_TRIGGER;
 	setorigin(self, self.origin);
 	
-	if (r < (1 / 4))
-		swarmer_deathA1();
-	else if (r < (2 / 4))
-		swarmer_deathB1();
-	else if (r < (3 / 4))
-		swarmer_deathC1();
-	else
-		swarmer_deathD1();
+	if 	(r < (1 / 4))	swarmer_deathA1();
+	else if (r < (2 / 4))	swarmer_deathB1();
+	else if (r < (3 / 4))	swarmer_deathC1();
+	else			swarmer_deathD1();
 };
 
 void(entity attacker, float take) swarmer_pain = {

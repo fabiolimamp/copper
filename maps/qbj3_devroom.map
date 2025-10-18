@@ -95,45 +95,45 @@
 // entity 15
 {
 "classname" "item_cells"
-"origin" "-304 -432 0"
+"origin" "-320 -448 0"
 }
 // entity 16
 {
 "classname" "item_cells"
-"origin" "-304 -368 0"
+"origin" "-320 -384 0"
 "spawnflags" "1"
 }
 // entity 17
 {
 "classname" "item_shells"
-"origin" "-304 -816 0"
+"origin" "-320 -832 0"
 }
 // entity 18
 {
 "classname" "item_shells"
-"origin" "-304 -752 0"
+"origin" "-320 -768 0"
 "spawnflags" "1"
 }
 // entity 19
 {
 "classname" "item_spikes"
-"origin" "-304 -688 0"
+"origin" "-320 -704 0"
 }
 // entity 20
 {
 "classname" "item_spikes"
-"origin" "-304 -624 0"
+"origin" "-320 -640 0"
 "spawnflags" "1"
 }
 // entity 21
 {
 "classname" "item_rockets"
-"origin" "-304 -560 0"
+"origin" "-320 -576 0"
 }
 // entity 22
 {
 "classname" "item_rockets"
-"origin" "-304 -496 0"
+"origin" "-320 -512 0"
 "spawnflags" "1"
 }
 // entity 23
@@ -1085,6 +1085,76 @@
 }
 // entity 104
 {
+"classname" "misc_model"
+"origin" "-368 -784 8"
+"model" "progs/ammo/shells_drop.mdl"
+"frame" "0"
+"pos1" "1 1 1"
+}
+// entity 105
+{
+"classname" "misc_model"
+"origin" "-368 -656 8"
+"model" "progs/ammo/nails_drop.mdl"
+"frame" "0"
+"pos1" "1 1 1"
+}
+// entity 106
+{
+"classname" "misc_model"
+"origin" "-368 -528 8"
+"model" "progs/ammo/rockets_drop.mdl"
+"frame" "0"
+"pos1" "1 1 1"
+}
+// entity 107
+{
+"classname" "misc_model"
+"origin" "-368 -400 8"
+"model" "progs/ammo/cells_drop.mdl"
+"frame" "0"
+"pos1" "1 1 1"
+}
+// entity 108
+{
+"classname" "item_shells"
+"origin" "-256 -800 0"
+"spawnflags" "2"
+}
+// entity 109
+{
+"classname" "item_spikes"
+"origin" "-256 -672 0"
+"spawnflags" "2"
+}
+// entity 110
+{
+"classname" "item_rockets"
+"origin" "-256 -544 0"
+"spawnflags" "2"
+}
+// entity 111
+{
+"classname" "item_cells"
+"origin" "-256 -416 0"
+"spawnflags" "2"
+}
+// entity 112
+{
+"classname" "misc_model"
+"origin" "-912 -528 8"
+"model" "progs/ammo/medkit_drop.mdl"
+"frame" "0"
+"pos1" "1 1 1"
+}
+// entity 113
+{
+"classname" "misc_model"
+"origin" "-1040 -528 8"
+"model" "progs/ammo/medkit_large.mdl"
+}
+// entity 114
+{
 "classname" "func_group"
 "_tb_type" "_tb_layer"
 "_tb_name" "sky"
@@ -1092,7 +1162,7 @@
 "_tb_layer_sort_index" "0"
 "_tb_layer_hidden" "1"
 }
-// entity 105
+// entity 115
 {
 "classname" "func_group"
 "_tb_layer" "1"
@@ -1142,7 +1212,7 @@
 ( -128 -1184 512 ) ( -128 -1185 512 ) ( -128 -1184 513 ) sky_void [ -6.123233995736766e-17 1 0 -128 ] [ 0 0 -1 0 ] 0 1 1
 }
 }
-// entity 106
+// entity 116
 {
 "classname" "func_group"
 "_tb_layer" "1"
