@@ -416,8 +416,8 @@ void() StartAmmo =
 10 shells for the Flak Shotgun.
 
 Flags:
-"big" gives 16 instead of 8
-"YOOGE" gives 40
+"big" gives 8 instead of 4
+"YOOGE" gives 20
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -440,19 +440,19 @@ void() item_shells =
 	
 	if (self.spawnflags & ITEM_AMMO_YOOGE)
 	{
-		self.ammo_shells = 40;
+		self.ammo_shells = 20;
 		precache_model_safe("progs/ammo/shells_large.mdl");
 		setmodel(self, "progs/ammo/shells_large.mdl");
 	}
 	else if (self.spawnflags & ITEM_AMMO_BIG)
 	{
-		self.ammo_shells = 16;
+		self.ammo_shells = 8;
 		precache_model_safe("progs/ammo/shells_med.mdl");
 		setmodel(self, "progs/ammo/shells_med.mdl");
 	}
 	else
 	{
-		self.ammo_shells = 8;
+		self.ammo_shells = 4;
 		precache_model_safe("progs/ammo/shells_small.mdl");
 		setmodel(self, "progs/ammo/shells_small.mdl");
 	}

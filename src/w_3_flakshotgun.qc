@@ -2,20 +2,6 @@
 // piercing projectile Impaler code by Fairweather, edits by Kebby
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-/*
-	Shell pickup values have been reduced by half (from 40/20 -> 20/10)
-	Soldier shell drops reduced (from 5 -> 4)
-	Starting shell ammo reduced (from 25 -> 24)
-	
-	
-			
-	TO REVERT OR ADJUST CHANGES: 
-	
-	Grep search for "//FlakTax"
-*/
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
 float() weaponanim_flakshotgun = {
 	if (self.attack_finished > time)
 		return FALSE;
@@ -25,7 +11,7 @@ float() weaponanim_flakshotgun = {
 		return FALSE;
 	}
 
-	self.currentammo = self.ammo_shells = self.ammo_shells - 2; //2 shells to fire
+	self.currentammo = self.ammo_shells = self.ammo_shells - 1;
 
 	self.attack_finished = time + 1.05;
 	

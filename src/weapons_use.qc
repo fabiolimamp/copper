@@ -287,7 +287,7 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_supernailgun}, 1},//5
 	{{wpc_grenade}, 1}, 	//6
 	{{wpc_rocket}, 1}, 	//7
-	{{wpc_invoker}, 1} 		//8
+	{{wpc_invoker}, 1} 	//8
 };
 
 

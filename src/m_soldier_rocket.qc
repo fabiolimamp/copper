@@ -335,7 +335,7 @@ void()	rocketarmy_die1	=[	$death1,	rocketarmy_die2	] {rocketarmy_checkgib();}
 void()	rocketarmy_die2	=[	$death2,	rocketarmy_die3	] {rocketarmy_checkgib();}
 void()	rocketarmy_die3	=[	$death3,	rocketarmy_die4	]
 {if (rocketarmy_checkgib()) return;
-self.solid = SOLID_NOT;self.takedamage = DAMAGE_NO; self.ammo_rockets = 1;	DropEnemyAmmo(3);}	//FlakTax
+self.solid = SOLID_NOT;self.takedamage = DAMAGE_NO; self.ammo_rockets = 1;	DropEnemyAmmo(3);}	//RocketTax
 void()	rocketarmy_die4	=[	$death4,	rocketarmy_die5	] {}
 void()	rocketarmy_die5	=[	$death5,	rocketarmy_die6	] {}
 void()	rocketarmy_die6	=[	$death6,	rocketarmy_die7	] {}
@@ -347,7 +347,7 @@ void()	rocketarmy_die10	=[	$death10,	SUB_Null	] {}
 void()	rocketarmy_cdie1	=[	$deathc1,	rocketarmy_cdie2	] {}
 void()	rocketarmy_cdie2	=[	$deathc2,	rocketarmy_cdie3	] {ai_back(5);}
 void()	rocketarmy_cdie3	=[	$deathc3,	rocketarmy_cdie4	]
-{self.solid = SOLID_NOT;self.ammo_rockets = 1;	DropEnemyAmmo(3);	ai_back(4);}	//FlakTax
+{self.solid = SOLID_NOT;self.ammo_rockets = 1;	DropEnemyAmmo(3);	ai_back(4);}	//RocketTax
 void()	rocketarmy_cdie4	=[	$deathc4,	rocketarmy_cdie5	] {ai_back(13);}
 void()	rocketarmy_cdie5	=[	$deathc5,	rocketarmy_cdie6	] {ai_back(3);}
 void()	rocketarmy_cdie6	=[	$deathc6,	rocketarmy_cdie7	] {ai_back(4);}
@@ -362,7 +362,7 @@ float() rocketarmy_checkgib =
 	if (self.health < -35)
 	{
 		Gib("progs/gibs/gibhead_grunt_r.mdl", self.health);
-		self.ammo_rockets = 1; //FlakTax
+		self.ammo_rockets = 1; //RocketTax
 		//DropBackpack(3);
 		DropEnemyAmmo(3);
 		return TRUE;
