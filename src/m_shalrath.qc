@@ -296,6 +296,10 @@ void() ShalHome =
 		{
 			self.deadflag = TRUE;
 			setmodel(self, "progs/proj_voreball2.mdl");	// stop sparkling
+
+			if (self.owner.skin == 1) //tar skin
+				self.skin = 1;
+
 			setsize(self, VEC_ORIGIN, VEC_ORIGIN);
 		}
 	}
@@ -414,6 +418,10 @@ void() ShalMissile =
 
 	SUB_ChangeModel (missile, "progs/proj_voreball.mdl");
 
+	
+	if (self.skin == 1) //tar skin
+		missile.skin = 1;
+
 	missile.avelocity = '300 300 300';
 	missile.nextthink = time + 0.1;
 	missile.think = ShalHome;
@@ -442,6 +450,8 @@ void() monster_shalrath_spawn =
 	self.th_pain = shalrath_pain;
 	self.th_missile = shalrath_attack;
 	self.th_checkattack = CheckAttack;
+
+	self.gibgroup = GIBGROUP_TAR_ALLOWED;
 
 	if (self.deathtype == string_null)
 		self.deathtype = "was exploded by a Shalrath";
@@ -494,6 +504,8 @@ void() monster_shalrath =
 	precache_sound2 ("shalrath/idle.wav");
 	precache_sound2 ("shalrath/pain.wav");
 	precache_sound2 ("shalrath/sight.wav");
+
+	self.gibgroup = GIBGROUP_TAR_ALLOWED;
 	
 	self.health = 400;
 	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);

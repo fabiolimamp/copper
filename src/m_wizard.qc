@@ -371,6 +371,8 @@ void() monster_wizard_spawn =
 	if (self.deathtype == string_null)
 		self.deathtype = "was served by a Servitor";
 
+	self.gibgroup = GIBGROUP_TAR_ALLOWED;
+
 	self.height = zeroconvertdefault(self.height, 35);
 	self.jump_flag = self.height;	// remember original value for short term nav tweaking
 	flymonster_start();
@@ -417,6 +419,8 @@ void() monster_wizard =
 	precache_sound ("wizard/widle2.wav");
 	precache_sound ("wizard/wpain.wav");
 	precache_sound ("wizard/wsight.wav");
+
+	self.gibgroup = GIBGROUP_TAR_ALLOWED;
 
 	self.health = 80;
 	//setsize (self, '-16 -16 -24', '16 16 40');

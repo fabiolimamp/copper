@@ -464,6 +464,8 @@ void() monster_shambler_spawn =
 	self.th_pain = sham_pain;
 	self.th_checkattack = ShamCheckAttack;
 
+	self.gibgroup = GIBGROUP_TAR_ALLOWED;
+
 	if (self.deathtype == string_null)
 		self.deathtype = "was smashed by a Shambler";
 
@@ -523,6 +525,8 @@ void() monster_shambler =
 	precache_sound ("shambler/melee1.wav");
 	precache_sound ("shambler/melee2.wav");
 	precache_sound ("shambler/smack.wav");
+
+	self.gibgroup = GIBGROUP_TAR_ALLOWED;
 
 	self.health = 600;
 	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);

@@ -113,6 +113,9 @@ const float DMGTYPE_SCRIPT		= 2048;	// target_items, invoke, etc
 const float	TRACE_NOMONSTERS	= 1;
 const float	TRACE_WATER		= 2;
 
+// gib group stuff
+const float GIBGROUP_TAR_ALLOWED = 1;
+
 // monsters
 const float	SPAWN_AMBUSH		= 1;
 const float	SPAWN_CRUCIFIEDX	= 1;

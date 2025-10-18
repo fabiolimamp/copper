@@ -331,6 +331,8 @@ void() monster_sploder_spawn =
 	if (self.deathtype == string_null)
 		self.deathtype = "was popped by a Blister";
 
+	self.gibgroup = GIBGROUP_TAR_ALLOWED;
+
 	nmspeed(0.075);
 
 	if (random() < 0.5) self.style = 1;
@@ -386,6 +388,8 @@ void() monster_sploder =
 	precache_model ("progs/s_blood_96x.spr");
 	precache_model ("progs/s_blood_64x.spr");
 	precache_model ("progs/gib3.mdl");
+
+	self.gibgroup = GIBGROUP_TAR_ALLOWED;
 
 	self.health = 40;
 	setsize (self, '-16 -16 -24', '16 16 24');

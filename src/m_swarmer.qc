@@ -418,6 +418,8 @@ void() monster_swarmer_spawn =
 	self.th_checkattack = CheckAttack;
 	self.yaw_speed = 35;
 
+	self.gibgroup = GIBGROUP_TAR_ALLOWED;
+
 	if (skill == 3)
 		self.alpha = 0.2;
 	
@@ -460,6 +462,8 @@ void() monster_swarmer =
 	}
 	
 	monster_swarmer_precaches();
+
+	self.gibgroup = GIBGROUP_TAR_ALLOWED;
 	
 	self.health = 10;
 	setsize(self, '-6 -6 -24', '6 6 32');

@@ -641,6 +641,8 @@ void() monster_fiend =
 	self.health = 300;
 	setsize (self, VEC_HULL2_MIN, '32 32 40');
 	if ( monster_spawnsetup( monster_demon_spawner ) ) return;
+
+	self.gibgroup = GIBGROUP_TAR_ALLOWED;
 	
 	addmonster(1);
 	monster_demon_spawn();

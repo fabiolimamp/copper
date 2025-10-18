@@ -105,6 +105,9 @@ entity(string gibname, vector vel) ThrowGib =
 	setsize (gib, VEC_ORIGIN, VEC_ORIGIN);
 	setorigin (gib, self.origin);
 
+	if ((gib.owner.gibgroup == GIBGROUP_TAR_ALLOWED) && (gib.owner.skin == 1))
+		gib.skin = 1;
+
 	gib.velocity = gib.oldvelocity = vel;	
 	gib.avelocity = Vector(random(),random(),random()) * 600;
 

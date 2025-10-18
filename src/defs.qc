@@ -403,6 +403,7 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .vector 	inflictor_vel;
 .float		dmgtype_death;
 
+.float		gibgroup;
 .string		type;			// to make find()ing easier, and for tons of useful misc. classification
 .entity		buddy;			// a common entity reference without the specific implications of 'owner' or 'enemy'
 .float		strength;

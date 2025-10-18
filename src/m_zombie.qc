@@ -747,6 +747,8 @@ void() monster_zombie_spawn =
 		self.th_missile = zombie_missile;
 		self.th_checkattack = CheckAttack;
 		//self.skin = 0;
+
+		self.gibgroup = GIBGROUP_TAR_ALLOWED;
 		
 		walkmonster_start();
 	}
@@ -816,6 +818,8 @@ void() monster_zombie =
 	precache_sound ("zombie/z_hit.wav");
 	precache_sound3 ("zombie/z_res.wav");
 	precache_sound ("zombie/idle_w2.wav");
+
+	self.gibgroup = GIBGROUP_TAR_ALLOWED;
 
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.type = "zombie";
