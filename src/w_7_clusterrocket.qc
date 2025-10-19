@@ -242,6 +242,8 @@ void(vector org, vector dir, float init_angle) launch_spiralrocket = {
 //=============================================================================
 
 void() spiralrocket_think = {
+	if (CheckProjectilePassthru()) return;
+
 	if (time > self.attack_finished) {
 		if (self.buddy) remove(self.buddy);
 		remove(self);
