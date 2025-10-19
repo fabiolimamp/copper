@@ -408,6 +408,8 @@ void() monster_swarmer_spawn =
 	setsize(self, '-6 -6 -24', '6 6 32');
 	
 	self.health = 10;
+
+	self.customflags |= CFL_MELEEONLY;
 		
 	self.th_stand = swarmer_stand1;
 	self.th_walk = swarmer_walk1;
