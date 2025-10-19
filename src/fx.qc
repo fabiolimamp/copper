@@ -28,13 +28,14 @@ void(vector a, vector b, entity who) fx_beam =
 	WriteCoord (MSG_BROADCAST, b_z);
 }
 
-
-void()	s_explode1	=	[0,		s_explode2] {}
-void()	s_explode2	=	[1,		s_explode3] {}
-void()	s_explode3	=	[2,		s_explode4] {}
-void()	s_explode4	=	[3,		s_explode5] {}
-void()	s_explode5	=	[4,		s_explode6] {}
-void()	s_explode6	=	[5,		SUB_Remove] {}
+// slight framerate increase for explosion sprites
+// looks odd at 10 fps when volley firing MMML
+void()	s_explode1 =[0,	s_explode2] {self.nextthink=time+ 0.075;}
+void()	s_explode2 =[1,	s_explode3] {self.nextthink=time+ 0.075;}
+void()	s_explode3 =[2,	s_explode4] {self.nextthink=time+ 0.075;}
+void()	s_explode4 =[3,	s_explode5] {self.nextthink=time+ 0.075;}
+void()	s_explode5 =[4,	s_explode6] {self.nextthink=time+ 0.075;}
+void()	s_explode6 =[5,	SUB_Remove] {self.nextthink=time+ 0.075;}
 
 // 0: original
 // 1: grape
