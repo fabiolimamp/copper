@@ -285,7 +285,7 @@ Spawnflag Usage:
                                 ":progs/tb/cells_0.mdl"
         }}
     ) =
-    item_cells : "The Invoker, 1/2/5" []
+    item_cells : "The Invoker, 1/3/5" []
 
 
 //

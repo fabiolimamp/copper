@@ -441,19 +441,19 @@ void() item_shells =
 	if (self.spawnflags & ITEM_AMMO_YOOGE)
 	{
 		self.ammo_shells = 20;
-		precache_model_safe("progs/ammo/shells_large.mdl");
+		precache_model_safe ("progs/ammo/shells_large.mdl");
 		setmodel(self, "progs/ammo/shells_large.mdl");
 	}
 	else if (self.spawnflags & ITEM_AMMO_BIG)
 	{
 		self.ammo_shells = 8;
-		precache_model_safe("progs/ammo/shells_med.mdl");
+		precache_model_safe ("progs/ammo/shells_med.mdl");
 		setmodel(self, "progs/ammo/shells_med.mdl");
 	}
 	else
 	{
 		self.ammo_shells = 4;
-		precache_model_safe("progs/ammo/shells_small.mdl");
+		precache_model_safe ("progs/ammo/shells_small.mdl");
 		setmodel(self, "progs/ammo/shells_small.mdl");
 	}
 	
@@ -491,7 +491,7 @@ void() item_spikes =
 	if (self.spawnflags & ITEM_AMMO_YOOGE)
 	{
 		self.ammo_nails = 125;
-		precache_model_safe("progs/ammo/nails_large.mdl");
+		precache_model_safe ("progs/ammo/nails_large.mdl");
 		setmodel(self, "progs/ammo/nails_large.mdl");
 	}
 	else if (self.spawnflags & ITEM_AMMO_BIG)
@@ -541,7 +541,7 @@ void() item_rockets =
 	if (self.spawnflags & ITEM_AMMO_YOOGE)
 	{
 		self.ammo_rockets = 20;
-		precache_model_safe("progs/ammo/rockets_large.mdl");
+		precache_model_safe ("progs/ammo/rockets_large.mdl");
 		setmodel(self, "progs/ammo/rockets_large.mdl");
 	}	
 	else if (self.spawnflags & ITEM_AMMO_BIG)
@@ -565,7 +565,7 @@ void() item_rockets =
 1 ammo point (cell) for The Invoker (RailGun).
 
 Flags:
-"big" gives 2 instead of 1
+"big" gives 3 instead of 1
 "YOOGE" gives 5
     
 Keys:
@@ -582,7 +582,7 @@ Keys:
                                 ":maps/b_batt0.bsp"
         }}
     ) =
-    item_cells : "The Invoker, 1/2/5" []
+    item_cells : "The Invoker, 1/3/5" []
 */
 void() item_cells =
 {
@@ -591,12 +591,12 @@ void() item_cells =
 	if (self.spawnflags & ITEM_AMMO_YOOGE)
 	{
 		self.ammo_cells = 5;
-		precache_model_safe("progs/ammo/cells_large.mdl");
+		precache_model_safe ("progs/ammo/cells_large.mdl");
 		setmodel(self, "progs/ammo/cells_large.mdl");
 	}		
-	if (self.spawnflags & ITEM_AMMO_BIG)
+	else if (self.spawnflags & ITEM_AMMO_BIG)
 	{
-		self.ammo_cells = 2;
+		self.ammo_cells = 3;
 		precache_model_safe ("progs/ammo/cells_med.mdl");
 		setmodel (self, "progs/ammo/cells_med.mdl");
 	}
@@ -607,7 +607,7 @@ void() item_cells =
 		setmodel (self, "progs/ammo/cells_small.mdl");
 	}
 	self.weapon = 4;
-	self.netname = "sanguine";
+	self.netname = "fragments";
 	StartAmmo();
 }
 
