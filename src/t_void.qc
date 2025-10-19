@@ -539,7 +539,7 @@ void() func_void =
 	if (!SUB_ShouldSpawn()) return;
 	vector offset;
 	
-	if (self.noise == string_null) self.noise = "player/q3fall.wav";
+	if (self.noise == string_null) self.noise = "player/player_fall1.wav";
 	if (self.noise2 == string_null) self.noise2 = "player/splat1.wav";
 	precache_sound3(self.noise);
 	precache_sound3(self.noise2);

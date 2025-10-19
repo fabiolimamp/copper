@@ -331,21 +331,41 @@ void(entity cl) PainSound = {
 	if (cl.watertype == CONTENT_WATER && cl.waterlevel >= 3 && !has_biosuit(cl))
 	{
 		DeathBubbles(1);
-		if (random() > 0.5)
-			sound (cl, CHAN_VOICE, "player/drown1.wav", 1, ATTN_NORM);
+
+		float r;
+		r = random() * 6;
+
+		if (r < 1)
+			sound (cl, CHAN_VOICE, "player/player_drown1.wav", 1, ATTN_NORM);
+		else if (r < 2)
+			sound (cl, CHAN_VOICE, "player/player_drown2.wav", 1, ATTN_NORM);
+		else if (r < 3)
+			sound (cl, CHAN_VOICE, "player/player_drown3.wav", 1, ATTN_NORM);
+		else if (r < 4)
+			sound (cl, CHAN_VOICE, "player/player_drown4.wav", 1, ATTN_NORM);
+		else if (r < 5)
+			sound (cl, CHAN_VOICE, "player/player_drown5.wav", 1, ATTN_NORM);
 		else
-			sound (cl, CHAN_VOICE, "player/drown2.wav", 1, ATTN_NORM);
+			sound (cl, CHAN_VOICE, "player/player_drown6.wav", 1, ATTN_NORM);
+
 		return;
 	}
 
 	// slime/lava pain sounds
-	if (( (cl.watertype == CONTENT_SLIME || cl.watertype == CONTENT_LAVA) && damage_attacker == world) || 
-		damage_attacker.classname == "fireball")
+	if (((cl.watertype == CONTENT_SLIME || cl.watertype == CONTENT_LAVA) && damage_attacker == world)
+		|| damage_attacker.classname == "fireball")
 	{
-		if (random() > 0.5)
-			sound (cl, CHAN_VOICE, "player/lburn1.wav", 1, ATTN_NORM);
+		r = random() * 4;
+
+		if (r < 1)
+			sound (cl, CHAN_VOICE, "player/player_burn1.wav", 1, ATTN_NORM);
+		else if (r < 2)
+			sound (cl, CHAN_VOICE, "player/player_burn2.wav", 1, ATTN_NORM);
+		else if (r < 3)
+			sound (cl, CHAN_VOICE, "player/player_burn3.wav", 1, ATTN_NORM);
 		else
-			sound (cl, CHAN_VOICE, "player/lburn2.wav", 1, ATTN_NORM);
+			sound (cl, CHAN_VOICE, "player/player_burn4.wav", 1, ATTN_NORM);
+
 		return;
 	}
 
@@ -358,7 +378,7 @@ void(entity cl) PainSound = {
 	cl.pain_finished = time + 0.5;
 
 
-// ax pain sound
+	// ax pain sound
 	if (cl.customflags & CFL_AXEHITME)
 	{
 		cl.customflags = not(cl.customflags, CFL_AXEHITME );
@@ -366,22 +386,28 @@ void(entity cl) PainSound = {
 		return;
 	}
 	
-
-	rs = rint((random() * 5) + 1);
+	rs = rint((random() * 8) + 1); // random 1–9
 
 	cl.noise = string_null;
+
 	if (rs == 1)
-		cl.noise = "player/pain1.wav";
+		cl.noise = "player/player_pain1.wav";
 	else if (rs == 2)
-		cl.noise = "player/pain2.wav";
+		cl.noise = "player/player_pain2.wav";
 	else if (rs == 3)
-		cl.noise = "player/pain3.wav";
+		cl.noise = "player/player_pain3.wav";
 	else if (rs == 4)
-		cl.noise = "player/pain4.wav";
+		cl.noise = "player/player_pain4.wav";
 	else if (rs == 5)
-		cl.noise = "player/pain5.wav";
+		cl.noise = "player/player_pain5.wav";
+	else if (rs == 6)
+		cl.noise = "player/player_pain6.wav";
+	else if (rs == 7)
+		cl.noise = "player/player_pain7.wav";
+	else if (rs == 8)
+		cl.noise = "player/player_pain8.wav";
 	else
-		cl.noise = "player/pain6.wav";
+		cl.noise = "player/player_pain9.wav";
 
 	sound (cl, CHAN_VOICE, cl.noise, 1, ATTN_NORM);
 	return;
@@ -459,22 +485,35 @@ local float		rs;
 		if (self.watertype == CONTENT_WATER || self.watertype == CONTENT_SLIME)
 		{
 			DeathBubbles(20);
-			sound (self, CHAN_VOICE, "player/h2odeath.wav", 1, ATTN_NONE);
+
+			rs = rint((random() * 2) + 1); // random 1–3
+
+			if (rs == 1)
+				sound (self, CHAN_VOICE, "player/player_h2odeath1.wav", 1, ATTN_NONE);
+			else if (rs == 2)
+				sound (self, CHAN_VOICE, "player/player_h2odeath2.wav", 1, ATTN_NONE);
+			else
+				sound (self, CHAN_VOICE, "player/player_h2odeath3.wav", 1, ATTN_NONE);
+
 			return;
 		}
 	}
 	
-	rs = rint ((random() * 4) + 1);
+	rs = rint ((random() * 6) + 1);
 	if (rs == 1)
-		self.noise = "player/death1.wav";
-	if (rs == 2)
-		self.noise = "player/death2.wav";
-	if (rs == 3)
-		self.noise = "player/death3.wav";
-	if (rs == 4)
-		self.noise = "player/death4.wav";
-	if (rs == 5)
-		self.noise = "player/death5.wav";
+		self.noise = "player/player_death1.wav";
+	else if (rs == 2)
+		self.noise = "player/player_death2.wav";
+	else if (rs == 3)
+		self.noise = "player/player_death3.wav";
+	else if (rs == 4)
+		self.noise = "player/player_death4.wav";
+	else if (rs == 5)
+		self.noise = "player/player_death5.wav";
+	else if (rs == 6)
+		self.noise = "player/player_death6.wav";
+	else
+		self.noise = "player/player_death7.wav";
 
 	sound (self, CHAN_VOICE, self.noise, 1, ATTN_NONE);
 	return;
@@ -516,8 +555,8 @@ void() GibPlayer =
 			sound (self, CHAN_VOICE, "player/gib.wav", 1, ATTN_NONE);
 		else
 			sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NONE);
-	}	
-	GibSpray ("progs/h_player.mdl", self.health);	
+	}
+	GibSpray ("progs/h_player.mdl", self.health);
 }
 
 void() PlayerDie =

@@ -392,6 +392,65 @@ void() worldspawn =
 	precache_sound ("misc/water1.wav");			// swimming
 	precache_sound ("misc/water2.wav");			// swimming
 
+	precache_sound ("player/player_burn1.wav");
+	precache_sound ("player/player_burn2.wav");
+	precache_sound ("player/player_burn3.wav");
+	precache_sound ("player/player_burn4.wav");
+	precache_sound ("player/player_death1.wav");
+	precache_sound ("player/player_death2.wav");
+	precache_sound ("player/player_death3.wav");
+	precache_sound ("player/player_death4.wav");
+	precache_sound ("player/player_death5.wav");
+	precache_sound ("player/player_death6.wav");
+	precache_sound ("player/player_death7.wav");
+	precache_sound ("player/player_drown1.wav");
+	precache_sound ("player/player_drown2.wav");
+	precache_sound ("player/player_drown3.wav");
+	precache_sound ("player/player_drown4.wav");
+	precache_sound ("player/player_drown5.wav");
+	precache_sound ("player/player_drown6.wav");
+	precache_sound ("player/player_fall1.wav");
+	precache_sound ("player/player_fall2.wav");
+	precache_sound ("player/player_fall3.wav");
+	precache_sound ("player/player_gasp1_1.wav");
+	precache_sound ("player/player_gasp1_2.wav");
+	precache_sound ("player/player_gasp1_3.wav");
+	precache_sound ("player/player_gasp1_4.wav");
+	precache_sound ("player/player_gasp1_5.wav");
+	precache_sound ("player/player_gasp1_6.wav");
+	precache_sound ("player/player_gasp2_1.wav");
+	precache_sound ("player/player_gasp2_2.wav");
+	precache_sound ("player/player_gasp2_3.wav");
+	precache_sound ("player/player_gasp2_4.wav");
+	precache_sound ("player/player_h2odeath1.wav");
+	precache_sound ("player/player_h2odeath2.wav");
+	precache_sound ("player/player_h2odeath3.wav");
+	precache_sound ("player/player_jump1.wav");
+	precache_sound ("player/player_jump2.wav");
+	precache_sound ("player/player_jump3.wav");
+	precache_sound ("player/player_jump4.wav");
+	precache_sound ("player/player_jump5.wav");
+	precache_sound ("player/player_jump6.wav");
+	precache_sound ("player/player_jump7.wav");
+	precache_sound ("player/player_land1_1.wav");
+	precache_sound ("player/player_land1_2.wav");
+	precache_sound ("player/player_land1_3.wav");
+	precache_sound ("player/player_land1_4.wav");
+	precache_sound ("player/player_land1_5.wav");
+	precache_sound ("player/player_land1_6.wav");
+	precache_sound ("player/player_land2_1.wav");
+	precache_sound ("player/player_land2_2.wav");
+	precache_sound ("player/player_pain1.wav");
+	precache_sound ("player/player_pain2.wav");
+	precache_sound ("player/player_pain3.wav");
+	precache_sound ("player/player_pain4.wav");
+	precache_sound ("player/player_pain5.wav");
+	precache_sound ("player/player_pain6.wav");
+	precache_sound ("player/player_pain7.wav");
+	precache_sound ("player/player_pain8.wav");
+	precache_sound ("player/player_pain9.wav");
+
+
 	precache_model ("progs/player.mdl");
 	precache_model ("progs/player_qbj.mdl");
 	precache_model ("progs/eyes.mdl");

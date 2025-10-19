@@ -1077,7 +1077,25 @@ void() PlayerJump =
 	{
 		if (!(self.flags & FL_ONGROUND)) return;
 		if ( !(self.flags & FL_JUMPRELEASED) ) return;		// don't pogo stick
-		sound (self, CHAN_VOICE, "player/plyrjmp8.wav", 1, ATTN_NORM);	// h00rt
+		
+		// jump sounds
+		local float rs;
+		rs = rint((random() * 6) + 1); // random 1–7
+
+		if (rs == 1)
+			sound (self, CHAN_VOICE, "player/player_jump1.wav", 1, ATTN_NORM);
+		else if (rs == 2)
+			sound (self, CHAN_VOICE, "player/player_jump2.wav", 1, ATTN_NORM);
+		else if (rs == 3)
+			sound (self, CHAN_VOICE, "player/player_jump3.wav", 1, ATTN_NORM);
+		else if (rs == 4)
+			sound (self, CHAN_VOICE, "player/player_jump4.wav", 1, ATTN_NORM);
+		else if (rs == 5)
+			sound (self, CHAN_VOICE, "player/player_jump5.wav", 1, ATTN_NORM);
+		else if (rs == 6)
+			sound (self, CHAN_VOICE, "player/player_jump6.wav", 1, ATTN_NORM);
+		else
+			sound (self, CHAN_VOICE, "player/player_jump7.wav", 1, ATTN_NORM);
 	}
 	
 //	self.flags = self.flags - (self.flags & FL_JUMPRELEASED);
@@ -1193,19 +1211,45 @@ void() WaterMove =
 			else
 				sound (self, CHAN_BODY, "misc/water2.wav", 1, ATTN_NORM);
 		}
-		if (time > 1)	// QSS-only hack for gasping after every level transition
+		
+		if (time > 1) // QSS-only hack for gasping after every level transition
 		{
 			if (time > self.air_finished ||
 				time > self.air_finished - 10 && self.dmg)
 			{
-				sound (self, CHAN_VOICE, "player/gasp2.wav", 1, ATTN_NORM);
+				// Gasp2 (out-of-air gasp)
+				float rs;
+				rs = rint((random() * 3) + 1);
+
+				if (rs == 1)
+					sound (self, CHAN_VOICE, "player/player_gasp2_1.wav", 1, ATTN_NORM);
+				else if (rs == 2)
+					sound (self, CHAN_VOICE, "player/player_gasp2_2.wav", 1, ATTN_NORM);
+				else if (rs == 3)
+					sound (self, CHAN_VOICE, "player/player_gasp2_3.wav", 1, ATTN_NORM);
+				else
+					sound (self, CHAN_VOICE, "player/player_gasp2_4.wav", 1, ATTN_NORM);
+
 				self.healthtime = time + 0.5;
 			}
 			else if (time > self.air_finished - 9)
 			{
-				sound (self, CHAN_VOICE, "player/gasp1.wav", 1, ATTN_NORM);
+				// Gasp1 (near-end breath)
+				rs = rint((random() * 4) + 1);
+
+				if (rs == 1)
+					sound (self, CHAN_VOICE, "player/player_gasp1_1.wav", 1, ATTN_NORM);
+				else if (rs == 2)
+					sound (self, CHAN_VOICE, "player/player_gasp1_2.wav", 1, ATTN_NORM);
+				else if (rs == 3)
+					sound (self, CHAN_VOICE, "player/player_gasp1_3.wav", 1, ATTN_NORM);
+				else if (rs == 4)
+					sound (self, CHAN_VOICE, "player/player_gasp1_4.wav", 1, ATTN_NORM);
+				else
+					sound (self, CHAN_VOICE, "player/player_gasp1_5.wav", 1, ATTN_NORM);
 			}
-		}		
+		}
+
 		// pentagram protects you from drowning, but if you spend enough time underwater,
 		// you're instantly out of air when it ends
 		self.air_finished = max(self.invincible_finished, time + 12);
@@ -1852,16 +1896,40 @@ void() PlayerPostThink =
 	PlayerHealthTick();
 	PlayerArmorTick();
 
-	// check to see if player landed and play landing sound	
+	// check to see if player landed and play landing sound
 	if ((self.jump_flag < -300) && (self.flags & FL_ONGROUND) && (self.health > 0))
 	{
 		if (self.jump_flag < -650 && !(self.customflags & CFL_PLUNGE) && !self.waterlevel)
 		{
+			// Hard landing — play one of the heavy land sounds
 			T_Damage (self, world, world, 5, DMGTYPE_FALLING); 
-			sound (self, CHAN_VOICE, "player/land2.wav", 1, ATTN_NORM);
+
+			local float rs;
+			rs = rint((random() * 1) + 1); // random 1–2
+
+			if (rs == 1)
+				sound (self, CHAN_VOICE, "player/player_land2_1.wav", 1, ATTN_NORM);
+			else
+				sound (self, CHAN_VOICE, "player/player_land2_2.wav", 1, ATTN_NORM);
 		}
 		else if (self.waterlevel < WL_EYES)
-			sound (self, CHAN_VOICE, "player/land.wav", 1, ATTN_NORM);
+		{
+			// Normal landing — play one of the light land sounds
+			rs = rint((random() * 5) + 1); // random 1–6
+
+			if (rs == 1)
+				sound (self, CHAN_VOICE, "player/player_land1_1.wav", 1, ATTN_NORM);
+			else if (rs == 2)
+				sound (self, CHAN_VOICE, "player/player_land1_2.wav", 1, ATTN_NORM);
+			else if (rs == 3)
+				sound (self, CHAN_VOICE, "player/player_land1_3.wav", 1, ATTN_NORM);
+			else if (rs == 4)
+				sound (self, CHAN_VOICE, "player/player_land1_4.wav", 1, ATTN_NORM);
+			else if (rs == 5)
+				sound (self, CHAN_VOICE, "player/player_land1_5.wav", 1, ATTN_NORM);
+			else
+				sound (self, CHAN_VOICE, "player/player_land1_6.wav", 1, ATTN_NORM);
+		}
 
 		self.jump_flag = 0;
 	}
