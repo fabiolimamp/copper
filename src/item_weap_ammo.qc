@@ -429,10 +429,11 @@ Keys:
 @PointClass base(Ammo)
     model(
         {{
-            spawnflags & 1 ->   ":maps/b_shell1.bsp",
-                                ":maps/b_shell0.bsp"
+            spawnflags & 2 ->   ":progs/ammo/shells_large.mdl",
+            spawnflags & 1 ->   ":progs/ammo/shells_med.mdl",
+                                ":progs/ammo/shells_small.mdl"
         }}
-    ) = item_shells : "Shells, 8/16/40" []
+    ) = item_shells : "Shells, 4/8/20" []
 */
 void() item_shells =
 {
@@ -479,8 +480,9 @@ Keys:
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 1 ->   ":maps/b_nail1.bsp",
-                                ":maps/b_nail0.bsp"
+            spawnflags & 2 ->   ":progs/ammo/nails_large.mdl",
+            spawnflags & 1 ->   ":progs/ammo/nails_med.mdl",
+                                ":progs/ammo/nails_small.mdl"
         }}
     ) = item_spikes : "Nailgun/Perforator ammo, 25/50/125" []
 */
@@ -512,7 +514,7 @@ void() item_spikes =
 }
 
 /*QUAKED item_rockets (0 .5 .5) (0 0 0) (32 32 32) BIG ? SUSPENDED
-4 ammo points (rockets) for the Rocket/Grenade Launcher.
+4 ammo points (explosives) for the Grenade Launcher / Multi Mini-Missile Launcher.
 
 Flags:
 "big" gives 8 instead of 4
@@ -528,8 +530,9 @@ Keys:
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 1 ->   ":maps/b_rock1.bsp",
-                                ":maps/b_rock0.bsp"
+            spawnflags & 2 ->   ":progs/ammo/explosives_large.mdl",
+            spawnflags & 1 ->   ":progs/ammo/explosives_med.mdl",
+                                ":progs/ammo/explosives_small.mdl"
         }}
     ) =
     item_rockets : "Rockets, 4/8/20" []
@@ -541,23 +544,23 @@ void() item_rockets =
 	if (self.spawnflags & ITEM_AMMO_YOOGE)
 	{
 		self.ammo_rockets = 20;
-		precache_model_safe ("progs/ammo/rockets_large.mdl");
-		setmodel(self, "progs/ammo/rockets_large.mdl");
+		precache_model_safe ("progs/ammo/explosives_large.mdl");
+		setmodel(self, "progs/ammo/explosives_large.mdl");
 	}	
 	else if (self.spawnflags & ITEM_AMMO_BIG)
 	{
 		self.ammo_rockets = 8;
-		precache_model_safe ("progs/ammo/rockets_med.mdl");
-		setmodel (self, "progs/ammo/rockets_med.mdl");
+		precache_model_safe ("progs/ammo/explosives_med.mdl");
+		setmodel (self, "progs/ammo/explosives_med.mdl");
 	}
 	else
 	{
 		self.ammo_rockets = 4;
-		precache_model_safe ("progs/ammo/rockets_small.mdl");
-		setmodel (self, "progs/ammo/rockets_small.mdl");
+		precache_model_safe ("progs/ammo/explosives_small.mdl");
+		setmodel (self, "progs/ammo/explosives_small.mdl");
 	}
 	self.weapon = 3;
-	self.netname = "rockets";
+	self.netname = "explosives";
 	StartAmmo();
 }
 
@@ -578,8 +581,9 @@ Keys:
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 1 ->   ":maps/b_batt1.bsp",
-                                ":maps/b_batt0.bsp"
+            spawnflags & 2 ->   ":progs/ammo/fragment_large.mdl",
+            spawnflags & 1 ->   ":progs/ammo/fragment_med.mdl",
+                                ":progs/ammo/fragment_small.mdl"
         }}
     ) =
     item_cells : "The Invoker, 1/3/5" []
@@ -591,20 +595,20 @@ void() item_cells =
 	if (self.spawnflags & ITEM_AMMO_YOOGE)
 	{
 		self.ammo_cells = 5;
-		precache_model_safe ("progs/ammo/cells_large.mdl");
-		setmodel(self, "progs/ammo/cells_large.mdl");
+		precache_model_safe ("progs/ammo/fragment_large.mdl");
+		setmodel(self, "progs/ammo/fragment_large.mdl");
 	}		
 	else if (self.spawnflags & ITEM_AMMO_BIG)
 	{
 		self.ammo_cells = 3;
-		precache_model_safe ("progs/ammo/cells_med.mdl");
-		setmodel (self, "progs/ammo/cells_med.mdl");
+		precache_model_safe ("progs/ammo/fragment_med.mdl");
+		setmodel (self, "progs/ammo/fragment_med.mdl");
 	}
 	else
 	{
 		self.ammo_cells = 1;
-		precache_model_safe ("progs/ammo/cells_small.mdl");
-		setmodel (self, "progs/ammo/cells_small.mdl");
+		precache_model_safe ("progs/ammo/fragment_small.mdl");
+		setmodel (self, "progs/ammo/fragment_small.mdl");
 	}
 	self.weapon = 4;
 	self.netname = "fragments";
