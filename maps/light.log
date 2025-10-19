@@ -5,11 +5,11 @@ running with 20 threads
 LoadBSPFile: 'qbj3_devroom.bsp'
 BSP is version 29
 --- LoadEntities ---
-WARNING: entity at (-640 -640 320) (light) has empty key/value "delay" ""
 WARNING: entity at (-640 640 320) (light) has empty key/value "delay" ""
+WARNING: entity at (-640 -640 320) (light) has empty key/value "delay" ""
 WARNING: couldn't parse '' as number for key 'delay'
 WARNING: couldn't parse '' as number for key 'delay'
-93 entities read, 5 are lights.
+94 entities read, 5 are lights.
 --- OptionsSummary ---
     "bounce" was set to "1" from commandline
     "bouncescale" was set to "1.000000" from commandline
@@ -32,12 +32,12 @@ Final count: 5 lights 0 suns in use.
 0....1....2....3....4....5....6....7....8....9....
 Lighting Completed.
 
-lightdatasize: 15191
+lightdatasize: 15536
 1 switchable light styles (32 max)
 Writing qbj3_devroom.bsp as BSP version 29
-0.113 seconds elapsed
+0.074 seconds elapsed
 
 stats:
-0.727190 lights tested, 0.725867 hits per sample point
-6.751508 bounce lights tested, 6.751508 hits per sample point
+0.725475 lights tested, 0.724158 hits per sample point
+0.000000 bounce lights tested, 0.000000 hits per sample point
 0 empty lightmaps
