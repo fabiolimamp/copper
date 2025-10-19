@@ -32,37 +32,33 @@ void() weaponanim_boxrocket_loop = {
 		W_ChangeWeapon(W_BestWeapon());
 		return FALSE;
 	}
-	/*
-	if (self.weaponframe == 2)  boxrocket_launch('0 6 -16', FALSE);
-	if (self.weaponframe == 4)  boxrocket_launch('0 -6 -32', TRUE);
-	if (self.weaponframe == 6)  boxrocket_launch('0 -6 -32', FALSE);
-	if (self.weaponframe == 8)  boxrocket_launch('0 -6 -16', TRUE);
-	if (self.weaponframe == 10) boxrocket_launch('0 6 -16', FALSE);
-	if (self.weaponframe == 12) boxrocket_launch('0 -6 -32', TRUE);
-	if (self.weaponframe == 14) boxrocket_launch('0 6 -32', FALSE);
-	*/
-	if (self.weaponframe == 2)  boxrocket_launch('0 -2 -8', 0);
-	if (self.weaponframe == 4)  boxrocket_launch('0  2 -8', 1);
-	if (self.weaponframe == 6)  boxrocket_launch('0  6 -8', 0);
-	if (self.weaponframe == 8)  boxrocket_launch('0 -6 -12', 1);
-	if (self.weaponframe == 10) boxrocket_launch('0 -2 -12', 0);
-	if (self.weaponframe == 12) boxrocket_launch('0  2 -12', 1);
-	if (self.weaponframe == 14) boxrocket_launch('0  6 -12', 0);
-
-
+	
+	if (self.weaponframe == 2)  	boxrocket_launch('0 -2 -8', 0);
+	if (self.weaponframe == 4)  	boxrocket_launch('0  2 -8', 1);
+	if (self.weaponframe == 6)  	boxrocket_launch('0  6 -8', 0);
+	if (self.weaponframe == 8)  	boxrocket_launch('0 -6 -12', 1);
+	if (self.weaponframe == 10) 	boxrocket_launch('0 -2 -12', 0);
+	if (self.weaponframe == 11)	sound (self, CHAN_AUTO, "mmml/silo_latch.wav", 1, ATTN_NORM);
+	if (self.weaponframe == 12) 	boxrocket_launch('0  2 -12', 1);
+	if (self.weaponframe == 14) 	{boxrocket_launch('0  6 -12', 0);	
+					sound (self, CHAN_AUTO, "mmml/silo_clunk.wav", 1, ATTN_NORM);
+					sound (self, CHAN_AUTO, "mmml/silo_clunk2.wav", 1, ATTN_NORM);}
+	if (self.weaponframe == 18)	sound (self, CHAN_AUTO, "mmml/silo_load.wav", 1, ATTN_NORM);
+	if (self.weaponframe == 20)	sound (self, CHAN_AUTO, "mmml/silo_load2.wav", 1, ATTN_NORM);
+	
+	
 	if (self.weaponframe >= 32) {
 		self.weaponframe = 0;
 		return;
 	}
+
 	else {
 		self.weaponframe++;
 	}
 
 	self.think = weaponanim_boxrocket_loop;
 	self.nextthink = time + 0.05;
-
 }
-
 
 //=====================================================================================================================
 
@@ -78,62 +74,25 @@ void(vector ofs) W_FireSpiralRocket =
 {
 	local	vector dir, org;
 
-	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
-
+	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 0.75, ATTN_NORM);
+	
+	local float r;
+	r = random();
+	
+	if	(r<0.25)sound (self, CHAN_AUTO, "mmml/fire1.wav", 1, ATTN_NORM);
+	else if (r<0.5)	sound (self, CHAN_AUTO, "mmml/fire2.wav", 1, ATTN_NORM);
+	else if (r<0.75)sound (self, CHAN_AUTO, "mmml/fire3.wav", 1, ATTN_NORM);
+	else 		sound (self, CHAN_AUTO, "mmml/fire4.wav", 1, ATTN_NORM);
+	
+	
 	makevectors (self.v_angle);
 	dir = aim(self, 1000);
 
 	org = self.origin + self.view_ofs + v_up*ofs_z + v_right*ofs_y;
 	traceline(org, org + v_forward * 15, FALSE, self);
 	launch_spiralrocket(org + v_forward*15 * trace_fraction, dir, 0);
-	
 };
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-float() weaponanim_twinrocket = {
-	if (self.attack_finished > time)
-		return FALSE;
-
-	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
-		W_ChangeWeapon(W_BestWeapon());
-		return FALSE;
-	}
-
-	self.currentammo = self.ammo_rockets = self.ammo_rockets - 2;
-
-	self.attack_finished = time + 1.2;
-	
-	SUB_CallAsSelf(player_rockatt1, self.animcontroller);
-	
-	self.effects = self.effects | EF_MUZZLEFLASH;
-
-	//W_FireRocket();
-	W_FireSpiralRocket();
-
-	self.weaponframe = 1;
-	self.think = weaponanim_twinrocket_loop;
-	self.nextthink = time + 0.05;
-	
-	return TRUE;
-}
-
-void() weaponanim_twinrocket_loop = {
-
-	if (self.weaponframe >= 32) {
-		self.weaponframe = 0;
-		return;
-	}
-	else {
-		self.weaponframe++;
-	}
-
-	self.think = weaponanim_twinrocket_loop;
-	self.nextthink = time + 0.05;
-
-}
-*/
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 void() spiralrocket_touch =

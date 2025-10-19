@@ -46,7 +46,7 @@ void() weaponanim_invoker_loop =
 
 		SuperDamageSound();
 		
-		sound (self, CHAN_AUTO, "rail/rail_fire1.wav", 1, ATTN_NORM);
+		sound (self, CHAN_AUTO, "invoker/invoker_firerail.wav", 1, ATTN_NORM);
 	
 		
 		W_FireRail(0);
