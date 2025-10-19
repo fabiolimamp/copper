@@ -437,10 +437,10 @@ void() worldspawn =
 	precache_model ("progs/zom_gib.mdl");
 			
 	precache_model ("progs/ammo/shells_drop.mdl");		// dropped ammo pickups (replaces backpack)
-	precache_model ("progs/ammo/nails_drop.mdl");		// no enemies drop nails
-	precache_model ("progs/ammo/explosives_drop.mdl");		// dropped ammo pickups (replaces backpack)
-	//precache_model ("progs/ammo/fragment_drop.mdl");		// no enemies drop cells
-	//precache_model ("progs/ammo/health_drop.mdl");		// no enemies drop health
+	//precache_model ("progs/ammo/nails_drop.mdl");		// no enemies drop nails
+	precache_model ("progs/ammo/explosives_drop.mdl");	// dropped ammo pickups (replaces backpack)
+	//precache_model ("progs/ammo/fragments_drop.mdl");	// no enemies drop cells
+	//precache_model ("progs/ammo/health_drop.mdl");	// no enemies drop health
 }
 
 void() StartFrame =

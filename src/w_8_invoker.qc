@@ -84,7 +84,7 @@ void(float split) W_FireRail =
 	
 	if	(split == 0)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 32) + (v_right * -32);	}
 	else if	(split == 1)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 32) + (v_right * 0);	}
-	else if	(split == 2)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 23) + (v_right * 32);	}
+	else if	(split == 2)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 32) + (v_right * 32);	}
 	else if	(split == 3)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 0) + (v_right * -32);	}
 	else if	(split == 4)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 0) + (v_right * 0);	}
 	else if	(split == 5)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 0) + (v_right * 32);	}

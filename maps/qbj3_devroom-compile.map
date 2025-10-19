@@ -74,7 +74,7 @@
 "classname" "item_backpack"
 "origin" "-304 -880 0"
 "angle" "90"
-"spawnflags" "0"
+"spawnflags" "1"
 }
 // entity 12
 {

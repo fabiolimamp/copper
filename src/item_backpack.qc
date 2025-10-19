@@ -183,7 +183,7 @@ void() BackpackAutoTouch =
 			
 			self.ammo_rockets = 2;
 			self.ammo_cells = 3;
-			self.skin = 2;
+			//self.skin = 2;
 		}
 		self.armorvalue = 0;
 	}
@@ -232,7 +232,7 @@ void() item_backpack =
 		
 		self.ammo_rockets = 2;
 		self.ammo_cells = 3;
-		self.skin = 2;
+		//self.skin = 2;
 	}
 	
 	self.touch = BackpackAutoTouch;
@@ -306,7 +306,7 @@ void(float skin_num) DropBackpack =
 	if (self.flags & FL_CLIENT)
 	{	// apply player's colormap to his backpack, although currently this only works in software
 		item.colormap = self.colormap;
-		item.skin = 3;
+		//item.skin = 3;
 		
 		if (coop == 1)
 		{	// players can only pick up their own backpacks, which never despawn (body run rules)
@@ -345,9 +345,9 @@ void(float ammo_type) DropEnemyAmmo =
 	item.movetype = MOVETYPE_TOSS;
 	
 	if 	(ammo_type == 1)	setmodel (item, "progs/ammo/shells_drop.mdl");
-	else if (ammo_type == 2)	setmodel (item, "progs/ammo/nails_drop.mdl");
+	//else if (ammo_type == 2)	setmodel (item, "progs/ammo/nails_drop.mdl");
 	else if (ammo_type == 3)	setmodel (item, "progs/ammo/explosives_drop.mdl");
-	//else if (ammo_type == 4)	setmodel (item, "progs/ammo/fragment_drop.mdl");
+	//else if (ammo_type == 4)	setmodel (item, "progs/ammo/fragments_drop.mdl");
 	else				setmodel (item, "progs/backpack.mdl");
 	
 	setsize (item, '-16 -16 0', '16 16 56');

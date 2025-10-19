@@ -1,0 +1,43 @@
+---- light / ericw-tools v0.18.1 ----
+extra 4x4 sampling enabled
+Raytracing backend: Embree
+running with 20 threads
+LoadBSPFile: 'qbj3_devroom.bsp'
+BSP is version 29
+--- LoadEntities ---
+WARNING: entity at (-640 -640 320) (light) has empty key/value "delay" ""
+WARNING: entity at (-640 640 320) (light) has empty key/value "delay" ""
+WARNING: couldn't parse '' as number for key 'delay'
+WARNING: couldn't parse '' as number for key 'delay'
+92 entities read, 5 are lights.
+--- OptionsSummary ---
+    "bounce" was set to "1" from commandline
+    "bouncescale" was set to "1.000000" from commandline
+Embree_TraceInit: Embree version: 2.15.0
+Embree_TraceInit:
+	70 sky faces
+	210 solid faces
+	0 filtered faces
+	0 shadow-casting skip faces
+SetupLights: 5 initial lights
+SetupLights: 5 after surface lights
+SetupLights: 5 after jittering
+--- EstimateLightVisibility ---
+0....1....2....3....4....5....6....7....8
+Final count: 5 lights 0 suns in use.
+--- LightWorld ---
+--- MakeTextureColors ---
+--- MakeBounceLights ---
+0....1....2....3....4....5....6....7....8....9....
+0....1....2....3....4....5....6....7....8....9....
+Lighting Completed.
+
+lightdatasize: 15190
+1 switchable light styles (32 max)
+Writing qbj3_devroom.bsp as BSP version 29
+0.129 seconds elapsed
+
+stats:
+0.727190 lights tested, 0.725867 hits per sample point
+6.751508 bounce lights tested, 6.751508 hits per sample point
+0 empty lightmaps

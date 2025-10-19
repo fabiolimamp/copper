@@ -429,9 +429,9 @@ Keys:
 @PointClass base(Ammo)
     model(
         {{
-            spawnflags & 2 ->   ":progs/ammo/shells_large.mdl",
-            spawnflags & 1 ->   ":progs/ammo/shells_med.mdl",
-                                ":progs/ammo/shells_small.mdl"
+            spawnflags & 2 ->   ":progs/tb/shells_2.mdl",
+            spawnflags & 1 ->   ":progs/tb/shells_1.mdl",
+                                ":progs/tb/shells_0.mdl"
         }}
     ) = item_shells : "Shells, 4/8/20" []
 */
@@ -480,9 +480,9 @@ Keys:
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 2 ->   ":progs/ammo/nails_large.mdl",
-            spawnflags & 1 ->   ":progs/ammo/nails_med.mdl",
-                                ":progs/ammo/nails_small.mdl"
+            spawnflags & 2 ->   ":progs/tb/nails_2.mdl",
+            spawnflags & 1 ->   ":progs/tb/nails_1.mdl",
+                                ":progs/tb/nails_0.mdl"
         }}
     ) = item_spikes : "Nailgun/Perforator ammo, 25/50/125" []
 */
@@ -530,9 +530,9 @@ Keys:
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 2 ->   ":progs/ammo/explosives_large.mdl",
-            spawnflags & 1 ->   ":progs/ammo/explosives_med.mdl",
-                                ":progs/ammo/explosives_small.mdl"
+            spawnflags & 2 ->   ":progs/tb/explosives_2.mdl",
+            spawnflags & 1 ->   ":progs/tb/explosives_1.mdl",
+                                ":progs/tb/explosives_0.mdl"
         }}
     ) =
     item_rockets : "Rockets, 4/8/20" []
@@ -581,9 +581,9 @@ Keys:
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 2 ->   ":progs/ammo/fragment_large.mdl",
-            spawnflags & 1 ->   ":progs/ammo/fragment_med.mdl",
-                                ":progs/ammo/fragment_small.mdl"
+            spawnflags & 2 ->   ":progs/tb/fragments_2.mdl",
+            spawnflags & 1 ->   ":progs/tb/fragments_1.mdl",
+                                ":progs/tb/fragments_0.mdl"
         }}
     ) =
     item_cells : "The Invoker, 1/3/5" []
@@ -595,20 +595,20 @@ void() item_cells =
 	if (self.spawnflags & ITEM_AMMO_YOOGE)
 	{
 		self.ammo_cells = 5;
-		precache_model_safe ("progs/ammo/fragment_large.mdl");
-		setmodel(self, "progs/ammo/fragment_large.mdl");
+		precache_model_safe ("progs/ammo/fragments_large.mdl");
+		setmodel(self, "progs/ammo/fragments_large.mdl");
 	}		
 	else if (self.spawnflags & ITEM_AMMO_BIG)
 	{
 		self.ammo_cells = 3;
-		precache_model_safe ("progs/ammo/fragment_med.mdl");
-		setmodel (self, "progs/ammo/fragment_med.mdl");
+		precache_model_safe ("progs/ammo/fragments_med.mdl");
+		setmodel (self, "progs/ammo/fragments_med.mdl");
 	}
 	else
 	{
 		self.ammo_cells = 1;
-		precache_model_safe ("progs/ammo/fragment_small.mdl");
-		setmodel (self, "progs/ammo/fragment_small.mdl");
+		precache_model_safe ("progs/ammo/fragments_small.mdl");
+		setmodel (self, "progs/ammo/fragments_small.mdl");
 	}
 	self.weapon = 4;
 	self.netname = "fragments";
