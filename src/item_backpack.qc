@@ -93,13 +93,13 @@ void() BackpackTouch =
 	{
 		if (acount) sprint(other, ", ");
 		acount = 2;
-		print_quant(self.ammo_rockets, "rocket", other);
+		print_quant(self.ammo_rockets, "explosive", other);
 	}
 	if (self.ammo_cells)
 	{
 		if (acount) sprint(other, ", ");
 		acount = 2;
-		print_quant(self.ammo_cells, "cell", other);
+		print_quant(self.ammo_cells, "fragment", other);
 	}
 	
 	sprint (other, "\n");
@@ -184,6 +184,7 @@ void() BackpackAutoTouch =
 			self.ammo_rockets = 2;
 			self.ammo_cells = 3;
 			//self.skin = 2;
+			self.skin = 1;
 		}
 		self.armorvalue = 0;
 	}
@@ -221,7 +222,8 @@ void() item_backpack =
 
 	setmodel (self, "progs/backpack.mdl");
 	setsize (self, '-16 -16 0', '16 16 56');
-	self.skin = 1;
+	//self.skin = 1;
+	self.skin = 0;
 	
 	self.ammo_shells = floor(3 * random() + 6);
 	self.ammo_nails = floor(5 * random() + 12);
@@ -233,6 +235,7 @@ void() item_backpack =
 		self.ammo_rockets = 2;
 		self.ammo_cells = 3;
 		//self.skin = 2;
+		self.skin = 1;
 	}
 	
 	self.touch = BackpackAutoTouch;

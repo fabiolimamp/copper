@@ -6,7 +6,7 @@ Output file: qbj3_devroom.bsp
 *** WARNING 06: No info_player_deathmatch entities in level
           338 faces
            55 brushes
-          113 entities
+          114 entities
             7 unique texnames
            90 texinfo
 
@@ -77,7 +77,7 @@ Wrote qbj3_devroom.bsp
            11 textures          73928
               lightdata             0
               visdata               0
-              entdata            7180
+              entdata            7265
 
-0.029 seconds elapsed
-Peak memory usage: 2308896 (2.2M)
+0.036 seconds elapsed
+Peak memory usage: 2308992 (2.2M)

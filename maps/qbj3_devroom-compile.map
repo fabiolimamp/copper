@@ -72,7 +72,7 @@
 // entity 11
 {
 "classname" "item_backpack"
-"origin" "-304 -880 0"
+"origin" "-272 -880 0"
 "angle" "90"
 "spawnflags" "1"
 }
@@ -1126,6 +1126,13 @@
 }
 // entity 110
 {
+"classname" "item_backpack"
+"origin" "-336 -880 0"
+"angle" "90"
+"spawnflags" "0"
+}
+// entity 111
+{
 "classname" "func_group"
 "_tb_type" "_tb_layer"
 "_tb_name" "sky"
@@ -1133,7 +1140,7 @@
 "_tb_layer_sort_index" "0"
 "_tb_layer_hidden" "1"
 }
-// entity 111
+// entity 112
 {
 "classname" "func_group"
 "_tb_layer" "1"
@@ -1183,7 +1190,7 @@
 ( -128 -1184 512 ) ( -128 -1185 512 ) ( -128 -1184 513 ) sky_void [ -6.123233995736766e-17 1 0 -128 ] [ 0 0 -1 0 ] 0 1 1
 }
 }
-// entity 112
+// entity 113
 {
 "classname" "func_group"
 "_tb_layer" "1"

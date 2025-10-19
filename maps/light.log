@@ -9,7 +9,7 @@ WARNING: entity at (-640 -640 320) (light) has empty key/value "delay" ""
 WARNING: entity at (-640 640 320) (light) has empty key/value "delay" ""
 WARNING: couldn't parse '' as number for key 'delay'
 WARNING: couldn't parse '' as number for key 'delay'
-92 entities read, 5 are lights.
+93 entities read, 5 are lights.
 --- OptionsSummary ---
     "bounce" was set to "1" from commandline
     "bouncescale" was set to "1.000000" from commandline
@@ -32,10 +32,10 @@ Final count: 5 lights 0 suns in use.
 0....1....2....3....4....5....6....7....8....9....
 Lighting Completed.
 
-lightdatasize: 15190
+lightdatasize: 15191
 1 switchable light styles (32 max)
 Writing qbj3_devroom.bsp as BSP version 29
-0.129 seconds elapsed
+0.113 seconds elapsed
 
 stats:
 0.727190 lights tested, 0.725867 hits per sample point
