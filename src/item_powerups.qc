@@ -219,7 +219,7 @@ void() precache_envirosuit =
 	precache_sound_safe ("items/suit.wav");
 	precache_sound_safe ("items/suit2.wav");
 }
-/*QUAKED item_artifact_envirosuit (0 .5 .5) (-16 -16 -8) (16 16 48) ? ? SUSPENDED
+/*QUAKED item_artifact_envirosuit (0 .5 .5) (-16 -16 -24) (16 16 32) ? ? SUSPENDED
 Envirosuit. Player takes no damage from water or slime for 30 seconds. Lava damage is reduced by one height step, enabling wading in foot-deep lava.
 
 Keys:
@@ -242,7 +242,7 @@ void() item_artifact_envirosuit =
 	setmodel (self, "progs/item_suit.mdl");
 	self.netname = "Biosuit";
 	self.items = IT_SUIT;
-	setsize (self, '-16 -16 -8', '16 16 48');
+	setsize (self, '-16 -16 -24', '16 16 32');
 	if (deathmatch)
 		self.wait = 60;
 	StartItem ();
