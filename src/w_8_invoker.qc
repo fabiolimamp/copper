@@ -176,7 +176,7 @@ void() Start_Sniper_Lightning =
 	{
 		if (i == 0)      { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 32) + (v_right * -32); }
 		else if (i == 1) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 32) + (v_right * 0); }
-		else if (i == 2) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 23) + (v_right * 32); }
+		else if (i == 2) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 32) + (v_right * 32); }
 		else if (i == 3) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 0) + (v_right * -32); }
 		else if (i == 4) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 0) + (v_right * 0); }
 		else if (i == 5) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 0) + (v_right * 32); }
