@@ -53,7 +53,7 @@ void() BackpackTouch =
 	other.ammo_shells = other.ammo_shells + self.ammo_shells;
 	other.ammo_nails = other.ammo_nails + self.ammo_nails;
 	other.ammo_rockets = other.ammo_rockets + self.ammo_rockets;
-	other.ammo_cells = other.ammo_cells + self.ammo_cells;
+	//other.ammo_cells = other.ammo_cells + self.ammo_cells;
 	bound_ammo(other);
 	T_GiveArmor(other, self.armorvalue);	
 	
@@ -95,12 +95,14 @@ void() BackpackTouch =
 		acount = 2;
 		print_quant(self.ammo_rockets, "explosive", other);
 	}
+	/*
 	if (self.ammo_cells)
 	{
 		if (acount) sprint(other, ", ");
 		acount = 2;
 		print_quant(self.ammo_cells, "fragment", other);
 	}
+	*/
 	
 	sprint (other, "\n");
 	
@@ -162,11 +164,14 @@ void() BackpackAutoTouch =
 		self.armorvalue += (other.ammo_rockets + self.ammo_rockets - MAX_AMMO_ROCKETS) * 3;
 		self.ammo_rockets = MAX_AMMO_ROCKETS - other.ammo_rockets;
 	}
+	/*
 	if (other.ammo_cells + self.ammo_cells > MAX_AMMO_CELLS)
 	{
 		self.armorvalue += (other.ammo_cells + self.ammo_cells - MAX_AMMO_CELLS) * 3;
 		self.ammo_cells = MAX_AMMO_CELLS - other.ammo_cells;
+
 	}
+	*/
 	
 	self.armorvalue = floor(self.armorvalue / 2);
 	BackpackTouch();
