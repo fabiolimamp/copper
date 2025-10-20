@@ -17,6 +17,10 @@ float() weaponanim_invoker =
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 
+	sound (self, CHAN_AUTO, "invoker/magic21.wav", 1, ATTN_NORM);
+	
+	sound (self, CHAN_AUTO, "invoker/magic26.wav", 1, ATTN_NORM);
+		
 	self.weaponframe = 1;
 	self.think = weaponanim_invoker_loop;
 	self.nextthink = time + 0.025;
@@ -32,13 +36,8 @@ float() weaponanim_invoker =
 
 void() weaponanim_invoker_loop = 
 {
-	//if (self.weaponframe >= 84)
+	if (self.weaponframe == 31)	sound (self, CHAN_AUTO, "invoker/magic07.wav", 1, ATTN_NORM);
 	
-	if (self.weaponframe >= 100)	// added post-fire + ready to fire --> idle padding
-	{
-		self.weaponframe = 0;
-		return;
-	}
 	if (self.weaponframe == 68)
 	{		
 		self.currentammo = self.ammo_cells = self.ammo_cells - 1;
@@ -47,6 +46,8 @@ void() weaponanim_invoker_loop =
 		SuperDamageSound();
 		
 		sound (self, CHAN_AUTO, "invoker/invoker_firerail.wav", 1, ATTN_NORM);
+		
+		sound (self, CHAN_AUTO, "invoker/magic08.wav", 1, ATTN_NORM);
 	
 		
 		W_FireRail(0);
@@ -63,6 +64,12 @@ void() weaponanim_invoker_loop =
 		
 		self.weaponframe++;
 	}
+	if (self.weaponframe >= 100)	// added post-fire + ready to fire --> idle padding
+	{
+		//self.weaponframe = 0;
+		idleamim_invoker();
+		return;
+	}	
 	else {
 		self.weaponframe++;
 	}
@@ -70,6 +77,32 @@ void() weaponanim_invoker_loop =
 	self.think = weaponanim_invoker_loop;
 	self.nextthink = time + 0.025;
 }
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void() idleamim_invoker =
+{	
+	self.weaponframe = 85;
+	
+	self.think = idleamim_invoker_loop;
+	self.nextthink = time + 0.1;
+}
+
+void() idleamim_invoker_loop =
+{
+
+	if (self.weaponframe >= 100)	//restart idle loop
+	{
+		idleamim_invoker();
+		return;
+	}
+	else {
+		self.weaponframe++;
+	}
+
+	self.think = idleamim_invoker_loop;
+	self.nextthink = time + 0.1;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 void(float split) W_FireRail =

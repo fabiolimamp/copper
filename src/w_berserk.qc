@@ -35,7 +35,8 @@ float() weaponanim_berserk = {
 
 void() weaponanim_berserk_loop = {
 	if (self.weaponframe % 10 == 3)
-		W_FireBerserk();
+		//W_FireBerserk();
+		W_FireBerserk2();
 
 	if (self.weaponframe % 10 == 0) {
 		self.weaponframe = 0;
@@ -58,10 +59,10 @@ void() W_FireBerserk =
 	local vector toss;
 	if (self.health <= 0)
 		return;
-	
+
 	makevectors (self.v_angle);
 			
-	vector source = self.origin + self.view_ofs;//'0 0 16';	
+	vector source = self.origin + self.view_ofs;//'0 0 16';
 	
 	traceline2(source, source + v_forward * (96), self, 0);	// flail has increased range by default
 		
@@ -100,9 +101,6 @@ void() W_FireBerserk =
 			toss = normalize(toss) * 800; // beserk doubled the knockback with the axe but removed the quad knockback
 
 			toss_z = 100;
-			//bprint(vtos(toss));
-			//bprint("\n");
-			//toss *=  - vlen(head.maxs - head.mins)
 			trace_ent.origin_z = trace_ent.origin_z + 1;
 			trace_ent.velocity = toss;
 			trace_ent.flags &~= FL_ONGROUND;
@@ -113,6 +111,153 @@ void() W_FireBerserk =
 	}
 	else
 	{	// hit wall
+		sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
+		gunshot(org);
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+void() W_FireBerserk2 =
+{
+	local	vector	source;
+	
+	entity hitent1, hitent2;
+	vector hitpos1, hitpos2;
+	float shortest_hit1 = 1000;
+	float shortest_hit2 = 1000;
+
+	makevectors (self.v_angle);
+	source = self.origin + self.view_ofs - v_up*6;
+
+	traceline (source, source + v_forward*72 - v_right*64, FALSE, self);
+	if (trace_fraction < 1) {
+		shortest_hit1 = vlen(trace_endpos - source);
+		hitent1 = trace_ent;
+		hitpos1 = trace_endpos;
+ 	}
+
+	traceline (source, source + v_forward*86 - v_right*32, FALSE, self);
+	if (trace_fraction < 1) {
+		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
+			shortest_hit1 = vlen(trace_endpos - source);
+			hitent1 = trace_ent;
+			hitpos1 = trace_endpos;
+		}
+		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
+			shortest_hit2 = vlen(trace_endpos - source);
+			hitent2 = trace_ent;
+			hitpos2 = trace_endpos;
+		}
+	}
+
+	traceline (source, source + v_forward*100, FALSE, self);
+	if (trace_fraction < 1) {
+		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
+			shortest_hit1 = vlen(trace_endpos - source);
+			hitent1 = trace_ent;
+			hitpos1 = trace_endpos;
+		}
+		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
+			shortest_hit2 = vlen(trace_endpos - source);
+			hitent2 = trace_ent;
+			hitpos2 = trace_endpos;
+		}
+	}
+
+	traceline (source, source + v_forward*86 + v_right*32, FALSE, self);
+	if (trace_fraction < 1) {
+		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
+			shortest_hit1 = vlen(trace_endpos - source);
+			hitent1 = trace_ent;
+			hitpos1 = trace_endpos;
+		}
+		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
+			shortest_hit2 = vlen(trace_endpos - source);
+			hitent2 = trace_ent;
+			hitpos2 = trace_endpos;
+		}
+	}
+
+	traceline (source, source + v_forward*72 + v_right*64, FALSE, self);
+	if (trace_fraction < 1) {
+		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
+			shortest_hit1 = vlen(trace_endpos - source);
+			hitent1 = trace_ent;
+			hitpos1 = trace_endpos;
+		}
+		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
+			shortest_hit2 = vlen(trace_endpos - source);
+			hitent2 = trace_ent;
+			hitpos2 = trace_endpos;
+		}
+	}
+
+	if (shortest_hit1 == 1000 && shortest_hit2 == 1000) {
+		return;
+	}
+
+	self.show_hostile = time + 1; // hit something, so alert monsters
+	
+	vector dir = v_right * 20 - v_up*5; // direction for blood particles
+
+	if (shortest_hit1 < 1000) hitberserk2(hitent1, hitpos1 - v_forward*4, dir);
+	if (shortest_hit2 < 1000 && hitent1 != hitent2) hitberserk2(hitent2, hitpos2 - v_forward*4, dir);
+
+
+};
+//=============================================================================================
+void(entity hitent, vector org, vector dir) hitberserk2 =
+{
+	if (hitent.takedamage) 
+	{		
+		hitent.swordhitme = 1;
+
+		SpawnBlood(org, dir, 100);
+
+		if (hitent.classname == "monster_zombie") //keep zombies Unbonkable
+			zombie_knockdown(trace_ent);
+		else	
+			T_Damage(hitent, self, self, 480, DMGTYPE_MELEE);
+		
+		//johnfitz -- make clank sound when hitting brushmodels
+		if (hitent.movetype == MOVETYPE_PUSH || hitent.movetype == MOVETYPE_NONE)
+			wrench_hitsound();
+
+		dprint(hitent.classname);
+
+		if ((hitent.flags & FL_MONSTER) || (hitent.classname == "player"))
+		{	
+			wrench_hitsound();
+			
+			
+			if ((hitent.movetype == MOVETYPE_STEP || hitent.movetype == MOVETYPE_WALK) && 
+				// don't swat bosses or other non-standard-sized enemies around
+				hitent.maxs_x <= 32 && hitent.health > 0 && hitent.type != "boss")
+			{
+				local vector toss;
+				toss = v_forward;
+				toss_z = 0;
+				toss = normalize(toss) * 800;
+				toss_z = 100;
+				hitent.origin_z = hitent.origin_z + 1;
+				hitent.velocity = toss;
+				hitent.flags = not(hitent.flags, FL_ONGROUND);
+			}	
+		}
+		//johnfitz
+
+		if (trace_ent.flags & FL_MONSTER)
+		{
+			if (trace_ent.type == "zombie")
+				zombie_knockdown(trace_ent);
+			wrench_hitsound();
+		}
+		else
+		{
+			sound (self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_IDLE);
+		}
+	}
+	else	{	// hit wall
 		sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
 		gunshot(org);
 	}

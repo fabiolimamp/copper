@@ -143,7 +143,7 @@ void() BackpackAutoTouch =
 	if (!CheckValidTouch()) return;
 
 	if (self.spawnflags & 1)
-		sprint (other, "You found a big backpack!\n");
+		sprint (other, "You found a big blue backpack!\n");
 	else
 		sprint (other, "You found a backpack\n");
 		
@@ -174,15 +174,15 @@ void() BackpackAutoTouch =
 	if (self.wait > 0)
 	{
 		// reset all the values we may have just vandalized
-		self.ammo_shells = floor(3 * random() + 6);
-		self.ammo_nails = floor(5 * random() + 12);
+		self.ammo_shells = floor(3 * random() + 4);
+		self.ammo_nails = floor(5 * random() + 10);
 		if (self.spawnflags & 1)
 		{
 			self.ammo_shells *= 2;
 			self.ammo_nails *= 2;
+			self.ammo_rockets = 4;
+			self.ammo_cells = 1;
 			
-			self.ammo_rockets = 2;
-			self.ammo_cells = 3;
 			//self.skin = 2;
 			self.skin = 1;
 		}
@@ -194,7 +194,7 @@ void() BackpackAutoTouch =
 A forgotten explorer's backpack. Grants a paltry sum of shells and nails (about half a small pack of each). Grants armor instead of any ammo the player already has maxed.
 
 Flags:
-"big" doubles shells and nails, adds 2 rockets and 1 cell, appears red
+"Big Blue" doubles shells and nails, adds 4 explosives and 1 fragment
     
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -209,7 +209,7 @@ Keys:
 "A forgotten explorer's backpack. Grants a paltry sum of shells and nails (about half a small pack of each). Grants armor instead of any ammo the player already has maxed."
 [
 	spawnflags(flags) =	[
-		1 : "Big (2x, red, +2 rockets/1 cell)" : 0
+		1 : "Big Blue (x2 shells, x2 nails, +4 explosives, +1 fragment)" : 0
 	]
 ]
 */
@@ -225,15 +225,15 @@ void() item_backpack =
 	//self.skin = 1;
 	self.skin = 0;
 	
-	self.ammo_shells = floor(3 * random() + 6);
-	self.ammo_nails = floor(5 * random() + 12);
+	self.ammo_shells = floor(3 * random() + 4);
+	self.ammo_nails = floor(5 * random() + 10);
 	if (self.spawnflags & 1)
 	{
 		self.ammo_shells *= 2;
 		self.ammo_nails *= 2;
+		self.ammo_rockets = 4;
+		self.ammo_cells = 1;
 		
-		self.ammo_rockets = 2;
-		self.ammo_cells = 3;
 		//self.skin = 2;
 		self.skin = 1;
 	}

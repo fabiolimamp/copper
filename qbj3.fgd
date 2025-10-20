@@ -251,7 +251,7 @@ Spawnflag Usage:
 @PointClass base(Weapon) model({ "path": ":progs/g_invoker.mdl" }) = weapon_invoker : "The Invoker.
 1 cell." []
 @PointClass base(Weapon) model({ "path": ":progs/g_wrench.mdl" }) = weapon_wrench : "Wrench." []
-@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 2 : "YOOGE box (5x)" 1 : "Large box (2x)" : 0 ] ]
+@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 2 : "YOOGE (refills 50%)" 1 : "Large box (2x)" : 0 ] ]
 @PointClass base(Ammo)
     model(
         {{
@@ -259,7 +259,7 @@ Spawnflag Usage:
             spawnflags & 1 ->   ":progs/tb/shells_1.mdl",
                                 ":progs/tb/shells_0.mdl"
         }}
-    ) = item_shells : "Shells, 4/8/20" []
+    ) = item_shells : "Shotgun Shells, 4/8/50" []
 @PointClass base(Ammo) 
     model(
         {{
@@ -267,7 +267,7 @@ Spawnflag Usage:
             spawnflags & 1 ->   ":progs/tb/nails_1.mdl",
                                 ":progs/tb/nails_0.mdl"
         }}
-    ) = item_spikes : "Nailgun/Perforator ammo, 25/50/125" []
+    ) = item_spikes : "Nails and Rebar, 25/50/100" []
 @PointClass base(Ammo) 
     model(
         {{
@@ -276,7 +276,7 @@ Spawnflag Usage:
                                 ":progs/tb/explosives_0.mdl"
         }}
     ) =
-    item_rockets : "Rockets, 4/8/20" []
+    item_rockets : "Explosive Rounds, 4/8/50" []
 @PointClass base(Ammo) 
     model(
         {{
@@ -285,7 +285,7 @@ Spawnflag Usage:
                                 ":progs/tb/fragments_0.mdl"
         }}
     ) =
-    item_cells : "The Invoker, 1/3/5" []
+    item_cells : "Invoker Fragments, 1/3/5" []
 
 
 //
@@ -371,7 +371,7 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 "A forgotten explorer's backpack. Grants a paltry sum of shells and nails (about half a small pack of each). Grants armor instead of any ammo the player already has maxed."
 [
 	spawnflags(flags) =	[
-		1 : "Big (2x, red, +2 rockets/1 cell)" : 0
+		1 : "Big Blue (x2 shells, x2 nails, +4 explosives, +1 fragment)" : 0
 	]
 ]
 

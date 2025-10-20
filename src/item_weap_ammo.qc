@@ -244,7 +244,7 @@ Keys:
 */
 /*FGD
 @PointClass base(Weapon) model({ "path": ":progs/g_grenlauncher.mdl" }) = weapon_grenadelauncher : "Grenade Launcher.
-5 rockets." []
+8 rockets." []
 */
 void() weapon_grenadelauncher =
 {
@@ -252,7 +252,7 @@ void() weapon_grenadelauncher =
 	precache_model_safe ("progs/g_grenlauncher.mdl");
 	setmodel (self, "progs/g_grenlauncher.mdl");
 	self.items = IT_GRENADE_LAUNCHER;
-	self.ammo_rockets = 5;
+	self.ammo_rockets = 8;
 	self.netname = "RG-6 Grenade Launcher";
 	StartWeapon();
 }
@@ -409,7 +409,7 @@ void() StartAmmo =
 }
 
 /*FGD
-@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 2 : "YOOGE box (5x)" 1 : "Large box (2x)" : 0 ] ]
+@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 2 : "YOOGE (refills 50%)" 1 : "Large box (2x)" : 0 ] ]
 */
 
 /*QUAKED item_shells (0 .5 .5) (0 0 0) (32 32 32) BIG ? SUSPENDED
@@ -417,7 +417,7 @@ void() StartAmmo =
 
 Flags:
 "big" gives 8 instead of 4
-"YOOGE" gives 20
+"YOOGE" gives 50
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -433,7 +433,7 @@ Keys:
             spawnflags & 1 ->   ":progs/tb/shells_1.mdl",
                                 ":progs/tb/shells_0.mdl"
         }}
-    ) = item_shells : "Shells, 4/8/20" []
+    ) = item_shells : "Shells, 4/8/50" []
 */
 void() item_shells =
 {
@@ -441,7 +441,7 @@ void() item_shells =
 	
 	if (self.spawnflags & ITEM_AMMO_YOOGE)
 	{
-		self.ammo_shells = 20;
+		self.ammo_shells = 50;
 		precache_model_safe ("progs/ammo/shells_large.mdl");
 		setmodel(self, "progs/ammo/shells_large.mdl");
 	}
@@ -468,7 +468,7 @@ void() item_shells =
 
 Flags:
 "big" gives 50 instead of 25
-"YOOGE" gives 125
+"YOOGE" gives 100
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -484,7 +484,7 @@ Keys:
             spawnflags & 1 ->   ":progs/tb/nails_1.mdl",
                                 ":progs/tb/nails_0.mdl"
         }}
-    ) = item_spikes : "Nailgun/Perforator ammo, 25/50/125" []
+    ) = item_spikes : "Nailgun/Perforator ammo, 25/50/100" []
 */
 void() item_spikes =
 {
@@ -492,7 +492,7 @@ void() item_spikes =
 	
 	if (self.spawnflags & ITEM_AMMO_YOOGE)
 	{
-		self.ammo_nails = 125;
+		self.ammo_nails = 100;
 		precache_model_safe ("progs/ammo/nails_large.mdl");
 		setmodel(self, "progs/ammo/nails_large.mdl");
 	}
@@ -518,7 +518,7 @@ void() item_spikes =
 
 Flags:
 "big" gives 8 instead of 4
-"YOOGE" gives 20
+"YOOGE" gives 50
     
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -535,7 +535,7 @@ Keys:
                                 ":progs/tb/explosives_0.mdl"
         }}
     ) =
-    item_rockets : "Rockets, 4/8/20" []
+    item_rockets : "Rockets, 4/8/50" []
 */
 void() item_rockets =
 {
@@ -543,7 +543,7 @@ void() item_rockets =
 	
 	if (self.spawnflags & ITEM_AMMO_YOOGE)
 	{
-		self.ammo_rockets = 20;
+		self.ammo_rockets = 50;
 		precache_model_safe ("progs/ammo/explosives_large.mdl");
 		setmodel(self, "progs/ammo/explosives_large.mdl");
 	}	

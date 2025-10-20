@@ -77,14 +77,14 @@ void() W_FireWrench =
 	makevectors (self.v_angle);
 	source = self.origin + self.view_ofs - v_up*6;
 
-	traceline (source, source + v_forward*64 - v_right*40, FALSE, self);
+	traceline (source, source + v_forward*60 - v_right*40, FALSE, self);
 	if (trace_fraction < 1) {
 		shortest_hit1 = vlen(trace_endpos - source);
 		hitent1 = trace_ent;
 		hitpos1 = trace_endpos;
  	}
 
-	traceline (source, source + v_forward*76 - v_right*20, FALSE, self);
+	traceline (source, source + v_forward*72 - v_right*20, FALSE, self);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -98,7 +98,7 @@ void() W_FireWrench =
 		}
 	}
 
-	traceline (source, source + v_forward*88, FALSE, self);
+	traceline (source, source + v_forward*86, FALSE, self);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -112,7 +112,7 @@ void() W_FireWrench =
 		}
 	}
 
-	traceline (source, source + v_forward*76 + v_right*20, FALSE, self);
+	traceline (source, source + v_forward*72 + v_right*20, FALSE, self);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -126,7 +126,7 @@ void() W_FireWrench =
 		}
 	}
 
-	traceline (source, source + v_forward*64 + v_right*40, FALSE, self);
+	traceline (source, source + v_forward*60 + v_right*40, FALSE, self);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -154,7 +154,8 @@ void() W_FireWrench =
 
 };
 //=============================================================================================
-void(entity hitent, vector org, vector dir) hitwrench = {
+void(entity hitent, vector org, vector dir) hitwrench =
+{
 	if (hitent.takedamage) 
 	{		
 		hitent.swordhitme = 1;
@@ -186,16 +187,10 @@ void(entity hitent, vector org, vector dir) hitwrench = {
 				toss_z = 0;
 				toss = normalize(toss) * 200;
 				toss_z = 150;
-				//bprint(vtos(toss));
-				//bprint("\n");
-				//toss *=  - vlen(head.maxs - head.mins)
 				hitent.origin_z = hitent.origin_z + 1;
 				hitent.velocity = toss;
 				hitent.flags = not(hitent.flags, FL_ONGROUND);
-			}
-			
-			
-			
+			}	
 		}
 		//johnfitz
 
@@ -217,14 +212,10 @@ void(entity hitent, vector org, vector dir) hitwrench = {
 				// don't swat bosses or other non-standard-sized enemies around
 				trace_ent.maxs_x <= 32 && trace_ent.health > 0 && trace_ent.type != "boss")
 			{
-				//local vector toss;
 				toss = v_forward;
 				toss_z = 0;
 				toss = normalize(toss) * 800;
 				toss_z = 150;
-				//bprint(vtos(toss));
-				//bprint("\n");
-				//toss *=  - vlen(head.maxs - head.mins)
 				trace_ent.origin_z = trace_ent.origin_z + 1;
 				trace_ent.velocity = toss;
 				trace_ent.flags = not(trace_ent.flags, FL_ONGROUND);

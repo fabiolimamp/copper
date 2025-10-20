@@ -86,6 +86,10 @@ void() W_Precache =
 	precache_model ("progs/v_invoker.mdl");
 	precache_model ("progs/proj_chain.mdl");
 	precache_sound ("invoker/invoker_firerail.wav");	
+	precache_sound ("invoker/magic07.wav");	
+	precache_sound ("invoker/magic08.wav");	
+	precache_sound ("invoker/magic21.wav");	
+	precache_sound ("invoker/magic26.wav");	
 	
 	//=============================================================================================
 
@@ -238,7 +242,7 @@ weaponclass_t wpc_invoker = {
 	IT_CELLS, // ammo_item
 	1, // ammo_usage
 	weaponanim_invoker, // animfunction
-	SUB_Null // idlefunction
+	idleamim_invoker // idlefunction
 };
 
 
