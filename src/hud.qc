@@ -281,13 +281,13 @@ void Hud_DrawArmorIcon(vector pos)
 void Hud_DrawCurrentAmmoIcon(vector pos)
 {
 	if (stat_items & IT_SHELLS)
-		drawpic(pos, "sb_shellsb", '24 24', '1 1 1', 1, 0);
+		drawpic(pos, "sb_shells", '24 24', '1 1 1', 1, 0);
 	else if (stat_items & IT_NAILS)
-		drawpic(pos, "sb_nailsb", '24 24', '1 1 1', 1, 0);
+		drawpic(pos, "sb_nails", '24 24', '1 1 1', 1, 0);
 	else if (stat_items & IT_ROCKETS)
-		drawpic(pos, "sb_rocketb", '24 24', '1 1 1', 1, 0);
+		drawpic(pos, "sb_rocket", '24 24', '1 1 1', 1, 0);
 	else if (stat_items & IT_CELLS)
-		drawpic(pos, "sb_cellsb", '24 24', '1 1 1', 1, 0);
+		drawpic(pos, "sb_cells", '24 24', '1 1 1', 1, 0);
 }
 
 void Hud_DrawPistolBullets(vector pos);
@@ -608,10 +608,10 @@ void Hud_DrawIBar(vector pos)
 	if (baralpha < 1.0)
 	{
 		// put these behind the solid bar bc they have an outline
-		drawpic(pos + '32 0',  "sb_ammos", '12 12', '1 1 1', 1, 0);
-		drawpic(pos + '80 0',  "sb_ammon", '12 12', '1 1 1', 1, 0);
-		drawpic(pos + '128 0', "sb_ammor", '12 12', '1 1 1', 1, 0);
-		drawpic(pos + '176 0', "sb_ammoc", '12 12', '1 1 1', 1, 0);
+		drawpic(pos + '32 0',  "sb_shells", '12 12', '1 1 1', 1, 0);
+		drawpic(pos + '80 0',  "sb_nails", '12 12', '1 1 1', 1, 0);
+		drawpic(pos + '128 0', "sb_rocket", '12 12', '1 1 1', 1, 0);
+		drawpic(pos + '176 0', "sb_cells", '12 12', '1 1 1', 1, 0);
 	}
 	drawpic(pos, "ibar", '320 24', '1 1 1', baralpha, 0);
 	
@@ -640,8 +640,8 @@ void Hud_DrawAmmo1(vector pos)
 	if (baralpha < 1.0)
 	{
 		// put these behind the solid bar bc they have an outline
-		drawpic(pos + '32 0', "sb_ammos", '12 12', '1 1 1', 1, 0);
-		drawpic(pos + '80 0', "sb_ammon", '12 12', '1 1 1', 1, 0);
+		drawpic(pos + '32 0', "sb_shells", '12 12', '1 1 1', 1, 0);
+		drawpic(pos + '80 0', "sb_nails", '12 12', '1 1 1', 1, 0);
 	}
 	drawsubpic(pos, '96 10', "ibar", '0 0', '0.3 0.416666666666666', '1 1 1', baralpha);
 	Hud_DrawAmmoCount(0, pos + '10 0');
@@ -653,8 +653,8 @@ void Hud_DrawAmmo2(vector pos)
 	if (baralpha < 1.0)
 	{
 		// put these behind the solid bar bc they have an outline
-		drawpic(pos + '32 0', "sb_ammor", '12 12', '1 1 1', 1, 0);
-		drawpic(pos + '80 0', "sb_ammoc", '12 12', '1 1 1', 1, 0);
+		drawpic(pos + '32 0', "sb_rocket", '12 12', '1 1 1', 1, 0);
+		drawpic(pos + '80 0', "sb_cells", '12 12', '1 1 1', 1, 0);
 	}
 	drawsubpic(pos, '96 10', "ibar", '0.3 0', '0.3 0.416666666666666', '1 1 1', baralpha);
 	Hud_DrawAmmoCount(2, pos + '10 0');
@@ -1109,16 +1109,12 @@ void() Hud_Init
 	precache_pic("sb_armor1", TRUE);
 	precache_pic("sb_armor2", TRUE);
 	precache_pic("sb_armor3", TRUE);
+	precache_pic("sb_armor666", TRUE);
 
-	precache_pic("sb_ammos", TRUE);
-	precache_pic("sb_ammoc", TRUE);
-	precache_pic("sb_ammon", TRUE);
-	precache_pic("sb_ammor", TRUE);
-	
-	precache_pic("sb_cellsb", TRUE);
-	precache_pic("sb_nailsb", TRUE);
-	precache_pic("sb_shellsb", TRUE);
-	precache_pic("sb_rocketb", TRUE);
+	precache_pic("sb_shells", TRUE);
+	precache_pic("sb_cells", TRUE);
+	precache_pic("sb_nails", TRUE);
+	precache_pic("sb_rocket", TRUE);
 	
 	precache_pic("sb_teams", TRUE);
 	
