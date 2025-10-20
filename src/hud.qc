@@ -266,11 +266,12 @@ void Hud_DrawArmorIcon(vector pos)
 {
 	float armor = getstatf(STAT_ARMOR);
 	
-	if (stat_items & IT_INVULNERABILITY)
-	{
-		drawpic(pos, "sb_armor666", '24 24', '1 1 1', 1, 0);
-	}
-	else if (armor >= 100)
+	//if (stat_items & IT_INVULNERABILITY)
+	//{
+	//	drawpic(pos, "sb_armor666", '24 24', '1 1 1', 1, 0);
+	//}
+	//else
+	if (armor >= 100)
 		drawpic(pos, "sb_armor3", '24 24', '1 1 1', 1, 0);
 	else if (armor >= 50)
 		drawpic(pos, "sb_armor2", '24 24', '1 1 1', 1, 0);
@@ -297,14 +298,16 @@ void Hud_DrawSBar(vector pos)
 	float value;
 	
 	// Use different sbar graphic when pistol is equipped
-	if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN)
-		drawpic(pos, "w_sbar_pistol", '320 24', '1 1 1', baralpha, 0);
-	else
+	//FIXME: ptoiiiingggg
+
+	//if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN)
+		//drawpic(pos, "w_sbar_pistol", '320 24', '1 1 1', baralpha, 0);
+	//else
 		drawpic(pos, "w_sbar", '320 24', '1 1 1', baralpha, 0);
 
 	value = clampf(stat_health, 999);
 
-	Hud_DrawHead(pos + '112 0');
+	//Hud_DrawHead(pos + '112 0');
 	Hud_DrawLargeValue(pos+'208 0', value, 25);
 
 	value = clampf(getstatf(STAT_ARMOR), 999);
@@ -317,7 +320,10 @@ void Hud_DrawSBar(vector pos)
 	value = clampf(getstatf(STAT_AMMO), 999);
 
 	if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN)
-		Hud_DrawPistolBullets(pos+'218 0');
+		//Hud_DrawPistolBullets(pos+'218 0');
+
+		//moved aside to fix in the normal hud
+		Hud_DrawPistolBullets(pos+'238 0');
 	else {
 		Hud_DrawCurrentAmmoIcon(pos + '211 0');
 		Hud_DrawLargeValue(pos+'320 0', value, 10);
@@ -538,7 +544,8 @@ void Hud_DrawMultiplayer(vector pos, vector offset, float width)
 			ofs = '12 0';
 		}
 		
-		Hud_DrawMultiplayerSwatch(pos, p);
+		//Hud_DrawMultiplayerSwatch(pos, p);
+		//removing errors from console lol
 		if (width == MP_WIDE)
 		{
 			drawstring(pos + '16 0', frags, '8 8', '1 1 1', 1, 0);
@@ -631,10 +638,10 @@ void Hud_DrawIBar(vector pos)
 	Hud_DrawIBarPowerups(pos + '224 8');
 	Hud_DrawSigilsSmall(pos + '288 0');
 		
-	if (!coop && !deathmatch)
-		Hud_DrawIBarLevelStats(pos + '192 0');
-	else
-		Hud_DrawMultiplayer(pos + '192 0', '32 0', MP_NARROW);
+	//if (!coop && !deathmatch)
+	//	Hud_DrawIBarLevelStats(pos + '192 0');
+	//else
+	//	Hud_DrawMultiplayer(pos + '192 0', '32 0', MP_NARROW);
 };
 
 // ================================================================
@@ -670,7 +677,7 @@ void Hud_DrawModernLeft(vector pos, float expanded)
 	float value;
 	pos += '0 -24';
 	value = clampf(stat_health, 999);
-	Hud_DrawHead(pos);
+	//Hud_DrawHead(pos);
 	Hud_DrawLargeValue(pos + '100 0', value, 25);
 	
 	if (stat_items & IT_INVULNERABILITY || getstatf(STAT_ARMOR) > 0)
@@ -1077,9 +1084,9 @@ void() Hud_Init
 	}
 
 	precache_pic("gfx/bullit", TRUE);
-	precache_pic("gfx/mininumbers", TRUE);
-	precache_pic("gfx/icon_kills", TRUE);
-	precache_pic("gfx/icon_secrets", TRUE);
+	//precache_pic("gfx/mininumbers", TRUE);
+	//precache_pic("gfx/icon_kills", TRUE);
+	//precache_pic("gfx/icon_secrets", TRUE);
 	
 	
 	precache_pic("gfx/sb_mkey1", TRUE);
@@ -1114,14 +1121,14 @@ void() Hud_Init
 	precache_pic("sb_armor1", TRUE);
 	precache_pic("sb_armor2", TRUE);
 	precache_pic("sb_armor3", TRUE);
-	precache_pic("sb_armor666", TRUE);
+	//precache_pic("sb_armor666", TRUE);
 
 	precache_pic("sb_shells", TRUE);
 	precache_pic("sb_cells", TRUE);
 	precache_pic("sb_nails", TRUE);
 	precache_pic("sb_rocket", TRUE);
 	
-	precache_pic("sb_teams", TRUE);
+	//precache_pic("sb_teams", TRUE);
 	
 	precache_pic("gfx/complete.lmp", FALSE);
 	
