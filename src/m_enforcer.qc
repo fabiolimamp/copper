@@ -123,10 +123,7 @@ void()	enf_stand5	=[	$stand5,	enf_stand6	] {ai_stand();}
 void()	enf_stand6	=[	$stand6,	enf_stand7	] {ai_stand();}
 void()	enf_stand7	=[	$stand7,	enf_stand1	] {ai_stand();}
 
-void()	enf_walk1	=[	$walk1 ,	enf_walk2	] {
-if (random() < 0.2)
-	sound (self, CHAN_VOICE, "enforcer/idle1.wav", 1, ATTN_IDLE);
-ai_walk(2);}
+void()	enf_walk1	=[	$walk1 ,	enf_walk2	] {enf_idle_sound(); ai_walk(2);}
 void()	enf_walk2	=[	$walk2 ,	enf_walk3	] {ai_walk(4);}
 void()	enf_walk3	=[	$walk3 ,	enf_walk4	] {ai_walk(4);}
 void()	enf_walk4	=[	$walk4 ,	enf_walk5	] {ai_walk(3);}
@@ -144,8 +141,6 @@ void()	enf_walk15	=[	$walk15,	enf_walk16	] {ai_walk(4);}
 void()	enf_walk16	=[	$walk16,	enf_walk1	] {ai_walk(2);}
 
 void()	enf_run1	=[	$run1  ,	enf_run2	] {
-	if (random() < 0.2 && time > self.show_hostile)
-		sound (self, CHAN_VOICE, "enforcer/idle1.wav", 1, ATTN_IDLE);
 	self.yaw_speed = 20;
 	ai_run(18);
 }
@@ -156,6 +151,86 @@ void()	enf_run5	=[	$run5  ,	enf_run6	] {ai_run(14);}
 void()	enf_run6	=[	$run6  ,	enf_run7	] {ai_run(14);}
 void()	enf_run7	=[	$run7  ,	enf_run8	] {ai_run(7);}
 void()	enf_run8	=[	$run8  ,	enf_run1	] {ai_run(11);}
+
+void() enf_idle_sound =
+{
+
+    local float rs;
+
+    self.lmg_rof = self.lmg_rof + 1;
+
+    if (self.lmg_rof < 3)
+        return;
+    
+    if (random() < 0.2)
+    {
+        rs = rint((random() * 6) + 1);
+        if (rs == 1)
+            sound (self, CHAN_VOICE, "enforcer/enf_idle_allunitsradio.wav", 1, ATTN_IDLE);
+        else if (rs == 2)
+            sound (self, CHAN_VOICE, "enforcer/enf_idle_radiocheck.wav", 1, ATTN_IDLE);
+        else if (rs == 3)
+            sound (self, CHAN_VOICE, "enforcer/enf_idle_standbyradio.wav", 1, ATTN_IDLE);
+        else if (rs == 4)
+            sound (self, CHAN_VOICE, "enforcer/enf_idle_statuscheck.wav", 1, ATTN_IDLE);
+        else if (rs == 5)
+            sound (self, CHAN_VOICE, "enforcer/enf_idle_unit7.wav", 1, ATTN_IDLE);
+        else if (rs == 6)
+            sound (self, CHAN_VOICE, "enforcer/enf_idle_unit10.wav", 1, ATTN_IDLE);
+        else
+            sound (self, CHAN_VOICE, "enforcer/enf_idle_unit12.wav", 1, ATTN_IDLE);
+        
+        self.lmg_rof = 0;
+    }
+};
+
+void() enf_aggro_sound =
+{
+    local float rs;
+    rs = rint((random() * 3) + 1);
+    if (rs == 1)
+        sound (self, CHAN_VOICE, "enforcer/enf_aggro_allunitsfireatwill.wav", 1, ATTN_NORM);
+    else if (rs == 2)
+        sound (self, CHAN_VOICE, "enforcer/enf_aggro_fire.wav", 1, ATTN_NORM);
+    else if (rs == 3)
+        sound (self, CHAN_VOICE, "enforcer/enf_aggro_fireatwill.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "enforcer/enf_aggro_firefirefire.wav", 1, ATTN_NORM);
+};
+
+void() enf_pain_sound =
+{
+    local float rs;
+    rs = rint((random() * 4) + 1);
+    if (rs == 1)
+        sound (self, CHAN_VOICE, "enforcer/enf_pain_1.wav", 1, ATTN_NORM);
+    else if (rs == 2)
+        sound (self, CHAN_VOICE, "enforcer/enf_pain_2.wav", 1, ATTN_NORM);
+    else if (rs == 3)
+        sound (self, CHAN_VOICE, "enforcer/enf_pain_3.wav", 1, ATTN_NORM);
+    else if (rs == 4)
+        sound (self, CHAN_VOICE, "enforcer/enf_pain_4.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "enforcer/enf_pain_5.wav", 1, ATTN_NORM);
+};
+
+void() enf_death_sound =
+{
+    local float rs;
+    rs = rint((random() * 5) + 1);
+    if (rs == 1)
+        sound (self, CHAN_VOICE, "enforcer/enf_death_1.wav", 1, ATTN_NORM);
+    else if (rs == 2)
+        sound (self, CHAN_VOICE, "enforcer/enf_death_2.wav", 1, ATTN_NORM);
+    else if (rs == 3)
+        sound (self, CHAN_VOICE, "enforcer/enf_death_3.wav", 1, ATTN_NORM);
+    else if (rs == 4)
+        sound (self, CHAN_VOICE, "enforcer/enf_death_4.wav", 1, ATTN_NORM);
+    else if (rs == 5)
+        sound (self, CHAN_VOICE, "enforcer/enf_death_5.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "enforcer/enf_death_6.wav", 1, ATTN_NORM);
+};
 
 float() enf_shouldbreak =
 {
@@ -242,10 +317,7 @@ void(entity attacker, float damage)	enf_pain =
 	r = random();
 	if (skill == 3) r *= 0.75;	// nightmare: longest stun is very rare
 	
-	if (r < 0.5)
-		sound (self, CHAN_VOICE, "enforcer/pain1.wav", 1, ATTN_NORM);
-	else
-		sound (self, CHAN_VOICE, "enforcer/pain2.wav", 1, ATTN_NORM);
+	enf_pain_sound();
 
 	if (r < 0.2)
 		enf_paina1 ();
@@ -316,7 +388,7 @@ void() enf_die =
 	if (enf_checkgib()) return;
 
 // regular death
-	sound (self, CHAN_VOICE, "enforcer/death1.wav", 1, ATTN_NORM);
+	enf_death_sound();
 	if (random() > 0.5)
 		enf_die1 ();
 	else
@@ -394,6 +466,33 @@ void() monster_enforcer =
 	precache_sound2 ("enforcer/sight2.wav");
 	precache_sound2 ("enforcer/sight3.wav");
 	precache_sound2 ("enforcer/sight4.wav");
+
+	precache_sound2 ("enforcer/enf_aggro_allunitsfireatwill.wav");
+	precache_sound2 ("enforcer/enf_aggro_fire.wav");
+	precache_sound2 ("enforcer/enf_aggro_fireatwill.wav");
+	precache_sound2 ("enforcer/enf_aggro_firefirefire.wav");
+	precache_sound2 ("enforcer/enf_death_1.wav");
+	precache_sound2 ("enforcer/enf_death_2.wav");
+	precache_sound2 ("enforcer/enf_death_3.wav");
+	precache_sound2 ("enforcer/enf_death_4.wav");
+	precache_sound2 ("enforcer/enf_death_5.wav");
+	precache_sound2 ("enforcer/enf_death_6.wav");
+	precache_sound2 ("enforcer/enf_idle_allunitsradio.wav");
+	precache_sound2 ("enforcer/enf_idle_radiocheck.wav");
+	precache_sound2 ("enforcer/enf_idle_standbyradio.wav");
+	precache_sound2 ("enforcer/enf_idle_statuscheck.wav");
+	precache_sound2 ("enforcer/enf_idle_unit7.wav");
+	precache_sound2 ("enforcer/enf_idle_unit10.wav");
+	precache_sound2 ("enforcer/enf_idle_unit12.wav");
+	precache_sound2 ("enforcer/enf_pain_1.wav");
+	precache_sound2 ("enforcer/enf_pain_2.wav");
+	precache_sound2 ("enforcer/enf_pain_3.wav");
+	precache_sound2 ("enforcer/enf_pain_4.wav");
+	precache_sound2 ("enforcer/enf_pain_5.wav");
+	precache_sound2 ("enforcer/enf_sight_target.wav");
+	precache_sound2 ("enforcer/enf_sight_targetsighted.wav");
+	precache_sound2 ("enforcer/enf_sight_theresheis_1.wav");
+	precache_sound2 ("enforcer/enf_sight_theresheis_2.wav");
 
 	self.health = 80;
 	setsize (self, '-16 -16 -24', '16 16 40');

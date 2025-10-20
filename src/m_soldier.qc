@@ -54,7 +54,7 @@ void()	army_stand8	=[	$stand8,	army_stand1	] {ai_stand();}
 
 void()	army_walk1	=[	$prowl_1,	army_walk2	] {
 if (random() < 0.2)
-	sound (self, CHAN_VOICE, "soldier/idle.wav", 1, ATTN_IDLE);
+	sound (self, CHAN_VOICE, "grunt/idle.wav", 1, ATTN_IDLE);
 ai_walk(1);}
 void()	army_walk2	=[	$prowl_2,	army_walk3	] {ai_walk(1);}
 void()	army_walk3	=[	$prowl_3,	army_walk4	] {ai_walk(1);}
@@ -82,7 +82,7 @@ void()	army_walk24	=[	$prowl_24,	army_walk1	] {ai_walk(1);}
 
 void()	army_run1	=[	$run1,		army_run2	] {
 if (random() < 0.2 && time > self.show_hostile)
-	sound (self, CHAN_VOICE, "soldier/idle.wav", 1, ATTN_IDLE);
+	sound (self, CHAN_VOICE, "grunt/idle.wav", 1, ATTN_IDLE);
 nmfast(); ai_run(11);}
 void()	army_run2	=[	$run2,		army_run3	] {nmfast(); ai_run(15);}
 void()	army_run3	=[	$run3,		army_run4	] {nmfast(); ai_run(10);}
@@ -154,19 +154,19 @@ void(entity attacker, float damage)	army_pain =
 	{
 		PainFinished(0.6);
 		army_pain1 ();
-		sound (self, CHAN_VOICE, "soldier/pain1.wav", 1, ATTN_NORM);
+		sound (self, CHAN_VOICE, "grunt/pain1.wav", 1, ATTN_NORM);
 	}
 	else if (r < 0.6)
 	{
 		PainFinished(1.1);
 		army_painb1 ();
-		sound (self, CHAN_VOICE, "soldier/pain2.wav", 1, ATTN_NORM);
+		sound (self, CHAN_VOICE, "grunt/pain2.wav", 1, ATTN_NORM);
 	}
 	else
 	{
 		PainFinished(1.1);
 		army_painc1 ();
-		sound (self, CHAN_VOICE, "soldier/pain2.wav", 1, ATTN_NORM);
+		sound (self, CHAN_VOICE, "grunt/pain2.wav", 1, ATTN_NORM);
 	}
 }
 
@@ -294,7 +294,7 @@ void() army_die =
 		return;
 
 // regular death
-	sound (self, CHAN_VOICE, "soldier/death1.wav", 1, ATTN_NORM);
+	sound (self, CHAN_VOICE, "grunt/death1.wav", 1, ATTN_NORM);
 	if (random() < 0.5)
 		army_die1 ();
 	else
@@ -365,12 +365,12 @@ void() monster_army =
 	precache_model ("progs/gib2.mdl");
 	precache_model ("progs/gib3.mdl");
 
-	precache_sound ("soldier/death1.wav");
-	precache_sound ("soldier/idle.wav");
-	precache_sound ("soldier/pain1.wav");
-	precache_sound ("soldier/pain2.wav");
+	precache_sound ("grunt/death1.wav");
+	precache_sound ("grunt/idle.wav");
+	precache_sound ("grunt/pain1.wav");
+	precache_sound ("grunt/pain2.wav");
 	precache_sound ("weapons/shotgn2.wav");
-	precache_sound ("soldier/sight1.wav");
+	precache_sound ("grunt/sight1.wav");
 
 	precache_sound ("player/udeath.wav");		// gib death
 	self.health = 35;

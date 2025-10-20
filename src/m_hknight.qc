@@ -137,7 +137,7 @@ void()	hknight_run8	=[	$run8,		hknight_run1	] {ai_run(13);}
 
 //============================================================================
 
-void()	hknight_pain1	=[	$pain1,		hknight_pain2	] { sound (self, CHAN_VOICE, "hknight/pain1.wav", 1, ATTN_NORM);}
+void()	hknight_pain1	=[	$pain1,		hknight_pain2	] { hknight_painsound(); }
 void()	hknight_pain2	=[	$pain2,		hknight_pain3	] {}
 void()	hknight_pain3	=[	$pain3,		hknight_pain4	] {}
 void()	hknight_pain4	=[	$pain4,		hknight_pain5	] {}
@@ -172,6 +172,20 @@ void()	hknight_dieb7	=[	$deathb7,	hknight_dieb8	] {}
 void()	hknight_dieb8	=[	$deathb8,	hknight_dieb9	] {}
 void()	hknight_dieb9	=[	$deathb9,	SUB_Null	] {}
 
+void() hknight_painsound =
+{
+    local float rs;
+    rs = rint((random() * 4) + 1); // random 1–4
+    if (rs == 1)
+        sound (self, CHAN_VOICE, "hknight/hknight_pain_1.wav", 1, ATTN_NORM);
+    else if (rs == 2)
+        sound (self, CHAN_VOICE, "hknight/hknight_pain_2.wav", 1, ATTN_NORM);
+    else if (rs == 3)
+        sound (self, CHAN_VOICE, "hknight/hknight_pain_3.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "hknight/hknight_pain_4.wav", 1, ATTN_NORM);
+};
+
 float() hknight_checkgib =
 {
 	if (self.health < -40)
@@ -189,7 +203,17 @@ void() hknight_die =
 	if (hknight_checkgib()) return;
 
 // regular death
-	sound (self, CHAN_VOICE, "hknight/death1.wav", 1, ATTN_NORM);
+	local float rs;
+	rs = rint((random() * 4) + 1);
+	if (rs == 1)
+		sound (self, CHAN_VOICE, "hknight/hknight_death_1.wav", 1, ATTN_NORM);
+	else if (rs == 2)
+		sound (self, CHAN_VOICE, "hknight/hknight_death_2.wav", 1, ATTN_NORM);
+	else if (rs == 3)
+		sound (self, CHAN_VOICE, "hknight/hknight_death_3.wav", 1, ATTN_NORM);
+	else
+		sound (self, CHAN_VOICE, "hknight/hknight_death_4.wav", 1, ATTN_NORM);
+
 	if (random() > 0.5)
 		hknight_die1 ();
 	else
@@ -293,6 +317,20 @@ void(vector org_offset) hknight_bolt2 =
     spike.touch = HknightImpalerTouch;
     sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
 }
+
+void() hknight_attack_sound =
+{
+    local float rs;
+    rs = rint((random() * 4) + 1); // random 1–4
+    if (rs == 1)
+        sound (self, CHAN_VOICE, "hknight/hknight_sight_1.wav", 1, ATTN_NORM);
+    else if (rs == 2)
+        sound (self, CHAN_VOICE, "hknight/hknight_sight_2.wav", 1, ATTN_NORM);
+    else if (rs == 3)
+        sound (self, CHAN_VOICE, "hknight/hknight_sight_3.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "hknight/hknight_sight_4.wav", 1, ATTN_NORM);
+};
 
 void(float h_offset, float v_offset) hknight_shot =
 {
@@ -538,9 +576,20 @@ void()	hknight_watk22	=[	$w_attack22,	hknight_run1	] {ai_charge(3);}
 
 void() hk_idle_sound =
 {
-	if (random() < 0.2 && time > self.show_hostile)
-		sound (self, CHAN_VOICE, "hknight/idle.wav", 1, ATTN_NORM);
-}
+    local float rs;
+    if (random() < 0.2 && time > self.show_hostile)
+    {
+        rs = rint((random() * 3) + 1); // random 1–4
+        if (rs == 1)
+            sound (self, CHAN_VOICE, "hknight/hknight_idle_1.wav", 0.2, ATTN_NORM);
+        else if (rs == 2)
+            sound (self, CHAN_VOICE, "hknight/hknight_idle_2.wav", 0.2, ATTN_NORM);
+        else if (rs == 3)
+            sound (self, CHAN_VOICE, "hknight/hknight_idle_3.wav", 0.2, ATTN_NORM);
+        else
+            sound (self, CHAN_VOICE, "hknight/hknight_idle_4.wav", 0.2, ATTN_NORM);
+    }
+};
 
 void() hknight_pain_go =
 {
@@ -656,13 +705,27 @@ void() monster_hell_knight =
 
 	
 	precache_sound2 ("hknight/attack1.wav");
-	precache_sound2 ("hknight/death1.wav");
-	precache_sound2 ("hknight/pain1.wav");
-	precache_sound2 ("hknight/sight1.wav");
 	precache_sound ("hknight/hit.wav");		// used by C code, so don't sound2
 	precache_sound2 ("hknight/slash1.wav");
 	precache_sound2 ("hknight/idle.wav");
 	precache_sound2 ("hknight/grunt.wav");
+
+	precache_sound2 ("hknight/hknight_death_1.wav");
+	precache_sound2 ("hknight/hknight_death_2.wav");
+	precache_sound2 ("hknight/hknight_death_3.wav");
+	precache_sound2 ("hknight/hknight_death_4.wav");
+	precache_sound2 ("hknight/hknight_idle_1.wav");
+	precache_sound2 ("hknight/hknight_idle_2.wav");
+	precache_sound2 ("hknight/hknight_idle_3.wav");
+	precache_sound2 ("hknight/hknight_idle_4.wav");
+	precache_sound2 ("hknight/hknight_pain_1.wav");
+	precache_sound2 ("hknight/hknight_pain_2.wav");
+	precache_sound2 ("hknight/hknight_pain_3.wav");
+	precache_sound2 ("hknight/hknight_pain_4.wav");
+	precache_sound2 ("hknight/hknight_sight_1.wav");
+	precache_sound2 ("hknight/hknight_sight_2.wav");
+	precache_sound2 ("hknight/hknight_sight_3.wav");
+	precache_sound2 ("hknight/hknight_sight_4.wav");
 
 	precache_sound ("knight/sword1.wav");
 	precache_sound ("knight/sword2.wav");

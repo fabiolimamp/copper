@@ -548,7 +548,7 @@ void() HuntTarget =
 void() SightSound =
 {
 	if (self.classname == "monster_ogre" )	
-		sound (self, CHAN_VOICE, "ogre/ogwake.wav", 1, ATTN_NORM);
+		ogre_sight_sound();
 	else if (self.classname == "monster_knight" || self.classname == "monster_axegrunt")
 		sound (self, CHAN_VOICE, "knight/ksight.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_shambler")
@@ -562,26 +562,36 @@ void() SightSound =
 	else if (self.classname == "monster_dog")
 		sound (self, CHAN_VOICE, "dog/dsight.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_hell_knight" )
-		sound (self, CHAN_VOICE, "hknight/sight1.wav", 1, ATTN_NORM);
+	{
+		float rs;
+		rs = rint((random() * 4) + 1);
+		if (rs == 1)
+			sound (self, CHAN_VOICE, "hknight/hknight_sight_1.wav", 1, ATTN_NORM);
+		else if (rs == 2)
+			sound (self, CHAN_VOICE, "hknight/hknight_sight_2.wav", 1, ATTN_NORM);
+		else if (rs == 3)
+			sound (self, CHAN_VOICE, "hknight/hknight_sight_3.wav", 1, ATTN_NORM);
+		else
+			sound (self, CHAN_VOICE, "hknight/hknight_sight_4.wav", 1, ATTN_NORM);
+	}
 	else if (self.classname == "monster_tarbaby")
 		sound (self, CHAN_VOICE, "blob/sight1.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_amalgam")
 		sound (self, CHAN_VOICE, "amalg/amalgsight.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_enforcer")
 	{
-		local float	rsnd;
-		rsnd = random();
-		if (rsnd < 0.25)
-			sound (self, CHAN_VOICE, "enforcer/sight1.wav", 1, ATTN_NORM);
-		else if (rsnd < 0.5)
-			sound (self, CHAN_VOICE, "enforcer/sight2.wav", 1, ATTN_NORM);
-		else if (rsnd < 0.75)
-			sound (self, CHAN_VOICE, "enforcer/sight3.wav", 1, ATTN_NORM);
+		rs = rint((random() * 4) + 1);
+		if (rs == 1)
+			sound (self, CHAN_VOICE, "enforcer/enf_sight_target.wav", 1, ATTN_NORM);
+		else if (rs == 2)
+			sound (self, CHAN_VOICE, "enforcer/enf_sight_targetsighted.wav", 1, ATTN_NORM);
+		else if (rs == 3)
+			sound (self, CHAN_VOICE, "enforcer/enf_sight_theresheis_1.wav", 1, ATTN_NORM);
 		else
-			sound (self, CHAN_VOICE, "enforcer/sight4.wav", 1, ATTN_NORM);
+			sound (self, CHAN_VOICE, "enforcer/enf_sight_theresheis_2.wav", 1, ATTN_NORM);
 	}
 	else if (self.classname == "monster_army")
-		sound (self, CHAN_VOICE, "soldier/sight1.wav", 1, ATTN_NORM);
+		soldier_sight_sound();
 	else if (self.classname == "monster_shalrath")
 		sound (self, CHAN_VOICE, "shalrath/sight.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_swarmer")
@@ -596,6 +606,30 @@ void() SightSound =
 			sound (self, CHAN_VOICE, "swarmer/sight3.wav", 1, ATTN_NORM);
 	}
 }
+
+void() ogre_sight_sound =
+{
+    local float rs;
+    rs = random() * 3;
+    if (rs < 1)
+        sound (self, CHAN_VOICE, "ogre/ogre_sight_contact.wav", 1, ATTN_NORM);
+    else if (rs < 2)
+        sound (self, CHAN_VOICE, "ogre/ogre_sight_hey.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "ogre/ogre_sight_securearea.wav", 1, ATTN_NORM);
+};
+
+void() soldier_sight_sound =
+{
+    local float rs;
+    rs = (random() * 3);
+    if (rs < 1)
+        sound (self, CHAN_VOICE, "grunt/soldier_sight_contact.wav", 1, ATTN_NORM);
+    else if (rs < 2)
+        sound (self, CHAN_VOICE, "grunt/soldier_sight_hostile.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "grunt/soldier_sight_target.wav", 1, ATTN_NORM);
+};
 
 void() FoundTarget =
 {

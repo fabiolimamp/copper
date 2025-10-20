@@ -53,8 +53,8 @@ void()	pistolarmy_stand7	=[	$stand7,	pistolarmy_stand8	] {ai_stand();}
 void()	pistolarmy_stand8	=[	$stand8,	pistolarmy_stand1	] {ai_stand();}
 
 void()	pistolarmy_walk1	=[	$prowl_1,	pistolarmy_walk2	] {
-if (random() < 0.2)
-	sound (self, CHAN_VOICE, "soldier/idle.wav", 1, ATTN_IDLE);
+if (random() < 0.08)
+	pistolsoldier_idle_sound();
 ai_walk(1);}
 void()	pistolarmy_walk2	=[	$prowl_2,	pistolarmy_walk3	] {ai_walk(1);}
 void()	pistolarmy_walk3	=[	$prowl_3,	pistolarmy_walk4	] {ai_walk(1);}
@@ -82,8 +82,8 @@ void()	pistolarmy_walk24	=[	$prowl_24,	pistolarmy_walk1	] {ai_walk(1);}
 
 void()	pistolarmy_run1	=[	$run1,		pistolarmy_run2	] {
 nmfast();
-if (random() < 0.2 && time > self.show_hostile)
-	sound (self, CHAN_VOICE, "soldier/idle.wav", 1, ATTN_IDLE);
+if (random() < 0.05 && time > self.show_hostile)
+	pistolsoldier_aggro_sound();
 ai_run(11);}
 void()	pistolarmy_run2	=[	$run2,		pistolarmy_run3	] {nmfast(); ai_run(15);}
 void()	pistolarmy_run3	=[	$run3,		pistolarmy_run4	] {nmfast(); ai_run(10);}
@@ -205,19 +205,19 @@ void(entity attacker, float damage)	pistolarmy_pain =
 	{
 		PainFinished(0.6);
 		pistolarmy_pain1 ();
-		sound (self, CHAN_VOICE, "soldier/pain1.wav", 1, ATTN_NORM);
+		sound (self, CHAN_VOICE, "grunt/soldier_pain1.wav", 1, ATTN_NORM);
 	}
 	else if (r < 0.6)
 	{
 		PainFinished(1.1);
 		pistolarmy_painb1 ();
-		sound (self, CHAN_VOICE, "soldier/pain2.wav", 1, ATTN_NORM);
+		sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
 	}
 	else
 	{
 		PainFinished(1.1);
 		pistolarmy_painc1 ();
-		sound (self, CHAN_VOICE, "soldier/pain2.wav", 1, ATTN_NORM);
+		sound (self, CHAN_VOICE, "grunt/soldier_pain3.wav", 1, ATTN_NORM);
 	}
 }
 
@@ -342,12 +342,70 @@ void() pistolarmy_die =
 		return;
 
 // regular death
-	sound (self, CHAN_VOICE, "soldier/death1.wav", 1, ATTN_NORM);
+	pistolsoldier_death_sound();
 	if (random() < 0.5)
 		pistolarmy_die1 ();
 	else
 		pistolarmy_cdie1 ();
 }
+
+void() pistolsoldier_death_sound =
+{
+    local float rs;
+    rs = (random() * 2);
+    if (rs < 1)
+        sound (self, CHAN_VOICE, "grunt/soldier_death1.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "grunt/soldier_death2.wav", 1, ATTN_NORM);
+};
+
+void() pistolsoldier_pain_sound =
+{
+    local float rs;
+    rs = (random() * 4);
+    if (rs < 1)
+        sound (self, CHAN_VOICE, "grunt/soldier_pain1.wav", 1, ATTN_NORM);
+    else if (rs < 2)
+        sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
+    else if (rs < 3)
+        sound (self, CHAN_VOICE, "grunt/soldier_pain3.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "grunt/soldier_pain4.wav", 1, ATTN_NORM);
+};
+
+void() pistolsoldier_aggro_sound =
+{
+    local float rs;
+    rs = (random() * 6);
+    if (rs < 1)
+        sound (self, CHAN_VOICE, "grunt/soldier_aggro_breakcover.wav", 1, ATTN_NORM);
+    else if (rs < 2)
+        sound (self, CHAN_VOICE, "grunt/soldier_aggro_converging.wav", 1, ATTN_NORM);
+    else if (rs < 3)
+        sound (self, CHAN_VOICE, "grunt/soldier_aggro_mobile.wav", 1, ATTN_NORM);
+    else if (rs < 4)
+        sound (self, CHAN_VOICE, "grunt/soldier_aggro_movingin.wav", 1, ATTN_NORM);
+    else if (rs < 5)
+        sound (self, CHAN_VOICE, "grunt/soldier_aggro_outbreak.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "grunt/soldier_aggro_stopresisting.wav", 1, ATTN_NORM);
+};
+
+void() pistolsoldier_idle_sound =
+{
+    local float rs;
+    rs = (random() * 5);
+    if (rs < 1)
+        sound (self, CHAN_VOICE, "grunt/soldier_idle_inposition.wav", 1, ATTN_IDLE);
+    else if (rs < 2)
+        sound (self, CHAN_VOICE, "grunt/soldier_idle_standingby.wav", 1, ATTN_IDLE);
+    else if (rs < 3)
+        sound (self, CHAN_VOICE, "grunt/soldier_idle_ten2.wav", 1, ATTN_IDLE);
+    else if (rs < 4)
+        sound (self, CHAN_VOICE, "grunt/soldier_idle_ten4.wav", 1, ATTN_IDLE);
+    else
+        sound (self, CHAN_VOICE, "grunt/soldier_idle_unithasnocontact.wav", 1, ATTN_IDLE);
+};
 
 void() monster_pistolarmy_spawn =
 {
@@ -413,12 +471,35 @@ void() monster_army_pistol =
 	precache_model ("progs/gib2.mdl");
 	precache_model ("progs/gib3.mdl");
 
-	precache_sound ("soldier/death1.wav");
-	precache_sound ("soldier/idle.wav");
-	precache_sound ("soldier/pain1.wav");
-	precache_sound ("soldier/pain2.wav");
-	precache_sound ("soldier/sattck1.wav");
-	precache_sound ("soldier/sight1.wav");
+	precache_sound ("grunt/death1.wav");
+	precache_sound ("grunt/idle.wav");
+	precache_sound ("grunt/pain1.wav");
+	precache_sound ("grunt/pain2.wav");
+	precache_sound ("grunt/sattck1.wav");
+	precache_sound ("grunt/sight1.wav");
+
+	precache_sound2 ("grunt/soldier_aggro_breakcover.wav");
+	precache_sound2 ("grunt/soldier_aggro_converging.wav");
+	precache_sound2 ("grunt/soldier_aggro_mobile.wav");
+	precache_sound2 ("grunt/soldier_aggro_movingin.wav");
+	precache_sound2 ("grunt/soldier_aggro_outbreak.wav");
+	precache_sound2 ("grunt/soldier_aggro_stopresisting.wav");
+	precache_sound2 ("grunt/soldier_death1.wav");
+	precache_sound2 ("grunt/soldier_death2.wav");
+	precache_sound2 ("grunt/soldier_fireinthehole.wav");
+	precache_sound2 ("grunt/soldier_firing.wav");
+	precache_sound2 ("grunt/soldier_idle_inposition.wav");
+	precache_sound2 ("grunt/soldier_idle_standingby.wav");
+	precache_sound2 ("grunt/soldier_idle_ten2.wav");
+	precache_sound2 ("grunt/soldier_idle_ten4.wav");
+	precache_sound2 ("grunt/soldier_idle_unithasnocontact.wav");
+	precache_sound2 ("grunt/soldier_pain1.wav");
+	precache_sound2 ("grunt/soldier_pain2.wav");
+	precache_sound2 ("grunt/soldier_pain3.wav");
+	precache_sound2 ("grunt/soldier_pain4.wav");
+	precache_sound2 ("grunt/soldier_sight_contact.wav");
+	precache_sound2 ("grunt/soldier_sight_hostile.wav");
+	precache_sound2 ("grunt/soldier_sight_target.wav");
 
 	precache_sound ("pistol/pistol_shoot.wav");
 

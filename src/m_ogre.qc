@@ -184,8 +184,8 @@ void() ogre_stand2	=[	$stand2,	ogre_stand3	] {ai_stand();}
 void() ogre_stand3	=[	$stand3,	ogre_stand4	] {ai_stand();}
 void() ogre_stand4	=[	$stand4,	ogre_stand5	] {ai_stand();}
 void() ogre_stand5	=[	$stand5,	ogre_stand6	] {
-if (random() < 0.2)
-	sound (self, CHAN_VOICE, "ogre/ogidle.wav", 1, ATTN_IDLE);
+if (random() < 0.02)
+	ogre_idle_sound();
 ai_stand();
 }
 void() ogre_stand6	=[	$stand6,	ogre_stand7	] {ai_stand();}
@@ -198,15 +198,11 @@ void() ogre_walk2	=[	$walk2,		ogre_walk3	] {ai_walk(2);}
 void() ogre_walk3	=[	$walk3,		ogre_walk4	] {
 ai_walk(2);
 if (random() < 0.2)
-	sound (self, CHAN_VOICE, "ogre/ogidle.wav", 1, ATTN_IDLE);
+	ogre_idle_sound();
 }
 void() ogre_walk4	=[	$walk4,		ogre_walk5	] {ai_walk(2);}
 void() ogre_walk5	=[	$walk5,		ogre_walk6	] {ai_walk(2);}
-void() ogre_walk6	=[	$walk6,		ogre_walk7	] {
-ai_walk(5);
-if (random() < 0.1)
-	sound (self, CHAN_VOICE, "ogre/ogdrag.wav", 1, ATTN_IDLE);
-}
+void() ogre_walk6	=[	$walk6,		ogre_walk7	] {ai_walk(5);}
 void() ogre_walk7	=[	$walk7,		ogre_walk8	] {ai_walk(3);}
 void() ogre_walk8	=[	$walk8,		ogre_walk9	] {ai_walk(2);}
 void() ogre_walk9	=[	$walk9,		ogre_walk10	] {ai_walk(3);}
@@ -219,8 +215,8 @@ void() ogre_walk15	=[	$walk15,	ogre_walk16	] {ai_walk(3);}
 void() ogre_walk16	=[	$walk16,	ogre_walk1	] {ai_walk(4);}
 
 void() ogre_run1	=[	$run1,		ogre_run2	] {ai_run(9);
-if (random() < 0.2 && time > self.show_hostile)
-	sound (self, CHAN_VOICE, "ogre/ogidle2.wav", 1, ATTN_IDLE);
+if (random() < 0.05 && time > self.show_hostile)
+	ogre_aggro_sound();
 }
 void() ogre_run2	=[	$run2,		ogre_run3	] {ai_run(12);}
 void() ogre_run3	=[	$run3,		ogre_run4	] {ai_run(8);}
@@ -309,6 +305,8 @@ float() OgreCheckAttack =
 	{
 		if (random() < 0.2)
 		{
+			if (random() < 0.5)
+				ogre_attacking_sound();
 			self.attack_state = AS_MELEE;
 			return TRUE;
 		}
@@ -387,7 +385,7 @@ void(entity attacker, float damage)	ogre_pain =
 	if (self.pain_finished > time)
 		return;
 		
-	sound (self, CHAN_VOICE, "ogre/ogpain1.wav", 1, ATTN_NORM);		
+	ogre_pain_sound();
 	r = random();
 	if (skill == 3)
 		r *= random();	// nightmare: make the long stuns rare
@@ -448,7 +446,7 @@ void() ogre_die =
 	if (ogre_checkgib()) return;
 	
 
-	sound (self, CHAN_VOICE, "ogre/ogdth.wav", 1, ATTN_NORM);
+	ogre_death_sound();
 	
 	if (random() < 0.5)
 		ogre_die1 ();
@@ -464,7 +462,67 @@ void() ogre_melee =
 		ogre_swing1 ();
 }
 
+void() ogre_death_sound =
+{
+    local float rs;
+    rs = random() * 2; // random 0–2 for 2 entries
+    if (rs < 1)
+        sound (self, CHAN_VOICE, "ogre/ogre_death_1.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "ogre/ogre_death_2.wav", 1, ATTN_NORM);
+};
 
+void() ogre_pain_sound =
+{
+    local float rs;
+    rs = random() * 3;
+    if (rs < 1)
+        sound (self, CHAN_VOICE, "ogre/ogre_pain_1.wav", 1, ATTN_NORM);
+    else if (rs < 2)
+        sound (self, CHAN_VOICE, "ogre/ogre_pain_2.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "ogre/ogre_pain_3.wav", 1, ATTN_NORM);
+};
+
+void() ogre_aggro_sound =
+{
+    local float rs;
+    rs = random() * 4;
+    if (rs < 1)
+        sound (self, CHAN_VOICE, "ogre/ogre_aggro_dontletherescape.wav", 1, ATTN_NORM);
+    else if (rs < 2)
+        sound (self, CHAN_VOICE, "ogre/ogre_aggro_killher.wav", 1, ATTN_NORM);
+    else if (rs < 3)
+        sound (self, CHAN_VOICE, "ogre/ogre_aggro_pathetic.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "ogre/ogre_aggro_whohasavisual.wav", 1, ATTN_NORM);
+};
+
+void() ogre_attacking_sound =
+{
+    local float rs;
+    rs = random() * 3;
+    if (rs < 1)
+        sound (self, CHAN_VOICE, "ogre/ogre_attacking_diealready.wav", 1, ATTN_NORM);
+    else if (rs < 2)
+        sound (self, CHAN_VOICE, "ogre/ogre_attacking_engagingtarget.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "ogre/ogre_attacking_submit.wav", 1, ATTN_NORM);
+};
+
+void() ogre_idle_sound =
+{
+    local float rs;
+    rs = random() * 10;
+    if (rs < 1)
+        sound (self, CHAN_VOICE, "ogre/ogre_idle_allclear.wav", 1, ATTN_IDLE);
+    else if (rs < 5)
+        sound (self, CHAN_VOICE, "ogre/ogre_idle_breathing_1.wav", 1, ATTN_IDLE);
+    else if (rs < 9)
+        sound (self, CHAN_VOICE, "ogre/ogre_idle_breathing_2.wav", 1, ATTN_IDLE);
+    else
+        sound (self, CHAN_VOICE, "ogre/ogre_idle_gettingpaid.wav", 1, ATTN_IDLE);
+};
 
 
 //=============================================================================
@@ -541,6 +599,26 @@ void() monster_ogre =
 	precache_sound ("ogre/ogpain1.wav");
 	precache_sound ("ogre/ogsawatk.wav");
 	precache_sound ("ogre/ogwake.wav");
+
+	precache_sound2 ("ogre/ogre_aggro_dontletherescape.wav");
+	precache_sound2 ("ogre/ogre_aggro_killher.wav");
+	precache_sound2 ("ogre/ogre_aggro_pathetic.wav");
+	precache_sound2 ("ogre/ogre_aggro_whohasavisual.wav");
+	precache_sound2 ("ogre/ogre_attacking_diealready.wav");
+	precache_sound2 ("ogre/ogre_attacking_engagingtarget.wav");
+	precache_sound2 ("ogre/ogre_attacking_submit.wav");
+	precache_sound2 ("ogre/ogre_death_1.wav");
+	precache_sound2 ("ogre/ogre_death_2.wav");
+	precache_sound2 ("ogre/ogre_idle_allclear.wav");
+	precache_sound2 ("ogre/ogre_idle_breathing_1.wav");
+	precache_sound2 ("ogre/ogre_idle_breathing_2.wav");
+	precache_sound2 ("ogre/ogre_idle_gettingpaid.wav");
+	precache_sound2 ("ogre/ogre_pain_1.wav");
+	precache_sound2 ("ogre/ogre_pain_2.wav");
+	precache_sound2 ("ogre/ogre_pain_3.wav");
+	precache_sound2 ("ogre/ogre_sight_contact.wav");
+	precache_sound2 ("ogre/ogre_sight_hey.wav");
+	precache_sound2 ("ogre/ogre_sight_securearea.wav");
 	
 	self.health = 200;
 	setsize (self, VEC_HULL2_MIN, '32 32 40');
