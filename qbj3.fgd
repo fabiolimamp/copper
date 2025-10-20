@@ -259,7 +259,7 @@ Spawnflag Usage:
             spawnflags & 1 ->   ":progs/tb/shells_1.mdl",
                                 ":progs/tb/shells_0.mdl"
         }}
-    ) = item_shells : "Shotgun Shells, 4/8/50" []
+    ) = item_shells : "Shotgun Shells, 8/16/50" []
 @PointClass base(Ammo) 
     model(
         {{
@@ -371,7 +371,7 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 "A forgotten explorer's backpack. Grants a paltry sum of shells and nails (about half a small pack of each). Grants armor instead of any ammo the player already has maxed."
 [
 	spawnflags(flags) =	[
-		1 : "Big Blue (x2 shells, x2 nails, +4 explosives, +1 fragment)" : 0
+		1 : "Big Blue (x2 shells, x2 nails, +4 explosives)" : 0
 	]
 ]
 

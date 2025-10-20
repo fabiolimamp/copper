@@ -416,7 +416,7 @@ void() StartAmmo =
 10 shells for the Flak Shotgun.
 
 Flags:
-"big" gives 8 instead of 4
+"big" gives 16 instead of 8
 "YOOGE" gives 50
 
 Keys:
@@ -433,7 +433,7 @@ Keys:
             spawnflags & 1 ->   ":progs/tb/shells_1.mdl",
                                 ":progs/tb/shells_0.mdl"
         }}
-    ) = item_shells : "Shells, 4/8/50" []
+    ) = item_shells : "Shells, 8/16/50" []
 */
 void() item_shells =
 {
@@ -447,13 +447,13 @@ void() item_shells =
 	}
 	else if (self.spawnflags & ITEM_AMMO_BIG)
 	{
-		self.ammo_shells = 8;
+		self.ammo_shells = 16;
 		precache_model_safe ("progs/ammo/shells_med.mdl");
 		setmodel(self, "progs/ammo/shells_med.mdl");
 	}
 	else
 	{
-		self.ammo_shells = 4;
+		self.ammo_shells = 8;
 		precache_model_safe ("progs/ammo/shells_small.mdl");
 		setmodel(self, "progs/ammo/shells_small.mdl");
 	}

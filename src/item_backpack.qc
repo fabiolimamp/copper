@@ -174,14 +174,14 @@ void() BackpackAutoTouch =
 	if (self.wait > 0)
 	{
 		// reset all the values we may have just vandalized
-		self.ammo_shells = floor(3 * random() + 4);
+		self.ammo_shells = floor(4 * random() + 4);
 		self.ammo_nails = floor(5 * random() + 10);
 		if (self.spawnflags & 1)
 		{
 			self.ammo_shells *= 2;
 			self.ammo_nails *= 2;
 			self.ammo_rockets = 4;
-			self.ammo_cells = 1;
+			//self.ammo_cells = 0;
 			
 			//self.skin = 2;
 			self.skin = 1;
@@ -194,7 +194,7 @@ void() BackpackAutoTouch =
 A forgotten explorer's backpack. Grants a paltry sum of shells and nails (about half a small pack of each). Grants armor instead of any ammo the player already has maxed.
 
 Flags:
-"Big Blue" doubles shells and nails, adds 4 explosives and 1 fragment
+"Big Blue" doubles shells and nails, adds 4 explosives
     
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -209,7 +209,7 @@ Keys:
 "A forgotten explorer's backpack. Grants a paltry sum of shells and nails (about half a small pack of each). Grants armor instead of any ammo the player already has maxed."
 [
 	spawnflags(flags) =	[
-		1 : "Big Blue (x2 shells, x2 nails, +4 explosives, +1 fragment)" : 0
+		1 : "Big Blue (x2 shells, x2 nails, +4 explosives)" : 0
 	]
 ]
 */
@@ -225,14 +225,14 @@ void() item_backpack =
 	//self.skin = 1;
 	self.skin = 0;
 	
-	self.ammo_shells = floor(3 * random() + 4);
+	self.ammo_shells = floor(4 * random() + 4);
 	self.ammo_nails = floor(5 * random() + 10);
 	if (self.spawnflags & 1)
 	{
 		self.ammo_shells *= 2;
 		self.ammo_nails *= 2;
 		self.ammo_rockets = 4;
-		self.ammo_cells = 1;
+		//self.ammo_cells = 0;
 		
 		//self.skin = 2;
 		self.skin = 1;
@@ -266,19 +266,19 @@ void(float skin_num) DropBackpack =
 		if (item.items == IT_AXE)
 			item.netname = string_null;
 		else if (item.items == IT_SHOTGUN)
-			item.netname = "Shotgun";
+			item.netname = "Stechkin Pistol";
 		else if (item.items == IT_SUPER_SHOTGUN)
-			item.netname = "Double-Barrelled Shotgun";
+			item.netname = "KS-23 FLAK";
 		else if (item.items == IT_NAILGUN)
-			item.netname = "Nailgun";
+			item.netname = "Twin Nailguns";
 		else if (item.items == IT_SUPER_NAILGUN)
-			item.netname = "Perforator";
+			item.netname = "Rebar Cannon";
 		else if (item.items == IT_GRENADE_LAUNCHER)
-			item.netname = "Grenade Launcher";
+			item.netname = "RG-6 Grenade Launcher";
 		else if (item.items == IT_ROCKET_LAUNCHER)
-			item.netname = "Rocket Launcher";
+			item.netname = "Multi Mini-Missile Launcher";
 		else if (item.items == IT_LIGHTNING)
-			item.netname = "Thunderbolt";
+			item.netname = "The Invoker";
 		else
 			item.netname = string_null;
 		
