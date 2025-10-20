@@ -700,13 +700,13 @@ float (entity e, float healamt, float overheal) T_Heal =
 			}
 				else if (self.spawnflags & ITEM_HEALTH_ROTTEN)
 			{
-				sprint(e, "Picked up a Rotten Health Pack");
+				sprint(e, "Picked up a Small Health Pack");
 				sprint(e, " \b+\b");
 				sprint(e, "15");
 			}
 				else
 			{
-				sprint(e, "Picked up a Health Pack");
+				sprint(e, "Picked up a Medium Health Pack");
 				sprint(e, " \b+\b");
 				sprint(e, "25");
 			}
