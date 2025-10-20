@@ -417,7 +417,6 @@ void() worldspawn =
 	precache_sound ("player/player_gasp1_3.wav");
 	precache_sound ("player/player_gasp1_4.wav");
 	precache_sound ("player/player_gasp1_5.wav");
-	precache_sound ("player/player_gasp1_6.wav");
 	precache_sound ("player/player_gasp2_1.wav");
 	precache_sound ("player/player_gasp2_2.wav");
 	precache_sound ("player/player_gasp2_3.wav");
