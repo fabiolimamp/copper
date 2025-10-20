@@ -17,7 +17,7 @@ const float weaponflags[8] = {
 const float weaponbits[8] = { 12, 0, 1, 2, 3, 4, 5, 6 };
 
 const string weaponflash[6] = { "gfx/inv_","gfx/inv2_","gfx/inva2_","gfx/inva3_","gfx/inva4_","gfx/inva1_" };	// use selected glow as a better last frame
-const string weaponlabel[8] = {	"axe","shotgun","sshotgun","nailgun","snailgun","rlaunch","srlaunch","lightng" };
+const string weaponlabel[8] = {	"wrench","shotgun","sshotgun","nailgun","snailgun","rlaunch","srlaunch","lightng" };
 
 float stat_items, stat_items2, stat_items_qbj, stat_health, keytype;
 float paintime, lookseed;
@@ -264,22 +264,20 @@ void Hud_DrawHead(vector pos)
 
 void Hud_DrawArmorIcon(vector pos)
 {
+	float armor = getstatf(STAT_ARMOR);
+	
 	if (stat_items & IT_INVULNERABILITY)
 	{
-		// obviously paintime doesn't work when you're invulnerable because your health never changes ...
-		/*
-		if (time < paintime - 0.075)
-			drawpic(pos, "sb_armor666_p1", '24 24', '1 1 1', 1, 0);
-		else if (time < paintime)
-			drawpic(pos, "sb_armor666_p2", '24 24', '1 1 1', 1, 0);
-		else
-		*/
-			drawpic(pos, "sb_armor666", '24 24', '1 1 1', 1, 0);
+		drawpic(pos, "sb_armor666", '24 24', '1 1 1', 1, 0);
 	}
-	if (stat_items & IT_ARMOR2)
-		drawpic(pos, "sb_armor2b", '24 24', '1 1 1', 1, 0);
-
+	else if (armor >= 100)
+		drawpic(pos, "sb_armor3", '24 24', '1 1 1', 1, 0);
+	else if (armor >= 50)
+		drawpic(pos, "sb_armor2", '24 24', '1 1 1', 1, 0);
+	else if (armor > 0)
+		drawpic(pos, "sb_armor1", '24 24', '1 1 1', 1, 0);
 }
+
 void Hud_DrawCurrentAmmoIcon(vector pos)
 {
 	if (stat_items & IT_SHELLS)
@@ -1071,7 +1069,7 @@ void() Hud_Init
 	}
 	for (i = 0; i < 6; i++)
 	{
-		precache_pic(strcat(weaponflash[i], "axe"), TRUE);
+		precache_pic(strcat(weaponflash[i], "wrench"), TRUE);
 	}
 
 	precache_pic("gfx/bullit", TRUE);
@@ -1108,12 +1106,9 @@ void() Hud_Init
 	precache_pic("face_invulquad", TRUE);
 	precache_pic("face_invisquad", TRUE);
 	precache_pic("face_allpups", TRUE);
-	precache_pic("sb_armor1b", TRUE);
-	precache_pic("sb_armor2b", TRUE);
-	precache_pic("sb_armor3b", TRUE);
-	precache_pic("sb_armor666", TRUE);
-	//precache_pic("sb_armor666_p1", TRUE);
-	//precache_pic("sb_armor666_p2", TRUE);
+	precache_pic("sb_armor1", TRUE);
+	precache_pic("sb_armor2", TRUE);
+	precache_pic("sb_armor3", TRUE);
 
 	precache_pic("sb_ammos", TRUE);
 	precache_pic("sb_ammoc", TRUE);
