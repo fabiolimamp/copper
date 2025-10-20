@@ -166,7 +166,7 @@ Keys:
 */
 /*FGD
 @PointClass base(Weapon) model({ "path": ":progs/g_flakshotgun.mdl" }) = weapon_flak : "Flak Shotgun.
-10 shells." []
+16 shells." []
 */
 void() weapon_flak =
 {
@@ -174,7 +174,7 @@ void() weapon_flak =
 	precache_model_safe ("progs/g_flakshotgun.mdl");
 	setmodel (self, "progs/g_flakshotgun.mdl");
 	self.items = IT_SUPER_SHOTGUN;
-	self.ammo_shells = 10; //FlakTax
+	self.ammo_shells = 16; //FlakTax
 	self.netname = "KS-23 FLAK";
 	StartWeapon();
 }

@@ -239,13 +239,13 @@ Spawnflag Usage:
 @baseclass size(-16 -16 0, 16 16 56) color(0 0 200) base(Item) = Weapon []
 @PointClass base(Weapon) model({ "path": ":progs/g_pistol.mdl" }) = weapon_pistol : "Pistol." []
 @PointClass base(Weapon) model({ "path": ":progs/g_flakshotgun.mdl" }) = weapon_flak : "Flak Shotgun.
-10 shells." []
+16 shells." []
 @PointClass base(Weapon) model({ "path": ":progs/g_tnailgun.mdl" }) = weapon_nailgun : "Twin Nailgun.
 30 nails." []
 @PointClass base(Weapon) model({ "path": ":progs/g_rebar.mdl" }) = weapon_rebar : "Rebar Cannon.
 30 nails." []
 @PointClass base(Weapon) model({ "path": ":progs/g_grenlauncher.mdl" }) = weapon_grenadelauncher : "Grenade Launcher.
-5 rockets." []
+8 rockets." []
 @PointClass base(Weapon) model({ "path": ":progs/g_mmml.mdl" }) = weapon_mmml : "Multi Mini-Missile Launcher.
 8 rockets." []
 @PointClass base(Weapon) model({ "path": ":progs/g_invoker.mdl" }) = weapon_invoker : "The Invoker.

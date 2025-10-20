@@ -97,7 +97,7 @@ void() SetCoopParms =
 {
 	parm1 = self.items & IT_WEAPONS;
 	parm2 = 100;
-	parm4 = max(24,self.ammo_shells); //FlakTax
+	parm4 = max(4,self.ammo_shells); // Reduced from 24 to 4, Shotgun give +16
 	if (parm1 & IT_SUPER_SHOTGUN)
 		parm8 = IT_SUPER_SHOTGUN;
 	else
