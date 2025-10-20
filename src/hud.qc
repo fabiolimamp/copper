@@ -295,7 +295,12 @@ void Hud_DrawPistolBullets(vector pos);
 void Hud_DrawSBar(vector pos)
 {
 	float value;
-	drawpic(pos, "sbar", '320 24', '1 1 1', baralpha, 0);
+	
+	// Use different sbar graphic when pistol is equipped
+	if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN)
+		drawpic(pos, "w_sbar_pistol", '320 24', '1 1 1', baralpha, 0);
+	else
+		drawpic(pos, "w_sbar", '320 24', '1 1 1', baralpha, 0);
 
 	value = clampf(stat_health, 999);
 
@@ -312,13 +317,12 @@ void Hud_DrawSBar(vector pos)
 	value = clampf(getstatf(STAT_AMMO), 999);
 
 	if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN)
-		Hud_DrawPistolBullets(pos+'224 0' + '8 0');
-		//Hud_DrawLargeValue(pos+'320 0', value, 3);
+		Hud_DrawPistolBullets(pos+'218 0');
 	else {
-		Hud_DrawCurrentAmmoIcon(pos + '224 0');
+		Hud_DrawCurrentAmmoIcon(pos + '211 0');
 		Hud_DrawLargeValue(pos+'320 0', value, 10);
 	}
-};
+}
 
 // ================================================================
 
@@ -1085,7 +1089,8 @@ void() Hud_Init
 	precache_pic("gfx/sb_bkey1", TRUE);
 	precache_pic("gfx/sb_bkey2", TRUE);
 
-	precache_pic("sbar", TRUE);
+	precache_pic("w_sbar", TRUE);
+	precache_pic("w_sbar_pistol", TRUE);
 	/*
 	// looking left and right frames - art not complete yet
 	precache_pic("face1_l", TRUE);
