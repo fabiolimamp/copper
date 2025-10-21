@@ -467,8 +467,8 @@ void() item_shells =
 30 ammo points (spikes) for the Twin Nailguns and Rebar Cannon.
 
 Flags:
-"big" gives 50 instead of 25
-"YOOGE" gives 100
+"big" gives 60 instead of 30
+"YOOGE" gives 150
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -484,7 +484,7 @@ Keys:
             spawnflags & 1 ->   ":progs/tb/nails_1.mdl",
                                 ":progs/tb/nails_0.mdl"
         }}
-    ) = item_spikes : "Nailgun/Perforator ammo, 25/50/100" []
+    ) = item_spikes : "Nailgun/Perforator ammo, 30/60/150" []
 */
 void() item_spikes =
 {
@@ -492,19 +492,19 @@ void() item_spikes =
 	
 	if (self.spawnflags & ITEM_AMMO_YOOGE)
 	{
-		self.ammo_nails = 100;
+		self.ammo_nails = 150;
 		precache_model_safe ("progs/ammo/nails_large.mdl");
 		setmodel(self, "progs/ammo/nails_large.mdl");
 	}
 	else if (self.spawnflags & ITEM_AMMO_BIG)
 	{
-		self.ammo_nails = 50;
+		self.ammo_nails = 60;
 		precache_model_safe ("progs/ammo/nails_med.mdl");
 		setmodel (self, "progs/ammo/nails_med.mdl");
 	}
 	else
 	{
-		self.ammo_nails = 25;
+		self.ammo_nails = 30;
 		precache_model_safe ("progs/ammo/nails_small.mdl");
 		setmodel (self, "progs/ammo/nails_small.mdl");
 	}

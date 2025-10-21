@@ -267,7 +267,7 @@ Spawnflag Usage:
             spawnflags & 1 ->   ":progs/tb/nails_1.mdl",
                                 ":progs/tb/nails_0.mdl"
         }}
-    ) = item_spikes : "Nails and Rebar, 25/50/100" []
+    ) = item_spikes : "Nails and Rebar, 30/60/150" []
 @PointClass base(Ammo) 
     model(
         {{
