@@ -51,7 +51,7 @@ void()	rocketarmy_stand5	=[	$stand5,	rocketarmy_stand6	] {ai_stand();}
 void()	rocketarmy_stand6	=[	$stand6,	rocketarmy_stand7	] {ai_stand();}
 void()	rocketarmy_stand7	=[	$stand7,	rocketarmy_stand8	] {ai_stand();}
 void()	rocketarmy_stand8	=[	$stand8,	rocketarmy_stand1	] {ai_stand();}
-
+	
 void()	rocketarmy_walk1	=[	$prowl_1,	rocketarmy_walk2	] {
 if (random() < 0.08)
 	rocketsoldier_idle_sound();
@@ -80,36 +80,36 @@ void()	rocketarmy_walk22	=[	$prowl_22,	rocketarmy_walk23	] {ai_walk(1);}
 void()	rocketarmy_walk23	=[	$prowl_23,	rocketarmy_walk24	] {ai_walk(1);}
 void()	rocketarmy_walk24	=[	$prowl_24,	rocketarmy_walk1	] {ai_walk(1);}
 
-void()	rocketarmy_run1	=[	$run1,		rocketarmy_run2	] {
+void()	rocketarmy_run1		=[	$run1,		rocketarmy_run2		] {
 if (random() < 0.05 && time > self.show_hostile)
 	rocketsoldier_aggro_sound();
 nmfast(); ai_run(11);}
-void()	rocketarmy_run2	=[	$run2,		rocketarmy_run3	] {nmfast(); ai_run(15);}
-void()	rocketarmy_run3	=[	$run3,		rocketarmy_run4	] {nmfast(); ai_run(10);}
-void()	rocketarmy_run4	=[	$run4,		rocketarmy_run5	] {nmfast(); ai_run(10);}
-void()	rocketarmy_run5	=[	$run5,		rocketarmy_run6	] {nmfast(); ai_run(8);}
-void()	rocketarmy_run6	=[	$run6,		rocketarmy_run7	] {nmfast(); ai_run(15);}
-void()	rocketarmy_run7	=[	$run7,		rocketarmy_run8	] {nmfast(); ai_run(10);}
-void()	rocketarmy_run8	=[	$run8,		rocketarmy_run1	] {nmfast(); ai_run(8);}
-
-void()	rocketarmy_atk1	=[	$shoot1,	rocketarmy_atk2	] {nmfast();ai_face();}
-void()	rocketarmy_atk2	=[	$shoot2,	rocketarmy_atk3	] {nmfast();ai_face();}
-void()	rocketarmy_atk3	=[	$shoot3,	rocketarmy_atk4	] {nmfast();ai_face(); rocketarmy_aim(); }
-void()	rocketarmy_atk4	=[	$shoot4,	rocketarmy_atk5	] {nmfast();ai_face();}
-void()	rocketarmy_atk5	=[	$shoot5,	rocketarmy_atk6	] {nmfast();ai_face(); rocketarmy_fire(); }
-void()	rocketarmy_atk6	=[	$shoot6,	rocketarmy_atk7	] {nmfast(); ai_face();}
-void()	rocketarmy_atk7	=[	$shoot7,	rocketarmy_atk8	] {nmfast(); ai_face();}
-void()	rocketarmy_atk8	=[	$shoot8,	rocketarmy_atk9	] {nmfast(); ai_face(); ai_attack_finished (0.3 + random() + random());}
-void()	rocketarmy_atk9	=[	$shoot9,	rocketarmy_run1	] {nmfast(); ai_face();}
-
-
+void()	rocketarmy_run2		=[	$run2,		rocketarmy_run3		] {nmfast(); ai_run(15);}
+void()	rocketarmy_run3		=[	$run3,		rocketarmy_run4		] {nmfast(); ai_run(10);}
+void()	rocketarmy_run4		=[	$run4,		rocketarmy_run5		] {nmfast(); ai_run(10);}
+void()	rocketarmy_run5		=[	$run5,		rocketarmy_run6		] {nmfast(); ai_run(8);}
+void()	rocketarmy_run6		=[	$run6,		rocketarmy_run7		] {nmfast(); ai_run(15);}
+void()	rocketarmy_run7		=[	$run7,		rocketarmy_run8		] {nmfast(); ai_run(10);}
+void()	rocketarmy_run8		=[	$run8,		rocketarmy_run1		] {nmfast(); ai_run(8);}
+		
+void()	rocketarmy_atk1		=[	$shoot1,	rocketarmy_atk2		] {nmfast();ai_face(); rocketsoldier_fire_sound(); }
+void()	rocketarmy_atk2		=[	$shoot2,	rocketarmy_atk3		] {nmfast();ai_face();}
+void()	rocketarmy_atk3		=[	$shoot3,	rocketarmy_atk4		] {nmfast();ai_face(); rocketarmy_aim(); }
+void()	rocketarmy_atk4		=[	$shoot4,	rocketarmy_atk5		] {nmfast();ai_face();}
+void()	rocketarmy_atk5		=[	$shoot5,	rocketarmy_atk6		] {nmfast();ai_face(); rocketarmy_fire(); }
+void()	rocketarmy_atk6		=[	$shoot6,	rocketarmy_atk7		] {nmfast(); ai_face();}
+void()	rocketarmy_atk7		=[	$shoot7,	rocketarmy_atk8		] {nmfast(); ai_face();}
+void()	rocketarmy_atk8		=[	$shoot8,	rocketarmy_atk9		] {nmfast(); ai_face(); ai_attack_finished (0.3 + random() + random());}
+void()	rocketarmy_atk9		=[	$shoot9,	rocketarmy_run1		] {nmfast(); ai_face();}
+	
+	
 void()	rocketarmy_pain1	=[	$pain1,		rocketarmy_pain2	] {}
 void()	rocketarmy_pain2	=[	$pain2,		rocketarmy_pain3	] {}
 void()	rocketarmy_pain3	=[	$pain3,		rocketarmy_pain4	] {}
 void()	rocketarmy_pain4	=[	$pain4,		rocketarmy_pain5	] {}
 void()	rocketarmy_pain5	=[	$pain5,		rocketarmy_pain6	] {}
-void()	rocketarmy_pain6	=[	$pain6,		rocketarmy_run1	] {ai_pain(1);}
-
+void()	rocketarmy_pain6	=[	$pain6,		rocketarmy_run1		] {ai_pain(1);}
+	
 void()	rocketarmy_painb1	=[	$painb1,	rocketarmy_painb2	] {}
 void()	rocketarmy_painb2	=[	$painb2,	rocketarmy_painb3	] {ai_painforward(13);}
 void()	rocketarmy_painb3	=[	$painb3,	rocketarmy_painb4	] {ai_painforward(9);}
@@ -118,13 +118,13 @@ void()	rocketarmy_painb5	=[	$painb5,	rocketarmy_painb6	] {}
 void()	rocketarmy_painb6	=[	$painb6,	rocketarmy_painb7	] {}
 void()	rocketarmy_painb7	=[	$painb7,	rocketarmy_painb8	] {}
 void()	rocketarmy_painb8	=[	$painb8,	rocketarmy_painb9	] {}
-void()	rocketarmy_painb9	=[	$painb9,	rocketarmy_painb10] {}
-void()	rocketarmy_painb10=[	$painb10,	rocketarmy_painb11] {}
-void()	rocketarmy_painb11=[	$painb11,	rocketarmy_painb12] {}
-void()	rocketarmy_painb12=[	$painb12,	rocketarmy_painb13] {ai_pain(2);}
-void()	rocketarmy_painb13=[	$painb13,	rocketarmy_painb14] {}
-void()	rocketarmy_painb14=[	$painb14,	rocketarmy_run1	] {}
-
+void()	rocketarmy_painb9	=[	$painb9,	rocketarmy_painb10	] {}
+void()	rocketarmy_painb10	=[	$painb10,	rocketarmy_painb11	] {}
+void()	rocketarmy_painb11	=[	$painb11,	rocketarmy_painb12	] {}
+void()	rocketarmy_painb12	=[	$painb12,	rocketarmy_painb13	] {ai_pain(2);}
+void()	rocketarmy_painb13	=[	$painb13,	rocketarmy_painb14	] {}
+void()	rocketarmy_painb14	=[	$painb14,	rocketarmy_run1		] {}
+	
 void()	rocketarmy_painc1	=[	$painc1,	rocketarmy_painc2	] {}
 void()	rocketarmy_painc2	=[	$painc2,	rocketarmy_painc3	] {ai_pain(1);}
 void()	rocketarmy_painc3	=[	$painc3,	rocketarmy_painc4	] {}
@@ -133,11 +133,11 @@ void()	rocketarmy_painc5	=[	$painc5,	rocketarmy_painc6	] {ai_painforward(1);}
 void()	rocketarmy_painc6	=[	$painc6,	rocketarmy_painc7	] {ai_painforward(1);}
 void()	rocketarmy_painc7	=[	$painc7,	rocketarmy_painc8	] {}
 void()	rocketarmy_painc8	=[	$painc8,	rocketarmy_painc9	] {ai_pain(1);}
-void()	rocketarmy_painc9	=[	$painc9,	rocketarmy_painc10] {ai_painforward(4);}
-void()	rocketarmy_painc10=[	$painc10,	rocketarmy_painc11] {ai_painforward(3);}
-void()	rocketarmy_painc11=[	$painc11,	rocketarmy_painc12] {ai_painforward(6);}
-void()	rocketarmy_painc12=[	$painc12,	rocketarmy_painc13] {ai_painforward(8);}
-void()	rocketarmy_painc13=[	$painc13,	rocketarmy_run1] {}
+void()	rocketarmy_painc9	=[	$painc9,	rocketarmy_painc10	] {ai_painforward(4);}
+void()	rocketarmy_painc10	=[	$painc10,	rocketarmy_painc11	] {ai_painforward(3);}
+void()	rocketarmy_painc11	=[	$painc11,	rocketarmy_painc12	] {ai_painforward(6);}
+void()	rocketarmy_painc12	=[	$painc12,	rocketarmy_painc13	] {ai_painforward(8);}
+void()	rocketarmy_painc13	=[	$painc13,	rocketarmy_run1		] {}
 
 void(entity attacker, float damage)	rocketarmy_pain =
 {
@@ -187,7 +187,11 @@ void() rocketarmy_fire =
 {
 	ai_face();
 	self.effects = self.effects | EF_MUZZLEFLASH;	
-	sound (self, CHAN_WEAPON, "grunt/sattck1.wav", 1, ATTN_NORM);	
+	
+	//sound (self, CHAN_WEAPON, "grunt/sattck1.wav", 1, ATTN_NORM);
+		
+	sound (self, CHAN_AUTO, "mmml/silo_clunk.wav", 1, ATTN_NORM);
+	sound (self, CHAN_AUTO, "mmml/silo_load.wav", 1, ATTN_NORM);
 
     SoldierMissile();
 }
@@ -331,31 +335,31 @@ float() RocketSoldierCheckAttack =
 //=============================================================================
 
 
-void()	rocketarmy_die1	=[	$death1,	rocketarmy_die2	] {rocketarmy_checkgib();}
-void()	rocketarmy_die2	=[	$death2,	rocketarmy_die3	] {rocketarmy_checkgib();}
-void()	rocketarmy_die3	=[	$death3,	rocketarmy_die4	]
+void()	rocketarmy_die1		=[$death1,	rocketarmy_die2		] {rocketarmy_checkgib();}
+void()	rocketarmy_die2		=[$death2,	rocketarmy_die3		] {rocketarmy_checkgib();}
+void()	rocketarmy_die3		=[$death3,	rocketarmy_die4		]
 {if (rocketarmy_checkgib()) return;
 self.solid = SOLID_NOT;self.takedamage = DAMAGE_NO; self.ammo_rockets = 1;	DropEnemyAmmo(3);}	//RocketTax
-void()	rocketarmy_die4	=[	$death4,	rocketarmy_die5	] {}
-void()	rocketarmy_die5	=[	$death5,	rocketarmy_die6	] {}
-void()	rocketarmy_die6	=[	$death6,	rocketarmy_die7	] {}
-void()	rocketarmy_die7	=[	$death7,	rocketarmy_die8	] {}
-void()	rocketarmy_die8	=[	$death8,	rocketarmy_die9	] {}
-void()	rocketarmy_die9	=[	$death9,	rocketarmy_die10	] {}
-void()	rocketarmy_die10	=[	$death10,	SUB_Null	] {}
+void()	rocketarmy_die4		=[$death4,	rocketarmy_die5		] {}
+void()	rocketarmy_die5		=[$death5,	rocketarmy_die6		] {}
+void()	rocketarmy_die6		=[$death6,	rocketarmy_die7		] {}
+void()	rocketarmy_die7		=[$death7,	rocketarmy_die8		] {}
+void()	rocketarmy_die8		=[$death8,	rocketarmy_die9		] {}
+void()	rocketarmy_die9		=[$death9,	rocketarmy_die10	] {}
+void()	rocketarmy_die10	=[$death10,	SUB_Null		] {}
 
-void()	rocketarmy_cdie1	=[	$deathc1,	rocketarmy_cdie2	] {}
-void()	rocketarmy_cdie2	=[	$deathc2,	rocketarmy_cdie3	] {ai_back(5);}
-void()	rocketarmy_cdie3	=[	$deathc3,	rocketarmy_cdie4	]
+void()	rocketarmy_cdie1	=[$deathc1,	rocketarmy_cdie2	] {}
+void()	rocketarmy_cdie2	=[$deathc2,	rocketarmy_cdie3	] {ai_back(5);}
+void()	rocketarmy_cdie3	=[$deathc3,	rocketarmy_cdie4	]
 {self.solid = SOLID_NOT;self.ammo_rockets = 1;	DropEnemyAmmo(3);	ai_back(4);}	//RocketTax
-void()	rocketarmy_cdie4	=[	$deathc4,	rocketarmy_cdie5	] {ai_back(13);}
-void()	rocketarmy_cdie5	=[	$deathc5,	rocketarmy_cdie6	] {ai_back(3);}
-void()	rocketarmy_cdie6	=[	$deathc6,	rocketarmy_cdie7	] {ai_back(4);}
-void()	rocketarmy_cdie7	=[	$deathc7,	rocketarmy_cdie8	] {}
-void()	rocketarmy_cdie8	=[	$deathc8,	rocketarmy_cdie9	] {}
-void()	rocketarmy_cdie9	=[	$deathc9,	rocketarmy_cdie10	] {}
-void()	rocketarmy_cdie10	=[	$deathc10,	rocketarmy_cdie11	] {}
-void()	rocketarmy_cdie11	=[	$deathc11,	SUB_Null	] {}
+void()	rocketarmy_cdie4	=[$deathc4,	rocketarmy_cdie5	] {ai_back(13);}
+void()	rocketarmy_cdie5	=[$deathc5,	rocketarmy_cdie6	] {ai_back(3);}
+void()	rocketarmy_cdie6	=[$deathc6,	rocketarmy_cdie7	] {ai_back(4);}
+void()	rocketarmy_cdie7	=[$deathc7,	rocketarmy_cdie8	] {}
+void()	rocketarmy_cdie8	=[$deathc8,	rocketarmy_cdie9	] {}
+void()	rocketarmy_cdie9	=[$deathc9,	rocketarmy_cdie10	] {}
+void()	rocketarmy_cdie10	=[$deathc10,	rocketarmy_cdie11	] {}
+void()	rocketarmy_cdie11	=[$deathc11,	SUB_Null		] {}
 
 float() rocketarmy_checkgib =
 {	
@@ -384,62 +388,53 @@ void() rocketarmy_die =
 		rocketarmy_cdie1 ();
 }
 
+void() rocketsoldier_fire_sound =
+{
+    local float rs;
+    rs = (random() * 2);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_firing.wav", 1, ATTN_NORM);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_fireinthehole.wav", 1, ATTN_NORM);
+};
+
 void() rocketsoldier_death_sound =
 {
     local float rs;
     rs = (random() * 2);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_death1.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_death2.wav", 1, ATTN_NORM);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_death1.wav", 1, ATTN_NORM);
+    else        	sound (self, CHAN_VOICE, "grunt/soldier_death2.wav", 1, ATTN_NORM);
 };
 
 void() rocketsoldier_pain_sound =
 {
     local float rs;
     rs = (random() * 4);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_pain1.wav", 1, ATTN_NORM);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
-    else if (rs < 3)
-        sound (self, CHAN_VOICE, "grunt/soldier_pain3.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_pain4.wav", 1, ATTN_NORM);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_pain1.wav", 1, ATTN_NORM);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
+    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_pain3.wav", 1, ATTN_NORM);
+    else	        sound (self, CHAN_VOICE, "grunt/soldier_pain4.wav", 1, ATTN_NORM);
 };
 
 void() rocketsoldier_aggro_sound =
 {
     local float rs;
     rs = (random() * 6);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_breakcover.wav", 1, ATTN_NORM);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_converging.wav", 1, ATTN_NORM);
-    else if (rs < 3)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_mobile.wav", 1, ATTN_NORM);
-    else if (rs < 4)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_movingin.wav", 1, ATTN_NORM);
-    else if (rs < 5)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_outbreak.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_stopresisting.wav", 1, ATTN_NORM);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_aggro_breakcover.wav", 1, ATTN_NORM);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_converging.wav", 1, ATTN_NORM);
+    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_mobile.wav", 1, ATTN_NORM);
+    else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_movingin.wav", 1, ATTN_NORM);
+    else if (rs < 5)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_outbreak.wav", 1, ATTN_NORM);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_aggro_stopresisting.wav", 1, ATTN_NORM);
 };
 
 void() rocketsoldier_idle_sound =
 {
     local float rs;
     rs = (random() * 5);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_inposition.wav", 1, ATTN_IDLE);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_standingby.wav", 1, ATTN_IDLE);
-    else if (rs < 3)
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_ten2.wav", 1, ATTN_IDLE);
-    else if (rs < 4)
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_ten4.wav", 1, ATTN_IDLE);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_unithasnocontact.wav", 1, ATTN_IDLE);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_idle_inposition.wav", 1, ATTN_IDLE);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_idle_standingby.wav", 1, ATTN_IDLE);
+    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_idle_ten2.wav", 1, ATTN_IDLE);
+    else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_idle_ten4.wav", 1, ATTN_IDLE);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_idle_unithasnocontact.wav", 1, ATTN_IDLE);
 };
 
 void() monster_rocketarmy_spawn =
@@ -506,12 +501,12 @@ void() monster_army_rocket =
 	precache_model ("progs/gib2.mdl");
 	precache_model ("progs/gib3.mdl");
 
-	precache_sound ("grunt/death1.wav");
-	precache_sound ("grunt/idle.wav");
-	precache_sound ("grunt/pain1.wav");
-	precache_sound ("grunt/pain2.wav");
-	precache_sound ("grunt/sattck1.wav");
-	precache_sound ("grunt/sight1.wav");
+	//precache_sound ("grunt/death1.wav");
+	//precache_sound ("grunt/idle.wav");
+	//precache_sound ("grunt/pain1.wav");
+	//precache_sound ("grunt/pain2.wav");
+	//precache_sound ("grunt/sattck1.wav");
+	//precache_sound ("grunt/sight1.wav");
 
 	precache_sound2 ("grunt/soldier_aggro_breakcover.wav");
 	precache_sound2 ("grunt/soldier_aggro_converging.wav");

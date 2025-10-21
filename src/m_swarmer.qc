@@ -82,8 +82,8 @@ void(float step) ai_swarmer_run = {
 	float enemy_range2D;
 	vector vec;
 
-	dprint(ftos(step));
-	dprint("\n");
+	//dprint(ftos(step));
+	//dprint("\n");
 	if (!self.enemy) return;
 
 	vector prev_org = self.origin;

@@ -80,18 +80,18 @@ void()	pistolarmy_walk22	=[	$prowl_22,	pistolarmy_walk23	] {ai_walk(1);}
 void()	pistolarmy_walk23	=[	$prowl_23,	pistolarmy_walk24	] {ai_walk(1);}
 void()	pistolarmy_walk24	=[	$prowl_24,	pistolarmy_walk1	] {ai_walk(1);}
 
-void()	pistolarmy_run1	=[	$run1,		pistolarmy_run2	] {
+void()	pistolarmy_run1		=[	$run1,		pistolarmy_run2		] {
 nmfast();
 if (random() < 0.05 && time > self.show_hostile)
 	pistolsoldier_aggro_sound();
 ai_run(11);}
-void()	pistolarmy_run2	=[	$run2,		pistolarmy_run3	] {nmfast(); ai_run(15);}
-void()	pistolarmy_run3	=[	$run3,		pistolarmy_run4	] {nmfast(); ai_run(10);}
-void()	pistolarmy_run4	=[	$run4,		pistolarmy_run5	] {nmfast(); ai_run(10);}
-void()	pistolarmy_run5	=[	$run5,		pistolarmy_run6	] {nmfast(); ai_run(8);}
-void()	pistolarmy_run6	=[	$run6,		pistolarmy_run7	] {nmfast(); ai_run(15);}
-void()	pistolarmy_run7	=[	$run7,		pistolarmy_run8	] {nmfast(); ai_run(10);}
-void()	pistolarmy_run8	=[	$run8,		pistolarmy_run1	] {nmfast(); ai_run(8);}
+void()	pistolarmy_run2		=[	$run2,		pistolarmy_run3		] {nmfast(); ai_run(15);}
+void()	pistolarmy_run3		=[	$run3,		pistolarmy_run4		] {nmfast(); ai_run(10);}
+void()	pistolarmy_run4		=[	$run4,		pistolarmy_run5		] {nmfast(); ai_run(10);}
+void()	pistolarmy_run5		=[	$run5,		pistolarmy_run6		] {nmfast(); ai_run(8);}
+void()	pistolarmy_run6		=[	$run6,		pistolarmy_run7		] {nmfast(); ai_run(15);}
+void()	pistolarmy_run7		=[	$run7,		pistolarmy_run8		] {nmfast(); ai_run(10);}
+void()	pistolarmy_run8		=[	$run8,		pistolarmy_run1		] {nmfast(); ai_run(8);}
 
 void()	pistolarmy_atk1		=[	$shoot1,	pistolarmy_atk2		] {nmfast(); ai_face();}
 void()	pistolarmy_atk2		=[	$shoot2,	pistolarmy_atk3		] {nmfast(); ai_face();}
@@ -105,9 +105,9 @@ void()	pistolarmy_atk9		=[	$shoot3,	pistolarmy_atk10	] {nmfast(); ai_face(); pis
 void()	pistolarmy_atk10	=[	$shoot4,	pistolarmy_atk11	] {nmfast(); ai_face();}
 void()	pistolarmy_atk11	=[	$shoot5,	pistolarmy_atk12	] {nmfast(); ai_face(); pistolarmy_fire(); pistolarmy_nm_repeat(pistolarmy_atk3);}
 void()	pistolarmy_atk12	=[	$shoot6,	pistolarmy_atk13	] {nmfast(); ai_face();}
-void()	pistolarmy_atk13	=[	$shoot7,	pistolarmy_atk14    ] {nmfast(); ai_face();}
-void()	pistolarmy_atk14	=[	$shoot8,	pistolarmy_atk15    ] {nmfast(); ai_face();}
-void()	pistolarmy_atk15	=[	$shoot9,	pistolarmy_run1    ] {nmfast(); ai_face(); ai_attack_finished (0.3 + random() + random());}
+void()	pistolarmy_atk13	=[	$shoot7,	pistolarmy_atk14    	] {nmfast(); ai_face();}
+void()	pistolarmy_atk14	=[	$shoot8,	pistolarmy_atk15    	] {nmfast(); ai_face();}
+void()	pistolarmy_atk15	=[	$shoot9,	pistolarmy_run1   	] {nmfast(); ai_face(); ai_attack_finished (0.3 + random() + random());}
 
 void(void() th) pistolarmy_nm_repeat =
 {
@@ -161,7 +161,7 @@ void()	pistolarmy_pain2	=[	$pain2,		pistolarmy_pain3	] {}
 void()	pistolarmy_pain3	=[	$pain3,		pistolarmy_pain4	] {}
 void()	pistolarmy_pain4	=[	$pain4,		pistolarmy_pain5	] {}
 void()	pistolarmy_pain5	=[	$pain5,		pistolarmy_pain6	] {}
-void()	pistolarmy_pain6	=[	$pain6,		pistolarmy_run1	] {ai_pain(1);}
+void()	pistolarmy_pain6	=[	$pain6,		pistolarmy_run1		] {ai_pain(1);}
 
 void()	pistolarmy_painb1	=[	$painb1,	pistolarmy_painb2	] {}
 void()	pistolarmy_painb2	=[	$painb2,	pistolarmy_painb3	] {ai_painforward(13);}
@@ -171,12 +171,12 @@ void()	pistolarmy_painb5	=[	$painb5,	pistolarmy_painb6	] {}
 void()	pistolarmy_painb6	=[	$painb6,	pistolarmy_painb7	] {}
 void()	pistolarmy_painb7	=[	$painb7,	pistolarmy_painb8	] {}
 void()	pistolarmy_painb8	=[	$painb8,	pistolarmy_painb9	] {}
-void()	pistolarmy_painb9	=[	$painb9,	pistolarmy_painb10] {}
-void()	pistolarmy_painb10=[	$painb10,	pistolarmy_painb11] {}
-void()	pistolarmy_painb11=[	$painb11,	pistolarmy_painb12] {}
-void()	pistolarmy_painb12=[	$painb12,	pistolarmy_painb13] {ai_pain(2);}
-void()	pistolarmy_painb13=[	$painb13,	pistolarmy_painb14] {}
-void()	pistolarmy_painb14=[	$painb14,	pistolarmy_run1	] {}
+void()	pistolarmy_painb9	=[	$painb9,	pistolarmy_painb10	] {}
+void()	pistolarmy_painb10	=[	$painb10,	pistolarmy_painb11	] {}
+void()	pistolarmy_painb11	=[	$painb11,	pistolarmy_painb12	] {}
+void()	pistolarmy_painb12	=[	$painb12,	pistolarmy_painb13	] {ai_pain(2);}
+void()	pistolarmy_painb13	=[	$painb13,	pistolarmy_painb14	] {}
+void()	pistolarmy_painb14	=[	$painb14,	pistolarmy_run1		] {}
 
 void()	pistolarmy_painc1	=[	$painc1,	pistolarmy_painc2	] {}
 void()	pistolarmy_painc2	=[	$painc2,	pistolarmy_painc3	] {ai_pain(1);}
@@ -186,11 +186,11 @@ void()	pistolarmy_painc5	=[	$painc5,	pistolarmy_painc6	] {ai_painforward(1);}
 void()	pistolarmy_painc6	=[	$painc6,	pistolarmy_painc7	] {ai_painforward(1);}
 void()	pistolarmy_painc7	=[	$painc7,	pistolarmy_painc8	] {}
 void()	pistolarmy_painc8	=[	$painc8,	pistolarmy_painc9	] {ai_pain(1);}
-void()	pistolarmy_painc9	=[	$painc9,	pistolarmy_painc10] {ai_painforward(4);}
-void()	pistolarmy_painc10=[	$painc10,	pistolarmy_painc11] {ai_painforward(3);}
-void()	pistolarmy_painc11=[	$painc11,	pistolarmy_painc12] {ai_painforward(6);}
-void()	pistolarmy_painc12=[	$painc12,	pistolarmy_painc13] {ai_painforward(8);}
-void()	pistolarmy_painc13=[	$painc13,	pistolarmy_run1] {}
+void()	pistolarmy_painc9	=[	$painc9,	pistolarmy_painc10	] {ai_painforward(4);}
+void()	pistolarmy_painc10	=[	$painc10,	pistolarmy_painc11	] {ai_painforward(3);}
+void()	pistolarmy_painc11	=[	$painc11,	pistolarmy_painc12	] {ai_painforward(6);}
+void()	pistolarmy_painc12	=[	$painc12,	pistolarmy_painc13	] {ai_painforward(8);}
+void()	pistolarmy_painc13	=[	$painc13,	pistolarmy_run1		] {}
 
 void(entity attacker, float damage)	pistolarmy_pain =
 {
@@ -299,18 +299,18 @@ float() PistolSoldierCheckAttack =
 //=============================================================================
 
 
-void()	pistolarmy_die1	=[	$death1,	pistolarmy_die2	] {pistolarmy_checkgib();}
-void()	pistolarmy_die2	=[	$death2,	pistolarmy_die3	] {pistolarmy_checkgib();}
-void()	pistolarmy_die3	=[	$death3,	pistolarmy_die4	]
+void()	pistolarmy_die1		=[	$death1,	pistolarmy_die2		] {pistolarmy_checkgib();}
+void()	pistolarmy_die2		=[	$death2,	pistolarmy_die3		] {pistolarmy_checkgib();}
+void()	pistolarmy_die3		=[	$death3,	pistolarmy_die4		]
 {if (pistolarmy_checkgib()) return;
 self.solid = SOLID_NOT;self.takedamage = DAMAGE_NO; self.ammo_shells = 4;} //FlakTax
-void()	pistolarmy_die4	=[	$death4,	pistolarmy_die5	] {}
-void()	pistolarmy_die5	=[	$death5,	pistolarmy_die6	] {}
-void()	pistolarmy_die6	=[	$death6,	pistolarmy_die7	] {}
-void()	pistolarmy_die7	=[	$death7,	pistolarmy_die8	] {}
-void()	pistolarmy_die8	=[	$death8,	pistolarmy_die9	] {}
-void()	pistolarmy_die9	=[	$death9,	pistolarmy_die10	] {}
-void()	pistolarmy_die10	=[	$death10,	SUB_Null	] {}
+void()	pistolarmy_die4		=[	$death4,	pistolarmy_die5		] {}
+void()	pistolarmy_die5		=[	$death5,	pistolarmy_die6		] {}
+void()	pistolarmy_die6		=[	$death6,	pistolarmy_die7		] {}
+void()	pistolarmy_die7		=[	$death7,	pistolarmy_die8		] {}
+void()	pistolarmy_die8		=[	$death8,	pistolarmy_die9		] {}
+void()	pistolarmy_die9		=[	$death9,	pistolarmy_die10	] {}
+void()	pistolarmy_die10	=[	$death10,	SUB_Null		] {}
 
 void()	pistolarmy_cdie1	=[	$deathc1,	pistolarmy_cdie2	] {}
 void()	pistolarmy_cdie2	=[	$deathc2,	pistolarmy_cdie3	] {ai_back(5);}
@@ -323,7 +323,7 @@ void()	pistolarmy_cdie7	=[	$deathc7,	pistolarmy_cdie8	] {}
 void()	pistolarmy_cdie8	=[	$deathc8,	pistolarmy_cdie9	] {}
 void()	pistolarmy_cdie9	=[	$deathc9,	pistolarmy_cdie10	] {}
 void()	pistolarmy_cdie10	=[	$deathc10,	pistolarmy_cdie11	] {}
-void()	pistolarmy_cdie11	=[	$deathc11,	SUB_Null	] {}
+void()	pistolarmy_cdie11	=[	$deathc11,	SUB_Null		] {}
 
 float() pistolarmy_checkgib =
 {	
@@ -353,58 +353,41 @@ void() pistolsoldier_death_sound =
 {
     local float rs;
     rs = (random() * 2);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_death1.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_death2.wav", 1, ATTN_NORM);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_death1.wav", 1, ATTN_NORM);
+    else	        sound (self, CHAN_VOICE, "grunt/soldier_death2.wav", 1, ATTN_NORM);
 };
 
 void() pistolsoldier_pain_sound =
 {
     local float rs;
     rs = (random() * 4);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_pain1.wav", 1, ATTN_NORM);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
-    else if (rs < 3)
-        sound (self, CHAN_VOICE, "grunt/soldier_pain3.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_pain4.wav", 1, ATTN_NORM);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_pain1.wav", 1, ATTN_NORM);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
+    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_pain3.wav", 1, ATTN_NORM);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_pain4.wav", 1, ATTN_NORM);
 };
 
 void() pistolsoldier_aggro_sound =
 {
     local float rs;
     rs = (random() * 6);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_breakcover.wav", 1, ATTN_NORM);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_converging.wav", 1, ATTN_NORM);
-    else if (rs < 3)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_mobile.wav", 1, ATTN_NORM);
-    else if (rs < 4)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_movingin.wav", 1, ATTN_NORM);
-    else if (rs < 5)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_outbreak.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_stopresisting.wav", 1, ATTN_NORM);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_aggro_breakcover.wav", 1, ATTN_NORM);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_converging.wav", 1, ATTN_NORM);
+    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_mobile.wav", 1, ATTN_NORM);
+    else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_movingin.wav", 1, ATTN_NORM);
+    else if (rs < 5)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_outbreak.wav", 1, ATTN_NORM);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_aggro_stopresisting.wav", 1, ATTN_NORM);
 };
 
 void() pistolsoldier_idle_sound =
 {
     local float rs;
     rs = (random() * 5);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_inposition.wav", 1, ATTN_IDLE);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_standingby.wav", 1, ATTN_IDLE);
-    else if (rs < 3)
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_ten2.wav", 1, ATTN_IDLE);
-    else if (rs < 4)
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_ten4.wav", 1, ATTN_IDLE);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_unithasnocontact.wav", 1, ATTN_IDLE);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_idle_inposition.wav", 1, ATTN_IDLE);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_idle_standingby.wav", 1, ATTN_IDLE);
+    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_idle_ten2.wav", 1, ATTN_IDLE);
+    else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_idle_ten4.wav", 1, ATTN_IDLE);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_idle_unithasnocontact.wav", 1, ATTN_IDLE);
 };
 
 void() monster_pistolarmy_spawn =
@@ -471,12 +454,12 @@ void() monster_army_pistol =
 	precache_model ("progs/gib2.mdl");
 	precache_model ("progs/gib3.mdl");
 
-	precache_sound ("grunt/death1.wav");
-	precache_sound ("grunt/idle.wav");
-	precache_sound ("grunt/pain1.wav");
-	precache_sound ("grunt/pain2.wav");
-	precache_sound ("grunt/sattck1.wav");
-	precache_sound ("grunt/sight1.wav");
+	//precache_sound ("grunt/death1.wav");
+	//precache_sound ("grunt/idle.wav");
+	//precache_sound ("grunt/pain1.wav");
+	//precache_sound ("grunt/pain2.wav");
+	//precache_sound ("grunt/sattck1.wav");
+	//precache_sound ("grunt/sight1.wav");
 
 	precache_sound2 ("grunt/soldier_aggro_breakcover.wav");
 	precache_sound2 ("grunt/soldier_aggro_converging.wav");

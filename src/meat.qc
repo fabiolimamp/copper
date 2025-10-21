@@ -52,7 +52,9 @@ vector(entity emitter, float dm) GibVelocityFromInflictor = {
 	// low damage projectiles that still may gib under quad,
 	// like the SNG and the Plasma Gun.
 	if (emitter.inflictor_customflags & CFL_PROJECTILE && emitter.inflictor_vel != '0 0 0') {
-		dprint4(emitter.classname, ": adding velocity from inflictor ", emitter.dmg_inflictor.classname, "\n");
+		
+		//dprint4(emitter.classname, ": adding velocity from inflictor ", emitter.dmg_inflictor.classname, "\n");
+		
 		float projlinvel = vlen(emitter.inflictor_vel);
 		addvel += emitter.inflictor_vel * min(projlinvel, 180)/projlinvel;
 	}

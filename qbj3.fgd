@@ -271,7 +271,7 @@ Spawnflag Usage:
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 2 ->   ":progs/tb/explosives_2.mdl",
+            spawnflags & 2 ->   ":progs/tb/explosives_2.mdl",	    
             spawnflags & 1 ->   ":progs/tb/explosives_1.mdl",
                                 ":progs/tb/explosives_0.mdl"
         }}
@@ -322,16 +322,16 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 @baseclass = svFlags [
 	svflags(Flags) =
 	[
-		1		: "Episode 1" : 0
-		2		: "Episode 2" : 0
-		4		: "Episode 3" : 0
-		8		: "Episode 4" : 0
-		16		: "Bit 5" :  0
-		32		: "Bit 6" :  0
-		64		: "Bit 7" :  0
-		128		: "Bit 8" :  0
-		256		: "Bit 9" :  0
-		512		: "Bit 10" : 0
+		1	: "Episode 1" : 0
+		2	: "Episode 2" : 0
+		4	: "Episode 3" : 0
+		8	: "Episode 4" : 0
+		16	: "Bit 5" :  0
+		32	: "Bit 6" :  0
+		64	: "Bit 7" :  0
+		128	: "Bit 8" :  0
+		256	: "Bit 9" :  0
+		512	: "Bit 10" : 0
 		1024	: "Bit 11" : 0
 		2048	: "Bit 12" : 0
 		4096	: "Bit 13" : 0
@@ -418,16 +418,16 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 @PointClass base(PlayerClass) = info_player_start2 : "Player episode return point. Fires targets when a player spawns here." [
 	svflags(Flags) =
 	[
-		1		: "Episode 1" : 0
-		2		: "Episode 2" : 0
-		4		: "Episode 3" : 0
-		8		: "Episode 4" : 0
-		16		: "Bit 5" :  0
-		32		: "Bit 6" :  0
-		64		: "Bit 7" :  0
-		128		: "Bit 8" :  0
-		256		: "Bit 9" :  0
-		512		: "Bit 10" : 0
+		1	: "Episode 1" : 0
+		2	: "Episode 2" : 0
+		4	: "Episode 3" : 0
+		8	: "Episode 4" : 0
+		16	: "Bit 5" :  0
+		32	: "Bit 6" :  0
+		64	: "Bit 7" :  0
+		128	: "Bit 8" :  0
+		256	: "Bit 9" :  0
+		512	: "Bit 10" : 0
 		1024	: "Bit 11" : 0
 		2048	: "Bit 12" : 0
 		4096	: "Bit 13" : 0

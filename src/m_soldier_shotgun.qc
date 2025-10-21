@@ -120,12 +120,12 @@ void()	army_painb5	=[	$painb5,	army_painb6	] {}
 void()	army_painb6	=[	$painb6,	army_painb7	] {}
 void()	army_painb7	=[	$painb7,	army_painb8	] {}
 void()	army_painb8	=[	$painb8,	army_painb9	] {}
-void()	army_painb9	=[	$painb9,	army_painb10] {}
-void()	army_painb10=[	$painb10,	army_painb11] {}
-void()	army_painb11=[	$painb11,	army_painb12] {}
-void()	army_painb12=[	$painb12,	army_painb13] {ai_pain(2);}
-void()	army_painb13=[	$painb13,	army_painb14] {}
-void()	army_painb14=[	$painb14,	army_run1	] {}
+void()	army_painb9	=[	$painb9,	army_painb10	] {}
+void()	army_painb10	=[	$painb10,	army_painb11	] {}
+void()	army_painb11	=[	$painb11,	army_painb12	] {}
+void()	army_painb12	=[	$painb12,	army_painb13	] {ai_pain(2);}
+void()	army_painb13	=[	$painb13,	army_painb14	] {}
+void()	army_painb14	=[	$painb14,	army_run1	] {}
 
 void()	army_painc1	=[	$painc1,	army_painc2	] {}
 void()	army_painc2	=[	$painc2,	army_painc3	] {ai_pain(1);}
@@ -135,11 +135,11 @@ void()	army_painc5	=[	$painc5,	army_painc6	] {ai_painforward(1);}
 void()	army_painc6	=[	$painc6,	army_painc7	] {ai_painforward(1);}
 void()	army_painc7	=[	$painc7,	army_painc8	] {}
 void()	army_painc8	=[	$painc8,	army_painc9	] {ai_pain(1);}
-void()	army_painc9	=[	$painc9,	army_painc10] {ai_painforward(4);}
-void()	army_painc10=[	$painc10,	army_painc11] {ai_painforward(3);}
-void()	army_painc11=[	$painc11,	army_painc12] {ai_painforward(6);}
-void()	army_painc12=[	$painc12,	army_painc13] {ai_painforward(8);}
-void()	army_painc13=[	$painc13,	army_run1] {}
+void()	army_painc9	=[	$painc9,	army_painc10	] {ai_painforward(4);}
+void()	army_painc10	=[	$painc10,	army_painc11	] {ai_painforward(3);}
+void()	army_painc11	=[	$painc11,	army_painc12	] {ai_painforward(6);}
+void()	army_painc12	=[	$painc12,	army_painc13	] {ai_painforward(8);}
+void()	army_painc13	=[	$painc13,	army_run1	] {}
 
 void(entity attacker, float damage)	army_pain =
 {
@@ -306,70 +306,50 @@ void() sgsoldier_death_sound =
 {
     local float rs;
     rs = (random() * 2);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_death1.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_death2.wav", 1, ATTN_NORM);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_death1.wav", 1, ATTN_NORM);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_death2.wav", 1, ATTN_NORM);
 };
 
 void() sgsoldier_pain_sound =
 {
     local float rs;
     rs = (random() * 4);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_pain1.wav", 1, ATTN_NORM);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
-    else if (rs < 3)
-        sound (self, CHAN_VOICE, "grunt/soldier_pain3.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_pain4.wav", 1, ATTN_NORM);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_pain1.wav", 1, ATTN_NORM);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
+    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_pain3.wav", 1, ATTN_NORM);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_pain4.wav", 1, ATTN_NORM);
 };
 
 void() sgsoldier_sight_sound =
 {
     local float rs;
     rs = (random() * 3);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_sight_contact.wav", 1, ATTN_NORM);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "grunt/soldier_sight_hostile.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_sight_target.wav", 1, ATTN_NORM);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_sight_contact.wav", 1, ATTN_NORM);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_sight_hostile.wav", 1, ATTN_NORM);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_sight_target.wav", 1, ATTN_NORM);
 };
 
 void() sgsoldier_aggro_sound =
 {
     local float rs;
     rs = (random() * 6);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_breakcover.wav", 1, ATTN_NORM);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_converging.wav", 1, ATTN_NORM);
-    else if (rs < 3)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_mobile.wav", 1, ATTN_NORM);
-    else if (rs < 4)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_movingin.wav", 1, ATTN_NORM);
-    else if (rs < 5)
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_outbreak.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_aggro_stopresisting.wav", 1, ATTN_NORM);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_aggro_breakcover.wav", 1, ATTN_NORM);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_converging.wav", 1, ATTN_NORM);
+    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_mobile.wav", 1, ATTN_NORM);
+    else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_movingin.wav", 1, ATTN_NORM);
+    else if (rs < 5)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_outbreak.wav", 1, ATTN_NORM);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_aggro_stopresisting.wav", 1, ATTN_NORM);
 };
 
 void() sgsoldier_idle_sound =
 {
     local float rs;
     rs = (random() * 5);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_inposition.wav", 1, ATTN_IDLE);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_standingby.wav", 1, ATTN_IDLE);
-    else if (rs < 3)
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_ten2.wav", 1, ATTN_IDLE);
-    else if (rs < 4)
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_ten4.wav", 1, ATTN_IDLE);
-    else
-        sound (self, CHAN_VOICE, "grunt/soldier_idle_unithasnocontact.wav", 1, ATTN_IDLE);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_idle_inposition.wav", 1, ATTN_IDLE);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_idle_standingby.wav", 1, ATTN_IDLE);
+    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_idle_ten2.wav", 1, ATTN_IDLE);
+    else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_idle_ten4.wav", 1, ATTN_IDLE);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_idle_unithasnocontact.wav", 1, ATTN_IDLE);
 };
 
 
@@ -437,12 +417,12 @@ void() monster_army =
 	precache_model ("progs/gib2.mdl");
 	precache_model ("progs/gib3.mdl");
 
-	precache_sound ("grunt/death1.wav");
-	precache_sound ("grunt/idle.wav");
-	precache_sound ("grunt/pain1.wav");
-	precache_sound ("grunt/pain2.wav");
-	precache_sound ("weapons/shotgn2.wav");
-	precache_sound ("grunt/sight1.wav");
+	//precache_sound ("grunt/death1.wav");
+	//precache_sound ("grunt/idle.wav");
+	//precache_sound ("grunt/pain1.wav");
+	//precache_sound ("grunt/pain2.wav");
+	//precache_sound ("weapons/shotgn2.wav");
+	//precache_sound ("grunt/sight1.wav");
 
 	precache_sound2 ("grunt/soldier_aggro_breakcover.wav");
 	precache_sound2 ("grunt/soldier_aggro_converging.wav");
