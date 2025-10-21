@@ -161,45 +161,48 @@ void() BackpackAutoTouch =
 	}
 	if (other.ammo_rockets + self.ammo_rockets > MAX_AMMO_ROCKETS)
 	{
-		self.armorvalue += (other.ammo_rockets + self.ammo_rockets - MAX_AMMO_ROCKETS) * 3;
+		self.armorvalue += (other.ammo_rockets + self.ammo_rockets - MAX_AMMO_ROCKETS) * 5;
 		self.ammo_rockets = MAX_AMMO_ROCKETS - other.ammo_rockets;
 	}
 	/*
 	if (other.ammo_cells + self.ammo_cells > MAX_AMMO_CELLS)
 	{
-		self.armorvalue += (other.ammo_cells + self.ammo_cells - MAX_AMMO_CELLS) * 3;
+		self.armorvalue += (other.ammo_cells + self.ammo_cells - MAX_AMMO_CELLS) * 10;
 		self.ammo_cells = MAX_AMMO_CELLS - other.ammo_cells;
 
 	}
 	*/
 	
-	self.armorvalue = floor(self.armorvalue / 2);
+	//self.armorvalue = floor(self.armorvalue / 2);	//don't half my math!
 	BackpackTouch();
 	
 	if (self.wait > 0)
 	{
-		// reset all the values we may have just vandalized
-		self.ammo_shells = floor(4 * random() + 4);
-		self.ammo_nails = floor(5 * random() + 10);
-		if (self.spawnflags & 1)
-		{
-			self.ammo_shells *= 2;
-			self.ammo_nails *= 2;
-			self.ammo_rockets = 4;
-			//self.ammo_cells = 0;
+		setmodel (self, "progs/backpack.mdl");
 			
-			//self.skin = 2;
-			self.skin = 1;
-		}
+		self.ammo_shells 	= 10;	//= 10 armor
+		self.ammo_nails 	= 20;	//= 10 armor
+		self.ammo_rockets	=  1;	//= 5 armor
+		//self.ammo_cells	=  0;	//= 0 armor
+		
+		if (self.spawnflags & 1) //Big Blue Backpack
+		{
+			setmodel (self, "progs/backpack_big.mdl");
+			
+			self.ammo_shells  = 15;	//= 1 armor
+			self.ammo_nails   = 40; //= 20 armor
+			self.ammo_rockets =  3; //= 15 armor
+			//self.ammo_cells =  0; //= 0 armor		
+		}	
 		self.armorvalue = 0;
 	}
 }
 
 /*QUAKED item_backpack (0 .5 .5) (-16 -16 0) (16 16 40) BIG ? SUSPENDED -
-A forgotten explorer's backpack. Grants a paltry sum of shells and nails (about half a small pack of each). Grants armor instead of any ammo the player already has maxed.
+A forgotten explorer's backpack. Grants 10 shells, 20 nails, 1 explosive. If exceed max ammo grant bonus armor up to 25 total.
 
 Flags:
-"Big Blue" doubles shells and nails, adds 4 explosives
+"Big Blue" Gives 15 shells, 40 nails, 3 explosives. If exceed max ammo grant bonus armor up to 50 total.
     
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -211,10 +214,10 @@ Keys:
 @PointClass base(Item) size(-16 -16 0, 16 16 40) color(0 128 128) 
 	model({ "path": ":progs/backpack.mdl" }) 
 	= item_backpack : 
-"A forgotten explorer's backpack. Grants a paltry sum of shells and nails (about half a small pack of each). Grants armor instead of any ammo the player already has maxed."
+"A forgotten explorer's backpack. Grants 10 shells, 20 nails, 1 explosive. If exceed max ammo grant bonus armor up to 25 total."
 [
 	spawnflags(flags) =	[
-		1 : "Big Blue (x2 shells, x2 nails, +4 explosives)" : 0
+		1 : "Big Blue (15 shells, 40 nails, 3 explosives)" : 0
 	]
 ]
 */
@@ -222,32 +225,30 @@ void() item_backpack =
 {
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe("progs/backpack.mdl");
+	precache_model_safe("progs/backpack_big.mdl");
 	precache_sound3("items/pack.wav");	// backpacks can play either of these
 	precache_sound3("items/patch.wav");
-
-	setmodel (self, "progs/backpack.mdl");
 	setsize (self, '-16 -16 0', '16 16 56');
-	//self.skin = 1;
-	self.skin = 0;
 	
-	self.ammo_shells = floor(4 * random() + 4);
-	self.ammo_nails = floor(5 * random() + 10);
-	if (self.spawnflags & 1)
-	{
-		self.ammo_shells *= 2;
-		self.ammo_nails *= 2;
-		self.ammo_rockets = 4;
-		//self.ammo_cells = 0;
+	setmodel (self, "progs/backpack.mdl");
 		
-		//self.skin = 2;
-		self.skin = 1;
-	}
+	self.ammo_shells 	= 10;	//= 10 armor
+	self.ammo_nails 	= 20;	//= 10 armor
+	self.ammo_rockets	=  1;	//= 5 armor
+	//self.ammo_cells	=  0;	//= 0 armor
 	
+	if (self.spawnflags & 1) //Big Blue Backpack
+	{
+		setmodel (self, "progs/backpack_big.mdl");
+		
+		self.ammo_shells  = 15;	//= 1 armor
+		self.ammo_nails   = 40; //= 20 armor
+		self.ammo_rockets =  3; //= 15 armor
+		//self.ammo_cells =  0; //= 0 armor		
+	}	
 	self.touch = BackpackAutoTouch;
 	StartItem ();
 }
-
-
 
 
 /*

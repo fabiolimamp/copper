@@ -366,12 +366,16 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 // item_backpack.qc
 //
 @PointClass base(Item) size(-16 -16 0, 16 16 40) color(0 128 128) 
-	model({ "path": ":progs/backpack.mdl" }) 
-	= item_backpack : 
-"A forgotten explorer's backpack. Grants a paltry sum of shells and nails (about half a small pack of each). Grants armor instead of any ammo the player already has maxed."
+	model(
+	{{
+		spawnflags & 1 ->	":progs/backpack_big.mdl",
+					":progs/backpack.mdl"
+        }}
+	) = item_backpack : 
+"A forgotten explorer's backpack. Grants 10 shells, 20 nails, 1 explosive. If exceed max ammo grant bonus armor up to 25 total."
 [
 	spawnflags(flags) =	[
-		1 : "Big Blue (x2 shells, x2 nails, +4 explosives)" : 0
+		1 : "Big Blue (15 shells, 40 nails, 3 explosives)" : 0
 	]
 ]
 
@@ -520,9 +524,9 @@ Alt Target Pattern: 'target' when starting to open, 'target2' when opened, 'targ
 		1 : "Starts Open" : 0
 		4 : "Don't link with touching" : 0
 		8 : "Gold Key" : 0
-        16 : "Silver Key" : 0
-        32 : "Toggle" : 0
-        64 : "Crusher" : 0
+        	16 : "Silver Key" : 0
+        	32 : "Toggle" : 0
+        	64 : "Crusher" : 0
 	]
 ]
 @SolidClass base(Appearflags, Targetname, Target, Func) = func_door_secret : 
@@ -557,7 +561,7 @@ Activating this door with a trigger while it is opening will have no effect. Act
 		2 : "Move left first" : 0
 		4 : "Move down first" : 0
 		8 : "Not shootable" : 0
-        16 : "Always shootable" : 0
+       		16 : "Always shootable" : 0
 	]
 ]
 
