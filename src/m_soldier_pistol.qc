@@ -114,7 +114,7 @@ void(void() th) pistolarmy_nm_repeat =
 	if (skill != 3) return;
 	if (!alive(self.enemy)) return;
 
-	if (chaingunner_clear_attack)
+	if (chaingunner_clear_attack())
 	{
 		self.cnt += 1;
 		self.think = th;
