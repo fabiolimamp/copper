@@ -92,7 +92,9 @@ void()	rocketarmy_run6		=[	$run6,		rocketarmy_run7		] {nmfast(); ai_run(15);}
 void()	rocketarmy_run7		=[	$run7,		rocketarmy_run8		] {nmfast(); ai_run(10);}
 void()	rocketarmy_run8		=[	$run8,		rocketarmy_run1		] {nmfast(); ai_run(8);}
 		
-void()	rocketarmy_atk1		=[	$shoot1,	rocketarmy_atk2		] {nmfast();ai_face(); rocketsoldier_fire_sound(); }
+void()	rocketarmy_atk1		=[	$shoot1,	rocketarmy_atk2		] {nmfast();ai_face();
+if (random() < 0.1)
+	rocketsoldier_fire_sound(); }
 void()	rocketarmy_atk2		=[	$shoot2,	rocketarmy_atk3		] {nmfast();ai_face();}
 void()	rocketarmy_atk3		=[	$shoot3,	rocketarmy_atk4		] {nmfast();ai_face(); rocketarmy_aim(); }
 void()	rocketarmy_atk4		=[	$shoot4,	rocketarmy_atk5		] {nmfast();ai_face();}
