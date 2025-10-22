@@ -1853,7 +1853,7 @@ Alt Target Pattern: in distance mode, target is fading object, target2 on begin 
 // m_knight.qc
 //
 @PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/knight_qbj.mdl", "skin": skin }) = monster_knight : "Knight"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	2: "Statue"	3: "Statue Mossy"	]]
+[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate" ]]
 
 
 //
