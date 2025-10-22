@@ -37,7 +37,7 @@ void() weaponanim_boxrocket_loop = {
 	if (self.weaponframe == 4)  	boxrocket_launch('0  2 -8', 0);
 	if (self.weaponframe == 6)  	boxrocket_launch('0  6 -8', 1);
 	if (self.weaponframe == 8)  	boxrocket_launch('0 -6 -12', 0);
-	if (self.weaponframe == 10) 	boxrocket_launch('0 -2 -12', 0);
+	if (self.weaponframe == 10) 	boxrocket_launch('0 -2 -12', 1);
 	if (self.weaponframe == 11)	sound (self, CHAN_AUTO, "mmml/silo_latch.wav", 1, ATTN_NORM);
 	if (self.weaponframe == 12) 	boxrocket_launch('0  2 -12', 0);
 	if (self.weaponframe == 14) 	{boxrocket_launch('0  6 -12', 1);	
