@@ -309,7 +309,7 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 3 Globes - Death Knight, Ogre
 4 Globes - Shambler, Vore, Fiend, Amalgam, Spawn"[]
 @PointClass size(-16 -16 -24, 16 16 32) base(Item) model({ "path": ":progs/item_berserk.mdl" }) =
-	item_artifact_berserk : "Berserk. Player gets a 10x damage melee and 50% damage reduction." []
+	item_artifact_berserk : "Berserk. Instant kills with melee and 50% damage reduction for 30 seconds." []
 
 
 //

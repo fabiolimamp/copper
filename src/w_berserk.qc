@@ -129,14 +129,14 @@ void() W_FireBerserk2 =
 	makevectors (self.v_angle);
 	source = self.origin + self.view_ofs - v_up*6;
 
-	traceline (source, source + v_forward*72 - v_right*64, FALSE, self);
+	traceline (source, source + v_forward*72 - v_right*40, FALSE, self);
 	if (trace_fraction < 1) {
 		shortest_hit1 = vlen(trace_endpos - source);
 		hitent1 = trace_ent;
 		hitpos1 = trace_endpos;
  	}
 
-	traceline (source, source + v_forward*86 - v_right*32, FALSE, self);
+	traceline (source, source + v_forward*86 - v_right*20, FALSE, self);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -164,7 +164,7 @@ void() W_FireBerserk2 =
 		}
 	}
 
-	traceline (source, source + v_forward*86 + v_right*32, FALSE, self);
+	traceline (source, source + v_forward*86 + v_right*20, FALSE, self);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -178,7 +178,7 @@ void() W_FireBerserk2 =
 		}
 	}
 
-	traceline (source, source + v_forward*72 + v_right*64, FALSE, self);
+	traceline (source, source + v_forward*72 + v_right*40, FALSE, self);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -214,10 +214,13 @@ void(entity hitent, vector org, vector dir) hitberserk2 =
 
 		SpawnBlood(org, dir, 100);
 
+		/*
 		if (hitent.classname == "monster_zombie") //keep zombies Unbonkable
-			zombie_knockdown(trace_ent);
-		else	
-			T_Damage(hitent, self, self, 480, DMGTYPE_MELEE);
+			//zombie_knockdown(trace_ent);
+			T_Damage(hitent, self, self, 29, DMGTYPE_MELEE);	// zombie_knockdown crashes when multi-hit?
+		else
+		*/	
+			T_Damage(hitent, self, self, 666, DMGTYPE_MELEE);	// Instant Kills EVERYTHING!
 		
 		//johnfitz -- make clank sound when hitting brushmodels
 		if (hitent.movetype == MOVETYPE_PUSH || hitent.movetype == MOVETYPE_NONE)

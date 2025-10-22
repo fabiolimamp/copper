@@ -83,7 +83,7 @@ void(entity h, float t) powerup_berserk =
 	if (h.classname != "player")
 		return;
 		
-	sprint(h, "You begin frothing with a berserkers rage ...\n\b10x melee damage AND 50% damage reduction\b\n");
+	sprint(h, "You begin frothing with a berserkers rage ...\n\bInstant kills with melee AND 50% damage reduction\b\n");
 	h.items_qbj |= IT_BERSERK;
 	h.berserk_finished = time + t;
 	h.berserk_time = 1;
@@ -455,7 +455,7 @@ void() precache_berserk =
 }
 
 /*QUAKED item_artifact_berserk (0 .5 .5) (-16 -16 -24) (16 16 32) ? ? SUSPENDED
-Berserk. Player get a 10x damage melee and 50% damage reduction.
+Berserk. Instant kills with melee and 50% damage reduction for 30 seconds.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -465,7 +465,7 @@ Keys:
 */
 /*FGD
 @PointClass size(-16 -16 -24, 16 16 32) base(Item) model({ "path": ":progs/item_berserk.mdl" }) =
-	item_artifact_berserk : "Berserk. Player gets a 10x damage melee and 50% damage reduction." []
+	item_artifact_berserk : "Berserk. Instant kills with melee and 50% damage reduction for 30 seconds." []
 */
 void() item_artifact_berserk =
 {
