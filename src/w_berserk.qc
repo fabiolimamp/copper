@@ -226,8 +226,6 @@ void(entity hitent, vector org, vector dir) hitberserk2 =
 		if (hitent.movetype == MOVETYPE_PUSH || hitent.movetype == MOVETYPE_NONE)
 			wrench_hitsound();
 
-		dprint(hitent.classname);
-
 		if ((hitent.flags & FL_MONSTER) || (hitent.classname == "player"))
 		{	
 			wrench_hitsound();
