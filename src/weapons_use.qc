@@ -352,38 +352,25 @@ void() W_UpdateCurrentAmmo = {
 
 float(float weapons, entity cl, float waterlevel) W_BestWeaponParms =
 {
-	if (W_CheckWeapon(IT_LIGHTNING, cl) == WEAPONSTAT_AVAILABLE && waterlevel <= 1)
-		return IT_LIGHTNING;
-	if (W_CheckWeapon(IT_SUPER_NAILGUN, cl) == WEAPONSTAT_AVAILABLE)
-		return IT_SUPER_NAILGUN;
-	if (W_CheckWeapon(IT_SUPER_SHOTGUN, cl) == WEAPONSTAT_AVAILABLE)
-		return IT_SUPER_SHOTGUN;
-	if (W_CheckWeapon(IT_NAILGUN, cl) == WEAPONSTAT_AVAILABLE)
-		return IT_NAILGUN;
-	if (W_CheckWeapon(IT_SHOTGUN, cl) == WEAPONSTAT_AVAILABLE)
-		return IT_SHOTGUN;
-	if (W_CheckWeapon(IT_AXE, cl) == WEAPONSTAT_AVAILABLE)
-		return IT_AXE;
+	if (W_CheckWeapon(IT_LIGHTNING, cl) 	== WEAPONSTAT_AVAILABLE)	return IT_LIGHTNING;
+	if (W_CheckWeapon(IT_SUPER_NAILGUN, cl) == WEAPONSTAT_AVAILABLE)	return IT_SUPER_NAILGUN;
+	if (W_CheckWeapon(IT_SUPER_SHOTGUN, cl) == WEAPONSTAT_AVAILABLE)	return IT_SUPER_SHOTGUN;
+	if (W_CheckWeapon(IT_NAILGUN, cl) 	== WEAPONSTAT_AVAILABLE)	return IT_NAILGUN;
+	if (W_CheckWeapon(IT_SHOTGUN, cl) 	== WEAPONSTAT_AVAILABLE)	return IT_SHOTGUN;
+	if (W_CheckWeapon(IT_AXE, cl)		== WEAPONSTAT_AVAILABLE)	return IT_AXE;
 
 	return IT_NO_WEAPON; 
 };
 
 float(float w) W_RankForWeapon =
 {
-	if (!w)
-		return 666;
-	if (w == IT_LIGHTNING)
-		return 1;
-	if (w == IT_ROCKET_LAUNCHER)
-		return 2;
-	if (w == IT_SUPER_NAILGUN)
-		return 3;
-	if (w == IT_GRENADE_LAUNCHER)
-		return 4;
-	if (w == IT_SUPER_SHOTGUN)
-		return 5;
-	if (w == IT_NAILGUN)
-		return 6;
+	if (!w)				return 666;
+	if (w == IT_LIGHTNING)		return 1;
+	if (w == IT_ROCKET_LAUNCHER)	return 2;
+	if (w == IT_SUPER_NAILGUN)	return 3;
+	if (w == IT_GRENADE_LAUNCHER)	return 4;
+	if (w == IT_SUPER_SHOTGUN)	return 5;
+	if (w == IT_NAILGUN)		return 6;
 	return 7;
 }
 
