@@ -86,9 +86,9 @@ void() trigger_relay_use =
 	if (self.noise != string_null)
 	{
 		if (self.delay > 0)
-			sound_delayed(self, CHAN_VOICE, self.noise, 1, ATTN_NORM, self.delay);
+			sound_delayed_simple(self, self.delay);
 		else
-			sound (self, CHAN_VOICE, self.noise, 1, ATTN_NORM);
+			sound(self, CHAN_VOICE, self.noise, 1, ATTN_NORM);
 	}	
 	
 	playercount_convert(count);

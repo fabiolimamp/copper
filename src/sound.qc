@@ -292,6 +292,29 @@ void(entity on, float _chan, string _noise, float _volume, float _distance, floa
 	snd.nextthink = time + _delay;
 }
 
+void(entity on, float _delay) sound_delayed_simple =
+{
+    if (!_delay)
+    {
+        sound(on, CHAN_VOICE, self.noise, 1, ATTN_NORM);
+        return;
+    }
+    entity snd = spawn();
+    setorigin(snd, BoundsCenter(on));
+    snd.noise = self.noise;
+    snd.volume = 1;
+    snd.distance = ATTN_NORM;
+    snd.style = CHAN_VOICE;
+    snd.think = sound_delayed_think;
+    snd.nextthink = time + _delay;
+}
+
+void() sound_delayed_think =
+{
+    sound(self, self.style, self.noise, self.volume, self.distance);
+    remove(self);
+}
+
 string() target_sound_next =
 {
 	float r;
