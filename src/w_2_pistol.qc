@@ -308,6 +308,8 @@ void() DropMagTouch1 =
 
 void() Drop_PistolMag =
 {
+	if (intermission) return;
+	
 	makevectors (self.v_angle);
 
 	vector vel = (v_forward * 120) + (v_right * 240) + (v_up * 40);
@@ -345,6 +347,8 @@ void() BulletCasingTouch1 =
 
 void() Eject_BulletCasing =
 {
+	if (intermission) return;	
+	
 	makevectors(self.v_angle);
 	vector vel = v_forward * 100 + v_right * (200 + 60*random()) + v_up * (60 + 30 * random());
 	vector org = self.origin + self.view_ofs + (v_forward * 32) + (v_right * 12) + (v_up * -12);

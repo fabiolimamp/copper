@@ -30,7 +30,7 @@ float() weaponanim_flakshotgun = {
 }
 
 void() weaponanim_flakshotgun_loop = {
-
+	if (intermission) return;
 	
 	if (self.weaponframe == 10) sound (self, CHAN_AUTO, "flak/pump_reload.wav", 0.5, ATTN_NORM); //extra pump sfx
 	
@@ -53,7 +53,7 @@ void() weaponanim_flakshotgun_loop = {
 
 void() W_FireFlakShotgun =
 {
-	sound(self, CHAN_WEAPON, "flak/shotgun3.wav", 1, ATTN_NORM);
+	sound(self, CHAN_WEAPON, "flak/shotgun3.wav", 1, ATTN_NORM);	
 	
 	float r = random();
 	if 	(r < 0.33)	sound (self, CHAN_AUTO, "flak/volley_fire1.wav", 1, ATTN_NORM);
@@ -218,6 +218,8 @@ void() FlakTouch_2 =
 
 void() Eject_BuckshotCasing =
 {
+	if (intermission) return;
+
 	makevectors(self.v_angle);
 	vector vel = v_forward * 160 + v_right * (200 + 60*random()) + v_up * (60 + 30 * random());
 	vector org = self.origin + self.view_ofs + (v_forward * 20) + (v_right * 12) + (v_up * -12);
