@@ -852,7 +852,8 @@ void() path_corner_touch =
 	}
 
 	if (other.classname == "monster_ogre")
-		sound (other, CHAN_VOICE, "ogre/ogdrag.wav", 1, ATTN_IDLE);// play chainsaw drag sound
+		//sound (other, CHAN_VOICE, "ogre/ogdrag.wav", 1, ATTN_IDLE);// play chainsaw drag sound
+		sound (other, CHAN_VOICE, "ogre/electric_crackle.wav", 1, ATTN_IDLE);// play chainsaw drag sound
 
 	if (self.wait)
 	{
