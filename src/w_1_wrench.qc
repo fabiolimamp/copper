@@ -75,7 +75,7 @@ void() W_FireWrench =
 	float shortest_hit2 = 1000;
 
 	makevectors (self.v_angle);
-	source = self.origin + self.view_ofs - v_up*6;
+	source = self.origin + self.view_ofs - v_up*0;
 
 	traceline (source, source + v_forward*60 - v_right*40, FALSE, self);
 	if (trace_fraction < 1) {

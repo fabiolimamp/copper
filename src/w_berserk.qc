@@ -35,8 +35,8 @@ float() weaponanim_berserk = {
 
 void() weaponanim_berserk_loop = {
 	if (self.weaponframe % 10 == 3)
-		//W_FireBerserk();
-		W_FireBerserk2();
+		W_FireBerserk();
+		//W_FireBerserk2();	// don't...
 
 	if (self.weaponframe % 10 == 0) {
 		self.weaponframe = 0;
@@ -64,7 +64,7 @@ void() W_FireBerserk =
 			
 	vector source = self.origin + self.view_ofs;//'0 0 16';
 	
-	traceline2(source, source + v_forward * (96), self, 0);	// flail has increased range by default
+	traceline2(source, source + v_forward * (100), self, 0);	// flail has increased range by default
 		
 	if (trace_fraction == 1.0) 
 		return;
@@ -81,6 +81,9 @@ void() W_FireBerserk =
 		{
 			if (trace_ent.type == "zombie")
 				zombie_knockdown(trace_ent);
+				//T_Damage (trace_ent, self, self, 59);
+			else
+				T_Damage (trace_ent, self, self, 480);
 
 			if (random() < 0.5) sound (self, CHAN_WEAPON, "weapons/axhit1.wav", 1, ATTN_NORM);
 			else sound (self, CHAN_WEAPON, "weapons/axhit2.wav", 1, ATTN_NORM);
@@ -98,15 +101,22 @@ void() W_FireBerserk =
 			toss = v_forward;
 			toss_z = 0;
 
-			toss = normalize(toss) * 800; // beserk doubled the knockback with the axe but removed the quad knockback
-
-			toss_z = 100;
+			if (trace_ent.type == "zombie")
+			{
+				toss = normalize(toss) * 200; // don't send zombies flying away
+				toss_z = 150;			
+			}
+			else{
+				toss = normalize(toss) * 800; // beserk doubled the knockback with the axe but removed the quad knockback
+				toss_z = 100;
+			}		
+			
 			trace_ent.origin_z = trace_ent.origin_z + 1;
 			trace_ent.velocity = toss;
 			trace_ent.flags &~= FL_ONGROUND;
 		}
 
-		T_Damage (trace_ent, self, self, 480);
+		//T_Damage (trace_ent, self, self, 480);
 		SpawnBlood (org, '0 0 0', 20);
 	}
 	else
@@ -117,6 +127,7 @@ void() W_FireBerserk =
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+/*
 void() W_FireBerserk2 =
 {
 	local	vector	source;
@@ -127,16 +138,16 @@ void() W_FireBerserk2 =
 	float shortest_hit2 = 1000;
 
 	makevectors (self.v_angle);
-	source = self.origin + self.view_ofs - v_up*6;
+	source = self.origin + self.view_ofs - v_up*0;
 
-	traceline (source, source + v_forward*72 - v_right*40, FALSE, self);
+	traceline (source, source + v_forward*72 - v_right*32, FALSE, self);
 	if (trace_fraction < 1) {
 		shortest_hit1 = vlen(trace_endpos - source);
 		hitent1 = trace_ent;
 		hitpos1 = trace_endpos;
  	}
 
-	traceline (source, source + v_forward*86 - v_right*20, FALSE, self);
+	traceline (source, source + v_forward*86 - v_right*16, FALSE, self);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -164,7 +175,7 @@ void() W_FireBerserk2 =
 		}
 	}
 
-	traceline (source, source + v_forward*86 + v_right*20, FALSE, self);
+	traceline (source, source + v_forward*86 + v_right*16, FALSE, self);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -178,7 +189,7 @@ void() W_FireBerserk2 =
 		}
 	}
 
-	traceline (source, source + v_forward*72 + v_right*40, FALSE, self);
+	traceline (source, source + v_forward*72 + v_right*32, FALSE, self);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -214,13 +225,12 @@ void(entity hitent, vector org, vector dir) hitberserk2 =
 
 		SpawnBlood(org, dir, 100);
 
-		/*
+		
 		if (hitent.classname == "monster_zombie") //keep zombies Unbonkable
 			//zombie_knockdown(trace_ent);
-			T_Damage(hitent, self, self, 29, DMGTYPE_MELEE);	// zombie_knockdown crashes when multi-hit?
+			T_Damage(hitent, self, self, 59, DMGTYPE_MELEE);	// zombie_knockdown crashes when multi-hit, down them with damage
 		else
-		*/	
-			T_Damage(hitent, self, self, 666, DMGTYPE_MELEE);	// Instant Kills EVERYTHING!
+			T_Damage(hitent, self, self, 480, DMGTYPE_MELEE);	// "x10 melee damage"
 		
 		//johnfitz -- make clank sound when hitting brushmodels
 		if (hitent.movetype == MOVETYPE_PUSH || hitent.movetype == MOVETYPE_NONE)
@@ -230,16 +240,22 @@ void(entity hitent, vector org, vector dir) hitberserk2 =
 		{	
 			wrench_hitsound();
 			
-			
-			if ((hitent.movetype == MOVETYPE_STEP || hitent.movetype == MOVETYPE_WALK) && 
+			if ((hitent.movetype == MOVETYPE_STEP || hitent.movetype == MOVETYPE_WALK) &&
 				// don't swat bosses or other non-standard-sized enemies around
 				hitent.maxs_x <= 32 && hitent.health > 0 && hitent.type != "boss")
 			{
 				local vector toss;
 				toss = v_forward;
 				toss_z = 0;
-				toss = normalize(toss) * 800;
-				toss_z = 100;
+				
+				if (hitent.classname == "monster_zombie"){
+					toss = normalize(toss) * 0;
+					toss_z = 0;
+				}
+				else{
+					toss = normalize(toss) * 800;
+					toss_z = 100;
+				}
 				hitent.origin_z = hitent.origin_z + 1;
 				hitent.velocity = toss;
 				hitent.flags = not(hitent.flags, FL_ONGROUND);
@@ -263,3 +279,4 @@ void(entity hitent, vector org, vector dir) hitberserk2 =
 		gunshot(org);
 	}
 }
+*/
