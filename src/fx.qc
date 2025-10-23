@@ -28,6 +28,18 @@ void(vector a, vector b, entity who) fx_beam =
 	WriteCoord (MSG_BROADCAST, b_z);
 }
 
+void(float enable) zaplight = 
+{	
+	// Prevent EF_MUZZLEFLASH from force disabling interpolation during cast
+	// Enable EF_DIMLIGHT to toggle ON, must be disabled afterwards to turn OFF
+	// Put "zaplight(0);" at the start of every enemy state to ensure it's OFF
+	
+	// Used for Shambler lightning and Ogre taser effects
+	
+	if (enable == 1)self.effects = self.effects | EF_DIMLIGHT;
+	else		self.effects = self.effects - (self.effects & EF_DIMLIGHT);
+}
+
 // slight framerate increase for explosion sprites
 // looks odd at 10 fps when volley firing MMML
 void()	s_explode1 =[0,	s_explode2] {self.nextthink=time+ 0.075;}
