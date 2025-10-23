@@ -396,6 +396,13 @@ void() HknightImpalerFade =
 		return;
 	}
 
+	if (!self.state)
+	{
+		self.angles = vectoangles(self.velocity);
+		self.flags &~= FL_ONGROUND;
+		self.oldvelocity = self.velocity;
+	}
+
 	self.think = HknightImpalerFade;
 	self.nextthink = time + 0.05;
 }
@@ -417,15 +424,19 @@ void() HknightImpalerTouch =
 		self.solid = SOLID_NOT;
 		self.owner = other;
 		self.touch = SUB_Null;
-		// change model so that smoke doesn't appear when stuck to moving brushes
+		// change model so that particles don't appear when stuck to moving brushes
 		setmodel(self, "progs/k_spike_cold.mdl");
 
 		sound (self, CHAN_AUTO, "weapons/tink1.wav", 0.5, ATTN_NORM);
 		gunshot(self.origin);
 
+		self.classname = "impaler";
 
 		// move origin away from walls when stuck, helps prevent "void-lighting"
 		setorigin(self, self.origin - 18*normalize(self.velocity));
+
+		if (other != world) self.state = 2;
+		else self.state = 1;
 
 		self.pos1 = other.absmin;
 		
@@ -435,8 +446,8 @@ void() HknightImpalerTouch =
 	}
 	else
 		remove(self);
-	
 }
+	
 
 
 // direct fire gun-sword attack

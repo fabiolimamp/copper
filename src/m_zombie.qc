@@ -158,6 +158,7 @@ void() ZombieImpalerTouch =
 		self.solid = SOLID_NOT;
 		self.owner = other;
 		self.touch = SUB_Null;
+		self.classname = "impaler";
 		// change model so that smoke doesn't appear when stuck to moving brushes
 		setmodel(self, "progs/proj_rebar_zom_nosmoke.mdl");
 
@@ -166,6 +167,9 @@ void() ZombieImpalerTouch =
 
 		// move origin away from walls when stuck, helps prevent "void-lighting"
 		setorigin(self, self.origin - 5*normalize(self.velocity));
+		
+		if (other != world) self.state = 2;
+		else self.state = 1;
 
 		self.pos1 = other.absmin;
 		
@@ -200,6 +204,13 @@ void() ZombieImpalerFade =
 	{
 		remove(self);
 		return;
+	}
+
+	if (!self.state)
+	{
+		self.angles = vectoangles(self.velocity);
+		self.flags &~= FL_ONGROUND;
+		self.oldvelocity = self.velocity;
 	}
 
 	self.think = ZombieImpalerFade;
