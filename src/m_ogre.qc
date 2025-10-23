@@ -486,9 +486,7 @@ void(float taser_swing) taser_effect =
 	zap.attack_finished = time + 0.05;
 	zap.alpha = 0.6;
 	
-	sound (self, CHAN_WEAPON, "ogre/electric_shock.wav", 0.5, ATTN_NORM);
-	sound (self, CHAN_AUTO, "ogre/electric_spark.wav", 1, ATTN_NORM);
-	
+	sound (self, CHAN_WEAPON, "ogre/electric_shock.wav", 0.6, ATTN_NORM);	
 }
 
 void() taser_effect_think =
@@ -500,6 +498,9 @@ void() taser_effect_think =
 	
 	if ((self.owner.frame < 32) || (self.owner.frame > 61))
 	{
+		sound (self.owner, CHAN_WEAPON, "ogre/electric_spark.wav", 1, ATTN_NORM);
+		// interupt longer _shock sound when ogre stunned/dead
+		
 		self.owner.buddy = world;
 		remove(self);
 		return;
