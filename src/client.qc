@@ -1912,7 +1912,7 @@ void() PlayerPostThink =
 			else
 				sound (self, CHAN_VOICE, "player/player_land2_2.wav", 1, ATTN_NORM);
 		}
-		else if (self.waterlevel < WL_EYES)
+		else if (self.waterlevel < WL_EYES && !(self.customflags & CFL_PLUNGE))
 		{
 			// Normal landing — play one of the light land sounds
 			rs = rint((random() * 5) + 1); // random 1–6

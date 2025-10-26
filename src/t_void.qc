@@ -31,6 +31,7 @@ nosave float noTint;
 TintScreen
 ============
 */
+/*
 void(entity who, float amt) TintScreen
 {
 //	bprint(ftos(amt)); bprint("\n");
@@ -46,13 +47,14 @@ void(entity who, float amt) TintScreen
 		stuffcmd(who, "\n");
 	}
 }
-
+*/
 
 /*
 ============
 TintScreenColor
 ============
 */
+/*
 void(entity who, float amt, vector color) TintScreenColor
 {
 	// cshifts are 0-255
@@ -81,6 +83,7 @@ void(entity who, float amt, vector color) TintScreenColor
 		stuffcmd(who, "\n");
 	}
 }
+*/
 
 /*
 ============
@@ -179,7 +182,7 @@ float(entity me, entity o) void_salvation =
 	{
 		T_Damage(o, me, me, me.dmg, DMGTYPE_FALLING);
 		teleport(o, spot, TRUE, TRUE);	
-		sound (o, CHAN_VOICE, "player/land2.wav", 1, ATTN_NORM);
+		sound (o, CHAN_VOICE, "player/player_land2_1.wav", 1, ATTN_NORM);
 	}
 	else
 		teleport(o, spot, TRUE, TRUE);	
@@ -201,7 +204,9 @@ void() void_func_touch =
 	//	other.customflags = not(other.customflags, CFL_UNDYING);
 	//	other.customflags = not(other.customflags, CFL_PLUNGE);
 		
-		TintScreenColor(other, 255, self.fadecolor);
+		//TintScreenColor(other, 255, self.fadecolor);
+		csf_set(other, 255, self.fadecolor, 70);
+
 		other.velocity = '0 0 0';
 		other.solid = SOLID_NOT;
 		other.movetype = MOVETYPE_NONE;
