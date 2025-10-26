@@ -348,24 +348,36 @@ float() AmalgamCheckAttack =
 
 
 void()	amalgam_die1	=[	$death1,	amalgam_die2	] {self.movetype = MOVETYPE_NONE;}
-void()	amalgam_die2	=[	$death2,	amalgam_die3	] {SpawnMeatUndConcreteBurst(self.origin + v_forward*16, crandom() * 100 * v_right, 5);}
-void()	amalgam_die3	=[	$death3,	amalgam_die4	] {}
+void()	amalgam_die2	=[	$death2,	amalgam_die3	] {SpawnMeatUndConcreteBurst(self.origin + v_forward*16, crandom() * 100 * v_right, 5, FALSE);}
+void()	amalgam_die3	=[	$death3,	amalgam_die4	] {self.solid = SOLID_NOT;}
 void()	amalgam_die4	=[	$death4,	amalgam_die5	] {}
 void()	amalgam_die5	=[	$death5,	amalgam_die6	] {}
 void()	amalgam_die6	=[	$death6,	amalgam_die7	] {}
 void()	amalgam_die7	=[	$death7,	amalgam_die8	] {}
 void()	amalgam_die8	=[	$death8,	amalgam_die9	] {}
 void()	amalgam_die9	=[	$death9,	amalgam_die10	] {}
-void()	amalgam_die10	=[	$death10,	amalgam_die11	] {SpawnMeatUndConcreteBurst(self.origin + v_forward*16, crandom() * 100 * v_right, 5);}
+void()	amalgam_die10	=[	$death10,	amalgam_die11	] {SpawnMeatUndConcreteBurst(self.origin + v_forward*16, crandom() * 100 * v_right, 5, FALSE);}
 void()	amalgam_die11	=[	$death11,	amalgam_die12	] {AmalGoop_Spam(2);}
 void()	amalgam_die12	=[	$death12,	amalgam_die13	] {AmalGoop_Spam(2);}
 void()	amalgam_die13	=[	$death13,	amalgam_die14	] {AmalGoop_Spam(2);}
 void()	amalgam_die14	=[	$death14,	amalgam_die15	] {AmalGoop_Spam(1);}
 void()	amalgam_die15	=[	$death15,	amalgam_die16	] {AmalGoop_Spam(1);}
-void()	amalgam_die16	=[	$death16,	amalgam_die17	] {SpawnMeatUndConcreteBurst(self.origin + v_forward*16, crandom() * 100 * v_right, 5);}
+void()	amalgam_die16	=[	$death16,	amalgam_die17	] {SpawnMeatUndConcreteBurst(self.origin + v_forward*16, crandom() * 100 * v_right, 5, FALSE);}
 void()	amalgam_die17	=[	$death16,	SUB_Null		] {AmalGoop_Spam(4); GoopBlood(1); remove(self);}
 
-void(vector org, vector vel, float count) SpawnMeatUndConcreteBurst =
+
+void() amalgam_gib =
+{
+	AmalGoop_Spam(12);
+	
+	SpawnMeatUndConcreteBurst(self.origin, GibVelocityComplete(self, self.health), 12, TRUE);
+
+	GoopBlood(1);
+	remove(self);
+};
+
+
+void(vector org, vector vel, float count, float randomOrigin) SpawnMeatUndConcreteBurst =
 {
     local float i;
     local vector randvel;
@@ -377,6 +389,11 @@ void(vector org, vector vel, float count) SpawnMeatUndConcreteBurst =
         randvel = randvel + v_up * (crandom() * 200);
         randvel = randvel + v_forward * (crandom() * 200);
 
+        if (randomOrigin) {
+        	org_x += crandom() * 24;
+        	org_y += crandom() * 24;
+        	org_z += crandom() * 50 + 24;
+        }
         SpawnMeatUndConcreteSpray(org, randvel);
     }
 };
@@ -533,6 +550,11 @@ void() amalgam_die =
 	sound (self, CHAN_VOICE, "amalg/amalgdeath.wav", 1, ATTN_NORM);
 	self.takedamage = DAMAGE_NO;
 
+	if (self.health < -150) {
+		amalgam_gib();
+		return;
+	}
+	
 	// disable directional gibs
 	self.inflictor_vel = VEC_ORIGIN;
 	self.inflictor_origin = self.origin;
