@@ -427,9 +427,22 @@ void() target_meat_fireworks =
 	else
 	{
 		self.cnt = 3;
-		self.model = "progs/gib1.mdl";
-		self.model2 = "progs/gib2.mdl";
-		self.model3 = "progs/gib3.mdl";
+		{
+			self.model = "progs/gibs/gib_gen_1.mdl";
+			self.model2 = "progs/gibs/gib_gen_2.mdl";
+			self.model3 = "progs/gibs/gib_gen_3.mdl";
+		}
+		precache_model ("progs/gibs/gib_gen_1.mdl");
+		precache_model ("progs/gibs/gib_gen_2.mdl");
+		precache_model ("progs/gibs/gib_gen_3.mdl");
+		
+		//self.model = "progs/gib1.mdl";
+		//self.model2 = "progs/gib2.mdl";
+		//self.model3 = "progs/gib3.mdl";
+		
+		//precache_model ("progs/gib1.mdl");
+		//precache_model ("progs/gib2.mdl");
+		//precache_model ("progs/gib3.mdl");
 	}
 }
 

@@ -169,12 +169,19 @@ void() boss_death1 = [$death1, boss_death2] {
 	if (self.health == -99)	// telefragged or crushed or something
 	{
 		self.solid = SOLID_NOT;
-		ThrowGib ("progs/gib1.mdl", GibVelocityForHealth(96));
-		ThrowGib ("progs/gib2.mdl", GibVelocityForHealth(97));
-		ThrowGib ("progs/gib3.mdl", GibVelocityForHealth(98));
-		ThrowGib ("progs/gib1.mdl", GibVelocityForHealth(99));
-		ThrowGib ("progs/gib2.mdl", GibVelocityForHealth(101));
-		ThrowGib ("progs/gib3.mdl", GibVelocityForHealth(103));
+		ThrowGib ("progs/gibs/gib_gen_1.mdl", GibVelocityForHealth(96));
+		ThrowGib ("progs/gibs/gib_gen_2.mdl", GibVelocityForHealth(97));
+		ThrowGib ("progs/gibs/gib_gen_3.mdl", GibVelocityForHealth(98));
+		ThrowGib ("progs/gibs/gib_gen_4.mdl", GibVelocityForHealth(99));
+		ThrowGib ("progs/gibs/gib_gen_5.mdl", GibVelocityForHealth(101));
+		ThrowGib ("progs/gibs/gib_gen_6.mdl", GibVelocityForHealth(103));
+		
+		//ThrowGib ("progs/gib1.mdl", GibVelocityForHealth(96));
+		//ThrowGib ("progs/gib2.mdl", GibVelocityForHealth(97));
+		//ThrowGib ("progs/gib3.mdl", GibVelocityForHealth(98));
+		//ThrowGib ("progs/gib1.mdl", GibVelocityForHealth(99));
+		//ThrowGib ("progs/gib2.mdl", GibVelocityForHealth(101));
+		//ThrowGib ("progs/gib3.mdl", GibVelocityForHealth(103));
 	}
 }
 void() boss_death2 = [$death2, boss_death3] {}

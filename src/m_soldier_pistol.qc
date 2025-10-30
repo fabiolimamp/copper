@@ -450,9 +450,13 @@ void() monster_army_pistol =
 	}
 	precache_model ("progs/soldier_pistol_qbj.mdl");
 	precache_model ("progs/gibs/gibhead_grunt_p.mdl");
-	precache_model ("progs/gib1.mdl");
-	precache_model ("progs/gib2.mdl");
-	precache_model ("progs/gib3.mdl");
+
+	precache_model	("progs/gibs/gib_gen_1.mdl");
+	precache_model	("progs/gibs/gib_gen_2.mdl");
+	precache_model	("progs/gibs/gib_gen_3.mdl");
+	precache_model	("progs/gibs/gib_gen_4.mdl");
+	precache_model	("progs/gibs/gib_gen_5.mdl");
+	precache_model	("progs/gibs/gib_gen_6.mdl");
 
 	//precache_sound ("grunt/death1.wav");
 	//precache_sound ("grunt/idle.wav");

@@ -217,13 +217,20 @@ void() shub_finale_4 =
 				self.origin_y = org_y + y;
 				self.origin_z = org_z + z;
 
-				r = random();
-				if (r < 0.3)				
-					ThrowGib ("progs/gib1.mdl", GibVelocityForHealth(-150 - random() * 180));
-				else if (r < 0.6)
-					ThrowGib ("progs/gib2.mdl", GibVelocityForHealth(-150 - random() * 180));
-				else
-					ThrowGib ("progs/gib3.mdl", GibVelocityForHealth(-150 - random() * 180));
+				r = floor(random() * 6);
+				if 	(r == 0)	ThrowGib ("progs/gibs/gib_gen_1.mdl", GibVelocityForHealth(-150 - random() * 180));
+				else if (r == 1)	ThrowGib ("progs/gibs/gib_gen_2.mdl", GibVelocityForHealth(-150 - random() * 180));
+				else if (r == 2)	ThrowGib ("progs/gibs/gib_gen_3.mdl", GibVelocityForHealth(-150 - random() * 180));
+				else if (r == 3)	ThrowGib ("progs/gibs/gib_gen_4.mdl", GibVelocityForHealth(-150 - random() * 180));
+				else if (r == 4)	ThrowGib ("progs/gibs/gib_gen_5.mdl", GibVelocityForHealth(-150 - random() * 180));
+				else			ThrowGib ("progs/gibs/gib_gen_6.mdl", GibVelocityForHealth(-150 - random() * 180));
+				
+				//if (r < 0.3)				
+				//	ThrowGib ("progs/gib1.mdl", GibVelocityForHealth(-150 - random() * 180));
+				//else if (r < 0.6)
+				//	ThrowGib ("progs/gib2.mdl", GibVelocityForHealth(-150 - random() * 180));
+				//else
+				//	ThrowGib ("progs/gib3.mdl", GibVelocityForHealth(-150 - random() * 180));
 			}
 		}
 	}
