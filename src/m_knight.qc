@@ -88,7 +88,7 @@ void()	knight_run1	=[	$runb1,		knight_run2	]
 {
 	if (random() < 0.2 && time > self.show_hostile)
 		//sound (self, CHAN_VOICE, "knight/idle.wav", 1,  ATTN_IDLE);
-		knight_sightsound();
+		knight_idlesound();
 		
 	nmfast();
 	ai_run(16);
@@ -101,18 +101,6 @@ void()	knight_run6	=[	$runb6,		knight_run7	] {nmfast(); ai_run(20);}
 void()	knight_run7	=[	$runb7,		knight_run8	] {nmfast(); ai_run(14);}
 void()	knight_run8	=[	$runb8,		knight_run1	] {nmfast(); ai_run(6);}
 
-void() knight_sightsound =
-{
-	if (random() < 0.5)	//20% *0.5 = 10%
-	{
-		local float rs;
-		rs = rint((random() * 3) + 1); // random 1–3
-		if 	(rs == 1)sound (self, CHAN_VOICE, "knight/knight_sight_enemysighted.wav", 1, ATTN_NORM);
-		else if (rs == 2)sound (self, CHAN_VOICE, "knight/knight_sight_ivegother.wav", 1, ATTN_NORM);
-		else		 sound (self, CHAN_VOICE, "knight/knight_sight_youregoingdown.wav", 1, ATTN_NORM);
-	}
-	else return;
-};
 
 void() knight_aggrosound =
 {
