@@ -613,13 +613,15 @@ void(entity attacker, float damage)	hknight_pain =
 	if (self.pain_finished > time)
 		return;
 
-	if (skill < 3 && time - self.pain_finished > 5)
+	//if (skill < 3 && time - self.pain_finished > 5)
+	if (skill < 3 && time - self.pain_finished > 8)
 	{	// always go into pain frame if it has been a while
 		hknight_pain_go();
 		return;
 	}
 	
-	if ( ( random()*30 > damage ) )
+	//if ( ( random()*30 > damage ) )
+	if ( ( 44 > damage ) )
 		return;		// didn't flinch
 
 	hknight_pain_go();
