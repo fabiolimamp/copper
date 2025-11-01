@@ -36,6 +36,7 @@ float() weaponanim_invoker =
 
 void() weaponanim_invoker_loop = 
 {
+	if (intermission) return;
 	if (self.weaponframe == 31)	sound (self, CHAN_AUTO, "invoker/magic07.wav", 1, ATTN_NORM);
 	
 	if (self.weaponframe == 68)
