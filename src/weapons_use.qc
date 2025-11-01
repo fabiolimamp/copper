@@ -352,7 +352,7 @@ void() W_UpdateCurrentAmmo = {
 
 float(float weapons, entity cl, float waterlevel) W_BestWeaponParms =
 {
-	if (W_CheckWeapon(IT_LIGHTNING, cl) 	== WEAPONSTAT_AVAILABLE)	return IT_LIGHTNING;
+	//if (W_CheckWeapon(IT_LIGHTNING, cl) 	== WEAPONSTAT_AVAILABLE)	return IT_LIGHTNING;
 	if (W_CheckWeapon(IT_SUPER_NAILGUN, cl) == WEAPONSTAT_AVAILABLE)	return IT_SUPER_NAILGUN;
 	if (W_CheckWeapon(IT_SUPER_SHOTGUN, cl) == WEAPONSTAT_AVAILABLE)	return IT_SUPER_SHOTGUN;
 	if (W_CheckWeapon(IT_NAILGUN, cl) 	== WEAPONSTAT_AVAILABLE)	return IT_NAILGUN;
@@ -413,8 +413,8 @@ void(entity e, float new) W_BetterWeapon =
 			(new == IT_ROCKET_LAUNCHER || new == IT_GRENADE_LAUNCHER))
 			return;
 		// don't switch to a lightning gun when standing in water
-		if (e.waterlevel >= 2 && new == IT_LIGHTNING)
-			return;
+		//if (e.waterlevel >= 2 && new == IT_LIGHTNING)
+			//return;
 	}	
 	self = e;
 	if (!deathmatch || W_RankForWeapon (new) < W_RankForWeapon (self.weapon) )
