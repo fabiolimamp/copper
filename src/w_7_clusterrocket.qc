@@ -78,7 +78,7 @@ void(vector ofs) W_FireSpiralRocket =
 {
 	local	vector dir, org;
 
-	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 0.75, ATTN_NORM);
+	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 0.8, ATTN_NORM);
 	
 	local float r;
 	r = random();

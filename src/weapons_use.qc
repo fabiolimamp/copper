@@ -30,11 +30,9 @@ void() W_Precache =
 	precache_sound ("zombie/z_hit.wav");
 	
 	//=============================================================================================
-
-	precache_model ("progs/pistol_mag.mdl");
+											// 2 Pistol
 	precache_model ("progs/bullet_casing.mdl");
-	precache_model ("progs/buckshot_casing.mdl");
-	
+	precache_model ("progs/pistol_mag.mdl");
 	precache_model ("progs/tracer_long_yellow.mdl");
 	precache_sound ("pistol/deadlock_reload.wav");
 	precache_sound ("pistol/pistol_shoot.wav");
@@ -42,18 +40,24 @@ void() W_Precache =
 	precache_sound ("pistol/gun_click.wav");
 	precache_sound ("pistol/mag_drop.wav");
 	precache_sound ("pistol/pistol_fire.wav");
+	precache_sound ("pistol/pistol_fire1.wav");
+	precache_sound ("pistol/pistol_fire2.wav");
+	precache_sound ("pistol/pistol_fire3.wav");
+	precache_sound ("pistol/pistol_fire4.wav");
 	
 	//=============================================================================================
-
+											// 3 Shotgun
+	precache_model ("progs/buckshot_casing.mdl");
 	precache_model ("progs/proj_pellet.mdl");
 	precache_sound ("flak/volley_fire1.wav");
 	precache_sound ("flak/volley_fire2.wav");
 	precache_sound ("flak/volley_fire3.wav");
+	precache_sound ("flak/shotgun2.wav");
 	precache_sound ("flak/shotgun3.wav");
 	precache_sound ("flak/pump_reload.wav");
 
 	//=============================================================================================
-
+											// 4 Nailguns
 	precache_model ("progs/proj_nail.mdl");
 	precache_sound ("nail/nailgun1.wav");
 	precache_sound ("nail/nailgun2.wav");
@@ -61,20 +65,37 @@ void() W_Precache =
 	precache_sound ("nail/nailgun4.wav");
 	precache_sound ("nail/nailgun5.wav");
 	precache_sound ("nail/airpuff.wav");
+	precache_sound ("nail/nail_tink1.wav");
+	precache_sound ("nail/nail_tink2.wav");
+	precache_sound ("nail/nail_tink3.wav");
 	
 	//=============================================================================================
-	
+											// 5 RebarBow
 	precache_model ("progs/proj_rebar.mdl");
 	precache_model ("progs/proj_rebar_nosmoke.mdl");
 	precache_sound ("rebar/penfire.wav");
 	precache_sound ("rebar/pierce1.wav");
 	precache_sound ("rebar/pierce2.wav");
 	precache_sound ("rebar/pierce3.wav");
+	precache_sound ("rebar/pierce_impact.wav");
 	precache_sound ("rebar/stick1.wav");
+	precache_sound ("rebar/stick_metal1.wav");
+	precache_sound ("rebar/stick_metal2.wav");
+	precache_sound ("rebar/bow_reload1.wav");
+	precache_sound ("rebar/bow_reload2.wav");
+	precache_sound ("rebar/bow_reload3.wav");
+	precache_sound ("rebar/bow_reload4.wav");
+	precache_sound ("rebar/bow_clank.wav");
 	
 	//=============================================================================================
-
+											// 6 GrenadeL
 	precache_sound ("grenade/grenade_reload.wav");
+	precache_sound ("grenade/grenade_fire1.wav");
+	precache_sound ("grenade/grenade_fire2.wav");
+	precache_sound ("grenade/grenade_fire3.wav");
+	
+	//=============================================================================================
+											// 7 MissileL	
 	precache_model ("progs/proj_minigrenade.mdl");
 	precache_model ("progs/proj_missile.mdl");	
 	precache_sound ("mmml/fire1.wav");
@@ -88,7 +109,7 @@ void() W_Precache =
 	precache_sound ("mmml/silo_clunk2.wav");
 
 	//=============================================================================================
-	
+											// 8 Invoker	
 	precache_model ("progs/v_invoker.mdl");
 	precache_model ("progs/proj_chain.mdl");
 	precache_sound ("invoker/invoker_firerail.wav");	
@@ -98,7 +119,7 @@ void() W_Precache =
 	precache_sound ("invoker/magic26.wav");	
 	
 	//=============================================================================================
-	
+											// SFX Effects	
 	precache_sound ("impact/bullet_impact1.wav");
 	precache_sound ("impact/bullet_impact2.wav");
 	precache_sound ("impact/bullet_impact3.wav");

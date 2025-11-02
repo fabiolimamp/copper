@@ -31,6 +31,12 @@ float() weaponanim_rebarcannon = {
 
 void() weaponanim_rebarcannon_loop = {
 
+	if (self.weaponframe == 8)	sound (self, CHAN_AUTO, "rebar/bow_reload2.wav", 0.3, ATTN_NORM);
+	if (self.weaponframe == 10)	sound (self, CHAN_AUTO, "rebar/bow_clank.wav", 0.4, ATTN_NORM);
+	if (self.weaponframe == 13)	sound (self, CHAN_AUTO, "rebar/bow_reload3.wav", 0.3, ATTN_NORM);
+	if (self.weaponframe == 16)	sound (self, CHAN_AUTO, "rebar/bow_reload4.wav", 0.4, ATTN_NORM);
+	
+		
 	if (self.weaponframe >= 20) {
 		self.weaponframe = 0;
 		return;
@@ -49,8 +55,9 @@ void() weaponanim_rebarcannon_loop = {
 void() W_FireRebarCannon =
 {
 	sound (self, CHAN_WEAPON, "rebar/penfire.wav", 1, ATTN_NORM);
+	sound (self, CHAN_AUTO, "rebar/bow_reload1.wav", 0.5, ATTN_NORM);
+	
 	self.punchangle_x = -2;
-
 	makevectors (self.v_angle);
 	float base = 1400;
 	
@@ -137,10 +144,12 @@ void() ImpalerTouch =
 		particle (self.origin, self.velocity*0.1, 73, 40);
 
 		float chance = random();
-
+		
 		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "rebar/pierce1.wav", 1, ATTN_NORM);
 		else if (chance < 0.5)	sound (self, CHAN_AUTO, "rebar/pierce2.wav", 1, ATTN_NORM);
 		else			sound (self, CHAN_AUTO, "rebar/pierce3.wav", 1, ATTN_NORM);
+		
+		sound (self, CHAN_AUTO, "rebar/pierce_impact.wav", 1, ATTN_NORM);
 
 		// doesn't go through doors
 		if (other.classname != "func_door" && other.classname != "func_door_secret"){
@@ -148,12 +157,14 @@ void() ImpalerTouch =
 			return;
 		}
 	}
-
 	
 	sound (self, CHAN_AUTO, "rebar/stick1.wav", 0.5, ATTN_NORM);
+	
+	if (random() < 0.5)	sound (self, CHAN_AUTO, "rebar/stick_metal1.wav", 0.7, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "rebar/stick_metal2.wav", 0.7, ATTN_NORM);
+
 	gunshot(self.origin);
 
-	
 	if (other.solid == SOLID_BSP && other.classname != "func_movewall") {
 		self.movetype = MOVETYPE_NONE;
 		self.solid = SOLID_NOT;
@@ -180,7 +191,6 @@ void() ImpalerTouch =
 		remove(self);
 	
 }
-
 
 void() updateRebars =
 {

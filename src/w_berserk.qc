@@ -79,12 +79,6 @@ void() W_FireBerserk =
 		
 		if (trace_ent.flags & FL_MONSTER)
 		{
-			if (trace_ent.type == "zombie")
-				zombie_knockdown(trace_ent);
-				//T_Damage (trace_ent, self, self, 59);
-			else
-				T_Damage (trace_ent, self, self, 480);
-
 			if (random() < 0.5) sound (self, CHAN_WEAPON, "weapons/axhit1.wav", 1, ATTN_NORM);
 			else sound (self, CHAN_WEAPON, "weapons/axhit2.wav", 1, ATTN_NORM);
 		}
@@ -116,7 +110,7 @@ void() W_FireBerserk =
 			trace_ent.flags &~= FL_ONGROUND;
 		}
 
-		//T_Damage (trace_ent, self, self, 480);
+		T_Damage (trace_ent, self, self, 480);
 		SpawnBlood (org, '0 0 0', 20);
 	}
 	else

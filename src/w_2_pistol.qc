@@ -151,14 +151,13 @@ void() weaponanim_reloadpistol_loop = {
 
 void() W_FirePistol =
 {
-	sound (self, CHAN_WEAPON, "pistol/pistol_shoot.wav", 0.6, ATTN_NORM);
+	//sound (self, CHAN_WEAPON, "pistol/pistol_shoot.wav", 0.6, ATTN_NORM);
 	
-	sound (self, CHAN_AUTO, "pistol/pistol_fire.wav", 0.4, ATTN_NORM);
+	sound (self, CHAN_AUTO, "pistol/pistol_fire.wav", 0.6, ATTN_NORM);
+	sound_pistol_fire(0.3);
 	
 	makevectors (self.v_angle);
-	
 	vector org = self.origin + self.view_ofs - v_up * 8 + v_right *  8;
-	
 	vector spread;
 
 	spread_x = 0.015; // horizontal
@@ -178,6 +177,18 @@ void() W_FirePistol =
 	self.punchangle_x = -2;	//punch AFTER makevectors
 	
 };
+
+//=====================================================================================================================
+
+void(float pistolfire_volume) sound_pistol_fire =
+{
+	local float r = floor(random()*4);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "pistol/pistol_fire1.wav", pistolfire_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "pistol/pistol_fire2.wav", pistolfire_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "pistol/pistol_fire3.wav", pistolfire_volume, ATTN_NORM);
+	else 			sound (self, CHAN_AUTO, "pistol/pistol_fire4.wav", pistolfire_volume, ATTN_NORM);
+}
+//=============================================================================================
 
 void(float shotcount, float dmg, vector org, vector dir, vector spread) FirePistolBullets =
 {

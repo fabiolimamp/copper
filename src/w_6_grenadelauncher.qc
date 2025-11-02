@@ -44,15 +44,25 @@ void() weaponanim_qbj3grenade_loop = {
 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+void(float grenfire_volume) sound_grenade_fire =
+{
+	local float r = floor(random()*3);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "grenade/grenade_fire1.wav", grenfire_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "grenade/grenade_fire2.wav", grenfire_volume, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "grenade/grenade_fire3.wav", grenfire_volume, ATTN_NORM);
+}
+//=============================================================================================
+
 void() W_FireQBJ3Grenade =
 {
 	entity g;
 	float base;
 	vector gvel;
 	
-	sound (self, CHAN_WEAPON, "weapons/grenade.wav", 1, ATTN_NORM);
-	
+	sound (self, CHAN_WEAPON, "weapons/grenade.wav", 1, ATTN_NORM);	
 	sound (self, CHAN_AUTO, "grenade/grenade_reload.wav", 0.5, ATTN_NORM);
+	sound_grenade_fire(0.6);
 	
 	self.punchangle_x = -2;
 

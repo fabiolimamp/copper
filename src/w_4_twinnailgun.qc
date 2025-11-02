@@ -61,9 +61,7 @@ void() weaponanim_twinnailgun_loop = {
 		self.attack_finished = time + 0.09;
 
 		self.currentammo = self.ammo_nails = self.ammo_nails - 1;
-
 		self.punchangle_x = -2;
-
 		self.effects |= EF_MUZZLEFLASH;
 		
 		if (self.weaponframe == 1) 	{offs = 4;	self.nailgun_alternator = 1;}
@@ -98,11 +96,9 @@ void() weaponanim_twinnailgun_end = {
 
 void(float offs) W_FireTwinNailgun =
 {
-	sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 0.8, ATTN_NORM);
-	
-	sound (self, CHAN_AUTO, "nail/airpuff.wav", 0.3, ATTN_NORM);
-	
-	nailgun_sound(0.4);
+	sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 0.8, ATTN_NORM);	
+	sound (self, CHAN_AUTO, "nail/airpuff.wav", 0.3, ATTN_NORM);	
+	nailgun_sound(0.5);
 
 	makevectors(self.v_angle);
 	vector dir = aim(self, AUTOAIM_DIST);
@@ -134,7 +130,7 @@ void(float nailgun_volume) nailgun_sound =
 }
 //=============================================================================================
 
-void(float nailhit_volume) sound_nailgun_impact =
+void(float nailhit_volume) sound_nailgun_impact_enemy =
 {
 	local float r = floor(random()*4);
 	if 	(r == 0)	sound (self, CHAN_AUTO, "impact/bullet_impact1.wav", nailhit_volume, ATTN_NORM);
@@ -144,9 +140,19 @@ void(float nailhit_volume) sound_nailgun_impact =
 }
 //=============================================================================================
 
+void(float nailtink_volume) sound_nailgun_impact_world =
+{
+	local float r = floor(random()*3);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "nail/nail_tink1.wav", nailtink_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "nail/nail_tink2.wav", nailtink_volume, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "nail/nail_tink3.wav", nailtink_volume, ATTN_NORM);
+}
+//=============================================================================================
+
+
 void() TwinNailwallThink =
 {
-	sound (self, CHAN_AUTO, "weapons/tink1.wav", 1, ATTN_STATIC);
+	//sound (self, CHAN_AUTO, "weapons/tink1.wav", 1, ATTN_STATIC);
 	
 	self.origin = self.origin - 2*normalize(self.velocity);	// move origin away from walls when stuck
 								// helps prevent "void-lighting"
@@ -181,8 +187,8 @@ void() twinnail_touch =
 	{
 		spawn_touchblood (other, self.dmg);
 		T_Damage (other, self, self.trueowner, self.dmg);
-		
-		if (random() < 0.8)	sound_nailgun_impact(1);
+				
+		if (random() < 0.8)	sound_nailgun_impact_enemy(1);
 	}
 	else
 	{
@@ -194,9 +200,11 @@ void() twinnail_touch =
 	}
 
 	if (other == world)
+	{
+		if (random() < 0.5)	sound_nailgun_impact_world(0.5);
+		
 		TwinNailwallThink();
-	
-	
+	}	
 	if (other.solid == SOLID_BSP && other.classname != "func_movewall") {
 		self.movetype = MOVETYPE_NONE;
 		self.solid = SOLID_NOT;
