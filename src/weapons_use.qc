@@ -41,14 +41,11 @@ void() W_Precache =
 	precache_sound ("pistol/ammo_rattle.wav");
 	precache_sound ("pistol/gun_click.wav");
 	precache_sound ("pistol/mag_drop.wav");
+	precache_sound ("pistol/pistol_fire.wav");
 	
 	//=============================================================================================
 
 	precache_model ("progs/proj_pellet.mdl");
-	precache_sound ("flak/bullet_impact1.wav");
-	precache_sound ("flak/bullet_impact2.wav");
-	precache_sound ("flak/bullet_impact3.wav");
-	precache_sound ("flak/bullet_impact4.wav");
 	precache_sound ("flak/volley_fire1.wav");
 	precache_sound ("flak/volley_fire2.wav");
 	precache_sound ("flak/volley_fire3.wav");
@@ -58,6 +55,15 @@ void() W_Precache =
 	//=============================================================================================
 
 	precache_model ("progs/proj_nail.mdl");
+	precache_sound ("nail/nailgun1.wav");
+	precache_sound ("nail/nailgun2.wav");
+	precache_sound ("nail/nailgun3.wav");
+	precache_sound ("nail/nailgun4.wav");
+	precache_sound ("nail/nailgun5.wav");
+	precache_sound ("nail/airpuff.wav");
+	
+	//=============================================================================================
+	
 	precache_model ("progs/proj_rebar.mdl");
 	precache_model ("progs/proj_rebar_nosmoke.mdl");
 	precache_sound ("rebar/penfire.wav");
@@ -90,6 +96,18 @@ void() W_Precache =
 	precache_sound ("invoker/magic08.wav");	
 	precache_sound ("invoker/magic21.wav");	
 	precache_sound ("invoker/magic26.wav");	
+	
+	//=============================================================================================
+	
+	precache_sound ("impact/bullet_impact1.wav");
+	precache_sound ("impact/bullet_impact2.wav");
+	precache_sound ("impact/bullet_impact3.wav");
+	precache_sound ("impact/bullet_impact4.wav");
+	precache_sound ("impact/ric1.wav");
+	precache_sound ("impact/ric2.wav");
+	precache_sound ("impact/ric3.wav");
+	precache_sound ("impact/ric4.wav");
+	precache_sound ("impact/ric5.wav");
 	
 	//=============================================================================================
 

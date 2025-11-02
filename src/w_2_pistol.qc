@@ -151,7 +151,9 @@ void() weaponanim_reloadpistol_loop = {
 
 void() W_FirePistol =
 {
-	sound (self, CHAN_WEAPON, "pistol/pistol_shoot.wav", 1, ATTN_NORM);	
+	sound (self, CHAN_WEAPON, "pistol/pistol_shoot.wav", 0.6, ATTN_NORM);
+	
+	sound (self, CHAN_AUTO, "pistol/pistol_fire.wav", 0.4, ATTN_NORM);
 	
 	makevectors (self.v_angle);
 	
@@ -249,8 +251,28 @@ void(float shotcount, float dmg, vector org, vector dir, vector spread) FirePist
 		if (trace_debug) dprint("bullet is over\n\n");
 	}
 }
+//=============================================================================================
 
-//=====================================================================================================================
+void(float pistolhit_volume) sound_pistol_impact =
+{
+	local float r = floor(random()*4);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "impact/bullet_impact1.wav", pistolhit_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "impact/bullet_impact2.wav", pistolhit_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "impact/bullet_impact3.wav", pistolhit_volume, ATTN_NORM);
+	else 			sound (self, CHAN_AUTO, "impact/bullet_impact4.wav", pistolhit_volume, ATTN_NORM);
+}
+//=============================================================================================
+
+void(float pistolric_volume) sound_pistol_ricochet =
+{
+	local float r = floor(random()*5);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "impact/ric1.wav", pistolric_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "impact/ric2.wav", pistolric_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "impact/ric3.wav", pistolric_volume, ATTN_NORM);
+	else if (r == 3)	sound (self, CHAN_AUTO, "impact/ric4.wav", pistolric_volume, ATTN_NORM);
+	else 			sound (self, CHAN_AUTO, "impact/ric5.wav", pistolric_volume, ATTN_NORM);
+}
+//=============================================================================================
 
 void() tracer_think = {
 	if (time > self.attack_finished || self.frame >= 4) {

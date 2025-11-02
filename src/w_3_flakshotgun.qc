@@ -32,7 +32,7 @@ float() weaponanim_flakshotgun = {
 void() weaponanim_flakshotgun_loop = {
 	if (intermission) return;
 	
-	if (self.weaponframe == 10) sound (self, CHAN_AUTO, "flak/pump_reload.wav", 0.5, ATTN_NORM); //extra pump sfx
+	if (self.weaponframe == 8) sound (self, CHAN_AUTO, "flak/pump_reload.wav", 0.6, ATTN_NORM); //extra pump sfx
 	
 	if (self.weaponframe == 11) Eject_BuckshotCasing();
 	
@@ -240,9 +240,9 @@ void() sound_flakshotgun_impact =
 {
 	float r = random();
 
-	if 	(r < 0.083)	sound (self, CHAN_AUTO, "flak/bullet_impact1.wav", 1, ATTN_NORM);
-	else if (r < 0.16)	sound (self, CHAN_AUTO, "flak/bullet_impact2.wav", 1, ATTN_NORM);
-	else if (r < 0.25)	sound (self, CHAN_AUTO, "flak/bullet_impact3.wav", 1, ATTN_NORM);
-	else if (r < 0.33)	sound (self, CHAN_AUTO, "flak/bullet_impact4.wav", 1, ATTN_NORM);
+	if 	(r < 0.083)	sound (self, CHAN_AUTO, "impact/bullet_impact1.wav", 1, ATTN_NORM);
+	else if (r < 0.16)	sound (self, CHAN_AUTO, "impact/bullet_impact2.wav", 1, ATTN_NORM);
+	else if (r < 0.25)	sound (self, CHAN_AUTO, "impact/bullet_impact3.wav", 1, ATTN_NORM);
+	else if (r < 0.33)	sound (self, CHAN_AUTO, "impact/bullet_impact4.wav", 1, ATTN_NORM);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////

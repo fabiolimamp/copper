@@ -1,6 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //	Twin Nailgun
 ////////////////////////////////////////////////////////////////////////////////////////////////
+.float nailgun_alternator;
+
 
 float() weaponanim_twinnailgun = {
 	// handled via animation loop4
@@ -13,7 +15,8 @@ float() weaponanim_twinnailgun = {
 
 	SUB_CallAsSelf(player_nail1, self.animcontroller);
 
-	self.weaponframe = 0;
+	if (self.nailgun_alternator == 0)	self.weaponframe = 0;
+	else					self.weaponframe = 4;
 		
 	weaponanim_twinnailgun_loop();
 	
@@ -48,8 +51,8 @@ void() weaponanim_twinnailgun_loop = {
 
 	float offs;
 	
-	if (self.weaponframe == 1 || self.weaponframe == 5) {
-
+	if (self.weaponframe == 1 || self.weaponframe == 5)
+	{
 		// fire rate timer. Don't set if on the first firing serverframe, since this will already be set by the startup animation function
 		
 		self.nextthink1 = time + 0.08; //speedy
@@ -63,8 +66,8 @@ void() weaponanim_twinnailgun_loop = {
 
 		self.effects |= EF_MUZZLEFLASH;
 		
-		if (self.weaponframe == 1) offs = 4;
-		else offs = -4;
+		if (self.weaponframe == 1) 	{offs = 4;	self.nailgun_alternator = 1;}
+		else 				{offs = -4;	self.nailgun_alternator = 0;}
 		
 		SuperDamageSound();
 		W_FireTwinNailgun(offs);
@@ -90,13 +93,16 @@ void() weaponanim_twinnailgun_end = {
 
 	self.think = weaponanim_twinnailgun_end;
 	self.nextthink = time + 0.02;
-
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 void(float offs) W_FireTwinNailgun =
 {
-	sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
+	sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 0.8, ATTN_NORM);
+	
+	sound (self, CHAN_AUTO, "nail/airpuff.wav", 0.3, ATTN_NORM);
+	
+	nailgun_sound(0.4);
 
 	makevectors(self.v_angle);
 	vector dir = aim(self, AUTOAIM_DIST);
@@ -113,9 +119,28 @@ void(float offs) W_FireTwinNailgun =
 	spike.nextthink = time + 4; //air lifetime
 	spike.think = SUB_Remove;
 	
-	SUB_ChangeModel (spike, "progs/proj_nail.mdl");	
-	
+	SUB_ChangeModel (spike, "progs/proj_nail.mdl");
+}
+//=============================================================================================
 
+void(float nailgun_volume) nailgun_sound =
+{
+	local float r = floor(random()*5);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "nail/nailgun1.wav", nailgun_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "nail/nailgun2.wav", nailgun_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "nail/nailgun3.wav", nailgun_volume, ATTN_NORM);
+	else if (r == 3)	sound (self, CHAN_AUTO, "nail/nailgun4.wav", nailgun_volume, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "nail/nailgun5.wav", nailgun_volume, ATTN_NORM);
+}
+//=============================================================================================
+
+void(float nailhit_volume) sound_nailgun_impact =
+{
+	local float r = floor(random()*4);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "impact/bullet_impact1.wav", nailhit_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "impact/bullet_impact2.wav", nailhit_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "impact/bullet_impact3.wav", nailhit_volume, ATTN_NORM);
+	else 			sound (self, CHAN_AUTO, "impact/bullet_impact4.wav", nailhit_volume, ATTN_NORM);
 }
 //=============================================================================================
 
@@ -145,8 +170,6 @@ void() TwinNailFade =
 	self.think = TwinNailFade;
 	self.nextthink = time + 0.05;
 }
-
-
 //=============================================================================================
 
 void() twinnail_touch =
@@ -158,6 +181,8 @@ void() twinnail_touch =
 	{
 		spawn_touchblood (other, self.dmg);
 		T_Damage (other, self, self.trueowner, self.dmg);
+		
+		if (random() < 0.8)	sound_nailgun_impact(1);
 	}
 	else
 	{
@@ -190,9 +215,7 @@ void() twinnail_touch =
 		self.alpha = 1;
 		self.think = ImpalerFade;
 		self.nextthink = time + 10;
-	}
-	
-	
+	}	
 	else 
 		remove(self);
 }
