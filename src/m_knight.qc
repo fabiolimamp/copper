@@ -57,8 +57,7 @@ void()	knight_stand9	=[	$stand9,	knight_stand1	] {ai_stand();}
 
 void()	knight_walk1	=[	$walk1,		knight_walk2	] {
 if (random() < 0.2)
-	//sound (self, CHAN_VOICE, "knight/idle.wav", 1,  ATTN_IDLE);
-	knight_idlesound();
+	sound (self, CHAN_VOICE, "knight/idle.wav", 1,  ATTN_IDLE);
 ai_walk(3);}
 void()	knight_walk2	=[	$walk2,		knight_walk3	] {ai_walk(2);}
 void()	knight_walk3	=[	$walk3,		knight_walk4	] {ai_walk(3);}
@@ -74,21 +73,11 @@ void()	knight_walk12	=[	$walk12,	knight_walk13	] {ai_walk(3);}
 void()	knight_walk13	=[	$walk13,	knight_walk14	] {ai_walk(4);}
 void()	knight_walk14	=[	$walk14,	knight_walk1	] {ai_walk(3);}
 
-void() knight_idlesound =
-{
-    local float rs;
-    rs = rint((random() * 3) + 1); // random 1–3
-    if 		(rs == 1)sound (self, CHAN_VOICE, "knight/knight_idle_conditionreportblue.wav", 1, ATTN_NORM);
-    else if 	(rs == 2)sound (self, CHAN_VOICE, "knight/knight_idle_confirmingposition.wav", 1, ATTN_NORM);
-    else		 sound (self, CHAN_VOICE, "knight/knight_idle_yeahgoodhere.wav", 1, ATTN_NORM);
-};
-
 
 void()	knight_run1	=[	$runb1,		knight_run2	]
 {
 	if (random() < 0.2 && time > self.show_hostile)
-		//sound (self, CHAN_VOICE, "knight/idle.wav", 1,  ATTN_IDLE);
-		knight_sightsound();
+		sound (self, CHAN_VOICE, "knight/idle.wav", 1,  ATTN_IDLE);
 		
 	nmfast();
 	ai_run(16);
@@ -101,36 +90,9 @@ void()	knight_run6	=[	$runb6,		knight_run7	] {nmfast(); ai_run(20);}
 void()	knight_run7	=[	$runb7,		knight_run8	] {nmfast(); ai_run(14);}
 void()	knight_run8	=[	$runb8,		knight_run1	] {nmfast(); ai_run(6);}
 
-void() knight_sightsound =
-{
-	if (random() < 0.5)	//20% *0.5 = 10%
-	{
-		local float rs;
-		rs = rint((random() * 3) + 1); // random 1–3
-		if 	(rs == 1)sound (self, CHAN_VOICE, "knight/knight_sight_enemysighted.wav", 1, ATTN_NORM);
-		else if (rs == 2)sound (self, CHAN_VOICE, "knight/knight_sight_ivegother.wav", 1, ATTN_NORM);
-		else		 sound (self, CHAN_VOICE, "knight/knight_sight_youregoingdown.wav", 1, ATTN_NORM);
-	}
-	else return;
-};
-
-void() knight_aggrosound =
-{
-	if (random() < 0.1)	//10%
-	{
-		local float rs;
-		rs = rint((random() * 2) + 1); // random 1–2
-		if 	(rs == 1)sound (self, CHAN_VOICE, "knight/knight_aggro_dieasshole.wav", 1, ATTN_NORM);
-		else		 sound (self, CHAN_VOICE, "knight/knight_aggro_standdown.wav", 1, ATTN_NORM);
-	}
-	else	return;
-};
-
 
 void()	knight_runatk1	=[	$runattack1,		knight_runatk2	]
 {
-	knight_aggrosound();
-	
 	if (random() > 0.5)
 		sound (self, CHAN_WEAPON, "knight/sword2.wav", 1, ATTN_NORM);
 	else
@@ -152,8 +114,6 @@ void()	knight_runatk11	=[	$runattack11,	knight_run1	] {nmfast(); ai_charge(10); 
 
 void()	knight_atk1	=[	$attackb1,		knight_atk2	]
 {
-	knight_aggrosound();
-	
 	sound (self, CHAN_WEAPON, "knight/sword1.wav", 1, ATTN_NORM);
 	nmfast();
 	ai_charge(0);
@@ -186,9 +146,9 @@ void() knight_attack =
 
 //===========================================================================
 
-void()	knight_pain1	=[	$pain1,		knight_pain2 	] {nmfast(); ai_nop(); }
-void()	knight_pain2	=[	$pain2,		knight_pain3 	] {nmfast(); ai_nop(); }
-void()	knight_pain3	=[	$pain3,		knight_run1	] {nmfast(); ai_nop(); }
+void()	knight_pain1	=[	$pain1,		knight_pain2 ]	{nmfast(); ai_nop();  }
+void()	knight_pain2	=[	$pain2,		knight_pain3 ]	{nmfast(); ai_nop(); }
+void()	knight_pain3	=[	$pain3,		knight_run1	]	{nmfast(); ai_nop(); }
 
 void()	knight_painb1	=[	$painb1,	knight_painb2	] {nmfast(); ai_nop(); }
 void()	knight_painb2	=[	$painb2,	knight_painb3	] {nmfast(); ai_painforward(3);}
@@ -208,10 +168,8 @@ void(entity attacker, float damage)	knight_pain =
 
 	if (self.pain_finished > time)
 		return;
-	
-	//sound (self, CHAN_VOICE, "knight/khurt.wav", 1, ATTN_NORM);
-	knight_painsound();
-	
+		
+	sound (self, CHAN_VOICE, "knight/khurt.wav", 1, ATTN_NORM);
 	r = random();
 	if (r < 0.85)
 		knight_pain1 ();
@@ -220,15 +178,6 @@ void(entity attacker, float damage)	knight_pain =
 
 	PainFinished(1);
 }
-
-void() knight_painsound =
-{
-    local float rs;
-    rs = rint((random() * 3) + 1); // random 1–3
-    if 		(rs == 1)sound (self, CHAN_VOICE, "knight/knight_pain_1.wav", 1, ATTN_NORM);
-    else if 	(rs == 2)sound (self, CHAN_VOICE, "knight/knight_pain_2.wav", 1, ATTN_NORM);
-    else		 sound (self, CHAN_VOICE, "knight/knight_pain_3.wav", 1, ATTN_NORM);
-};
 
 //===========================================================================
 
@@ -285,22 +234,12 @@ void() knight_die =
 	if (knight_checkgib()) return;
 	
 	// regular death
-	//sound (self, CHAN_VOICE, "knight/kdeath.wav", 1, ATTN_NORM);
-	knight_diesound();
-	
+	sound (self, CHAN_VOICE, "knight/kdeath.wav", 1, ATTN_NORM);
 	if (random() < 0.5)
 		knight_die1 ();
 	else
 		knight_dieb1 ();
 }
-
-void() knight_diesound =
-{
-    local float rs;
-    rs = rint((random() * 1) + 1); // random 1–2
-    if (rs == 1)sound (self, CHAN_VOICE, "knight/knight_death_1.wav", 1, ATTN_NORM);
-    else        sound (self, CHAN_VOICE, "knight/knight_death_2.wav", 1, ATTN_NORM);
-};
 
 //===========================================================================
 
@@ -372,20 +311,6 @@ void() monster_knight =
 	precache_sound ("knight/sword1.wav");
 	precache_sound ("knight/sword2.wav");
 	precache_sound ("knight/idle.wav");
-	
-	precache_sound ("knight/knight_aggro_dieasshole.wav");
-	precache_sound ("knight/knight_aggro_standdown.wav");
-	precache_sound ("knight/knight_death_1.wav");
-	precache_sound ("knight/knight_death_2.wav");
-	precache_sound ("knight/knight_idle_conditionreportblue.wav");
-	precache_sound ("knight/knight_idle_confirmingposition.wav");
-	precache_sound ("knight/knight_idle_yeahgoodhere.wav");
-	precache_sound ("knight/knight_pain_1.wav");
-	precache_sound ("knight/knight_pain_2.wav");
-	precache_sound ("knight/knight_pain_3.wav");
-	precache_sound ("knight/knight_sight_enemysighted.wav");
-	precache_sound ("knight/knight_sight_ivegother.wav");
-	precache_sound ("knight/knight_sight_youregoingdown.wav");
 
 	self.health = 72;
 	setsize (self, '-16 -16 -24', '16 16 40');
