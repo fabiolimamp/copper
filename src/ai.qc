@@ -550,8 +550,7 @@ void() SightSound =
 	if (self.classname == "monster_ogre" )	
 		ogre_sight_sound();
 	else if (self.classname == "monster_knight" || self.classname == "monster_axegrunt")
-		//sound (self, CHAN_VOICE, "knight/ksight.wav", 1, ATTN_NORM);	
-		knight_sight_sound();
+		sound (self, CHAN_VOICE, "knight/ksight.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_shambler")
 		sound (self, CHAN_VOICE, "shambler/ssight.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_demon1")
@@ -630,18 +629,6 @@ void() soldier_sight_sound =
         sound (self, CHAN_VOICE, "grunt/soldier_sight_hostile.wav", 1, ATTN_NORM);
     else
         sound (self, CHAN_VOICE, "grunt/soldier_sight_target.wav", 1, ATTN_NORM);
-};
-
-void() knight_sight_sound =
-{
-    local float rs;
-    rs = (random() * 3);
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "knight/knight_sight_enemysighted.wav", 1, ATTN_NORM);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "knight/knight_sight_ivegother.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "knight/knight_sight_youregoingdown.wav", 1, ATTN_NORM);
 };
 
 void() FoundTarget =
