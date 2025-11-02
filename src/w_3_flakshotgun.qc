@@ -53,8 +53,10 @@ void() weaponanim_flakshotgun_loop = {
 
 void() W_FireFlakShotgun =
 {
-	sound(self, CHAN_WEAPON, "flak/shotgun3.wav", 1, ATTN_NORM);	
-	sound(self, CHAN_AUTO, "flak/shotgun2.wav", 0.4, ATTN_NORM);	
+	sound(self, CHAN_WEAPON, "flak/shotgun3.wav", 1, ATTN_NORM);
+	//sound(self, CHAN_AUTO, "flak/shotgun2.wav", 0.5, ATTN_NORM);	
+	
+	sound_shotgun_shoot(0.8);
 	
 	float r = random();
 	if 	(r < 0.33)	sound (self, CHAN_AUTO, "flak/volley_fire1.wav", 1, ATTN_NORM);
@@ -217,6 +219,23 @@ void() FlakTouch_2 =
 }
 //=============================================================================================
 
+void() BuckshotCasingTouch2 =
+{
+	if (CheckProjectilePassthru()) return;
+
+	self.avelocity = '0 0 0';
+}
+
+void() BuckshotCasingTouch1 =
+{
+	if (CheckProjectilePassthru()) return;
+
+	sound_shell_casing(0.3);
+	if (self.velocity == '0 0 0')
+		self.avelocity = '0 0 0';
+	self.touch = BulletCasingTouch2;
+}
+
 void() Eject_BuckshotCasing =
 {
 	if (intermission) return;
@@ -228,22 +247,43 @@ void() Eject_BuckshotCasing =
 	entity casing = toss_projectile(org, vel, "casing");
 	casing.owner = self;
 	casing.lifetime_finished = time + 2;
-	casing.touch = BulletCasingTouch1;
+	casing.touch = BuckshotCasingTouch1;
 	casing.th_die = SUB_Remove;
 	//casing.avelocity = '-200 -400 0'; //'0 -200 0'
 	casing.avelocity = [-170 - crandom()*60, -370 - crandom() * 60, 0];
 	SUB_ChangeModel (casing, "progs/buckshot_casing.mdl");
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////
+
+void(float flakfire_volume) sound_shotgun_shoot =
+{
+	local float r = floor(random()*4);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "flak/shotgun_fire1.wav", flakfire_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "flak/shotgun_fire2.wav", flakfire_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "flak/shotgun_fire3.wav", flakfire_volume, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "flak/shotgun_fire4.wav", flakfire_volume, ATTN_NORM);
+}
+//=============================================================================================
+
+void(float shellcase_volume) sound_shell_casing =
+{
+	local float r = floor(random()*3);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "flak/shell_casing1.wav", shellcase_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "flak/shell_casing2.wav", shellcase_volume, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "flak/shell_casing3.wav", shellcase_volume, ATTN_NORM);
+}
+//=============================================================================================
 
 void() sound_flakshotgun_impact =
 {
-	float r = random();
-
-	if 	(r < 0.083)	sound (self, CHAN_AUTO, "impact/bullet_impact1.wav", 1, ATTN_NORM);
-	else if (r < 0.16)	sound (self, CHAN_AUTO, "impact/bullet_impact2.wav", 1, ATTN_NORM);
-	else if (r < 0.25)	sound (self, CHAN_AUTO, "impact/bullet_impact3.wav", 1, ATTN_NORM);
-	else if (r < 0.33)	sound (self, CHAN_AUTO, "impact/bullet_impact4.wav", 1, ATTN_NORM);
+	if (random() < 0.33){
+		
+	local float r = floor(random()*4);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "impact/bullet_impact1.wav", 1, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "impact/bullet_impact2.wav", 1, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "impact/bullet_impact3.wav", 1, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "impact/bullet_impact4.wav", 1, ATTN_NORM);
+	
+	}else	return;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////

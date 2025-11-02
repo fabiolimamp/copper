@@ -49,8 +49,9 @@ float() weaponanim_pistol = {
 	// --------------------------------
 	// Low Ammo Alert
 	if 	(self.pistol_ammo_count ==  0) sound (self, CHAN_AUTO, "pistol/ammo_rattle.wav", 1, ATTN_NORM);
-	else if (self.pistol_ammo_count ==  1) sound (self, CHAN_AUTO, "pistol/ammo_rattle.wav", 0.8, ATTN_NORM);
-	else if (self.pistol_ammo_count ==  2) sound (self, CHAN_AUTO, "pistol/ammo_rattle.wav", 0.6, ATTN_NORM);	
+	else if (self.pistol_ammo_count ==  1) sound (self, CHAN_AUTO, "pistol/ammo_rattle.wav", 0.85, ATTN_NORM);
+	else if (self.pistol_ammo_count ==  2) sound (self, CHAN_AUTO, "pistol/ammo_rattle.wav", 0.7, ATTN_NORM);	
+	else if (self.pistol_ammo_count ==  3) sound (self, CHAN_AUTO, "pistol/ammo_rattle.wav", 0.55, ATTN_NORM);	
 	// --------------------------------
 
 	self.weaponframe = 1;
@@ -331,7 +332,7 @@ void() DropMagTouch1 =
 {
 	if (CheckProjectilePassthru()) return;
 
-	sound (self, CHAN_AUTO, "pistol/mag_drop.wav", 0.1, ATTN_NORM);	// drop sound
+	sound (self, CHAN_AUTO, "pistol/mag_drop.wav", 0.3, ATTN_NORM);	// drop sound
 
 	if (self.velocity == '0 0 0')
 		self.avelocity = '0 0 0';
@@ -371,7 +372,7 @@ void() BulletCasingTouch1 =
 {
 	if (CheckProjectilePassthru()) return;
 
-	//sound (self, CHAN_AUTO, "tink.wav", 0.1, ATTN_NORM);	// drop sound
+	sound (self, CHAN_AUTO, "pistol/casing.wav", 0.8, ATTN_NORM);	// drop sound
 	if (self.velocity == '0 0 0')
 		self.avelocity = '0 0 0';
 	self.touch = BulletCasingTouch2;

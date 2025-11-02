@@ -44,6 +44,7 @@ void() W_Precache =
 	precache_sound ("pistol/pistol_fire2.wav");
 	precache_sound ("pistol/pistol_fire3.wav");
 	precache_sound ("pistol/pistol_fire4.wav");
+	precache_sound ("pistol/casing.wav");
 	
 	//=============================================================================================
 											// 3 Shotgun
@@ -55,6 +56,14 @@ void() W_Precache =
 	precache_sound ("flak/shotgun2.wav");
 	precache_sound ("flak/shotgun3.wav");
 	precache_sound ("flak/pump_reload.wav");
+	precache_sound ("flak/pump_reload.wav");
+	precache_sound ("flak/shell_casing1.wav");
+	precache_sound ("flak/shell_casing2.wav");
+	precache_sound ("flak/shell_casing3.wav");
+	precache_sound ("flak/shotgun_fire1.wav");
+	precache_sound ("flak/shotgun_fire2.wav");
+	precache_sound ("flak/shotgun_fire3.wav");
+	precache_sound ("flak/shotgun_fire4.wav");
 
 	//=============================================================================================
 											// 4 Nailguns
