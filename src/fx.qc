@@ -1,9 +1,7 @@
 /*
-================================================================
-
-FX
-
-================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
+	FX
+////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
 void(vector org) gunshot =
@@ -27,69 +25,67 @@ void(vector a, vector b, entity who) fx_beam =
 	WriteCoord (MSG_BROADCAST, b_y);
 	WriteCoord (MSG_BROADCAST, b_z);
 }
-
-//=============================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 float FX_BLOOD 		= 1;
 float FX_BLOOD_BIG 	= 2;
 float FX_SPARK		= 4;
+float FX_CHAINS		= 8;
 
 void(float impact_type, vector impact_org, vector dir) FX_Impact =
 {
-	entity spark;
+	entity fx;
 	
-	spark = spawn ();
-	spark.owner = self;
-	spark.movetype = MOVETYPE_NONE;
-	spark.solid = SOLID_NOT;
-	spark.classname = "impact";
-	
-	//makevectors(self.v_angle);
-	//spark.velocity = v_forward * 1000;
-
-	//spark.velocity = normalize(dir) * 1000;
+	fx = spawn ();
+	fx.owner = self;
+	fx.movetype = MOVETYPE_NONE;
+	fx.solid = SOLID_NOT;
+	fx.classname = "impact";
 
 	if (dir == VEC_ORIGIN) {
 		makevectors(self.v_angle);
 		dir = v_forward;
 	}
 	
-	spark.angles = vectoangles(dir);	
-	spark.nextthink = time;
+	fx.angles = vectoangles(dir);	
+	fx.nextthink = time;
 	
-	spark.frame = 0;
-	spark.alpha = 1;
+	fx.frame = 0;
+	fx.alpha = 1;
 	
-	spark.think = anim_impact;
+	fx.think = anim_impact;
 	
 	float r = floor(random()*4);
 	
 	if	(impact_type == FX_BLOOD)	// smaller for melee
 	{
-		if 	(r == 0)	setmodel (spark, "progs/fx_blood1.mdl");
-		else if (r == 1)	setmodel (spark, "progs/fx_blood2.mdl");
-		else if (r == 2)	setmodel (spark, "progs/fx_blood3.mdl");
-		else			setmodel (spark, "progs/fx_blood4.mdl");
+		if 	(r == 0)	setmodel (fx, "progs/fx/blood1.mdl");
+		else if (r == 1)	setmodel (fx, "progs/fx/blood2.mdl");
+		else if (r == 2)	setmodel (fx, "progs/fx/blood3.mdl");
+		else			setmodel (fx, "progs/fx/blood4.mdl");
 	}
 	else if	(impact_type == FX_BLOOD_BIG)	// larger for bullets
 	{
-		if 	(r == 0)	setmodel (spark, "progs/fx_blood_big1.mdl");
-		else if (r == 1)	setmodel (spark, "progs/fx_blood_big2.mdl");
-		else if (r == 2)	setmodel (spark, "progs/fx_blood_big3.mdl");
-		else			setmodel (spark, "progs/fx_blood_big4.mdl");
+		if 	(r == 0)	setmodel (fx, "progs/fx/blood_big1.mdl");
+		else if (r == 1)	setmodel (fx, "progs/fx/blood_big2.mdl");
+		else if (r == 2)	setmodel (fx, "progs/fx/blood_big3.mdl");
+		else			setmodel (fx, "progs/fx/blood_big4.mdl");
 	}
 	else if (impact_type == FX_SPARK)	// world impact
 	{
-		if 	(r == 0)	setmodel (spark, "progs/fx_spark1.mdl");
-		else if (r == 1)	setmodel (spark, "progs/fx_spark2.mdl");
-		else if (r == 2)	setmodel (spark, "progs/fx_spark3.mdl");
-		else			setmodel (spark, "progs/fx_spark4.mdl");
+		if 	(r == 0)	setmodel (fx, "progs/fx/spark1.mdl");
+		else if (r == 1)	setmodel (fx, "progs/fx/spark2.mdl");
+		else if (r == 2)	setmodel (fx, "progs/fx/spark3.mdl");
+		else			setmodel (fx, "progs/fx/spark4.mdl");
 	}
+	else if (impact_type == FX_CHAINS)	// invoked hit
+	{
+		setmodel (fx, "progs/fx/invoked_chain.mdl");
+	}
+	else	setmodel (fx, "progs/null.mdl");
 
-	//setorigin (spark, self.origin + v_forward * 32 + '0 0 16');
-	setorigin (spark, impact_org);
-
-	setsize (spark, '0 0 0', '0 0 0');
+	setorigin (fx, impact_org);
+	setsize (fx, '0 0 0', '0 0 0');
 }
 
 void() anim_impact =
@@ -105,9 +101,78 @@ void() anim_impact =
 	self.think = anim_impact;
 	self.nextthink = time + 0.05;
 };
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void(float invoked_entity, vector impact_org, vector dir) FX_Invoked =
+{
+	local entity fx;
+	
+	fx = spawn ();
+	fx.owner = self;
+	fx.movetype = MOVETYPE_NONE;
+	fx.solid = SOLID_NOT;
+	fx.classname = "impact";
+
+	if (dir == VEC_ORIGIN) {
+		makevectors(self.v_angle);
+		dir = v_forward;
+	}
+	
+	fx.angles = vectoangles(dir);	
+	fx.nextthink = time;
+	
+	fx.frame = 0;
+	fx.alpha = 1;
+	
+	fx.think = anim_invoked;
+
+	
+	if	(invoked_entity == 1)	setmodel (fx, "progs/fx/invoked_ogre.mdl");
+	else if	(invoked_entity == 2)	setmodel (fx, "progs/fx/invoked_demon.mdl");
+	else if	(invoked_entity == 3)	setmodel (fx, "progs/fx/invoked_shambler.mdl");
+	else if	(invoked_entity == 4)	setmodel (fx, "progs/fx/invoked_knight.mdl");
+	else if	(invoked_entity == 5)	setmodel (fx, "progs/fx/invoked_wizard.mdl");
+	else if	(invoked_entity == 6)	setmodel (fx, "progs/fx/invoked_dog.mdl");
+	else if	(invoked_entity == 7)	setmodel (fx, "progs/fx/invoked_zombie.mdl");
+	else if	(invoked_entity == 8)	setmodel (fx, "progs/fx/invoked_spawn.mdl");
+	else if	(invoked_entity == 9)	setmodel (fx, "progs/fx/invoked_champion.mdl");
+	else if	(invoked_entity == 10)	setmodel (fx, "progs/fx/invoked_fish.mdl");
+	else if	(invoked_entity == 11)	setmodel (fx, "progs/fx/invoked_shalrath.mdl");
+	else if	(invoked_entity == 12)	setmodel (fx, "progs/fx/invoked_enforcer.mdl");
+	else if	(invoked_entity == 13)	setmodel (fx, "progs/fx/invoked_amalgam.mdl");
+	else if	(invoked_entity == 14)	setmodel (fx, "progs/fx/invoked_swarmer.mdl");
+	else if	(invoked_entity == 15)	setmodel (fx, "progs/fx/invoked_sploder.mdl");
+	else if	(invoked_entity == 16)
+	{
+		local float r = floor(random()*3);
+		if 	(r == 0)	setmodel (fx, "progs/fx/invoked_soldier_p.mdl");
+		else if (r == 1)	setmodel (fx, "progs/fx/invoked_soldier_s.mdl");
+		else			setmodel (fx, "progs/fx/invoked_soldier_r.mdl");
+	}
+	else if	(invoked_entity == 17)	setmodel (fx, "progs/fx/invoked_player.mdl");
+	else				setmodel (fx, "progs/null.mdl");
 
 
-//=============================================================================
+	//setorigin (fx, self.origin + v_forward * 32 + '0 0 16');
+	setorigin (fx, impact_org);
+
+	setsize (fx, '0 0 0', '0 0 0');
+}
+//==============================================
+
+void() anim_invoked =
+{
+	self.alpha -= 0.04;
+
+	if (self.alpha <= 0)
+	{
+		remove(self);
+		return;
+	}
+	self.think = anim_invoked;
+	self.nextthink = time + 0.05;
+};
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 void(float enable) zaplight = 
 {	
@@ -120,6 +185,7 @@ void(float enable) zaplight =
 	if (enable == 1)self.effects = self.effects | EF_DIMLIGHT;
 	else		self.effects = self.effects - (self.effects & EF_DIMLIGHT);
 }
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 // slight framerate increase for explosion sprites
 // looks odd at 10 fps when volley firing MMML
