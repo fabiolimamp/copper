@@ -488,6 +488,8 @@ void() worldspawn =
 	precache_model ("progs/spike.mdl");
 	//precache_model ("progs/s_spike.mdl");
 
+	precache_model ("progs/null.mdl");
+
 	precache_model ("progs/backpack.mdl");
 	precache_model ("progs/backpack_big.mdl");
 

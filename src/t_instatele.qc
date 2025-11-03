@@ -407,7 +407,6 @@ void() trigger_instateleport =
 {
 	if (!SUB_ShouldSpawn()) return;
 	
-	precache_model ("progs/null.mdl");
 
 	//local vector o;
 
