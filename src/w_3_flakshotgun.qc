@@ -92,6 +92,7 @@ entity(vector org, vector vel) Launch_Flak =
 	//gunshot(org);
 	flak = toss_projectile(org, vel, "flak");
 	flak.lifetime_finished = time + 1.1;
+	flak.attack_finished = time + 2;
 	flak.gravity = .5;
 	flak.think = FlakThink;
 	flak.nextthink = time + 0.05;
@@ -126,18 +127,32 @@ void() FlakThink =
 		if (self.alpha == 0) self.alpha = -1;
 	}
 
-	if (self.lifetime_finished < time)
+	if (self.lifetime_finished < time || self.attack_finished < time)
 		remove(self);
 }
 
 
 void() FlakBounce =
 {
-	vector dir = normalize(self.oldvelocity);
-	vector spot1 = self.origin - (4*dir);
-	vector spot2 = self.origin + (4*dir);
+	if (pointcontents(self.origin) == CONTENT_SKY) {
+		remove(self);
+		return;
+	}
+
+	vector dir = normalize(self.velocity);
+	vector spot1 = self.origin - (2*dir);
+	vector spot2 = self.origin + (2*dir);
 	traceline (spot1, spot2, FALSE, self); 
 	self.flags &~= FL_ONGROUND;
+
+	//dprint4("frame ", ftos(framecount), ", pellet ", ftos(self.count));
+	//dprint3(", fraction ", ftos(trace_fraction), "\n");
+	
+	if (trace_fraction == 1){
+		//dprint3("Pellet ", ftos(self.count), ": removed\n");
+		remove(self);
+		return;
+	}
 
 	/*
 	Vector reflection around normal
@@ -146,7 +161,7 @@ void() FlakBounce =
 
 	1.5 => "overbounce", same calculation applied by the engine to reduce velocity depending on impact angle on MOVETYPE_BOUNCE ents
 	*/
-	vector newdir = self.oldvelocity - (2 * (self.oldvelocity * trace_plane_normal / 1.5)) * trace_plane_normal;
+	vector newdir = self.velocity - (2 * (self.velocity * trace_plane_normal / 1.5)) * trace_plane_normal;
 	//self.velocity = newdir * vlen(self.oldvelocity);
 	self.velocity = newdir;
 
@@ -170,6 +185,11 @@ void() Flak_setvelocity = {
 void() FlakTouch =
 {
 	if (CheckProjectilePassthru()) return;
+
+	if (self.attack_finished < time) {
+		remove(self);
+		return;
+	}
 	
 	if (other.takedamage)
 	{
@@ -178,7 +198,7 @@ void() FlakTouch =
 		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
 		SpawnBlood(self.origin, self.velocity, 40);
 
-		if (random() < 0.25)	FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);
+		if (random() < 0.25)	FX_Impact(FX_BLOOD_BIG, self.origin, self.velocity);
 
 		sound_flakshotgun_impact();
 
@@ -205,7 +225,12 @@ void() FlakTouch =
 void() FlakTouch_2 =
 {
 	if (CheckProjectilePassthru()) return;
-
+	
+	if (self.attack_finished < time) {
+		remove(self);
+		return;
+	}
+	
 	FlakBounce();
 
 	if (other.takedamage)
@@ -214,6 +239,10 @@ void() FlakTouch_2 =
 		
 		SpawnBlood(self.origin, self.velocity, 40);
 		sound_flakshotgun_impact();
+
+		if (other.health <= 0) projectile_passthru();
+		else remove(self);
+
 		return;
 	}
 	
