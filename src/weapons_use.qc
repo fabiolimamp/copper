@@ -128,7 +128,7 @@ void() W_Precache =
 	precache_sound ("invoker/magic26.wav");	
 	
 	//=============================================================================================
-											// SFX Effects	
+											// FX Effects	
 	precache_sound ("impact/bullet_impact1.wav");
 	precache_sound ("impact/bullet_impact2.wav");
 	precache_sound ("impact/bullet_impact3.wav");
@@ -138,19 +138,42 @@ void() W_Precache =
 	precache_sound ("impact/ric3.wav");
 	precache_sound ("impact/ric4.wav");
 	precache_sound ("impact/ric5.wav");
-	precache_model ("progs/fx_spark1.mdl");
-	precache_model ("progs/fx_spark2.mdl");
-	precache_model ("progs/fx_spark3.mdl");
-	precache_model ("progs/fx_spark4.mdl");
-	precache_model ("progs/fx_blood1.mdl");
-	precache_model ("progs/fx_blood2.mdl");
-	precache_model ("progs/fx_blood3.mdl");
-	precache_model ("progs/fx_blood4.mdl");
-	precache_model ("progs/fx_blood_big1.mdl");
-	precache_model ("progs/fx_blood_big2.mdl");
-	precache_model ("progs/fx_blood_big3.mdl");
-	precache_model ("progs/fx_blood_big4.mdl");
 	
+	precache_model ("progs/fx/spark1.mdl");
+	precache_model ("progs/fx/spark2.mdl");
+	precache_model ("progs/fx/spark3.mdl");
+	precache_model ("progs/fx/spark4.mdl");
+	precache_model ("progs/fx/blood1.mdl");
+	precache_model ("progs/fx/blood2.mdl");
+	precache_model ("progs/fx/blood3.mdl");
+	precache_model ("progs/fx/blood4.mdl");
+	precache_model ("progs/fx/blood_big1.mdl");
+	precache_model ("progs/fx/blood_big2.mdl");
+	precache_model ("progs/fx/blood_big3.mdl");
+	precache_model ("progs/fx/blood_big4.mdl");
+	
+	precache_model ("progs/fx/invoked_chain.mdl");
+	precache_model ("progs/fx/invoked_ogre.mdl");
+	precache_model ("progs/fx/invoked_demon.mdl");
+	precache_model ("progs/fx/invoked_shambler.mdl");
+	precache_model ("progs/fx/invoked_knight.mdl");
+	precache_model ("progs/fx/invoked_wizard.mdl");
+	precache_model ("progs/fx/invoked_dog.mdl");
+	precache_model ("progs/fx/invoked_zombie.mdl");
+	precache_model ("progs/fx/invoked_zombienm.mdl");
+	precache_model ("progs/fx/invoked_spawn.mdl");
+	precache_model ("progs/fx/invoked_champion.mdl");
+	precache_model ("progs/fx/invoked_fish.mdl");
+	precache_model ("progs/fx/invoked_shalrath.mdl");
+	precache_model ("progs/fx/invoked_enforcer.mdl");
+	precache_model ("progs/fx/invoked_amalgam.mdl");
+	precache_model ("progs/fx/invoked_swarmer.mdl");
+	precache_model ("progs/fx/invoked_sploder.mdl");
+	precache_model ("progs/fx/invoked_soldier_p.mdl");
+	precache_model ("progs/fx/invoked_soldier_s.mdl");
+	precache_model ("progs/fx/invoked_soldier_r.mdl");
+	precache_model ("progs/fx/invoked_player.mdl");
+								
 	//=============================================================================================
 
 
