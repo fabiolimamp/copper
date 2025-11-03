@@ -138,6 +138,18 @@ void() W_Precache =
 	precache_sound ("impact/ric3.wav");
 	precache_sound ("impact/ric4.wav");
 	precache_sound ("impact/ric5.wav");
+	precache_model ("progs/fx_spark1.mdl");
+	precache_model ("progs/fx_spark2.mdl");
+	precache_model ("progs/fx_spark3.mdl");
+	precache_model ("progs/fx_spark4.mdl");
+	precache_model ("progs/fx_blood1.mdl");
+	precache_model ("progs/fx_blood2.mdl");
+	precache_model ("progs/fx_blood3.mdl");
+	precache_model ("progs/fx_blood4.mdl");
+	precache_model ("progs/fx_blood_big1.mdl");
+	precache_model ("progs/fx_blood_big2.mdl");
+	precache_model ("progs/fx_blood_big3.mdl");
+	precache_model ("progs/fx_blood_big4.mdl");
 	
 	//=============================================================================================
 

@@ -141,6 +141,8 @@ void() ImpalerTouch =
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
 		}
 
+		FX_Impact(FX_BLOOD_BIG, self.origin);
+
 		particle (self.origin, self.velocity*0.1, 73, 40);
 
 		float chance = random();
@@ -163,6 +165,8 @@ void() ImpalerTouch =
 	if (random() < 0.5)	sound (self, CHAN_AUTO, "rebar/stick_metal1.wav", 0.7, ATTN_NORM);
 	else			sound (self, CHAN_AUTO, "rebar/stick_metal2.wav", 0.7, ATTN_NORM);
 
+	FX_Impact(FX_SPARK, self.origin);
+	
 	gunshot(self.origin);
 
 	if (other.solid == SOLID_BSP && other.classname != "func_movewall") {

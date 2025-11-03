@@ -178,6 +178,8 @@ void() FlakTouch =
 		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
 		SpawnBlood(self.origin, self.velocity, 40);
 
+		if (random() < 0.25)	FX_Impact(FX_BLOOD_BIG, self.origin);
+
 		sound_flakshotgun_impact();
 
 		if (other.health <= 0) projectile_passthru();

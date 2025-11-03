@@ -189,6 +189,8 @@ void() twinnail_touch =
 		T_Damage (other, self, self.trueowner, self.dmg);
 				
 		if (random() < 0.8)	sound_nailgun_impact_enemy(1);
+		
+		if (random() < 0.75)	FX_Impact(FX_BLOOD_BIG, self.origin);
 	}
 	else
 	{
@@ -202,6 +204,8 @@ void() twinnail_touch =
 	if (other == world)
 	{
 		if (random() < 0.5)	sound_nailgun_impact_world(0.5);
+		
+		if (random() < 0.5)	FX_Impact(FX_SPARK, self.origin);
 		
 		TwinNailwallThink();
 	}	
