@@ -195,7 +195,7 @@ float(entity me, entity o) void_salvation =
 // --------------------------------
 void() void_func_touch =
 {
-	if ( other.solid == SOLID_BSP || other.solid == SOLID_TRIGGER )
+	if ( other.solid == SOLID_BSP || other.solid == SOLID_TRIGGER || other.customflags & CFL_PLUNGE)
 		return;
 	
 	if ( CheckValidTouch() )	// a living player not in noclip
@@ -234,10 +234,10 @@ void() void_func_touch =
 		{
 			other.customflags |= CFL_PLUNGE;	// set this so Killed() doesn't throw gibs
 			//T_Damage(other, self, other.enemy, other.health + 10);
-			if (other.enemy.classname == "player")
-				Killed(other,other.enemy, DMGTYPE_FALLING);
-			else if (other.oldenemy.classname == "player")
-				Killed(other,other.oldenemy, DMGTYPE_FALLING);
+			if (other.oldenemy.classname == "player")
+				Killed(other, other.oldenemy, DMGTYPE_FALLING);
+			else
+				Killed(other, other.enemy, DMGTYPE_FALLING);
 			// attacker must be the monster's enemy, so that players still count as the 
 			// killer if they boosh monsters into a pit
 			return;
