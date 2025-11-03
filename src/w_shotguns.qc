@@ -150,12 +150,12 @@ vector(float damage, vector dir) BulletImpact =
 	}	
 	if (trace_ent.takedamage)
 	{
-		FX_Impact(FX_BLOOD_BIG, org);
+		FX_Impact(FX_BLOOD_BIG, org, dir);
 		SpawnBlood (org, vel*40, damage);
 		AddMultiDamage (trace_ent, damage);
 	}
 	else {
-		FX_Impact(FX_SPARK, org);
+		FX_Impact(FX_SPARK, org, dir);
 		sound_pistol_ricochet(0.6);
 		gunshot(org);
 	}

@@ -28,6 +28,87 @@ void(vector a, vector b, entity who) fx_beam =
 	WriteCoord (MSG_BROADCAST, b_z);
 }
 
+//=============================================================================
+
+float FX_BLOOD 		= 1;
+float FX_BLOOD_BIG 	= 2;
+float FX_SPARK		= 4;
+
+void(float impact_type, vector impact_org, vector dir) FX_Impact =
+{
+	entity spark;
+	
+	spark = spawn ();
+	spark.owner = self;
+	spark.movetype = MOVETYPE_NONE;
+	spark.solid = SOLID_NOT;
+	spark.classname = "impact";
+	
+	//makevectors(self.v_angle);
+	//spark.velocity = v_forward * 1000;
+
+	//spark.velocity = normalize(dir) * 1000;
+
+	if (dir == VEC_ORIGIN) {
+		makevectors(self.v_angle);
+		dir = v_forward;
+	}
+	
+	spark.angles = vectoangles(dir);	
+	spark.nextthink = time;
+	
+	spark.frame = 0;
+	spark.alpha = 1;
+	
+	spark.think = anim_impact;
+	
+	float r = floor(random()*4);
+	
+	if	(impact_type == FX_BLOOD)	// smaller for melee
+	{
+		if 	(r == 0)	setmodel (spark, "progs/fx_blood1.mdl");
+		else if (r == 1)	setmodel (spark, "progs/fx_blood2.mdl");
+		else if (r == 2)	setmodel (spark, "progs/fx_blood3.mdl");
+		else			setmodel (spark, "progs/fx_blood4.mdl");
+	}
+	else if	(impact_type == FX_BLOOD_BIG)	// larger for bullets
+	{
+		if 	(r == 0)	setmodel (spark, "progs/fx_blood_big1.mdl");
+		else if (r == 1)	setmodel (spark, "progs/fx_blood_big2.mdl");
+		else if (r == 2)	setmodel (spark, "progs/fx_blood_big3.mdl");
+		else			setmodel (spark, "progs/fx_blood_big4.mdl");
+	}
+	else if (impact_type == FX_SPARK)	// world impact
+	{
+		if 	(r == 0)	setmodel (spark, "progs/fx_spark1.mdl");
+		else if (r == 1)	setmodel (spark, "progs/fx_spark2.mdl");
+		else if (r == 2)	setmodel (spark, "progs/fx_spark3.mdl");
+		else			setmodel (spark, "progs/fx_spark4.mdl");
+	}
+
+	//setorigin (spark, self.origin + v_forward * 32 + '0 0 16');
+	setorigin (spark, impact_org);
+
+	setsize (spark, '0 0 0', '0 0 0');
+}
+
+void() anim_impact =
+{
+	self.alpha -= 0.10;
+	self.frame ++;
+
+	if (self.frame >= 6)
+	{
+		remove(self);
+		return;
+	}
+	self.think = anim_impact;
+	self.nextthink = time + 0.05;
+};
+
+
+//=============================================================================
+
 void(float enable) zaplight = 
 {	
 	// Prevent EF_MUZZLEFLASH from force disabling interpolation during cast

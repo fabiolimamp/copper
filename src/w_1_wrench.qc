@@ -161,7 +161,7 @@ void(entity hitent, vector org, vector dir) hitwrench =
 		hitent.swordhitme = 1;
 
 		SpawnBlood(org, dir, 60);
-		FX_Impact(FX_BLOOD, org);
+		FX_Impact(FX_BLOOD, org, dir);
 
 		if (hitent.classname == "monster_zombie") //keep zombies Unbonkable
 			T_Damage(hitent, self, self, 59, DMGTYPE_MELEE);
@@ -223,7 +223,7 @@ void(entity hitent, vector org, vector dir) hitwrench =
 	}
 	else	{	// hit wall
 		sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
-		FX_Impact(FX_SPARK, org);
+		FX_Impact(FX_SPARK, org, dir);
 		gunshot(org);
 	}
 }
