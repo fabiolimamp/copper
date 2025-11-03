@@ -240,7 +240,7 @@ void() Start_Sniper_Lightning =
 		else if (i == 7) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * -32) + (v_right * 0); }
 		else             { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * -32) + (v_right * 32); }
 		
-		traceline(org, org + v_forward * 32, FALSE, self);	
+		traceline2(org, org + v_forward * 32, self, FALSE);	
 		org = org + v_forward*32*trace_fraction;
 		
 		vector dir = aim(self, 0);
@@ -254,7 +254,7 @@ void() Start_Sniper_Lightning =
 
 vector(vector org, vector dir) Sniper_Lightning_Direction = 
 {
-	traceline (org, org + dir*4000, FALSE, self);
+	traceline2 (org, org + dir*4000, self, FALSE);
 	vector endpoint = trace_endpos;
 	return endpoint;
 }

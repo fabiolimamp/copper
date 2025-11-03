@@ -77,14 +77,14 @@ void() W_FireWrench =
 	makevectors (self.v_angle);
 	source = self.origin + self.view_ofs - v_up*0;
 
-	traceline (source, source + v_forward*60 - v_right*40, FALSE, self);
+	traceline2 (source, source + v_forward*60 - v_right*40, self, FALSE);
 	if (trace_fraction < 1) {
 		shortest_hit1 = vlen(trace_endpos - source);
 		hitent1 = trace_ent;
 		hitpos1 = trace_endpos;
  	}
 
-	traceline (source, source + v_forward*72 - v_right*20, FALSE, self);
+	traceline2 (source, source + v_forward*72 - v_right*20, self, FALSE);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -98,7 +98,7 @@ void() W_FireWrench =
 		}
 	}
 
-	traceline (source, source + v_forward*86, FALSE, self);
+	traceline2 (source, source + v_forward*86, self, FALSE);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -112,7 +112,7 @@ void() W_FireWrench =
 		}
 	}
 
-	traceline (source, source + v_forward*72 + v_right*20, FALSE, self);
+	traceline2 (source, source + v_forward*72 + v_right*20, self, FALSE);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);
@@ -126,7 +126,7 @@ void() W_FireWrench =
 		}
 	}
 
-	traceline (source, source + v_forward*60 + v_right*40, FALSE, self);
+	traceline2 (source, source + v_forward*60 + v_right*40, self, FALSE);
 	if (trace_fraction < 1) {
 		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
 			shortest_hit1 = vlen(trace_endpos - source);

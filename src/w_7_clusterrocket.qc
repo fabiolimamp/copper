@@ -103,8 +103,7 @@ void() spiralrocket_touch =
 {
 	local float	damg, rdamg;
 
-	if (other == self.owner)
-		return;		// don't explode on owner
+	if (CheckProjectilePassthru()) return;
 
 	if (pointcontents(self.origin) == CONTENT_SKY)	{
 		remove(self.buddy);

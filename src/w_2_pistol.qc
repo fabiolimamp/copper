@@ -166,7 +166,7 @@ void() W_FirePistol =
 	spread_z = 0;
 	
 	// aim point directly in front of the crosshair
-	traceline(self.origin + self.view_ofs, self.origin + self.view_ofs + v_forward * 10000, FALSE, self);
+	traceline2(self.origin + self.view_ofs, self.origin + self.view_ofs + v_forward * 10000, self, FALSE);
 
 	vector dir = normalize(trace_endpos - org);
 		
