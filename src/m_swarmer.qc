@@ -274,9 +274,9 @@ void() swarmer_melee =
 	}
 };
 
-void() swarmer_deathA1 = [ 73, swarmer_deathA2 ]{};
-void() swarmer_deathA2 = [ 74, swarmer_deathA3 ]{ai_pain(8);};
-void() swarmer_deathA3 = [ 75, swarmer_deathA4 ]{ai_pain(5);};
+void() swarmer_deathA1 = [ 73, swarmer_deathA2 ]{if (swarmer_checkgib()) return;};
+void() swarmer_deathA2 = [ 74, swarmer_deathA3 ]{if (swarmer_checkgib()) return; ai_pain(8);};
+void() swarmer_deathA3 = [ 75, swarmer_deathA4 ]{if (swarmer_checkgib()) return; ai_pain(5); self.takedamage = DAMAGE_NO;};
 void() swarmer_deathA4 = [ 76, swarmer_deathA5 ]{ai_pain(3);};
 void() swarmer_deathA5 = [ 77, swarmer_deathA6 ]{ai_pain(1);};
 void() swarmer_deathA6 = [ 78, swarmer_deathA7 ]{ai_pain(2);};
@@ -286,9 +286,9 @@ void() swarmer_deathA9 = [ 81, swarmer_deathA10 ]{ai_pain(2);};
 void() swarmer_deathA10 = [ 82, swarmer_deathA11 ]{};
 void() swarmer_deathA11 = [ 83, SUB_Null ]{};
 
-void() swarmer_deathB1 = [ 84, swarmer_deathB2 ]{ai_pain(16 + random()*8);};
-void() swarmer_deathB2 = [ 85, swarmer_deathB3 ]{ai_pain(16 + random()*8);};
-void() swarmer_deathB3 = [ 86, swarmer_deathB4 ]{ai_pain(16 + random() * 8);};
+void() swarmer_deathB1 = [ 84, swarmer_deathB2 ]{if (swarmer_checkgib()) return; ai_pain(16 + random()*8);};
+void() swarmer_deathB2 = [ 85, swarmer_deathB3 ]{if (swarmer_checkgib()) return; ai_pain(16 + random()*8);};
+void() swarmer_deathB3 = [ 86, swarmer_deathB4 ]{if (swarmer_checkgib()) return; ai_pain(16 + random() * 8); self.takedamage = DAMAGE_NO;};
 void() swarmer_deathB4 = [ 87, swarmer_deathB5 ]{ai_pain(8);};
 void() swarmer_deathB5 = [ 88, swarmer_deathB6 ]{ai_pain(4);};
 void() swarmer_deathB6 = [ 89, swarmer_deathB7 ]{};
@@ -296,9 +296,9 @@ void() swarmer_deathB7 = [ 90, swarmer_deathB8 ]{};
 void() swarmer_deathB8 = [ 91, swarmer_deathB9 ]{};
 void() swarmer_deathB9 = [ 92, SUB_Null ]{};
 
-void() swarmer_deathC1 = [ 93, swarmer_deathC2 ]{};
-void() swarmer_deathC2 = [ 94, swarmer_deathC3 ]{};
-void() swarmer_deathC3 = [ 95, swarmer_deathC4 ]{};
+void() swarmer_deathC1 = [ 93, swarmer_deathC2 ]{if (swarmer_checkgib()) return; };
+void() swarmer_deathC2 = [ 94, swarmer_deathC3 ]{if (swarmer_checkgib()) return; };
+void() swarmer_deathC3 = [ 95, swarmer_deathC4 ]{if (swarmer_checkgib()) return; self.takedamage = DAMAGE_NO;};
 void() swarmer_deathC4 = [ 96, swarmer_deathC5 ]{};
 void() swarmer_deathC5 = [ 97, swarmer_deathC6 ]{};
 void() swarmer_deathC6 = [ 98, swarmer_deathC7 ]{};
@@ -308,9 +308,9 @@ void() swarmer_deathC9 = [ 101, swarmer_deathC10 ]{walkmove2(self.angles_y+90, 2
 void() swarmer_deathC10 = [ 102, swarmer_deathC11 ]{walkmove2(self.angles_y+90, 6);};
 void() swarmer_deathC11 = [ 103, SUB_Null ]{};
 
-void() swarmer_deathD1 = [ 104, swarmer_deathD2 ]{ai_swarmer_charge(24);};
-void() swarmer_deathD2 = [ 105, swarmer_deathD3 ]{ai_swarmer_charge(20);};
-void() swarmer_deathD3 = [ 106, swarmer_deathD4 ]{ai_swarmer_charge(16);};
+void() swarmer_deathD1 = [ 104, swarmer_deathD2 ]{if (swarmer_checkgib()) return; ai_swarmer_charge(24);};
+void() swarmer_deathD2 = [ 105, swarmer_deathD3 ]{if (swarmer_checkgib()) return; ai_swarmer_charge(20);};
+void() swarmer_deathD3 = [ 106, swarmer_deathD4 ]{if (swarmer_checkgib()) return; ai_swarmer_charge(16); self.takedamage = DAMAGE_NO;};
 void() swarmer_deathD4 = [ 107, swarmer_deathD5 ]{ai_forward(14);};
 void() swarmer_deathD5 = [ 108, swarmer_deathD6 ]{ai_forward(8);};
 void() swarmer_deathD6 = [ 109, swarmer_deathD7 ]{ai_forward(4);};
@@ -332,22 +332,21 @@ float() swarmer_checkgib =
 
 void() swarmer_die =
 {
-	local float r;
 
 // check for gib
 	if (swarmer_checkgib())
 		return;
 
+	self.solid = SOLID_TRIGGER;
+	setorigin(self, self.origin);
 
-	r = random();
+	float r = random();
 	if 	(r < (1 / 3))	sound(self, CHAN_VOICE, "swarmer/death1.wav", 1, ATTN_NORM);
 	else if ((r < (2 / 3)))	sound(self, CHAN_VOICE, "swarmer/death2.wav", 1, ATTN_NORM);
 	else			sound(self, CHAN_VOICE, "swarmer/death3.wav", 1, ATTN_NORM);
 
 	r = random();
 	
-	self.solid = SOLID_TRIGGER;
-	setorigin(self, self.origin);
 	
 	if 	(r < (1 / 4))	swarmer_deathA1();
 	else if (r < (2 / 4))	swarmer_deathB1();
