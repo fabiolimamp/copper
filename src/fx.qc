@@ -107,7 +107,7 @@ void() anim_impact =
 .string invokedmodel;
 
 
-void(string invoked_entity, vector impact_org, vector dir) FX_Invoked =
+void(string invoked_string, vector impact_org, vector dir) FX_Invoked =
 {
 	local entity fx;
 	
@@ -131,8 +131,10 @@ void(string invoked_entity, vector impact_org, vector dir) FX_Invoked =
 	fx.think = anim_invoked;
 
 
-	if (invoked_entity)	setmodel (fx, invoked_entity);
-	else			setmodel (fx, "progs/null.mdl");
+	if (invoked_string != "")
+		setmodel (fx, invoked_string);
+	else
+		setmodel (fx, "progs/null.mdl");
 
 
 	//setorigin (fx, self.origin + v_forward * 32 + '0 0 16');
