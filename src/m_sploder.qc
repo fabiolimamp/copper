@@ -312,7 +312,7 @@ void() monster_sploder_spawn =
 	self.solid = SOLID_SLIDEBOX;
 
 	setmodel (self, "progs/sploder_qbj.mdl");
-
+	
 	setsize (self, '-16 -16 -24', '16 16 24');
 	self.health = 40;
 	
@@ -371,6 +371,9 @@ void() monster_sploder =
 	}
 	precache_model ("progs/sploder_qbj.mdl");
 
+	self.invokedmodel = "progs/fx/invoked_sploder.mdl";
+	precache_model(self.invokedmodel);
+	
 	precache_sound ("sploder/sploder_idle1.wav");
 	precache_sound ("sploder/sploder_idle2.wav");
 	precache_sound ("sploder/sploder_idle3.wav");

@@ -716,6 +716,8 @@ void() monster_hell_knight =
 	precache_model2 ("progs/k_spike2.mdl");
 	precache_model2 ("progs/gibs/gibhead_hellknight.mdl");
 
+	self.invokedmodel = "progs/fx/invoked_champion.mdl";
+	precache_model(self.invokedmodel);
 	
 	precache_sound2 ("hknight/attack1.wav");
 	precache_sound ("hknight/hit.wav");		// used by C code, so don't sound2

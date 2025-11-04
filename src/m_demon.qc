@@ -630,6 +630,9 @@ void() monster_fiend =
 	precache_model ("progs/demon_qbj.mdl");
 	precache_model ("progs/gibs/gibhead_demon.mdl");
 
+	self.invokedmodel = "progs/fx/invoked_demon.mdl";
+	precache_model(self.invokedmodel);
+
 	precache_sound ("demon/ddeath.wav");
 	precache_sound ("demon/dhit2.wav");
 	precache_sound ("demon/djump.wav");

@@ -502,6 +502,9 @@ void() monster_army_rocket =
 	precache_model ("progs/soldier_rocket_qbj.mdl");
 	precache_model ("progs/gibs/gibhead_grunt_r.mdl");
 
+	self.invokedmodel = "progs/fx/invoked_soldier_r.mdl";
+	precache_model(self.invokedmodel);
+
 	precache_model	("progs/gibs/gib_gen_1.mdl");
 	precache_model	("progs/gibs/gib_gen_2.mdl");
 	precache_model	("progs/gibs/gib_gen_3.mdl");

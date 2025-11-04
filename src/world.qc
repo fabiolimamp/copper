@@ -455,6 +455,8 @@ void() worldspawn =
 	precache_model ("progs/eyes.mdl");
 	precache_model ("progs/h_player.mdl");
 
+	self.invokedmodel = "progs/fx/invoked_player.mdl";
+	precache_model(self.invokedmodel);
 
 	precache_model ("progs/gibs/gib_gen_1.mdl"); // generic gibs
 	precache_model ("progs/gibs/gib_gen_2.mdl");

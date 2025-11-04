@@ -361,7 +361,7 @@ void() monster_army_spawn =
 	//self.movetype = MOVETYPE_STEP;
 
 	setmodel (self, "progs/soldier_shotgun_qbj.mdl");
-
+	
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 35;
 
@@ -413,6 +413,9 @@ void() monster_army =
 	}
 	precache_model ("progs/soldier_shotgun_qbj.mdl");
 	precache_model ("progs/gibs/gibhead_grunt_s.mdl");
+
+	self.invokedmodel = "progs/fx/invoked_soldier_s.mdl";
+	precache_model(self.invokedmodel);
 
 	precache_model	("progs/gibs/gib_gen_1.mdl");
 	precache_model	("progs/gibs/gib_gen_2.mdl");

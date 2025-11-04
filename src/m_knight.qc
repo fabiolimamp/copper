@@ -251,7 +251,7 @@ void() monster_knight_spawn =
 	//self.movetype = MOVETYPE_STEP;
 
 	setmodel (self, "progs/knight_qbj.mdl");
-
+	
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 72;
 	
@@ -305,6 +305,10 @@ void() monster_knight =
 	}
 	precache_model ("progs/knight_qbj.mdl");
 	precache_model ("progs/gibs/gibhead_knight.mdl");
+	
+	self.invokedmodel = "progs/fx/invoked_knight.mdl";
+	precache_model(self.invokedmodel);
+	
 	precache_sound ("knight/kdeath.wav");
 	precache_sound ("knight/khurt.wav");
 	precache_sound ("knight/ksight.wav");

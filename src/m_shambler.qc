@@ -459,7 +459,7 @@ void() monster_shambler_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 	setmodel (self, "progs/shambler_qbj.mdl");
-
+	
 	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
 
 	self.th_stand = sham_stand1;
@@ -515,6 +515,9 @@ void() monster_shambler =
 	precache_model ("progs/shambler_qbj.mdl");
 	precache_model ("progs/s_light.mdl");
 	precache_model ("progs/bolt.mdl");
+
+	self.invokedmodel = "progs/fx/invoked_shambler.mdl";
+	precache_model(self.invokedmodel);
 
 	precache_model ("progs/gibs/gib_shambler_1.mdl");
 	precache_model ("progs/gibs/gib_shambler_2.mdl");

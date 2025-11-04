@@ -440,6 +440,7 @@ void() monster_shalrath_spawn =
 	//self.movetype = MOVETYPE_STEP;
 	
 	setmodel (self, "progs/shalrath_qbj.mdl");
+	
 	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
 	self.health = 400;
 
@@ -497,6 +498,9 @@ void() monster_shalrath =
 	precache_model2 ("progs/gibs/gibhead_vore.mdl");
 	precache_model2 ("progs/proj_voreball.mdl");
 	precache_model2 ("progs/proj_voreball2.mdl");
+
+	self.invokedmodel = "progs/fx/invoked_shalrath.mdl";
+	precache_model(self.invokedmodel);
 	
 	precache_sound2 ("shalrath/attack.wav");
 	precache_sound2 ("shalrath/attack2.wav");

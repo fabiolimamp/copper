@@ -572,7 +572,7 @@ void() monster_amalgam_spawn =
 	//self.movetype = MOVETYPE_STEP;
 
 	setmodel (self, "progs/toothy_qbj.mdl");
-
+	
 	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
 	self.health = 400;
 
@@ -623,6 +623,9 @@ void() monster_amalgam =
 	}
 	precache_model ("progs/toothy_qbj.mdl");
 	precache_model ("progs/h_guard.mdl");
+
+	self.invokedmodel = "progs/fx/invoked_amalgam.mdl";
+	precache_model(self.invokedmodel);
 
 	precache_model ("progs/gibs/gib_gen_1.mdl");
 	precache_model ("progs/gibs/gib_gen_2.mdl");

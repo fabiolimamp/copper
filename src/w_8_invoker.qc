@@ -37,7 +37,10 @@ float() weaponanim_invoker =
 void() weaponanim_invoker_loop = 
 {
 	if (intermission) return;
+	
 	if (self.weaponframe == 31)	sound (self, CHAN_AUTO, "invoker/magic07.wav", 1, ATTN_NORM);
+	
+	if (self.weaponframe == 67)	sound (self, CHAN_AUTO, "invoker/energy_charge.wav", 1, ATTN_NORM);
 	
 	if (self.weaponframe == 68)
 	{		
@@ -152,25 +155,12 @@ void(float split) W_FireRail =
 				
 				FX_Impact(FX_CHAINS, org, dir);
 				
-				if 	(thedude.classname == "monster_ogre")		FX_Invoked(1,  thedude.origin, dir);
-				else if (thedude.classname == "monster_demon1")		FX_Invoked(2,  thedude.origin, dir);
-				else if (thedude.classname == "monster_shambler")	FX_Invoked(3,  thedude.origin, dir);
-				else if (thedude.classname == "monster_knight")		FX_Invoked(4,  thedude.origin, dir);
-				else if (thedude.classname == "monster_wizard")		FX_Invoked(5,  thedude.origin, dir);
-				else if (thedude.classname == "monster_dog")		FX_Invoked(6,  thedude.origin, dir);
-				else if (thedude.classname == "monster_zombie")		FX_Invoked(7,  thedude.origin, dir);
-				else if (thedude.classname == "monster_tarbaby")	FX_Invoked(8,  thedude.origin, dir);
-				else if (thedude.classname == "monster_hell_knight")	FX_Invoked(9,  thedude.origin, dir);
-				else if (thedude.classname == "monster_fish")		FX_Invoked(10, thedude.origin, dir);
-				else if (thedude.classname == "monster_shalrath")	FX_Invoked(11, thedude.origin, dir);
-				else if (thedude.classname == "monster_enforcer")	FX_Invoked(12, thedude.origin, dir);
-				else if (thedude.classname == "monster_amalgam")	FX_Invoked(13, thedude.origin, dir);
-				else if (thedude.classname == "monster_swarmer")	FX_Invoked(14, thedude.origin, dir);
-				else if (thedude.classname == "monster_sploder")	FX_Invoked(15, thedude.origin, dir);
-				else if (thedude.classname == "monster_army")		FX_Invoked(16, thedude.origin, dir);
-				else if (thedude.classname == "player")			FX_Invoked(17, thedude.origin, dir);
-				else							FX_Invoked(0,  thedude.origin, dir);
+				sound_invoker_impact(1);
 				
+								
+				FX_Invoked(trace_ent.invokedmodel, thedude.origin, dir);
+				
+
 				if (trace_ent != self) 
 				{
 					trace_ent.effects = trace_ent.effects | EF_MUZZLEFLASH;
@@ -217,6 +207,16 @@ void(float split) W_FireRail =
 	}	
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+void(float invokerhit_volume) sound_invoker_impact =
+{
+	local float r = floor(random()*4);
+	if 	(r == 0)	sound (self, CHAN_BODY, "invoker/energy_hit1.wav", invokerhit_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_BODY, "invoker/energy_hit2.wav", invokerhit_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_BODY, "invoker/energy_hit3.wav", invokerhit_volume, ATTN_NORM);
+	else 			sound (self, CHAN_BODY, "invoker/energy_hit4.wav", invokerhit_volume, ATTN_NORM);
+}
+//=============================================================================================
 
 void() Start_Sniper_Lightning = 
 {

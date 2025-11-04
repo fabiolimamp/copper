@@ -103,7 +103,11 @@ void() anim_impact =
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-void(float invoked_entity, vector impact_org, vector dir) FX_Invoked =
+
+.string invokedmodel;
+
+
+void(string invoked_entity, vector impact_org, vector dir) FX_Invoked =
 {
 	local entity fx;
 	
@@ -118,7 +122,7 @@ void(float invoked_entity, vector impact_org, vector dir) FX_Invoked =
 		dir = v_forward;
 	}
 	
-	fx.angles = vectoangles(dir);	
+	fx.angles = vectoangles(dir);
 	fx.nextthink = time;
 	
 	fx.frame = 0;
@@ -126,31 +130,9 @@ void(float invoked_entity, vector impact_org, vector dir) FX_Invoked =
 	
 	fx.think = anim_invoked;
 
-	
-	if	(invoked_entity == 1)	setmodel (fx, "progs/fx/invoked_ogre.mdl");
-	else if	(invoked_entity == 2)	setmodel (fx, "progs/fx/invoked_demon.mdl");
-	else if	(invoked_entity == 3)	setmodel (fx, "progs/fx/invoked_shambler.mdl");
-	else if	(invoked_entity == 4)	setmodel (fx, "progs/fx/invoked_knight.mdl");
-	else if	(invoked_entity == 5)	setmodel (fx, "progs/fx/invoked_wizard.mdl");
-	else if	(invoked_entity == 6)	setmodel (fx, "progs/fx/invoked_dog.mdl");
-	else if	(invoked_entity == 7)	setmodel (fx, "progs/fx/invoked_zombie.mdl");
-	else if	(invoked_entity == 8)	setmodel (fx, "progs/fx/invoked_spawn.mdl");
-	else if	(invoked_entity == 9)	setmodel (fx, "progs/fx/invoked_champion.mdl");
-	else if	(invoked_entity == 10)	setmodel (fx, "progs/fx/invoked_fish.mdl");
-	else if	(invoked_entity == 11)	setmodel (fx, "progs/fx/invoked_shalrath.mdl");
-	else if	(invoked_entity == 12)	setmodel (fx, "progs/fx/invoked_enforcer.mdl");
-	else if	(invoked_entity == 13)	setmodel (fx, "progs/fx/invoked_amalgam.mdl");
-	else if	(invoked_entity == 14)	setmodel (fx, "progs/fx/invoked_swarmer.mdl");
-	else if	(invoked_entity == 15)	setmodel (fx, "progs/fx/invoked_sploder.mdl");
-	else if	(invoked_entity == 16)
-	{
-		local float r = floor(random()*3);
-		if 	(r == 0)	setmodel (fx, "progs/fx/invoked_soldier_p.mdl");
-		else if (r == 1)	setmodel (fx, "progs/fx/invoked_soldier_s.mdl");
-		else			setmodel (fx, "progs/fx/invoked_soldier_r.mdl");
-	}
-	else if	(invoked_entity == 17)	setmodel (fx, "progs/fx/invoked_player.mdl");
-	else				setmodel (fx, "progs/null.mdl");
+
+	if (invoked_entity)	setmodel (fx, invoked_entity);
+	else			setmodel (fx, "progs/null.mdl");
 
 
 	//setorigin (fx, self.origin + v_forward * 32 + '0 0 16');

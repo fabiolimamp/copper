@@ -389,6 +389,9 @@ void() monster_spawn =
 	}
 	precache_model2 ("progs/spawn_qbj.mdl");
 
+	self.invokedmodel = "progs/fx/invoked_spawn.mdl";
+	precache_model(self.invokedmodel);
+
 	precache_sound2 ("blob/death1.wav");
 	precache_sound2 ("blob/hit1.wav");
 	precache_sound2 ("blob/land1.wav");

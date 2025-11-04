@@ -412,6 +412,9 @@ void() monster_dog =
 	precache_model ("progs/gibs/gibhead_dog.mdl");
 	precache_model ("progs/dog_qbj.mdl");
 
+	self.invokedmodel = "progs/fx/invoked_dog.mdl";
+	precache_model(self.invokedmodel);
+
 	precache_sound ("dog/dattack1.wav");
 	precache_sound ("dog/ddeath.wav");
 	precache_sound ("dog/dpain1.wav");

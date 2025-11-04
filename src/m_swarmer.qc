@@ -363,6 +363,10 @@ void() monster_swarmer_precaches =
 	precache_model("progs/swarmer_qbj.mdl");
 	precache_model("progs/gibs/gibhead_swarmer.mdl");
 	precache_model("progs/zom_gib.mdl");
+	
+	self.invokedmodel = "progs/fx/invoked_swarmer.mdl";
+	precache_model(self.invokedmodel);	
+	
 	precache_sound("swarmer/sight1.wav");
 	precache_sound("swarmer/sight2.wav");
 	precache_sound("swarmer/sight3.wav");

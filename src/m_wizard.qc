@@ -356,7 +356,7 @@ void() monster_wizard_spawn =
 	//self.movetype = MOVETYPE_STEP;
 
 	setmodel (self, "progs/wizard_qbj.mdl");
-
+	
 	setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
 	self.health = 80;
 
@@ -411,6 +411,9 @@ void() monster_wizard =
 	precache_model ("progs/gibs/gibhead_scrag.mdl");
 	precache_model ("progs/proj_wizard.mdl");
 	precache_model ("progs/proj_wizard2.mdl");
+
+	self.invokedmodel = "progs/fx/invoked_wizard.mdl";
+	precache_model(self.invokedmodel);
 
 	precache_sound ("wizard/hit.wav");		// used by c code
 	precache_sound ("wizard/wattack.wav");

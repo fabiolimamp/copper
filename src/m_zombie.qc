@@ -678,6 +678,7 @@ void() zombie_return =
 
 		monster_zombie_spawn();
 		setmodel (self, "progs/zombienm_qbj.mdl");
+		
 		setsize (self, '-16 -16 -24', '16 16 40');
 		
 		return;
@@ -818,6 +819,9 @@ void() monster_zombie =
 	precache_model ("progs/proj_rebar_zom_nosmoke.mdl");
 	precache_model ("progs/zom_gib.mdl");
 
+	self.invokedmodel = "progs/fx/invoked_zombie.mdl";
+	precache_model(self.invokedmodel);
+	
 	precache_sound ("zombie/z_idle.wav");
 	precache_sound ("zombie/z_idle1.wav");
 	precache_sound ("zombie/z_shot1.wav");

@@ -406,7 +406,7 @@ void() monster_enforcer_spawn =
 	//self.movetype = MOVETYPE_STEP;
 
 	setmodel (self, "progs/enforcer_qbj.mdl");
-
+	
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 80;
 
@@ -457,6 +457,9 @@ void() monster_enforcer =
 	precache_model2 ("progs/enforcer_qbj.mdl");
 	precache_model2 ("progs/gibs/gibhead_enforcer.mdl");
 	precache_model2 ("progs/proj_laser.mdl");
+
+	self.invokedmodel = "progs/fx/invoked_enforcer.mdl";
+	precache_model(self.invokedmodel);
 
 	precache_sound2 ("enforcer/death1.wav");
 	precache_sound2 ("enforcer/enfire.wav");

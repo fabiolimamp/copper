@@ -598,7 +598,7 @@ void() monster_ogre_spawn =
 	//self.movetype = MOVETYPE_STEP;
 
 	setmodel (self, "progs/ogre_qbj.mdl");
-
+	
 	setsize (self, VEC_HULL2_MIN, '32 32 40');
 	self.health = 200;
 
@@ -653,6 +653,9 @@ void() monster_ogre =
 	precache_model ("progs/proj_grenade.mdl");
 	precache_model ("progs/effect_taser_swing.mdl");	
 	precache_model ("progs/effect_taser_smash.mdl");
+
+	self.invokedmodel = "progs/fx/invoked_ogre.mdl";
+	precache_model(self.invokedmodel);
 
 	precache_sound ("ogre/ogdrag.wav");
 	precache_sound ("ogre/ogdth.wav");

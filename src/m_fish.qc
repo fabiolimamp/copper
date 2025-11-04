@@ -330,7 +330,7 @@ void() monster_fish_spawn =
 	//self.movetype = MOVETYPE_STEP;
 
 	setmodel (self, "progs/fish_qbj.mdl");
-
+	
 	setsize (self, '-16 -16 -16', '16 16 16');
 	//setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
 	self.health = 35;
@@ -384,6 +384,10 @@ void() monster_fish =
 	}
 	precache_model2 ("progs/fish_qbj.mdl");
 	precache_model ("progs/zom_gib.mdl");
+	
+	self.invokedmodel = "progs/fx/invoked_fish.mdl";
+	precache_model(self.invokedmodel);
+	
 	precache_sound2 ("fish/death.wav");
 	precache_sound2 ("fish/bite.wav");
 	precache_sound2 ("fish/idle.wav");

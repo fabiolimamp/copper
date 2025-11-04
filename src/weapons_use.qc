@@ -125,7 +125,12 @@ void() W_Precache =
 	precache_sound ("invoker/magic07.wav");	
 	precache_sound ("invoker/magic08.wav");	
 	precache_sound ("invoker/magic21.wav");	
-	precache_sound ("invoker/magic26.wav");	
+	precache_sound ("invoker/magic26.wav");
+	precache_sound ("invoker/energy_charge.wav");
+	precache_sound ("invoker/energy_hit1.wav");
+	precache_sound ("invoker/energy_hit2.wav");
+	precache_sound ("invoker/energy_hit3.wav");
+	precache_sound ("invoker/energy_hit4.wav");
 	
 	//=============================================================================================
 											// FX Effects	
@@ -153,26 +158,6 @@ void() W_Precache =
 	precache_model ("progs/fx/blood_big4.mdl");
 	
 	precache_model ("progs/fx/invoked_chain.mdl");
-	precache_model ("progs/fx/invoked_ogre.mdl");
-	precache_model ("progs/fx/invoked_demon.mdl");
-	precache_model ("progs/fx/invoked_shambler.mdl");
-	precache_model ("progs/fx/invoked_knight.mdl");
-	precache_model ("progs/fx/invoked_wizard.mdl");
-	precache_model ("progs/fx/invoked_dog.mdl");
-	precache_model ("progs/fx/invoked_zombie.mdl");
-	precache_model ("progs/fx/invoked_zombienm.mdl");
-	precache_model ("progs/fx/invoked_spawn.mdl");
-	precache_model ("progs/fx/invoked_champion.mdl");
-	precache_model ("progs/fx/invoked_fish.mdl");
-	precache_model ("progs/fx/invoked_shalrath.mdl");
-	precache_model ("progs/fx/invoked_enforcer.mdl");
-	precache_model ("progs/fx/invoked_amalgam.mdl");
-	precache_model ("progs/fx/invoked_swarmer.mdl");
-	precache_model ("progs/fx/invoked_sploder.mdl");
-	precache_model ("progs/fx/invoked_soldier_p.mdl");
-	precache_model ("progs/fx/invoked_soldier_s.mdl");
-	precache_model ("progs/fx/invoked_soldier_r.mdl");
-	precache_model ("progs/fx/invoked_player.mdl");
 								
 	//=============================================================================================
 
