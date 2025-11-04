@@ -319,8 +319,10 @@ float() RocketSoldierCheckAttack =
 	if (enemy_range <= RANGE_MELEE)
 		chance = 0.9;
 	else if (enemy_range == RANGE_NEAR)
-		chance = 0.4;
+		chance = 0.6;
 	else if (enemy_range == RANGE_MID)
+		chance = 0.3;
+	else if (enemy_range == RANGE_FAR)
 		chance = 0.05;
 	else
 		chance = 0;
