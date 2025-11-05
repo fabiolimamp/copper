@@ -253,7 +253,7 @@ Spawnflag Usage:
 @PointClass base(Weapon) model({ "path": ":progs/g_invoker.mdl" }) = weapon_invoker : "The Invoker.
 1 cell." []
 @PointClass base(Weapon) model({ "path": ":progs/g_wrench.mdl" }) = weapon_wrench : "Wrench." []
-@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 2 : "YOOGE (refills 50%)" 1 : "Large box (2x)" : 0 ] ]
+@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 2 : "YOOGE (refill half max ammo)" 1 : "Large box (2x)" : 0 ] ]
 @PointClass base(Ammo)
     model(
         {{
