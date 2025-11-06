@@ -287,8 +287,13 @@ void() amalgam_fire =
 	}
 
 	setsize (goop, '0 0 0', '0 0 0');
-	goop.angles_y = (random() * (random() * 256));
-	goop.avelocity = '10 150 10';
+	//goop.angles_y = (random() * (random() * 256));
+	//goop.avelocity = '10 150 10';
+	
+	local vector goop_spin;
+	goop_spin_y = (random() * 1000);
+	
+	goop.avelocity = goop_spin;
 	goop.skin = self.skin;
 
 	goop.think = SUB_Remove;
@@ -470,7 +475,12 @@ void() AmalGoop_Drop =
 	item.classname = "AmalGoop";
 	setmodel (item, "progs/proj_amalgoop.mdl");
 	setsize (item, '0 0 0', '0 0 0');
-	item.angles_y = (random() * (random() * 256));
+	//item.angles_y = (random() * (random() * 256));
+	
+	local vector goop_spin;
+	goop_spin_y = (random() * 1000);
+	item.avelocity = goop_spin;
+
 	item.skin = self.skin;
 
 	sound (self, CHAN_WEAPON, "amalg/amalgshoot.wav", .5, ATTN_NORM);
