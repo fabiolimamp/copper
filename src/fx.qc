@@ -124,10 +124,8 @@ void(float size) GibBloodBath =
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-.string invokedmodel;
 
-
-void(string invoked_string, vector impact_org, vector dir) FX_Invoked =
+void(string invoked_model, vector impact_org, vector dir) FX_Invoked =
 {
 	local entity fx;
 	
@@ -151,8 +149,8 @@ void(string invoked_string, vector impact_org, vector dir) FX_Invoked =
 	fx.think = anim_invoked;
 
 
-	if (invoked_string != "")
-		setmodel (fx, invoked_string);
+	if (invoked_model != "")
+		setmodel (fx, invoked_model);
 	else
 		setmodel (fx, "progs/null.mdl");
 

@@ -603,6 +603,7 @@ void() PutClientInServer =
 	
 	spot = SelectSpawnPoint();
 	self.classname = "player";
+	self.invokedmodel = "progs/fx/invoked_player.mdl";
 	
 	self.max_health = 100;
 	self.health = self.max_health;

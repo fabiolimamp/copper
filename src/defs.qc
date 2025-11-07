@@ -312,6 +312,7 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .float		search_time;
 .float		attack_state;
 .float 		pausetime;
+.string 	invokedmodel;
 
 // player only fields
 .float		walkframe;
