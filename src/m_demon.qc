@@ -160,6 +160,7 @@ float() demon_checkgib =
 	if (self.health < -80)
 	{
 		Gib ("progs/gibs/gibhead_demon.mdl", self.health);
+		GibBloodBath(3);
 		return TRUE;
 	}
 	return FALSE;

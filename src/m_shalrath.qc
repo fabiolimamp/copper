@@ -192,6 +192,7 @@ float() shalrath_checkgib =
 	if (self.health < -90)
 	{
 		Gib ("progs/gibs/gibhead_vore.mdl", self.health);
+		GibBloodBath(2);
 		return TRUE;
 	}
 	return FALSE;

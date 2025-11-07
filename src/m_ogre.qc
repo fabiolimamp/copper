@@ -431,6 +431,7 @@ float() ogre_checkgib =
 	{
 		Gib ("progs/gibs/gibhead_ogre.mdl", self.health);
 		ogre_dropammo();
+		GibBloodBath(2);
 		return TRUE;
 	}
 	return FALSE;

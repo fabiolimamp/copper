@@ -612,6 +612,7 @@ void() zombie_die =
 		GibSpray ("progs/gibs/gibhead_zombie.mdl", self.health);
 	else
 		GibSpray ("progs/gibs/gibhead_zombie.mdl", self.health);
+	GibBloodBath(2);
 	
 	if (skill != 3) return;
 	

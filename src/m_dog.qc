@@ -258,6 +258,7 @@ float() dog_checkgib =
 	if (self.health < -35)
 	{
 		Gib ("progs/gibs/gibhead_dog.mdl", self.health);
+		GibBloodBath(1);
 		return TRUE;
 	}
 	return FALSE;

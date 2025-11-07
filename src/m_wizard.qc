@@ -324,6 +324,7 @@ float() wiz_checkgib =
 	if (self.health < -40)
 	{
 		Gib ("progs/gibs/gibhead_scrag.mdl", self.health);
+		GibBloodBath(2);
 		return TRUE;
 	}
 	return FALSE;

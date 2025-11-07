@@ -324,6 +324,7 @@ float() swarmer_checkgib =
 	if (self.health < -40)
 	{
 		Gib("progs/gibs/gibhead_swarmer.mdl", self.health);
+		GibBloodBath(1);
 		return TRUE;
 	}
 	return FALSE;

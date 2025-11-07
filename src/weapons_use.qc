@@ -158,6 +158,10 @@ void() W_Precache =
 	precache_model ("progs/fx/blood_big4.mdl");
 	
 	precache_model ("progs/fx/invoked_chain.mdl");
+	
+	precache_model ("progs/s_blood_128x.spr");
+	precache_model ("progs/s_blood_96x.spr");
+	precache_model ("progs/s_blood_64x.spr");
 								
 	//=============================================================================================
 

@@ -330,6 +330,7 @@ float() pistolarmy_checkgib =
 	if (self.health < -35)
 	{
 		Gib("progs/gibs/gibhead_grunt_p.mdl", self.health);
+		GibBloodBath(2);
 		return TRUE;
 	}
 	return FALSE;

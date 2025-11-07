@@ -433,6 +433,7 @@ float() sham_checkgib =
 			Gib ("progs/gibs/gibhead_shambler.mdl", self.health);
 		else
 			Gib ("progs/gibs/gib_shambler_6.mdl", self.health); //low chance to drop an arse instead of head
+		GibBloodBath(3);
 		return TRUE;
 	}
 	return FALSE;

@@ -373,6 +373,7 @@ float() rocketarmy_checkgib =
 		self.ammo_rockets = 1; //RocketTax
 		//DropBackpack(3);
 		DropEnemyAmmo(3);
+		GibBloodBath(2);
 		return TRUE;
 	}
 	return FALSE;

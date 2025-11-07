@@ -140,12 +140,18 @@ void(float nailhit_volume) sound_nailgun_impact_enemy =
 }
 //=============================================================================================
 
-void(float nailtink_volume) sound_nailgun_impact_world =
+void(vector org, float nailtink_volume) sound_nailgun_impact_world =
 {
+	local entity playspot;
+	playspot = spawn();
+	playspot.origin = org;
+	playspot.touch = SUB_Null;
+	playspot.think = SUB_Remove;
+	
 	local float r = floor(random()*3);
-	if 	(r == 0)	sound (self, CHAN_AUTO, "nail/nail_tink1.wav", nailtink_volume, ATTN_NORM);
-	else if (r == 1)	sound (self, CHAN_AUTO, "nail/nail_tink2.wav", nailtink_volume, ATTN_NORM);
-	else			sound (self, CHAN_AUTO, "nail/nail_tink3.wav", nailtink_volume, ATTN_NORM);
+	if 	(r == 0)	sound (playspot, CHAN_AUTO, "nail/nail_tink1.wav", nailtink_volume, ATTN_NORM);
+	else if (r == 1)	sound (playspot, CHAN_AUTO, "nail/nail_tink2.wav", nailtink_volume, ATTN_NORM);
+	else			sound (playspot, CHAN_AUTO, "nail/nail_tink3.wav", nailtink_volume, ATTN_NORM);
 }
 //=============================================================================================
 
@@ -203,9 +209,7 @@ void() twinnail_touch =
 
 	if (other == world)
 	{
-		if (random() < 0.5)	sound_nailgun_impact_world(0.5);
-		
-		if (random() < 0.5)	FX_Impact(FX_SPARK, self.origin, self.oldvelocity);
+		if (random() < 0.5)	FX_Impact(FX_NAIL, self.origin, self.oldvelocity);
 		
 		TwinNailwallThink();
 	}	

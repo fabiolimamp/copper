@@ -191,6 +191,7 @@ float() hknight_checkgib =
 	if (self.health < -40)
 	{
 		Gib ("progs/gibs/gibhead_hellknight.mdl", self.health);
+		GibBloodBath(2);
 		return TRUE;
 	}
 	return FALSE;

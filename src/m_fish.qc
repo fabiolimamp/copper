@@ -271,6 +271,7 @@ float() fish_checkgib =
 		// just spray a bunch of blood and bubbles
 		self.think = fish_gib;
 		self.nextthink = time;
+		GibBloodBath(1);
 		return TRUE;
 	}
 	return FALSE;

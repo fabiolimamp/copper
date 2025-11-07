@@ -156,9 +156,9 @@ vector(float damage, vector dir) BulletImpact =
 		AddMultiDamage (trace_ent, damage);
 	}
 	else {
-		FX_Impact(FX_SPARK, org, dir);
+		FX_Impact(FX_BULLET, org, dir);
 
-		sound_pistol_ricochet(0.6);
+		//sound_pistol_ricochet(0.25);
 		gunshot(org);
 	}
 	return org;

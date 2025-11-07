@@ -29,8 +29,10 @@ void(vector a, vector b, entity who) fx_beam =
 
 float FX_BLOOD 		= 1;
 float FX_BLOOD_BIG 	= 2;
-float FX_SPARK		= 4;
-float FX_CHAINS		= 8;
+float FX_BULLET		= 4;
+float FX_NAIL		= 8;
+float FX_SPARK		= 16;
+float FX_CHAINS		= 32;
 
 void(float impact_type, vector impact_org, vector dir) FX_Impact =
 {
@@ -71,8 +73,11 @@ void(float impact_type, vector impact_org, vector dir) FX_Impact =
 		else if (r == 2)	setmodel (fx, "progs/fx/blood_big3.mdl");
 		else			setmodel (fx, "progs/fx/blood_big4.mdl");
 	}
-	else if (impact_type == FX_SPARK)	// world impact
+	else if (impact_type == FX_BULLET || impact_type == FX_NAIL || impact_type == FX_SPARK)	// world impact spark
 	{
+		if 	(impact_type == FX_BULLET)	sound_pistol_ricochet(impact_org, 0.5);
+		else if (impact_type == FX_NAIL)	sound_nailgun_impact_world(impact_org, 0.5);
+		
 		if 	(r == 0)	setmodel (fx, "progs/fx/spark1.mdl");
 		else if (r == 1)	setmodel (fx, "progs/fx/spark2.mdl");
 		else if (r == 2)	setmodel (fx, "progs/fx/spark3.mdl");
@@ -101,6 +106,21 @@ void() anim_impact =
 	self.think = anim_impact;
 	self.nextthink = time + 0.05;
 };
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void(float size) GibBloodBath =
+{
+	entity blood = spawn();
+	blood.think = x_blood_01;
+	blood.touch = SUB_Null;
+	blood.nextthink = time;
+
+	if 	(size == 3)	{setmodel (blood, "progs/s_blood_128x.spr");	setorigin (blood, self.origin + '0 0 40');}
+	else if (size == 2)	{setmodel (blood, "progs/s_blood_96x.spr");	setorigin (blood, self.origin + '0 0 32');}
+	else if (size == 1)	{setmodel (blood, "progs/s_blood_64x.spr");	setorigin (blood, self.origin + '0 0 24');}
+	else			{setmodel (blood, "progs/null.mdl");		setorigin (blood, self.origin + '0 0 0');}
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 

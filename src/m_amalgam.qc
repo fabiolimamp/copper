@@ -291,7 +291,7 @@ void() amalgam_fire =
 	//goop.avelocity = '10 150 10';
 	
 	local vector goop_spin;
-	goop_spin_y = (random() * 1000);
+	goop_spin_y = (300 + random() * 600);
 	
 	goop.avelocity = goop_spin;
 	goop.skin = self.skin;
@@ -478,7 +478,7 @@ void() AmalGoop_Drop =
 	//item.angles_y = (random() * (random() * 256));
 	
 	local vector goop_spin;
-	goop_spin_y = (random() * 1000);
+	goop_spin_y = (300 + random() * 600);
 	item.avelocity = goop_spin;
 
 	item.skin = self.skin;

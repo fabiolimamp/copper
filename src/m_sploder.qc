@@ -207,6 +207,7 @@ void() sploder_explode =
 		T_RadiusDamage (self, self, 100, world, DMGTYPE_EXPLOSION, 190, SploderBlastRadius);
 
 	sound (self, CHAN_BODY, "weapons/r_exp3.wav", 1, ATTN_NORM);
+	GibBloodBath(1);
 	BecomeExplosion();
 }
 

@@ -282,6 +282,7 @@ float() army_checkgib =
 		self.ammo_shells = 4; //FlakTax
 		//DropBackpack(0);
 		DropEnemyAmmo(1);
+		GibBloodBath(2);
 		return TRUE;
 	}
 	return FALSE;
