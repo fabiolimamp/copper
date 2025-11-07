@@ -92,6 +92,7 @@ TintScreenFog
 an ugly substitute for cshift
 ============
 */
+/*
 void(entity who, float amt, vector color) TintScreenFog
 {
 	float s, d, dx;
@@ -138,7 +139,7 @@ void(entity who, float amt, vector color) TintScreenFog
 	fog_set(who, d, c, s);
 	noTint = 1;
 }
-
+*/
 
 // --------------------------------
 // void_unplunge
@@ -195,7 +196,7 @@ float(entity me, entity o) void_salvation =
 // --------------------------------
 void() void_func_touch =
 {
-	if ( other.solid == SOLID_BSP || other.solid == SOLID_TRIGGER || other.customflags & CFL_PLUNGE)
+	if ( other.solid == SOLID_BSP || other.solid == SOLID_TRIGGER)
 		return;
 	
 	if ( CheckValidTouch() )	// a living player not in noclip
@@ -240,6 +241,7 @@ void() void_func_touch =
 				Killed(other, other.enemy, DMGTYPE_FALLING);
 			// attacker must be the monster's enemy, so that players still count as the 
 			// killer if they boosh monsters into a pit
+			other.takedamage = DAMAGE_NO;
 			return;
 		}
 
