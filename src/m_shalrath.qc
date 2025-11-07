@@ -40,7 +40,7 @@ $frame stand31 stand32 stand33 stand34 stand35 stand36 stand37 stand38 stand39 s
 $frame stand41 stand42 stand43 stand44 stand45 stand46 stand47 stand48 stand49 stand50
 $frame stand51 stand52
 
-void() shal_stand1     =[      $stand1,       shal_stand2    ] {ai_stand();}
+void() shal_stand1     =[      $stand1,       shal_stand2    ] {ai_stand(); zaplight(0);}
 void() shal_stand2     =[      $stand2,       shal_stand3    ] {ai_stand();}
 void() shal_stand3     =[      $stand3,       shal_stand4    ] {ai_stand();}
 void() shal_stand4     =[      $stand4,       shal_stand5    ] {ai_stand();}
@@ -95,7 +95,7 @@ void() shal_stand51    =[      $stand52,      shal_stand1    ] {ai_stand();}
 void() shal_walk1     =[      $walk2,       shal_walk2    ] {
 if (random() < 0.2)
 	sound (self, CHAN_VOICE, "shalrath/idle.wav", 1, ATTN_IDLE);
-ai_walk(9);}
+ai_walk(9); zaplight(0);}
 void() shal_walk2     =[      $walk3,       shal_walk3    ] {ai_walk(10);}
 void() shal_walk3     =[      $walk4,       shal_walk4    ] {ai_walk(9);}
 void() shal_walk4     =[      $walk5,       shal_walk5    ] {ai_walk(4);}
@@ -108,7 +108,7 @@ void() shal_walk10    =[      $walk11,       shal_walk11    ] {ai_walk(6);}
 void() shal_walk11    =[      $walk12,       shal_walk12    ] {ai_walk(5);}
 void() shal_walk12    =[      $walk1,       shal_walk1    ] {ai_walk(2);}
 
-void() shal_run1     =[      $walk2,       shal_run2    ] {ai_run(9);}
+void() shal_run1     =[      $walk2,       shal_run2    ] {ai_run(9); zaplight(0);}
 void() shal_run2     =[      $walk3,       shal_run3    ] {ai_run(10);}
 void() shal_run3     =[      $walk4,       shal_run4    ] {ai_run(9);}
 void() shal_run4     =[      $walk5,       shal_run5    ] {ai_run(4);}
@@ -124,7 +124,7 @@ if (random() < 0.2)
 	sound (self, CHAN_VOICE, "shalrath/idle.wav", 1, ATTN_IDLE);
 }
 
-void() shal_attack1     =[      $attack1,       shal_attack2    ] {sound (self, CHAN_VOICE, "shalrath/attack.wav", 1, ATTN_NORM); ai_face();}
+void() shal_attack1     =[      $attack1,       shal_attack2    ] {sound (self, CHAN_VOICE, "shalrath/attack.wav", 1, ATTN_NORM); ai_face(); zaplight(0);}
 void() shal_attack2     =[      $attack2,       shal_attack3    ] {ai_face();}
 void() shal_attack3     =[      $attack3,       shal_attack4    ] {ai_face();}
 void() shal_attack4     =[      $attack4,       shal_attack5    ] {ai_face();}
@@ -132,11 +132,11 @@ void() shal_attack5     =[      $attack5,       shal_attack6    ] {ai_face();}
 void() shal_attack6     =[      $attack6,       shal_attack7    ] {ai_face(); self.lip = 1;}
 void() shal_attack7     =[      $attack7,       shal_attack8    ] {ai_face(); if (skill == 3) self.dest = enemy_vispos();}
 void() shal_attack8     =[      $attack8,       shal_attack9    ] {ai_face(); if (skill == 3 && visible(self.enemy)) self.dest = enemy_vispos();}
-void() shal_attack9     =[      $attack9,       shal_attack10   ] {ShalMissile();}
-void() shal_attack10    =[      $attack10,      shal_attack11   ] {ai_face();}
+void() shal_attack9     =[      $attack9,       shal_attack10   ] {zaplight(1); ShalMissile();}
+void() shal_attack10    =[      $attack10,      shal_attack11   ] {zaplight(0); ai_face();}
 void() shal_attack11    =[      $attack11,      shal_run1   	] {}
 
-void() shal_attackb1     =[      $attackb1,       shal_attackb2    ] {sound (self, CHAN_VOICE, "shalrath/attack.wav", 1, ATTN_NORM); ai_face();}
+void() shal_attackb1     =[      $attackb1,       shal_attackb2    ] {sound (self, CHAN_VOICE, "shalrath/attack.wav", 1, ATTN_NORM); ai_face(); zaplight(0);}
 void() shal_attackb2     =[      $attackb2,       shal_attackb3    ] {ai_face();}
 void() shal_attackb3     =[      $attackb3,       shal_attackb4    ] {ai_face();}
 void() shal_attackb4     =[      $attackb4,       shal_attackb5    ] {ai_face();}
@@ -144,11 +144,11 @@ void() shal_attackb5     =[      $attackb5,       shal_attackb6    ] {ai_face();
 void() shal_attackb6     =[      $attackb6,       shal_attackb7    ] {ai_face(); self.lip = 2;}
 void() shal_attackb7     =[      $attackb7,       shal_attackb8    ] {ai_face(); if (skill == 3) self.dest = enemy_vispos();}
 void() shal_attackb8     =[      $attackb8,       shal_attackb9    ] {ai_face(); if (skill == 3 && visible(self.enemy)) self.dest = enemy_vispos();}
-void() shal_attackb9     =[      $attackb9,       shal_attackb10   ] {ShalMissile();}
-void() shal_attackb10    =[      $attackb10,      shal_attackb11   ] {ai_face();}
+void() shal_attackb9     =[      $attackb9,       shal_attackb10   ] {zaplight(1); ShalMissile();}
+void() shal_attackb10    =[      $attackb10,      shal_attackb11   ] {zaplight(0); ai_face();}
 void() shal_attackb11    =[      $attackb11,      shal_run1   	] {}
 
-void() shal_attackc1     =[      $attackc1,       shal_attackc2    ] {sound (self, CHAN_VOICE, "shalrath/attack.wav", 1, ATTN_NORM); ai_face();}
+void() shal_attackc1     =[      $attackc1,       shal_attackc2    ] {sound (self, CHAN_VOICE, "shalrath/attack.wav", 1, ATTN_NORM); ai_face(); zaplight(0);}
 void() shal_attackc2     =[      $attackc2,       shal_attackc3    ] {ai_face();}
 void() shal_attackc3     =[      $attackc3,       shal_attackc4    ] {ai_face();}
 void() shal_attackc4     =[      $attackc4,       shal_attackc5    ] {ai_face();}
@@ -156,17 +156,17 @@ void() shal_attackc5     =[      $attackc5,       shal_attackc6    ] {ai_face();
 void() shal_attackc6     =[      $attackc6,       shal_attackc7    ] {ai_face(); self.lip = 0;}
 void() shal_attackc7     =[      $attackc7,       shal_attackc8    ] {ai_face(); if (skill == 3) self.dest = enemy_vispos();}
 void() shal_attackc8     =[      $attackc8,       shal_attackc9    ] {ai_face(); if (skill == 3 && visible(self.enemy)) self.dest = enemy_vispos();}
-void() shal_attackc9     =[      $attackc9,       shal_attackc10   ] {ShalMissile();}
-void() shal_attackc10    =[      $attackc10,      shal_attackc11   ] {ai_face();}
+void() shal_attackc9     =[      $attackc9,       shal_attackc10   ] {zaplight(1); ShalMissile();}
+void() shal_attackc10    =[      $attackc10,      shal_attackc11   ] {zaplight(0); ai_face();}
 void() shal_attackc11    =[      $attackc11,      shal_run1   	] {}
 
-void() shal_pain1       =[      $pain1, shal_pain2      ] {}
+void() shal_pain1       =[      $pain1, shal_pain2      ] {zaplight(0);}
 void() shal_pain2       =[      $pain2, shal_pain3      ] {}
 void() shal_pain3       =[      $pain3, shal_pain4      ] {}
 void() shal_pain4       =[      $pain4, shal_pain5      ] {}
 void() shal_pain5       =[      $pain5, shal_run1      ] {}
 
-void() shal_death1      =[      $death1,        shal_death2     ] {if (shalrath_checkgib()) return;}
+void() shal_death1      =[      $death1,        shal_death2     ] {zaplight(0); if (shalrath_checkgib()) return;}
 void() shal_death2      =[      $death2,        shal_death3     ] {if (shalrath_checkgib()) return; self.takedamage = DAMAGE_NO; self.solid = SOLID_NOT;}
 void() shal_death3      =[      $death3,        shal_death4     ] {}
 void() shal_death4      =[      $death4,        shal_death5     ] {}
@@ -201,6 +201,7 @@ float() shalrath_checkgib =
 void() shalrath_die =
 {
 // check for gib
+	zaplight(0);
 	if (shalrath_checkgib()) return;
 
 	sound (self, CHAN_VOICE, "shalrath/death.wav", 1, ATTN_NORM);
@@ -400,7 +401,7 @@ void() ShalMissile =
 	entity 	missile;
 	vector	dir;
 
-	self.effects = self.effects | EF_MUZZLEFLASH;
+	//self.effects = self.effects | EF_MUZZLEFLASH;
 	sound (self, CHAN_WEAPON, "shalrath/attack2.wav", 1, ATTN_NORM);
 	makevectors(self.angles);
 	
