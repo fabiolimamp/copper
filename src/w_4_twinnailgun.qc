@@ -142,16 +142,15 @@ void(float nailhit_volume) sound_nailgun_impact_enemy =
 
 void(vector org, float nailtink_volume) sound_nailgun_impact_world =
 {
-	local entity playspot;
-	playspot = spawn();
-	playspot.origin = org;
-	playspot.touch = SUB_Null;
-	playspot.think = SUB_Remove;
+	local entity playspot = spawn();
+	setorigin (playspot, org);
 	
 	local float r = floor(random()*3);
 	if 	(r == 0)	sound (playspot, CHAN_AUTO, "nail/nail_tink1.wav", nailtink_volume, ATTN_NORM);
 	else if (r == 1)	sound (playspot, CHAN_AUTO, "nail/nail_tink2.wav", nailtink_volume, ATTN_NORM);
 	else			sound (playspot, CHAN_AUTO, "nail/nail_tink3.wav", nailtink_volume, ATTN_NORM);
+	
+	remove(playspot);
 }
 //=============================================================================================
 

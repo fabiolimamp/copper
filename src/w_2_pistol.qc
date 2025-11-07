@@ -277,11 +277,8 @@ void(float pistolhit_volume) sound_pistol_impact =
 
 void(vector org, float pistolric_volume) sound_pistol_ricochet =
 {
-	local entity playspot;
-	playspot = spawn();
-	playspot.origin = org;
-	playspot.touch = SUB_Null;
-	playspot.think = SUB_Remove;
+	local entity playspot = spawn();
+	setorigin (playspot, org);
 
 	local float r = floor(random()*5);
 	if 	(r == 0)	sound (playspot, CHAN_AUTO, "impact/ric1.wav", pistolric_volume, ATTN_NORM);
@@ -289,6 +286,8 @@ void(vector org, float pistolric_volume) sound_pistol_ricochet =
 	else if (r == 2)	sound (playspot, CHAN_AUTO, "impact/ric3.wav", pistolric_volume, ATTN_NORM);
 	else if (r == 3)	sound (playspot, CHAN_AUTO, "impact/ric4.wav", pistolric_volume, ATTN_NORM);
 	else 			sound (playspot, CHAN_AUTO, "impact/ric5.wav", pistolric_volume, ATTN_NORM);
+	
+	remove(playspot);
 }
 //=============================================================================================
 
