@@ -190,7 +190,7 @@ float() hknight_checkgib =
 {
 	if (self.health < -40)
 	{
-		Gib ("progs/gibs/gibhead_hellknight.mdl", self.health);
+		Gib ("progs/gibs/gibhead_champion.mdl", self.health);
 		GibBloodBath(2);
 		return TRUE;
 	}
@@ -661,7 +661,7 @@ void() monster_hell_knight_spawn =
 	self.solid = SOLID_SLIDEBOX;
 	//self.movetype = MOVETYPE_STEP;
 
-	setmodel (self, "progs/hknight_qbj.mdl");
+	setmodel (self, "progs/champion_qbj.mdl");
 
 	setsize (self, '-16 -16 -24', '16 16 40');
 
@@ -700,7 +700,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/hknight_qbj.mdl", "skin": skin }) = monster_hell_knight : "Champion (Death Knight)" []
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/champion_qbj.mdl", "skin": skin }) = monster_hell_knight : "Champion (Death Knight)" []
 */
 void() monster_hell_knight =
 {
@@ -711,11 +711,11 @@ void() monster_hell_knight =
 		remove(self);
 		return;
 	}
-	precache_model2 ("progs/hknight_qbj.mdl");
+	precache_model2 ("progs/champion_qbj.mdl");
 	precache_model2 ("progs/k_spike.mdl");
 	precache_model2 ("progs/k_spike_cold.mdl");
 	precache_model2 ("progs/k_spike2.mdl");
-	precache_model2 ("progs/gibs/gibhead_hellknight.mdl");
+	precache_model2 ("progs/gibs/gibhead_champion.mdl");
 
 	self.invokedmodel = "progs/fx/invoked_champion.mdl";
 	precache_model(self.invokedmodel);
