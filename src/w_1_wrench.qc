@@ -22,10 +22,10 @@ float() weaponanim_wrench = {
 	
 	self.attack_finished = time + 0.8;
 	
-	self.weaponframe = floor(random()*2.99)*20 + 1;	//floor(random()*4.99)*10 + 1; //(5 cycles, 10 frames)
+	self.weaponframe = floor(random()*2.99)*20 + 1;	//(3 cycles, 20 frames)
 	
 	// converts weaponframe to a 0-4 integer selector for the player animation
-	player_axe_start(self.animcontroller, (self.weaponframe - 1)/20); //1/10  =  0,1,11,21,31,41-50 //(5 cycles, 10 frames)
+	player_axe_start(self.animcontroller, (self.weaponframe - 1)/20);
 	
 	//new big wrench = (3 cycles, 20 frames)
 	//     0 idle
@@ -39,7 +39,7 @@ float() weaponanim_wrench = {
 	return FALSE; // axe swing will never count as fired until it hits something
 }
 
-void() weaponanim_wrench_loop = {
+void() weaponanim_wrench_loop ={
 	if (self.weaponframe % 20 == 3)
 		W_FireWrench(); //<<<
 
