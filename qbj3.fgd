@@ -1921,7 +1921,7 @@ Setup is weird and special: it must find two func_doors each with a 'target' (no
 //
 // m_hknight.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/champion_qbj.mdl", "skin": skin }) = monster_hell_knight : "Champion (Death Knight)"
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/hknight_qbj.mdl", "skin": skin }) = monster_hell_knight : "Champion (Death Knight)"
 [skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
 
 
