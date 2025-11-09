@@ -128,6 +128,11 @@ void() ImpalerFade =
 void() ImpalerTouch =
 {
 	if (CheckProjectilePassthru()) return;
+
+	if (pointcontents(self.origin) == CONTENT_SKY) {
+		remove(self);
+		return;
+	}
 	
 	if (other.takedamage)
 	{
