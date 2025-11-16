@@ -48,26 +48,11 @@ void() weaponanim_invoker_loop =
 		self.effects = self.effects | EF_MUZZLEFLASH;
 
 		SuperDamageSound();
-		
-		sound (self, CHAN_AUTO, "invoker/invoker_firerail.wav", 1, ATTN_NORM);
-		
-		sound (self, CHAN_AUTO, "invoker/magic08.wav", 1, ATTN_NORM);
-	
-		
-		W_FireRail(0);
-		W_FireRail(1);
-		W_FireRail(2);
-		W_FireRail(3);
-		W_FireRail(4);
-		W_FireRail(5);
-		W_FireRail(6);
-		W_FireRail(7);
-		W_FireRail(8);
-		
-		Start_Sniper_Lightning();
+		W_FireInvoker();
 		
 		self.weaponframe++;
 	}
+
 	if (self.weaponframe >= 100)	// added post-fire + ready to fire --> idle padding
 	{
 		//self.weaponframe = 0;
@@ -109,84 +94,104 @@ void() idleamim_invoker_loop =
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-void(float split) W_FireRail =
-{
-	local float timetoend;
-	local vector vel, dir, loopsrc, destination, dir2, dir3;
-	local entity thedude;
-	vector org;
-		
-	makevectors(self.v_angle);
-	
-	
-	if	(split == 0)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 32) + (v_right * -32);	}
-	else if	(split == 1)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 32) + (v_right * 0);	}
-	else if	(split == 2)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 32) + (v_right * 32);	}
-	else if	(split == 3)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 0) + (v_right * -32);	}
-	else if	(split == 4)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 0) + (v_right * 0);	}
-	else if	(split == 5)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 0) + (v_right * 32);	}
-	else if	(split == 6)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * -32) + (v_right * -32);	}
-	else if	(split == 7)	{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * -32) + (v_right * 0);	}	
-	else 			{ org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * -32) + (v_right * 32);	}
-	
 
-	dir = aim(self, AUTOAIM_DIST);
+void() W_FireInvoker =
+{
+	sound(self, CHAN_AUTO, "invoker/invoker_firerail.wav", 1, ATTN_NORM);
+	
+	sound(self, CHAN_AUTO, "invoker/magic08.wav", 1, ATTN_NORM);
+
+	makevectors(self.v_angle);
+
+	vector org = self.origin + self.view_ofs + (v_forward * 4);
+	
+	vector dir = v_forward;
+	vector up = v_up;
+	vector right = v_right;
+
+	invokerTrace(org + (up * 32) + (right * -32), dir, TRUE); // top left
+	invokerTrace(org + (up * 32) + (right * 0), dir, TRUE); // top center
+	invokerTrace(org + (up * 32) + (right * 32), dir, TRUE); // top right
+	invokerTrace(org + (up * 0) + (right * -32), dir, TRUE); // center left
+	invokerTrace(org + (up * 0) + (right * 0), dir, TRUE); // center
+	invokerTrace(org + (up * 0) + (right * 32), dir, TRUE); // center right
+	invokerTrace(org + (up * -32) + (right * -32), dir, TRUE); // bottom left
+	invokerTrace(org + (up * -32) + (right * 0), dir, TRUE); // bottom center
+	invokerTrace(org + (up * -32) + (right * 32), dir, TRUE); // bottom right
+
+	// extra invisible traces to the sides of the crosshair to catch up rogue swarmers
+	invokerTrace(org + (up * 0) + (right * -12), dir, FALSE); // left
+	invokerTrace(org + (up * 0) + (right * -24), dir, FALSE); // left
+	invokerTrace(org + (up * 0) + (right * 12), dir, FALSE); // right
+	invokerTrace(org + (up * 0) + (right * 24), dir, FALSE); // right
+}
+
+void(vector org, vector dir, float drawTrail) invokerTrace =
+{
+	float timetoend;
+	vector vel, loopsrc, destination, dir2, dir3;
+	entity target_ent;
+	
 	
 	destination = org + (dir * 8192);
 	
 	loopsrc = org;
-	thedude = self;
+	target_ent = self;
 	
+	vector neworg = org;
 	while ( !timetoend )
 	{
-		traceline2(loopsrc, destination, thedude, 0);
+		traceline2(loopsrc, destination, target_ent, 0);
 		if (trace_fraction != 1.0)
 		{
 			vel = normalize(dir);
 			vel = vel + 2 * trace_plane_normal;
 			vel = vel * 200;
 
-			org = trace_endpos - dir*4;
+			target_ent = trace_ent;
 
-			if (trace_ent.takedamage && trace_ent != self)
+			neworg = trace_endpos - dir*4;
+
+			if (target_ent.takedamage && target_ent != self)
 			{
-				thedude = trace_ent;
-				SpawnBlood (org, vel*0.2, 400);
 				
-				FX_Impact(FX_CHAINS, org, dir);
+				SpawnBlood(neworg, vel*0.2, 400);
+				
+				FX_Impact(FX_CHAINS, neworg, dir);
 				
 				sound_invoker_impact(1);
 				
-								
-				FX_Invoked(trace_ent.invokedmodel, thedude.origin, dir);
+				target_ent.effects = target_ent.effects | EF_MUZZLEFLASH;
+
+				if (deathmatch != 0)
+					T_Damage (target_ent, self, self, 333);
+				else
+					T_Damage (target_ent, self, self, 666);
 				
-
-				if (trace_ent != self) 
+				// ded
+				if (target_ent && target_ent.health <= 0 && target_ent.flags & (FL_MONSTER | FL_CLIENT))
 				{
-					trace_ent.effects = trace_ent.effects | EF_MUZZLEFLASH;
-
-					if (deathmatch != 0)
-						T_Damage (trace_ent, self, self, 333);
-					else
-						T_Damage (trace_ent, self, self, 666);
-					
 					// if we have the right amount of health add some velocity if we're not gibbing
-					if (trace_ent.health <= 0)
+					if (!(target_ent.customflags & CFL_GIBBED))
 					{
-						trace_ent.velocity = '0 0 175';					
+						
+						target_ent.velocity = '0 0 175';
 						// zero out the velocity and give it some z velocity so its off ground
-						trace_ent.flags = trace_ent.flags - (trace_ent.flags & FL_ONGROUND);
+						target_ent.flags = target_ent.flags - (target_ent.flags & FL_ONGROUND);
 						// also set the flag
 						
 						// we don't want z velocity, so we're going to zero that out too.
 						dir3 = BoundsCenter(self); // player
 						dir3_z = 0;
-						dir2 = trace_ent.origin; // monster
+						dir2 = target_ent.origin; // monster
 						dir2_z = 0;
 						dir2 = dir2 - dir3; // direction from player to monster
 						dir2 = normalize(dir2);
-						trace_ent.velocity = trace_ent.velocity + (dir2 * 400);										
-					}
+						target_ent.velocity = target_ent.velocity + (dir2 * 400);
+					}								
+					// gibbed, so just let meat fly and call the invoked effect
+					else
+						FX_Invoked(target_ent.invokedmodel, target_ent.origin, dir);
 				}
 
 				// Trace from inside of the hitted monster (vf)
@@ -194,18 +199,19 @@ void(float split) W_FireRail =
 			}
 			else
 			{
-				WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-				WriteByte (MSG_BROADCAST, TE_GUNSHOT);
-				WriteCoord (MSG_BROADCAST, org_x);
-				WriteCoord (MSG_BROADCAST, org_y);
-				WriteCoord (MSG_BROADCAST, org_z);
-
+				if (drawTrail) gunshot(trace_endpos);
 				timetoend = 1;
 			}
 		}
 		else timetoend = 1;
-	}	
+	}
+
+	if (drawTrail)
+		drawInvokerTrail(self, org, trace_endpos);
+
 };
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 void(float invokerhit_volume) sound_invoker_impact =
@@ -218,53 +224,11 @@ void(float invokerhit_volume) sound_invoker_impact =
 }
 //=============================================================================================
 
-void() Start_Sniper_Lightning = 
-{
-	vector org;
-	float i;
-	
-	if (self.t_width < time)
-		self.t_width = time + 0.6;
-
-	makevectors(self.v_angle);
-	
-	for (i = 0; i < 9; i++)
-	{
-		if (i == 0)      { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 32) + (v_right * -32); }
-		else if (i == 1) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 32) + (v_right * 0); }
-		else if (i == 2) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 32) + (v_right * 32); }
-		else if (i == 3) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 0) + (v_right * -32); }
-		else if (i == 4) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 0) + (v_right * 0); }
-		else if (i == 5) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * 0) + (v_right * 32); }
-		else if (i == 6) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * -32) + (v_right * -32); }
-		else if (i == 7) { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * -32) + (v_right * 0); }
-		else             { org = self.origin + self.view_ofs + (v_forward * 4) + (v_up * -32) + (v_right * 32); }
-		
-		traceline2(org, org + v_forward * 32, self, FALSE);	
-		org = org + v_forward*32*trace_fraction;
-		
-		vector dir = aim(self, 0);
-		vector endpos = Sniper_Lightning_Direction(org, dir);
-		
-		Draw_Sniper_Lightning(self, org, endpos, i);
-	}
-};
-
-//=============================================================================================
-
-vector(vector org, vector dir) Sniper_Lightning_Direction = 
-{
-	traceline2 (org, org + dir*4000, self, FALSE);
-	vector endpoint = trace_endpos;
-	return endpoint;
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-.entity sibling;
-.float fade_interval;
 
-void(entity pl, vector org, vector dest, float hit) Draw_Sniper_Lightning = 
+void(entity pl, vector org, vector dest) drawInvokerTrail = 
 {
 	float len = vlen(dest - org);
 	vector dir = normalize(dest - org);
@@ -275,7 +239,7 @@ void(entity pl, vector org, vector dest, float hit) Draw_Sniper_Lightning =
 
 	for (float i = 0; i < ct; i++) {
 		sg = spawn();
-		if (prevsg) prevsg.sibling = sg;
+		if (prevsg) prevsg.buddy = sg;
 
 		setmodel(sg, "progs/proj_chain.mdl");
 		setsize(sg, VEC_ORIGIN, VEC_ORIGIN);
@@ -292,14 +256,13 @@ void(entity pl, vector org, vector dest, float hit) Draw_Sniper_Lightning =
 		float base_interval = 0.03;
 
 		// farther segments tick slower
-		sg.fade_interval = base_interval + (i * 0.0004);
+		sg.attack_finished = base_interval + (i * 0.0004);
 
 		sg.cnt = 4 + i;
 		if (sg.cnt > 12) sg.cnt = 12; // clamp max to keep reasonable
 
-		sg.nextthink = time + sg.fade_interval;
+		sg.nextthink = time + sg.attack_finished;
 		sg.alpha = 0.9;
-		sg.state = hit;
 
 		prevsg = sg;
 	}
@@ -312,7 +275,7 @@ void(entity pl, vector org, vector dest, float hit) Draw_Sniper_Lightning =
 void() rail_fade = 
 {
 	self.think = rail_fade;
-	self.nextthink = time + self.fade_interval;
+	self.nextthink = time + self.attack_finished;
 
 	//if (self.skin < 6)
 	//	self.skin++;
@@ -339,7 +302,7 @@ void() rail_fade =
 	{
 		self.alpha = 0.05;
 		self.think = SUB_Remove;
-		self.nextthink = time + self.fade_interval;
+		self.nextthink = time + self.attack_finished;
 	}	
 	else
 	{
