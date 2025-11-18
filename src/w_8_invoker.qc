@@ -144,17 +144,15 @@ void(vector org, vector dir, float drawTrail) invokerTrace =
 		traceline2(loopsrc, destination, target_ent, 0);
 		if (trace_fraction != 1.0)
 		{
-			vel = normalize(dir);
-			vel = vel + 2 * trace_plane_normal;
-			vel = vel * 200;
-
 			target_ent = trace_ent;
 
 			neworg = trace_endpos - dir*4;
 
 			if (target_ent.takedamage && target_ent != self)
 			{
-				
+				vel = dir + 2*trace_plane_normal;
+				vel = vel * 200;
+
 				SpawnBlood(neworg, vel*0.2, 400);
 				
 				FX_Impact(FX_CHAINS, neworg, dir);
@@ -253,10 +251,8 @@ void(entity pl, vector org, vector dest) drawInvokerTrail =
 
 		sg.think = rail_fade;
 
-		float base_interval = 0.03;
-
 		// farther segments tick slower
-		sg.attack_finished = base_interval + (i * 0.0004);
+		sg.attack_finished = 0.03 + (i * 0.0004);
 
 		sg.cnt = 4 + i;
 		if (sg.cnt > 12) sg.cnt = 12; // clamp max to keep reasonable
@@ -298,18 +294,12 @@ void() rail_fade =
 		self.alpha = 0.1;
 	else if (self.cnt == 2)
 		self.alpha = 0.07;
-	else if (self.cnt == 1) 
+	else 
 	{
 		self.alpha = 0.05;
 		self.think = SUB_Remove;
-		self.nextthink = time + self.attack_finished;
 	}	
-	else
-	{
-		self.alpha = 0.0;
-		self.think = SUB_Remove;
-		return;
-	}
+	
 
 	self.cnt = self.cnt - 1;
 };
