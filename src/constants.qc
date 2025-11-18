@@ -48,6 +48,7 @@ const float 	CFL_DONTTELEPORT	= 8192; // don't teleport this entity on instatele
 const float 	CFL_STONED 		= 16384;// turned into statue by Gorgon Hammer
 const float 	CFL_GIBBED		= 32768;// turned into tiny bits
 const float 	CFL_PROJECTILE		= 65536;// projectile
+const float 	CFL_WEAPONLOCK		= 131072;// weapon change locked
 
 // serverflags
 const float	SVFL_EPISODE1		= 1;

@@ -369,6 +369,7 @@ weaponslot_t weaponslots[9] = {
 enum {
 	WEAPONSTAT_NOWEAPON,
 	WEAPONSTAT_NOAMMO,
+	WEAPONSTAT_CHANGELOCKED,
 	WEAPONSTAT_AVAILABLE
 };
 
@@ -556,8 +557,9 @@ void() W_Attack = {
 
 float(float weap, optional float forcereset = FALSE) W_ChangeWeapon = {
 
-	if (self.animcontroller.owner != self)
-		return 0;
+	if (self.animcontroller.owner != self) return WEAPONSTAT_CHANGELOCKED;
+
+	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
 
 	float weapstat = W_CheckWeapon(weap, self);
 	if (weapstat < WEAPONSTAT_AVAILABLE){
@@ -611,6 +613,9 @@ float(float weap, optional float forcereset = FALSE) W_ChangeWeapon = {
 
 
 float(float imp) W_ChangeSlot = {
+	
+	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
+
 	weaponslot_t newSlot = weaponslots[imp];
 
 	weaponclass_t currentWeapon = weaponsclass[getWeapon(self.weapon)];
@@ -641,6 +646,8 @@ float(float imp) W_ChangeSlot = {
 
 
 void(float stp) W_CycleWeapon = {
+
+	if (self.customflags & CFL_WEAPONLOCK) return;
 
 	float currentWeapon = getWeapon(self.weapon);
 

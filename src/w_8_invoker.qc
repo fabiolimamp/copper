@@ -13,7 +13,7 @@ float() weaponanim_invoker =
 		return FALSE;
 	}
 
-	self.attack_finished = time + (2.1);
+	//self.attack_finished = time + (2.1);
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 
@@ -30,6 +30,8 @@ float() weaponanim_invoker =
 	// Invoker Charge Time to Fire = 1.7 seconds, 40fps = 68 frames
 	
 	// Invoker Total Time Cooldown = 2.1 seconds, 40fps = 84 frames minimum
+
+	// Invoker weapon change lock = frames 54 to 84 (~80% charge)
 }
 
 //=============================================================================================
@@ -42,6 +44,13 @@ void() weaponanim_invoker_loop =
 	
 	if (self.weaponframe == 67)	sound (self, CHAN_AUTO, "invoker/energy_charge.wav", 1, ATTN_NORM);
 	
+	if (self.weaponframe >= 54 && self.weaponframe <= 84){
+		self.customflags |= CFL_WEAPONLOCK;
+		//dprint("locked\n");
+	}
+	else
+		self.customflags &~= CFL_WEAPONLOCK;
+
 	if (self.weaponframe == 68)
 	{		
 		self.currentammo = self.ammo_cells = self.ammo_cells - 1;
