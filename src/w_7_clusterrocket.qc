@@ -33,6 +33,14 @@ void() weaponanim_boxrocket_loop = {
 		W_ChangeWeapon(W_BestWeapon());
 		return;
 	}
+
+	if (self.weaponframe >= 2 && self.weaponframe <= 14){
+		self.customflags |= CFL_WEAPONLOCK;
+		//dprint("locked\n");
+	}
+	else
+		self.customflags &~= CFL_WEAPONLOCK;
+	
 	//dprint3("Intermission: ", ftos(intermission), "\n");
 	if (self.weaponframe == 2)  	boxrocket_launch('0 -2 -8', 1);		//<<<  2
 	if (self.weaponframe == 4)  	boxrocket_launch('0  2 -8', 0);		//<<<  3
