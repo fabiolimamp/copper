@@ -7,6 +7,10 @@ float() weaponanim_invoker =
 	if (self.attack_finished > time)
 		return FALSE;
 
+	if (self.weaponframe >= 1 && self.weaponframe <= 84){
+		return FALSE;
+	}
+
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
 	{
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
