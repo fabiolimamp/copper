@@ -226,7 +226,7 @@ void() shalrath_attack =
 
 void() ShalMissileExplode =
 {
-	T_RadiusDamage (self, self.trueowner, 40, world);
+	T_RadiusDamage (self, self.trueowner, 40, world, DMGTYPE_EXPLOSION);
 	//sound (self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 
 	T_ExplosiveTouch();

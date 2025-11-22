@@ -8,7 +8,7 @@ float() weaponanim_boxrocket = {
 		return FALSE;
 
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
-		W_ChangeWeapon(W_BestWeapon());
+		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;
 	}
 
@@ -30,7 +30,7 @@ void() weaponanim_boxrocket_loop = {
 
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
 		self.attack_finished = time + 0.05;
-		W_ChangeWeapon(W_BestWeapon());
+		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return;
 	}
 

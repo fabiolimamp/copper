@@ -136,7 +136,7 @@ void() DecodeLevelParms =
 	self.items_qbj = parm10;
 	
 	//self.weapon = parm8;
-	W_ChangeWeapon(parm8);
+	W_ChangeWeapon(parm8, FALSE);
 
 	if (!prev_mapvar_started)
 	{
@@ -632,7 +632,7 @@ void() PutClientInServer =
 
 	DecodeLevelParms();
 	SetChangeParms();
-	W_ChangeWeapon(self.weapon);
+	W_ChangeWeapon(self.weapon, FALSE);
 	
 	// put global key type in the high bits so the CSQC hud gets to see it :/
 	self.worldtype = (self.worldtype & 255) + world.worldtype * 256;
@@ -1832,7 +1832,7 @@ void() PlayerPreThink =
 		self.velocity = '0 0 0';
 
 	if (time > self.attack_finished && W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
-		W_ChangeWeapon(W_BestWeapon());
+		W_ChangeWeapon(W_BestWeapon(), FALSE);
 
 	if (self.movetype == MOVETYPE_NOCLIP)
 	{

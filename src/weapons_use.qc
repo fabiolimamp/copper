@@ -491,31 +491,31 @@ void(entity e, float new) W_BetterWeapon =
 	}	
 	self = e;
 	if (!deathmatch || W_RankForWeapon (new) < W_RankForWeapon (self.weapon) )
-		W_ChangeWeapon(new);
+		W_ChangeWeapon(new, FALSE);
 	self = oself;
 }
 
 void() W_SelectBestWeapon =
 {
-	W_ChangeWeapon(W_BestWeaponParms(self.items, self, self.waterlevel));
+	W_ChangeWeapon(W_BestWeaponParms(self.items, self, self.waterlevel), FALSE);
 }
 
 void() W_ResetWeaponState = 
 {
-	W_ChangeWeapon(self.weapon);
+	W_ChangeWeapon(self.weapon, FALSE);
 }
 
 void() W_SelectLastWeapon =
 {
 	if (self.attack_state)
-		W_ChangeWeapon(self.attack_state);
+		W_ChangeWeapon(self.attack_state, FALSE);
 }
 
 void() W_SelectBestShotgun =
 {
 	if (self.items & (IT_SHOTGUN|IT_SUPER_SHOTGUN))
 	{
-		if (W_ChangeWeapon(IT_SHOTGUN) != WEAPONSTAT_NOAMMO && W_ChangeWeapon(IT_SUPER_SHOTGUN) != WEAPONSTAT_NOAMMO)
+		if (W_ChangeWeapon(IT_SHOTGUN, FALSE) != WEAPONSTAT_NOAMMO && W_ChangeWeapon(IT_SUPER_SHOTGUN, FALSE) != WEAPONSTAT_NOAMMO)
 			sprint (self, "not enough ammo.\n");
 	}
 	else
@@ -528,7 +528,7 @@ void() W_SelectBestNailgun =
 {
 	if (self.items & (IT_NAILGUN|IT_SUPER_NAILGUN))
 	{
-		if (W_ChangeWeapon(IT_NAILGUN) != WEAPONSTAT_NOAMMO && W_ChangeWeapon(IT_SUPER_NAILGUN) != WEAPONSTAT_NOAMMO)
+		if (W_ChangeWeapon(IT_NAILGUN, FALSE) != WEAPONSTAT_NOAMMO && W_ChangeWeapon(IT_SUPER_NAILGUN, FALSE) != WEAPONSTAT_NOAMMO)
 			sprint (self, "not enough ammo.\n");
 	}
 	else
@@ -555,7 +555,7 @@ void() W_Attack = {
 
 
 
-float(float weap, optional float forcereset = FALSE) W_ChangeWeapon = {
+float(float weap, float forcereset = FALSE) W_ChangeWeapon = {
 
 	if (self.animcontroller.owner != self) return WEAPONSTAT_CHANGELOCKED;
 
@@ -634,7 +634,7 @@ float(float imp) W_ChangeSlot = {
 	while (i < newSlot.qt) {
 		weaponstat = W_CheckWeapon(newSlot.weaps[startSlotPos].id, self);
 		if (weaponstat == WEAPONSTAT_AVAILABLE){
-			W_ChangeWeapon(newSlot.weaps[startSlotPos].id);
+			W_ChangeWeapon(newSlot.weaps[startSlotPos].id, FALSE);
 			return weaponstat;
 		}
 		startSlotPos = wrap(startSlotPos + 1, 0, newSlot.qt - 1);
@@ -657,7 +657,7 @@ void(float stp) W_CycleWeapon = {
 		//dprint3("Testing slot ", ftos(next), "...\n");
 		if (W_CheckWeapon(weaponsclass[next].id, self) == WEAPONSTAT_AVAILABLE) {
 		//	dprint3("Found! slot ", ftos(next), "\n");
-			W_ChangeWeapon(weaponsclass[next].id);
+			W_ChangeWeapon(weaponsclass[next].id, FALSE);
 			return;
 		}
 
@@ -665,7 +665,7 @@ void(float stp) W_CycleWeapon = {
 		i++;
 	}
 
-	if (i > MAX_WEAPON_NUM) W_ChangeWeapon(IT_NO_WEAPON);
+	if (i > MAX_WEAPON_NUM) W_ChangeWeapon(IT_NO_WEAPON, FALSE);
 }
 
 /*

@@ -493,7 +493,7 @@ void(entity e) target_items_setweapon =
 	entity tgi = self;
 	self = e;
 	if (tgi.weapon)
-		W_ChangeWeapon(tgi.weapon);
+		W_ChangeWeapon(tgi.weapon, FALSE);
 
 	if (!(self.weapon & self.items))
 		W_SelectBestWeapon();

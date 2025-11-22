@@ -592,7 +592,7 @@ void(entity targ, entity inflictor, entity attacker, float damage, float dmgtype
 T_RadiusDamage
 ============
 */
-void(entity inflictor, entity attacker, float damage, entity ignore, optional float dmgtype = DMGTYPE_EXPLOSION, optional float radius, optional float(float, float) formula) T_RadiusDamage =
+void(entity inflictor, entity attacker, float damage, entity ignore, float dmgtype = DMGTYPE_EXPLOSION, float radius = 0, float(float, float) formula = __NULL__) T_RadiusDamage =
 {
 	// note: find downed zombies to gib first, then do radius damage, or else the radius 
 	// damage will knock far away zombies down, then immediately gib them too

@@ -9,7 +9,7 @@ float() weaponanim_invoker =
 
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
 	{
-		W_ChangeWeapon(W_BestWeapon());
+		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;
 	}
 
