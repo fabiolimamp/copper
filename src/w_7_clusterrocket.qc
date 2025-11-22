@@ -18,6 +18,8 @@ float() weaponanim_boxrocket = {
 	
 	boxrocket_launch('0 -6 -8', 0);	//<<<  1
 	
+	self.customflags |= CFL_WEAPONLOCK;
+	
 	self.weaponframe = 1;
 	self.think = weaponanim_boxrocket_loop;
 	self.nextthink = time + 0.05;
@@ -34,7 +36,7 @@ void() weaponanim_boxrocket_loop = {
 		return;
 	}
 
-	if (self.weaponframe >= 2 && self.weaponframe <= 14){
+	if (self.weaponframe >= 1 && self.weaponframe <= 14){
 		self.customflags |= CFL_WEAPONLOCK;
 		//dprint("locked\n");
 	}
