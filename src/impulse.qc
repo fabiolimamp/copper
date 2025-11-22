@@ -187,25 +187,7 @@ void() ImpulseCommands =
 	
 	float ret;
 	if (self.impulse >= 1 && self.impulse <= 8) {
-			
-		
-		// --------------------------------
-		// Pistol Manual Reload
-		if (self.impulse == 2 && self.weapon == IT_SHOTGUN && self.pistol_ammo_count != 10) {
-			weaponanim_reloadpistol();
-			//pistol_ammo_count = 0;
-			self.impulse = 0; 
-			return;
-		}
-		// --------------------------------
-	
-			
 		ret = W_ChangeSlot(self.impulse);
-		if (ret == WEAPONSTAT_NOAMMO)
-			sprint(self, "not enough ammo.\n");
-
-		if (ret == WEAPONSTAT_NOWEAPON)
-			sprint(self, "no weapon.\n");		
 	}
 	else if (self.impulse >= 20 && self.impulse <= 39)
 	{
@@ -213,130 +195,131 @@ void() ImpulseCommands =
 	}
 	else switch(self.impulse)
 	{
-	case 10:
-		W_CycleWeapon(1);
-		break;
-	case 12:
-		W_CycleWeapon(-1);
-		break;
-	case 11:
-		ServerflagsCommand();
-		break;
-	case 13:
-		W_SelectBestShotgun();
-		break;
-	case 14:
-		W_SelectBestNailgun();
-		break;
-	case 15:
-		W_SelectBestWeapon();
-		break;
-	case 16:
-		W_SelectLastWeapon();
-		break;
+		case 10:
+			ret = W_CycleWeapon(1);
+			break;
+		case 12:
+			ret = W_CycleWeapon(-1);
+			break;
+		case 11:
+			ServerflagsCommand();
+			break;
+		case 13:
+			ret = W_SelectBestShotgun();
+			break;
+		case 14:
+			ret = W_SelectBestNailgun();
+			break;
+		case 15:
+			ret = W_SelectBestWeapon();
+			break;
+		case 16:
+			ret = W_SelectLastWeapon();
+			break;
 
-	case 40:
-		dev_impulse_list();
-		break;
-	case 64:
-		dev_i_cant_see();
-		break;
-	case 72:
-		dev_test();
-		break;
-	case 80:
-		dev_add_meatball();
-		break;
-	case 81:
-		dev_remove_meatball();
-		break;
-	case 100:
-		dev_invoke();
-		break;
-	case 101:
-		dev_reveal();
-		break;
-	case 102:
-		dev_trigger();
-		break;
-	case 103:
-		dev_hitpoints();
-		break;
-	case 104:
-		dev_serverflags();
-		break;
-	case 105:
-		dev_warp();
-		break;
-	case 106:
-		dev_whatami();
-		break;
-	case 108:
-		dev_tracetest();
-		break;
-	case 127:
-	case 129:
-		coredump();
-		break;
-	
-	case 140:
-		sound(self, CHAN_VOICE, "player/tornoff2.wav", 1, ATTN_STATIC);
-		centerprint(self, version_s);
-		break;
-	
-	case 9:
-		Cheat_Items();
-		break;
-	case 99:
-		Cheat_Keys();
-		break;
-	// how about, execute order six?
-	// nah. makes it sound like there aren't that many orders
-	case 66:
-	case 205:
-		if(!deathmatch && !coop)
-			Cheat_Genocide();
-		break;
-	case 200:
-		dev_remaining_monsters();
-		break;
-	case 210:
-		toggle_autosave();
-		break;
-	case 215:
-		Cheat_Undying();
-		break;
-	case 225: 
-		Cheat_Suit();
-		break;
-	case 235:
-		Cheat_Pent();	
-		break;
-	case 222:
-		Cheat_Vamp();
-		break;
-	case 245:
-		Cheat_Ring();	
-		break;
-	case 255:
-		Cheat_Quad();	
-		break;
-	/*
-	case 144:
-		// --------------------------------
-		// Pistol Manual Reload
-		if (self.weapon == IT_SHOTGUN) {
-			weaponanim_reloadpistol();
-			pistol_ammo_count = 0;
-			self.impulse = 0; 
-			return;
-		}
-		// --------------------------------
-	*/	
+		case 40:
+			dev_impulse_list();
+			break;
+		case 64:
+			dev_i_cant_see();
+			break;
+		case 72:
+			dev_test();
+			break;
+		case 80:
+			dev_add_meatball();
+			break;
+		case 81:
+			dev_remove_meatball();
+			break;
+		case 100:
+			dev_invoke();
+			break;
+		case 101:
+			dev_reveal();
+			break;
+		case 102:
+			dev_trigger();
+			break;
+		case 103:
+			dev_hitpoints();
+			break;
+		case 104:
+			dev_serverflags();
+			break;
+		case 105:
+			dev_warp();
+			break;
+		case 106:
+			dev_whatami();
+			break;
+		case 108:
+			dev_tracetest();
+			break;
+		case 127:
+		case 129:
+			coredump();
+			break;
 		
-	default:
-		return;
+		case 140:
+			sound(self, CHAN_VOICE, "player/tornoff2.wav", 1, ATTN_STATIC);
+			centerprint(self, version_s);
+			break;
+		
+		case 9:
+			Cheat_Items();
+			break;
+		case 99:
+			Cheat_Keys();
+			break;
+		// how about, execute order six?
+		// nah. makes it sound like there aren't that many orders
+		case 66:
+		case 205:
+			if(!deathmatch && !coop)
+				Cheat_Genocide();
+			break;
+		case 200:
+			dev_remaining_monsters();
+			break;
+		case 210:
+			toggle_autosave();
+			break;
+		case 215:
+			Cheat_Undying();
+			break;
+		case 225: 
+			Cheat_Suit();
+			break;
+		case 235:
+			Cheat_Pent();	
+			break;
+		case 222:
+			Cheat_Vamp();
+			break;
+		case 245:
+			Cheat_Ring();	
+			break;
+		case 255:
+			Cheat_Quad();	
+			break;
+		/*
+		case 144:
+			// --------------------------------
+			// Pistol Manual Reload
+			if (self.weapon == IT_SHOTGUN) {
+				weaponanim_reloadpistol();
+				pistol_ammo_count = 0;
+				self.impulse = 0; 
+				return;
+			}
+			// --------------------------------
+		*/	
+			
+		default:
+			return;
 	}
 	
-	self.impulse = 0;
+	if (ret != WEAPONSTAT_CHANGELOCKED)
+		self.impulse = 0;
 }

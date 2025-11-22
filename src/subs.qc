@@ -79,6 +79,23 @@ void(void() fun, entity newself) SUB_CallAsSelf =
 
 /*
 =============
+SUB_CallAsSelf
+
+wrap the self/oself shuffle for code cleanliness elsewhere
+===============
+*/
+void(float() fun, entity newself) SUB_CallAsSelf_float =
+{
+	local entity oself;
+	
+	oself = self;
+	self = newself;
+	fun();
+	self = oself;	
+}
+
+/*
+=============
 SUB_ChangeModel
 
 size changes after a model change, use this to preserve it

@@ -334,6 +334,7 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .float		bubble_count;	// keeps track of the number of bubbles
 .float		healthtime;
 .string		deathtype;		// keeps track of how the player died
+.float		prev_weapon;
 
 .float  	pistol_ammo_count;
 .float		pistol_lastreload_time;

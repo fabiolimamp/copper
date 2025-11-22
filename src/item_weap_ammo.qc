@@ -382,7 +382,7 @@ void() ammo_touch =
 	stuffcmd (other, "bf\n");
 
 	if (!self.weapon)
-		SUB_CallAsSelf(W_SelectBestWeapon, other);
+		SUB_CallAsSelf_float(W_SelectBestWeapon, other);
 	else
 		// if changed current ammo, update it	
 		SUB_CallAsSelf(W_UpdateCurrentAmmo, other);

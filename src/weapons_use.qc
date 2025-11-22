@@ -468,75 +468,10 @@ float(float weap, entity cl) W_CheckWeapon = {
 	return WEAPONSTAT_AVAILABLE;
 };
 
-/*
-=============
-W_BetterWeapon
-
-Deathmatch weapon change rules for picking up a weapon
-=============
-*/
-void(entity e, float new) W_BetterWeapon =
-{
-	entity oself = self;
-	if (!deathmatch)
-	{
-		// don't switch to explosive weapons with quad
-		// 1.12: don't switch to explosives when invisible either, since you can't see the stupid viewmodel
-		if ( (has_quad(e) || has_invis(e)) &&
-			(new == IT_ROCKET_LAUNCHER || new == IT_GRENADE_LAUNCHER))
-			return;
-		// don't switch to a lightning gun when standing in water
-		//if (e.waterlevel >= 2 && new == IT_LIGHTNING)
-			//return;
-	}	
-	self = e;
-	if (!deathmatch || W_RankForWeapon (new) < W_RankForWeapon (self.weapon) )
-		W_ChangeWeapon(new, FALSE);
-	self = oself;
-}
-
-void() W_SelectBestWeapon =
-{
-	W_ChangeWeapon(W_BestWeaponParms(self.items, self, self.waterlevel), FALSE);
-}
-
 void() W_ResetWeaponState = 
 {
 	W_ChangeWeapon(self.weapon, FALSE);
 }
-
-void() W_SelectLastWeapon =
-{
-	if (self.attack_state)
-		W_ChangeWeapon(self.attack_state, FALSE);
-}
-
-void() W_SelectBestShotgun =
-{
-	if (self.items & (IT_SHOTGUN|IT_SUPER_SHOTGUN))
-	{
-		if (W_ChangeWeapon(IT_SHOTGUN, FALSE) != WEAPONSTAT_NOAMMO && W_ChangeWeapon(IT_SUPER_SHOTGUN, FALSE) != WEAPONSTAT_NOAMMO)
-			sprint (self, "not enough ammo.\n");
-	}
-	else
-	{
-		sprint(self, "no weapon.\n");
-	}
-}
-
-void() W_SelectBestNailgun =
-{
-	if (self.items & (IT_NAILGUN|IT_SUPER_NAILGUN))
-	{
-		if (W_ChangeWeapon(IT_NAILGUN, FALSE) != WEAPONSTAT_NOAMMO && W_ChangeWeapon(IT_SUPER_NAILGUN, FALSE) != WEAPONSTAT_NOAMMO)
-			sprint (self, "not enough ammo.\n");
-	}
-	else
-	{
-		sprint(self, "no weapon.\n");
-	}
-}
-
 
 void() W_Attack = {
 	
@@ -578,7 +513,7 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon = {
 	self.weaponreload_perc = 0;
 	weaponclass_t weapcl = weaponsclass[getWeapon(weap)];
 
-	self.attack_state = self.weapon;
+	self.prev_weapon = self.weapon;
 	self.weapon = weap;
 	self.currentammo = self.(ammofieldlist[weapcl.ammofield]);
 	self.items &~= (IT_SHELLS | IT_NAILS | IT_ROCKETS | IT_CELLS);
@@ -612,8 +547,103 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon = {
 }
 
 
-float(float imp) W_ChangeSlot = {
+/*
+=============
+W_BetterWeapon
+
+Deathmatch weapon change rules for picking up a weapon
+=============
+*/
+void(entity e, float new) W_BetterWeapon =
+{
+	entity oself = self;
+	if (!deathmatch)
+	{
+		// don't switch to explosive weapons with quad
+		// 1.12: don't switch to explosives when invisible either, since you can't see the stupid viewmodel
+		if ( (has_quad(e) || has_invis(e)) &&
+			(new == IT_ROCKET_LAUNCHER || new == IT_GRENADE_LAUNCHER))
+			return;
+		// don't switch to a lightning gun when standing in water
+		//if (e.waterlevel >= 2 && new == IT_LIGHTNING)
+			//return;
+	}	
+	self = e;
+	if (!deathmatch || W_RankForWeapon (new) < W_RankForWeapon (self.weapon) )
+		W_ChangeWeapon(new, FALSE);
+	self = oself;
+}
+
+/*
+===================================================================================================
+
+WEAPON SELECTION IMPULSES
+
+===================================================================================================
+*/
+
+
+float() W_SelectBestWeapon =
+{
+	return W_ChangeWeapon(W_BestWeaponParms(self.items, self, self.waterlevel), FALSE);
+}
+
+float() W_SelectLastWeapon =
+{
+	if (self.prev_weapon)
+		return W_ChangeWeapon(self.prev_weapon, FALSE);
+	else
+		return WEAPONSTAT_AVAILABLE; // do nothing
+}
+
+float() W_SelectBestShotgun =
+{
+	if (self.items & (IT_SHOTGUN|IT_SUPER_SHOTGUN))
+	{
+		if (W_ChangeWeapon(IT_SHOTGUN, FALSE) != WEAPONSTAT_NOAMMO && W_ChangeWeapon(IT_SUPER_SHOTGUN, FALSE) != WEAPONSTAT_NOAMMO)
+		{
+			sprint (self, "not enough ammo.\n");
+			return WEAPONSTAT_NOAMMO;
+		}
+		else
+			return WEAPONSTAT_AVAILABLE;
+	}
+	else
+	{
+		sprint(self, "no weapon.\n");
+		return WEAPONSTAT_NOWEAPON;
+	}
+}
+
+float() W_SelectBestNailgun =
+{
+	if (self.items & (IT_NAILGUN|IT_SUPER_NAILGUN))
+	{
+		if (W_ChangeWeapon(IT_NAILGUN, FALSE) != WEAPONSTAT_NOAMMO && W_ChangeWeapon(IT_SUPER_NAILGUN, FALSE) != WEAPONSTAT_NOAMMO)
+		{
+			sprint (self, "not enough ammo.\n");
+			return WEAPONSTAT_NOAMMO;
+		}
+		else
+			return WEAPONSTAT_AVAILABLE;
 	
+	}
+	else
+	{
+		sprint(self, "no weapon.\n");
+		return WEAPONSTAT_NOWEAPON;
+	}
+}
+
+float(float imp) W_ChangeSlot =
+{
+	// Pistol Manual Reload
+	if (imp == 2 && self.weapon == IT_SHOTGUN && self.pistol_ammo_count != 10) {
+		weaponanim_reloadpistol();
+		//pistol_ammo_count = 0;
+		return WEAPONSTAT_AVAILABLE;
+	}
+
 	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
 
 	weaponslot_t newSlot = weaponslots[imp];
@@ -641,13 +671,20 @@ float(float imp) W_ChangeSlot = {
 		i++;
 	}
 
+	
+	if (weaponstat == WEAPONSTAT_NOAMMO)
+		sprint(self, "not enough ammo.\n");
+
+	if (weaponstat == WEAPONSTAT_NOWEAPON)
+		sprint(self, "no weapon.\n");
+
 	return weaponstat;
 }
 
 
-void(float stp) W_CycleWeapon = {
-
-	if (self.customflags & CFL_WEAPONLOCK) return;
+float(float stp) W_CycleWeapon =
+{
+	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
 
 	float currentWeapon = getWeapon(self.weapon);
 
@@ -658,7 +695,7 @@ void(float stp) W_CycleWeapon = {
 		if (W_CheckWeapon(weaponsclass[next].id, self) == WEAPONSTAT_AVAILABLE) {
 		//	dprint3("Found! slot ", ftos(next), "\n");
 			W_ChangeWeapon(weaponsclass[next].id, FALSE);
-			return;
+			return WEAPONSTAT_AVAILABLE;
 		}
 
 		next = wrap(next + stp, 1, MAX_WEAPON_NUM);
@@ -666,7 +703,12 @@ void(float stp) W_CycleWeapon = {
 	}
 
 	if (i > MAX_WEAPON_NUM) W_ChangeWeapon(IT_NO_WEAPON, FALSE);
+	return WEAPONSTAT_AVAILABLE;
 }
+
+
+
+
 
 /*
 ========
