@@ -143,7 +143,7 @@ Checking the Bezier spawnflag will make this pathcorner act as a bilinear contro
 		8 : "Rebar Cannon" : 0
 		16 : "Grenade Laucher" : 0
 		32 : "Multi Mini-Missile Launcher" : 0
-		64 : "The Prototype" : 0
+		64 : "The Invoker" : 0
 		4096 : "Wrench" : 0
 		131072 : "Silver Key" : 0
 		262144 : "Gold Key" : 0
