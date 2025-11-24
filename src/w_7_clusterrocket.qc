@@ -8,6 +8,7 @@ float() weaponanim_boxrocket = {
 		return FALSE;
 
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+		self.customflags &~= CFL_WEAPONLOCK;
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;
 	}
@@ -19,7 +20,7 @@ float() weaponanim_boxrocket = {
 	boxrocket_launch('0 -6 -8', 0);	//<<<  1
 	
 	self.customflags |= CFL_WEAPONLOCK;
-	
+
 	self.weaponframe = 1;
 	self.think = weaponanim_boxrocket_loop;
 	self.nextthink = time + 0.05;
@@ -32,6 +33,7 @@ void() weaponanim_boxrocket_loop = {
 
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
 		self.attack_finished = time + 0.05;
+		self.customflags &~= CFL_WEAPONLOCK;
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return;
 	}
