@@ -388,6 +388,7 @@ void() monster_sploder =
 	precache_model ("progs/proj_amalgoop_explo.mdl");
 	precache_sound ("amalg/amalg_goop1.wav");
 	precache_sound ("amalg/amalg_goop2.wav");
+	precache_sound ("amalg/amalgshoot.wav");
 	precache_model ("progs/s_blood_128x.spr");
 	precache_model ("progs/s_blood_96x.spr");
 	precache_model ("progs/s_blood_64x.spr");
