@@ -178,7 +178,7 @@ FireBullets
 Used by shotgun, super shotgun, and enemy soldier firing
 ================
 */
-void(float shotcount, vector dir, vector spread) FireBullets =
+void(float shotcount, vector dir, vector spread, float tracer) FireBullets =
 {
 	vector src, direction;
 	entity ig;
@@ -205,7 +205,11 @@ void(float shotcount, vector dir, vector spread) FireBullets =
 			
 			if (trace_ent == self)
 				return;	// some notrace shit happened
-		
+
+			if (tracer && !(vlen(src - trace_endpos) < 128 && trace_ent.solid == SOLID_BSP))
+			{
+				drawTracer(src, direction, trace_endpos);
+			}
 			// if we've already pelted a monster enough to kill it, let additional bullets add 
 			// up for possible gibs (ala quake), but trace them again through the target for 
 			// better crowd control feels (ala doom).
@@ -270,7 +274,7 @@ void() W_FireShotgun =
 	dir = aim (self, AUTOAIM_DIST);
 
 	ClearMultiDamage ();
-	FireBullets (6, dir, '0.04 0.04 0');
+	FireBullets (6, dir, '0.04 0.04 0', FALSE);
 	//self.attack_finished = time + 0.5;
 	
 	ApplyMultiDamage ();
@@ -302,7 +306,7 @@ void() W_FireSuperShotgun =
 
 	ClearMultiDamage ();
 
-	FireBullets (14, dir, '0.14 0.08 0');
+	FireBullets (14, dir, '0.14 0.08 0', FALSE);
 	//self.attack_finished = time + 0.7;
 	
 	ApplyMultiDamage ();

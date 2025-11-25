@@ -171,7 +171,7 @@ void() W_FirePistol =
 	vector dir = normalize(trace_endpos - org);
 		
 	ClearMultiDamage ();
-	FirePistolBullets (1, 20, org + v_forward * 16 * trace_fraction, dir, spread);
+	FirePistolBullets (1, 20, org + v_forward * 16 * trace_fraction, dir, spread, TRUE);
 	
 	ApplyMultiDamage ();
 		
@@ -191,7 +191,7 @@ void(float pistolfire_volume) sound_pistol_fire =
 }
 //=============================================================================================
 
-void(float shotcount, float dmg, vector org, vector dir, vector spread) FirePistolBullets =
+void(float shotcount, float dmg, vector org, vector dir, vector spread, float tracer) FirePistolBullets =
 {
 	vector src, direction;
 	entity ig;
@@ -220,7 +220,7 @@ void(float shotcount, float dmg, vector org, vector dir, vector spread) FirePist
 			if (trace_ent == self)
 				return;	// some notrace shit happened
 
-			if (!(vlen(org - trace_endpos) < 128 && trace_ent.solid == SOLID_BSP))
+			if (tracer && !(vlen(org - trace_endpos) < 128 && trace_ent.solid == SOLID_BSP))
 			{
 				drawTracer(org, direction, trace_endpos);
 			}

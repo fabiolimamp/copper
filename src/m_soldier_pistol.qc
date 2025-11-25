@@ -249,9 +249,14 @@ void() pistolarmy_fire =
 //	dir = normalize (dir - self.origin);
 	dir = normalize (self.dest);
 
+	
+	makevectors(self.angles);
+	vector src = self.origin + v_forward*10;
+	src_z = self.absmin_z + self.size_z * 0.7;
+	
 	// lunaran: moved multidamage here
 	ClearMultiDamage ();
-	FireBullets (4, dir, '0.1 0.1 0');
+	FirePistolBullets (1, 12, src, dir, '0.1 0.1 0', TRUE);
 	ApplyMultiDamage ();
 }
 
