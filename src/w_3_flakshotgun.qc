@@ -134,11 +134,6 @@ void() FlakThink =
 
 void() FlakBounce =
 {
-	if (pointcontents(self.origin) == CONTENT_SKY) {
-		remove(self);
-		return;
-	}
-
 	vector dir = normalize(self.velocity);
 	vector spot1 = self.origin - (2*dir);
 	vector spot2 = self.origin + (2*dir);
@@ -190,7 +185,12 @@ void() FlakTouch =
 		remove(self);
 		return;
 	}
-	
+
+	if (pointcontents(self.origin) == CONTENT_SKY) {
+		remove(self);
+		return;
+	}
+
 	if (other.takedamage)
 	{
 		T_Damage(other, self, self.trueowner, 4);
