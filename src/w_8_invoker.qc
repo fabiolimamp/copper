@@ -247,6 +247,7 @@ void(entity pl, vector org, vector dest) drawInvokerTrail =
 	float ct = floor(len / 30);
 	entity sg;
 	entity prevsg;
+	if (ct > 20) ct = 20; // clamp max to keep reasonable
 
 	for (float i = 0; i < ct; i++) {
 		sg = spawn();
@@ -268,10 +269,10 @@ void(entity pl, vector org, vector dest) drawInvokerTrail =
 		sg.attack_finished = 0.03 + (i * 0.0004);
 
 		sg.cnt = 4 + i;
-		if (sg.cnt > 12) sg.cnt = 12; // clamp max to keep reasonable
+		
 
 		sg.nextthink = time + sg.attack_finished;
-		sg.alpha = 0.9;
+		sg.alpha = 0.9 ;//* (20 - i)/15;
 
 		prevsg = sg;
 	}
