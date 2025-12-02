@@ -627,6 +627,10 @@ Alt Target Pattern: 'target' when touched, 'target2' when fully depressed, 'targ
 //
 // triggers.qc
 //
+@baseclass = Mapvar [
+	mapvar(integer) : "Mapvar ID to check (1-69). Will trigger only if this mapvar is set to ON."
+	mapvar_not(integer) : "Mapvar ID to check (1-69). Will trigger only if this mapvar is set to OFF."
+]
 @baseclass = TriggerSounds
 [
 	sounds(choices) : "Sounds" : 2 =
@@ -649,7 +653,7 @@ Alt Target Pattern: 'target' when touched, 'target2' when fully depressed, 'targ
 [
 	message(string) : "message to display when triggered"
 ]
-@baseclass base(Trigger, TriggerSounds, Angle) = TriggerMulti
+@baseclass base(Trigger, TriggerSounds, Angle, Mapvar) = TriggerMulti
 [
 	health(integer) : "solid, must be killed to activate"
 	count(integer) : "limit uses before self destructing" : 0
@@ -719,10 +723,10 @@ Spawnflags:
 	]
 	message(string) : "Message"
 ]
-@PointClass base(Secret, Targetname) color(160 0 160) = target_secret : "Secret counter trigger.  Player gets a secret credit when triggered.  Note when using a target_secret: if triggered by touching an item, and the item can't be picked up (because of health/armor/ammo limits already being met, etc), it won't fire its targets and thus the target_secret won't give credit. Use a trigger in that case.
+@PointClass base(Secret, Targetname, Mapvar) color(160 0 160) = target_secret : "Secret counter trigger.  Player gets a secret credit when triggered.  Note when using a target_secret: if triggered by touching an item, and the item can't be picked up (because of health/armor/ammo limits already being met, etc), it won't fire its targets and thus the target_secret won't give credit. Use a trigger in that case.
 
 Set the 'supersecret' spawnflag to hide its existence in the total until it's found. Think very carefully if you actually want to use this." []
-@SolidClass base(Trigger, Secret) = trigger_secret : "Secret counter trigger. Player gets a secret credit when touched." 
+@SolidClass base(Trigger, Secret, Mapvar) = trigger_secret : "Secret counter trigger. Player gets a secret credit when touched." 
 [
 	spawnflags(flags) = [
 		1 : "Notouch (legacy)" : 0
@@ -739,7 +743,7 @@ Counts as a secret, trigger to give credit" []
 	]
 ]
 @PointClass base(Setskill, Targetname) color(160 0 160) = target_setskill : "Target: Set Skill" []
-@SolidClass base(Setskill, Trigger) = trigger_setskill : "Trigger: Set Skill" []
+@SolidClass base(Setskill, Trigger, Mapvar) = trigger_setskill : "Trigger: Set Skill" []
 @SolidClass base(Trigger) = trigger_onlyregistered : "Trigger: Registered only
 Only fires if playing the registered version, otherwise prints 'message'." []
 @baseclass base(TriggerNoTargets) = Hurt [
@@ -751,9 +755,9 @@ Only fires if playing the registered version, otherwise prints 'message'." []
 	dmg(integer) : "Damage" : 5
 	delay(string) : "Interval (seconds)" : "1"
 ]
-@SolidClass base(Hurt) = trigger_hurt : "Trigger: Hurt. Any creature touching this will be damaged.
+@SolidClass base(Hurt, Mapvar) = trigger_hurt : "Trigger: Hurt. Any creature touching this will be damaged.
 Resist the urge to put a tiny one of these on every light_flame." []
-@PointClass base(Hurt,Bounds) = trigger_hurt_box : "Trigger: Hurt. Any creature touching this will be damaged.
+@PointClass base(Hurt,Bounds, Mapvar) = trigger_hurt_box : "Trigger: Hurt. Any creature touching this will be damaged.
 Quoth2-style edict-saving bounding box trigger: define size with 'size', and the trigger volume will be that size centered on the trigger's origin.
 Resist the urge to put a tiny one of these on every light_flame." []
 @SolidClass base(Angle, TriggerNoTargets) = trigger_push : "Trigger: Push.
@@ -900,6 +904,7 @@ This ideally should match the same size and shape of the trigger_instateleport b
 	[
 		1: "No intermission" : 0
 	]
+	jump_flag(integer) : "Mapvar ID to activate when this changelevel is used/touched"
 ]
 @SolidClass base(Trigger, ChangeLevel) = trigger_changelevel : "Trigger: Change level.
 When the player touches this, he gets sent to the map listed in the 'map' variable. The view will go to the info_intermission spot and display stats."
@@ -920,7 +925,7 @@ When this is triggered, the player is sent to the map listed in the 'map' variab
 //
 // t_ctrl.qc
 //
-@PointClass size(16 16 16) color(160 0 160) base(Appearflags, TriggerSounds, Target, Targetname, AltTarget) = trigger_relay : "Trigger: Relay.
+@PointClass size(16 16 16) color(160 0 160) base(Appearflags, TriggerSounds, Target, Targetname, AltTarget, Mapvar) = trigger_relay : "Trigger: Relay.
 This fixed size trigger cannot be touched, it can only be fired by other events. Target this with a target_lock to selectively disable/reenable it for logic fun.
 The 'Hold' spawnflag will cause the relay to fire only the first time it is triggered (toggle on), and fire again after 'wait' seconds have passed without being triggered (toggle off)."
 [
@@ -2179,3 +2184,35 @@ For collison on rotators, refer to the func_movewall brush entity.
 	]
 ]
 
+
+@PointClass color(192 0 128) base(Appearflags, Target, Targetname) = trigger_mapvar_read :
+"Reads a value from the mapvar bank, and relays the trigger if the specified value is met.
+When given a targetname, it'll read/relay when triggered. Otherwise, it'll fire automatically once after the map starts - good for modifying map structures or enabling/disabling triggers right from the start.
+
+Select the desired mapvar id using the 'mapvar' field, and the relay condition in 'style'. When the condition is met, it'll function like a conventional trigger_relay.
+
+Mapvars are miscellaneous flags (only true/false values) that can be freely used by the mapper whose values persist across level changes. Useful to track completion progress on mapjams for example. You have a total of 69 flags availabe to use, each identified by a number in the 1-69 range.
+"
+[
+	mapvar(int) : "Mapvar ID" : : "Obligatory. Must range between 1 and 69."
+	style(choices) : "Relay condition" : 2 = [
+		1 : "Trigger if mapvar is off/false"
+		2 : "Trigger if mapvar is on/true"
+	]
+]
+
+@PointClass color(192 0 128) base(Appearflags, Targetname) = trigger_mapvar_write :
+"Writes a value to the mapvar bank.
+
+Select the desired mapvar id using the 'mapvar' field, and the value to be set in 'style'. You can either set to on, set to off, or toggle the flag's value.
+
+Mapvars are miscellaneous flags (only true/false values) that can be freely used by the mapper whose values persist across level changes. Useful to track completion progress on mapjams for example. You have a total of 69 flags availabe to use, each identified by a number in the 1-69 range.
+"
+[
+	mapvar(int) : "Mapvar ID" : : "Obligatory. Must range between 1 and 69."
+	style(choices) : "Value to write" : 2 = [
+		1 : "Set flag to off/false"
+		2 : "Set flag to on/true"
+		3 : "Toggle flag value"
+	]
+]

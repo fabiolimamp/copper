@@ -383,6 +383,10 @@ float() changelevel_check_coop =
 
 void() changelevel_do =
 {
+	// flip on whichever mapvar is set into the changelevel trigger
+	if (self.jump_flag > 0 && self.jump_flag <= MAPV_TOTAL)
+		write_mapvar(self.jump_flag, MAPV_WRITE_ON);
+
 	if (coop || deathmatch)
 	{
 		bprint (other.netname);
@@ -427,11 +431,7 @@ void() changelevel_touch =
 			return;
 		}
 	}
-	
-	// flip on whichever mapvar is set into the changelevel trigger
-	if (self.jump_flag > 0 && self.jump_flag <= MAPV_TOTAL)
-		write_mapvar(self.jump_flag, MAPV_WRITE_ON);
-	
+		
 	
 	activator = other;
 	SUB_UseTargetsSilent();	
