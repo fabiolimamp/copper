@@ -7,8 +7,56 @@ Routed from the wrench code
 ===============
 */
 
+.float berserk_alternator;
 
-float() weaponanim_berserk = {
+
+/*
+-----------------------------------------------------------------
+Berserk Animation Cycles
+
+	    0	idle
+
+	 1-10	idle > {R} start	hit (4)		[10]
+	11-20	{R} end > reset
+
+	21-30	idle > {L} start	hit (24)	[30]
+	31-40	{L} end > reset
+
+	41-50	{L} combo > {R}	combo / {L} end > reset		hit (44)	[50]
+	51-60	{R} combo > {L}	combo / {R} end > reset		hit (54)	[60]
+	
+	61-70	reset > idle loop
+	71-90	idle loop	[61-80]
+                                                 ╭─────────────────────────────────────────────╮
+                                                 │                                             │
+                                                 │                     ███ {R} combo ──────────┤
+                                                 │                      │      51-60           │
+                                                ███ {L} combo ──────────┤[50]                  │
+                                                 │      41-50           │                      │
+        ███ (if alternator == 0) > {R} start ────┤[10]                 ░░░ {L} end > reset     │
+         │                             1-10      │                             31-40           │
+         │                                      ░░░ {R} end > reset                            │
+         │                                       │      11-20                                  │
+         │                                       ╰─────────────────────────────────────────────╯
+reset+   │                                                                                   
+idle ────┤[61-90]                                ╭─────────────────────────────────────────────╮
+loop     │                                       │                                             │
+         │                                       │                     ███ {L} combo ──────────┤
+         │                                       │                      │      41-50           │
+         │                                      ███ {R} combo ──────────┤[60]                  │
+         │                                       │      51-60           │                      │
+        ███ (if alternator == 1) > {L} start ────┤[30]                 ░░░ {R} end > reset     │
+                                       21-30     │                             11-20           │
+                                                ░░░ {L} end > reset                            │
+                                                 │      31-40                                  │
+                                                 ╰─────────────────────────────────────────────╯
+	self.attackpressed;
+	self.attackhold;
+*/
+
+
+float() weaponanim_berserk = 
+{
 	if (self.attack_finished > time)
 		return FALSE;
 
@@ -21,50 +69,75 @@ float() weaponanim_berserk = {
 	}
 
 	self.attack_finished = time + 0.5;
-	
-	self.weaponframe = floor(random()*4.99)*10 + 1;
-	
+		
 	// converts weaponframe to a 0-4 integer selector for the player animation
-	player_axe_start(self.animcontroller, (self.weaponframe - 1)/10); 
+	//player_axe_start(self.animcontroller, (self.weaponframe - 1)/10);
+	
+	
+	//if (self.weaponframe >= 41
+	if (self.weaponframe >= 1
+	 && self.weaponframe <= 60)
+	{
+		if (self.berserk_alternator == 0)	self.weaponframe = 51;
+		else					self.weaponframe = 41;
+	}
 
-	self.think = weaponanim_berserk_loop;
+	if (self.weaponframe >= 61
+	 && self.weaponframe <= 90)	// idle loop	[61-80]
+	{
+		if (self.berserk_alternator == 0)	self.weaponframe = 1;
+		else					self.weaponframe = 21;
+	}	
+
 	self.nextthink = time + 0.05;
+	self.think = weaponanim_berserk_loop;
 
 	return FALSE; 
 }
 
-void() weaponanim_berserk_loop = {
-	if (self.weaponframe % 10 == 3)
-		W_FireBerserk();
-		//W_FireBerserk2();	// don't...
+void() weaponanim_berserk_loop =	// End Check [Junction]
+{
+	if (self.weaponframe == 4
+	 || self.weaponframe == 24
+	 || self.weaponframe == 44
+	 || self.weaponframe == 54)	W_FireBerserk();
 
-	if (self.weaponframe % 10 == 0) {
-		self.weaponframe = 0;
+		
+	if (self.weaponframe == 50)	self.weaponframe = 30;
+	if (self.weaponframe == 60)	self.weaponframe = 10;
+
+
+	if (self.weaponframe == 20 || self.weaponframe == 40)
+	{
+		self.weaponframe = 61;
+	}
+	if (self.weaponframe >= 70)
+	{
+		idleanim_berserk();
 		return;
 	}
-	else {
-		self.weaponframe++;
-	}
+	
+	self.weaponframe++;
 
 	self.think = weaponanim_berserk_loop;
 	self.nextthink = time + 0.05;
-
 }
 
-
 //=================================================================================================
-
 void() W_FireBerserk =
 {
 	local vector toss;
 	if (self.health <= 0)
 		return;
 
+	if (self.weaponframe == 4 || self.weaponframe == 54)	self.berserk_alternator = 1;	// if {R} start || {R} combo = {L} alternator
+	else							self.berserk_alternator = 0;	// if {L} start || {L} combo = {R} alternator
+	
 	makevectors (self.v_angle);
 			
-	vector source = self.origin + self.view_ofs;//'0 0 16';
+	vector source = self.origin + self.view_ofs;
 	
-	traceline2(source, source + v_forward * (100), self, 0);	// flail has increased range by default
+	traceline2(source, source + v_forward * (100), self, 0);
 		
 	if (trace_fraction == 1.0) 
 		return;
@@ -79,8 +152,8 @@ void() W_FireBerserk =
 		
 		if (trace_ent.flags & FL_MONSTER)
 		{
-			if (random() < 0.5) sound (self, CHAN_WEAPON, "weapons/axhit1.wav", 1, ATTN_NORM);
-			else sound (self, CHAN_WEAPON, "weapons/axhit2.wav", 1, ATTN_NORM);
+			if (random() < 0.5) 	sound (self, CHAN_WEAPON, "weapons/axhit1.wav", 1, ATTN_NORM);
+			else 			sound (self, CHAN_WEAPON, "weapons/axhit2.wav", 1, ATTN_NORM);
 		}
 		else
 		{
@@ -118,6 +191,29 @@ void() W_FireBerserk =
 		sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
 		gunshot(org);
 	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+void() idleanim_berserk =
+{	
+	self.weaponframe = 71;
+	
+	self.think = idleanim_berserk_loop;
+	self.nextthink = time + 0.05;
+}
+
+void() idleanim_berserk_loop =
+{
+	if (self.weaponframe >= 90)	//restart idle loop
+	{
+		idleanim_berserk();
+		return;
+	}
+	else 
+		self.weaponframe++;
+
+	self.think = idleanim_berserk_loop;
+	self.nextthink = time + 0.05;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

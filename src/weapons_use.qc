@@ -222,7 +222,7 @@ weaponclass_t wpc_axe = {
 	0, // ammo_item
 	0, // ammo_usage
 	weaponanim_wrench, // animfunction
-	SUB_Null // idlefunction
+	idleanim_berserk // idlefunction
 };
 
 
@@ -314,7 +314,7 @@ weaponclass_t wpc_invoker = {
 	IT_CELLS, // ammo_item
 	1, // ammo_usage
 	weaponanim_invoker, // animfunction
-	idleamim_invoker // idlefunction
+	idleanim_invoker // idlefunction
 };
 
 

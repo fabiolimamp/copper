@@ -69,7 +69,7 @@ void() weaponanim_invoker_loop =
 	if (self.weaponframe >= 100)	// added post-fire + ready to fire --> idle padding
 	{
 		//self.weaponframe = 0;
-		idleamim_invoker();
+		idleanim_invoker();
 		return;
 	}	
 	else {
@@ -81,27 +81,27 @@ void() weaponanim_invoker_loop =
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-void() idleamim_invoker =
+void() idleanim_invoker =
 {	
 	self.weaponframe = 85;
 	
-	self.think = idleamim_invoker_loop;
+	self.think = idleanim_invoker_loop;
 	self.nextthink = time + 0.1;
 }
 
-void() idleamim_invoker_loop =
+void() idleanim_invoker_loop =
 {
 
 	if (self.weaponframe >= 100)	//restart idle loop
 	{
-		idleamim_invoker();
+		idleanim_invoker();
 		return;
 	}
 	else {
 		self.weaponframe++;
 	}
 
-	self.think = idleamim_invoker_loop;
+	self.think = idleanim_invoker_loop;
 	self.nextthink = time + 0.1;
 }
 
