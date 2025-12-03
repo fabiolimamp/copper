@@ -74,7 +74,6 @@ float() weaponanim_berserk =
 	//player_axe_start(self.animcontroller, (self.weaponframe - 1)/10);
 	
 	
-	//if (self.weaponframe >= 41
 	if (self.weaponframe >= 1
 	 && self.weaponframe <= 60)
 	{
@@ -102,14 +101,14 @@ void() weaponanim_berserk_loop =	// End Check [Junction]
 	 || self.weaponframe == 44
 	 || self.weaponframe == 54)	W_FireBerserk();
 
-		
+
 	if (self.weaponframe == 50)	self.weaponframe = 30;
 	if (self.weaponframe == 60)	self.weaponframe = 10;
 
 
 	if (self.weaponframe == 20 || self.weaponframe == 40)
 	{
-		self.weaponframe = 61;
+		self.weaponframe = 60;
 	}
 	if (self.weaponframe >= 70)
 	{
