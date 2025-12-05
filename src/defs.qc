@@ -384,6 +384,7 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .float		count;		// for counting triggers
 .float		cnt;		// used on grunts, enforcers, dguards, and ogres for attack refire
 						// reused on players for nailgun barrel cycling
+.string		message2;
 
 // sounds
 .float		distance;

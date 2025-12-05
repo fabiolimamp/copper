@@ -156,16 +156,27 @@ SUB_PrintMessage
 */
 void() SUB_PrintMessage =
 {
-	if (self.message == string_null)
+	string msg;
+
+	if (self.mapvar_message) {
+		if (read_mapvar(self.mapvar_message))
+			msg = self.message2;
+		else
+			msg = self.message;
+	}
+	else
+		msg = self.message;
+
+	if (msg == string_null)
 		return;
 	entity client = world;
 	
-	dprint5("Printing message '",self.message,"' to ",activator.classname," ...\n");
+	dprint5("Printing message '", msg, "' to ",activator.classname," ...\n");
 	
 	// print the message
 	if (activator.classname == "player")
 	{
-		centerprintlocal(activator, self.message);
+		centerprintlocal(activator, msg);
 		
 		// non-triggers might play the noise themselves (buttons, etc)
 		if (self.noise == string_null && (self.solid == SOLID_TRIGGER || self.solid == SOLID_NOT) && self.sounds != -1)
@@ -178,7 +189,7 @@ void() SUB_PrintMessage =
 		client = nextent(world);
 		while (client.flags & FL_CLIENT)
 		{
-			centerprint (client, self.message);
+			centerprint (client, msg);
 			if (self.noise == string_null && (self.solid == SOLID_TRIGGER || self.solid == SOLID_NOT))
 				sound (client, CHAN_VOICE, "misc/talk.wav", 1, ATTN_NORM);
 			if (!coop) break;

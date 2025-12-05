@@ -29,6 +29,7 @@ nosave float mapvar_started;
 
 .float mapvar;
 .float mapvar_not;
+.float mapvar_message;
 
 // Setup the bitflag array (used in world.qc)
 void() mapvar_setuparray = {
