@@ -222,7 +222,7 @@ weaponclass_t wpc_axe = {
 	0, // ammo_item
 	0, // ammo_usage
 	weaponanim_wrench, // animfunction
-	idleanim_berserk // idlefunction
+	SUB_Null // idlefunction
 };
 
 
@@ -542,7 +542,9 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon = {
 	self.animcontroller.think = player_run;
 	self.think = SUB_Null;
 
-	if (weapcl.idlefunction != SUB_Null) weapcl.idlefunction();
+	if (weap == IT_AXE && has_berserk(self)) idleanim_berserk();
+	else if (weapcl.idlefunction != SUB_Null) weapcl.idlefunction();
+
 	return weapstat;
 }
 
