@@ -46,7 +46,7 @@ void(entity h, float t) powerup_vampirism =
 	precache_vamp();
 	h.items_qbj |= IT_VAMP;
 	h.vamp_finished = time + t;
-	csf_set(h, 32, '255 0 0', 100);
+	csf_set(h, 32, '255 0 0', 90);
 	h.vamp_time = 1;
 }
 
