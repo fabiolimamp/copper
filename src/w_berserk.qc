@@ -110,7 +110,7 @@ void() weaponanim_berserk_loop =	// End Check [Junction]
 	}
 	if (self.weaponframe >= 70)
 	{
-		idleanim_berserk();
+		idleanim_melee();
 		return;
 	}
 	
@@ -193,25 +193,25 @@ void() W_FireBerserk =
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-void() idleanim_berserk =
+void() idleanim_melee =
 {	
 	self.weaponframe = 71;
 	
-	self.think = idleanim_berserk_loop;
+	self.think = idleanim_melee_loop;
 	self.nextthink = time + 0.05;
 }
 
-void() idleanim_berserk_loop =
+void() idleanim_melee_loop =
 {
 	if (self.weaponframe >= 90)	//restart idle loop
 	{
-		idleanim_berserk();
+		idleanim_melee();
 		return;
 	}
 	else 
 		self.weaponframe++;
 
-	self.think = idleanim_berserk_loop;
+	self.think = idleanim_melee_loop;
 	self.nextthink = time + 0.05;
 }
 

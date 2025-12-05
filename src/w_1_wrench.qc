@@ -44,7 +44,8 @@ void() weaponanim_wrench_loop ={
 		W_FireWrench(); //<<<
 
 	if (self.weaponframe % 20 == 0) {
-		self.weaponframe = 0;
+		//self.weaponframe = 0;
+		idleanim_melee();
 		return;
 	}
 	else {
