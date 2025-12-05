@@ -7,8 +7,6 @@ Routed from the wrench code
 ===============
 */
 
-.float berserk_alternator;
-
 
 /*
 -----------------------------------------------------------------
@@ -77,15 +75,15 @@ float() weaponanim_berserk =
 	if (self.weaponframe >= 1
 	 && self.weaponframe <= 60)
 	{
-		if (self.berserk_alternator == 0)	self.weaponframe = 51;
-		else					self.weaponframe = 41;
+		if (self.customflags & CFL_LEFTY) self.weaponframe = 41;
+		else self.weaponframe = 51;
 	}
 
 	if (self.weaponframe >= 61
 	 && self.weaponframe <= 90)	// idle loop	[61-80]
 	{
-		if (self.berserk_alternator == 0)	self.weaponframe = 1;
-		else					self.weaponframe = 21;
+		if (self.customflags & CFL_LEFTY) self.weaponframe = 21;
+		else self.weaponframe = 1;
 	}	
 
 	self.nextthink = time + 0.05;
@@ -129,8 +127,10 @@ void() W_FireBerserk =
 	if (self.health <= 0)
 		return;
 
-	if (self.weaponframe == 4 || self.weaponframe == 54)	self.berserk_alternator = 1;	// if {R} start || {R} combo = {L} alternator
-	else							self.berserk_alternator = 0;	// if {L} start || {L} combo = {R} alternator
+	if (self.weaponframe == 4 || self.weaponframe == 54)
+		self.customflags |= CFL_LEFTY; // if {R} start || {R} combo = {L} alternator
+	else
+		self.customflags &~= CFL_LEFTY;	// if {L} start || {L} combo = {R} alternator
 	
 	makevectors (self.v_angle);
 			
