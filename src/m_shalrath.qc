@@ -453,6 +453,7 @@ void() monster_shalrath_spawn =
 	self.th_pain = shalrath_pain;
 	self.th_missile = shalrath_attack;
 	self.th_checkattack = CheckAttack;
+	self.invokedmodel = "progs/fx/invoked_shalrath.mdl";
 
 	self.gibgroup = GIBGROUP_TAR_ALLOWED;
 

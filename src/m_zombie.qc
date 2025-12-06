@@ -759,6 +759,7 @@ void() monster_zombie_spawn =
 		self.th_die = zombie_die;
 		self.th_missile = zombie_missile;
 		self.th_checkattack = CheckAttack;
+		self.invokedmodel = "progs/fx/invoked_zombie.mdl";
 		//self.skin = 0;
 
 		self.gibgroup = GIBGROUP_TAR_ALLOWED;

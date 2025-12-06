@@ -418,7 +418,8 @@ void() monster_enforcer_spawn =
 	self.th_die = enf_die;
 	self.th_missile = enf_atk1;
 	self.th_checkattack = enforcer_check_attack;
-
+	self.invokedmodel = "progs/fx/invoked_enforcer.mdl";
+	
 	if (self.deathtype == string_null)
 		self.deathtype = "was blasted by a Plasma Trenchknight";
 

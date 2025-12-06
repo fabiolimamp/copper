@@ -593,6 +593,7 @@ void() monster_amalgam_spawn =
 	self.th_pain = amalg_pain;
 	self.th_die = amalgam_die;
 	self.th_checkattack = AmalgamCheckAttack;
+	self.invokedmodel = "progs/fx/invoked_amalgam.mdl";
 
 
 	if (self.deathtype == string_null)

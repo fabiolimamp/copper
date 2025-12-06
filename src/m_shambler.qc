@@ -472,6 +472,8 @@ void() monster_shambler_spawn =
 	self.th_pain = sham_pain;
 	self.th_checkattack = ShamCheckAttack;
 	zaplight(0);
+	
+	self.invokedmodel = "progs/fx/invoked_shambler.mdl";
 
 	self.gibgroup = GIBGROUP_TAR_ALLOWED;
 

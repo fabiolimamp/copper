@@ -156,7 +156,7 @@ void(string invoked_model, vector impact_org, vector dir) FX_Invoked =
 
 
 	//setorigin (fx, self.origin + v_forward * 32 + '0 0 16');
-	setorigin (fx, impact_org);
+	setorigin(fx, impact_org + '0 0 32');
 
 	setsize (fx, '0 0 0', '0 0 0');
 }

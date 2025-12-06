@@ -417,7 +417,8 @@ void() monster_pistolarmy_spawn =
 	self.th_pain = pistolarmy_pain;
 	self.th_die = pistolarmy_die;
 	self.th_checkattack = PistolSoldierCheckAttack;
-
+	self.invokedmodel = "progs/fx/invoked_soldier_p.mdl";
+	
 	if (self.deathtype == string_null)
 		self.deathtype = "was struck during a Pistol Trenchknight-involved shooting and later died from their injuries";
 

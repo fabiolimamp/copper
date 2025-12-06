@@ -423,6 +423,7 @@ void() monster_swarmer_spawn =
 	self.th_melee = swarmer_melee;
 	self.th_checkattack = CheckAttack;
 	self.yaw_speed = 35;
+	self.invokedmodel = "progs/fx/invoked_swarmer.mdl";
 
 	self.gibgroup = GIBGROUP_TAR_ALLOWED;
 

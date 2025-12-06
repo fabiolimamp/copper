@@ -351,6 +351,7 @@ void() monster_tarbaby_spawn =
 	self.th_die = tbaby_die1;
 	self.th_checkattack = tbaby_check_attack;
 	self.th_pain = tbaby_pain;
+	self.invokedmodel = "progs/fx/invoked_spawn.mdl";
 
 	if (self.deathtype == string_null)
 		self.deathtype = "was slimed by a Spawn";

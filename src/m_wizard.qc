@@ -368,7 +368,8 @@ void() monster_wizard_spawn =
 	self.th_pain = Wiz_Pain;
 	self.th_die = wiz_die;
 	self.th_checkattack = WizardCheckAttack;
-
+	self.invokedmodel = "progs/fx/invoked_wizard.mdl";
+	
 	if (self.deathtype == string_null)
 		self.deathtype = "was served by a Servitor";
 

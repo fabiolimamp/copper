@@ -266,6 +266,8 @@ void() monster_knight_spawn =
 	self.th_pain = knight_pain;
 	self.th_die = knight_die;
 	self.th_checkattack = CheckAttack;
+	
+	self.invokedmodel = "progs/fx/invoked_knight.mdl";
 
 	if (self.deathtype == string_null)
 		self.deathtype = "was bashed by a Knight";

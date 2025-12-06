@@ -463,7 +463,8 @@ void() monster_rocketarmy_spawn =
 	self.th_pain = rocketarmy_pain;
 	self.th_die = rocketarmy_die;
 	self.th_checkattack = RocketSoldierCheckAttack;
-
+	self.invokedmodel = "progs/fx/invoked_soldier_r.mdl";
+	
 	if (self.deathtype == string_null)
 		self.deathtype = "was exploded by a Rocket Trenchknight";
 

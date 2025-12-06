@@ -581,6 +581,8 @@ void() monster_demon_spawn =
 	setsize (self, VEC_HULL2_MIN, '32 32 40');
 	self.health = 300;
 	
+	self.invokedmodel = "progs/fx/invoked_demon.mdl";
+	
 	self.yaw_speed = 30;
 	self.customflags |= CFL_MELEEONLY;
 

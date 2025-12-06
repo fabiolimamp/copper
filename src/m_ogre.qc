@@ -614,6 +614,8 @@ void() monster_ogre_spawn =
 
 	if (self.deathtype == string_null)
 		self.deathtype = "was blasted by a Grenadier";
+		
+	self.invokedmodel = "progs/fx/invoked_ogre.mdl";
 
 	walkmonster_start();
 }

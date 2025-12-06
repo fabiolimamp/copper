@@ -673,7 +673,8 @@ void() monster_hell_knight_spawn =
 	self.th_pain = hknight_pain;
 	self.th_die = hknight_die;
 	self.th_checkattack = CheckAttack;
-
+	self.invokedmodel = "progs/fx/invoked_champion.mdl";
+	
 	self.type = "brigade";	// no infighting amongst the hell death brigade legion squad
 
 	if (self.deathtype == string_null)

@@ -372,6 +372,8 @@ void() monster_dog_spawn =
 	self.th_melee = dog_atta1;
 	self.th_missile = dog_leap1;
 	self.th_checkattack = DogCheckAttack;
+	
+	self.invokedmodel = "progs/fx/invoked_dog.mdl";
 
 	if (self.deathtype == string_null)
 		self.deathtype = "was mauled by a Trench Hound";

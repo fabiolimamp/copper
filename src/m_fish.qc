@@ -345,7 +345,8 @@ void() monster_fish_spawn =
 	self.th_melee = f_attack;
 	//self.th_missile = f_dash;
 	self.th_checkattack = fish_check_attack;
-
+	self.invokedmodel = "progs/fx/invoked_fish.mdl";
+	
 	if (self.deathtype == string_null)
 		self.deathtype = "was flayed by a Fleshworm";
 
