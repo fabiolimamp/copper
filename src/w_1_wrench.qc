@@ -6,10 +6,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-float() weaponanim_wrench = {
-	
-	//if (has_gorgon(self))
-	//	return weaponanim_gorgon();
+float() weaponanim_wrench =
+{
 	if (has_berserk(self))
 		return weaponanim_berserk();
 
@@ -39,13 +37,14 @@ float() weaponanim_wrench = {
 	return FALSE; // axe swing will never count as fired until it hits something
 }
 
-void() weaponanim_wrench_loop ={
+void() weaponanim_wrench_loop =
+{
 	if (self.weaponframe % 20 == 3)
 		W_FireWrench(); //<<<
 
 	if (self.weaponframe % 20 == 0) {
-		//self.weaponframe = 0;
-		idleanim_melee();
+		self.weaponframe = 0;
+		//idleanim_melee();
 		return;
 	}
 	else {
