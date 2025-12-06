@@ -202,7 +202,7 @@ void(vector org, vector dir, float drawTrail) invokerTrace =
 					}								
 					// gibbed, so just let meat fly and call the invoked effect
 					else
-						FX_Invoked(target_ent.invokedmodel, target_ent.origin, dir);
+						FX_Invoked(target_ent.invokedmodel, target_ent.origin, dir, self.origin);
 				}
 
 				// Trace from inside of the hitted monster (vf)

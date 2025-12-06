@@ -124,8 +124,7 @@ void(float size) GibBloodBath =
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-void(string invoked_model, vector impact_org, vector dir) FX_Invoked =
+void(string invoked_model, vector impact_org, vector dir, vector playerpos) FX_Invoked =
 {
 	local entity fx;
 	
@@ -146,16 +145,15 @@ void(string invoked_model, vector impact_org, vector dir) FX_Invoked =
 	fx.frame = 0;
 	fx.alpha = 1;
 	
+	fx.oldorigin = playerpos;
+	
 	fx.think = anim_invoked;
-
 
 	if (invoked_model != "")
 		setmodel (fx, invoked_model);
 	else
 		setmodel (fx, "progs/null.mdl");
 
-
-	//setorigin (fx, self.origin + v_forward * 32 + '0 0 16');
 	setorigin(fx, impact_org + '0 0 32');
 
 	setsize (fx, '0 0 0', '0 0 0');
@@ -164,16 +162,31 @@ void(string invoked_model, vector impact_org, vector dir) FX_Invoked =
 
 void() anim_invoked =
 {
-	self.alpha -= 0.04;
+	local float dist, fade_rate;
+	local vector playerpos;
+	
+	playerpos = self.oldorigin;
+	
+	// further away = slower fade
+	dist = vlen(self.origin - playerpos);
+	
+	if (dist > 600)
+		dist = 600;
+	
+	fade_rate = 0.05 - (dist / 600) * 0.03;
+	
+	self.alpha -= fade_rate;
 
 	if (self.alpha <= 0)
 	{
 		remove(self);
 		return;
 	}
+	
 	self.think = anim_invoked;
 	self.nextthink = time + 0.05;
 };
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 void(float enable) zaplight = 
