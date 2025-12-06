@@ -45,6 +45,46 @@ $frame death9 death10
 $frame deathb1 deathb2 deathb3 deathb4 deathb5 deathb6 deathb7 deathb8
 $frame deathb9 deathb10 deathb11
 
+void() knight_idle_sound =
+{
+    if (random() < 0.2 && time > self.show_hostile)
+    {
+        sound (self, CHAN_VOICE, "knight/knight_idle_confirmingposition.wav", 0.2, ATTN_NORM);
+    }
+};
+
+void() knight_sight_sound =
+{
+    local float rs;
+    rs = rint(random() + 1); // random 1-2
+    if (rs == 1)
+        sound (self, CHAN_VOICE, "knight/knight_sight_enemysighted.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "knight/knight_sight_ivegother.wav", 1, ATTN_NORM);
+};
+
+void() knight_pain_sound =
+{
+    local float rs;
+    rs = rint((random() * 2) + 1); // random 1-3
+    if (rs == 1)
+        sound (self, CHAN_VOICE, "knight/knight_pain_1.wav", 1, ATTN_NORM);
+    else if (rs == 2)
+        sound (self, CHAN_VOICE, "knight/knight_pain_2.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "knight/knight_pain_3.wav", 1, ATTN_NORM);
+};
+
+void() knight_death_sound =
+{
+    local float rs;
+    rs = rint(random() + 1); // random 1-2
+    if (rs == 1)
+        sound (self, CHAN_VOICE, "knight/knight_death_1.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "knight/knight_death_2.wav", 1, ATTN_NORM);
+};
+
 void()	knight_stand1	=[	$stand1,	knight_stand2	] {ai_stand();}
 void()	knight_stand2	=[	$stand2,	knight_stand3	] {ai_stand();}
 void()	knight_stand3	=[	$stand3,	knight_stand4	] {ai_stand();}
@@ -56,8 +96,7 @@ void()	knight_stand8	=[	$stand8,	knight_stand9	] {ai_stand();}
 void()	knight_stand9	=[	$stand9,	knight_stand1	] {ai_stand();}
 
 void()	knight_walk1	=[	$walk1,		knight_walk2	] {
-if (random() < 0.2)
-	sound (self, CHAN_VOICE, "knight/idle.wav", 1,  ATTN_IDLE);
+knight_idle_sound();
 ai_walk(3);}
 void()	knight_walk2	=[	$walk2,		knight_walk3	] {ai_walk(2);}
 void()	knight_walk3	=[	$walk3,		knight_walk4	] {ai_walk(3);}
@@ -76,9 +115,7 @@ void()	knight_walk14	=[	$walk14,	knight_walk1	] {ai_walk(3);}
 
 void()	knight_run1	=[	$runb1,		knight_run2	]
 {
-	if (random() < 0.2 && time > self.show_hostile)
-		sound (self, CHAN_VOICE, "knight/idle.wav", 1,  ATTN_IDLE);
-		
+	knight_idle_sound();
 	nmfast();
 	ai_run(16);
 }
@@ -169,7 +206,7 @@ void(entity attacker, float damage)	knight_pain =
 	if (self.pain_finished > time)
 		return;
 		
-	sound (self, CHAN_VOICE, "knight/khurt.wav", 1, ATTN_NORM);
+	knight_pain_sound();
 	r = random();
 	if (r < 0.85)
 		knight_pain1 ();
@@ -235,7 +272,7 @@ void() knight_die =
 	if (knight_checkgib()) return;
 	
 	// regular death
-	sound (self, CHAN_VOICE, "knight/kdeath.wav", 1, ATTN_NORM);
+	knight_death_sound();
 	if (random() < 0.5)
 		knight_die1 ();
 	else
@@ -318,6 +355,15 @@ void() monster_knight =
 	precache_sound ("knight/sword1.wav");
 	precache_sound ("knight/sword2.wav");
 	precache_sound ("knight/idle.wav");
+
+	precache_sound2 ("knight/knight_sight_enemysighted.wav");
+	precache_sound2 ("knight/knight_sight_ivegother.wav");
+	precache_sound2 ("knight/knight_pain_1.wav");
+	precache_sound2 ("knight/knight_pain_2.wav");
+	precache_sound2 ("knight/knight_pain_3.wav");
+	precache_sound2 ("knight/knight_death_1.wav");
+	precache_sound2 ("knight/knight_death_2.wav");
+	precache_sound2 ("knight/knight_idle_confirmingposition.wav");
 
 	self.health = 72;
 	setsize (self, '-16 -16 -24', '16 16 40');
