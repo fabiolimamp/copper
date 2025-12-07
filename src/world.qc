@@ -215,7 +215,8 @@ void() worldspawn =
 
 	InitBodyQueue ();
 	InitLightStyles();	// moved to lights.qc
-
+	
+	mapvar_setuparray();
 	if (!self.gravity)
 	{
 		if (mapname == "e1m8")

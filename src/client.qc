@@ -9,16 +9,17 @@ CLIENT
 
 void() SetChangeParms =
 {
+	// mapvars are always passed down
+	parm14 = mapvars[0];
+	parm15 = mapvars[1];
+	parm16 = mapvars[2];
+
 	if(reset_flag)
 	{
 		setspawnparms(self);
 		return;
 	}
 	
-	// mapvars are always passed down
-	parm14 = mapvars[0];
-	parm15 = mapvars[1];
-	parm16 = mapvars[2];
 
 	if (self.health <= 0)
 	{
@@ -86,6 +87,16 @@ void() SetNewParms =
 	parm7 = 0;
 	parm9 = 0;
 //	parm10 = 0;
+
+	// Are map variables live?
+	if (mapvar_started) dprint("\b[CLIENT]\b LIVE Map Variables Detected\n");
+	else {
+		dprint("\b[CLIENT]\b RESETTING Map Variables\n");
+		// Reset map variables ready for use
+		parm15 = 0;
+		parm16 = 0;
+		mapvar_reset();
+	}
 
 	armor_set_type(self);
 }

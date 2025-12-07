@@ -92,11 +92,11 @@ void(float mapv_indx, float mapv_val) write_mapvar =
 	curr_bits = mapvars[mapv_bank] & bitflags[mapv_cell];
 
 	if (mapv_val == MAPV_WRITE_ON || (mapv_val == MAPV_WRITE_TOGGLE && !curr_bits)) {
-		mapvars[mapv_bank] = mapvars[mapv_bank] | bitflags[mapv_cell];
+		mapvars[mapv_bank] |= bitflags[mapv_cell];
 		dprint3("Set mapvar #", ftos(mapv_indx), " to 1\n");
 	}
 	else {
-		mapvars[mapv_bank] = mapvars[mapv_bank] - (mapvars[mapv_bank] & bitflags[mapv_cell]);
+		mapvars[mapv_bank] &~= bitflags[mapv_cell];
 		dprint3("Set mapvar #", ftos(mapv_indx), " to 0\n");
 	}
 };
