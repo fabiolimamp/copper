@@ -547,10 +547,17 @@ void() HuntTarget =
 
 void() SightSound =
 {
+	float rs;
+	
 	if (self.classname == "monster_ogre" )	
 		ogre_sight_sound();
 	else if (self.classname == "monster_knight" || self.classname == "monster_axegrunt")
-		sound (self, CHAN_VOICE, "knight/ksight.wav", 1, ATTN_NORM);
+		{
+    		rs = rint(random() + 1); // random 1-2
+    		if (rs == 1)
+        	sound (self, CHAN_VOICE, "knight/knight_sight_enemysighted.wav", 1, ATTN_NORM);
+    		else sound (self, CHAN_VOICE, "knight/knight_sight_ivegother.wav", 1, ATTN_NORM);
+		}
 	else if (self.classname == "monster_shambler")
 		sound (self, CHAN_VOICE, "shambler/ssight.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_demon1")
@@ -563,7 +570,6 @@ void() SightSound =
 		sound (self, CHAN_VOICE, "dog/dsight.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_hell_knight" )
 	{
-		float rs;
 		rs = rint((random() * 4) + 1);
 		if (rs == 1)
 			sound (self, CHAN_VOICE, "hknight/hknight_sight_1.wav", 1, ATTN_NORM);

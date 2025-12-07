@@ -45,14 +45,6 @@ $frame death9 death10
 $frame deathb1 deathb2 deathb3 deathb4 deathb5 deathb6 deathb7 deathb8
 $frame deathb9 deathb10 deathb11
 
-void() knight_idle_sound =
-{
-    if (random() < 0.2 && time > self.show_hostile)
-    {
-        sound (self, CHAN_VOICE, "knight/knight_idle_confirmingposition.wav", 0.2, ATTN_NORM);
-    }
-};
-
 void() knight_sight_sound =
 {
     local float rs;
@@ -95,9 +87,7 @@ void()	knight_stand7	=[	$stand7,	knight_stand8	] {ai_stand();}
 void()	knight_stand8	=[	$stand8,	knight_stand9	] {ai_stand();}
 void()	knight_stand9	=[	$stand9,	knight_stand1	] {ai_stand();}
 
-void()	knight_walk1	=[	$walk1,		knight_walk2	] {
-knight_idle_sound();
-ai_walk(3);}
+void()	knight_walk1	=[	$walk1,		knight_walk2	] {ai_walk(3);}
 void()	knight_walk2	=[	$walk2,		knight_walk3	] {ai_walk(2);}
 void()	knight_walk3	=[	$walk3,		knight_walk4	] {ai_walk(3);}
 void()	knight_walk4	=[	$walk4,		knight_walk5	] {ai_walk(4);}
@@ -115,7 +105,6 @@ void()	knight_walk14	=[	$walk14,	knight_walk1	] {ai_walk(3);}
 
 void()	knight_run1	=[	$runb1,		knight_run2	]
 {
-	knight_idle_sound();
 	nmfast();
 	ai_run(16);
 }
