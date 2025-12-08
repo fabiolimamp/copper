@@ -98,7 +98,7 @@ void(float offs) W_FireTwinNailgun =
 {
 	sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 0.8, ATTN_NORM);	
 	sound (self, CHAN_AUTO, "nail/airpuff.wav", 0.3, ATTN_NORM);	
-	nailgun_sound(0.5);
+	nailgun_sound(0.45);
 
 	makevectors(self.v_angle);
 	vector dir = aim(self, AUTOAIM_DIST);
@@ -193,7 +193,7 @@ void() twinnail_touch =
 		spawn_touchblood (other, self.dmg);
 		T_Damage (other, self, self.trueowner, self.dmg);
 				
-		if (random() < 0.8)	sound_nailgun_impact_enemy(1);
+		if (random() < 0.8)	sound_nailgun_impact_enemy(0.7);
 		
 		if (random() < 0.75)	FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);
 	}

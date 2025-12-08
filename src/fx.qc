@@ -76,7 +76,7 @@ void(float impact_type, vector impact_org, vector dir) FX_Impact =
 	else if (impact_type == FX_BULLET || impact_type == FX_NAIL || impact_type == FX_SPARK)	// world impact spark
 	{
 		if 	(impact_type == FX_BULLET)	sound_pistol_ricochet(impact_org, 0.5);
-		else if (impact_type == FX_NAIL)	sound_nailgun_impact_world(impact_org, 0.5);
+		else if (impact_type == FX_NAIL)	sound_nailgun_impact_world(impact_org, 0.3);
 		
 		if 	(r == 0)	setmodel (fx, "progs/fx/spark1.mdl");
 		else if (r == 1)	setmodel (fx, "progs/fx/spark2.mdl");
