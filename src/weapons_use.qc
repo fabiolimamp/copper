@@ -30,6 +30,11 @@ void() W_Precache =
 	precache_sound ("zombie/z_hit.wav");
 	
 	//=============================================================================================
+	
+	precache_model ("progs/v_wrench.mdl");						// 1 Melee
+	precache_model ("progs/v_berserk.mdl");
+	
+	//=============================================================================================
 											// 2 Pistol
 	precache_model ("progs/bullet_casing.mdl");
 	precache_model ("progs/pistol_mag.mdl");
