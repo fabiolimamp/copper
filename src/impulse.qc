@@ -145,6 +145,18 @@ void() Cheat_Vamp =
 }
 
 // --------------------------------
+// Cheat_Zerk
+// --------------------------------
+void() Cheat_Zerk =
+{
+	if(deathmatch || coop)
+		return;
+	stuffcmd(self, "bf\n");
+	self.items_qbj = self.items_qbj | IT_BERSERK;
+	powerup_berserk(self, 30);
+}
+
+// --------------------------------
 // Cheat_Ring
 // --------------------------------
 void() Cheat_Ring =
@@ -296,6 +308,9 @@ void() ImpulseCommands =
 			break;
 		case 222:
 			Cheat_Vamp();
+			break;
+		case 223:
+			Cheat_Zerk();
 			break;
 		case 245:
 			Cheat_Ring();	
