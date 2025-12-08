@@ -74,7 +74,7 @@ entity(vector org, vector vel) launch_impaler =
 	gunshot(org);
 
 	impaler = toss_projectile(org, vel, "impaler");
-	impaler.lifetime_finished = time + 2.5;
+	impaler.lifetime_finished = time + 10;
 	
 	SUB_ChangeModel (impaler, "progs/proj_rebar.mdl");
 
