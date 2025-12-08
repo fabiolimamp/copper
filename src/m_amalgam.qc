@@ -486,6 +486,7 @@ void() AmalGoop_Drop =
 	sound (self, CHAN_WEAPON, "amalg/amalgshoot.wav", .5, ATTN_NORM);
 
 	item.dmg = 8;
+	item.deathtype = "bled out to an Amalagam's caltrop.";
 	item.touch = AmalGoop_Touch;
 	item.think = SUB_Remove;
 	item.nextthink = time + 20;

@@ -214,7 +214,7 @@ void() sploder_explode =
 void()	sploder_die =
 {
 	if (skill > 2)
-	AmalGoop_Spam(2);
+	BlisterGoop_Spam(2);
 
 	if (self.think == sploder_explode)
 		return;	// already exploding
@@ -222,6 +222,52 @@ void()	sploder_die =
 	self.think = sploder_explode;
 	self.nextthink = time + 0.05;	// infini-sploder crash fixed
 };
+
+void(float drop_count) BlisterGoop_Spam =
+{
+	float i;
+	
+	i = 0;
+
+    while(i < drop_count)
+    {
+        BlisterGoop_Drop();
+        i++;
+    }
+}
+
+void() BlisterGoop_Drop =
+{
+	entity item;
+
+	item = spawn();
+	item.origin = self.origin + '0 0 24';
+
+	item.velocity_z = 300 + (random() * 100);
+	item.velocity_x = crandom() * 300;
+	item.velocity_y = crandom() * 300;
+	item.avelocity = '100 100 100';
+	
+	item.flags = FL_ITEM;
+	item.solid = SOLID_TRIGGER;
+	item.movetype = MOVETYPE_TOSS;
+	item.classname = "BlisterGoop";
+	setmodel (item, "progs/proj_amalgoop.mdl");
+	setsize (item, '0 0 0', '0 0 0');
+	//item.angles_y = (random() * (random() * 256));
+	
+	local vector goop_spin;
+	goop_spin_y = (300 + random() * 600);
+	item.avelocity = goop_spin;
+
+	item.skin = self.skin;
+
+	item.dmg = 8;
+	item.deathtype = "bled out to a Blister's caltrop.";
+	item.touch = AmalGoop_Touch;
+	item.think = SUB_Remove;
+	item.nextthink = time + 20;
+}
 
 void(entity attacker, float damage)	sploder_pain =
 {
