@@ -12,8 +12,8 @@ Adapted from AD
 
 
 float MAPV_BITS = 23;			// Bits used in each parm block
-float MAPV_BLCK = 3;			// Blocks used (total parm's)
-float MAPV_TOTAL = 69;			// Maximum amount of variables
+float MAPV_BLCK = 4;			// Blocks used (total parm's)
+float MAPV_TOTAL = 92;			// Maximum amount of variables
 
 float MAPV_WRITE_OFF = 1;
 float MAPV_WRITE_ON = 2;
@@ -24,7 +24,7 @@ float MAPV_READ_ON = 2;
 
 
 float bitflags[24];				// Bitflag values
-float mapvars[3];				// Map variables stored in savefile
+float mapvars[4];				// Map variables stored in savefile
 nosave float mapvar_started;
 
 .float mapvar;

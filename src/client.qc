@@ -10,9 +10,10 @@ CLIENT
 void() SetChangeParms =
 {
 	// mapvars are always passed down
-	parm14 = mapvars[0];
-	parm15 = mapvars[1];
-	parm16 = mapvars[2];
+	parm13 = mapvars[0];
+	parm14 = mapvars[1];
+	parm15 = mapvars[2];
+	parm16 = mapvars[3];
 
 	if(reset_flag)
 	{
@@ -93,6 +94,8 @@ void() SetNewParms =
 	else {
 		dprint("\b[CLIENT]\b RESETTING Map Variables\n");
 		// Reset map variables ready for use
+		parm13 = 0;
+		parm14 = 0;
 		parm15 = 0;
 		parm16 = 0;
 		mapvar_reset();
@@ -152,9 +155,10 @@ void() DecodeLevelParms =
 	if (!prev_mapvar_started)
 	{
 		dprint("\b[CLIENT]\b Decode (Level) Parms\n");
-		mapvars[0] = parm14;
-		mapvars[1] = parm15;
-		mapvars[2] = parm16;
+		mapvars[0] = parm13;
+		mapvars[1] = parm14;
+		mapvars[2] = parm15;
+		mapvars[3] = parm16;
 	}
 
 	armor_set_type(self);
