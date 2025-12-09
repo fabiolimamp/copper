@@ -58,14 +58,16 @@ float() weaponanim_berserk =
 	if (self.attack_finished > time)
 		return FALSE;
 
-	sound (self, CHAN_AUTO, "weapons/ax1.wav", 1, ATTN_NORM);
+	//sound (self, CHAN_AUTO, "weapons/ax1.wav", 1, ATTN_NORM);
+	sound_air_swipe(1);
 	
+	/*
 	if (self.berserk_sound < time)
 	{
 		self.berserk_sound = time + 1;
 		sound (self, CHAN_POWERUP, "items/berserk_fire.wav", 1, ATTN_NORM);
 	}
-
+	*/
 	self.attack_finished = time + 0.5;
 		
 	// converts weaponframe to a 0-4 integer selector for the player animation
@@ -150,6 +152,7 @@ void() W_FireBerserk =
 		trace_ent.customflags = trace_ent.customflags | CFL_AXEHITME;
 		
 		if (trace_ent.flags & FL_MONSTER)
+		/*
 		{
 			if (random() < 0.5) 	sound (self, CHAN_WEAPON, "weapons/axhit1.wav", 1, ATTN_NORM);
 			else 			sound (self, CHAN_WEAPON, "weapons/axhit2.wav", 1, ATTN_NORM);
@@ -158,6 +161,15 @@ void() W_FireBerserk =
 		{
 			sound (self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_IDLE);
 		}
+		*/
+				
+		if (self.berserk_sound < time)
+		{
+			self.berserk_sound = time + 1;
+			sound (self, CHAN_AUTO, "items/berserk_fire.wav", 1, ATTN_NORM);
+		}
+		sound_punch_hit(1);
+		
 		
 		if ((trace_ent.movetype == MOVETYPE_STEP || trace_ent.movetype == MOVETYPE_WALK) && (
 				trace_ent.type != "boss" || // don't swat bosses or other non-standard-sized enemies around
@@ -187,7 +199,8 @@ void() W_FireBerserk =
 	}
 	else
 	{	// hit wall
-		sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
+		//sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
+		sound_punch_hit_world(1);
 		gunshot(org);
 	}
 }
@@ -213,6 +226,39 @@ void() idleanim_melee_loop =
 
 	self.think = idleanim_melee_loop;
 	self.nextthink = time + 0.05;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void(float airswipe_volume) sound_air_swipe =
+{
+	local float r = floor(random()*5);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "melee/air_swipe1.wav", airswipe_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "melee/air_swipe2.wav", airswipe_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "melee/air_swipe3.wav", airswipe_volume, ATTN_NORM);
+	else if (r == 3)	sound (self, CHAN_AUTO, "melee/air_swipe4.wav", airswipe_volume, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "melee/air_swipe5.wav", airswipe_volume, ATTN_NORM);
+}
+
+//=============================================================================================
+
+void(float punchhit_volume) sound_punch_hit =
+{
+	local float r = floor(random()*5);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "melee/punch_hit1.wav", punchhit_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "melee/punch_hit2.wav", punchhit_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "melee/punch_hit3.wav", punchhit_volume, ATTN_NORM);
+	else if (r == 3)	sound (self, CHAN_AUTO, "melee/punch_hit4.wav", punchhit_volume, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "melee/punch_hit5.wav", punchhit_volume, ATTN_NORM);
+}
+
+//=============================================================================================
+
+void(float punchhitworld_volume) sound_punch_hit_world =
+{
+	local float r = random();
+	if 	(r < 0.5)	sound (self, CHAN_AUTO, "melee/punch_hit1.wav", punchhitworld_volume, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "melee/punch_hit2.wav", punchhitworld_volume, ATTN_NORM);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
