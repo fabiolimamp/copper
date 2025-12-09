@@ -514,6 +514,11 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon = {
 
 	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
 
+	// Force reset if player is being unplunged from a void
+	if (self.customflags & CFL_PLUNGE) {
+		forcereset = TRUE;
+	}
+
 	float weapstat = W_CheckWeapon(weap, self);
 	if (weapstat < WEAPONSTAT_AVAILABLE){
 		return weapstat;

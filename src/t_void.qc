@@ -147,6 +147,8 @@ void(entity who, float amt, vector color) TintScreenFog
 // --------------------------------
 void(entity e) void_unplunge =
 {
+	SUB_CallAsSelf(W_ResetWeaponState, e); // restore weaponmodel
+
 	e.customflags &~= CFL_PLUNGE;
 	//e.flags &~= FL_NOTARGET;
 	e.takedamage = DAMAGE_AIM;
@@ -155,7 +157,6 @@ void(entity e) void_unplunge =
 		e.movetype = MOVETYPE_WALK;
 	e.model = "progs/player_qbj.mdl";
 
-	SUB_CallAsSelf(W_ResetWeaponState, e);	// restore weaponmodel
 	//TintScreen(e,0);
 	csf_clear(e, 70);
 }
