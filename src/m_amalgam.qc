@@ -296,8 +296,12 @@ void() amalgam_fire =
 	goop.avelocity = goop_spin;
 	goop.skin = self.skin;
 
-	goop.think = SUB_Remove;
-	goop.nextthink = time + 15;
+	//goop.think = SUB_Remove;
+	goop.think = AmalGoop_Die;
+	
+	//goop.nextthink = time + 15;
+	local float r = (crandom() * 2) + 13;
+	goop.nextthink = time + r;
 }
 
 void() amalgamNightmareBoom = 
@@ -488,8 +492,39 @@ void() AmalGoop_Drop =
 	item.dmg = 8;
 	item.deathtype = "bled out to an Amalagam's caltrop.";
 	item.touch = AmalGoop_Touch;
-	item.think = SUB_Remove;
-	item.nextthink = time + 20;
+	
+	//item.think = SUB_Remove;
+	item.think = AmalGoop_Die;		
+	
+	//item.nextthink = time + 20;	
+	local float r = (crandom() * 2) + 18;
+	item.nextthink = time + r;	
+}
+
+void() AmalGoop_Die = 
+{
+	self.movetype = MOVETYPE_NONE;
+	self.solid = SOLID_NOT;
+	self.classname = "impact";
+	
+	self.nextthink = time;
+	
+	self.frame = 0;
+	self.alpha = 1;
+	
+	self.think = x_blood_01;
+	
+	setmodel (self, "progs/s_blood_64x.spr");
+	
+	/*
+	self.think = anim_impact;
+	
+	float r = floor(random()*4);
+	if 	(r == 0)	setmodel (self, "progs/fx/blood_big1.mdl");
+	else if (r == 1)	setmodel (self, "progs/fx/blood_big2.mdl");
+	else if (r == 2)	setmodel (self, "progs/fx/blood_big3.mdl");
+	else			setmodel (self, "progs/fx/blood_big4.mdl");
+	*/
 }
 
 float played_tink;
