@@ -33,18 +33,7 @@ void() W_Precache =
 	
 	precache_model ("progs/v_wrench.mdl");						// 1 Melee
 	precache_model ("progs/v_berserk.mdl");
-	precache_sound ("melee/air_swipe1.wav");
-	precache_sound ("melee/air_swipe2.wav");
-	precache_sound ("melee/air_swipe3.wav");
-	precache_sound ("melee/air_swipe4.wav");
-	precache_sound ("melee/air_swipe5.wav");
-	precache_sound ("melee/punch_hit1.wav");
-	precache_sound ("melee/punch_hit2.wav");
-	precache_sound ("melee/punch_hit3.wav");
-	precache_sound ("melee/punch_hit4.wav");
-	precache_sound ("melee/punch_hit5.wav");
-	precache_sound ("melee/fist_hit_world1.wav");
-	precache_sound ("melee/fist_hit_world2.wav");
+	precache_sound ("melee/fist_hit.wav");
 	
 	//=============================================================================================
 											// 2 Pistol
