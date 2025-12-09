@@ -63,6 +63,7 @@ void() W_FireQBJ3Grenade =
 	sound (self, CHAN_WEAPON, "weapons/grenade.wav", 1, ATTN_NORM);	
 	sound (self, CHAN_AUTO, "grenade/grenade_reload.wav", 0.5, ATTN_NORM);
 	sound_grenade_fire(0.6);
+	SuperDamageSound();
 	
 	self.punchangle_x = -2;
 

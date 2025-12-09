@@ -25,6 +25,8 @@ float() weaponanim_boxrocket = {
 	self.think = weaponanim_boxrocket_loop;
 	self.nextthink = time + 0.05;
 	
+	SuperDamageSound();
+	
 	return TRUE;
 }
 
