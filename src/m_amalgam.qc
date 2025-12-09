@@ -300,7 +300,8 @@ void() amalgam_fire =
 	goop.think = AmalGoop_Die;
 	
 	//goop.nextthink = time + 15;
-	local float r = (crandom() * 2) + 13;
+	//local float r = (crandom() * 2) + 13;
+	local float r = (crandom() * 3) + 12;
 	goop.nextthink = time + r;
 }
 
@@ -372,7 +373,7 @@ void()	amalgam_die13	=[	$death13,	amalgam_die14	] {AmalGoop_Spam(2);}
 void()	amalgam_die14	=[	$death14,	amalgam_die15	] {AmalGoop_Spam(1);}
 void()	amalgam_die15	=[	$death15,	amalgam_die16	] {AmalGoop_Spam(1);}
 void()	amalgam_die16	=[	$death16,	amalgam_die17	] {SpawnMeatUndConcreteBurst(self.origin + v_forward*16, crandom() * 100 * v_right, 5, FALSE);}
-void()	amalgam_die17	=[	$death16,	SUB_Null		] {AmalGoop_Spam(4); GoopBlood(1); remove(self);}
+void()	amalgam_die17	=[	$death16,	SUB_Null	] {AmalGoop_Spam(4); GoopBlood(1); remove(self);}
 
 
 void() amalgam_gib =
@@ -497,7 +498,8 @@ void() AmalGoop_Drop =
 	item.think = AmalGoop_Die;		
 	
 	//item.nextthink = time + 20;	
-	local float r = (crandom() * 2) + 18;
+	//local float r = (crandom() * 2) + 18;
+	local float r = (crandom() * 3) + 12;
 	item.nextthink = time + r;	
 }
 
@@ -512,19 +514,26 @@ void() AmalGoop_Die =
 	self.frame = 0;
 	self.alpha = 1;
 	
-	self.think = x_blood_01;
-	
-	setmodel (self, "progs/s_blood_64x.spr");
-	
-	/*
-	self.think = anim_impact;
-	
-	float r = floor(random()*4);
-	if 	(r == 0)	setmodel (self, "progs/fx/blood_big1.mdl");
-	else if (r == 1)	setmodel (self, "progs/fx/blood_big2.mdl");
-	else if (r == 2)	setmodel (self, "progs/fx/blood_big3.mdl");
-	else			setmodel (self, "progs/fx/blood_big4.mdl");
-	*/
+	if (self.model == "progs/proj_amalgoop.mdl")
+		setmodel (self, "progs/proj_amalgoop_pop.mdl");
+	else
+		setmodel (self, "progs/proj_amalgoop_explo_pop.mdl");
+		
+	self.think = AmalGoop_Die_Loop;
+}
+
+void() AmalGoop_Die_Loop
+{
+	self.frame ++;
+	self.alpha -= 0.04;
+
+	if (self.frame >= 20)
+	{
+		remove(self);
+		return;
+	}
+	self.think = AmalGoop_Die_Loop;
+	self.nextthink = time + 0.05;
 }
 
 float played_tink;
@@ -683,6 +692,8 @@ void() monster_amalgam =
 
 	precache_model ("progs/proj_amalgoop.mdl");
 	precache_model ("progs/proj_amalgoop_explo.mdl");
+	precache_model ("progs/proj_amalgoop_pop.mdl");
+	precache_model ("progs/proj_amalgoop_explo_pop.mdl");
 	precache_sound ("amalg/amalg_goop1.wav");
 	precache_sound ("amalg/amalg_goop2.wav");
 
