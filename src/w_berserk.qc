@@ -169,6 +169,7 @@ void() W_FireBerserk =
 			sound (self, CHAN_AUTO, "items/berserk_fire.wav", 1, ATTN_NORM);
 		}
 		sound_punch_hit(1);
+		SuperDamageSound();
 		
 		
 		if ((trace_ent.movetype == MOVETYPE_STEP || trace_ent.movetype == MOVETYPE_WALK) && (

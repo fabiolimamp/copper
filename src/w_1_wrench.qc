@@ -176,8 +176,8 @@ void(entity hitent, vector org, vector dir) hitwrench =
 		if ((hitent.flags & FL_MONSTER) || (hitent.classname == "player"))
 		{	
 			wrench_hitsound();
-			
-			
+			SuperDamageSound();
+					
 			if ((hitent.movetype == MOVETYPE_STEP || hitent.movetype == MOVETYPE_WALK) && 
 				// don't swat bosses or other non-standard-sized enemies around
 				hitent.maxs_x <= 32 && hitent.health > 0 && hitent.type != "boss")
@@ -204,7 +204,7 @@ void(entity hitent, vector org, vector dir) hitwrench =
 		{
 			sound (self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_IDLE);
 		}
-		
+				
 		// do knockback with a quad
 		if (has_quad(self))
 		{
