@@ -300,9 +300,11 @@ void() tracer_think = {
 	self.nextthink = time + 0.02;
 };
 
-void(vector org, vector direction, vector dest) drawTracer = {
+void(vector org, vector dest) drawTracer = {
 	
 	float dist = vlen(org - dest);
+	vector direction = normalize(dest - org);
+
 	entity tracer = spawn();
 	tracer.owner = self;
 	tracer.movetype = MOVETYPE_FLY;
@@ -357,7 +359,8 @@ void() Drop_PistolMag =
 	entity mag = toss_projectile(org, vel, "pistolmag");
 	mag.lifetime_finished = time + 2;
 	mag.touch = DropMagTouch1;
-	mag.th_die = SUB_Remove;
+	mag.th_die = CasingFade;
+	mag.alpha = 1;
 	mag.owner = self;
 	mag.avelocity = '0 -300 0'; //'0 -200 0'
 	
@@ -396,9 +399,24 @@ void() Eject_BulletCasing =
 	casing.owner = self;
 	casing.lifetime_finished = time + 2;
 	casing.touch = BulletCasingTouch1;
-	casing.th_die = SUB_Remove;
+	casing.th_die = CasingFade;
+	casing.alpha = 1;
 	//casing.avelocity = '-200 -400 0'; //'0 -200 0'
 	casing.avelocity = [-170 - crandom()*60, -370 - crandom() * 60, 0];
 	SUB_ChangeModel (casing, "progs/bullet_casing.mdl");
 	
+}
+
+void() CasingFade =
+{
+	self.alpha -= 0.025;
+	
+	if (self.alpha <= 0)
+	{
+		remove(self);
+		return;
+	}
+
+	self.think = CasingFade;
+	self.nextthink = time + 0.05;
 }
