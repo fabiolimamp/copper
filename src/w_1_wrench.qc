@@ -17,6 +17,7 @@ float() weaponanim_wrench =
 
 
 	sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
+	SuperDamageSound();
 	
 	self.attack_finished = time + 0.8;
 	
@@ -176,7 +177,7 @@ void(entity hitent, vector org, vector dir) hitwrench =
 		if ((hitent.flags & FL_MONSTER) || (hitent.classname == "player"))
 		{	
 			wrench_hitsound();
-			SuperDamageSound();
+			//SuperDamageSound();
 					
 			if ((hitent.movetype == MOVETYPE_STEP || hitent.movetype == MOVETYPE_WALK) && 
 				// don't swat bosses or other non-standard-sized enemies around

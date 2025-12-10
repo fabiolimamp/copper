@@ -90,6 +90,12 @@ float() weaponanim_berserk =
 
 	self.nextthink = time + 0.05;
 	self.think = weaponanim_berserk_loop;
+	
+	if (self.berserk_sound < time)
+	{
+		self.berserk_sound = time + 1;
+		sound (self, CHAN_AUTO, "items/berserk_fire.wav", 1, ATTN_NORM);
+	}
 
 	return FALSE; 
 }
@@ -144,7 +150,7 @@ void() W_FireBerserk =
 		return;
 	
 	self.show_hostile = time + 1;	// wake monsters up
-	
+		
 	vector org = trace_endpos - v_forward*4;
 
 	if (trace_ent.takedamage)
@@ -163,11 +169,6 @@ void() W_FireBerserk =
 		}
 		*/
 				
-		if (self.berserk_sound < time)
-		{
-			self.berserk_sound = time + 1;
-			sound (self, CHAN_AUTO, "items/berserk_fire.wav", 1, ATTN_NORM);
-		}
 		sound (self, CHAN_OTHER, "melee/fist_hit.wav", 1, ATTN_NORM);
 		SuperDamageSound();
 		
@@ -202,6 +203,7 @@ void() W_FireBerserk =
 	{	// hit wall
 		//sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
 		sound (self, CHAN_OTHER, "melee/fist_hit.wav", 1, ATTN_NORM);
+		SuperDamageSound();
 		gunshot(org);
 	}
 }
