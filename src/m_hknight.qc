@@ -648,7 +648,8 @@ void() hknight_melee =
 
 void() hknight_ranged =
 {
-	if ((enemy_range <= RANGE_MID) && (random() < 0.2))
+	//if ((enemy_range <= RANGE_MID) && (random() < 0.2))
+	if ((enemy_range <= RANGE_MID) && (random() < 0.5))
 		hknight_magicc1();
 	else
 		hknight_magicnm1();
