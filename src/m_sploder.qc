@@ -265,8 +265,13 @@ void() BlisterGoop_Drop =
 	item.dmg = 8;
 	item.deathtype = "bled out to a Blister's caltrop.";
 	item.touch = AmalGoop_Touch;
-	item.think = SUB_Remove;
-	item.nextthink = time + 20;
+	
+	//item.think = SUB_Remove;
+	item.think = AmalGoop_Die;
+	
+	//item.nextthink = time + 20;
+	local float r = 12 + (random() * 3);
+	item.nextthink = time + r;
 }
 
 void(entity attacker, float damage)	sploder_pain =
@@ -432,6 +437,8 @@ void() monster_sploder =
 	//required for Nightmare additions
 	precache_model ("progs/proj_amalgoop.mdl");
 	precache_model ("progs/proj_amalgoop_explo.mdl");
+	precache_model ("progs/proj_amalgoop_pop.mdl");
+	precache_model ("progs/proj_amalgoop_explo_pop.mdl");
 	precache_sound ("amalg/amalg_goop1.wav");
 	precache_sound ("amalg/amalg_goop2.wav");
 	precache_sound ("amalg/amalgshoot.wav");

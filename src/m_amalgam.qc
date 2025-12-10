@@ -300,8 +300,7 @@ void() amalgam_fire =
 	goop.think = AmalGoop_Die;
 	
 	//goop.nextthink = time + 15;
-	//local float r = (crandom() * 2) + 13;
-	local float r = (crandom() * 3) + 12;
+	local float r = 12 + (random() * 3);
 	goop.nextthink = time + r;
 }
 
@@ -498,8 +497,7 @@ void() AmalGoop_Drop =
 	item.think = AmalGoop_Die;		
 	
 	//item.nextthink = time + 20;	
-	//local float r = (crandom() * 2) + 18;
-	local float r = (crandom() * 3) + 12;
+	local float r = 12 + (random() * 3);
 	item.nextthink = time + r;	
 }
 
