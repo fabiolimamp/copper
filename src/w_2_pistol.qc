@@ -166,16 +166,13 @@ void() W_FirePistol =
 	spread_z = 0;
 	
 	// aim point directly in front of the crosshair
-	traceline2(self.origin + self.view_ofs, self.origin + self.view_ofs + v_forward * 10000, self, FALSE);
+	traceline2(org_eye, org_eye + v_forward * 10000, self, FALSE);
 
-	vector dir_gun = normalize(trace_endpos - org_gun);
 	vector dir_eye = normalize(trace_endpos - org_eye);
 		
 	ClearMultiDamage ();
-	//FirePistolBullets (1, 20, org + v_forward * 16 * trace_fraction, dir, spread, TRUE);
-	
-	Fire_FakeTracer (1, org_gun + v_forward * 16 * trace_fraction, dir_gun, spread);
-	FirePistolBullets (1, 20, org_eye + v_forward * 16 * trace_fraction, dir_eye, spread, FALSE);
+
+	FirePistolBullets (1, 20, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, spread, TRUE);
 	
 	ApplyMultiDamage ();
 		
@@ -194,7 +191,7 @@ void(float pistolfire_volume) sound_pistol_fire =
 }
 //=============================================================================================
 
-void(float shotcount, float dmg, vector org, vector dir, vector spread, float tracer) FirePistolBullets =
+void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir, vector spread, float tracer) FirePistolBullets =
 {
 	vector src, direction;
 	entity ig;
@@ -209,7 +206,7 @@ void(float shotcount, float dmg, vector org, vector dir, vector spread, float tr
 	if (trace_debug) dprint3("*** firing ", ftos(shotcount), " bullets *\n\n");
 	for (s = 0; s < shotcount; s++)
 	{
-		src = org;
+		src = shot_org;
 		direction = dir + weighted_crandom(2)*spread_x*rt + weighted_crandom(2)*spread_y*up;
 		
 		if (trace_debug) dprint("* firing a bullet *\n");
@@ -223,9 +220,9 @@ void(float shotcount, float dmg, vector org, vector dir, vector spread, float tr
 			if (trace_ent == self)
 				return;	// some notrace shit happened
 
-			if (tracer && !(vlen(org - trace_endpos) < 128 && trace_ent.solid == SOLID_BSP))
+			if (tracer && !(vlen(tracer_org - trace_endpos) < 128 && trace_ent.solid == SOLID_BSP))
 			{
-				drawTracer(org, direction, trace_endpos);
+				drawTracer(tracer_org, trace_endpos);
 			}
 			// if we've already pelted a monster enough to kill it, let additional bullets add 
 			// up for possible gibs (ala quake), but trace them again through the target for 
@@ -266,66 +263,6 @@ void(float shotcount, float dmg, vector org, vector dir, vector spread, float tr
 		if (trace_debug) dprint("bullet is over\n\n");
 	}
 }
-//=============================================================================================
-
-void(float shotcount, vector org, vector dir, vector spread) Fire_FakeTracer =
-{
-	vector src, direction;
-	entity ig;
-	float s, lim;
-	
-	if (shotcount <= 0) return;
-	
-	makevectors(self.v_angle);
-	vector up = v_up;
-	vector rt = v_right;
-
-	if (trace_debug) dprint3("*** firing ", ftos(shotcount), " bullets *\n\n");
-	for (s = 0; s < shotcount; s++)
-	{
-		src = org;
-		direction = dir + weighted_crandom(2)*spread_x*rt + weighted_crandom(2)*spread_y*up;
-		
-		if (trace_debug) dprint("* firing a bullet *\n");
-		
-		lim = 0;
-		// check for trace-through cases
-		for (ig = self; ig != world; lim++)	// ig == world if we hit a wall or hit nothing
-		{
-			traceline2(src, src + direction*2048, ig, 0);
-			
-			if (trace_ent == self)
-				return;	// some notrace shit happened
-
-			drawTracer(org, direction, trace_endpos);
-			
-			if (trace_ent.takedamage && 
-				(trace_ent.flags & FL_MONSTER || trace_ent.classname == "player" ) && 
-				HasBeenShotToDeath(trace_ent) )
-			{
-				//BulletImpact (2+2*random(), direction);
-				src = trace_endpos + direction * 0.1;
-				ig = trace_ent;
-				if (trace_debug) dprint3("bullet hit ", ig.classname, ", continuing thru\n");
-			}
-			else{
-				if (trace_debug) dprint("bullet reached world\n");
-				ig = world;
-			}
-			if (lim > 8){
-				dprint("bullet pen limit exceeded\n");
-				break;
-			}
-		}
-		
-		if (trace_fraction != 1.0){
-			//BulletImpact (dmg, direction);
-		}
-		
-		if (trace_debug) dprint("bullet is over\n\n");
-	}
-}
-
 //=============================================================================================
 
 void(float pistolhit_volume) sound_pistol_impact =

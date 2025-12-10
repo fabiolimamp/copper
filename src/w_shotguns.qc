@@ -208,7 +208,7 @@ void(float shotcount, vector dir, vector spread, float tracer) FireBullets =
 
 			if (tracer && !(vlen(src - trace_endpos) < 128 && trace_ent.solid == SOLID_BSP))
 			{
-				drawTracer(src, direction, trace_endpos);
+				drawTracer(src, trace_endpos);
 			}
 			// if we've already pelted a monster enough to kill it, let additional bullets add 
 			// up for possible gibs (ala quake), but trace them again through the target for 
