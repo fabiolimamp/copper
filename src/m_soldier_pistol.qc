@@ -242,7 +242,8 @@ void() pistolarmy_fire =
 	
 	ai_face();
 	self.effects = self.effects | EF_MUZZLEFLASH;	
-	sound (self, CHAN_WEAPON, "pistol/pistol_shoot.wav", 1, ATTN_NORM);
+	//sound (self, CHAN_WEAPON, "pistol/pistol_shoot.wav", 1, ATTN_NORM);
+	sound (self, CHAN_WEAPON, "pistol/pistol_fire.wav",1, ATTN_NORM);
 
 // fire somewhat behind the player, so a dodging player is harder to hit
 //	dir = enemy_vispos() - self.enemy.velocity*0.2;
