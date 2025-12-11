@@ -649,9 +649,9 @@ void() hknight_melee =
 void() hknight_ranged =
 {
 	if ((enemy_range <= RANGE_MID) && (random() < 0.3))	//0.2
-		hknight_magicc1();
+		hknight_magicc1();	// classic sweep*
 	else
-		hknight_magicnm1();
+		hknight_magicnm1();	// direct fire gun-sword attack
 }
 
 void() monster_hell_knight_spawn =

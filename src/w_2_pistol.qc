@@ -61,6 +61,14 @@ float() weaponanim_pistol = {
 	return TRUE;
 }
 
+/*
+	    0 idle
+	 1-20 fire > idle
+	25-54 reload > idle
+	55-80 twirl > idle
+*/
+
+
 void() weaponanim_pistol_loop = {	
 	if (self.weaponframe == 2) Eject_BulletCasing();
 	
@@ -418,5 +426,41 @@ void() CasingFade =
 	}
 
 	self.think = CasingFade;
+	self.nextthink = time + 0.05;
+}
+
+//=====================================================================================================================
+void() weaponanim_twirlpistol =
+{	
+	if (self.attack_finished > time)
+		return FALSE;
+	
+	sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
+
+	if (self.weaponframe >= 56 && self.weaponframe <= 70)
+		self.weaponframe = 58;
+	else	self.weaponframe = 56;
+	
+	self.attack_finished = time + 0.1;
+	
+	self.think = weaponanim_twirlpistol_loop;
+	self.nextthink = time + 0.05;
+}
+
+void() weaponanim_twirlpistol_loop =
+{
+	if (self.weaponframe == 72) sound (self, CHAN_AUTO, "pistol/gun_click.wav", 1, ATTN_NORM);
+
+	if (self.weaponframe >= 80)
+	{
+		self.weaponframe = 0;
+		self.think = SUB_Null;
+		return;
+	}
+	else {
+		self.weaponframe++;
+	}
+
+	self.think = weaponanim_twirlpistol_loop;
 	self.nextthink = time + 0.05;
 }

@@ -557,7 +557,7 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon = {
 	//if (weapcl.idlefunction != SUB_Null) weapcl.idlefunction();
 	if (weap == IT_AXE && has_berserk(self)) idleanim_melee();
 	else if (weapcl.idlefunction != SUB_Null) weapcl.idlefunction();
-
+	
 	return weapstat;
 }
 
@@ -653,11 +653,17 @@ float() W_SelectBestNailgun =
 float(float imp) W_ChangeSlot =
 {
 	// Pistol Manual Reload
-	if (imp == 2 && self.weapon == IT_SHOTGUN && self.pistol_ammo_count != 10) {
+	if (imp == 2 && self.weapon == IT_SHOTGUN && self.pistol_ammo_count != 10)
+	{
 		weaponanim_reloadpistol();
 		//pistol_ammo_count = 0;
 		return WEAPONSTAT_AVAILABLE;
 	}
+	else if (imp == 2 && self.weapon == IT_SHOTGUN && self.pistol_ammo_count == 10)
+	{
+		weaponanim_twirlpistol();
+		return WEAPONSTAT_AVAILABLE;
+	}	
 
 	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
 
