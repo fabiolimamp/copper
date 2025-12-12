@@ -274,7 +274,8 @@ void() ImpulseCommands =
 			break;
 		
 		case 140:
-			sound(self, CHAN_VOICE, "player/tornoff2.wav", 1, ATTN_STATIC);
+			//sound(self, CHAN_VOICE, "player/tornoff2.wav", 1, ATTN_STATIC);
+			sound(self, CHAN_VOICE, "misc/talk.wav", 1, ATTN_STATIC);
 			centerprint(self, version_s);
 			break;
 		

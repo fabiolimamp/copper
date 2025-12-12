@@ -505,6 +505,11 @@ void() worldspawn =
 	precache_model ("progs/ammo/explosives_drop.mdl");	// dropped ammo pickups (replaces backpack)
 	//precache_model ("progs/ammo/fragments_drop.mdl");	// no enemies drop cells
 	//precache_model ("progs/ammo/health_drop.mdl");	// no enemies drop health
+	
+	precache_model ("progs/s_explosion.spr");	// new QBJ3 sprite explosions
+	precache_model ("progs/s_explosion_mini.spr");	
+	precache_model ("progs/s_explosion_mini_smoke.spr");	
+	precache_model ("progs/s_explosion_purple.spr");	
 }
 
 void() StartFrame =

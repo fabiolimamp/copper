@@ -204,12 +204,25 @@ void(float enable) zaplight =
 
 // slight framerate increase for explosion sprites
 // looks odd at 10 fps when volley firing MMML
-void()	s_explode1 =[0,	s_explode2] {self.nextthink=time+ 0.075;}
-void()	s_explode2 =[1,	s_explode3] {self.nextthink=time+ 0.075;}
-void()	s_explode3 =[2,	s_explode4] {self.nextthink=time+ 0.075;}
-void()	s_explode4 =[3,	s_explode5] {self.nextthink=time+ 0.075;}
-void()	s_explode5 =[4,	s_explode6] {self.nextthink=time+ 0.075;}
-void()	s_explode6 =[5,	SUB_Remove] {self.nextthink=time+ 0.075;}
+
+void() s_explode_start =
+{
+	self.frame = 0;
+
+	self.nextthink = time + 0.025;
+	self.think = s_explode_loop;	
+}
+void() s_explode_loop =
+{
+	if (self.frame >= 14)
+	{
+		remove(self);
+	}
+	else	self.frame ++;
+	
+	self.nextthink = time + 0.025;
+	self.think = s_explode_loop;
+}
 
 // 0: original
 // 1: grape
@@ -219,22 +232,28 @@ void(float blasttype) BecomeBlast =
 	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 	if (blasttype == 1)
 		WriteByte (MSG_BROADCAST, TE_TAREXPLOSION);
-	else
-		WriteByte (MSG_BROADCAST, TE_EXPLOSION);
+	else	WriteByte (MSG_BROADCAST, TE_EXPLOSION);
+	
 	WriteCoord (MSG_BROADCAST, self.origin_x);
 	WriteCoord (MSG_BROADCAST, self.origin_y);
 	WriteCoord (MSG_BROADCAST, self.origin_z);
 	
-	if (blasttype == 2)
-		setmodel (self, "progs/s_explo2.spr");
+	if (blasttype == 1)
+		setmodel (self, "progs/s_explosion_purple.spr");
+	else if (blasttype == 2)
+		//setmodel (self, "progs/s_explo2.spr");
+		setmodel (self, "progs/s_explosion_mini_smoke.spr");
 	else
-		setmodel (self, "progs/s_explod.spr");
+		//setmodel (self, "progs/s_explod.spr");
+		setmodel (self, "progs/s_explosion.spr");
 	
 	self.movetype = MOVETYPE_NONE;
 	self.velocity = '0 0 0';
 	self.touch = SUB_Null;
 	self.solid = SOLID_NOT;
-	s_explode1 ();
+	
+	//s_explode1 ();
+	s_explode_start ();
 }
 
 void() BecomeExplosion = { BecomeBlast(0); }
