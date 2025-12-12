@@ -478,8 +478,8 @@ void() worldspawn =
 	precache_model ("progs/gibs/gib_shambler_6.mdl");
 
 	precache_model ("progs/s_bubble.spr");	// drowning bubbles
-	precache_model ("progs/s_explod.spr");	// sprite explosion
-	precache_model ("progs/s_explo2.spr");	// sprite weak explosion
+	//precache_model ("progs/s_explod.spr");	// sprite explosion
+	//precache_model ("progs/s_explo2.spr");	// sprite weak explosion
 
 	precache_model ("progs/bolt.mdl");	// for lightning gun
 	precache_model ("progs/bolt2.mdl");	// for lightning gun
@@ -506,10 +506,14 @@ void() worldspawn =
 	//precache_model ("progs/ammo/fragments_drop.mdl");	// no enemies drop cells
 	//precache_model ("progs/ammo/health_drop.mdl");	// no enemies drop health
 	
-	precache_model ("progs/s_explosion.spr");	// new QBJ3 sprite explosions
-	precache_model ("progs/s_explosion_mini.spr");	
-	precache_model ("progs/s_explosion_mini_smoke.spr");	
-	precache_model ("progs/s_explosion_purple.spr");	
+	precache_model ("progs/s_explode_fire_256x.spr");	// new QBJ3 sprite explosions
+	precache_model ("progs/s_explode_fire_128x.spr");
+	precache_model ("progs/s_explode_fire_96x.spr");
+	precache_model ("progs/s_explode_fire_64x.spr");	
+	precache_model ("progs/s_explode_smoke_64x.spr");
+	precache_model ("progs/s_explode_sploder_96x.spr");
+	precache_model ("progs/s_explode_purple_96x.spr");
+	precache_model ("progs/s_explode_purple_48x.spr");
 }
 
 void() StartFrame =

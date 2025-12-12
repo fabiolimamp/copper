@@ -209,7 +209,7 @@ void() s_explode_start =
 {
 	self.frame = 0;
 
-	self.nextthink = time + 0.025;
+	self.nextthink = time + 0.033;
 	self.think = s_explode_loop;	
 }
 void() s_explode_loop =
@@ -220,7 +220,7 @@ void() s_explode_loop =
 	}
 	else	self.frame ++;
 	
-	self.nextthink = time + 0.025;
+	self.nextthink = time + 0.033;
 	self.think = s_explode_loop;
 }
 
@@ -239,26 +239,32 @@ void(float blasttype) BecomeBlast =
 	WriteCoord (MSG_BROADCAST, self.origin_z);
 	
 	if (blasttype == 1)
-		setmodel (self, "progs/s_explosion_purple.spr");
+		setmodel (self, "progs/s_explode_purple_96x.spr");
 	else if (blasttype == 2)
-		//setmodel (self, "progs/s_explo2.spr");
-		setmodel (self, "progs/s_explosion_mini_smoke.spr");
+		setmodel (self, "progs/s_explode_smoke_64x.spr");
+	else if (blasttype == 3)
+		setmodel (self, "progs/s_explode_sploder_96x.spr");
+	else if (blasttype == 4)
+		setmodel (self, "progs/s_explode_purple_48x.spr");
+	else if (blasttype == 5)
+		setmodel (self, "progs/s_explode_fire_128x.spr");
 	else
-		//setmodel (self, "progs/s_explod.spr");
-		setmodel (self, "progs/s_explosion.spr");
+		setmodel (self, "progs/s_explode_fire_96x.spr");
 	
 	self.movetype = MOVETYPE_NONE;
 	self.velocity = '0 0 0';
 	self.touch = SUB_Null;
 	self.solid = SOLID_NOT;
-	
-	//s_explode1 ();
+
 	s_explode_start ();
 }
 
 void() BecomeExplosion = { BecomeBlast(0); }
 void() BecomeTarExplosion = { BecomeBlast(1); }
 void() BecomeWeakExplosion = { BecomeBlast(2); }
+void() BecomeSploderExplosion = { BecomeBlast(3); }
+void() BecomeVorePodExplosion = { BecomeBlast(4); }
+void() BecomeBigExplosion = { BecomeBlast(5); }
 
 void() fx_explode =
 {

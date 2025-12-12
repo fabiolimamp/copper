@@ -208,8 +208,8 @@ void() sploder_explode =
 
 	sound (self, CHAN_BODY, "weapons/r_exp3.wav", 1, ATTN_NORM);
 	GibBloodBath(1);
-	//BecomeExplosion();
-	BecomeTarExplosion ();
+
+	BecomeSploderExplosion();
 }
 
 void()	sploder_die =

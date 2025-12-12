@@ -85,7 +85,8 @@ void() explobox_explode_go =
 	else if (self.spawnflags & 2)	
 		boom.think = BecomeWeakExplosion;
 	else
-		boom.think = BecomeExplosion;
+		//boom.think = BecomeExplosion;
+		boom.think = BecomeBigExplosion;
 	
 	bmodel_lightstyle(self, 0);
 	

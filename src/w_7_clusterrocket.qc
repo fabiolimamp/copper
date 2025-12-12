@@ -154,18 +154,15 @@ void(float blasttype) BecomeMiniBlast =
 	// no extra explosion effects for minis, too much spam, sprites only
 	
 	if (blasttype == 2)
-		//setmodel (self, "progs/s_explo2.spr");
-		setmodel (self, "progs/s_explosion_mini_smoke.spr");
+		setmodel (self, "progs/s_explode_smoke_64x.spr");
 	else
-		//setmodel (self, "progs/s_explod.spr");
-		setmodel (self, "progs/s_explosion_mini.spr");
+		setmodel (self, "progs/s_explode_fire_64x.spr");
 	
 	self.movetype = MOVETYPE_NONE;
 	self.velocity = '0 0 0';
 	self.touch = SUB_Null;
 	self.solid = SOLID_NOT;
-	
-	//s_explode1 ();
+
 	s_explode_start ();
 }
 //=============================================================================
