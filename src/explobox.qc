@@ -86,7 +86,7 @@ void() explobox_explode_go =
 		boom.think = BecomeWeakExplosion;
 	else
 		//boom.think = BecomeExplosion;
-		boom.think = BecomeBigExplosion;
+		boom.think = BecomeBoxExplosion;
 	
 	bmodel_lightstyle(self, 0);
 	
