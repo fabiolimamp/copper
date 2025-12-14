@@ -44,6 +44,10 @@ void() W_Precache =
 	precache_sound ("impact/wrench_impact4.wav");
 	precache_sound ("impact/wrench_clank1.wav");
 	precache_sound ("impact/wrench_clank2.wav");
+	precache_sound ("impact/hit_player1.wav");
+	precache_sound ("impact/hit_player2.wav");
+	precache_sound ("impact/hit_player3.wav");
+	precache_sound ("impact/hit_player4.wav");
 		
 	//=============================================================================================
 											// 2 Pistol

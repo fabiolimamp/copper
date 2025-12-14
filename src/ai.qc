@@ -1408,7 +1408,8 @@ void() ai_melee =
 	{
 		ldmg = 3 + random() * 2; //(random() + random() + random()) * 3;		
 		T_Damage(self.enemy, self, self, ldmg, DMGTYPE_MELEE);
-		sound_wrench_hit_enemy(1);
+		
+		if (random() < 0.5)	sound_melee_hit_player(1);
 	}
 }
 
@@ -1428,7 +1429,8 @@ void() ai_melee_side =
 		return;
 	ldmg = (random() + random() + random()) * 3;
 	T_Damage(self.enemy, self, self, ldmg, DMGTYPE_MELEE);
-	sound_wrench_hit_enemy(0.7);
+	
+	if (random() < 0.5)	sound_melee_hit_player(0.7);
 }
 
 //============================================================================

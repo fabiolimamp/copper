@@ -77,6 +77,16 @@ void(float wrenchhit_volume) sound_wrench_hit_enemy =
 }
 //=============================================================================================
 
+void(float meleehit_volume) sound_melee_hit_player =
+{
+	local float r = floor(random()*4);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "impact/hit_player1.wav", meleehit_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "impact/hit_player2.wav", meleehit_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "impact/hit_player3.wav", meleehit_volume, ATTN_NORM);
+	else 			sound (self, CHAN_AUTO, "impact/hit_player4.wav", meleehit_volume, ATTN_NORM);
+}
+//=============================================================================================
+
 void(float wrenchclank_volume) sound_wrench_hit_world =
 {
 	if (random() < 0.5)
