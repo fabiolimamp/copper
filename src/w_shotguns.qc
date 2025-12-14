@@ -146,7 +146,13 @@ vector(float damage, vector dir) BulletImpact =
 	
 	if (trace_ent.flags & FL_MONSTER)
 	{
-		sound_pistol_impact(0.8);
+		if (trace_ent.classname == "monster_hell_knight")
+		{
+			FX_Impact(FX_SPARK, org, dir);
+			sound_bullet_hit_metal(1);
+		}
+		
+		else	sound_bullet_hit_enemy(0.8);
 	}	
 	if (trace_ent.takedamage)
 	{

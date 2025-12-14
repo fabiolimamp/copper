@@ -273,13 +273,23 @@ void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir,
 }
 //=============================================================================================
 
-void(float pistolhit_volume) sound_pistol_impact =
+void(float pistolhit_volume) sound_bullet_hit_enemy =
 {
 	local float r = floor(random()*4);
 	if 	(r == 0)	sound (self, CHAN_AUTO, "impact/bullet_impact1.wav", pistolhit_volume, ATTN_NORM);
 	else if (r == 1)	sound (self, CHAN_AUTO, "impact/bullet_impact2.wav", pistolhit_volume, ATTN_NORM);
 	else if (r == 2)	sound (self, CHAN_AUTO, "impact/bullet_impact3.wav", pistolhit_volume, ATTN_NORM);
 	else 			sound (self, CHAN_AUTO, "impact/bullet_impact4.wav", pistolhit_volume, ATTN_NORM);
+}
+//=============================================================================================
+
+void(float pistolhitmetal_volume) sound_bullet_hit_metal =
+{
+	local float r = floor(random()*4);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "impact/bullet_metal1.wav", pistolhitmetal_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "impact/bullet_metal2.wav", pistolhitmetal_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "impact/bullet_metal3.wav", pistolhitmetal_volume, ATTN_NORM);
+	else 			sound (self, CHAN_AUTO, "impact/bullet_metal4.wav", pistolhitmetal_volume, ATTN_NORM);
 }
 //=============================================================================================
 

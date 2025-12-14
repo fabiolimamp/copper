@@ -130,16 +130,6 @@ void(float nailgun_volume) nailgun_sound =
 }
 //=============================================================================================
 
-void(float nailhit_volume) sound_nailgun_impact_enemy =
-{
-	local float r = floor(random()*4);
-	if 	(r == 0)	sound (self, CHAN_AUTO, "impact/bullet_impact1.wav", nailhit_volume, ATTN_NORM);
-	else if (r == 1)	sound (self, CHAN_AUTO, "impact/bullet_impact2.wav", nailhit_volume, ATTN_NORM);
-	else if (r == 2)	sound (self, CHAN_AUTO, "impact/bullet_impact3.wav", nailhit_volume, ATTN_NORM);
-	else 			sound (self, CHAN_AUTO, "impact/bullet_impact4.wav", nailhit_volume, ATTN_NORM);
-}
-//=============================================================================================
-
 void(vector org, float nailtink_volume) sound_nailgun_impact_world =
 {
 	local entity playspot = spawn();
@@ -193,7 +183,15 @@ void() twinnail_touch =
 		spawn_touchblood (other, self.dmg);
 		T_Damage (other, self, self.trueowner, self.dmg);
 				
-		if (random() < 0.8)	sound_nailgun_impact_enemy(0.7);
+		if (random() < 0.8)
+		{
+			if (other.classname == "monster_hell_knight")
+			{
+				FX_Impact(FX_SPARK, self.origin, self.oldvelocity);
+				sound_bullet_hit_metal(1);
+			}
+			else	sound_bullet_hit_enemy(0.7);
+		}
 		
 		if (random() < 0.75)	FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);
 	}

@@ -144,6 +144,10 @@ void() W_Precache =
 	precache_sound ("impact/bullet_impact2.wav");
 	precache_sound ("impact/bullet_impact3.wav");
 	precache_sound ("impact/bullet_impact4.wav");
+	precache_sound ("impact/bullet_metal1.wav");
+	precache_sound ("impact/bullet_metal2.wav");
+	precache_sound ("impact/bullet_metal3.wav");
+	precache_sound ("impact/bullet_metal4.wav");
 	precache_sound ("impact/ric1.wav");
 	precache_sound ("impact/ric2.wav");
 	precache_sound ("impact/ric3.wav");
