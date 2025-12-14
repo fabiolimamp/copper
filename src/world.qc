@@ -364,6 +364,12 @@ void() worldspawn =
 	precache_sound ("items/vamppickup2.wav");
 	precache_sound ("items/vamppickup3.wav");
 
+	precache_model ("progs/item_berserk.mdl");
+	precache_model ("progs/v_berserk.mdl");
+	precache_sound ("items/berserk_pickup.wav");
+	precache_sound ("items/berserk_fade.wav");
+	precache_sound ("items/berserk_fire.wav");	
+
 // player pain sounds
 
 	precache_sound ("player/pain1.wav");
