@@ -58,16 +58,8 @@ float() weaponanim_berserk =
 	if (self.attack_finished > time)
 		return FALSE;
 
-	//sound (self, CHAN_AUTO, "weapons/ax1.wav", 1, ATTN_NORM);
 	sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
 	
-	/*
-	if (self.berserk_sound < time)
-	{
-		self.berserk_sound = time + 1;
-		sound (self, CHAN_POWERUP, "items/berserk_fire.wav", 1, ATTN_NORM);
-	}
-	*/
 	self.attack_finished = time + 0.5;
 		
 	// converts weaponframe to a 0-4 integer selector for the player animation
@@ -158,18 +150,10 @@ void() W_FireBerserk =
 		trace_ent.customflags = trace_ent.customflags | CFL_AXEHITME;
 		
 		if (trace_ent.flags & FL_MONSTER)
-		/*
-		{
-			if (random() < 0.5) 	sound (self, CHAN_WEAPON, "weapons/axhit1.wav", 1, ATTN_NORM);
-			else 			sound (self, CHAN_WEAPON, "weapons/axhit2.wav", 1, ATTN_NORM);
-		}
-		else
-		{
-			sound (self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_IDLE);
-		}
-		*/
 				
-		sound (self, CHAN_OTHER, "melee/fist_hit.wav", 1, ATTN_NORM);
+		//sound (self, CHAN_OTHER, "impact/fist_hit.wav", 1, ATTN_NORM);
+		
+		sound_berserk_fist_hit_enemy(1);
 		SuperDamageSound();
 		
 		
@@ -201,8 +185,8 @@ void() W_FireBerserk =
 	}
 	else
 	{	// hit wall
-		//sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
-		sound (self, CHAN_OTHER, "melee/fist_hit.wav", 1, ATTN_NORM);
+		sound (self, CHAN_OTHER, "impact/fist_hit.wav", 1, ATTN_NORM);
+		
 		SuperDamageSound();
 		gunshot(org);
 	}
@@ -232,6 +216,17 @@ void() idleanim_melee_loop =
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+void(float fisthit_volume) sound_berserk_fist_hit_enemy =
+{
+	local float r = floor(random()*4);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "impact/fist_impact1.wav", fisthit_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "impact/fist_impact2.wav", fisthit_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "impact/fist_impact3.wav", fisthit_volume, ATTN_NORM);
+	else 			sound (self, CHAN_AUTO, "impact/fist_impact4.wav", fisthit_volume, ATTN_NORM);
+}
+//=============================================================================================
+
 /*
 void() W_FireBerserk2 =
 {

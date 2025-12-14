@@ -66,6 +66,27 @@ void() wrench_hitsound = {
 		sound (self, CHAN_WEAPON, "weapons/axhit2.wav", 1, ATTN_NORM);
 }
 //=============================================================================================
+
+void(float wrenchhit_volume) sound_wrench_hit_enemy =
+{
+	local float r = floor(random()*4);
+	if 	(r == 0)	sound (self, CHAN_AUTO, "impact/wrench_impact1.wav", wrenchhit_volume, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "impact/wrench_impact2.wav", wrenchhit_volume, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "impact/wrench_impact3.wav", wrenchhit_volume, ATTN_NORM);
+	else 			sound (self, CHAN_AUTO, "impact/wrench_impact4.wav", wrenchhit_volume, ATTN_NORM);
+}
+//=============================================================================================
+
+void(float wrenchclank_volume) sound_wrench_hit_world =
+{
+	if (random() < 0.5)
+		sound (self, CHAN_AUTO, "impact/wrench_clank1.wav", wrenchclank_volume, ATTN_NORM);
+	else
+		sound (self, CHAN_AUTO, "impact/wrench_clank2.wav", wrenchclank_volume, ATTN_NORM);
+}
+
+//=============================================================================================
+
 void() W_FireWrench =
 {
 	local	vector	source;
@@ -172,12 +193,17 @@ void(entity hitent, vector org, vector dir) hitwrench =
 		
 		//johnfitz -- make clank sound when hitting brushmodels
 		if (hitent.movetype == MOVETYPE_PUSH || hitent.movetype == MOVETYPE_NONE)
-			wrench_hitsound();
+			sound_wrench_hit_world(1);
 
 		if ((hitent.flags & FL_MONSTER) || (hitent.classname == "player"))
 		{	
-			wrench_hitsound();
-			//SuperDamageSound();
+			if (trace_ent.classname == "monster_hell_knight")
+			{
+				FX_Impact(FX_SPARK, org, dir);
+				sound_bullet_hit_metal(1);
+			}
+			
+			sound_wrench_hit_enemy(1);
 					
 			if ((hitent.movetype == MOVETYPE_STEP || hitent.movetype == MOVETYPE_WALK) && 
 				// don't swat bosses or other non-standard-sized enemies around
@@ -199,11 +225,13 @@ void(entity hitent, vector org, vector dir) hitwrench =
 		{
 			if (trace_ent.type == "zombie")
 				zombie_knockdown(trace_ent);
-			wrench_hitsound();
+			
+			sound_wrench_hit_enemy(1);
 		}
 		else
 		{
 			sound (self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_IDLE);
+			sound_wrench_hit_enemy(1);
 		}
 				
 		// do knockback with a quad
@@ -224,8 +252,9 @@ void(entity hitent, vector org, vector dir) hitwrench =
 		}
 	}
 	else	{	// hit wall
-		sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
-
+		sound (self, CHAN_WEAPON, "player/axhit2.wav", 0.2, ATTN_NORM);
+		sound_wrench_hit_world(0.8);
+		
 		FX_Impact(FX_SPARK, org, dir);
 
 		gunshot(org);

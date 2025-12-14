@@ -55,6 +55,7 @@ void() dog_bite =
 		return;
 		
 	T_Damage(self.enemy, self, self, 8 + random() * 8, DMGTYPE_MELEE);
+	sound (self, CHAN_WEAPON, "demon/dhit2.wav", 0.5, ATTN_NORM);
 }
 
 void()	Dog_JumpTouchGround =

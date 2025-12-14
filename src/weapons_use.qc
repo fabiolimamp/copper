@@ -33,8 +33,18 @@ void() W_Precache =
 	
 	precache_model ("progs/v_wrench.mdl");						// 1 Melee
 	precache_model ("progs/v_berserk.mdl");
-	precache_sound ("melee/fist_hit.wav");
-	
+	precache_sound ("impact/fist_hit.wav");
+	precache_sound ("impact/fist_impact1.wav");
+	precache_sound ("impact/fist_impact2.wav");
+	precache_sound ("impact/fist_impact3.wav");
+	precache_sound ("impact/fist_impact4.wav");
+	precache_sound ("impact/wrench_impact1.wav");
+	precache_sound ("impact/wrench_impact2.wav");
+	precache_sound ("impact/wrench_impact3.wav");
+	precache_sound ("impact/wrench_impact4.wav");
+	precache_sound ("impact/wrench_clank1.wav");
+	precache_sound ("impact/wrench_clank2.wav");
+		
 	//=============================================================================================
 											// 2 Pistol
 	precache_model ("progs/bullet_casing.mdl");
