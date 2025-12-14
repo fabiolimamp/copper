@@ -13,7 +13,7 @@ powerup_envirosuit
 */
 void(entity h, float t) powerup_envirosuit =
 {
-	sprint (h, "It's stuffy in this thing ...\n");
+	sprint (h, "It's stuffy in this thing ...\n\b100% Slime damage resistance, walk in shallow lava!\b\n");
 	h.items |= IT_SUIT;
 	h.rad_time = 1;
 	h.radsuit_finished = time + t;
@@ -26,7 +26,7 @@ powerup_invulnerability
 */
 void(entity h, float t) powerup_invulnerability =
 {
-	sprint (h, "An unholy ward surrounds you ...\n");
+	sprint (h, "An unholy ward surrounds you ...\n\bInvulnerability!\b\n");
 	h.items |= IT_INVULNERABILITY;
 	h.invincible_time = 1;
 	h.invincible_finished = time + t;
@@ -42,7 +42,7 @@ void(entity h, float t) powerup_vampirism =
 	if (random() < 0.002)	
 	sprint (h, "It's Orbin' time ...\n");
 	else
-	sprint (h, "Bloodshed leaves a parting gift ...\n");
+	sprint (h, "Bloodshed leaves a parting gift ...\n\bKills drop healing orbs!\b\n");
 	precache_vamp();
 	h.items_qbj |= IT_VAMP;
 	h.vamp_finished = time + t;
@@ -83,7 +83,7 @@ void(entity h, float t) powerup_berserk =
 	if (h.classname != "player")
 		return;
 		
-	sprint(h, "You begin frothing with a berserkers rage ...\n\bx10 melee damage AND 50% damage reduction\b\n");
+	sprint(h, "You begin frothing with a berserkers rage ...\n\bx10 melee damage AND +50% damage resistance!\b\n");
 	h.items_qbj |= IT_BERSERK;
 	h.berserk_finished = time + t;
 	h.berserk_time = 1;
@@ -103,7 +103,7 @@ powerup_invisibility
 */
 void(entity h, float t) powerup_invisibility =
 {
-	sprint (h, "Others' eyes deceive them, but yours give you away ...\n");
+	sprint (h, "Others' eyes deceive them, but yours give you away ...\n\bPartial invisiblity!\b\n");
 	h.items |= IT_INVISIBILITY;
 	//h.notrace = 1;
 	h.invisible_time = 1;
@@ -118,7 +118,7 @@ powerup_super_damage
 */
 void(entity h, float t) powerup_super_damage =
 {
-	sprint (h, "You begin to channel unstoppable power ...\n");
+	sprint (h, "You begin to channel unstoppable power ...\n\bQuad damage boost!\n");
 	h.items |= IT_QUAD;
 	h.super_damage_finished = time + t;
 	h.super_time = 1;
