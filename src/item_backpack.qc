@@ -444,10 +444,10 @@ void() VampGlobeTouch =
 	if (!CheckValidTouch()) return;
 
 	//for summary on health healed during powerup duration
-	other.globehealth_cou += 3;
+	other.globehealth_cou += 5;
 	//for coagulated (lol) health received prints so we don't spam console
 	//with tinylittleman hp received prints
-	other.globehealth_cou_short += 3;
+	other.globehealth_cou_short += 5;
 	
 	if (random() < 0.33)
 		sound(other, CHAN_ITEM, "items/vamppickup1.wav", 1, ATTN_NORM);
