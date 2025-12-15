@@ -335,20 +335,7 @@ void() ImpulseCommands =
 			break;
 		case 255:
 			Cheat_Quad();	
-			break;
-		/*
-		case 144:
-			// --------------------------------
-			// Pistol Manual Reload
-			if (self.weapon == IT_SHOTGUN) {
-				weaponanim_reloadpistol();
-				pistol_ammo_count = 0;
-				self.impulse = 0; 
-				return;
-			}
-			// --------------------------------
-		*/	
-			
+			break;			
 		default:
 			return;
 	}

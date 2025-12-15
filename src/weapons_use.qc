@@ -188,6 +188,10 @@ void() W_Precache =
 	precache_model ("progs/s_blood_64x.spr");
 								
 	//=============================================================================================
+											// Ammo / Draw
+	precache_sound ("ammo/draw1.wav");
+	
+	//=============================================================================================	
 
 
 
@@ -250,7 +254,6 @@ weaponclass_t wpc_axe = {
 	SUB_Null // idlefunction
 };
 
-
 weaponclass_t wpc_shotgun = {
 	IT_SHOTGUN,
 	2, // slot
@@ -261,7 +264,7 @@ weaponclass_t wpc_shotgun = {
 	0, // ammo_item
 	0, // ammo_usage
 	weaponanim_pistol, // animfunction
-	SUB_Null // idlefunction
+	weaponanim_drawpistol // idle/draw function
 };
 
 weaponclass_t wpc_supershotgun = {
@@ -575,7 +578,7 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon = {
 	//if (weapcl.idlefunction != SUB_Null) weapcl.idlefunction();
 	if (weap == IT_AXE && has_berserk(self)) idleanim_melee();
 	else if (weapcl.idlefunction != SUB_Null) weapcl.idlefunction();
-	
+		
 	return weapstat;
 }
 
@@ -671,18 +674,20 @@ float() W_SelectBestNailgun =
 float(float imp) W_ChangeSlot =
 {
 	// Pistol Manual Reload
-	if (imp == 2 && self.weapon == IT_SHOTGUN && self.pistol_ammo_count != 10)
+	if (imp == 2 && self.weapon == IT_SHOTGUN)
 	{
-		weaponanim_reloadpistol();
-		//pistol_ammo_count = 0;
-		return WEAPONSTAT_AVAILABLE;
+		if (self.pistol_ammo_count != 10)
+			weaponanim_reloadpistol();
+		
+		else if (self.pistol_ammo_count == 10)
+			weaponanim_twirlpistol();
+			
+		//else	weaponanim_drawpistol();
+		
+		return	WEAPONSTAT_AVAILABLE;
 	}
-	else if (imp == 2 && self.weapon == IT_SHOTGUN && self.pistol_ammo_count == 10)
-	{
-		weaponanim_twirlpistol();
-		return WEAPONSTAT_AVAILABLE;
-	}	
-
+	
+	
 	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
 
 	weaponslot_t newSlot = weaponslots[imp];
