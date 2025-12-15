@@ -344,74 +344,72 @@ ammo_touch
 void() ammo_touch =
 {
 	if (!CheckValidTouch()) return;
-
-	// structured in dual if's instead of using && to preserve ammo_touch maphacks
 	// structured in dual if's instead of using && to preserve ammo_touch maphacks
 	if (self.ammo_shells)
-    {
-        if (other.ammo_shells < MAX_AMMO_SHELLS)
-        {
-            other.ammo_shells += self.ammo_shells;
-            sprint(other, "Picked up Shells  ");
-            sprint(other, "\b+\b");
-            sprint(other, ftos(self.ammo_shells));
-            sprint(other, "\x94");
-            sprint(other, "\x95");
-        }
-        else return;
-    }
-    else if (self.ammo_nails)
-    {
-        if (other.ammo_nails < MAX_AMMO_NAILS)
-        {
-            other.ammo_nails += self.ammo_nails;
-            sprint(other, "Picked up Nails  ");
-            sprint(other, "\b+\b");
-            sprint(other, ftos(self.ammo_nails));
-            sprint(other, "\x96");
-            sprint(other, "\x97");
-        }
-        else return;
-    }
-    else if (self.ammo_rockets)
-    {
-        if (other.ammo_rockets < MAX_AMMO_ROCKETS)
-        {
-            other.ammo_rockets += self.ammo_rockets;
-        
-            sprint(other, "Picked up Explosives  ");
-            sprint(other, "\b+\b");
-            sprint(other, ftos(self.ammo_rockets));
-        
-            sprint(other, "\x98");
-            sprint(other, "\x99");
-        }
-        else return;
-    }
-    else if (self.ammo_cells)
-    {
-        if (other.ammo_cells < MAX_AMMO_CELLS)
-        {
-            other.ammo_cells += self.ammo_cells;
-        
-            sprint(other, "Picked up Fragments  ");
-            sprint(other, "\b+\b");
-            sprint(other, ftos(self.ammo_cells));
-        
-            sprint(other, "\x9a");
-            sprint(other, "\x9b");
-        }
-        else return;
-    }
-
-	//else return;	
-
+	{
+		if (other.ammo_shells < MAX_AMMO_SHELLS)
+		{
+			other.ammo_shells += self.ammo_shells;
+			sprint(other, "\x94");
+			sprint(other, "\x95");
+			sprint(other, "\b+\b");
+			sprint(other, ftos(self.ammo_shells));
+			print_spacing_for_digits(other, self.ammo_shells);
+			sprint(other, "Picked up Shells");
+			sprint(other, "\n");
+		}
+		else return;
+	}
+	else if (self.ammo_nails)
+	{
+		if (other.ammo_nails < MAX_AMMO_NAILS)
+		{
+			other.ammo_nails += self.ammo_nails;
+			sprint(other, "\x96");
+			sprint(other, "\x97");
+			sprint(other, "\b+\b");
+			sprint(other, ftos(self.ammo_nails));
+			print_spacing_for_digits(other, self.ammo_nails);
+			sprint(other, "Picked up Nails");
+			sprint(other, "\n");
+		}
+		else return;
+	}
+	else if (self.ammo_rockets)
+	{
+		if (other.ammo_rockets < MAX_AMMO_ROCKETS)
+		{
+			other.ammo_rockets += self.ammo_rockets;
+			sprint(other, "\x98");
+			sprint(other, "\x99");
+			sprint(other, "\b+\b");
+			sprint(other, ftos(self.ammo_rockets));
+			print_spacing_for_digits(other, self.ammo_rockets);
+			sprint(other, "Picked up Explosives");
+			sprint(other, "\n");
+		}
+		else return;
+	}
+	else if (self.ammo_cells)
+	{
+		if (other.ammo_cells < MAX_AMMO_CELLS)
+		{
+			other.ammo_cells += self.ammo_cells;
+			sprint(other, "\x9a");
+			sprint(other, "\x9b");
+			sprint(other, "\b+\b");
+			sprint(other, ftos(self.ammo_cells));
+			print_spacing_for_digits(other, self.ammo_cells);
+			sprint(other, "Picked up Fragments");
+			sprint(other, "\n");
+		}
+		else return;
+	}
+	//else return;  
 	bound_ammo(other);
-
 	sound (other, CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM);
 	stuffcmd (other, "bf\n");
-	sprint(other, "\n");
-
+	
 	if (!self.weapon)
 		SUB_CallAsSelf_float(W_SelectBestWeapon, other);
 	else
@@ -419,6 +417,16 @@ void() ammo_touch =
 		SUB_CallAsSelf(W_UpdateCurrentAmmo, other);
 	
 	ItemTouched();
+}
+
+void(entity e, float value) print_spacing_for_digits =
+{
+	if (value < 10)
+		sprint(e, "   ");
+	else if (value < 100)
+		sprint(e, "  ");
+	else
+		sprint(e, " ");
 }
 
 /*

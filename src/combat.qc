@@ -691,33 +691,35 @@ float (entity e, float healamt, float overheal) T_Heal =
 			
 		e.health = e.health + healamt;
 
+		sprint(e, "\x90\x91");
+
 		if (self.classname == "item_health")
 			if (self.spawnflags & ITEM_HEALTH_MEGA)
 			{
-				sprint(e, "Picked up a Megahealth");
-				sprint(e, " \b+\b");
+				sprint(e, "\b+\b");
 				sprint(e, "100");
+				sprint(e, " Picked up a Megahealth");
 			}
 				else if (self.spawnflags & ITEM_HEALTH_ROTTEN)
 			{
-				sprint(e, "Picked up a Small Health Pack");
-				sprint(e, " \b+\b");
+				sprint(e, "\b+\b");
 				sprint(e, "15");
+				sprint(e, "  Picked up a Small Health Pack");
 			}
 				else
 			{
-				sprint(e, "Picked up a Medium Health Pack");
-				sprint(e, " \b+\b");
+				sprint(e, "\b+\b");
 				sprint(e, "25");
+				sprint(e, "  Picked up a Medium Health Pack");
 			}
 		else
 		{
-			sprint(e, "You are healed by ");
+			sprint(e, " \b+\b");
 			sprint(e, ftos(healamt));
+			print_spacing_for_digits(e, healamt);
+			sprint(e, "You were healed");
 		}
 
-		// moved here from healthtouch so any source of healing prints messages
-		sprint(e, "\x90\x91");
 		sprint(e, "\n");
 		stuffcmd (e, "bf\n");
 		return TRUE;
