@@ -36,7 +36,7 @@ void() weaponanim_flakshotgun_loop = {
 	
 	if (self.weaponframe == 11) Eject_BuckshotCasing();
 	
-	if (self.weaponframe >= 22) {
+	if (self.weaponframe >= 25) {
 		self.weaponframe = 0;
 		return;
 	}
@@ -317,4 +317,28 @@ void() sound_flakshotgun_impact =
 	
 	}else	return;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=====================================================================================================================
+
+void() weaponanim_drawflakshotgun =
+{		
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
+	
+	self.weaponframe = 26;
+	
+	self.think = weaponanim_drawflakshotgun_loop;
+	self.nextthink = time + 0.025;
+}
+
+void() weaponanim_drawflakshotgun_loop =
+{
+	if (self.weaponframe >= 36)
+	{
+		self.weaponframe = 0;
+		self.think = SUB_Null;
+		return;
+	}
+	else 	self.weaponframe++;
+
+	self.think = weaponanim_drawflakshotgun_loop;
+	self.nextthink = time + 0.025;
+}

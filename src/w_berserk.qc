@@ -380,3 +380,28 @@ void(entity hitent, vector org, vector dir) hitberserk2 =
 	}
 }
 */
+//=====================================================================================================================
+
+void() weaponanim_drawberserk =
+{		
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
+	
+	self.weaponframe = 92;
+	
+	self.think = weaponanim_drawberserk_loop;
+	self.nextthink = time + 0.025;
+}
+
+void() weaponanim_drawberserk_loop =
+{
+	if (self.weaponframe >= 102)
+	{
+		self.weaponframe = 0;
+		self.think = SUB_Null;
+		return;
+	}
+	else 	self.weaponframe++;
+
+	self.think = weaponanim_drawberserk_loop;
+	self.nextthink = time + 0.025;
+}

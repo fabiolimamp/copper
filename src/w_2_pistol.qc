@@ -473,14 +473,14 @@ void() weaponanim_twirlpistol_loop =
 	self.think = weaponanim_twirlpistol_loop;
 	self.nextthink = time + 0.05;
 }
-
 //=====================================================================================================================
+
 void() weaponanim_drawpistol =
 {		
 	sound (self, CHAN_AUTO, "pistol/gun_click.wav", 0.25, ATTN_NORM);
 	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
 	
-	self.weaponframe = 81;
+	self.weaponframe = 82;
 	
 	self.think = weaponanim_drawpistol_loop;
 	self.nextthink = time + 0.025;
@@ -488,7 +488,7 @@ void() weaponanim_drawpistol =
 
 void() weaponanim_drawpistol_loop =
 {
-	if (self.weaponframe >= 90)
+	if (self.weaponframe >= 92)
 	{
 		self.weaponframe = 0;
 		self.think = SUB_Null;
@@ -497,5 +497,5 @@ void() weaponanim_drawpistol_loop =
 	else 	self.weaponframe++;
 
 	self.think = weaponanim_drawpistol_loop;
-	self.nextthink = time + 0.05;
+	self.nextthink = time + 0.025;
 }

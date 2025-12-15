@@ -270,3 +270,28 @@ void(entity hitent, vector org, vector dir) hitwrench =
 		gunshot(org);
 	}
 }
+//=====================================================================================================================
+
+void() weaponanim_drawwrench =
+{		
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
+	
+	self.weaponframe = 92;
+	
+	self.think = weaponanim_drawwrench_loop;
+	self.nextthink = time + 0.025;
+}
+
+void() weaponanim_drawwrench_loop =
+{
+	if (self.weaponframe >= 102)
+	{
+		self.weaponframe = 0;
+		self.think = SUB_Null;
+		return;
+	}
+	else 	self.weaponframe++;
+
+	self.think = weaponanim_drawwrench_loop;
+	self.nextthink = time + 0.025;
+}

@@ -260,3 +260,28 @@ void() updateNails =
 		e = find(e, classname, "nail");
 	}
 }
+//=====================================================================================================================
+
+void() weaponanim_drawtnailgun =
+{		
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
+	
+	self.weaponframe = 11;
+	
+	self.think = weaponanim_drawtnailgun_loop;
+	self.nextthink = time + 0.025;
+}
+
+void() weaponanim_drawtnailgun_loop =
+{
+	if (self.weaponframe >= 21)
+	{
+		self.weaponframe = 0;
+		self.think = SUB_Null;
+		return;
+	}
+	else 	self.weaponframe++;
+
+	self.think = weaponanim_drawtnailgun_loop;
+	self.nextthink = time + 0.025;
+}

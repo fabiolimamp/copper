@@ -97,3 +97,28 @@ entity(vector org, vector vel) launch_qbj3grenade =
 	
 	return grenade;
 }
+//=====================================================================================================================
+
+void() weaponanim_drawgrenlauncher =
+{		
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
+	
+	self.weaponframe = 22;
+	
+	self.think = weaponanim_drawgrenlauncher_loop;
+	self.nextthink = time + 0.025;
+}
+
+void() weaponanim_drawgrenlauncher_loop =
+{
+	if (self.weaponframe >= 32)
+	{
+		self.weaponframe = 0;
+		self.think = SUB_Null;
+		return;
+	}
+	else 	self.weaponframe++;
+
+	self.think = weaponanim_drawgrenlauncher_loop;
+	self.nextthink = time + 0.025;
+}

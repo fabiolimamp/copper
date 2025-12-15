@@ -251,7 +251,7 @@ weaponclass_t wpc_axe = {
 	0, // ammo_usage
 	weaponanim_wrench, // animfunction
 	//idleanim_melee // idlefunction
-	SUB_Null // idlefunction
+	weaponanim_drawwrench // idlefunction
 };
 
 weaponclass_t wpc_shotgun = {
@@ -277,7 +277,7 @@ weaponclass_t wpc_supershotgun = {
 	IT_SHELLS, // ammo_item
 	1, // ammo_usage
 	weaponanim_flakshotgun, // animfunction
-	SUB_Null // idlefunction
+	weaponanim_drawflakshotgun // idlefunction
 };
 
 weaponclass_t wpc_nailgun = {
@@ -290,7 +290,7 @@ weaponclass_t wpc_nailgun = {
 	IT_NAILS, // ammo_item
 	1, // ammo_usage
 	weaponanim_twinnailgun, // animfunction
-	SUB_Null // idlefunction
+	weaponanim_drawtnailgun // idlefunction
 };
 
 weaponclass_t wpc_supernailgun = {
@@ -303,7 +303,7 @@ weaponclass_t wpc_supernailgun = {
 	IT_NAILS, // ammo_item
 	10, // ammo_usage
 	weaponanim_rebarcannon, // animfunction
-	SUB_Null // idlefunction
+	weaponanim_drawrebarcannon // idlefunction
 };
 
 weaponclass_t wpc_grenade = {
@@ -316,7 +316,7 @@ weaponclass_t wpc_grenade = {
 	IT_ROCKETS, // ammo_item
 	1, // ammo_usage
 	weaponanim_qbj3grenade, // animfunction	//weaponanim_clustergrenade	//weaponanim_volleygrenade
-	SUB_Null // idlefunction
+	weaponanim_drawgrenlauncher // idlefunction
 };
 
 weaponclass_t wpc_rocket = {
@@ -329,7 +329,7 @@ weaponclass_t wpc_rocket = {
 	IT_ROCKETS, // ammo_item
 	1, // ammo_usage
 	weaponanim_boxrocket, // animfunction	//weaponanim_twinrocket,
-	SUB_Null // idlefunction
+	weaponanim_drawmmml // idlefunction
 };
 
 weaponclass_t wpc_invoker = {
@@ -342,7 +342,8 @@ weaponclass_t wpc_invoker = {
 	IT_CELLS, // ammo_item
 	1, // ammo_usage
 	weaponanim_invoker, // animfunction
-	idleanim_invoker // idlefunction
+	//idleanim_invoker // idlefunction
+	weaponanim_drawinvoker // idlefunction
 };
 
 

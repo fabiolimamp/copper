@@ -227,3 +227,28 @@ void() updateRebars =
 		e = find(e, classname, "impaler");
 	}
 }
+//=====================================================================================================================
+
+void() weaponanim_drawrebarcannon =
+{		
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
+	
+	self.weaponframe = 22;
+	
+	self.think = weaponanim_drawrebarcannon_loop;
+	self.nextthink = time + 0.025;
+}
+
+void() weaponanim_drawrebarcannon_loop =
+{
+	if (self.weaponframe >= 32)
+	{
+		self.weaponframe = 0;
+		self.think = SUB_Null;
+		return;
+	}
+	else 	self.weaponframe++;
+
+	self.think = weaponanim_drawrebarcannon_loop;
+	self.nextthink = time + 0.025;
+}

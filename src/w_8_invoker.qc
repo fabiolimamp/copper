@@ -317,3 +317,29 @@ void() rail_fade =
 
 	self.cnt = self.cnt - 1;
 };
+//=====================================================================================================================
+
+void() weaponanim_drawinvoker =
+{		
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
+	
+	self.weaponframe = 102;
+	
+	self.think = weaponanim_drawinvoker_loop;
+	self.nextthink = time + 0.025;
+}
+
+void() weaponanim_drawinvoker_loop =
+{
+	if (self.weaponframe >= 112)
+	{
+		self.weaponframe = 0;
+		//self.think = SUB_Null;
+		self.think = idleanim_invoker;
+		return;
+	}
+	else 	self.weaponframe++;
+
+	self.think = weaponanim_drawinvoker_loop;
+	self.nextthink = time + 0.025;
+}
