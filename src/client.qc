@@ -1971,6 +1971,9 @@ void() PlayerPostThink =
 		self.fixangle = 1;
 	}
 
+	W_SetCrosshair();
+
+
 	// vaulting off the top of stairs sucks, but the right place to fix this is the .exe
 	/*
 	if (self.flags & FL_ONGROUND)
@@ -1985,6 +1988,28 @@ void() PlayerPostThink =
 		self.customflags = not(self.customflags, CFL_WASONGROUND);
 	}
 	*/
+}
+
+void() W_SetCrosshair =
+{
+    if (self.weapon == IT_AXE)
+        stuffcmd(self, "crosshair 0\n");
+    else if (self.weapon == IT_SHOTGUN)
+        stuffcmd(self, "crosshair -1\n");
+    else if (self.weapon == IT_SUPER_SHOTGUN)
+        stuffcmd(self, "crosshair -2\n");
+    else if (self.weapon == IT_NAILGUN)
+        stuffcmd(self, "crosshair -3\n");
+    else if (self.weapon == IT_SUPER_NAILGUN)
+        stuffcmd(self, "crosshair -4\n");
+    else if (self.weapon == IT_GRENADE_LAUNCHER)
+        stuffcmd(self, "crosshair -5\n");
+    else if (self.weapon == IT_ROCKET_LAUNCHER)
+        stuffcmd(self, "crosshair -6\n");
+    else if (self.weapon == IT_LIGHTNING)
+        stuffcmd(self, "crosshair -7\n");
+    else
+        stuffcmd(self, "crosshair 0\n");
 }
 
 /*
