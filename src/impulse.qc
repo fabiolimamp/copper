@@ -189,6 +189,20 @@ void() ServerflagsCommand =
 	dev_serverflags();
 };
 
+void() toggle_custom_crosshairs =
+{
+	if (cvar("scratch1") == 0)
+	{
+		stuffcmd(self, "scratch1 1\n");
+		sprint(self, "Per-weapon crosshairs toggled \boff\b\n");
+	}
+	else
+	{
+		stuffcmd(self, "scratch1 0\n");
+		sprint(self, "Per-weapon crosshairs toggled \bon\b\n");
+	}
+}
+
 
 // --------------------------------
 // ImpulseCommands
@@ -227,6 +241,9 @@ void() ImpulseCommands =
 			break;
 		case 16:
 			ret = W_SelectLastWeapon();
+			break;
+		case 17:
+			toggle_custom_crosshairs();
 			break;
 
 		case 40:

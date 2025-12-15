@@ -1992,6 +1992,8 @@ void() PlayerPostThink =
 
 void() W_SetCrosshair =
 {
+	if (cvar("scratch1") == 1) return; 
+
     if (self.weapon == IT_AXE)
         stuffcmd(self, "crosshair 0\n");
     else if (self.weapon == IT_SHOTGUN)
