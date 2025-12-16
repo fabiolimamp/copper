@@ -244,6 +244,7 @@ void(float blasttype) BecomeBlast =
 	else if (blasttype == 3)	setmodel (self, "progs/s_explode_sploder_96x.spr");
 	else if (blasttype == 4)	setmodel (self, "progs/s_explode_purple_48x.spr");
 	else if (blasttype == 5)	setmodel (self, "progs/s_explode_fire_128x.spr");
+	else if (blasttype == 6)	setmodel (self, "progs/s_explode_fire_64x.spr");
 	else				setmodel (self, "progs/s_explode_fire_96x.spr");
 	
 	self.movetype = MOVETYPE_NONE;
@@ -260,6 +261,7 @@ void() BecomeWeakExplosion = 	{ BecomeBlast(2); }
 void() BecomeSploderExplosion = { BecomeBlast(3); }
 void() BecomeVorePodExplosion = { BecomeBlast(4); }
 void() BecomeBoxExplosion = 	{ BecomeBlast(5); }
+void() BecomeMMMLExplosion = 	{ BecomeBlast(6); }
 
 void() fx_explode =
 {

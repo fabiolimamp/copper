@@ -231,7 +231,7 @@ void() SoldierMissile =
 	missile.nextthink = time + 0.1;
 	missile.think = MissileHome;
 	missile.enemy = self.enemy;
-	missile.touch = ShalMissileTouch;
+	missile.touch = SoldierMissileTouch;
 	missile.lifetime_finished = time + 5;	 // blow up after a while
 	if (skill == 3) missile.dest = self.dest;
 }
@@ -251,7 +251,7 @@ void() MissileHome =
 	}		
 	if (!alive(self.enemy))
 	{
-		self.think = ShalMissileExplode;
+		self.think = SoldierMissileExplode;
 		self.nextthink = self.lifetime_finished;
 		//remove(self);
 		return;
@@ -292,7 +292,28 @@ void() MissileHome =
 
 	self.oldvelocity = self.velocity;	
 }
+//=============================================================================
 
+void() SoldierMissileTouch =
+{
+	if (CheckProjectilePassthru()) return;
+	if (other == self.owner)
+		return;		// don't explode on owner
+
+	if (other.type == "zombie")
+		T_Damage (other, self, self.trueowner, other.health + 25);
+	
+	SoldierMissileExplode();
+}
+
+void() SoldierMissileExplode =
+{
+	T_RadiusDamage (self, self.trueowner, 40, world, DMGTYPE_EXPLOSION);
+	//sound (self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
+
+	BecomeMMMLExplosion ();
+}
+//=============================================================================
 
 /*
 ===========
