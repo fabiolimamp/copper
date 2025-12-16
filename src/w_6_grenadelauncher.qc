@@ -1,12 +1,29 @@
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 // Grenade Launcher
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
+/*
+	Grenade Launcher
+	{0-31}
+	v_grenlauncher
+	
+	0  idle
+	1-10  draw > idle
+	11-31  fire > idle
+	
+	MD3
+	v_grenlauncher_gloves
+	v_grenlauncher
+	v_grenlauncher_muzz
+*/
+//=============================================================================================
 
-float() weaponanim_qbj3grenade = {
+float() weaponanim_qbj3grenade =
+{
 	if (self.attack_finished > time)
 		return FALSE;
 
-	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
+	{
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;
 	}
@@ -21,7 +38,7 @@ float() weaponanim_qbj3grenade = {
 
 	W_FireQBJ3Grenade(); //<<<
 
-	self.weaponframe = 1;
+	self.weaponframe = 11;
 	
 	self.think = weaponanim_qbj3grenade_loop;
 	self.nextthink = time + 0.05;
@@ -29,21 +46,19 @@ float() weaponanim_qbj3grenade = {
 	return TRUE;
 }
 
-void() weaponanim_qbj3grenade_loop = {
-	
-	if (self.weaponframe >= 20) {
-		self.weaponframe = 0;
+void() weaponanim_qbj3grenade_loop =
+{
+	if (self.weaponframe >= 30)
+	{
+		self.weaponframe = 10;
 		return;
 	}
-	else {
-		self.weaponframe++;
-	}
+	else 	self.weaponframe++;
 
 	self.think = weaponanim_qbj3grenade_loop;
 	self.nextthink = time + 0.05;
-
 }
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 
 void(float grenfire_volume) sound_grenade_fire =
 {
@@ -92,33 +107,7 @@ entity(vector org, vector vel) launch_qbj3grenade =
 	grenade.lifetime_finished = time + 2.5;
 	//grenade.avelocity = '300 300 300';
 	grenade.avelocity = '-600 0 0';
-	//SUB_ChangeModel (grenade, "progs/proj_minigrenade.mdl");
 	SUB_ChangeModel (grenade, "progs/proj_grenade.mdl");
 	
 	return grenade;
-}
-//=====================================================================================================================
-
-void() weaponanim_drawgrenlauncher =
-{		
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
-	
-	self.weaponframe = 22;
-	
-	self.think = weaponanim_drawgrenlauncher_loop;
-	self.nextthink = time + 0.025;
-}
-
-void() weaponanim_drawgrenlauncher_loop =
-{
-	if (self.weaponframe >= 32)
-	{
-		self.weaponframe = 0;
-		self.think = SUB_Null;
-		return;
-	}
-	else 	self.weaponframe++;
-
-	self.think = weaponanim_drawgrenlauncher_loop;
-	self.nextthink = time + 0.025;
 }

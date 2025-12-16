@@ -1,12 +1,30 @@
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 // piercing projectile Impaler code by Fairweather, edits by Kebby and bmFbr
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
+/*
+	Rebar Cannon
+	{0-31}
+	v_rebar
+	
+	0  idle
+	1-10  draw > idle
+	11-31  fire > idle
+	
+	MD3
+	v_rebar_gloves
+	v_rebar
+	v_rebar_darker
+	v_rebar_lighter
+*/
+//=============================================================================================
 
-float() weaponanim_rebarcannon = {
+float() weaponanim_rebarcannon =
+{
 	if (self.attack_finished > time)
 		return FALSE;
 
-	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
+	{
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;
 	}
@@ -22,35 +40,33 @@ float() weaponanim_rebarcannon = {
 	SuperDamageSound();
 	W_FireRebarCannon();
 
-	self.weaponframe = 1;
+	self.weaponframe = 11;
 	self.think = weaponanim_rebarcannon_loop;
 	self.nextthink = time + 0.05;
 	
 	return TRUE;
 }
 
-void() weaponanim_rebarcannon_loop = {
-
-	if (self.weaponframe == 8)	sound (self, CHAN_AUTO, "rebar/bow_reload2.wav", 0.3, ATTN_NORM);
-	if (self.weaponframe == 10)	sound (self, CHAN_AUTO, "rebar/bow_clank.wav", 0.4, ATTN_NORM);
-	if (self.weaponframe == 13)	sound (self, CHAN_AUTO, "rebar/bow_reload3.wav", 0.3, ATTN_NORM);
-	if (self.weaponframe == 16)	sound (self, CHAN_AUTO, "rebar/bow_reload4.wav", 0.4, ATTN_NORM);
+void() weaponanim_rebarcannon_loop =
+{
+	if (self.weaponframe == 18)	sound (self, CHAN_AUTO, "rebar/bow_reload2.wav", 0.3, ATTN_NORM);
+	if (self.weaponframe == 20)	sound (self, CHAN_AUTO, "rebar/bow_clank.wav", 0.4, ATTN_NORM);
+	if (self.weaponframe == 23)	sound (self, CHAN_AUTO, "rebar/bow_reload3.wav", 0.3, ATTN_NORM);
+	if (self.weaponframe == 26)	sound (self, CHAN_AUTO, "rebar/bow_reload4.wav", 0.4, ATTN_NORM);
 	
 		
-	if (self.weaponframe >= 20) {
-		self.weaponframe = 0;
+	if (self.weaponframe >= 30)
+	{
+		self.weaponframe = 10;
 		return;
 	}
-	else {
-		self.weaponframe++;
-	}
+	else 	self.weaponframe++;
 
 	self.think = weaponanim_rebarcannon_loop;
 	self.nextthink = time + 0.05;
 
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 
 void() W_FireRebarCannon =
 {
@@ -66,7 +82,7 @@ void() W_FireRebarCannon =
 	
 	launch_impaler(org, mvel);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 
 entity(vector org, vector vel) launch_impaler =
 {
@@ -120,10 +136,7 @@ void() ImpalerFade =
 	self.think = ImpalerFade;
 	self.nextthink = time + 0.05;
 }
-
-
 //=============================================================================================
-
 
 void() ImpalerTouch =
 {
@@ -226,29 +239,4 @@ void() updateRebars =
 
 		e = find(e, classname, "impaler");
 	}
-}
-//=====================================================================================================================
-
-void() weaponanim_drawrebarcannon =
-{		
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
-	
-	self.weaponframe = 22;
-	
-	self.think = weaponanim_drawrebarcannon_loop;
-	self.nextthink = time + 0.025;
-}
-
-void() weaponanim_drawrebarcannon_loop =
-{
-	if (self.weaponframe >= 32)
-	{
-		self.weaponframe = 0;
-		self.think = SUB_Null;
-		return;
-	}
-	else 	self.weaponframe++;
-
-	self.think = weaponanim_drawrebarcannon_loop;
-	self.nextthink = time + 0.025;
 }

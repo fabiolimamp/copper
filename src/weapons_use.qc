@@ -250,8 +250,7 @@ weaponclass_t wpc_axe = {
 	0, // ammo_item
 	0, // ammo_usage
 	weaponanim_wrench, // animfunction
-	//idleanim_melee // idlefunction
-	weaponanim_drawwrench // idlefunction
+	SUB_Null // idlefunction		//idleanim_melee
 };
 
 weaponclass_t wpc_shotgun = {
@@ -264,7 +263,7 @@ weaponclass_t wpc_shotgun = {
 	0, // ammo_item
 	0, // ammo_usage
 	weaponanim_pistol, // animfunction
-	weaponanim_drawpistol // idle/draw function
+	SUB_Null // idle/draw function
 };
 
 weaponclass_t wpc_supershotgun = {
@@ -277,7 +276,7 @@ weaponclass_t wpc_supershotgun = {
 	IT_SHELLS, // ammo_item
 	1, // ammo_usage
 	weaponanim_flakshotgun, // animfunction
-	weaponanim_drawflakshotgun // idlefunction
+	SUB_Null // idlefunction
 };
 
 weaponclass_t wpc_nailgun = {
@@ -290,7 +289,7 @@ weaponclass_t wpc_nailgun = {
 	IT_NAILS, // ammo_item
 	1, // ammo_usage
 	weaponanim_twinnailgun, // animfunction
-	weaponanim_drawtnailgun // idlefunction
+	SUB_Null // idlefunction
 };
 
 weaponclass_t wpc_supernailgun = {
@@ -303,7 +302,7 @@ weaponclass_t wpc_supernailgun = {
 	IT_NAILS, // ammo_item
 	10, // ammo_usage
 	weaponanim_rebarcannon, // animfunction
-	weaponanim_drawrebarcannon // idlefunction
+	SUB_Null // idlefunction
 };
 
 weaponclass_t wpc_grenade = {
@@ -315,8 +314,8 @@ weaponclass_t wpc_grenade = {
 	3, // ammofield
 	IT_ROCKETS, // ammo_item
 	1, // ammo_usage
-	weaponanim_qbj3grenade, // animfunction	//weaponanim_clustergrenade	//weaponanim_volleygrenade
-	weaponanim_drawgrenlauncher // idlefunction
+	weaponanim_qbj3grenade, // animfunction
+	SUB_Null // idlefunction
 };
 
 weaponclass_t wpc_rocket = {
@@ -328,8 +327,8 @@ weaponclass_t wpc_rocket = {
 	3, // ammofield
 	IT_ROCKETS, // ammo_item
 	1, // ammo_usage
-	weaponanim_boxrocket, // animfunction	//weaponanim_twinrocket,
-	weaponanim_drawmmml // idlefunction
+	weaponanim_boxrocket, // animfunction
+	SUB_Null // idlefunction
 };
 
 weaponclass_t wpc_invoker = {
@@ -342,8 +341,7 @@ weaponclass_t wpc_invoker = {
 	IT_CELLS, // ammo_item
 	1, // ammo_usage
 	weaponanim_invoker, // animfunction
-	//idleanim_invoker // idlefunction
-	weaponanim_drawinvoker // idlefunction
+	SUB_Null // idlefunction	//idleanim_invoker
 };
 
 
@@ -430,7 +428,8 @@ W_WeaponFrame
 Called every frame so impulse events can be handled as well as possible
 ============
 */
-void() W_WeaponFrame = {
+void() W_WeaponFrame =
+{
 	if (self.button0) {
 		if (self.attackpressed) self.attackhold = 1;
 		else self.attackhold = 0;
@@ -447,7 +446,8 @@ void() W_WeaponFrame = {
 
 
 // syncs up current ammo with its correspondent ammo_* field
-void() W_UpdateCurrentAmmo = {
+void() W_UpdateCurrentAmmo =
+{
 	weaponclass_t weap = weaponsclass[getWeapon(self.weapon)];
 	self.currentammo = self.(ammofieldlist[weap.ammofield]);
 }
@@ -476,11 +476,13 @@ float(float w) W_RankForWeapon =
 	return 7;
 }
 
-float() W_BestWeapon = {
+float() W_BestWeapon =
+{
 	return W_BestWeaponParms(self.items, self, self.waterlevel);
 };
 
-float(float weap, entity cl) W_CheckWeapon = {
+float(float weap, entity cl) W_CheckWeapon =
+{
 	weaponclass_t weapcl = weaponsclass[getWeapon(weap)];
 
 	//if (has_gorgon(cl) && weap == IT_AXE) return WEAPONSTAT_AVAILABLE;
@@ -502,8 +504,8 @@ void() W_ResetWeaponState =
 	W_ChangeWeapon(self.weapon, FALSE);
 }
 
-void() W_Attack = {
-	
+void() W_Attack =
+{
 	weaponclass_t weap = weaponsclass[getWeapon(self.weapon)];
 
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE) {
@@ -519,8 +521,8 @@ void() W_Attack = {
 
 
 
-float(float weap, float forcereset = FALSE) W_ChangeWeapon = {
-
+float(float weap, float forcereset = FALSE) W_ChangeWeapon =
+{
 	if (self.animcontroller.owner != self) return WEAPONSTAT_CHANGELOCKED;
 
 	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
@@ -540,10 +542,9 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon = {
 		return weapstat;
 	}
 
-	if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0) {
-		// reset pistol reload
-		self.pistol_ammo_count = 10;
-	}
+	if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
+		self.pistol_ammo_count = 10;	// reset pistol reload
+
 	self.weaponreload_perc = 0;
 	weaponclass_t weapcl = weaponsclass[getWeapon(weap)];
 
@@ -553,15 +554,10 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon = {
 	self.items &~= (IT_SHELLS | IT_NAILS | IT_ROCKETS | IT_CELLS);
 	self.items |= weapcl.ammo_item;
 
-	if (weapcl.ammofield) {
+	if (weapcl.ammofield)
 		self.currentammo = self.(ammofieldlist[weapcl.ammofield]);
-	}
-	else {
-		self.currentammo = 0;
-	}
-
-	//if (has_gorgon(self) && weap == IT_AXE)
-	//	weapcl.model = "progs/v_gorgon.mdl";
+		
+	else 	self.currentammo = 0;
 	
 	if (has_berserk(self) && weap == IT_AXE)
 		weapcl.model = "progs/v_berserk.mdl";
@@ -577,8 +573,9 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon = {
 	self.think = SUB_Null;
 	
 	//if (weapcl.idlefunction != SUB_Null) weapcl.idlefunction();
-	if (weap == IT_AXE && has_berserk(self)) idleanim_melee();
-	else if (weapcl.idlefunction != SUB_Null) weapcl.idlefunction();
+	//if (weap == IT_AXE && has_berserk(self)) idleanim_melee();
+	//else if (weapcl.idlefunction != SUB_Null) weapcl.idlefunction();
+	
 		
 	return weapstat;
 }
@@ -682,13 +679,10 @@ float(float imp) W_ChangeSlot =
 		
 		else if (self.pistol_ammo_count == 10)
 			weaponanim_twirlpistol();
-			
-		//else	weaponanim_drawpistol();
-		
+					
 		return	WEAPONSTAT_AVAILABLE;
 	}
-	
-	
+		
 	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
 
 	weaponslot_t newSlot = weaponslots[imp];
@@ -715,7 +709,6 @@ float(float imp) W_ChangeSlot =
 		startSlotPos = wrap(startSlotPos + 1, 0, newSlot.qt - 1);
 		i++;
 	}
-
 	
 	if (weaponstat == WEAPONSTAT_NOAMMO)
 		sprint(self, "not enough ammo.\n");
@@ -774,3 +767,77 @@ void() SuperDamageSound =
 }
 
 
+
+
+//=====================================================================================================================
+
+void() weaponanim_draw_pistol =
+{		
+	sound (self, CHAN_AUTO, "pistol/gun_click.wav", 0.25, ATTN_NORM);
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.1, ATTN_NORM);
+	
+	self.weaponframe = 1;
+	
+	self.think = weaponanim_draw_pistol_loop;
+	self.nextthink = time + 0.033;
+}
+
+void() weaponanim_draw_pistol_loop =
+{
+	if (self.weaponframe >= 9)
+	{
+		self.weaponframe = 0;
+		self.think = SUB_Null;
+		return;
+	}
+	else 	self.weaponframe++;
+
+	self.think = weaponanim_draw_pistol_loop;
+	self.nextthink = time + 0.033;
+}
+//=====================================================================================================================
+
+void() weaponanim_draw =
+{		
+	if (self.weapon == IT_SHOTGUN)	sound (self, CHAN_AUTO, "pistol/gun_click.wav", 0.25, ATTN_NORM);	// Pistol draw sfx
+	
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.1, ATTN_NORM);
+	
+	self.weaponframe = 1;
+	
+	self.think = weaponanim_draw_loop;
+	self.nextthink = time + 0.033;
+}
+
+void() weaponanim_draw_loop =
+{
+	if (self.weaponframe >= 10)
+	{
+		if (self.weapon == IT_AXE)
+		{
+			if (has_berserk(self))
+			{
+				self.think = idleanim_melee;	// Berserker draw --> Idle animation loop
+				return;
+			}
+			else			
+			{
+				self.think = SUB_Null;		// No idle anim for MDL Wrench (too goopy)
+				return;
+			}
+		}		
+		else if (self.weapon == IT_LIGHTNING)
+		{
+			self.think = idleanim_invoker;		// Invoker draw --> Idle animation loop
+			return;
+		}		
+		
+		self.weaponframe = 0;
+		self.think = SUB_Null;
+		return;
+	}
+	else 	self.weaponframe++;
+
+	self.think = weaponanim_draw_loop;
+	self.nextthink = time + 0.033;
+}

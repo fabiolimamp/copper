@@ -1,12 +1,33 @@
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 // piercing projectile Impaler code by Fairweather, edits by Kebby
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
+/*
+	Flak Shotgun
+	{0-35}
+	v_flakshotgun
+	
+	0  idle
+	1-10  draw > idle
+	11-35  fire > idle
+	~~~
+	50-72  fire last
+	73-83  reload loop
+	84-106  finish > idle
+	
+	MD3
+	v_flakshotgun_gloves
+	v_flakshotgun
+	v_flakshotgun_muzz
+*/
+//=============================================================================================
 
-float() weaponanim_flakshotgun = {
+float() weaponanim_flakshotgun =
+{
 	if (self.attack_finished > time)
 		return FALSE;
 
-	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
+	{
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;
 	}
@@ -22,39 +43,38 @@ float() weaponanim_flakshotgun = {
 	SuperDamageSound();
 	W_FireFlakShotgun();
 
-	self.weaponframe = 1;
+	self.weaponframe = 11;
+	
 	self.think = weaponanim_flakshotgun_loop;
 	self.nextthink = time + 0.05;
 	
 	return TRUE;
 }
 
-void() weaponanim_flakshotgun_loop = {
+void() weaponanim_flakshotgun_loop =
+{
 	if (intermission) return;
 	
-	if (self.weaponframe == 8) sound (self, CHAN_AUTO, "flak/pump_reload.wav", 0.7, ATTN_NORM); //extra pump sfx
+	if (self.weaponframe == 18) sound (self, CHAN_AUTO, "flak/pump_reload.wav", 0.7, ATTN_NORM); //extra pump sfx
 	
-	if (self.weaponframe == 11) Eject_BuckshotCasing();
+	if (self.weaponframe == 21) Eject_BuckshotCasing();
 	
-	if (self.weaponframe >= 25) {
-		self.weaponframe = 0;
+	if (self.weaponframe >= 35)
+	{
+		self.weaponframe = 10;
 		return;
 	}
-	else {
-		self.weaponframe++;
-	}
+	else 	self.weaponframe++;
 
 	self.think = weaponanim_flakshotgun_loop;
 	self.nextthink = time + 0.05;
 
 }
-
 //=====================================================================================================================
 
 void() W_FireFlakShotgun =
 {
-	sound(self, CHAN_WEAPON, "flak/shotgun3.wav", 1, ATTN_NORM);
-	//sound(self, CHAN_AUTO, "flak/shotgun2.wav", 0.5, ATTN_NORM);	
+	sound(self, CHAN_WEAPON, "flak/shotgun3.wav", 1, ATTN_NORM);	
 	
 	sound_shotgun_shoot(0.8);
 	
@@ -81,9 +101,7 @@ void() W_FireFlakShotgun =
 		fl.count = shotcount;
 		shotcount = shotcount - 1;
 	}
-
 }
-
 //=====================================================================================================================
 
 entity(vector org, vector vel) Launch_Flak =
@@ -109,7 +127,6 @@ entity(vector org, vector vel) Launch_Flak =
 
 void() FlakThink =
 {
-	
 	self.angles = vectoangles(self.velocity);
 	self.flags &~= FL_ONGROUND;
 	self.oldvelocity = self.velocity;
@@ -130,7 +147,6 @@ void() FlakThink =
 	if (self.lifetime_finished < time || self.attack_finished < time)
 		remove(self);
 }
-
 
 void() FlakBounce =
 {
@@ -170,12 +186,13 @@ void() FlakBounce =
 	self.nextthink = time + 0.01;
 }
 
-void() Flak_setvelocity = {
+void() Flak_setvelocity =
+{
 	self.velocity = self.oldvelocity;
 	self.think = FlakThink;
 	self.nextthink = time + 0.01;
 }
-
+//=============================================================================================
 
 void() FlakTouch =
 {
@@ -220,7 +237,6 @@ void() FlakTouch =
 	else if (chance < 0.5) sound(self, CHAN_AUTO, "weapons/ric2.wav", 0.25, ATTN_NORM);
 	else sound(self, CHAN_AUTO, "weapons/ric3.wav", 0.25, ATTN_NORM);
 }
-//=============================================================================================
 
 void() FlakTouch_2 =
 {
@@ -284,7 +300,7 @@ void() Eject_BuckshotCasing =
 	casing.avelocity = [-170 - crandom()*60, -370 - crandom() * 60, 0];
 	SUB_ChangeModel (casing, "progs/buckshot_casing.mdl");
 }
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 
 void(float flakfire_volume) sound_shotgun_shoot =
 {
@@ -316,29 +332,4 @@ void() sound_flakshotgun_impact =
 	else			sound (self, CHAN_AUTO, "impact/bullet_impact4.wav", 1, ATTN_NORM);
 	
 	}else	return;
-}
-//=====================================================================================================================
-
-void() weaponanim_drawflakshotgun =
-{		
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
-	
-	self.weaponframe = 26;
-	
-	self.think = weaponanim_drawflakshotgun_loop;
-	self.nextthink = time + 0.025;
-}
-
-void() weaponanim_drawflakshotgun_loop =
-{
-	if (self.weaponframe >= 36)
-	{
-		self.weaponframe = 0;
-		self.think = SUB_Null;
-		return;
-	}
-	else 	self.weaponframe++;
-
-	self.think = weaponanim_drawflakshotgun_loop;
-	self.nextthink = time + 0.025;
 }

@@ -1,10 +1,27 @@
-////////////////////////////////////////////////////////////////////////////////////////////////
-// multi-hit sword sweeping code by bmFbr, edits by Kebby
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-.float	swordhitme;
-
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
+// multi-hit melee sweeping code by bmFbr, edits by Kebby
+//=============================================================================================
+/*
+	Wrench 
+	{0-70}
+	v_wrench
+	
+	0  idle
+	1-10  draw > idle
+	11-(14)-[26]-30  swing
+	31-(34)-[46]-50  swing
+	51-(54)-[66]-70  swing
+	~~~
+	71-80  twirl
+	81-101  idle loop
+	
+	*swing (hit) [skip] > idle
+	
+	MD3
+	v_wrench_gloves
+	v_wrench
+*/
+//=============================================================================================
 
 float() weaponanim_wrench =
 {
@@ -14,25 +31,21 @@ float() weaponanim_wrench =
 	if (self.attack_finished > time)
 		return FALSE;
 
-
-
 	sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
 	SuperDamageSound();
 	
 	self.attack_finished = time + 0.8;
 	
-	self.weaponframe = floor(random()*2.99)*20 + 1;	//(3 cycles, 20 frames)
+	
+	local float r = floor(random()*3);
+	if 	(r== 0)	self.weaponframe = 11;
+	else if (r== 1)	self.weaponframe = 31;
+	else		self.weaponframe = 51;
 	
 	// converts weaponframe to a 0-4 integer selector for the player animation
-	player_axe_start(self.animcontroller, (self.weaponframe - 1)/20);
+	//player_axe_start(self.animcontroller, (self.weaponframe - 1)/20);
 	
-	//new big wrench = (3 cycles, 20 frames)
-	//     0 idle
-	//  1-20 poke
-	// 21-40 swing
-	// 41-60 slam
-
-	self.think = weaponanim_wrench_loop; //<<<
+	self.think = weaponanim_wrench_loop;
 	self.nextthink = time + 0.05;
 
 	return FALSE; // axe swing will never count as fired until it hits something
@@ -40,30 +53,26 @@ float() weaponanim_wrench =
 
 void() weaponanim_wrench_loop =
 {
-	if (self.weaponframe % 20 == 3)
-		W_FireWrench(); //<<<
+	if (self.weaponframe == 14 || self.weaponframe == 34 || self.weaponframe == 54)
+		W_FireWrench();
 
-	if (self.weaponframe % 20 == 0) {
-		self.weaponframe = 0;
-		//idleanim_melee();
+	if (self.weaponframe == 30 || self.weaponframe == 50 || self.weaponframe == 70)
+	{
+		self.weaponframe = 10;
 		return;
 	}
-	else {
-		self.weaponframe++;
-	}
+	else 	self.weaponframe++;
 
-	self.think = weaponanim_wrench_loop; //<<<
+	self.think = weaponanim_wrench_loop;
 	self.nextthink = time + 0.05;
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-void() wrench_hitsound = {
-	if (random() < 0.5)
-		sound (self, CHAN_WEAPON, "weapons/axhit1.wav", 1, ATTN_NORM);
-	else
-		sound (self, CHAN_WEAPON, "weapons/axhit2.wav", 1, ATTN_NORM);
+void() wrench_hitsound =
+{
+	if (random() < 0.5)	sound (self, CHAN_WEAPON, "weapons/axhit1.wav", 1, ATTN_NORM);
+	else			sound (self, CHAN_WEAPON, "weapons/axhit2.wav", 1, ATTN_NORM);
 }
 //=============================================================================================
 
@@ -89,13 +98,13 @@ void(float meleehit_volume) sound_melee_hit_player =
 
 void(float wrenchclank_volume) sound_wrench_hit_world =
 {
-	if (random() < 0.5)
-		sound (self, CHAN_AUTO, "impact/wrench_clank1.wav", wrenchclank_volume, ATTN_NORM);
-	else
-		sound (self, CHAN_AUTO, "impact/wrench_clank2.wav", wrenchclank_volume, ATTN_NORM);
+	if (random() < 0.5)	sound (self, CHAN_AUTO, "impact/wrench_clank1.wav", wrenchclank_volume, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "impact/wrench_clank2.wav", wrenchclank_volume, ATTN_NORM);
 }
 
 //=============================================================================================
+
+.float	wrenchhitme;
 
 void() W_FireWrench =
 {
@@ -182,15 +191,14 @@ void() W_FireWrench =
 
 	if (shortest_hit1 < 1000) hitwrench(hitent1, hitpos1 - v_forward*4, dir);
 	if (shortest_hit2 < 1000 && hitent1 != hitent2) hitwrench(hitent2, hitpos2 - v_forward*4, dir);
-
-
 };
 //=============================================================================================
+
 void(entity hitent, vector org, vector dir) hitwrench =
 {
 	if (hitent.takedamage) 
 	{		
-		hitent.swordhitme = 1;
+		hitent.wrenchhitme = 1;
 
 		SpawnBlood(org, dir, 60);
 
@@ -269,29 +277,4 @@ void(entity hitent, vector org, vector dir) hitwrench =
 
 		gunshot(org);
 	}
-}
-//=====================================================================================================================
-
-void() weaponanim_drawwrench =
-{		
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
-	
-	self.weaponframe = 92;
-	
-	self.think = weaponanim_drawwrench_loop;
-	self.nextthink = time + 0.025;
-}
-
-void() weaponanim_drawwrench_loop =
-{
-	if (self.weaponframe >= 102)
-	{
-		self.weaponframe = 0;
-		self.think = SUB_Null;
-		return;
-	}
-	else 	self.weaponframe++;
-
-	self.think = weaponanim_drawwrench_loop;
-	self.nextthink = time + 0.025;
 }

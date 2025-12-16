@@ -1,22 +1,40 @@
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 //	Twin Nailgun
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
+/*
+	Twin Nailguns
+	{0-18}
+	v_tnailgun
+	
+	0  idle
+	1-10  draw > idle
+	11-14  fire R
+	15-18  fire L
+	~~~
+	19-25  post fire > idle
+	
+	MD3
+	v_tnailgun_gloves
+	v_tnailgun
+	v_tnailgun_muzz
+*/
+//=============================================================================================
+
 .float nailgun_alternator;
 
-
-float() weaponanim_twinnailgun = {
+float() weaponanim_twinnailgun =
+{
 	// handled via animation loop4
-	if (self.attackhold && self.attack_finished > time) {
+	if (self.attackhold && self.attack_finished > time)
 		return FALSE;
-	}
 
 	if (self.attack_finished > time)
 		return FALSE;
 
 	SUB_CallAsSelf(player_nail1, self.animcontroller);
 
-	if (self.nailgun_alternator == 0)	self.weaponframe = 0;
-	else					self.weaponframe = 4;
+	if (self.nailgun_alternator == 0)	self.weaponframe = 11;
+	else					self.weaponframe = 15;
 		
 	weaponanim_twinnailgun_loop();
 	
@@ -24,8 +42,10 @@ float() weaponanim_twinnailgun = {
 	
 }
 
-void() weaponanim_twinnailgun_loop = {
-	if (!self.attackhold && !self.attackpressed){
+void() weaponanim_twinnailgun_loop =
+{
+	if (!self.attackhold && !self.attackpressed)
+	{
 		weaponanim_twinnailgun_end();
 		SUB_CallAsSelf(player_run, self.animcontroller);
 		return;
@@ -36,27 +56,26 @@ void() weaponanim_twinnailgun_loop = {
 		return;
 	}
 
-	if (self.weaponframe >= 8) {
-		self.weaponframe = 1;
+	if (self.weaponframe >= 18)
+	{
+		self.weaponframe = 11;
 	}
-	else {
-		self.weaponframe++;
-	}
+	else 	self.weaponframe++;
 
 	// frame correction so the firing rate isn't so dependent on the server framerate
-	if (time > self.nextthink1) {
-		if (self.weaponframe > 5) self.weaponframe = 1;
-		else if (self.weaponframe > 1) self.weaponframe = 5;
+	if (time > self.nextthink1)
+	{
+		if (self.weaponframe > 15) self.weaponframe = 11;
+		else if (self.weaponframe > 11) self.weaponframe = 15;
 	}
 
 	float offs;
 	
-	if (self.weaponframe == 1 || self.weaponframe == 5)
+	if (self.weaponframe == 11 || self.weaponframe == 15)
 	{
 		// fire rate timer. Don't set if on the first firing serverframe, since this will already be set by the startup animation function
 		
 		self.nextthink1 = time + 0.08; //speedy
-		//if (self.attackhold) self.nextthink1 += 0.1;
 		
 		self.attack_finished = time + 0.09;
 
@@ -64,7 +83,7 @@ void() weaponanim_twinnailgun_loop = {
 		self.punchangle_x = -2;
 		self.effects |= EF_MUZZLEFLASH;
 		
-		if (self.weaponframe == 1) 	{offs = 4;	self.nailgun_alternator = 1;}
+		if (self.weaponframe == 11) 	{offs = 4;	self.nailgun_alternator = 1;}
 		else 				{offs = -4;	self.nailgun_alternator = 0;}
 		
 		SuperDamageSound();
@@ -73,26 +92,24 @@ void() weaponanim_twinnailgun_loop = {
 		self.cnt = cycle(self.cnt,8);
 	}
 	
-
 	self.think = weaponanim_twinnailgun_loop;
 	
 	self.nextthink = time + 0.02;
 }
 
-void() weaponanim_twinnailgun_end = {
-
-	if (self.weaponframe == 4 || self.weaponframe == 8) {
+void() weaponanim_twinnailgun_end =
+{
+	if (self.weaponframe == 14 || self.weaponframe == 18)
+	{
 		self.weaponframe = 0;
 		return;
 	}
-	else {
-		self.weaponframe++;
-	}
+	else 	self.weaponframe++;
 
 	self.think = weaponanim_twinnailgun_end;
 	self.nextthink = time + 0.02;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 
 void(float offs) W_FireTwinNailgun =
 {
@@ -144,7 +161,6 @@ void(vector org, float nailtink_volume) sound_nailgun_impact_world =
 }
 //=============================================================================================
 
-
 void() TwinNailwallThink =
 {
 	//sound (self, CHAN_AUTO, "weapons/tink1.wav", 1, ATTN_STATIC);
@@ -176,7 +192,6 @@ void() TwinNailFade =
 void() twinnail_touch =
 {
 	if (!CheckValidSpikeTouch()) return;
-	
 
 	if (other.takedamage)
 	{
@@ -259,29 +274,4 @@ void() updateNails =
 
 		e = find(e, classname, "nail");
 	}
-}
-//=====================================================================================================================
-
-void() weaponanim_drawtnailgun =
-{		
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
-	
-	self.weaponframe = 11;
-	
-	self.think = weaponanim_drawtnailgun_loop;
-	self.nextthink = time + 0.025;
-}
-
-void() weaponanim_drawtnailgun_loop =
-{
-	if (self.weaponframe >= 21)
-	{
-		self.weaponframe = 0;
-		self.think = SUB_Null;
-		return;
-	}
-	else 	self.weaponframe++;
-
-	self.think = weaponanim_drawtnailgun_loop;
-	self.nextthink = time + 0.025;
 }

@@ -1,57 +1,73 @@
+//=============================================================================================
+// Berserk  Routed from the wrench code
+//=============================================================================================
 /*
-===============
-
-Berserk
-Routed from the wrench code
-
-===============
+	Berserker
+	{0-100}
+	v_berserk
+	
+	0  idle
+	1-10  draw > idle
+	11-(14)-[20]-30  idle >>> R > idle > reset
+	31-(34)-[40]-50  idle >>> L > idle > reset
+	51-(54)-60  L >>> R     
+	61-(64)-70  R >>> L
+	71-80  reset > idle loop
+	81-100  idle loop
+	
+	*>>> alternate right/left
+	*3 cycles, 20 frames, 40fps
+	*(hit) on 4's like Wrench
+	*swing (hit) [skip] > idle
+	
+	MD3
+	v_berserker_gloves
+	v_berserker_glow
 */
-
-
+//=============================================================================================
 /*
------------------------------------------------------------------
 Berserk Animation Cycles
 
 	    0	idle
 
-	 1-10	idle > {R} start	hit (4)		[10]
-	11-20	{R} end > reset
+	11-20	idle > {R} start	hit (14)	[20]
+	21-30	{R} end > reset
 
-	21-30	idle > {L} start	hit (24)	[30]
-	31-40	{L} end > reset
+	31-40	idle > {L} start	hit (34)	[40]
+	41-50	{L} end > reset
 
-	41-50	{L} combo > {R}	combo / {L} end > reset		hit (44)	[50]
-	51-60	{R} combo > {L}	combo / {R} end > reset		hit (54)	[60]
+	51-60	{L} combo > {R}	combo / {L} end > reset		hit (54)	[60]
+	61-70	{R} combo > {L}	combo / {R} end > reset		hit (64)	[70]
 	
-	61-70	reset > idle loop
-	71-90	idle loop	[61-80]
+	71-80	reset > idle loop
+	81-100	idle loop	[71-90]
                                                  ╭─────────────────────────────────────────────╮
                                                  │                                             │
                                                  │                     ███ {R} combo ──────────┤
-                                                 │                      │      51-60           │
-                                                ███ {L} combo ──────────┤[50]                  │
-                                                 │      41-50           │                      │
-        ███ (if alternator == 0) > {R} start ────┤[10]                 ░░░ {L} end > reset     │
-         │                             1-10      │                             31-40           │
+                                                 │                      │      61-70           │
+                                                ███ {L} combo ──────────┤[60]                  │
+                                                 │      51-60           │                      │
+        ███ (if alternator == 0) > {R} start ────┤[20]                 ░░░ {L} end > reset     │
+         │                             11-20     │                             41-50           │
          │                                      ░░░ {R} end > reset                            │
-         │                                       │      11-20                                  │
+         │                                       │      21-30                                  │
          │                                       ╰─────────────────────────────────────────────╯
 reset+   │                                                                                   
-idle ────┤[61-90]                                ╭─────────────────────────────────────────────╮
+idle ────┤[71-100]                               ╭─────────────────────────────────────────────╮
 loop     │                                       │                                             │
          │                                       │                     ███ {L} combo ──────────┤
-         │                                       │                      │      41-50           │
-         │                                      ███ {R} combo ──────────┤[60]                  │
-         │                                       │      51-60           │                      │
-        ███ (if alternator == 1) > {L} start ────┤[30]                 ░░░ {R} end > reset     │
-                                       21-30     │                             11-20           │
+         │                                       │                      │      51-60           │
+         │                                      ███ {R} combo ──────────┤[70]                  │
+         │                                       │      61-70           │                      │
+        ███ (if alternator == 1) > {L} start ────┤[40]                 ░░░ {R} end > reset     │
+                                       31-40     │                             21-30           │
                                                 ░░░ {L} end > reset                            │
-                                                 │      31-40                                  │
+                                                 │      41-50                                  │
                                                  ╰─────────────────────────────────────────────╯
 	self.attackpressed;
 	self.attackhold;
 */
-
+//=============================================================================================
 
 float() weaponanim_berserk = 
 {
@@ -64,20 +80,19 @@ float() weaponanim_berserk =
 		
 	// converts weaponframe to a 0-4 integer selector for the player animation
 	//player_axe_start(self.animcontroller, (self.weaponframe - 1)/10);
-	
-	
-	if (self.weaponframe >= 1
-	 && self.weaponframe <= 60)
+		
+	if (self.weaponframe >= 11
+	 && self.weaponframe <= 70)
 	{
-		if (self.customflags & CFL_LEFTY) self.weaponframe = 41;
-		else self.weaponframe = 51;
+		if (self.customflags & CFL_LEFTY) self.weaponframe = 51;
+		else self.weaponframe = 61;
 	}
 
-	if (self.weaponframe >= 61
-	 && self.weaponframe <= 90)	// idle loop	[61-80]
+	if (self.weaponframe >= 71
+	 && self.weaponframe <= 100)	// idle loop	[71-90]
 	{
-		if (self.customflags & CFL_LEFTY) self.weaponframe = 21;
-		else self.weaponframe = 1;
+		if (self.customflags & CFL_LEFTY) self.weaponframe = 31;
+		else self.weaponframe = 11;
 	}	
 
 	self.nextthink = time + 0.05;
@@ -94,21 +109,21 @@ float() weaponanim_berserk =
 
 void() weaponanim_berserk_loop =	// End Check [Junction]
 {
-	if (self.weaponframe == 4
-	 || self.weaponframe == 24
-	 || self.weaponframe == 44
-	 || self.weaponframe == 54)	W_FireBerserk();
+	if (self.weaponframe == 14
+	 || self.weaponframe == 34
+	 || self.weaponframe == 54
+	 || self.weaponframe == 64)	W_FireBerserk();
 
 
-	if (self.weaponframe == 50)	self.weaponframe = 30;
-	if (self.weaponframe == 60)	self.weaponframe = 10;
+	if (self.weaponframe == 60)	self.weaponframe = 40;
+	if (self.weaponframe == 70)	self.weaponframe = 20;
 
 
-	if (self.weaponframe == 20 || self.weaponframe == 40)
+	if (self.weaponframe == 30 || self.weaponframe == 50)
 	{
-		self.weaponframe = 60;
+		self.weaponframe = 70;
 	}
-	if (self.weaponframe >= 70)
+	if (self.weaponframe >= 80)
 	{
 		idleanim_melee();
 		return;
@@ -127,7 +142,7 @@ void() W_FireBerserk =
 	if (self.health <= 0)
 		return;
 
-	if (self.weaponframe == 4 || self.weaponframe == 54)
+	if (self.weaponframe == 14 || self.weaponframe == 64)
 		self.customflags |= CFL_LEFTY; // if {R} start || {R} combo = {L} alternator
 	else
 		self.customflags &~= CFL_LEFTY;	// if {L} start || {L} combo = {R} alternator
@@ -191,11 +206,11 @@ void() W_FireBerserk =
 		gunshot(org);
 	}
 }
+//=============================================================================================
 
-////////////////////////////////////////////////////////////////////////////////////////////////
 void() idleanim_melee =
 {	
-	self.weaponframe = 71;
+	self.weaponframe = 81;
 	
 	self.think = idleanim_melee_loop;
 	self.nextthink = time + 0.05;
@@ -203,19 +218,17 @@ void() idleanim_melee =
 
 void() idleanim_melee_loop =
 {
-	if (self.weaponframe >= 90)	//restart idle loop
+	if (self.weaponframe >= 100)	//restart idle loop
 	{
 		idleanim_melee();
 		return;
 	}
-	else 
-		self.weaponframe++;
+	else	self.weaponframe++;
 
 	self.think = idleanim_melee_loop;
 	self.nextthink = time + 0.05;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 
 void(float fisthit_volume) sound_berserk_fist_hit_enemy =
 {
@@ -224,184 +237,4 @@ void(float fisthit_volume) sound_berserk_fist_hit_enemy =
 	else if (r == 1)	sound (self, CHAN_AUTO, "impact/fist_impact2.wav", fisthit_volume, ATTN_NORM);
 	else if (r == 2)	sound (self, CHAN_AUTO, "impact/fist_impact3.wav", fisthit_volume, ATTN_NORM);
 	else 			sound (self, CHAN_AUTO, "impact/fist_impact4.wav", fisthit_volume, ATTN_NORM);
-}
-//=============================================================================================
-
-/*
-void() W_FireBerserk2 =
-{
-	local	vector	source;
-	
-	entity hitent1, hitent2;
-	vector hitpos1, hitpos2;
-	float shortest_hit1 = 1000;
-	float shortest_hit2 = 1000;
-
-	makevectors (self.v_angle);
-	source = self.origin + self.view_ofs - v_up*0;
-
-	traceline (source, source + v_forward*72 - v_right*32, FALSE, self);
-	if (trace_fraction < 1) {
-		shortest_hit1 = vlen(trace_endpos - source);
-		hitent1 = trace_ent;
-		hitpos1 = trace_endpos;
- 	}
-
-	traceline (source, source + v_forward*86 - v_right*16, FALSE, self);
-	if (trace_fraction < 1) {
-		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
-			shortest_hit1 = vlen(trace_endpos - source);
-			hitent1 = trace_ent;
-			hitpos1 = trace_endpos;
-		}
-		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
-			shortest_hit2 = vlen(trace_endpos - source);
-			hitent2 = trace_ent;
-			hitpos2 = trace_endpos;
-		}
-	}
-
-	traceline (source, source + v_forward*100, FALSE, self);
-	if (trace_fraction < 1) {
-		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
-			shortest_hit1 = vlen(trace_endpos - source);
-			hitent1 = trace_ent;
-			hitpos1 = trace_endpos;
-		}
-		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
-			shortest_hit2 = vlen(trace_endpos - source);
-			hitent2 = trace_ent;
-			hitpos2 = trace_endpos;
-		}
-	}
-
-	traceline (source, source + v_forward*86 + v_right*16, FALSE, self);
-	if (trace_fraction < 1) {
-		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
-			shortest_hit1 = vlen(trace_endpos - source);
-			hitent1 = trace_ent;
-			hitpos1 = trace_endpos;
-		}
-		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
-			shortest_hit2 = vlen(trace_endpos - source);
-			hitent2 = trace_ent;
-			hitpos2 = trace_endpos;
-		}
-	}
-
-	traceline (source, source + v_forward*72 + v_right*32, FALSE, self);
-	if (trace_fraction < 1) {
-		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
-			shortest_hit1 = vlen(trace_endpos - source);
-			hitent1 = trace_ent;
-			hitpos1 = trace_endpos;
-		}
-		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
-			shortest_hit2 = vlen(trace_endpos - source);
-			hitent2 = trace_ent;
-			hitpos2 = trace_endpos;
-		}
-	}
-
-	if (shortest_hit1 == 1000 && shortest_hit2 == 1000) {
-		return;
-	}
-
-	self.show_hostile = time + 1; // hit something, so alert monsters
-	
-	vector dir = v_right * 20 - v_up*5; // direction for blood particles
-
-	if (shortest_hit1 < 1000) hitberserk2(hitent1, hitpos1 - v_forward*4, dir);
-	if (shortest_hit2 < 1000 && hitent1 != hitent2) hitberserk2(hitent2, hitpos2 - v_forward*4, dir);
-
-
-};
-//=============================================================================================
-void(entity hitent, vector org, vector dir) hitberserk2 =
-{
-	if (hitent.takedamage) 
-	{		
-		hitent.swordhitme = 1;
-
-		SpawnBlood(org, dir, 100);
-
-		
-		if (hitent.classname == "monster_zombie") //keep zombies Unbonkable
-			//zombie_knockdown(trace_ent);
-			T_Damage(hitent, self, self, 59, DMGTYPE_MELEE);	// zombie_knockdown crashes when multi-hit, down them with damage
-		else
-			T_Damage(hitent, self, self, 480, DMGTYPE_MELEE);	// "x10 melee damage"
-		
-		//johnfitz -- make clank sound when hitting brushmodels
-		if (hitent.movetype == MOVETYPE_PUSH || hitent.movetype == MOVETYPE_NONE)
-			wrench_hitsound();
-
-		if ((hitent.flags & FL_MONSTER) || (hitent.classname == "player"))
-		{	
-			wrench_hitsound();
-			
-			if ((hitent.movetype == MOVETYPE_STEP || hitent.movetype == MOVETYPE_WALK) &&
-				// don't swat bosses or other non-standard-sized enemies around
-				hitent.maxs_x <= 32 && hitent.health > 0 && hitent.type != "boss")
-			{
-				local vector toss;
-				toss = v_forward;
-				toss_z = 0;
-				
-				if (hitent.classname == "monster_zombie"){
-					toss = normalize(toss) * 0;
-					toss_z = 0;
-				}
-				else{
-					toss = normalize(toss) * 800;
-					toss_z = 100;
-				}
-				hitent.origin_z = hitent.origin_z + 1;
-				hitent.velocity = toss;
-				hitent.flags = not(hitent.flags, FL_ONGROUND);
-			}	
-		}
-		//johnfitz
-
-		if (trace_ent.flags & FL_MONSTER)
-		{
-			if (trace_ent.type == "zombie")
-				zombie_knockdown(trace_ent);
-			wrench_hitsound();
-		}
-		else
-		{
-			sound (self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_IDLE);
-		}
-	}
-	else	{	// hit wall
-		sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
-		gunshot(org);
-	}
-}
-*/
-//=====================================================================================================================
-
-void() weaponanim_drawberserk =
-{		
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
-	
-	self.weaponframe = 92;
-	
-	self.think = weaponanim_drawberserk_loop;
-	self.nextthink = time + 0.025;
-}
-
-void() weaponanim_drawberserk_loop =
-{
-	if (self.weaponframe >= 102)
-	{
-		self.weaponframe = 0;
-		self.think = SUB_Null;
-		return;
-	}
-	else 	self.weaponframe++;
-
-	self.think = weaponanim_drawberserk_loop;
-	self.nextthink = time + 0.025;
 }

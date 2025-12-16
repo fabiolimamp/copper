@@ -1,61 +1,69 @@
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 // Blood Gem
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
+/*
+	The Invoker
+	{0-112}
+	v_invoker
+	
+	0  idle
+	1-10  draw > idle
+	95-111  idle loop
+	11-(78)-111  charge (fire) > idle
+	
+	MD3
+	v_invoker_gloves
+	v_invoker
+*/
+//=============================================================================================
 
 float() weaponanim_invoker = 
 {
 	if (self.attack_finished > time)
 		return FALSE;
 
-	if (self.weaponframe >= 1 && self.weaponframe <= 84){
+	if (self.weaponframe >= 11 && self.weaponframe <= 94)
 		return FALSE;
-	}
 
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
 	{
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;
 	}
-
-	//self.attack_finished = time + (2.1);
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 
 	sound (self, CHAN_AUTO, "invoker/magic21.wav", 1, ATTN_NORM);
-	
 	sound (self, CHAN_AUTO, "invoker/magic26.wav", 1, ATTN_NORM);
 		
-	self.weaponframe = 1;
+	self.weaponframe = 11;
 	self.think = weaponanim_invoker_loop;
 	self.nextthink = time + 0.025;
 	
 	return TRUE;
 	
-	// Invoker Charge Time to Fire = 1.7 seconds, 40fps = 68 frames
-	
+	// Invoker Charge Time to Fire = 1.7 seconds, 40fps = 68 framesq
 	// Invoker Total Time Cooldown = 2.1 seconds, 40fps = 84 frames minimum
-
-	// Invoker weapon change lock = frames 54 to 84 (~80% charge)
+	// Invoker weapon change lock (~80% charge)
 }
-
 //=============================================================================================
 
 void() weaponanim_invoker_loop = 
 {
 	if (intermission) return;
 	
-	if (self.weaponframe == 31)	sound (self, CHAN_AUTO, "invoker/magic07.wav", 1, ATTN_NORM);
+	if (self.weaponframe == 41)	sound (self, CHAN_AUTO, "invoker/magic07.wav", 1, ATTN_NORM);
 	
-	if (self.weaponframe == 67)	sound (self, CHAN_AUTO, "invoker/energy_charge.wav", 1, ATTN_NORM);
+	if (self.weaponframe == 77)	sound (self, CHAN_AUTO, "invoker/energy_charge.wav", 1, ATTN_NORM);
 	
-	if (self.weaponframe >= 54 && self.weaponframe <= 84){
+	if (self.weaponframe >= 64 && self.weaponframe <= 94){
 		self.customflags |= CFL_WEAPONLOCK;
 		//dprint("locked\n");
 	}
 	else
 		self.customflags &~= CFL_WEAPONLOCK;
 
-	if (self.weaponframe == 68)
+	if (self.weaponframe == 78)
 	{		
 		self.currentammo = self.ammo_cells = self.ammo_cells - 1;
 		self.effects = self.effects | EF_MUZZLEFLASH;
@@ -66,24 +74,21 @@ void() weaponanim_invoker_loop =
 		self.weaponframe++;
 	}
 
-	if (self.weaponframe >= 100)	// added post-fire + ready to fire --> idle padding
+	if (self.weaponframe >= 110)	// added post-fire + ready to fire --> idle padding
 	{
-		//self.weaponframe = 0;
 		idleanim_invoker();
 		return;
 	}	
-	else {
-		self.weaponframe++;
-	}
+	else	self.weaponframe++;
 
 	self.think = weaponanim_invoker_loop;
 	self.nextthink = time + 0.025;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 
 void() idleanim_invoker =
 {	
-	self.weaponframe = 85;
+	self.weaponframe = 95;
 	
 	self.think = idleanim_invoker_loop;
 	self.nextthink = time + 0.1;
@@ -92,21 +97,17 @@ void() idleanim_invoker =
 void() idleanim_invoker_loop =
 {
 
-	if (self.weaponframe >= 100)	//restart idle loop
+	if (self.weaponframe >= 110)	//restart idle loop
 	{
 		idleanim_invoker();
 		return;
 	}
-	else {
-		self.weaponframe++;
-	}
+	else 	self.weaponframe++;
 
 	self.think = idleanim_invoker_loop;
 	self.nextthink = time + 0.1;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
+//=============================================================================================
 
 void() W_FireInvoker =
 {
@@ -221,9 +222,7 @@ void(vector org, vector dir, float drawTrail) invokerTrace =
 		drawInvokerTrail(self, org, trace_endpos);
 
 };
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 
 void(float invokerhit_volume) sound_invoker_impact =
 {
@@ -234,10 +233,6 @@ void(float invokerhit_volume) sound_invoker_impact =
 	else 			sound (self, CHAN_BODY, "invoker/energy_hit4.wav", invokerhit_volume, ATTN_NORM);
 }
 //=============================================================================================
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 void(entity pl, vector org, vector dest) drawInvokerTrail = 
 {
@@ -270,7 +265,6 @@ void(entity pl, vector org, vector dest) drawInvokerTrail =
 
 		sg.cnt = 4 + i;
 		
-
 		sg.nextthink = time + sg.attack_finished;
 		sg.alpha = 0.9 ;//* (20 - i)/15;
 
@@ -279,8 +273,7 @@ void(entity pl, vector org, vector dest) drawInvokerTrail =
 
 	if (sg) sg.effects |= EF_MUZZLEFLASH;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 
 void() rail_fade = 
 {
@@ -314,32 +307,5 @@ void() rail_fade =
 		self.think = SUB_Remove;
 	}	
 	
-
 	self.cnt = self.cnt - 1;
 };
-//=====================================================================================================================
-
-void() weaponanim_drawinvoker =
-{		
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
-	
-	self.weaponframe = 102;
-	
-	self.think = weaponanim_drawinvoker_loop;
-	self.nextthink = time + 0.025;
-}
-
-void() weaponanim_drawinvoker_loop =
-{
-	if (self.weaponframe >= 112)
-	{
-		self.weaponframe = 0;
-		//self.think = SUB_Null;
-		self.think = idleanim_invoker;
-		return;
-	}
-	else 	self.weaponframe++;
-
-	self.think = weaponanim_drawinvoker_loop;
-	self.nextthink = time + 0.025;
-}

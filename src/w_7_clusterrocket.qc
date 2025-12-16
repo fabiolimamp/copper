@@ -1,13 +1,29 @@
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 // EE code by bmFbr, (bad) edits by Kebby
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
+/*
+	M.M.M. Launcher
+	{0-43}
+	v_mmml
+	
+	0  idle
+	1-10  draw > idle
+	(11,12,14,16,18,20,22,24)-43  fire > idle
+	
+	MD3
+	v_mmml_gloves
+	v_mmml
+	v_mmml_muzz
+*/
+//=============================================================================================
 
-
-float() weaponanim_boxrocket = {
+float() weaponanim_boxrocket =
+{
 	if (self.attack_finished > time)
 		return FALSE;
 
-	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
+	{
 		self.customflags &~= CFL_WEAPONLOCK;
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;
@@ -21,7 +37,7 @@ float() weaponanim_boxrocket = {
 	
 	self.customflags |= CFL_WEAPONLOCK;
 
-	self.weaponframe = 1;
+	self.weaponframe = 11;
 	self.think = weaponanim_boxrocket_loop;
 	self.nextthink = time + 0.05;
 	
@@ -30,42 +46,44 @@ float() weaponanim_boxrocket = {
 	return TRUE;
 }
 
-void() weaponanim_boxrocket_loop = {
+void() weaponanim_boxrocket_loop =
+{
 	if (intermission) return;
 
-	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
+	{
 		self.attack_finished = time + 0.05;
 		self.customflags &~= CFL_WEAPONLOCK;
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return;
 	}
 
-	if (self.weaponframe >= 1 && self.weaponframe <= 14){
+	if (self.weaponframe >= 11 && self.weaponframe <= 24)
+	{
 		self.customflags |= CFL_WEAPONLOCK;
 		//dprint("locked\n");
 	}
-	else
-		self.customflags &~= CFL_WEAPONLOCK;
+	else	self.customflags &~= CFL_WEAPONLOCK;
 	
 	//dprint3("Intermission: ", ftos(intermission), "\n");
-	if (self.weaponframe == 2)  	boxrocket_launch('0 -2 -8', 1);		//<<<  2
-	if (self.weaponframe == 4)  	boxrocket_launch('0  2 -8', 0);		//<<<  3
-	if (self.weaponframe == 6)  	boxrocket_launch('0  6 -8', 1);		//<<<  4
-	if (self.weaponframe == 8)  	boxrocket_launch('0 -6 -12', 0);	//<<<  5
-	if (self.weaponframe == 10) 	boxrocket_launch('0 -2 -12', 1);	//<<<  6
-	if (self.weaponframe == 11)	sound (self, CHAN_AUTO, "mmml/silo_latch.wav", 1, ATTN_NORM);
-	if (self.weaponframe == 12) 	boxrocket_launch('0  2 -12', 0);	//<<<  7
-	if (self.weaponframe == 14) {	boxrocket_launch('0  6 -12', 1);	//<<<  8
+	if (self.weaponframe == 12)  	boxrocket_launch('0 -2 -8', 1);		//<<<  2
+	if (self.weaponframe == 14)  	boxrocket_launch('0  2 -8', 0);		//<<<  3
+	if (self.weaponframe == 16)  	boxrocket_launch('0  6 -8', 1);		//<<<  4
+	if (self.weaponframe == 18)  	boxrocket_launch('0 -6 -12', 0);	//<<<  5
+	if (self.weaponframe == 20) 	boxrocket_launch('0 -2 -12', 1);	//<<<  6
+	if (self.weaponframe == 21)	sound (self, CHAN_AUTO, "mmml/silo_latch.wav", 1, ATTN_NORM);
+	if (self.weaponframe == 22) 	boxrocket_launch('0  2 -12', 0);	//<<<  7
+	if (self.weaponframe == 24) {	boxrocket_launch('0  6 -12', 1);	//<<<  8
 	
 		sound (self, CHAN_AUTO, "mmml/silo_clunk.wav", 1, ATTN_NORM);
 		sound (self, CHAN_AUTO, "mmml/silo_clunk2.wav", 1, ATTN_NORM);
 	}
-	if (self.weaponframe == 18)	sound (self, CHAN_AUTO, "mmml/silo_load.wav", 1, ATTN_NORM);
-	if (self.weaponframe == 20)	sound (self, CHAN_AUTO, "mmml/silo_load2.wav", 1, ATTN_NORM);
+	if (self.weaponframe == 28)	sound (self, CHAN_AUTO, "mmml/silo_load.wav", 1, ATTN_NORM);
+	if (self.weaponframe == 30)	sound (self, CHAN_AUTO, "mmml/silo_load2.wav", 1, ATTN_NORM);
 	
 	
-	if (self.weaponframe >= 32) {
-		self.weaponframe = 0;
+	if (self.weaponframe >= 42) {
+		self.weaponframe = 10;
 		return;
 	}
 
@@ -76,10 +94,10 @@ void() weaponanim_boxrocket_loop = {
 	self.think = weaponanim_boxrocket_loop;
 	self.nextthink = time + 0.05;
 }
-
 //=====================================================================================================================
 
-void(vector ofs, float ammoUsage) boxrocket_launch = {
+void(vector ofs, float ammoUsage) boxrocket_launch =
+{
 	self.currentammo = self.ammo_rockets = self.ammo_rockets - ammoUsage;
 	self.punchangle_x = -2;
 	self.effects = self.effects | EF_MUZZLEFLASH;
@@ -109,8 +127,7 @@ void(vector ofs) W_FireSpiralRocket =
 	traceline(org, org + v_forward * 15, FALSE, self);
 	launch_spiralrocket(org + v_forward*15 * trace_fraction, dir, 0);
 };
-
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 
 void() spiralrocket_touch =
 {
@@ -129,8 +146,7 @@ void() spiralrocket_touch =
 
 	if (other.health)
 		T_Damage(other, self, self.owner, damg, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );
-		
-	
+			
 	// don't do radius damage to the other, because all the damage
 	// was done in the impact.
 	// Radius damage type will always be EXPLOSION
@@ -208,16 +224,13 @@ void(vector org, vector dir, float init_angle) launch_spiralrocket = {
 
 	newmis.attack_finished = time + 5;
 
-	//newmis.nextthink = time + 0.25; //0.05;
 	newmis.nextthink = time + 0.1; //0.05;
 	newmis.think = spiralrocket_think;
-	
-	
-	//newmis = missile;
 };
 //=============================================================================
 
-void() spiralrocket_think = {
+void() spiralrocket_think =
+{
 	if (CheckProjectilePassthru()) return;
 
 	if (time > self.attack_finished) {
@@ -237,29 +250,4 @@ void() spiralrocket_think = {
 	self.avelocity_z = -540;
 
 	self.nextthink = time + interval;
-}
-//=====================================================================================================================
-
-void() weaponanim_drawmmml =
-{		
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
-	
-	self.weaponframe = 34;
-	
-	self.think = weaponanim_drawmmml_loop;
-	self.nextthink = time + 0.025;
-}
-
-void() weaponanim_drawmmml_loop =
-{
-	if (self.weaponframe >= 44)
-	{
-		self.weaponframe = 0;
-		self.think = SUB_Null;
-		return;
-	}
-	else 	self.weaponframe++;
-
-	self.think = weaponanim_drawmmml_loop;
-	self.nextthink = time + 0.025;
 }

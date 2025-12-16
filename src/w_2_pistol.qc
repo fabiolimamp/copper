@@ -1,20 +1,35 @@
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
 // tracers and bullet code by bmFbr, edits by Kebby
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=============================================================================================
+/*
+	Stechkin Pistol
+	{0-91}
+	v_pistol
+	
+	0  idle
+	1-10  draw > idle
+	11-30  fire > idle
+	34-64  reload > idle
+	65-91  twirl > idle
+	
+	MD3
+	v_pistol_gloves
+	v_pistol
+	v_pistol_muzz
+*/
+//=============================================================================================
 
-
-
-float() weaponanim_pistol = {
-		
+float() weaponanim_pistol =
+{
 	if (self.attack_finished > time)
 		return FALSE;
 
 	// detects if a reload is still happening without having to rely on attack_finished
-	if (self.think == weaponanim_reloadpistol_loop) { 
+	if (self.think == weaponanim_reloadpistol_loop) 
 		return FALSE;
-	}
 
-	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE){
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
+	{
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;
 	}
@@ -54,52 +69,40 @@ float() weaponanim_pistol = {
 	else if (self.pistol_ammo_count ==  3) sound (self, CHAN_AUTO, "pistol/ammo_rattle.wav", 0.55, ATTN_NORM);	
 	// --------------------------------
 
-	self.weaponframe = 1;
+	self.weaponframe = 11;
+	
 	self.think = weaponanim_pistol_loop;
 	self.nextthink = time + 0.025;
 	
 	return TRUE;
 }
 
-/*
-	    0  idle
-	 1-20  fire > idle
-	25-54  reload > idle
-	55-80  twirl > idle
-	81-90  draw > idle
-*/
-
-
-void() weaponanim_pistol_loop = {	
-	if (self.weaponframe == 2) Eject_BulletCasing();
+void() weaponanim_pistol_loop =
+{	
+	if (self.weaponframe == 12) Eject_BulletCasing();
 	
 	if (self.pistol_ammo_count <= 0 && time > (self.attack_finished - 0.1))
 	{
 		weaponanim_reloadpistol(); 
 		return;
 	}
-
 	
-	if (self.weaponframe >= 21)
+	if (self.weaponframe >= 31)
 	{
-		self.weaponframe = 0;
+		self.weaponframe = 10;
 		return;
 	}
-	else
-	{
-		self.weaponframe++;
-	}
+	else	self.weaponframe++;
 
 	self.think = weaponanim_pistol_loop;
 	self.nextthink = time + 0.025;
 }
-
 //=====================================================================================================================
 
-void() weaponanim_reloadpistol = {
-	if (self.think == weaponanim_reloadpistol_loop) { 
+void() weaponanim_reloadpistol =
+{
+	if (self.think == weaponanim_reloadpistol_loop) 
 		return;
-	}
 	
 	Drop_PistolMag();
 	
@@ -114,43 +117,34 @@ void() weaponanim_reloadpistol = {
 	
 	self.weaponreload_perc = 1/24;
 
-	self.weaponframe = 25;
+	self.weaponframe = 35;
+	
 	self.think = weaponanim_reloadpistol_loop;
 	self.nextthink = time + 0.05;
-
 }
 
-void() weaponanim_reloadpistol_loop = {
-	
-	
-	if (self.weaponframe == 37) sound (self, CHAN_AUTO, "pistol/deadlock_reload.wav", 1, ATTN_NORM);		
-	
-	
-	if (self.weaponframe >= 49)
+void() weaponanim_reloadpistol_loop =
+{	
+	if (self.weaponframe == 47) sound (self, CHAN_AUTO, "pistol/deadlock_reload.wav", 1, ATTN_NORM);		
+		
+	if (self.weaponframe >= 59)
 	{
 		self.pistol_ammo_count = 10; //RESET ammo
 		self.weaponreload_perc = 0;
 	}
-	else
-		self.weaponreload_perc = min(self.weaponreload_perc + 1/24, 1);
-
-
+	else	self.weaponreload_perc = min(self.weaponreload_perc + 1/24, 1);
 
 	self.currentammo = self.pistol_ammo_count;
-	//if (time >= self.attack_finished - 0.05) self.pistol_ammo_count = 0; //RESET ammo
 
-	if (self.weaponframe >= 54) {
+	if (self.weaponframe >= 64) {
 		self.weaponframe = 0;
 		self.think = SUB_Null;
 		return;
 	}
-	else {
-		self.weaponframe++;
-	}
+	else 	self.weaponframe++;
 
-	if (time >= self.nextthink1) {
-		self.weaponframe = 54;
-	}
+	if (time >= self.nextthink1)
+		self.weaponframe = 64;
 
 	self.think = weaponanim_reloadpistol_loop;
 	self.nextthink = time + 0.05;
@@ -160,8 +154,6 @@ void() weaponanim_reloadpistol_loop = {
 
 void() W_FirePistol =
 {
-	//sound (self, CHAN_WEAPON, "pistol/pistol_shoot.wav", 0.6, ATTN_NORM);
-	
 	sound (self, CHAN_AUTO, "pistol/pistol_fire.wav", 0.6, ATTN_NORM);
 	sound_pistol_fire(0.3);
 	
@@ -180,11 +172,9 @@ void() W_FirePistol =
 	vector dir_eye = normalize(trace_endpos - org_eye);
 		
 	ClearMultiDamage ();
-
 	FirePistolBullets (1, 20, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, spread, TRUE);
 	
 	ApplyMultiDamage ();
-		
 	self.punchangle_x = -2;	//punch AFTER makevectors
 };
 
@@ -344,7 +334,6 @@ void(vector org, vector dest) drawTracer = {
 	setsize (tracer, '0 0 0', '0 0 0');
 	setorigin (tracer, org);
 };
-
 //=====================================================================================================================
 
 void() DropMagTouch2 =
@@ -385,7 +374,6 @@ void() Drop_PistolMag =
 	
 	SUB_ChangeModel (mag, "progs/pistol_mag.mdl");
 }
-
 //=====================================================================================================================
 
 void() BulletCasingTouch2 =
@@ -404,7 +392,6 @@ void() BulletCasingTouch1 =
 		self.avelocity = '0 0 0';
 	self.touch = BulletCasingTouch2;
 }
-
 
 void() Eject_BulletCasing =
 {
@@ -448,9 +435,10 @@ void() weaponanim_twirlpistol =
 	
 	sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
 
-	if (self.weaponframe >= 56 && self.weaponframe <= 70)
-		self.weaponframe = 58;
-	else	self.weaponframe = 56;
+	if (self.weaponframe >= 66 && self.weaponframe <= 80)
+		self.weaponframe = 68;
+	
+	else	self.weaponframe = 66;
 	
 	self.attack_finished = time + 0.1;
 	
@@ -460,9 +448,9 @@ void() weaponanim_twirlpistol =
 
 void() weaponanim_twirlpistol_loop =
 {
-	if (self.weaponframe == 72) sound (self, CHAN_AUTO, "pistol/gun_click.wav", 0.5, ATTN_NORM);
+	if (self.weaponframe == 82) sound (self, CHAN_AUTO, "pistol/gun_click.wav", 0.5, ATTN_NORM);
 
-	if (self.weaponframe >= 80)
+	if (self.weaponframe >= 91)
 	{
 		self.weaponframe = 0;
 		self.think = SUB_Null;
@@ -472,30 +460,4 @@ void() weaponanim_twirlpistol_loop =
 
 	self.think = weaponanim_twirlpistol_loop;
 	self.nextthink = time + 0.05;
-}
-//=====================================================================================================================
-
-void() weaponanim_drawpistol =
-{		
-	sound (self, CHAN_AUTO, "pistol/gun_click.wav", 0.25, ATTN_NORM);
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.5, ATTN_NORM);
-	
-	self.weaponframe = 82;
-	
-	self.think = weaponanim_drawpistol_loop;
-	self.nextthink = time + 0.025;
-}
-
-void() weaponanim_drawpistol_loop =
-{
-	if (self.weaponframe >= 92)
-	{
-		self.weaponframe = 0;
-		self.think = SUB_Null;
-		return;
-	}
-	else 	self.weaponframe++;
-
-	self.think = weaponanim_drawpistol_loop;
-	self.nextthink = time + 0.025;
 }
