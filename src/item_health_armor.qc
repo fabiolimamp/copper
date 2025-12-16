@@ -243,7 +243,7 @@ void() item_armor_shard =
 	self.cnt = 1;
 	precache_model ("progs/item_armor_shard.mdl");
 	setmodel (self, "progs/item_armor_shard.mdl");
-	setsize (self, '-8 -8 0', '8 8 32');
+	setsize (self, '-8 -8 0', '8 8 48');
 
 	StartItem();
 };

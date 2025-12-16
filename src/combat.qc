@@ -714,7 +714,7 @@ float (entity e, float healamt, float overheal) T_Heal =
 			}
 		else
 		{
-			sprint(e, " \b+\b");
+			sprint(e, "\b+\b");
 			sprint(e, ftos(healamt));
 			print_spacing_for_digits(e, healamt);
 			sprint(e, "You were healed");
