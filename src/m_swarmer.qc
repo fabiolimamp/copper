@@ -236,7 +236,7 @@ void() swarmer_transparency =
 {
 	if (skill < 3) return;
     if (!self.enemy) return;
-	dprint(ftos(self.alpha));
+	//dprint(ftos(self.alpha));
 
     float dist = vlen(self.origin - self.enemy.origin);
 	self.alpha = 1.0 - (0.8 * sqrt((dist - 100) / 300.0));
@@ -333,10 +333,8 @@ float() swarmer_checkgib =
 
 void() swarmer_die =
 {
-
-// check for gib
-	if (swarmer_checkgib())
-		return;
+	if (swarmer_checkgib()) return;
+	if (skill == 3) self.alpha = 1.0;
 
 	self.solid = SOLID_TRIGGER;
 	setorigin(self, self.origin);
