@@ -29,6 +29,7 @@
 Berserk Animation Cycles
 
 	    0	idle
+	 1-10   draw > idle
 
 	11-20	idle > {R} start	hit (14)	[20]
 	21-30	{R} end > reset
@@ -40,7 +41,7 @@ Berserk Animation Cycles
 	61-70	{R} combo > {L}	combo / {R} end > reset		hit (64)	[70]
 	
 	71-80	reset > idle loop
-	81-100	idle loop	[71-90]
+	81-100	idle loop	[71-100]
                                                  ╭─────────────────────────────────────────────╮
                                                  │                                             │
                                                  │                     ███ {R} combo ──────────┤
@@ -81,7 +82,7 @@ float() weaponanim_berserk =
 	// converts weaponframe to a 0-4 integer selector for the player animation
 	//player_axe_start(self.animcontroller, (self.weaponframe - 1)/10);
 		
-	if (self.weaponframe >= 11
+	if (self.weaponframe >= 0
 	 && self.weaponframe <= 70)
 	{
 		if (self.customflags & CFL_LEFTY) self.weaponframe = 51;
@@ -89,7 +90,7 @@ float() weaponanim_berserk =
 	}
 
 	if (self.weaponframe >= 71
-	 && self.weaponframe <= 100)	// idle loop	[71-90]
+	 && self.weaponframe <= 100)	// idle loop	[71-100]
 	{
 		if (self.customflags & CFL_LEFTY) self.weaponframe = 31;
 		else self.weaponframe = 11;
