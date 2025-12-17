@@ -82,8 +82,8 @@ void()	pistolarmy_walk24	=[	$prowl_24,	pistolarmy_walk1	] {ai_walk(1);}
 
 void()	pistolarmy_run1		=[	$run1,		pistolarmy_run2		] {
 nmfast();
-if (random() < 0.05 && time > self.show_hostile)
-	pistolsoldier_aggro_sound();
+if (random() < 0.03 && time > self.show_hostile)
+	sound (self, CHAN_VOICE, "grunt/soldier_aggro_stopresisting.wav", 1, ATTN_NORM);
 ai_run(11);}
 void()	pistolarmy_run2		=[	$run2,		pistolarmy_run3		] {nmfast(); ai_run(15);}
 void()	pistolarmy_run3		=[	$run3,		pistolarmy_run4		] {nmfast(); ai_run(10);}
@@ -372,18 +372,6 @@ void() pistolsoldier_pain_sound =
     else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
     else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_pain3.wav", 1, ATTN_NORM);
     else		sound (self, CHAN_VOICE, "grunt/soldier_pain4.wav", 1, ATTN_NORM);
-};
-
-void() pistolsoldier_aggro_sound =
-{
-    local float rs;
-    rs = (random() * 6);
-    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_aggro_breakcover.wav", 1, ATTN_NORM);
-    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_converging.wav", 1, ATTN_NORM);
-    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_mobile.wav", 1, ATTN_NORM);
-    else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_movingin.wav", 1, ATTN_NORM);
-    else if (rs < 5)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_outbreak.wav", 1, ATTN_NORM);
-    else		sound (self, CHAN_VOICE, "grunt/soldier_aggro_stopresisting.wav", 1, ATTN_NORM);
 };
 
 void() pistolsoldier_idle_sound =

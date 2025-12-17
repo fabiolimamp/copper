@@ -212,10 +212,7 @@ void() ogre_walk14	=[	$walk14,	ogre_walk15	] {ai_walk(3);}
 void() ogre_walk15	=[	$walk15,	ogre_walk16	] {ai_walk(3);}
 void() ogre_walk16	=[	$walk16,	ogre_walk1	] {ai_walk(4);}
 
-void() ogre_run1	=[	$run1,		ogre_run2	] {ai_run(9);
-if (random() < 0.05 && time > self.show_hostile)
-	ogre_aggro_sound();
-}
+void() ogre_run1	=[	$run1,		ogre_run2	] {ai_run(9);}
 void() ogre_run2	=[	$run2,		ogre_run3	] {ai_run(12);}
 void() ogre_run3	=[	$run3,		ogre_run4	] {ai_run(8);}
 void() ogre_run4	=[	$run4,		ogre_run5	] {ai_run(22);}
@@ -525,64 +522,52 @@ void() taser_effect_think =
 
 void() ogre_death_sound =
 {
-    local float rs;
-    rs = random() * 2; // random 0–2 for 2 entries
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "ogre/ogre_death_1.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "ogre/ogre_death_2.wav", 1, ATTN_NORM);
+	local float rs;
+	rs = random() * 2; // random 0–2 for 2 entries
+	if (rs < 1)
+		sound (self, CHAN_VOICE, "ogre/ogre_death_1.wav", 1, ATTN_NORM);
+	else
+		sound (self, CHAN_VOICE, "ogre/ogre_death_2.wav", 1, ATTN_NORM);
 };
 
 void() ogre_pain_sound =
 {
-    local float rs;
-    rs = random() * 3;
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "ogre/ogre_pain_1.wav", 1, ATTN_NORM);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "ogre/ogre_pain_2.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "ogre/ogre_pain_3.wav", 1, ATTN_NORM);
-};
-
-void() ogre_aggro_sound =
-{
-    local float rs;
-    rs = random() * 4;
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "ogre/ogre_aggro_dontletherescape.wav", 1, ATTN_NORM);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "ogre/ogre_aggro_killher.wav", 1, ATTN_NORM);
-    else if (rs < 3)
-        sound (self, CHAN_VOICE, "ogre/ogre_aggro_pathetic.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "ogre/ogre_aggro_whohasavisual.wav", 1, ATTN_NORM);
+	local float rs;
+	rs = random() * 3;
+	if (rs < 1)
+		sound (self, CHAN_VOICE, "ogre/ogre_pain_1.wav", 1, ATTN_NORM);
+	else if (rs < 2)
+		sound (self, CHAN_VOICE, "ogre/ogre_pain_2.wav", 1, ATTN_NORM);
+	else
+		sound (self, CHAN_VOICE, "ogre/ogre_pain_3.wav", 1, ATTN_NORM);
 };
 
 void() ogre_attacking_sound =
 {
-    local float rs;
-    rs = random() * 3;
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "ogre/ogre_attacking_diealready.wav", 1, ATTN_NORM);
-    else if (rs < 2)
-        sound (self, CHAN_VOICE, "ogre/ogre_attacking_engagingtarget.wav", 1, ATTN_NORM);
-    else
-        sound (self, CHAN_VOICE, "ogre/ogre_attacking_submit.wav", 1, ATTN_NORM);
+	local float rs;
+	rs = random() * 4;
+	if (rs < 1)
+		sound (self, CHAN_VOICE, "ogre/ogre_aggro_killher.wav", 1, ATTN_NORM);
+	else if (rs < 2)
+		sound (self, CHAN_VOICE, "ogre/ogre_aggro_pathetic.wav", 1, ATTN_NORM);
+	else if (rs < 3)
+		sound (self, CHAN_VOICE, "ogre/ogre_attacking_submit.wav", 1, ATTN_NORM);
+	else
+		sound (self, CHAN_VOICE, "ogre/ogre_attacking_diealready.wav", 1, ATTN_NORM);
 };
 
 void() ogre_idle_sound =
 {
-    local float rs;
-    rs = random() * 10;
-    if (rs < 1)
-        sound (self, CHAN_VOICE, "ogre/ogre_idle_allclear.wav", 1, ATTN_IDLE);
-    else if (rs < 5)
-        sound (self, CHAN_VOICE, "ogre/ogre_idle_breathing_1.wav", 1, ATTN_IDLE);
-    else if (rs < 9)
-        sound (self, CHAN_VOICE, "ogre/ogre_idle_breathing_2.wav", 1, ATTN_IDLE);
-    else
-        sound (self, CHAN_VOICE, "ogre/ogre_idle_gettingpaid.wav", 1, ATTN_IDLE);
+	local float rs;
+	rs = random() * 10;
+	if (rs < 1)
+		sound (self, CHAN_VOICE, "ogre/ogre_idle_allclear.wav", 1, ATTN_IDLE);
+	else if (rs < 5)
+		sound (self, CHAN_VOICE, "ogre/ogre_idle_breathing_1.wav", 1, ATTN_IDLE);
+	else if (rs < 9)
+		sound (self, CHAN_VOICE, "ogre/ogre_idle_breathing_2.wav", 1, ATTN_IDLE);
+	else
+		sound (self, CHAN_VOICE, "ogre/ogre_idle_gettingpaid.wav", 1, ATTN_IDLE);
 };
 
 
