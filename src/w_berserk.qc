@@ -125,7 +125,7 @@ void() weaponanim_berserk_loop =	// End Check [Junction]
 	}
 	if (self.weaponframe >= 80)
 	{
-		idleanim_melee();
+		weaponanim_idle_melee();
 		return;
 	}
 	
@@ -208,24 +208,48 @@ void() W_FireBerserk =
 }
 //=============================================================================================
 
-void() idleanim_melee =
+void() weaponanim_draw_berserker =
+{		
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.1, ATTN_NORM);
+	
+	self.weaponframe = 1;
+	
+	self.think = weaponanim_draw_berserker_loop;
+	self.nextthink = time + 0.033;
+}
+
+void() weaponanim_draw_berserker_loop =
+{
+	if (self.weaponframe >= 9)
+	{
+		weaponanim_idle_melee();
+		return;
+	}
+	else 	self.weaponframe++;
+
+	self.think = weaponanim_draw_berserker_loop;
+	self.nextthink = time + 0.033;
+}
+//=============================================================================================
+
+void() weaponanim_idle_melee =
 {	
 	self.weaponframe = 81;
 	
-	self.think = idleanim_melee_loop;
+	self.think = weaponanim_idle_melee_loop;
 	self.nextthink = time + 0.05;
 }
 
-void() idleanim_melee_loop =
+void() weaponanim_idle_melee_loop =
 {
 	if (self.weaponframe >= 100)	//restart idle loop
 	{
-		idleanim_melee();
+		weaponanim_idle_melee();
 		return;
 	}
 	else	self.weaponframe++;
 
-	self.think = idleanim_melee_loop;
+	self.think = weaponanim_idle_melee_loop;
 	self.nextthink = time + 0.05;
 }
 //=============================================================================================

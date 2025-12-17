@@ -8,7 +8,7 @@
 	
 	0  idle
 	1-10  draw > idle
-	95-111  idle loop
+	95-110  idle loop
 	11-(78)-111  charge (fire) > idle
 	
 	MD3
@@ -76,7 +76,7 @@ void() weaponanim_invoker_loop =
 
 	if (self.weaponframe >= 110)	// added post-fire + ready to fire --> idle padding
 	{
-		idleanim_invoker();
+		weaponanim_idle_invoker();
 		return;
 	}	
 	else	self.weaponframe++;
@@ -86,25 +86,49 @@ void() weaponanim_invoker_loop =
 }
 //=============================================================================================
 
-void() idleanim_invoker =
-{	
-	self.weaponframe = 95;
+void() weaponanim_draw_invoker =
+{		
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.1, ATTN_NORM);
 	
-	self.think = idleanim_invoker_loop;
-	self.nextthink = time + 0.1;
+	self.weaponframe = 1;
+	
+	self.think = weaponanim_draw_invoker_loop;
+	self.nextthink = time + 0.033;
 }
 
-void() idleanim_invoker_loop =
+void() weaponanim_draw_invoker_loop =
 {
-
-	if (self.weaponframe >= 110)	//restart idle loop
+	if (self.weaponframe >= 9)
 	{
-		idleanim_invoker();
+		weaponanim_idle_invoker();
 		return;
 	}
 	else 	self.weaponframe++;
 
-	self.think = idleanim_invoker_loop;
+	self.think = weaponanim_draw_invoker_loop;
+	self.nextthink = time + 0.033;
+}
+//=============================================================================================
+
+void() weaponanim_idle_invoker =
+{	
+	self.weaponframe = 95;
+	
+	self.think = weaponanim_idle_invoker_loop;
+	self.nextthink = time + 0.1;
+}
+
+void() weaponanim_idle_invoker_loop =
+{
+
+	if (self.weaponframe >= 110)	//restart idle loop
+	{
+		weaponanim_idle_invoker();
+		return;
+	}
+	else 	self.weaponframe++;
+
+	self.think = weaponanim_idle_invoker_loop;
 	self.nextthink = time + 0.1;
 }
 //=============================================================================================

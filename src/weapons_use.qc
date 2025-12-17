@@ -571,10 +571,25 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon =
 
 	self.animcontroller.think = player_run;
 	self.think = SUB_Null;
+
 	
-	//if (weapcl.idlefunction != SUB_Null) weapcl.idlefunction();
-	//if (weap == IT_AXE && has_berserk(self)) idleanim_melee();
-	//else if (weapcl.idlefunction != SUB_Null) weapcl.idlefunction();
+	// @ bmFbr it working!!!  -Kebby_
+	
+		
+	if (weap == IT_AXE && has_berserk(self))
+		weaponanim_draw_berserker();
+	
+	else if (weap == IT_AXE
+	|| weap == IT_SHOTGUN
+	|| weap == IT_SUPER_SHOTGUN
+	|| weap == IT_NAILGUN
+	|| weap == IT_SUPER_NAILGUN
+	|| weap == IT_GRENADE_LAUNCHER
+	|| weap == IT_ROCKET_LAUNCHER)
+		weaponanim_draw();
+			
+	else if (weap == IT_LIGHTNING)
+		weaponanim_draw_invoker();
 	
 		
 	return weapstat;
@@ -769,32 +784,7 @@ void() SuperDamageSound =
 
 
 
-//=====================================================================================================================
 
-void() weaponanim_draw_pistol =
-{		
-	sound (self, CHAN_AUTO, "pistol/gun_click.wav", 0.25, ATTN_NORM);
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.1, ATTN_NORM);
-	
-	self.weaponframe = 1;
-	
-	self.think = weaponanim_draw_pistol_loop;
-	self.nextthink = time + 0.033;
-}
-
-void() weaponanim_draw_pistol_loop =
-{
-	if (self.weaponframe >= 9)
-	{
-		self.weaponframe = 0;
-		self.think = SUB_Null;
-		return;
-	}
-	else 	self.weaponframe++;
-
-	self.think = weaponanim_draw_pistol_loop;
-	self.nextthink = time + 0.033;
-}
 //=====================================================================================================================
 
 void() weaponanim_draw =
@@ -813,27 +803,7 @@ void() weaponanim_draw_loop =
 {
 	if (self.weaponframe >= 10)
 	{
-		if (self.weapon == IT_AXE)
-		{
-			if (has_berserk(self))
-			{
-				self.think = idleanim_melee;	// Berserker draw --> Idle animation loop
-				return;
-			}
-			else			
-			{
-				self.think = SUB_Null;		// No idle anim for MDL Wrench (too goopy)
-				return;
-			}
-		}		
-		else if (self.weapon == IT_LIGHTNING)
-		{
-			self.think = idleanim_invoker;		// Invoker draw --> Idle animation loop
-			return;
-		}		
-		
-		self.weaponframe = 0;
-		self.think = SUB_Null;
+		SUB_Null();
 		return;
 	}
 	else 	self.weaponframe++;
