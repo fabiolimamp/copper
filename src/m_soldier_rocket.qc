@@ -195,17 +195,18 @@ void() rocketarmy_fire =
 	sound (self, CHAN_AUTO, "mmml/silo_clunk.wav", 1, ATTN_NORM);
 	sound (self, CHAN_AUTO, "mmml/silo_load.wav", 1, ATTN_NORM);
 
-    SoldierMissile();
+	SoldierMissile();
 }
 
-const float SOLDIER_MISSILE_VEL = 800;
+const float SOLDIER_MISSILE_VEL = 900;
 const float SOLDIER_MISSILE_VEL_NM = 1100;
+
+const float SOLDIER_MISSILE_TURN_RATE		= 300;
 
 void() SoldierMissile =
 {
-	entity 	missile;
-	vector	dir;
-
+	entity  missile;
+	vector  dir;
 	self.effects = self.effects | EF_MUZZLEFLASH;
 	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
 	makevectors(self.angles);
@@ -221,63 +222,50 @@ void() SoldierMissile =
 		dir = normalize(dir);
 	}
 	
-	if (skill >= 3)
-		missile = launch_projectile(self.origin + '0 0 10' + v_forward * 16, dir * SOLDIER_MISSILE_VEL_NM, "voreball");
-	else
-		missile = launch_projectile(self.origin + '0 0 10' + v_forward * 16, dir * SOLDIER_MISSILE_VEL, "voreball");
-
+	missile = launch_projectile(self.origin + '0 0 10' + v_forward * 16, dir * (SOLDIER_MISSILE_VEL * 0.08), "voreball"); // Start at 8% speed
 	SUB_ChangeModel (missile, "progs/proj_missile.mdl");
-
 	missile.nextthink = time + 0.1;
 	missile.think = MissileHome;
 	missile.enemy = self.enemy;
 	missile.touch = SoldierMissileTouch;
-	missile.lifetime_finished = time + 5;	 // blow up after a while
+	missile.lifetime_finished = time + 5;    // blow up after a while
 	if (skill == 3) missile.dest = self.dest;
 }
 
 void() MissileHome =
 {
-	// a voreball with perfect homing causes combat to effectively stop, forcing the player
-	// to run around around trying to shake it, often backpedaling through lots of empty map.
-	// limiting the voreball's turn rate so they can be dodged and forgotten about makes vores
-	// a more flexible enemy and more useful to the mapper
 	float dist, rate, dot;
+	float current_speed, target_speed;
+	float speed_percent, acceleration;
+	float turn_rate_multiplier;
 	
 	if (self.lifetime_finished < time)
 	{
 		ShalMissileExplode();
 		return;
-	}		
+	}       
 	if (!alive(self.enemy))
 	{
 		self.think = SoldierMissileExplode;
 		self.nextthink = self.lifetime_finished;
-		//remove(self);
 		return;
 	}
-
-    self.angles = vectoangles(self.velocity);
+	
+	self.angles = vectoangles(self.velocity);
 	self.flags &~= FL_ONGROUND;
 	self.oldvelocity = self.velocity;
 	
 	self.think = MissileHome;
 	self.nextthink = time + SHAL_BALL_THINK_RATE;
-	rate = SHAL_BALL_TURN_RATE;
+	rate = SOLDIER_MISSILE_TURN_RATE;
 	dot = normalize(self.velocity) * normalize(self.enemy.origin - self.origin);
 	
-	// reset our owner regularly, or else a voreball that passes through a notrace-invisible
-	// player will become owned by the player and remain nonsolid to them after the ring ends
 	self.owner = self.trueowner;
-	// if the projectile is inside a notrace entity at this time, it'll touch again this frame
-	// and reset anyway, so this state will pingpong until it passes out the other side
 	
-	// go faster at long distance to close the gap, so snipey vores have a better presence
 	dist = vlen(self.enemy.origin - self.origin);
 	dist = saturate( (dist-200) / 600 );
-
-    if (!self.lip)
-        self.lip = 1.2;
+	if (!self.lip)
+		self.lip = 1.2;
 	
 	if (!has_invis(self.enemy))
 	{
@@ -285,12 +273,27 @@ void() MissileHome =
 		{
 			rate *= max(1, 1.5 * (1 - dot));
 		}
-		self.velocity = SOLDIER_MISSILE_VEL * ShalTurnToward(self.enemy.origin, rate * self.lip);
-        if (self.lip > 0)
-            self.lip -= 0.05;
+		
+		current_speed = vlen(self.velocity);
+		target_speed = SOLDIER_MISSILE_VEL;
+		
+		// accelerates by doubling the speed every tick
+		if (current_speed < target_speed)
+		{
+			speed_percent = current_speed / target_speed;
+			acceleration = speed_percent;
+			speed_percent = speed_percent + acceleration;
+			current_speed = min(target_speed, speed_percent * target_speed);
+		}
+		
+		// turn rate decreases over time (from 100% to 75%)
+		turn_rate_multiplier = 1.0 - ((current_speed / target_speed - 0.05) / 0.95) * 0.25;
+		
+		self.velocity = current_speed * ShalTurnToward(self.enemy.origin, rate * turn_rate_multiplier * self.lip);
+		if (self.lip > 0)
+			self.lip -= 0.05;
 	}
-
-	self.oldvelocity = self.velocity;	
+	self.oldvelocity = self.velocity;   
 }
 //=============================================================================
 
@@ -416,51 +419,51 @@ void() rocketarmy_die =
 
 void() rocketsoldier_fire_sound =
 {
-    local float rs;
-    rs = (random() * 2);
-    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_firing.wav", 1, ATTN_NORM);
-    else		sound (self, CHAN_VOICE, "grunt/soldier_fireinthehole.wav", 1, ATTN_NORM);
+	local float rs;
+	rs = (random() * 2);
+	if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_firing.wav", 1, ATTN_NORM);
+	else		sound (self, CHAN_VOICE, "grunt/soldier_fireinthehole.wav", 1, ATTN_NORM);
 };
 
 void() rocketsoldier_death_sound =
 {
-    local float rs;
-    rs = (random() * 2);
-    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_death1.wav", 1, ATTN_NORM);
-    else        	sound (self, CHAN_VOICE, "grunt/soldier_death2.wav", 1, ATTN_NORM);
+	local float rs;
+	rs = (random() * 2);
+	if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_death1.wav", 1, ATTN_NORM);
+	else        	sound (self, CHAN_VOICE, "grunt/soldier_death2.wav", 1, ATTN_NORM);
 };
 
 void() rocketsoldier_pain_sound =
 {
-    local float rs;
-    rs = (random() * 4);
-    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_pain1.wav", 1, ATTN_NORM);
-    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
-    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_pain3.wav", 1, ATTN_NORM);
-    else	        sound (self, CHAN_VOICE, "grunt/soldier_pain4.wav", 1, ATTN_NORM);
+	local float rs;
+	rs = (random() * 4);
+	if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_pain1.wav", 1, ATTN_NORM);
+	else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
+	else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_pain3.wav", 1, ATTN_NORM);
+	else	        sound (self, CHAN_VOICE, "grunt/soldier_pain4.wav", 1, ATTN_NORM);
 };
 
 void() rocketsoldier_aggro_sound =
 {
-    local float rs;
-    rs = (random() * 6);
-    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_aggro_breakcover.wav", 1, ATTN_NORM);
-    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_converging.wav", 1, ATTN_NORM);
-    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_mobile.wav", 1, ATTN_NORM);
-    else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_movingin.wav", 1, ATTN_NORM);
-    else if (rs < 5)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_outbreak.wav", 1, ATTN_NORM);
-    else		sound (self, CHAN_VOICE, "grunt/soldier_aggro_stopresisting.wav", 1, ATTN_NORM);
+	local float rs;
+	rs = (random() * 6);
+	if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_aggro_breakcover.wav", 1, ATTN_NORM);
+	else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_converging.wav", 1, ATTN_NORM);
+	else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_mobile.wav", 1, ATTN_NORM);
+	else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_movingin.wav", 1, ATTN_NORM);
+	else if (rs < 5)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_outbreak.wav", 1, ATTN_NORM);
+	else		sound (self, CHAN_VOICE, "grunt/soldier_aggro_stopresisting.wav", 1, ATTN_NORM);
 };
 
 void() rocketsoldier_idle_sound =
 {
-    local float rs;
-    rs = (random() * 5);
-    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_idle_inposition.wav", 1, ATTN_IDLE);
-    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_idle_standingby.wav", 1, ATTN_IDLE);
-    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_idle_ten2.wav", 1, ATTN_IDLE);
-    else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_idle_ten4.wav", 1, ATTN_IDLE);
-    else		sound (self, CHAN_VOICE, "grunt/soldier_idle_unithasnocontact.wav", 1, ATTN_IDLE);
+	local float rs;
+	rs = (random() * 5);
+	if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_idle_inposition.wav", 1, ATTN_IDLE);
+	else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_idle_standingby.wav", 1, ATTN_IDLE);
+	else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_idle_ten2.wav", 1, ATTN_IDLE);
+	else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_idle_ten4.wav", 1, ATTN_IDLE);
+	else		sound (self, CHAN_VOICE, "grunt/soldier_idle_unithasnocontact.wav", 1, ATTN_IDLE);
 };
 
 void() monster_rocketarmy_spawn =
