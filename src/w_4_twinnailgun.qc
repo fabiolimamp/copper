@@ -33,8 +33,8 @@ float() weaponanim_twinnailgun =
 
 	SUB_CallAsSelf(player_nail1, self.animcontroller);
 
-	if (self.nailgun_alternator == 0)	self.weaponframe = 11;
-	else					self.weaponframe = 15;
+	if (self.nailgun_alternator == 0)	self.weaponframe = 10;
+	else					self.weaponframe = 14;
 		
 	weaponanim_twinnailgun_loop();
 	
