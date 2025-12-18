@@ -559,7 +559,7 @@ void() GibPlayer =
 	GibSpray ("progs/h_player.mdl", self.health);
 }
 
-void() PlayGibSound() =
+void() PlayGibSound =
 {
 	if (random() < 0.8)
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);

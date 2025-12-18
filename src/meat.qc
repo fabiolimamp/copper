@@ -231,7 +231,7 @@ void(string headmdl, float dm) GibSprayConc =
 
 void(string headmdl, float dm) Gib =
 {
-	PlayGibSound()
+	PlayGibSound();
 	
 	GibSpray(headmdl, dm);
 }
@@ -285,7 +285,7 @@ void() meat_noise =
 	else if (r < 0.5)
 		sound (self, CHAN_BODY, "player/tornoff2.wav", 1, ATTN_NORM);
 	else if (r < 0.75)
-		PlayGibSound()
+		PlayGibSound();
 	else
 		sound (self, CHAN_BODY, "player/gib.wav", 1, ATTN_NORM);
 }
