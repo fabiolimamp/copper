@@ -569,6 +569,7 @@ void() monster_army_rocket =
 	precache_sound2 ("grunt/soldier_sight_target.wav");
 
 	precache_sound ("player/udeath.wav");		// gib death
+	precache_sound ("player/udeath2.wav");
 	self.health = 35;
 
 	setsize (self, '-16 -16 -24', '16 16 40');

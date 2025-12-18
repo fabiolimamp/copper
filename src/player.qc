@@ -559,6 +559,15 @@ void() GibPlayer =
 	GibSpray ("progs/h_player.mdl", self.health);
 }
 
+void() PlayGibSound() =
+{
+	if (random() < 0.8)
+		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
+	else
+		sound (self, CHAN_VOICE, "player/udeath2.wav", 1, ATTN_NORM);
+}
+
+
 void() PlayerDie =
 {
 	local	float	i;
