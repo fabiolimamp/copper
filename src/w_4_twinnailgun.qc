@@ -20,7 +20,6 @@
 */
 //=============================================================================================
 
-.float nailgun_alternator;
 
 float() weaponanim_twinnailgun =
 {
@@ -33,7 +32,7 @@ float() weaponanim_twinnailgun =
 
 	SUB_CallAsSelf(player_nail1, self.animcontroller);
 
-	if (self.nailgun_alternator == 0)	self.weaponframe = 10;
+	if (self.customflags & CFL_LEFTY)	self.weaponframe = 10;
 	else					self.weaponframe = 14;
 		
 	weaponanim_twinnailgun_loop();
@@ -83,8 +82,8 @@ void() weaponanim_twinnailgun_loop =
 		self.punchangle_x = -2;
 		self.effects |= EF_MUZZLEFLASH;
 		
-		if (self.weaponframe == 11) 	{offs = 4;	self.nailgun_alternator = 1;}
-		else 				{offs = -4;	self.nailgun_alternator = 0;}
+		if (self.weaponframe == 11) 	{offs = 4;	self.customflags |= CFL_LEFTY;}
+		else 				{offs = -4;	self.customflags &~= CFL_LEFTY;}
 		
 		SuperDamageSound();
 		W_FireTwinNailgun(offs);
