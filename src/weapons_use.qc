@@ -203,6 +203,33 @@ void() W_Precache =
 
 
 
+//=====================================================================================================================
+
+// generic weapon draw functions used by most weapons
+
+void() weaponanim_draw =
+{		
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.1, ATTN_NORM);
+	
+	self.weaponframe = 1;
+	
+	self.think = weaponanim_draw_loop;
+	self.nextthink = time + 0.033;
+}
+
+void() weaponanim_draw_loop =
+{
+	if (self.weaponframe >= 10)
+		return;
+	else 
+		self.weaponframe++;
+
+	self.think = weaponanim_draw_loop;
+	self.nextthink = time + 0.033;
+}
+
+//=====================================================================================================================
+
 typedef struct {
 	float id;
 	float slot;
@@ -214,6 +241,7 @@ typedef struct {
 	float ammo_usage;
 	float() animfunction;
 	void() idlefunction;
+	void() drawfunction;
 } weaponclass_t;
 
 .float ammofieldlist[6] = {
@@ -237,7 +265,8 @@ weaponclass_t wpc_no_weapon = {
 	0, // ammo_item
 	0, // ammo_usage
 	weaponanim_null, // animfunction
-	SUB_Null // idlefunction
+	SUB_Null, // idlefunction
+	SUB_Null // drawfunction
 };
 
 weaponclass_t wpc_axe = {
@@ -250,7 +279,8 @@ weaponclass_t wpc_axe = {
 	0, // ammo_item
 	0, // ammo_usage
 	weaponanim_wrench, // animfunction
-	SUB_Null // idlefunction		//idleanim_melee
+	SUB_Null, // idlefunction
+	weaponanim_draw_wrench // drawfunction
 };
 
 weaponclass_t wpc_shotgun = {
@@ -263,7 +293,8 @@ weaponclass_t wpc_shotgun = {
 	0, // ammo_item
 	0, // ammo_usage
 	weaponanim_pistol, // animfunction
-	SUB_Null // idle/draw function
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
 };
 
 weaponclass_t wpc_supershotgun = {
@@ -276,7 +307,8 @@ weaponclass_t wpc_supershotgun = {
 	IT_SHELLS, // ammo_item
 	1, // ammo_usage
 	weaponanim_flakshotgun, // animfunction
-	SUB_Null // idlefunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
 };
 
 weaponclass_t wpc_nailgun = {
@@ -289,7 +321,8 @@ weaponclass_t wpc_nailgun = {
 	IT_NAILS, // ammo_item
 	1, // ammo_usage
 	weaponanim_twinnailgun, // animfunction
-	SUB_Null // idlefunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
 };
 
 weaponclass_t wpc_supernailgun = {
@@ -302,7 +335,8 @@ weaponclass_t wpc_supernailgun = {
 	IT_NAILS, // ammo_item
 	10, // ammo_usage
 	weaponanim_rebarcannon, // animfunction
-	SUB_Null // idlefunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
 };
 
 weaponclass_t wpc_grenade = {
@@ -315,7 +349,8 @@ weaponclass_t wpc_grenade = {
 	IT_ROCKETS, // ammo_item
 	1, // ammo_usage
 	weaponanim_qbj3grenade, // animfunction
-	SUB_Null // idlefunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
 };
 
 weaponclass_t wpc_rocket = {
@@ -328,7 +363,8 @@ weaponclass_t wpc_rocket = {
 	IT_ROCKETS, // ammo_item
 	1, // ammo_usage
 	weaponanim_boxrocket, // animfunction
-	SUB_Null // idlefunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
 };
 
 weaponclass_t wpc_invoker = {
@@ -341,7 +377,8 @@ weaponclass_t wpc_invoker = {
 	IT_CELLS, // ammo_item
 	1, // ammo_usage
 	weaponanim_invoker, // animfunction
-	SUB_Null // idlefunction	//idleanim_invoker
+	SUB_Null, // idlefunction
+	weaponanim_draw_invoker // drawfunction
 };
 
 
@@ -574,24 +611,14 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon =
 
 	
 	// @ bmFbr it working!!!  -Kebby_
-	
-		
-	if (weap == IT_AXE && has_berserk(self))
-		weaponanim_draw_berserker();
-	
-	else if (weap == IT_AXE
-	|| weap == IT_SHOTGUN
-	|| weap == IT_SUPER_SHOTGUN
-	|| weap == IT_NAILGUN
-	|| weap == IT_SUPER_NAILGUN
-	|| weap == IT_GRENADE_LAUNCHER
-	|| weap == IT_ROCKET_LAUNCHER)
-		weaponanim_draw();
 			
-	else if (weap == IT_LIGHTNING)
-		weaponanim_draw_invoker();
 	
-		
+	weapcl.idlefunction();
+	// whatever drawfunction does will probably override an idlefunction's actions if there's one.
+	// in this case the end of the draw loop must call idlefunction
+	weapcl.drawfunction(); 
+	
+			
 	return weapstat;
 }
 
@@ -783,31 +810,3 @@ void() SuperDamageSound =
 
 
 
-
-
-//=====================================================================================================================
-
-void() weaponanim_draw =
-{		
-	if (self.weapon == IT_SHOTGUN)	sound (self, CHAN_AUTO, "pistol/gun_click.wav", 0.25, ATTN_NORM);	// Pistol draw sfx
-	
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.1, ATTN_NORM);
-	
-	self.weaponframe = 1;
-	
-	self.think = weaponanim_draw_loop;
-	self.nextthink = time + 0.033;
-}
-
-void() weaponanim_draw_loop =
-{
-	if (self.weaponframe >= 10)
-	{
-		SUB_Null();
-		return;
-	}
-	else 	self.weaponframe++;
-
-	self.think = weaponanim_draw_loop;
-	self.nextthink = time + 0.033;
-}

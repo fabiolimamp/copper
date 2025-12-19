@@ -69,6 +69,22 @@ void() weaponanim_wrench_loop =
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+void() weaponanim_draw_wrench =
+{		
+	if (has_berserk(self)) {
+		weaponanim_draw_berserker();
+		return;
+	}
+
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.1, ATTN_NORM);
+	
+	self.weaponframe = 1;
+	
+	self.think = weaponanim_draw_loop;
+	self.nextthink = time + 0.033;
+}
+
+
 void() wrench_hitsound =
 {
 	if (random() < 0.5)	sound (self, CHAN_WEAPON, "weapons/axhit1.wav", 1, ATTN_NORM);

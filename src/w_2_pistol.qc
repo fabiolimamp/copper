@@ -99,6 +99,21 @@ void() weaponanim_pistol_loop =
 }
 //=====================================================================================================================
 
+void() weaponanim_draw_pistol =
+{		
+	sound (self, CHAN_AUTO, "pistol/gun_click.wav", 0.25, ATTN_NORM);	// Pistol draw sfx
+	
+	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.1, ATTN_NORM);
+	
+	self.weaponframe = 1;
+	
+	self.think = weaponanim_draw_loop; // weapons_use.qc
+	self.nextthink = time + 0.033;
+}
+
+
+//=====================================================================================================================
+
 void() weaponanim_reloadpistol =
 {
 	if (self.think == weaponanim_reloadpistol_loop) 
