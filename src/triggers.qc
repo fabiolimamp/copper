@@ -1399,3 +1399,298 @@ void() trigger_ladder =
 	self.touch = ladder_touch;
 
 };
+
+
+
+
+
+/*
+=============================================================
+
+trigger_textstory
+
+=============================================================
+*/
+float TEXTSTORY_SILENT = 1;
+float TEXTSTORY_NOFADE = 2;
+float TEXTSTORY_ALLPLAYERS = 4;
+
+void(entity controller) textstory_hide = {
+	if (!self.enemy || !(self.enemy.flags & FL_CLIENT)) return;
+
+	self.enemy.suppressCenterPrint = FALSE;
+	centerprint(self.enemy, "");
+
+	if (controller.noise2 != "") 
+		sound(self.enemy, CHAN_BODY, controller.noise2, 1, ATTN_NORM);
+	
+	if (!(controller.spawnflags & TEXTSTORY_NOFADE))
+		csf_fade_clear(self.enemy, 0.5, 110);
+};
+
+void(entity controller) textstory_show = {
+	if (!self.enemy || !(self.enemy.flags & FL_CLIENT)) return;
+
+	self.enemy.suppressCenterPrint = TRUE;
+	string msg;
+
+	if (controller.mapvar_message && read_mapvar(controller.mapvar_message)){
+		msg = controller.message2;
+	}
+	else {
+		msg = controller.message;
+	}
+
+	centerprint_builtin(self.enemy, msg);
+
+	if (!self.state) {
+		if (controller.noise1 != "")
+			sound(self.enemy, CHAN_BODY, controller.noise1, 1, ATTN_NORM);
+
+		if (!(controller.spawnflags & TEXTSTORY_NOFADE))
+			csf_fade(self.enemy, 160, '0 0 0', 1, 110);
+	}
+
+
+	self.state = 1;
+};
+
+//----------------------------------------
+
+void() trigger_textstory_hide = {
+	textstory_hide(self);
+
+	self.pain_finished = 0;
+	self.enemy = world;
+	self.state = 0;
+};
+
+void() trigger_textstory_show = {
+	textstory_show(self);	
+
+	if (time > self.pain_finished)
+		self.think = trigger_textstory_hide;
+	else
+		self.think = trigger_textstory_show;
+	self.nextthink = time + 0.2;
+
+};
+
+void() trigger_textstory_touch = {
+	
+	if (!(other.flags & FL_CLIENT)) return;
+	if (self.customflags & CFL_LOCKED) return;
+
+	// don't show message if another player is already triggering it
+	if (other != self.enemy && self.state == 1) return;
+
+	if (!isInAngle(other.v_angle, self.angles, self.view_ofs))
+		return;
+
+	if (!self.pain_finished) {
+		self.pain_finished = time + self.wait;
+	}
+
+	if (self.attack_finished < time) {
+
+		self.attack_finished = time + 0.1;
+		self.enemy = other;
+
+		trigger_textstory_show();
+	}
+};
+
+
+/*QUAKED trigger_textstory (.5 .5 .5) SILENT NO_FADE_BG
+Trigger to show long centerprint texts. Message remains on screen while player is inside the trigger volume. Can have custom sounds, or be made silent.
+
+Horizontal space is limited to 40 characters, so you must place linefeeds (\n) into your text.
+
+You can set it to be show the message only when the player is facing a certain angle within the trigger. Set the central angle with 'angles', and the viewcone size with 'view_ofs' (both in 'pitch yaw 0' format). Set view_ofs to '360 360 0' if you want the message to show regardless of viewing angle.
+
+Keys:
+
+"angles" the direction player must be facing to climb ladder
+
+"angles" Central point of the viewcone, in 'pitch yaw 0' format
+"view_ofs" Total viewcone angle for each axis, in 'vertical horizontal 0' format. Set it to '360 360 0' if you want the message to show regardless of viewing angle
+"message" Message to show on-screen
+"message2" Alternate message to show on-screen when the mapvar ID in 'mapvar_message' is active
+"mapvar_message" If the specified mapvar is true, show 'message2' instead of 'message'
+"noise1" Gets played when the message is shown. Use 'misc/talk.wav' for the default centerprint beep.
+"noise2" Played when the message fades away.
+"wait" Minimum time the message will stay onscreen, even after the player leaves the trigger
+*/
+/*FGD
+@SolidClass base(Appearflags, Targetname) = trigger_textstory :
+"Trigger to show long centerprint texts. Message remains on screen while player is inside the trigger volume. Can have custom sounds, or be made silent.
+
+Horizontal space is limited to 40 characters, so you must place linefeeds (\n) into your text.
+
+You can set it to be show the message only when the player is facing a certain angle within the trigger. Set the central angle with 'angles', and the viewcone size with 'view_ofs' (both in 'pitch yaw 0' format). Set view_ofs to '360 360 0' if you want the message to show regardless of viewing angle."
+
+[
+	angles(string) : "Central view angle" : : "Central point of the viewcone, in 'pitch yaw 0' format"
+	view_ofs(string) : "Viewcone size" : "180 180 0" : "Total viewcone angle for each axis, in 'vertical horizontal 0' format. Set it to '360 360 0' if you want the message to show regardless of viewing angle."
+	message(string) : "Message" : : "Message to show on-screen."
+	message2(string) : "Alternate message" : : "Alternate message to show on-screen when the mapvar ID in 'mapvar_message' is active."
+	mapvar_message(integer) : "Mapvar filter" : : "If the specified mapvar is true, show 'message2' instead of 'message'"
+	noise1(string) : "Activate sound" : "misc/talk.wav" : "Gets played when the message is shown. Use 'misc/talk.wav' for the default centerprint beep."
+	noise2(string) : "Deactivate sound" : : "Played when the message fades away."
+	wait(integer) : "Minimum message duration" : 1 : "Minimum time the message will stay onscreen, even after the player leaves the trigger. Set to -1 to clear instantly"
+	spawnflags(flags) = [
+		1: "Silent"
+		2: "Don't fade background"
+	]
+]
+*/
+void() trigger_textstory = {
+	if (!SUB_ShouldSpawn()) return;
+	
+	InitTrigger();
+	self.touch = trigger_textstory_touch;
+
+	if (self.view_ofs == '0 0 0')
+		self.view_ofs = '90 90 0';
+	else self.view_ofs = self.view_ofs/2; // implementation uses view offset from the central cone angle
+
+	if (self.noise1 == "")
+		self.noise1 = "misc/talk.wav";
+
+	if (self.noise2 == "")
+		self.noise2 = "misc/null.wav";
+
+	if (self.spawnflags & TEXTSTORY_SILENT) {
+		self.noise1 = string_null;
+		self.noise2 = string_null;
+	}
+
+	self.wait = zeroconvertdefault(self.wait, 1);
+
+
+	if (self.noise1 != "")
+		precache_sound (self.noise1);
+	if (self.noise2 != "")
+		precache_sound (self.noise2);
+
+	//SUB_CheckWaiting();
+};
+
+
+//-----------------------------
+
+
+void() target_textstory_helper_hide = {
+
+	textstory_hide(self.owner);
+	remove(self);
+};
+
+void() target_textstory_helper_show = {
+	if (!self.enemy || !(self.enemy.flags & FL_CLIENT)) {
+		remove(self);
+		return;
+	}
+
+	textstory_show(self.owner);
+
+	if (self.attack_finished < time) self.think = target_textstory_helper_hide;
+	
+	self.nextthink = time + 0.1;
+};
+
+void(entity tgt) target_textstory_spawn_helper = {
+	entity e;
+
+	e = spawn();
+	e.classname = "target_textstory_helper";
+	e.owner = self;
+	e.think = target_textstory_helper_show;
+	e.nextthink = time + 0.1;
+	e.attack_finished = time + self.wait;
+	e.enemy = tgt;
+};
+
+void() target_textstory_use = {
+
+	if (!(activator.flags & FL_CLIENT)) return;
+	if (self.customflags & CFL_LOCKED) return;
+	
+	entity t;
+
+	if (self.spawnflags & TEXTSTORY_ALLPLAYERS) {
+		t = find(world, classname, "player");
+		while (t) {
+			target_textstory_spawn_helper(t);
+			t = find(t, classname, "player");
+		}
+	}
+	else
+		target_textstory_spawn_helper(activator);
+};
+
+
+
+/*QUAKED target_textstory (.5 .5 .5) (-8 -8 -8) (8 8 8) SILENT ALWAYS_FADE_BG ALL_PLAYERS
+Trigger to show long centerprint texts. Message remains on screen while player is inside the trigger volume. Can have custom sounds, or be made silent.
+
+Horizontal space is limited to 40 characters, so you must place linefeeds (\n) into your text.
+
+Keys:
+
+"message" Message to show on-screen
+"message2" Alternate message to show on-screen when the mapvar ID in 'mapvar_message' is active
+"mapvar_message" If the specified mapvar is true, show 'message2' instead of 'message'
+"noise1" Gets played when the message is shown. Use 'misc/talk.wav' for the default centerprint beep.
+"noise2" Played when the message fades away.
+"wait" Message duration
+*/
+/*FGD
+@PointClass base(Appearflags, Targetname) = target_textstory :
+"Trigger to show long centerprint texts. Message remains on screen for the duration of 'wait'. Can have custom sounds, or be made silent.
+
+Horizontal space is limited to 40 characters, so you must place linefeeds (\n) into your text.
+"
+[
+	wait(integer) : "Message duration" : 5
+	message(string) : "Message" : : "Message to show on-screen."
+	message2(string) : "Alternate message" : : "Alternate message to show on-screen when the mapvar ID in 'mapvar_message' is active."
+	mapvar_message(integer) : "Mapvar filter" : : "If the specified mapvar is true, show 'message2' instead of 'message'"
+	noise1(string) : "Activate sound" : "misc/talk.wav" : "Gets played when the message is shown. Use 'misc/talk.wav' for the default centerprint beep."
+	noise2(string) : "Deactivate sound" : : "Played when the message fades away."
+	spawnflags(flags) = [
+		1: "Silent"
+		2: "Fade background"
+		4: "Show to all players"
+	]
+]
+*/
+void() target_textstory = {
+	if (!SUB_ShouldSpawn()) return;
+	
+	if (self.noise1 == "")
+		self.noise1 = "misc/talk.wav";
+	
+	if (self.noise2 == "")
+		self.noise2 = "misc/null.wav";
+
+	if (self.spawnflags & TEXTSTORY_SILENT) {
+		self.noise1 = "";
+		self.noise2 = "";
+	}
+
+	if (self.spawnflags & TEXTSTORY_NOFADE)
+		self.spawnflags &~= TEXTSTORY_NOFADE;
+	else
+		self.spawnflags |= TEXTSTORY_NOFADE;
+
+	if (self.noise1 != "")
+		precache_sound (self.noise1);
+	if (self.noise2 != "")
+		precache_sound (self.noise2);
+
+	if (!self.wait)
+		self.wait = 5;
+
+	self.use = target_textstory_use;
+};

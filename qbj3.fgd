@@ -2218,3 +2218,45 @@ Mapvars are miscellaneous flags (only true/false values) that can be freely used
 		3 : "Toggle flag value"
 	]
 ]
+
+
+@SolidClass base(Appearflags, Targetname) = trigger_textstory :
+"Trigger to show long centerprint texts. Message remains on screen while player is inside the trigger volume. Can have custom sounds, or be made silent.
+
+Horizontal space is limited to 40 characters, so you must place linefeeds (\n) into your text.
+
+You can set it to be show the message only when the player is facing a certain angle within the trigger. Set the central angle with 'angles', and the viewcone size with 'view_ofs' (both in 'pitch yaw 0' format). Set view_ofs to '360 360 0' if you want the message to show regardless of viewing angle."
+
+[
+	angles(string) : "Central view angle" : : "Central point of the viewcone, in 'pitch yaw 0' format"
+	view_ofs(string) : "Viewcone size" : "180 180 0" : "Total viewcone angle for each axis, in 'vertical horizontal 0' format. Set it to '360 360 0' if you want the message to show regardless of viewing angle."
+	message(string) : "Message" : : "Message to show on-screen."
+	message2(string) : "Alternate message" : : "Alternate message to show on-screen when the mapvar ID in 'mapvar_message' is active."
+	mapvar_message(integer) : "Mapvar filter" : : "If the specified mapvar is true, show 'message2' instead of 'message'"
+	noise1(string) : "Activate sound" : "misc/talk.wav" : "Gets played when the message is shown. Use 'misc/talk.wav' for the default centerprint beep."
+	noise2(string) : "Deactivate sound" : : "Played when the message fades away."
+	wait(integer) : "Minimum message duration" : 1 : "Minimum time the message will stay onscreen, even after the player leaves the trigger. Set to -1 to disable"
+	spawnflags(flags) = [
+		1: "Silent"
+		2: "Don't fade background"
+	]
+]
+
+@PointClass base(Appearflags, Targetname) = target_textstory :
+"Trigger to show long centerprint texts. Message remains on screen for the duration of 'wait'. Can have custom sounds, or be made silent.
+
+Horizontal space is limited to 40 characters, so you must place linefeeds (\n) into your text.
+"
+[
+	wait(integer) : "Message duration" : 5
+	message(string) : "Message" : : "Message to show on-screen."
+	message2(string) : "Alternate message" : : "Alternate message to show on-screen when the mapvar ID in 'mapvar_message' is active."
+	mapvar_message(integer) : "Mapvar filter" : : "If the specified mapvar is true, show 'message2' instead of 'message'"
+	noise1(string) : "Activate sound" : "misc/talk.wav" : "Gets played when the message is shown. Use 'misc/talk.wav' for the default centerprint beep."
+	noise2(string) : "Deactivate sound" : : "Played when the message fades away."
+	spawnflags(flags) = [
+		1: "Silent"
+		2: "Fade background"
+		4: "Show to all players"
+	]
+]

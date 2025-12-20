@@ -444,3 +444,15 @@ vector(vector incident, vector normal, float dampening) reflect = {
     return reflected - d * dampening * normal;
 };
 
+float(float v) anglemod180 =
+{
+	return v - floor((v+180)/360) * 360;
+}
+
+
+float(vector ang, vector base_ang, vector offset) isInAngle = {
+	if (angledif(ang_x, anglemod180(base_ang_x)) > offset_x || angledif(ang_y, anglemod180(base_ang_y)) > offset_y)
+		return FALSE;
+	else
+		return TRUE;
+};
