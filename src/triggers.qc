@@ -1540,7 +1540,7 @@ You can set it to be show the message only when the player is facing a certain a
 	wait(integer) : "Minimum message duration" : 1 : "Minimum time the message will stay onscreen, even after the player leaves the trigger. Set to -1 to clear instantly"
 	spawnflags(flags) = [
 		1: "Silent"
-		2: "Don't fade background"
+		2: "Fade background"
 	]
 ]
 */
@@ -1564,6 +1564,12 @@ void() trigger_textstory = {
 		self.noise1 = string_null;
 		self.noise2 = string_null;
 	}
+
+	// default is to not fade
+	if (self.spawnflags & TEXTSTORY_NOFADE)
+		self.spawnflags &~= TEXTSTORY_NOFADE;
+	else
+		self.spawnflags |= TEXTSTORY_NOFADE;
 
 	self.wait = zeroconvertdefault(self.wait, 1);
 
