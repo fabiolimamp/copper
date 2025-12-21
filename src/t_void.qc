@@ -158,7 +158,7 @@ void(entity e) void_unplunge =
 	e.model = "progs/player_qbj.mdl";
 
 	//TintScreen(e,0);
-	csf_clear(e, 70);
+	csf_clear(e, 110);
 }
 
 // --------------------------------
@@ -207,7 +207,7 @@ void() void_func_touch =
 	//	other.customflags = not(other.customflags, CFL_PLUNGE);
 		
 		//TintScreenColor(other, 255, self.fadecolor);
-		csf_set(other, 255, self.fadecolor, 70);
+		csf_set(other, 255, self.fadecolor, 110);
 
 		other.velocity = '0 0 0';
 		other.solid = SOLID_NOT;
@@ -328,7 +328,7 @@ void() void_fallthink =
 	plummet = min( ceil( plummet * 255 ), 255);
 	
 	//TintScreenColor(self.enemy, plummet, self.fadecolor);
-	csf_set(self.enemy, plummet, self.fadecolor, 70);
+	csf_set(self.enemy, plummet, self.fadecolor, 110);
 	
 	self.nextthink = time + 0.0333;
 }
