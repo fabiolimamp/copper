@@ -1484,7 +1484,7 @@ void() trigger_textstory_touch = {
 	// don't show message if another player is already triggering it
 	if (other != self.enemy && self.state == 1) return;
 
-	if (!isInAngle(other.v_angle, self.angles, self.view_ofs))
+	if (!isInAngle(other.v_angle, self.mangle, self.view_ofs))
 		return;
 
 	if (!self.pain_finished) {
@@ -1546,7 +1546,10 @@ You can set it to be show the message only when the player is facing a certain a
 */
 void() trigger_textstory = {
 	if (!SUB_ShouldSpawn()) return;
-	
+
+	// InitTrigger clears the angles field so we use another field instead
+	self.mangle = self.angles;
+
 	InitTrigger();
 	self.touch = trigger_textstory_touch;
 

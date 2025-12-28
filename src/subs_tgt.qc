@@ -176,7 +176,13 @@ void() SUB_PrintMessage =
 	// print the message
 	if (activator.classname == "player")
 	{
-		centerprintlocal(activator, msg);
+		if (self.spawnflags & 4194304){
+			sprintlocal (activator, msg);
+			sprintlocal (activator, "\n");
+		}
+		else {
+			centerprintlocal(activator, msg);
+		}
 		
 		// non-triggers might play the noise themselves (buttons, etc)
 		if (self.noise == string_null && (self.solid == SOLID_TRIGGER || self.solid == SOLID_NOT) && self.sounds != -1)
@@ -189,7 +195,13 @@ void() SUB_PrintMessage =
 		client = nextent(world);
 		while (client.flags & FL_CLIENT)
 		{
-			centerprint (client, msg);
+			if (self.spawnflags & 4194304){
+				sprint (client, msg);
+				sprint (client, "\n");
+			}
+			else
+				centerprint (client, msg);
+
 			if (self.noise == string_null && (self.solid == SOLID_TRIGGER || self.solid == SOLID_NOT))
 				sound (client, CHAN_VOICE, "misc/talk.wav", 1, ATTN_NORM);
 			if (!coop) break;

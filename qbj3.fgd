@@ -654,6 +654,9 @@ Alt Target Pattern: 'target' when touched, 'target2' when fully depressed, 'targ
 	message(string) : "message to display when triggered"
 	message2(string) : "replaces 'message' when the mapvar set via 'mapvar_message' is on"
 	mapvar_message(integer) : "mapvar ID for message field toggling"
+	spawnflags(Flags) = [
+		4194304 : "Print to console" : 0
+	]
 ]
 @baseclass base(Trigger, TriggerSounds, Angle, Mapvar) = TriggerMulti
 [

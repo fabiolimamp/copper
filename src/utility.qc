@@ -18,6 +18,30 @@ void(string s, string ss, string sss, string ssss, string sssss) dprint5 =
 	{ dprint(s); dprint(ss); dprint(sss); dprint(ssss); dprint(sssss); }
 
 
+void(entity who, string s) sprintlocal =
+{
+	entity e;
+	vector dir;
+	e = nextent(world);
+		
+	while (e.flags & FL_CLIENT)
+	{
+		if (e == who)
+		{
+			sprint(e, s);
+		}
+		else
+		{
+			dir = e.origin - who.origin;
+			dir = normalize(dir);
+			traceline(who.origin, who.origin + dir * 500, TRUE, who);
+			if (trace_ent == e)
+				sprint(e, s);
+		}
+		e = nextent(e);
+	}
+}
+
 void(entity who, string s) centerprintlocal =
 {
 	entity e;
