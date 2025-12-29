@@ -211,8 +211,7 @@ void() SoldierMissile =
 	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
 	makevectors(self.angles);
 	
-	dir = (enemy_vispos() + '0 0 10') - self.origin + enemy_aim_vertical();
-	dir = normalize(dir);
+	dir = normalize(self.dest + '0 0 10');
 	
 	// if player has strafed around behind, don't lob the missile out of our ass
 	if (angledif(self.ideal_yaw, self.angles_y) > 80)
@@ -243,12 +242,6 @@ void() MissileHome =
 	{
 		ShalMissileExplode();
 		return;
-	}       
-	if (!alive(self.enemy))
-	{
-		self.think = SoldierMissileExplode;
-		self.nextthink = self.lifetime_finished;
-		return;
 	}
 	
 	self.angles = vectoangles(self.velocity);
@@ -257,6 +250,27 @@ void() MissileHome =
 	
 	self.think = MissileHome;
 	self.nextthink = time + SHAL_BALL_THINK_RATE;
+	
+	current_speed = vlen(self.velocity);
+	target_speed = SOLDIER_MISSILE_VEL;
+	
+	// accelerates by doubling the speed every tick
+	if (current_speed < target_speed)
+	{
+		speed_percent = current_speed / target_speed;
+		acceleration = speed_percent;
+		speed_percent = speed_percent + acceleration;
+		current_speed = min(target_speed, speed_percent * target_speed);
+	}
+	
+	// if enemy is dead, just fly straight at current speed
+	if (!alive(self.enemy))
+	{
+		self.velocity = normalize(self.velocity) * current_speed;
+		self.oldvelocity = self.velocity;
+		return;
+	}
+	
 	rate = SOLDIER_MISSILE_TURN_RATE;
 	dot = normalize(self.velocity) * normalize(self.enemy.origin - self.origin);
 	
@@ -267,23 +281,12 @@ void() MissileHome =
 	if (!self.lip)
 		self.lip = 1.2;
 	
+	// homing behavior
 	if (!has_invis(self.enemy))
 	{
 		if (dot > 0)
 		{
 			rate *= max(1, 1.5 * (1 - dot));
-		}
-		
-		current_speed = vlen(self.velocity);
-		target_speed = SOLDIER_MISSILE_VEL;
-		
-		// accelerates by doubling the speed every tick
-		if (current_speed < target_speed)
-		{
-			speed_percent = current_speed / target_speed;
-			acceleration = speed_percent;
-			speed_percent = speed_percent + acceleration;
-			current_speed = min(target_speed, speed_percent * target_speed);
 		}
 		
 		// turn rate decreases over time (from 100% to 75%)
@@ -293,6 +296,12 @@ void() MissileHome =
 		if (self.lip > 0)
 			self.lip -= 0.05;
 	}
+	else
+	{
+		// weak homing when player has ring
+		self.velocity = current_speed * ShalTurnToward(self.enemy.origin, rate * 0.5);
+	}
+	
 	self.oldvelocity = self.velocity;   
 }
 //=============================================================================
