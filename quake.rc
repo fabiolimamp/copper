@@ -38,6 +38,8 @@ alias idkfa "impulse 9"
 alias keys "impulse 99"
 alias toggle_custom_crosshair "impulse 17"
 
+alias gohome "changelevel start"
+
 // stuff command line statements
 stuffcmds
 
