@@ -31,7 +31,8 @@ float() weaponanim_wrench =
 	if (self.attack_finished > time)
 		return FALSE;
 
-	sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
+	//sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
+	sound (self, CHAN_OTHER, "impact/wrench_swing.wav", 1, ATTN_NORM);
 	SuperDamageSound();
 	
 	self.attack_finished = time + 0.8;
@@ -84,12 +85,13 @@ void() weaponanim_draw_wrench =
 	self.nextthink = time + 0.033;
 }
 
-
+/*
 void() wrench_hitsound =
 {
 	if (random() < 0.5)	sound (self, CHAN_WEAPON, "weapons/axhit1.wav", 1, ATTN_NORM);
 	else			sound (self, CHAN_WEAPON, "weapons/axhit2.wav", 1, ATTN_NORM);
 }
+*/
 //=============================================================================================
 
 void(float wrenchhit_volume) sound_wrench_hit_enemy =
@@ -114,8 +116,9 @@ void(float meleehit_volume) sound_melee_hit_player =
 
 void(float wrenchclank_volume) sound_wrench_hit_world =
 {
-	if (random() < 0.5)	sound (self, CHAN_AUTO, "impact/wrench_clank1.wav", wrenchclank_volume, ATTN_NORM);
-	else			sound (self, CHAN_AUTO, "impact/wrench_clank2.wav", wrenchclank_volume, ATTN_NORM);
+	sound (self, CHAN_AUTO, "impact/wrench_clink.wav", wrenchclank_volume, ATTN_NORM);
+	//if (random() < 0.5)	sound (self, CHAN_AUTO, "impact/wrench_clank1.wav", wrenchclank_volume, ATTN_NORM);
+	//else			sound (self, CHAN_AUTO, "impact/wrench_clank2.wav", wrenchclank_volume, ATTN_NORM);
 }
 
 //=============================================================================================

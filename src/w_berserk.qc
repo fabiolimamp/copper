@@ -75,7 +75,8 @@ float() weaponanim_berserk =
 	if (self.attack_finished > time)
 		return FALSE;
 
-	sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
+	//sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
+	sound (self, CHAN_OTHER, "impact/wrench_swing.wav", 1, ATTN_NORM);
 	
 	self.attack_finished = time + 0.5;
 		

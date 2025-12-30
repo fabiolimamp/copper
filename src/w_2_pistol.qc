@@ -449,6 +449,7 @@ void() weaponanim_twirlpistol =
 		return;
 	
 	sound (self, CHAN_OTHER, "weapons/ax1.wav", 1, ATTN_NORM);
+	//sound (self, CHAN_OTHER, "impact/wrench_swing.wav", 1, ATTN_NORM);
 
 	if (self.weaponframe >= 66 && self.weaponframe <= 80)
 		self.weaponframe = 68;

@@ -42,8 +42,10 @@ void() W_Precache =
 	precache_sound ("impact/wrench_impact2.wav");
 	precache_sound ("impact/wrench_impact3.wav");
 	precache_sound ("impact/wrench_impact4.wav");
-	precache_sound ("impact/wrench_clank1.wav");
-	precache_sound ("impact/wrench_clank2.wav");
+	precache_sound ("impact/wrench_swing.wav");
+	precache_sound ("impact/wrench_clink.wav");
+	//precache_sound ("impact/wrench_clank1.wav");
+	//precache_sound ("impact/wrench_clank2.wav");
 	precache_sound ("impact/hit_player1.wav");
 	precache_sound ("impact/hit_player2.wav");
 	precache_sound ("impact/hit_player3.wav");
