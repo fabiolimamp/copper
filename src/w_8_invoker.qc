@@ -31,8 +31,6 @@ float() weaponanim_invoker =
 		return FALSE;
 	}
 	
-	SUB_CallAsSelf(player_shot1, self.animcontroller);
-
 	sound (self, CHAN_AUTO, "invoker/magic21.wav", 1, ATTN_NORM);
 	sound (self, CHAN_AUTO, "invoker/magic26.wav", 1, ATTN_NORM);
 		
@@ -135,6 +133,8 @@ void() weaponanim_idle_invoker_loop =
 
 void() W_FireInvoker =
 {
+	SUB_CallAsSelf(player_shot1, self.animcontroller);
+	
 	sound(self, CHAN_AUTO, "invoker/invoker_firerail.wav", 1, ATTN_NORM);
 	
 	sound(self, CHAN_AUTO, "invoker/magic08.wav", 1, ATTN_NORM);

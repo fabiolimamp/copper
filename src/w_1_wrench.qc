@@ -46,6 +46,10 @@ float() weaponanim_wrench =
 	// converts weaponframe to a 0-4 integer selector for the player animation
 	//player_axe_start(self.animcontroller, (self.weaponframe - 1)/20);
 	
+	
+	SUB_CallAsSelf(player_wrench1, self.animcontroller);
+	
+	
 	self.think = weaponanim_wrench_loop;
 	self.nextthink = time + 0.05;
 

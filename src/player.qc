@@ -296,7 +296,7 @@ void()	player_shot2 =	[$shotatt2, player_shot3	] {self.owner.frame = self.frame;
 void()	player_shot3 =	[$shotatt3, player_shot4	] {self.owner.frame = self.frame;}
 void()	player_shot4 =	[$shotatt4, player_shot5	] {self.owner.frame = self.frame;}
 void()	player_shot5 =	[$shotatt5, player_shot6	] {self.owner.frame = self.frame;}
-void()	player_shot6 =	[$shotatt6, player_run	] {self.owner.frame = self.frame;}
+void()	player_shot6 =	[$shotatt6, player_run		] {self.owner.frame = self.frame;}
 
 void() player_nail1   =[$nailatt1, player_nail2 ] {self.owner.frame = self.frame;};
 void() player_nail2   =[$nailatt2, player_nail1 ] {self.owner.frame = self.frame;};
@@ -307,11 +307,20 @@ void() player_rockatt2	=[$rockatt2, player_rockatt3 ] {self.owner.frame = self.f
 void() player_rockatt3	=[$rockatt3, player_rockatt4 ] {self.owner.frame = self.frame;};
 void() player_rockatt4	=[$rockatt4, player_rockatt5 ] {self.owner.frame = self.frame;};
 void() player_rockatt5	=[$rockatt5, player_rockatt6 ] {self.owner.frame = self.frame;};
-void() player_rockatt6	=[$rockatt6, player_run ] {self.owner.frame = self.frame;};
+void() player_rockatt6	=[$rockatt6, player_rockatt7 ] {self.owner.frame = self.frame;};
+void() player_rockatt7	=[$rockatt6, player_run ] {self.owner.frame = self.frame;};
 
 
 void() player_light1 = [$light1, player_light2  ] {self.owner.frame = self.frame;}
 void() player_light2 = [$light2, player_light1  ] {self.owner.frame = self.frame;}
+
+
+void()	player_wrench1 =[$axatt1, player_wrench2	] {self.owner.frame = self.frame;}
+void()	player_wrench2 =[$axatt2, player_wrench3	] {self.owner.frame = self.frame;}
+void()	player_wrench3 =[$axatt3, player_wrench4	] {self.owner.frame = self.frame;}
+void()	player_wrench4 =[$axatt4, player_wrench5	] {self.owner.frame = self.frame;}
+void()	player_wrench5 =[$axatt5, player_wrench6	] {self.owner.frame = self.frame;}
+void()	player_wrench6 =[$axatt6, player_run		] {self.owner.frame = self.frame;}
 
 
 //=================================================================================================

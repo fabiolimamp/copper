@@ -82,6 +82,10 @@ float() weaponanim_berserk =
 		
 	// converts weaponframe to a 0-4 integer selector for the player animation
 	//player_axe_start(self.animcontroller, (self.weaponframe - 1)/10);
+	
+	
+	SUB_CallAsSelf(player_wrench1, self.animcontroller);
+	
 		
 	if (self.weaponframe >= 0
 	 && self.weaponframe <= 70)
