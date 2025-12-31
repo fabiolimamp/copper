@@ -462,6 +462,7 @@ void() worldspawn =
 	precache_model ("progs/player_qbj.mdl");
 	precache_model ("progs/eyes.mdl");
 	precache_model ("progs/h_player.mdl");
+	precache_model ("progs/gibs/gibhead_rover.mdl");
 
 	
 	precache_model("progs/fx/invoked_player.mdl");

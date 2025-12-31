@@ -565,7 +565,8 @@ void() GibPlayer =
 		else
 			sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NONE);
 	}
-	GibSpray ("progs/h_player.mdl", self.health);
+	//GibSpray ("progs/h_player.mdl", self.health);
+	Gib ("progs/gibs/gibhead_rover.mdl", self.health);
 }
 
 void() PlayGibSound =
