@@ -127,7 +127,6 @@ void() W_Precache =
 	
 	//=============================================================================================
 											// 7 MissileL	
-	precache_model ("progs/proj_minigrenade.mdl");
 	precache_model ("progs/proj_missile.mdl");	
 	precache_sound ("mmml/fire1.wav");
 	precache_sound ("mmml/fire2.wav");
