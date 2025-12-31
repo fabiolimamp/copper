@@ -206,60 +206,66 @@ void(float type, vector pos) Hud_DrawAmmoCount =
 	}
 };
 
-void Hud_DrawHead(vector pos)
+void Hud_DrawHealthIcon(vector pos)
 {
-	float h, f;
-	string headpic;
-		
-	h = 5 - floor(stat_health/20);
-	if (h < 1) h = 1;
-	if (h > 5) h = 5;
+	float row, col;
 	
-	f = (stat_items & (IT_QUAD|IT_INVULNERABILITY|IT_INVISIBILITY)) / IT_INVISIBILITY;
-	switch(f)
+	// Determine row: 0 = normal, 1 = overhealed
+	row = (stat_health > 100) ? 1 : 0;
+	
+	// Determine column based on health thresholds
+	if (row == 1) {
+		// Overhealed thresholds
+		if (stat_health >= 200) col = 0;
+		else if (stat_health >= 189) col = 1;
+		else if (stat_health >= 179) col = 2;
+		else if (stat_health >= 169) col = 3;
+		else if (stat_health >= 159) col = 4;
+		else if (stat_health >= 149) col = 5;
+		else if (stat_health >= 139) col = 6;
+		else if (stat_health >= 129) col = 7;
+		else if (stat_health >= 119) col = 8;
+		else col = 9;
+	}
+	else {
+		// Normal thresholds
+		if (stat_health >= 100) col = 0;
+		else if (stat_health >= 89) col = 1;
+		else if (stat_health >= 79) col = 2;
+		else if (stat_health >= 69) col = 3;
+		else if (stat_health >= 59) col = 4;
+		else if (stat_health >= 49) col = 5;
+		else if (stat_health >= 39) col = 6;
+		else if (stat_health >= 29) col = 7;
+		else if (stat_health >= 19) col = 8;
+		else col = 9;
+	}
+	
+	// Draw base face from sprite sheet
+	drawsubpic(pos, '24 24', "health_icons", [col/11, row/3], [1/11, 1/3], '1 1 1', 1, 0);
+	
+	// Layer 200+ overheal icon (third row of health_icons)
+	if (stat_health > 200)
 	{
-	case 1:
-		headpic = "face_invis";
-		break;
-	case 2:
-		headpic = "face_invul2";
-		break;
-	case 3:
-		headpic = "face_inv2";
-		break;
-	case 8:
-		headpic = "face_quad";
-		break;
-	case 9:
-		headpic = "face_invisquad";
-		break;
-	case 10:
-		headpic = "face_invulquad";
-		break;
-	case 11:
-		headpic = "face_allpups";
-		break;
-	default:
-		if (time < paintime + 0.2)
+		drawsubpic(pos, '24 24', "health_icons", [0, 2/3], [1/11, 1/3], '1 1 1', 1, 0);
+	}
+	
+	float hurtTime = time - paintime;
+	if (hurtTime < 0.5)  // 5 frames at 10fps = 0.5 seconds
+	{
+		float hurtFrame = floor(hurtTime * 10);  // 10fps, frames 0-4
+		if (hurtFrame < 5)
 		{
-			headpic = strcat("face_p", ftos(h));
-		}
-		else
-		{
-			headpic = strcat("face", ftos(h));
-			/*
-			if (time > paintime + 1.2)
-			{	// peer left and right
-				f = floor(time * 2 + lookseed);
-				if (f % 23 == 0 || f % 17 == 0)
-					headpic = strcat(headpic,"_l");
-				else if (f % 29 == 0 || f % 11 == 0)
-					headpic = strcat(headpic,"_r");				
-			}
-			*/
+			drawsubpic(pos, '24 24', "health_pain", [hurtFrame/5, 0], [1/5, 1], '1 1 1', 1, 0);
 		}
 	}
-	drawpic(pos, headpic, '24 24', '1 1 1', 1, 0);
+	
+	// Layer pentagram overlay if player has invulnerability
+	if (stat_items & IT_INVULNERABILITY)
+	{
+		float frame = floor(mod(time * 10, 5));  // 10fps, 5 frames (0-4)
+		drawsubpic(pos, '24 24', "health_pent", [frame/5, 0], [1/5, 1], '1 1 1', 1, 0);
+	}
 }
 
 void Hud_DrawArmorIcon(vector pos)
@@ -307,7 +313,7 @@ void Hud_DrawSBar(vector pos)
 
 	value = clampf(stat_health, 999);
 
-	//Hud_DrawHead(pos + '112 0');
+	Hud_DrawHealthIcon(pos + '112 0');
 	Hud_DrawLargeValue(pos+'208 0', value, 25);
 
 	value = clampf(getstatf(STAT_ARMOR), 999);
@@ -402,15 +408,57 @@ void(float wnum, vector pos, float sel) Hud_DrawWeapon
 	vector sz;
 	float fram;
 	
-	fram = HUD_FlashTime(weaponbits[wnum]);
-	if (sel && fram == 0) fram = 1;	// selected weapon glow
-	
-	sz = '24 16';
-	if (wnum == 7) sz = '48 16';
-	
-	string pic = strcat(weaponflash[fram], weaponlabel[wnum]);
-	
-	drawpic(pos, pic, sz, '1 1 1', 1, 0);
+	// Special handling for lightning gun
+	if (wnum == 7)
+	{
+		sz = '24 16';
+		
+		float flashTime = HUD_FlashTime(weaponbits[wnum]);
+		
+		if (flashTime > 0)
+		{
+			// Just picked up - play through frames 2-5 twice
+			float t = time - itemtimes[weaponbits[wnum]];
+			float totalFrames = floor(t * 10);  // 10fps
+			
+			if (totalFrames < 8)  // 8 frames = 2 loops through 4 frames (2-5)
+			{
+				fram = 2 + (totalFrames % 4);  // cycle through 2-5
+			}
+			else if (sel)
+			{
+				fram = 1;  // Selected after animation
+			}
+			else
+			{
+				fram = 0;  // Unequipped after animation
+			}
+		}
+		else if (sel)
+		{
+			// Selected
+			fram = 1;
+		}
+		else
+		{
+			// Unequipped
+			fram = 0;
+		}
+		
+		drawsubpic(pos, sz, "invoker_tab", [0, fram/6], [1, 1/6], '1 1 1', 1, 0);
+	}
+	else
+	{
+		// Normal weapon handling
+		fram = HUD_FlashTime(weaponbits[wnum]);
+		if (sel && fram == 0) fram = 1;	// selected weapon glow
+		
+		sz = '24 16';
+		
+		string pic = strcat(weaponflash[fram], weaponlabel[wnum]);
+		
+		drawpic(pos, pic, sz, '1 1 1', 1, 0);
+	}
 };
 
 void Hud_DrawSigils(vector pos)
@@ -471,14 +519,56 @@ void Hud_DrawSigilsSmall(vector pos)
 	}
 }
 
+float last_pistol_ammo;
+float pistol_fire_time[2];
+float pistol_fire_ammo[2]; // probably a cleaner way to do this, sorry - fw
+float current_casing_slot;
+float last_active_weapon;
+
+void() Hud_CheckPistolFire =
+{
+	float current_ammo = getstatf(STAT_AMMO);
+	float current_weapon = getstatf(STAT_ACTIVEWEAPON);
+	
+	// detect ammo decrease (pistol fired) - but only if we were already holding the pistol
+	if (current_ammo < last_pistol_ammo && current_weapon == IT_SHOTGUN && last_active_weapon == IT_SHOTGUN)
+	{
+		pistol_fire_time[current_casing_slot] = time;
+		pistol_fire_ammo[current_casing_slot] = current_ammo;
+		current_casing_slot = 1 - current_casing_slot;  // alternate between 0 and 1 so the aniamtion aint cut off
+	}
+	
+	last_pistol_ammo = current_ammo;
+	last_active_weapon = current_weapon;
+};
+
 void Hud_DrawPistolBullets(vector pos)
 {
 	float i, amt;
-	if (getstatf(STAT_RELOADPERC)) {
-		amt = rint(getstatf(STAT_RELOADPERC)*10);
+	float isReloading = getstatf(STAT_RELOADPERC);
+	
+	if (isReloading) {
+		amt = rint(isReloading*10);
 		for (i = 0; i < amt; i++)
 		{
 			drawpic(pos + '72 0' - ('8 0'*i), "gfx/bullit", '8 24', '1 1 1', 1, 0);
+		}
+		
+		float timeSinceFire, casingFrame;
+		vector casingPos;
+		
+		for (i = 0; i < 2; i++)
+		{
+			timeSinceFire = time - pistol_fire_time[i];
+			if (timeSinceFire < 0.4)	// 8 frames at 20fps = 0.4 seconds
+			{
+				casingFrame = floor(timeSinceFire * 20);
+				if (casingFrame < 8)
+				{
+					casingPos = pos + '72 -8' - ('8 0'*pistol_fire_ammo[i]);
+					drawsubpic(casingPos, '32 56', "casing", [casingFrame/8, 0], [1/8, 1], '1 1 1', 1, 0);
+				}
+			}
 		}
 
 		return;
@@ -489,7 +579,20 @@ void Hud_DrawPistolBullets(vector pos)
 	{
 		drawpic(pos + '72 0' - ('8 0'*i), "gfx/bullit", '8 24', '1 1 1', 1, 0);
 	}
-
+	
+	for (i = 0; i < 2; i++)
+	{
+		timeSinceFire = time - pistol_fire_time[i];
+		if (timeSinceFire < 0.4)	// 8 frames at 20fps = 0.4 seconds
+		{
+			casingFrame = floor(timeSinceFire * 20);
+			if (casingFrame < 8)
+			{
+				casingPos = pos + '72 -8' - ('8 0'*pistol_fire_ammo[i]);
+				drawsubpic(casingPos, '32 56', "casing", [casingFrame/8, 0], [1/8, 1], '1 1 1', 1, 0);
+			}
+		}
+	}
 }
 
 void Hud_DrawMultiplayerSwatch(vector pos, float p)
@@ -677,7 +780,7 @@ void Hud_DrawModernLeft(vector pos, float expanded)
 	float value;
 	pos += '0 -24';
 	value = clampf(stat_health, 999);
-	//Hud_DrawHead(pos);
+	Hud_DrawHealthIcon(pos);
 	Hud_DrawLargeValue(pos + '100 0', value, 25);
 	
 	if (stat_items & IT_INVULNERABILITY || getstatf(STAT_ARMOR) > 0)
@@ -825,6 +928,7 @@ void() HUD_UpdateStats =
 	scr_tintcolor_y = getstatf(STAT_TINTCOLOR_G);
 	scr_tintcolor_z = getstatf(STAT_TINTCOLOR_B);
 	stat_items_qbj = getstatf(STAT_ITEMS_QBJ);
+	Hud_CheckPistolFire();
 		
 	skill = cvar("skill");
 	// gl_cshiftpercent isn't native to OG quake, so the cvar call fails and returns 0 
@@ -1111,22 +1215,30 @@ void() Hud_Init
 	precache_pic("face5_l", TRUE);
 	precache_pic("face5_r", TRUE);
 	*/
-	precache_pic("face_invis", TRUE);
-	precache_pic("face_inv2", TRUE);
-	precache_pic("face_invul2", TRUE);
-	precache_pic("face_quad", TRUE);
-	precache_pic("face_invulquad", TRUE);
-	precache_pic("face_invisquad", TRUE);
-	precache_pic("face_allpups", TRUE);
-	precache_pic("sb_armor1", TRUE);
-	precache_pic("sb_armor2", TRUE);
-	precache_pic("sb_armor3", TRUE);
+	//precache_pic("face_invis", TRUE);
+	//precache_pic("face_inv2", TRUE);
+	//precache_pic("face_invul2", TRUE);
+	//precache_pic("face_quad", TRUE);
+	//precache_pic("face_invulquad", TRUE);
+	//precache_pic("face_invisquad", TRUE);
+	//precache_pic("face_allpups", TRUE);
+	//precache_pic("sb_armor1", TRUE);
+	//precache_pic("sb_armor2", TRUE);
+	//precache_pic("sb_armor3", TRUE);
+
+	precache_pic("health_icons", TRUE);
+	precache_pic("health_pain", TRUE);
+	precache_pic("health_pent", TRUE);
 	//precache_pic("sb_armor666", TRUE);
 
 	precache_pic("sb_shells", TRUE);
 	precache_pic("sb_cells", TRUE);
 	precache_pic("sb_nails", TRUE);
 	precache_pic("sb_rocket", TRUE);
+
+	precache_pic("invoker_tab", TRUE);
+
+	precache_pic("casing", TRUE);
 	
 	//precache_pic("sb_teams", TRUE);
 	
