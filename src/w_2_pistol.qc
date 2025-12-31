@@ -103,7 +103,7 @@ void() weaponanim_draw_pistol =
 {		
 	sound (self, CHAN_AUTO, "pistol/gun_click.wav", 0.25, ATTN_NORM);	// Pistol draw sfx
 	
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.1, ATTN_NORM);
+	sound (self, CHAN_AUTO, "misc/draw1.wav", 0.1, ATTN_NORM);
 	
 	self.weaponframe = 1;
 	

@@ -190,8 +190,8 @@ void() W_Precache =
 	precache_model ("progs/s_blood_64x.spr");
 								
 	//=============================================================================================
-											// Ammo / Draw
-	precache_sound ("ammo/draw1.wav");
+											// Misc
+	precache_sound ("misc/draw1.wav");
 	
 	//=============================================================================================	
 
@@ -211,7 +211,7 @@ void() W_Precache =
 
 void() weaponanim_draw =
 {		
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.1, ATTN_NORM);
+	sound (self, CHAN_AUTO, "misc/draw1.wav", 0.1, ATTN_NORM);
 	
 	self.weaponframe = 1;
 	

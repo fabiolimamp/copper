@@ -216,7 +216,7 @@ void() W_FireBerserk =
 
 void() weaponanim_draw_berserker =
 {		
-	sound (self, CHAN_AUTO, "ammo/draw1.wav", 0.1, ATTN_NORM);
+	sound (self, CHAN_AUTO, "misc/draw1.wav", 0.1, ATTN_NORM);
 	
 	self.weaponframe = 1;
 	
