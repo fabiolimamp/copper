@@ -207,73 +207,85 @@ void(float type, vector pos) Hud_DrawAmmoCount =
 };
 
 float display_health;
+float display_armor;
+
+float display_health;
+float display_armor;
+
+void(vector pos, string spritePath, float currentValue) Hud_DrawProgressIcon =
+{
+    // determine which row and column to use
+    float col, row;
+    if (currentValue > 200)
+    {
+        row = 0;
+        col = 19 - floor((currentValue - 200) / 50.0 * 20);
+        if (col < 0) col = 0;
+    }
+    else if (currentValue > 100)
+    {
+        row = 1;
+        col = 19 - floor((currentValue - 100) / 100.0 * 20);
+        if (col < 0) col = 0;
+    }
+    else
+    {
+        row = 2;
+        col = 19 - floor(currentValue / 101.0 * 20);
+        if (col < 0) col = 0;
+    }
+    drawsubpic(pos, '24 24', spritePath, [0, 3/4], [1/20, 1/4], '1 1 1', 1, 0);
+    drawsubpic(pos, '24 24', spritePath, [col/20, row/4], [1/20, 1/4], '1 1 1', 1, 0);
+}
 
 void Hud_DrawHealthIcon(vector pos)
 {
-	// lerp display_health towards actual health
-	display_health = display_health + (stat_health - display_health) * 0.15;
-
-	if (display_health < 0) display_health = 0;
-	if (display_health > 250) display_health = 250;
-	
-	// background cross
-	drawsubpic(pos, '24 24', "health_icons", [0, 3/4], [1/20, 1/4], '1 1 1', 1, 0);
-	
-	// define which cross we're using
-	float col, row;
-	if (display_health > 200)
-	{
-		row = 0; //double-overheal
-		col = 19 - floor((display_health - 200) / 50.0 * 20);
-		if (col < 0) col = 0;
-	}
-	else if (display_health > 100)
-	{
-		row = 1; // overheal
-		col = 19 - floor((display_health - 100) / 100.0 * 20);
-		if (col < 0) col = 0;
-	}
-	else
-	{
-		row = 2; // normal hp
-		col = 19 - floor(display_health / 100.0 * 20);
-		if (col < 0) col = 0;
-	}
-
-	drawsubpic(pos, '24 24', "health_icons", [col/20, row/4], [1/20, 1/4], '1 1 1', 1, 0);
-	
-	float hurtTime = time - paintime;
-	if (hurtTime < 0.5)
-	{
-		float hurtFrame = floor(hurtTime * 10);
-		if (hurtFrame < 5)
-		{
-			drawsubpic(pos, '24 24', "health_pain", [hurtFrame/5, 0], [1/5, 1], '1 1 1', 1, 0);
-		}
-	}
-
-	if (stat_items & IT_INVULNERABILITY)
-	{
-		float frame = floor(mod(time * 10, 5));
-		drawsubpic(pos, '24 24', "health_pent", [frame/5, 0], [1/5, 1], '1 1 1', 1, 0);
-	}
+    display_health = display_health + (stat_health - display_health) * 0.15;
+    if (display_health < 0) display_health = 0;
+    if (display_health > 250) display_health = 250;
+    
+    Hud_DrawProgressIcon(pos, "health_icons", display_health);
+    
+    // pain animation overlay
+    float hurtTime = time - paintime;
+    if (hurtTime < 0.5)
+    {
+        float hurtFrame = floor(hurtTime * 10);
+        if (hurtFrame < 5)
+        {
+            drawsubpic(pos, '24 24', "health_pain", [hurtFrame/5, 0], [1/5, 1], '1 1 1', 1, 0);
+        }
+    }
+    
+    // pent
+    if (stat_items & IT_INVULNERABILITY)
+    {
+        float frame = floor(mod(time * 10, 5));
+        drawsubpic(pos, '24 24', "health_pent", [frame/5, 0], [1/5, 1], '1 1 1', 1, 0);
+    }
 }
 
 void Hud_DrawArmorIcon(vector pos)
 {
-	float armor = getstatf(STAT_ARMOR);
-	
-	//if (stat_items & IT_INVULNERABILITY)
-	//{
-	//	drawpic(pos, "sb_armor666", '24 24', '1 1 1', 1, 0);
-	//}
-	//else
-	if (armor >= 100)
-		drawpic(pos, "sb_armor3", '24 24', '1 1 1', 1, 0);
-	else if (armor >= 50)
-		drawpic(pos, "sb_armor2", '24 24', '1 1 1', 1, 0);
-	else if (armor > 0)
-		drawpic(pos, "sb_armor1", '24 24', '1 1 1', 1, 0);
+    float armor = getstatf(STAT_ARMOR);
+    
+    if (armor < 1) return;
+    
+    display_armor = display_armor + (armor - display_armor) * 0.15;
+    if (display_armor < 0) display_armor = 0;
+    if (display_armor > 250) display_armor = 250;
+    
+    Hud_DrawProgressIcon(pos, "armor_icons", display_armor);
+    
+    float hurtTime = time - paintime;
+    if (hurtTime < 0.5)
+    {
+        float hurtFrame = floor(hurtTime * 10);
+        if (hurtFrame < 5)
+        {
+            drawsubpic(pos, '24 24', "armor_pain", [hurtFrame/5, 0], [1/5, 1], '1 1 1', 1, 0);
+        }
+    }
 }
 
 void Hud_DrawCurrentAmmoIcon(vector pos)
@@ -1231,7 +1243,9 @@ void() Hud_Init
 	//precache_pic("sb_armor3", TRUE);
 
 	precache_pic("health_icons", TRUE);
+	precache_pic("armor_icons", TRUE);
 	precache_pic("health_pain", TRUE);
+	precache_pic("armor_pain", TRUE);
 	precache_pic("health_pent", TRUE);
 	//precache_pic("sb_armor666", TRUE);
 
