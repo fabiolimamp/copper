@@ -88,7 +88,7 @@ void(vector pos) Hud_DrawLevelInfoBar =
 	string s;
 	float w, kw, gap;
 
-	drawpic(pos, "scorebar", '320 24', '1 1 1', baralpha, 0);
+	drawpic(pos, "w_scorebar", '344 24', '1 1 1', baralpha, 0);
 
 	s = strcat(world.message, " (", mapname, ")");
 	Hud_ScrollTextBox(pos, 8, 4, 304, 8, 16, s);
@@ -178,7 +178,7 @@ float(vector pos, float value, float left = FALSE, float zeropad = 0) Hud_DrawTi
 		i--;
 		c = stof(substring(s, i, 1));
 
-		drawsubpic(pos + i*'4 0', '4 8', "gfx/mininumbers", [c/12, 0], [1/12, 1], '1 1 1', 1, 0);
+		drawsubpic(pos + i*'4 0', '4 8', "gfx/tnums", [(c+1)/12, 0], [1/12, 1], '1 1 1', 1, 0);
 	}
 
 	return len;
@@ -206,64 +206,55 @@ void(float type, vector pos) Hud_DrawAmmoCount =
 	}
 };
 
+float display_health;
+
 void Hud_DrawHealthIcon(vector pos)
 {
-	float row, col;
+	// lerp display_health towards actual health
+	display_health = display_health + (stat_health - display_health) * 0.15;
+
+	if (display_health < 0) display_health = 0;
+	if (display_health > 250) display_health = 250;
 	
-	// Determine row: 0 = normal, 1 = overhealed
-	row = (stat_health > 100) ? 1 : 0;
+	// background cross
+	drawsubpic(pos, '24 24', "health_icons", [0, 3/4], [1/20, 1/4], '1 1 1', 1, 0);
 	
-	// Determine column based on health thresholds
-	if (row == 1) {
-		// Overhealed thresholds
-		if (stat_health >= 200) col = 0;
-		else if (stat_health >= 189) col = 1;
-		else if (stat_health >= 179) col = 2;
-		else if (stat_health >= 169) col = 3;
-		else if (stat_health >= 159) col = 4;
-		else if (stat_health >= 149) col = 5;
-		else if (stat_health >= 139) col = 6;
-		else if (stat_health >= 129) col = 7;
-		else if (stat_health >= 119) col = 8;
-		else col = 9;
-	}
-	else {
-		// Normal thresholds
-		if (stat_health >= 100) col = 0;
-		else if (stat_health >= 89) col = 1;
-		else if (stat_health >= 79) col = 2;
-		else if (stat_health >= 69) col = 3;
-		else if (stat_health >= 59) col = 4;
-		else if (stat_health >= 49) col = 5;
-		else if (stat_health >= 39) col = 6;
-		else if (stat_health >= 29) col = 7;
-		else if (stat_health >= 19) col = 8;
-		else col = 9;
-	}
-	
-	// Draw base face from sprite sheet
-	drawsubpic(pos, '24 24', "health_icons", [col/11, row/3], [1/11, 1/3], '1 1 1', 1, 0);
-	
-	// Layer 200+ overheal icon (third row of health_icons)
-	if (stat_health > 200)
+	// define which cross we're using
+	float col, row;
+	if (display_health > 200)
 	{
-		drawsubpic(pos, '24 24', "health_icons", [0, 2/3], [1/11, 1/3], '1 1 1', 1, 0);
+		row = 0; //double-overheal
+		col = 19 - floor((display_health - 200) / 50.0 * 20);
+		if (col < 0) col = 0;
 	}
+	else if (display_health > 100)
+	{
+		row = 1; // overheal
+		col = 19 - floor((display_health - 100) / 100.0 * 20);
+		if (col < 0) col = 0;
+	}
+	else
+	{
+		row = 2; // normal hp
+		col = 19 - floor(display_health / 100.0 * 20);
+		if (col < 0) col = 0;
+	}
+
+	drawsubpic(pos, '24 24', "health_icons", [col/20, row/4], [1/20, 1/4], '1 1 1', 1, 0);
 	
 	float hurtTime = time - paintime;
-	if (hurtTime < 0.5)  // 5 frames at 10fps = 0.5 seconds
+	if (hurtTime < 0.5)
 	{
-		float hurtFrame = floor(hurtTime * 10);  // 10fps, frames 0-4
+		float hurtFrame = floor(hurtTime * 10);
 		if (hurtFrame < 5)
 		{
 			drawsubpic(pos, '24 24', "health_pain", [hurtFrame/5, 0], [1/5, 1], '1 1 1', 1, 0);
 		}
 	}
-	
-	// Layer pentagram overlay if player has invulnerability
+
 	if (stat_items & IT_INVULNERABILITY)
 	{
-		float frame = floor(mod(time * 10, 5));  // 10fps, 5 frames (0-4)
+		float frame = floor(mod(time * 10, 5));
 		drawsubpic(pos, '24 24', "health_pent", [frame/5, 0], [1/5, 1], '1 1 1', 1, 0);
 	}
 }
@@ -302,37 +293,33 @@ void Hud_DrawPistolBullets(vector pos);
 void Hud_DrawSBar(vector pos)
 {
 	float value;
-	
-	// Use different sbar graphic when pistol is equipped
-	//FIXME: ptoiiiingggg
 
-	//if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN)
-		//drawpic(pos, "w_sbar_pistol", '320 24', '1 1 1', baralpha, 0);
-	//else
-		drawpic(pos, "w_sbar", '320 24', '1 1 1', baralpha, 0);
+	if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN)
+		drawpic(pos, "w_sbar_pistol", '344 24', '1 1 1', baralpha, 0);
+	else if (getstatf(STAT_ACTIVEWEAPON == IT_AXE))
+		drawpic(pos, "w_sbar_blank", '344 24', '1 1 1', baralpha, 0);
+	else
+		drawpic(pos, "w_sbar", '344 24', '1 1 1', baralpha, 0);
 
 	value = clampf(stat_health, 999);
 
-	Hud_DrawHealthIcon(pos + '112 0');
-	Hud_DrawLargeValue(pos+'208 0', value, 25);
+	Hud_DrawHealthIcon(pos + '116 0');
+	Hud_DrawLargeValue(pos+'220 0', value, 25);
 
 	value = clampf(getstatf(STAT_ARMOR), 999);
-	Hud_DrawArmorIcon(pos + '1 0');
+	Hud_DrawArmorIcon(pos + '4 0');
 	if (stat_items & IT_INVULNERABILITY)
-		Hud_DrawLargeValue(pos + '96 0', 666, 999);
+		Hud_DrawLargeValue(pos + '108 0', 666, 999);
 	else
-		Hud_DrawLargeValue(pos + '96 0', value, 25);
+		Hud_DrawLargeValue(pos + '108 0', value, 25);
 
 	value = clampf(getstatf(STAT_AMMO), 999);
 
-	if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN)
-		//Hud_DrawPistolBullets(pos+'218 0');
-
-		//moved aside to fix in the normal hud
-		Hud_DrawPistolBullets(pos+'238 0');
+	if (getstatf(STAT_ACTIVEWEAPON) == IT_SHOTGUN) Hud_DrawPistolBullets(pos+'244 0');
+	else if (getstatf(STAT_ACTIVEWEAPON) == IT_AXE) drawpic(pos+'296 0', "infinite", '40 24', '1 1 1', baralpha, 0);
 	else {
-		Hud_DrawCurrentAmmoIcon(pos + '211 0');
-		Hud_DrawLargeValue(pos+'320 0', value, 10);
+		Hud_DrawCurrentAmmoIcon(pos + '228 0');
+		Hud_DrawLargeValue(pos+'332 0', value, 10);
 	}
 }
 
@@ -403,62 +390,65 @@ float Hud_DrawKeys(vector pos, float it)
 	return n + 1;
 }
 
-void(float wnum, vector pos, float sel) Hud_DrawWeapon
+void(float wnum, vector pos, float sel) Hud_DrawWeaponModern
 {
-	vector sz;
-	float fram;
-	
-	// Special handling for lightning gun
-	if (wnum == 7)
-	{
-		sz = '24 16';
-		
-		float flashTime = HUD_FlashTime(weaponbits[wnum]);
-		
-		if (flashTime > 0)
-		{
-			// Just picked up - play through frames 2-5 twice
-			float t = time - itemtimes[weaponbits[wnum]];
-			float totalFrames = floor(t * 10);  // 10fps
-			
-			if (totalFrames < 8)  // 8 frames = 2 loops through 4 frames (2-5)
-			{
-				fram = 2 + (totalFrames % 4);  // cycle through 2-5
-			}
-			else if (sel)
-			{
-				fram = 1;  // Selected after animation
-			}
-			else
-			{
-				fram = 0;  // Unequipped after animation
-			}
-		}
-		else if (sel)
-		{
-			// Selected
-			fram = 1;
-		}
-		else
-		{
-			// Unequipped
-			fram = 0;
-		}
-		
-		drawsubpic(pos, sz, "invoker_tab", [0, fram/6], [1, 1/6], '1 1 1', 1, 0);
-	}
-	else
-	{
-		// Normal weapon handling
-		fram = HUD_FlashTime(weaponbits[wnum]);
-		if (sel && fram == 0) fram = 1;	// selected weapon glow
-		
-		sz = '24 16';
-		
-		string pic = strcat(weaponflash[fram], weaponlabel[wnum]);
-		
-		drawpic(pos, pic, sz, '1 1 1', 1, 0);
-	}
+    vector sz;
+    float fram;
+    
+    if (wnum == 7)
+    {
+        sz = '24 16';
+        
+        float flashTime = HUD_FlashTime(weaponbits[wnum]);
+        
+        if (flashTime > 0)
+        {
+            float t = time - itemtimes[weaponbits[wnum]];
+            float totalFrames = floor(t * 10);
+            
+            if (totalFrames < 8)
+            {
+                fram = 2 + (totalFrames % 4);
+            }
+            else if (sel)
+            {
+                fram = 1;
+            }
+            else
+            {
+                fram = 0;
+            }
+        }
+        else if (sel) fram = 1;
+        else fram = 0;
+        
+        drawsubpic(pos, sz, "invoker_tab", [0, fram/6], [1, 1/6], '1 1 1', 1, 0);
+    }
+    else
+    {
+        // normal weapon handling
+        fram = HUD_FlashTime(weaponbits[wnum]);
+        if (sel && fram == 0) fram = 1; // selected weapon glow
+        
+        sz = '24 16';
+        
+        string pic = strcat(weaponflash[fram], weaponlabel[wnum]);
+        
+        drawpic(pos, pic, sz, '1 1 1', 1, 0);
+    }
+};
+
+void(float wnum, vector pos, float sel) Hud_DrawWeaponClassic
+{
+    vector sz;
+    float fram;
+    
+    fram = HUD_FlashTime(weaponbits[wnum]);
+	if (sel && fram == 0) fram = 1;	// selected weapon glow
+	sz = '24 16';
+	if (wnum == 7) sz = '48 16';
+	string pic = strcat(weaponflash[fram], weaponlabel[wnum]);
+	drawpic(pos, pic, sz, '1 1 1', 1, 0);
 };
 
 void Hud_DrawSigils(vector pos)
@@ -497,25 +487,25 @@ void Hud_DrawSigilsSmall(vector pos)
 	{
 		if (time < itemtimes[23] + 1.5) pulse = 1.2 - 2 * ((time - itemtimes[23]) % 0.5);
 		else pulse = 1;
-		drawpic(pos, "sb_sigilsm1", '8 8', '1 1 1', pulse, 0);
+		drawpic(pos, "w_sb_sigil1", '8 8', '1 1 1', pulse, 0);
 	}
 	if (stat_items2 & 64)
 	{
 		if (time < itemtimes[24] + 1.5) pulse = 1.2 - 2 * ((time - itemtimes[24]) % 0.5);
 		else pulse = 1;
-		drawpic(pos + '9 0', "sb_sigilsm2", '8 8', '1 1 1', pulse, 0);
+		drawpic(pos + '9 0', "w_sb_sigil2", '8 8', '1 1 1', pulse, 0);
 	}
 	if (stat_items2 & 128)
 	{
 		if (time < itemtimes[25] + 1.5) pulse = 1.2 - 2 * ((time - itemtimes[25]) % 0.5);
 		else pulse = 1;
-		drawpic(pos + '16 0', "sb_sigilsm3", '8 8', '1 1 1', pulse, 0);
+		drawpic(pos + '16 0', "w_sb_sigil3", '8 8', '1 1 1', pulse, 0);
 	}
 	if (stat_items2 & 256)
 	{
 		if (time < itemtimes[26] + 1.5) pulse = 1.2 - 2 * ((time - itemtimes[26]) % 0.5);
 		else pulse = 1;
-		drawpic(pos + '24 0', "sb_sigilsm4", '8 8', '1 1 1', pulse, 0);
+		drawpic(pos + '24 0', "w_sb_sigil4", '8 8', '1 1 1', pulse, 0);
 	}
 }
 
@@ -670,14 +660,14 @@ void Hud_DrawMultiplayer(vector pos, vector offset, float width)
 
 void Hud_DrawIBarWeapons(vector pos)
 {
-	float currweap = getstatf(STAT_ACTIVEWEAPON);
-	float i;
-	pos_y += 8;
-	for (i = 0; i < 7; i++)
-	{
-		if (stat_items & weaponflags[i+1])
-			Hud_DrawWeapon(i+1, pos + '24 0' * i, (currweap == weaponflags[i+1]));
-	}
+    float currweap = getstatf(STAT_ACTIVEWEAPON);
+    float i;
+    pos_y += 8;
+    for (i = 0; i < 8; i++)
+    {
+        if (stat_items & weaponflags[i])
+            Hud_DrawWeaponClassic(i, pos + '24 0' * i, (currweap == weaponflags[i]));
+    }
 }
 
 void Hud_DrawIBarPowerups(vector pos)
@@ -698,23 +688,30 @@ void Hud_DrawIBarPowerups(vector pos)
 
 void Hud_DrawIBarLevelStats(vector pos)
 {
-
-	//void(vector pos, float value, float left = FALSE, float zeropad = 0)
-	float ret;
-
-	drawpic(pos + '4 1', "gfx/icon_kills", '8 8', '1 1 1', 1, 0);
-
-	vector offs = '13 1';
-	ret = Hud_DrawTinyValue(pos + offs, getstatf(STAT_MONSTERS), TRUE);
-	drawsubpic(pos + offs + [ret*4, 0] , '4 8', "gfx/mininumbers", [10/12, 0], [1/12, 1], '1 1 1', 1, 0);
-	Hud_DrawTinyValue(pos + offs + [ret*4 + 4, 0], getstatf(STAT_TOTALMONSTERS), TRUE);
-
-	drawpic(pos + '56 1', "gfx/icon_secrets", '8 8', '1 1 1', 1, 0);
-	
-	offs = '65 1';
-	ret = Hud_DrawTinyValue(pos + offs, getstatf(STAT_SECRETS), TRUE);
-	drawsubpic(pos + offs + [ret*4, 0], '4 8', "gfx/mininumbers", [10/12, 0], [1/12, 1], '1 1 1', 1, 0);
-	Hud_DrawTinyValue(pos + offs + [ret*4 + 4, 0], getstatf(STAT_TOTALSECRETS), TRUE);
+    float ret, totalret, totalWidth;
+    vector offs;
+    
+    ret = strlen(ftos(floor(getstatf(STAT_MONSTERS))));
+    totalret = strlen(ftos(floor(getstatf(STAT_TOTALMONSTERS))));
+    totalWidth = ret*4 + 4 + totalret*4 + 1 + 8;
+    
+    offs = [12 - totalWidth, 1];
+    
+    Hud_DrawTinyValue(pos + offs, getstatf(STAT_MONSTERS), TRUE);
+    drawsubpic(pos + offs + [ret*4, 0], '4 8', "gfx/tnums", [11/12, 0], [1/12, 1], '1 1 1', 1, 0);  // slash
+    Hud_DrawTinyValue(pos + offs + [ret*4 + 4, 0], getstatf(STAT_TOTALMONSTERS), TRUE);
+    drawsubpic(pos + offs + [ret*4 + 4 + totalret*4 + 1, 0], '8 8', "gfx/icons_ks", [0, 0], [1, 1/2], '1 1 1', 1, 0);
+    
+    ret = strlen(ftos(floor(getstatf(STAT_SECRETS))));
+    totalret = strlen(ftos(floor(getstatf(STAT_TOTALSECRETS))));
+    totalWidth = ret*4 + 4 + totalret*4 + 1 + 8;
+    
+    offs = [56 - totalWidth, 1];
+    
+    Hud_DrawTinyValue(pos + offs, getstatf(STAT_SECRETS), TRUE);
+    drawsubpic(pos + offs + [ret*4, 0], '4 8', "gfx/tnums", [11/12, 0], [1/12, 1], '1 1 1', 1, 0);  // slash
+    Hud_DrawTinyValue(pos + offs + [ret*4 + 4, 0], getstatf(STAT_TOTALSECRETS), TRUE);
+    drawsubpic(pos + offs + [ret*4 + 4 + totalret*4 + 1, 0], '8 8', "gfx/icons_ks", [0, 1/2], [1, 1/2], '1 1 1', 1, 0);
 }
 
 void Hud_DrawIBar(vector pos)
@@ -722,29 +719,29 @@ void Hud_DrawIBar(vector pos)
 	if (baralpha < 1.0)
 	{
 		// put these behind the solid bar bc they have an outline
-		drawpic(pos + '32 0',  "sb_shells", '12 12', '1 1 1', 1, 0);
-		drawpic(pos + '80 0',  "sb_nails", '12 12', '1 1 1', 1, 0);
-		drawpic(pos + '128 0', "sb_rocket", '12 12', '1 1 1', 1, 0);
-		drawpic(pos + '176 0', "sb_cells", '12 12', '1 1 1', 1, 0);
+	drawsubpic(pos + '60 0',  '8 16', "gfx/icons_ammo", [0, 0], [1/4, 1], '1 1 1', 1, 0);
+	drawsubpic(pos + '108 0',  '8 16', "gfx/icons_ammo", [1/4, 0], [1/4, 1], '1 1 1', 1, 0);
+	drawsubpic(pos + '156 0', '8 16', "gfx/icons_ammo", [2/4, 0], [1/4, 1], '1 1 1', 1, 0);
+	drawsubpic(pos + '204 0', '8 16', "gfx/icons_ammo", [3/4, 0], [1/4, 1], '1 1 1', 1, 0);
 	}
-	drawpic(pos, "ibar", '320 24', '1 1 1', baralpha, 0);
+	drawpic(pos, "w_ibar", '344 24', '1 1 1', baralpha, 0);
 	
-	Hud_DrawAmmoCount(0, pos + '10 0');
-	Hud_DrawAmmoCount(1, pos + '58 0');
-	Hud_DrawAmmoCount(2, pos + '106 0');
-	Hud_DrawAmmoCount(3, pos + '154 0');
+	Hud_DrawAmmoCount(0, pos + '34 0');
+	Hud_DrawAmmoCount(1, pos + '82 0');
+	Hud_DrawAmmoCount(2, pos + '130 0');
+	Hud_DrawAmmoCount(3, pos + '178 0');
 
 	Hud_DrawIBarWeapons(pos);
-	Hud_DrawKeys(pos + '192 8', IT_KEY1);
-	Hud_DrawKeys(pos + '208 8', IT_KEY2);
+	Hud_DrawKeys(pos + '216 8', IT_KEY1);
+	Hud_DrawKeys(pos + '232 8', IT_KEY2);
 
-	Hud_DrawIBarPowerups(pos + '224 8');
-	Hud_DrawSigilsSmall(pos + '288 0');
+	Hud_DrawIBarPowerups(pos + '248 8');
+	Hud_DrawSigilsSmall(pos + '312 0');
 		
-	//if (!coop && !deathmatch)
-	//	Hud_DrawIBarLevelStats(pos + '192 0');
-	//else
-	//	Hud_DrawMultiplayer(pos + '192 0', '32 0', MP_NARROW);
+	if (!coop && !deathmatch)
+		Hud_DrawIBarLevelStats(pos + '253 -1');
+	else
+		Hud_DrawMultiplayer(pos + '192 0', '32 0', MP_NARROW);
 };
 
 // ================================================================
@@ -871,9 +868,9 @@ void Hud_DrawModernWeapons(vector pos)
 		if (stat_items & weaponflags[i])
 		{
 			if (currweap == weaponflags[i])
-				Hud_DrawWeapon(i, pos + '-24 0', TRUE);
+				Hud_DrawWeaponModern(i, pos + '-24 0', TRUE);
 			else
-				Hud_DrawWeapon(i, pos + '-16 0', FALSE);
+				Hud_DrawWeaponModern(i, pos + '-16 0', FALSE);
 		}
 		pos += '0 16';
 	}
@@ -1028,7 +1025,7 @@ void(vector screensize, float scoreboard) CSQC_DrawHud =
 		
 		if (scoreboard || stat_health <= 0)
 		{
-			Hud_DrawLevelInfoBar([screensize_x / 2, screensize_y] - '160 24');
+			Hud_DrawLevelInfoBar([screensize_x / 2, screensize_y] - '172 24');
 			if (deathmatch)
 			{
 				Hud_DrawRankings([screensize_x / 2 - 160, screensize_y / 2 - 120]);
@@ -1056,17 +1053,19 @@ void(vector screensize, float scoreboard) CSQC_DrawHud =
 	{
 		pos = screensize;
 		pos_x = screensize_x / 2;
+
+		if (exp)
+			Hud_DrawIBar(pos - '172 48');
+
 		if (scoreboard || stat_health <= 0)
 		{
-			Hud_DrawLevelInfoBar(pos - '160 24');
+			Hud_DrawLevelInfoBar(pos - '172 24');
 			if (coop || deathmatch)
 				Hud_DrawRankings([screensize_x / 2 - 160, screensize_y / 2 - 120]);
 		}
 		else
-			Hud_DrawSBar(pos - '160 24');
+			Hud_DrawSBar(pos - '172 24');
 		
-		if (exp)
-			Hud_DrawIBar(pos - '160 48');
 	}
 	
 };
@@ -1191,6 +1190,7 @@ void() Hud_Init
 	//precache_pic("gfx/mininumbers", TRUE);
 	//precache_pic("gfx/icon_kills", TRUE);
 	//precache_pic("gfx/icon_secrets", TRUE);
+	precache_pic("gfx/icons_ks", TRUE);
 	
 	
 	precache_pic("gfx/sb_mkey1", TRUE);
@@ -1201,7 +1201,11 @@ void() Hud_Init
 	precache_pic("gfx/sb_bkey2", TRUE);
 
 	precache_pic("w_sbar", TRUE);
+	precache_pic("w_ibar", TRUE);
 	precache_pic("w_sbar_pistol", TRUE);
+	precache_pic("w_sbar_blank", TRUE);
+	precache_pic("w_scorebar", TRUE);
+	precache_pic("gfx/tnums", TRUE);
 	/*
 	// looking left and right frames - art not complete yet
 	precache_pic("face1_l", TRUE);
@@ -1235,6 +1239,13 @@ void() Hud_Init
 	precache_pic("sb_cells", TRUE);
 	precache_pic("sb_nails", TRUE);
 	precache_pic("sb_rocket", TRUE);
+	precache_pic("icons_ammo", TRUE);
+	precache_pic("infinite", TRUE);
+
+	precache_pic("w_sb_sigil1", TRUE);
+	precache_pic("w_sb_sigil2", TRUE);
+	precache_pic("w_sb_sigil3", TRUE);
+	precache_pic("w_sb_sigil4", TRUE);
 
 	precache_pic("invoker_tab", TRUE);
 
