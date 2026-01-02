@@ -209,29 +209,26 @@ void(float type, vector pos) Hud_DrawAmmoCount =
 float display_health;
 float display_armor;
 
-float display_health;
-float display_armor;
-
 void(vector pos, string spritePath, float currentValue) Hud_DrawProgressIcon =
 {
     // determine which row and column to use
     float col, row;
-    if (currentValue > 200)
+    if (currentValue >= 201)  // Changed to >= 201
     {
         row = 0;
-        col = 19 - floor((currentValue - 200) / 50.0 * 20);
+        col = 19 - floor((currentValue - 201) / 50.0 * 20);  // Changed to - 201
         if (col < 0) col = 0;
     }
-    else if (currentValue > 100)
+    else if (currentValue >= 101)
     {
         row = 1;
-        col = 19 - floor((currentValue - 100) / 100.0 * 20);
+        col = 19 - floor((currentValue - 101) / 100.0 * 20);
         if (col < 0) col = 0;
     }
     else
     {
         row = 2;
-        col = 19 - floor(currentValue / 101.0 * 20);
+        col = 19 - floor(currentValue / 101.0 * 20);  // 0-100 inclusive
         if (col < 0) col = 0;
     }
     drawsubpic(pos, '24 24', spritePath, [0, 3/4], [1/20, 1/4], '1 1 1', 1, 0);
@@ -285,6 +282,12 @@ void Hud_DrawArmorIcon(vector pos)
         {
             drawsubpic(pos, '24 24', "armor_pain", [hurtFrame/5, 0], [1/5, 1], '1 1 1', 1, 0);
         }
+    }
+    
+    // disc overlay when invulnerable
+    if (stat_items & IT_INVULNERABILITY)
+    {
+        drawpic(pos, "disc", '24 24', '1 1 1', 1, 0);
     }
 }
 
@@ -1247,6 +1250,7 @@ void() Hud_Init
 	precache_pic("health_pain", TRUE);
 	precache_pic("armor_pain", TRUE);
 	precache_pic("health_pent", TRUE);
+	precache_pic("disc", TRUE);
 	//precache_pic("sb_armor666", TRUE);
 
 	precache_pic("sb_shells", TRUE);
