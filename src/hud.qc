@@ -1056,7 +1056,7 @@ void(vector screensize, float scoreboard) CSQC_DrawHud =
 		else
 		{
 			Hud_DrawModernLeft([margin, screensize_y - margin], exp);
-			Hud_DrawModernCenter([screensize_x / 2, screensize_y - margin], exp);
+			Hud_DrawModernCenter([screensize_x / 2, screensize_y], exp);
 			Hud_DrawModernRight([screensize_x - margin, screensize_y - margin], exp);
 		}
 		if (exp)
@@ -1252,7 +1252,7 @@ void() Hud_Init
 	precache_pic("health_pain", TRUE);
 	precache_pic("armor_pain", TRUE);
 	precache_pic("health_pent", TRUE);
-	precache_pic("disc", TRUE);
+	precache_pic("armor_pent", TRUE);
 	//precache_pic("sb_armor666", TRUE);
 
 	precache_pic("sb_shells", TRUE);
