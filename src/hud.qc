@@ -284,10 +284,11 @@ void Hud_DrawArmorIcon(vector pos)
         }
     }
     
-    // disc overlay when invulnerable
+    // pent
     if (stat_items & IT_INVULNERABILITY)
     {
-        drawpic(pos, "disc", '24 24', '1 1 1', 1, 0);
+        float frame = floor(mod(time * 10, 5));
+        drawsubpic(pos, '24 24', "armor_pent", [frame/5, 0], [1/5, 1], '1 1 1', 1, 0);
     }
 }
 
