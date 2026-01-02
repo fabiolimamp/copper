@@ -327,6 +327,7 @@ void()	player_wrench6 =[$axatt6, player_run		] {self.owner.frame = self.frame;}
 
 void(entity cl) PainSound = {
 	float		rs;
+	float r;
 
 	if (cl.health < 0)
 		return;
@@ -340,8 +341,6 @@ void(entity cl) PainSound = {
 	if (cl.watertype == CONTENT_WATER && cl.waterlevel >= 3 && !has_biosuit(cl))
 	{
 		DeathBubbles(1);
-
-		float r;
 		r = random() * 6;
 
 		if (r < 1)
@@ -366,11 +365,11 @@ void(entity cl) PainSound = {
 	{
 		r = random() * 4;
 
-		if (r < 1)
+		if (rs < 1)
 			sound (cl, CHAN_VOICE, "player/player_burn1.wav", 1, ATTN_NORM);
-		else if (r < 2)
+		else if (rs < 2)
 			sound (cl, CHAN_VOICE, "player/player_burn2.wav", 1, ATTN_NORM);
-		else if (r < 3)
+		else if (rs < 3)
 			sound (cl, CHAN_VOICE, "player/player_burn3.wav", 1, ATTN_NORM);
 		else
 			sound (cl, CHAN_VOICE, "player/player_burn4.wav", 1, ATTN_NORM);
@@ -422,14 +421,14 @@ void(entity cl) PainSound = {
 	return;
 }
 
-void()	player_pain1 =	[	$pain1,	player_pain2	] {PainSound(self.owner);self.owner.frame = self.frame;}
+void()	player_pain1 =	[	$pain1,	player_pain2	] {self.owner.frame = self.frame;}
 void()	player_pain2 =	[	$pain2,	player_pain3	] {self.owner.frame = self.frame;}
 void()	player_pain3 =	[	$pain3,	player_pain4	] {self.owner.frame = self.frame;}
 void()	player_pain4 =	[	$pain4,	player_pain5	] {self.owner.frame = self.frame;}
 void()	player_pain5 =	[	$pain5,	player_pain6	] {self.owner.frame = self.frame;}
 void()	player_pain6 =	[	$pain6,	player_run	] {self.owner.frame = self.frame;}
 
-void()	player_axpain1 =	[	$axpain1,	player_axpain2	] {PainSound(self.owner);self.owner.frame = self.frame;}
+void()	player_axpain1 =	[	$axpain1,	player_axpain2	] {self.owner.frame = self.frame;}
 void()	player_axpain2 =	[	$axpain2,	player_axpain3	] {self.owner.frame = self.frame;}
 void()	player_axpain3 =	[	$axpain3,	player_axpain4	] {self.owner.frame = self.frame;}
 void()	player_axpain4 =	[	$axpain4,	player_axpain5	] {self.owner.frame = self.frame;}
@@ -438,6 +437,8 @@ void()	player_axpain6 =	[	$axpain6,	player_run	] {self.owner.frame = self.frame;
 
 void(entity attacker, float damage) player_pain =
 {
+	PainSound(self);
+
 	if (self.weaponframe)
 		return;
 
