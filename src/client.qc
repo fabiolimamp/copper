@@ -1364,8 +1364,8 @@ void() WaterMove =
 			else
 				sound (self, CHAN_BODY, "player/inh2o.wav", 1, ATTN_NORM);
 		}
-		else if (self.watertype == CONTENT_SLIME)
-			sound (self, CHAN_BODY, "player/slimbrn2.wav", 1, ATTN_NORM);
+		//else if (self.watertype == CONTENT_SLIME)
+			//sound (self, CHAN_BODY, "player/slimbrn2.wav", 1, ATTN_NORM);
 
 		self.flags = self.flags + FL_INWATER;
 		self.dmgtime = 0;

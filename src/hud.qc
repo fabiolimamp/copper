@@ -852,6 +852,7 @@ void Hud_DrawModernRight(vector pos, float expanded)
 			//Hud_DrawLargeValue(pos + '-32 -24', clampf(getstatf(STAT_AMMO), 999), 3);
 			Hud_DrawPistolBullets(pos + '-80 -24');
 		}
+		else if (getstatf(STAT_ACTIVEWEAPON) == IT_AXE) drawpic(pos+'-32 -24 0', "infinite", '40 24', '1 1 1', baralpha, 0);
 		else
 		{
 			Hud_DrawCurrentAmmoIcon(pos + '-24 -24');
