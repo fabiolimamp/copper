@@ -173,6 +173,10 @@ void() W_Precache =
 	precache_model ("progs/fx/spark2.mdl");
 	precache_model ("progs/fx/spark3.mdl");
 	precache_model ("progs/fx/spark4.mdl");
+	precache_model ("progs/fx/spark_laser1.mdl");
+	precache_model ("progs/fx/spark_laser2.mdl");
+	precache_model ("progs/fx/spark_laser3.mdl");
+	precache_model ("progs/fx/spark_laser4.mdl");
 	precache_model ("progs/fx/blood1.mdl");
 	precache_model ("progs/fx/blood2.mdl");
 	precache_model ("progs/fx/blood3.mdl");

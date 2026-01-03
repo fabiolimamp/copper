@@ -33,6 +33,7 @@ float FX_BULLET		= 4;
 float FX_NAIL		= 8;
 float FX_SPARK		= 16;
 float FX_CHAINS		= 32;
+float FX_SPARK_LASER	= 64;
 
 void(float impact_type, vector impact_org, vector dir) FX_Impact =
 {
@@ -86,6 +87,13 @@ void(float impact_type, vector impact_org, vector dir) FX_Impact =
 	else if (impact_type == FX_CHAINS)	// invoked hit
 	{
 		setmodel (fx, "progs/fx/invoked_chain.mdl");
+	}
+	else if (impact_type == FX_SPARK_LASER)	// blue sparks for enforcer
+	{
+		if 	(r == 0)	setmodel (fx, "progs/fx/spark_laser1.mdl");
+		else if (r == 1)	setmodel (fx, "progs/fx/spark_laser2.mdl");
+		else if (r == 2)	setmodel (fx, "progs/fx/spark_laser3.mdl");
+		else			setmodel (fx, "progs/fx/spark_laser4.mdl");
 	}
 	else	setmodel (fx, "progs/null.mdl");
 

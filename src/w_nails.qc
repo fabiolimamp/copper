@@ -372,6 +372,7 @@ void() spike_touch =
 		{
 			sound (self, CHAN_WEAPON, "enforcer/enfstop.wav", 1, ATTN_STATIC);
 			particle (self.origin, self.velocity*-0.01, 235, 15);
+			FX_Impact(FX_SPARK_LASER, self.origin, self.origin);
 		}
 	}
 	// nonsense for combining quad SNG spike damage
