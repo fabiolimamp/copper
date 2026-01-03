@@ -424,6 +424,7 @@ void() monster_dog =
 	precache_sound ("dog/dpain1.wav");
 	precache_sound ("dog/dsight.wav");
 	precache_sound ("dog/idle.wav");
+	precache_sound ("demon/dhit2.wav");
 
 	self.health = 35;
 	setsize (self, '-32 -32 -24', '32 32 40');
