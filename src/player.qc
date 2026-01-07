@@ -119,6 +119,9 @@ void()	play_footstep =
 	float rand = random();
 	float stepvol = .2;
 
+	if (self.onladder)
+		return;
+
 	if (self.owner.movetype == MOVETYPE_NOCLIP)
 		return;
 
