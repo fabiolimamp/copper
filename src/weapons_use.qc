@@ -141,7 +141,6 @@ void() W_Precache =
 	//=============================================================================================
 											// 8 Invoker	
 	precache_model ("progs/v_invoker.mdl");
-	precache_model ("progs/v_invoker_blue.mdl");
 	precache_model ("progs/proj_chain.mdl");
 	precache_sound ("invoker/invoker_firerail.wav");	
 	precache_sound ("invoker/magic07.wav");	
@@ -604,9 +603,6 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon =
 	
 	if (has_berserk(self) && weap == IT_AXE)
 		weapcl.model = "progs/v_berserk.mdl";
-		
-	if (has_quad(self) && weap == IT_LIGHTNING)
-		weapcl.model = "progs/v_invoker_blue.mdl";
 	
 	self.weaponmodel = weapcl.model;
 	

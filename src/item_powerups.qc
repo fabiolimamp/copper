@@ -124,11 +124,6 @@ void(entity h, float t) powerup_super_damage =
 	h.items |= IT_QUAD;
 	h.super_damage_finished = time + t;
 	h.super_time = 1;
-	
-	if (self.weapon == IT_LIGHTNING)
-		//CheckWeapon(IT_LIGHTNING, self);
-		W_ChangeWeapon(IT_LIGHTNING, FALSE);
-		//@ bmFbr FIXME idk how to make it force switching to blue version  :( Kebby_
 }
 
 /*
