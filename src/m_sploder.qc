@@ -332,9 +332,9 @@ void() SploderScream =
 	if(self.cnt <= 0)
 	{
 		if (self.style > 0)
-			sound (self, CHAN_VOICE, "sploder/sploder_scream.wav", 1, ATTN_NORM);
+			sound (self, CHAN_VOICE, "sploder/sploder_scream.wav", 0.5, ATTN_NORM);
 		else
-			sound (self, CHAN_VOICE, "sploder/sploder_scream2.wav", 1, ATTN_NORM);
+			sound (self, CHAN_VOICE, "sploder/sploder_scream2.wav", 0.5, ATTN_NORM);
 		self.cnt = 6;
 	}
 	else
