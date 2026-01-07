@@ -368,11 +368,11 @@ void(entity cl) PainSound = {
 	{
 		r = random() * 4;
 
-		if (rs < 1)
+		if (r < 1)
 			sound (cl, CHAN_VOICE, "player/player_burn1.wav", 1, ATTN_NORM);
-		else if (rs < 2)
+		else if (r < 2)
 			sound (cl, CHAN_VOICE, "player/player_burn2.wav", 1, ATTN_NORM);
-		else if (rs < 3)
+		else if (r < 3)
 			sound (cl, CHAN_VOICE, "player/player_burn3.wav", 1, ATTN_NORM);
 		else
 			sound (cl, CHAN_VOICE, "player/player_burn4.wav", 1, ATTN_NORM);
