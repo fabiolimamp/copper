@@ -19,6 +19,9 @@
 
 float() weaponanim_invoker = 
 {
+	if (has_quad(self))
+		return weaponanim_invoker_blue();
+	
 	if (self.attack_finished > time)
 		return FALSE;
 
@@ -333,3 +336,82 @@ void() rail_fade =
 	
 	self.cnt = self.cnt - 1;
 };
+
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+
+float() weaponanim_invoker_blue = 
+{
+	if (self.attack_finished > time)
+		return FALSE;
+
+	if (self.weaponframe >= 11 && self.weaponframe <= 94)
+		return FALSE;
+
+	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
+	{
+		W_ChangeWeapon(W_BestWeapon(), FALSE);
+		return FALSE;
+	}
+	
+	sound (self, CHAN_AUTO, "invoker/magic21.wav", 1, ATTN_NORM);
+	sound (self, CHAN_AUTO, "invoker/magic26.wav", 1, ATTN_NORM);
+		
+	self.weaponframe = 60;
+	self.think = weaponanim_invoker_blue_loop;
+	self.nextthink = time + 0.025;
+	
+	return TRUE;
+	
+	// Invoker Charge Time to Fire = 1.7 seconds, 40fps = 68 framesq
+	// Invoker Total Time Cooldown = 2.1 seconds, 40fps = 84 frames minimum
+	// Invoker weapon change lock (~80% charge)
+}
+//=============================================================================================
+
+void() weaponanim_invoker_blue_loop = 
+{
+	if (intermission) return;
+	
+	if (self.weaponframe == 41)	sound (self, CHAN_AUTO, "invoker/magic07.wav", 1, ATTN_NORM);
+	
+	if (self.weaponframe == 77)	sound (self, CHAN_AUTO, "invoker/energy_charge.wav", 1, ATTN_NORM);
+	
+	if (self.weaponframe >= 64 && self.weaponframe <= 94){
+		self.customflags |= CFL_WEAPONLOCK;
+		//dprint("locked\n");
+	}
+	else
+		self.customflags &~= CFL_WEAPONLOCK;
+
+	if (self.weaponframe == 78)
+	{		
+		self.currentammo = self.ammo_cells = self.ammo_cells - 1;
+		self.effects = self.effects | EF_MUZZLEFLASH;
+
+		SuperDamageSound();
+		W_FireInvoker();
+		
+		self.weaponframe++;
+	}
+
+	if (self.weaponframe >= 110)	// added post-fire + ready to fire --> idle padding
+	{
+		weaponanim_idle_invoker();
+		return;
+	}	
+	else	self.weaponframe++;
+
+	self.think = weaponanim_invoker_blue_loop;
+	self.nextthink = time + 0.025;
+}
