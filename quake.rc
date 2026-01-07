@@ -43,6 +43,8 @@ alias gohome "changelevel start"
 // stuff command line statements
 stuffcmds
 
+sv_protocol 999
+
 // start demos if not already running a server
 startdemos demo_c1 demo_c2 demo_c3 demo2 demo3
 
