@@ -1,0 +1,2562 @@
+/*
+==============================================================================
+
+CLIENT
+
+==============================================================================
+*/
+
+
+void() SetChangeParms =
+{
+	// mapvars are always passed down
+	parm13 = mapvars[0];
+	parm14 = mapvars[1];
+	parm15 = mapvars[2];
+	parm16 = mapvars[3];
+
+	if(reset_flag)
+	{
+		setspawnparms(self);
+		return;
+	}
+	
+
+	if (self.health <= 0)
+	{
+		SetNewParms ();
+		return;
+	}
+
+	// remove items
+	self.items = self.items - (self.items & (
+		IT_KEY1 | IT_KEY2 | 
+		IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD
+		) );
+	self.items_qbj = self.items_qbj - (self.items_qbj & (IT_VAMP | IT_BERSERK));
+	
+	// gung-ho players can run forward and grab weapons before other clients have
+	// finished connecting, causing them to miss out on the global distribution
+	// of that weapon in coop 1. since players can't actually have differing
+	// sets of weapons in coop 1 otherwise, we union existing players' weapon sets
+	// on connect to make sure nothing is missed and no late joins wind up gimped
+	// for the rest of the episode
+	if (coop == 1)
+	{
+		entity pl;
+		pl = nextent(world);
+		while (pl.flags & FL_CLIENT)
+		{
+			self.items |= pl.items & IT_WEAPONS;
+			pl = nextent(pl);
+		}		
+	}
+	
+	// cap super health
+	self.health = min(self.health, self.max_health);		
+	// bump the player up if he's below 50 <- pretty much the only 'autobalance' in quake
+	if (skill == 3)	// nightmare players get just enough not to crater
+		self.health = max(self.health, 10);
+	else
+		self.health = max(self.health, 50);
+	
+	parm1 = self.items;
+	parm2 = self.health;
+	parm3 = self.armorvalue;
+	// provide an ammo floor similar to the health floor on easy/medium
+	if (skill < 2 && self.ammo_shells < 24 && self.ammo_nails < 50) //FlakTax
+		parm4 = max(self.ammo_shells, floor((50 - self.ammo_nails) / 2));
+	else
+		parm4 = self.ammo_shells;
+	parm5 = self.ammo_nails;
+	parm6 = self.ammo_rockets;
+	parm7 = self.ammo_cells;
+	parm8 = self.weapon;
+	parm9 = self.armortype;
+	parm10 = self.items_qbj;
+}
+
+void() SetNewParms =
+{
+	parm1 = IT_SHOTGUN | IT_AXE;
+	parm2 = 100;
+	parm4 = 4; // Reduced from 24 to 4, Shotgun give +16
+	parm8 = IT_SHOTGUN;
+	parm3 = 0;
+	parm5 = 0;
+	parm6 = 0;
+	parm7 = 0;
+	parm9 = 0;
+//	parm10 = 0;
+
+	// Are map variables live?
+	if (mapvar_started) dprint("\b[CLIENT]\b LIVE Map Variables Detected\n");
+	else {
+		dprint("\b[CLIENT]\b RESETTING Map Variables\n");
+		// Reset map variables ready for use
+		parm13 = 0;
+		parm14 = 0;
+		parm15 = 0;
+		parm16 = 0;
+		mapvar_reset();
+	}
+
+	armor_set_type(self);
+}
+
+
+// COOP 1 ONLY
+// shells and nails are kept over on respawn
+void() SetCoopParms =
+{
+	parm1 = self.items & IT_WEAPONS;
+	parm2 = 100;
+	parm4 = max(16,self.ammo_shells); // Reduced from 24 to 16 for Co-op
+	if (parm1 & IT_SUPER_SHOTGUN)
+		parm8 = IT_SUPER_SHOTGUN;
+	else
+		parm8 = IT_SHOTGUN;
+
+	parm3 = 0;
+	parm5 = self.ammo_nails;
+	parm6 = 0;
+	parm7 = 0;
+	parm9 = 0;
+//	parm10 = 0;
+
+	armor_set_type(self);
+}
+
+void() DecodeLevelParms =
+{
+	float prev_mapvar_started;
+	prev_mapvar_started = mapvar_started;
+
+	//dprint("\b[CLIENT]\b Decode (Level) Parms\n");
+	// Map Variables are active (do not reset)
+	mapvar_started = TRUE;
+
+	if (world.model == "maps/start.bsp")
+		SetNewParms ();		// take away all stuff on starting new episode
+	
+	self.items = parm1;
+	self.health = parm2;
+	self.armorvalue = parm3;
+	self.ammo_shells = parm4;
+	self.ammo_nails = parm5;
+	self.ammo_rockets = parm6;
+	self.ammo_cells = parm7;
+	self.armortype = parm9;
+	self.items_qbj = parm10;
+	
+	//self.weapon = parm8;
+	W_ChangeWeapon(parm8, FALSE);
+
+	if (!prev_mapvar_started)
+	{
+		dprint("\b[CLIENT]\b Decode (Level) Parms\n");
+		mapvars[0] = parm13;
+		mapvars[1] = parm14;
+		mapvars[2] = parm15;
+		mapvars[3] = parm16;
+	}
+
+	armor_set_type(self);
+}
+
+// should this use localcmd()?
+void(entity client, string savename) autosave =
+{
+	// quake rerelease default behavior is to quicksave over s0,
+	// so just go ahead and do that in that engine for consistency
+	if (!isKex)
+	{
+		stuffcmd(client, "echo Autosaving...; wait; save ");
+		stuffcmd(client, savename);
+		stuffcmd(client, "\n");
+	}
+}
+
+// this is no longer called
+// too many ways to accidentally load into the wrong game or at the wrong time
+// especially because stuffcmd evaluates during demo playback
+/*
+void(entity client) autoload =
+{
+	if (autosavename == string_null) {bprint("no autosave\n");return;}
+	if (coop || deathmatch) {bprint("is mp\n");return;}
+	stuffcmd(client, "echo Loading last autosave...; wait; load ");
+	stuffcmd(client, autosavename);
+	stuffcmd(client, "\n");
+}
+*/
+
+
+/*
+=============================================================================
+
+PLAYER GAME EDGE FUNCTIONS
+
+=============================================================================
+*/
+
+entity() get_closest_client =
+{
+	if (coop == 0 || clients == 1)
+		return nextent(world);
+		
+	entity next, best;
+	float close, dist;
+	close = A_SHITLOAD;
+	next = nextent(world);
+	while (next.flags & FL_CLIENT)
+	{
+		dist = vlen(self.origin - next.origin);
+		if (dist < close)
+		{
+			best = next;
+			close = dist;
+		}
+		next = nextent(next);
+	}
+	return best;
+}
+
+entity(entity start) get_next_client =
+{
+	// nice trick from necros: clients are always the first entities after world
+	entity next;
+	next = nextent(start);
+	if (next.flags & FL_CLIENT == 0)
+		next = nextent(world);
+	return next;
+}
+
+/*
+================================
+transfer_keys
+take a player's keys and give them to other clients
+
+letting the player carry more than one of each key broke coop. keys don't vanish 
+when touched so the game doesn't break if a key gets lost through death/lava/disconnect,
+but a coop player could thus get a full load of keys within 15 frames by touching
+one of these eternal keys. changing one requires fixing the other in a different way.
+================================
+*/
+float() TransferKeys =
+{
+	if (!coop) return TRUE;
+	
+	float silver, gold, give;
+	entity recipient;	
+	
+	silver = key_count_silver(self);
+	gold = key_count_gold(self);
+	
+	// no keys
+	if (!silver && !gold)
+		return TRUE;
+
+	recipient = get_next_client(self);
+	// if it's coop in name only and we're the only client, recipient will be self right away
+	while (recipient != self)
+	{
+		if (silver > 0)
+		{
+			give = 16 - key_count_silver(recipient);
+			give = min(give, silver);
+			if (give)
+			{
+				if (recipient.items & IT_KEY1)
+				{
+					recipient.worldtype += give;
+				}
+				else
+				{
+					recipient.items |= IT_KEY1;
+					recipient.worldtype += give - 1;
+				}
+			
+				silver -= give;
+				key_take_silvers(self, give);
+				
+				sprint(recipient, "You got ");
+				if (give > 1)
+				{
+					sprint(recipient, ftos(give));
+					key_sprint_name(recipient, FALSE);
+					sprint(recipient, "s");
+				}
+				else
+				{
+					sprint(recipient, "the");
+					key_sprint_name(recipient, FALSE);
+				}
+				sprint(recipient, " from ");
+				sprint(recipient, self.netname);
+				sprint(recipient, "\n");
+				stuffcmd(recipient, "bf\n");
+				sound (recipient, CHAN_ITEM, key_sound(), 1, ATTN_NORM);
+			}
+		}
+		if (gold > 0)
+		{
+			give = 16 - key_count_gold(recipient);
+			give = min(give, gold);
+			if (give)
+			{
+				if (recipient.items & IT_KEY2)
+				{
+					recipient.worldtype += give * 16;
+				}
+				else
+				{
+					recipient.items |= IT_KEY2;
+					recipient.worldtype += (give - 1) * 16;
+				}
+			
+				gold -= give;
+				key_take_golds(self, give);
+				
+				sprint(recipient, "You got ");
+				if (give > 1)
+				{
+					sprint(recipient, ftos(give));
+					key_sprint_name(recipient, TRUE);
+					sprint(recipient, "s");
+				}
+				else
+				{
+					sprint(recipient, "the");
+					key_sprint_name(recipient, TRUE);
+				}
+				sprint(recipient, " from ");
+				sprint(recipient, self.netname);
+				sprint(recipient, "\n");
+				stuffcmd(recipient, "bf\n");
+				sound (recipient, CHAN_ITEM, key_sound(), 1, ATTN_NORM);
+			}
+		}
+		// no keys left, all given away
+		if (!silver && !gold)
+		{
+			self.worldtype = 0;
+			self.items = not(self.items, IT_KEY1|IT_KEY2);
+			return TRUE;
+		}
+		
+		recipient = get_next_client(recipient);
+	}
+	// we didn't give all the keys away, either all other players are full or we're the
+	// only dude left on the server
+	self.worldtype = silver + gold * 16;
+	return FALSE;
+	// just leave the rest in our own inventory and we'll respawn with them ourselves
+	
+	// keys can still be 'lost' from the server in the following way:
+	// if someone makes a map for copper (possible) with more than 15 of the same key in 
+	// it (unlikely) and coop players (very unlikely) pick them all up and then
+	// someone disconnects such that there isn't enough room in all other players' 
+	// combined inventories for them (infinitesimal), the remainder have nowhere to go
+	// and vanish with the disconnecting player
+}
+
+void() set_respawn_delay =
+{
+	self.lifetime_finished = time + 1;
+	
+	if (coop != 1 || gameover || mapname == "start") return;
+	
+	if (clientsAlive)
+	{
+		bprint ("5 seconds added to respawn delay\n");
+		coop_time = max(time + 6, coop_time + 5);
+	}
+	else
+	{
+		bprint ("All players have died\n");
+		coop_time = time + 2;
+	}
+
+}
+
+void() clear_respawning_flag_do =
+{
+	dprint("RESPAWNING flag cleared\n");
+	serverflags = not(serverflags, SVFL_RESPAWNING);
+	remove(self);
+}
+
+void() clear_respawning_flag =
+{
+	entity e = spawn();
+	e.think = clear_respawning_flag_do;
+	e.nextthink = 2;
+}
+
+// restart the level
+void() restart =
+{
+	//localcmd ("restart\n");
+	
+	// preach's runefix:
+	// put serverflags back to map's initial setting
+	serverflags = startingserverflags | SVFL_RESPAWNING;	// notify starting autosaves not to autosave
+	reset_flag = TRUE;			// request a reset to the parms
+	localcmd("changelevel ");	// "change" to the same level
+	localcmd(mapname);
+	localcmd("\n");
+}
+
+// called by ClientKill and DeadThink
+void() respawn =
+{
+	if (deathmatch)
+	{
+		// make a copy of the dead body for appearances sake
+		CopyToBodyQueue (self);
+		// set default spawn parms
+		SetNewParms ();
+		// respawn		
+		PutClientInServer ();
+		return;
+	}
+	if (coop)
+	{
+		if (coop == 1 && mapname != "start")
+		{
+			// no restarting if someone else has already exited
+			if (gameover)
+			{
+				centerprint(self, "You didn't make it!");
+				sound (self, CHAN_VOICE, "misc/talk.wav", 1, ATTN_STATIC);
+				return;
+			}
+			
+			// must restart if all players are dead
+			if (!clientsAlive)
+			{
+				if (time < coop_time)	// timer was bumped by 5 more, wait 2
+				{
+					centerprint(self, "Everyone is dead!");
+					sound (self, CHAN_VOICE, "misc/talk.wav", 1, ATTN_STATIC);
+				}
+				else
+					restart();
+					
+				return;
+			}
+			
+			if (time < coop_time)
+			{
+				if (self.nextmovesound < time)	// don't spam it
+				{
+					self.nextmovesound = time + 1;
+			
+					// fart if it's not respawning time yet
+					switch(ceil(coop_time - time))
+					{
+					case 10:
+						centerprint(self, "You can respawn in \b10\b seconds"); break;
+					case 9:
+						centerprint(self, "You can respawn in \b9\b seconds"); break;
+					case 8:
+						centerprint(self, "You can respawn in \b8\b seconds"); break;
+					case 7:
+						centerprint(self, "You can respawn in \b7\b seconds"); break;
+					case 6:
+						centerprint(self, "You can respawn in \b6\b seconds"); break;
+					case 5:
+						centerprint(self, "You can respawn in \b5\b seconds"); break;
+					case 4:
+						centerprint(self, "You can respawn in \b4\b seconds"); break;
+					case 3:
+						centerprint(self, "You can respawn in \b3\b seconds"); break;
+					case 2:
+						centerprint(self, "You can respawn in \b2\b seconds"); break;
+					case 1:
+						centerprint(self, "You can respawn in \b1\b second!"); break;
+					default:
+						centerprint(self, "You cannot respawn yet");
+					}
+					sound (self, CHAN_VOICE, "misc/talk.wav", 1, ATTN_STATIC);
+				}
+				return;
+			}
+		}
+
+		// make a copy of the dead body for appearances sake
+		CopyToBodyQueue (self);
+		
+		if (coop == 1)
+		{
+			bprint2(self.netname, " respawned\n");
+			SetCoopParms();		// lose ammo, keep weapons
+		}
+		else
+			setspawnparms (self); // old 'respawn however you started the level' rules
+			
+		PutClientInServer ();
+		return;
+	}
+	
+	restart();
+}
+
+
+
+entity(entity spot) NextCoopStart =
+{
+	entity next;
+	next = find(spot, classname, "info_player_coop");
+	if (next == world)
+		next = find (world, classname, "info_player_coop");
+	return next;
+}
+
+/*
+============
+SelectSpawnPoint
+
+Returns the entity to spawn at
+============
+*/
+entity() SelectSpawnPoint =
+{
+	entity spot;
+	float  pcount;
+	
+	if (deathmatch)
+	{
+		spot = lastspawn;
+		pcount = ceil(random() * 4);
+		while (pcount)
+		{
+			pcount--;
+			
+			spot = find(spot, classname, "info_player_deathmatch");
+			if (spot == world)
+				spot = find(world, classname, "info_player_deathmatch");
+			if (spot == world)
+				error("This map does not support deathmatch! (no spawn points)\n");
+		}
+		lastspawn = spot;
+		return spot;
+	}
+
+	// choose a start point
+	if (coop)
+	{
+		// spawn at the next coop start in the cycle not blocked by a client
+		// if all are blocked, enter limbo waiting for the least recently used spot
+		// if no coop spots, use the player start, also entering limbo if blocked
+		
+		lastspawn = NextCoopStart(lastspawn);
+		spot = lastspawn;
+		do {
+			if (!teleport_check_for_client(spot))
+				break;
+			spot = NextCoopStart(spot);
+		} while (spot != lastspawn && spot != world);
+
+		if (!spot)
+			spot = find(world, classname, "info_player_start");
+		if (!spot)
+			error ("SelectSpawnPoint: no info_player_start or info_player_coop on level");
+		
+		lastspawn = spot;
+		return lastspawn;
+	}
+
+	// testinfo_player_start is only found in regioned levels
+	spot = find (world, classname, "info_player_start_test");
+	if (spot)
+		return spot;
+
+	if (serverflags)	// return with a rune to start
+	{
+		spot = world;
+
+		while (TRUE)
+		{
+			spot = find (spot, classname, "info_player_start2");
+			if (!spot) break;
+			
+			// all
+			if (spot.style == 1 && ((spot.svflags & serverflags) == spot.svflags))
+				break;
+			// none
+			else if (spot.style == 2 && ((spot.svflags & serverflags) == 0))
+				break;
+			// any
+			else if (spot.style == 0 && ((spot.svflags & serverflags) != 0))
+				break;
+		}
+		if (spot)
+			return spot;
+	}
+	
+	spot = find (world, classname, "info_player_start");
+	if (!spot)
+		error ("SelectSpawnPoint: no info_player_start on level");
+	
+	return spot;
+}
+
+
+/*
+===========
+PutClientInServer
+
+called each time a player is spawned
+============
+*/
+void() PutClientInServer =
+{
+	dprint("Client put\n");
+	local	entity spot;
+	
+	spot = SelectSpawnPoint();
+	self.classname = "player";
+	self.invokedmodel = "progs/fx/invoked_player.mdl";
+	
+	self.max_health = 100;
+	self.health = self.max_health;
+	self.max_armor = 100;
+
+	self.takedamage = DAMAGE_AIM;
+	self.solid = SOLID_SLIDEBOX;
+	self.movetype = MOVETYPE_WALK;
+	self.show_hostile = 0;
+	self.flags = FL_CLIENT;
+	self.customflags = 0;
+	self.air_finished = time + 12;
+	self.dmg = 0;   		// initial water damage
+	self.super_damage_finished = 0;
+	self.radsuit_finished = 0;
+	self.invisible_finished = 0;
+	self.vamp_finished = 0;
+	//self.gorgon_finished = 0;
+	self.berserk_finished = 0;
+	self.notrace = 0;	// fix for dying with the ring
+	self.invincible_finished = 0;
+	self.invincible_time = 0;
+	self.effects = 0;
+	self.pistol_ammo_count = 10;
+	self.enemy = world;
+
+	DecodeLevelParms();
+	SetChangeParms();
+	W_ChangeWeapon(self.weapon, FALSE);
+	
+	// put global key type in the high bits so the CSQC hud gets to see it :/
+	self.worldtype = (self.worldtype & 255) + world.worldtype * 256;
+
+	// we respawned with keys not taken away, make sure .items reflects this
+	if (self.worldtype & 15) self.items |= IT_KEY1;
+	if (self.worldtype & 240) self.items |= IT_KEY2;
+	
+	self.attack_finished = time;
+	self.th_pain = player_pain;
+	self.th_die = PlayerDie;
+	
+	self.deadflag = DEAD_NO;
+	clientsAlive += 1;
+
+// paustime is set by teleporters to keep the player from moving a while
+	self.pausetime = 0;
+	
+	self.dmg_take = 0;
+	self.dmg_save = 0;
+	self.dmg_inflictor = world;
+	self.velocity = VEC_ORIGIN;
+
+	self.origin = spot.origin + '0 0 1';
+	self.v_angle = self.angles = spot.angles;
+	self.fixangle = TRUE;		// turn this way immediately
+	self.attack_finished = time + 0.1;	// don't shoot on the first frame if we clicked to spawn
+	
+	// yet another thing that doesn't work on the first frame
+	if (spot.fog_density != -1 || spot.fog_color || spot.fog_sky != -1)
+	{
+		fog_save(self, spot.fog_density, spot.fog_color, spot.fog_sky);
+	}
+	else if (world.fog_density != -1 || world.fog_color || world.fog_sky != -1)
+	{
+		fog_save(self, world.fog_density, world.fog_color, world.fog_sky);
+	}
+	else
+	{	// if there's a world fog key, save -1s so we don't stomp it
+		fog_save(self, -1, '0 0 0', -1);
+	}
+
+	if (self.fog_sky == -1)
+		self.fog_sky = cvar("r_skyfog");
+	initCleanup = 2;
+
+// oh, this is a hack!
+	setmodel (self, "progs/eyes.mdl");
+	modelindex_eyes = self.modelindex;
+
+	setmodel (self, "progs/player_qbj.mdl");
+	modelindex_player = self.modelindex;
+
+	setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
+	
+	self.view_ofs = '0 0 22';
+
+	SUB_CallAsSelf(player_stand1, self.animcontroller);
+	
+	// spawns fire targets when spawned at
+	activator = self;
+	SUB_UseEntTargets(spot);
+	if (serverflags & SVFL_RESPAWNING) clear_respawning_flag();
+	
+	// enter teleport limbo instead of telefragging teammates
+	if (coop)
+	{
+		if (teleport_check_for_client(spot))
+		{
+			teleport_enter_limbo(self, spot, TRUE, TRUE);
+			return;
+		}
+		teleport_flash();
+	}
+	else if (deathmatch)
+	{
+		teleport_flash();
+	}
+	spawn_tdeath (self.origin, self);
+	
+}
+
+/*
+===============================================================================
+
+DEATHMATCH RULES
+
+===============================================================================
+*/
+
+/*
+go to the next level for deathmatch
+only called if a time or frag limit has expired
+*/
+void() NextLevel =
+{
+	local entity o;
+
+	if (mapname == "start")
+	{
+		if (!cvar("registered"))
+		{
+			mapname = "e1m1";
+		}
+		else if (!(serverflags & SVFL_EPISODE1))
+		{
+			mapname = "e1m1";
+			serverflags = serverflags | SVFL_EPISODE1;
+		}
+		else if (!(serverflags & SVFL_EPISODE2))
+		{
+			mapname = "e2m1";
+			serverflags = serverflags | SVFL_EPISODE2;
+		}
+		else if (!(serverflags & SVFL_EPISODE3))
+		{
+			mapname = "e3m1";
+			serverflags = serverflags | SVFL_EPISODE3;
+		}
+		else if (!(serverflags & SVFL_EPISODE4))
+		{
+			mapname = "e4m1";
+			serverflags = serverflags - 7;	// cycle back to 1
+		}
+
+		o = spawn();
+		o.map = mapname;
+	}
+	else
+	{
+		// find a trigger changelevel
+		o = find(world, classname, "trigger_changelevel");
+
+		// go back to start if no trigger_changelevel
+		if (!o)
+		{
+			mapname = "start";
+			o = spawn();
+			o.map = mapname;
+		}
+	}
+
+	nextmap = o.map;
+	gameover = TRUE;
+	
+	if (o.nextthink < time)
+	{
+		o.think = execute_changelevel;
+		o.nextthink = time + 0.1;
+	}
+}
+
+/*
+============
+CheckRules
+
+Exit multiplayer games upon conditions
+============
+*/
+void() CheckRules =
+{
+	float timelimit;
+	float fraglimit;
+	
+	if (coop == 1 && gameover && time > coop_time)
+	{
+		execute_changelevel();
+		return;
+	}
+	
+	if (gameover || !deathmatch)
+		return;
+		
+	timelimit = cvar("timelimit") * 60;
+	fraglimit = cvar("fraglimit");
+	
+	if (timelimit && time >= timelimit)
+	{
+		NextLevel ();
+		return;
+	}
+	
+	if (fraglimit && self.frags >= fraglimit)
+	{
+		NextLevel ();
+		return;
+	}	
+}
+
+
+
+/*
+//============================================================================
+
+PLAYER THINKS AND MOVEMENT
+
+//============================================================================
+*/
+
+// the player's health will always rot off to the soft max
+// countdown is global now and not controlled by a touched megahealth thinking
+void() PlayerHealthTick =
+{
+	if ( time < self.healthtime )
+		return;
+	if ( self.health <= 0 )
+		return;
+	
+	float hmax = self.max_health;
+	
+	if (self.health > hmax)
+	{
+		if (self.waterlevel < WL_EYES)
+			self.dmg = 0;	// clear drown damage when overhealed
+		self.health -= 1;
+		self.healthtime = time + 1;
+	}
+	else
+	{
+		if (self.dmg > 0 && (self.waterlevel < WL_EYES || has_biosuit(self) ) )
+		{
+			// recover damage taken from drowning
+			//T_Heal(self, self.dmg, 0);
+			self.health = min(hmax, self.health + ceil(self.dmg/2));
+			self.dmg = max(0, self.dmg - 1);
+			self.healthtime = time + 0.5;
+		}	
+	}
+	
+	
+}
+
+// the player's armor will always rot off to the soft max
+void() PlayerArmorTick = 
+{
+	if ( time < self.armortime )
+		return;
+	if ( self.armorvalue <= 0 )
+		return;
+
+	float armax = self.max_armor;
+
+	if (self.armorvalue > armax) {
+		if (self.waterlevel < WL_EYES)
+			self.dmg = 0;	// clear drown damage when overhealed
+		self.armorvalue -= 1;
+		self.armortime = time + 1;
+	}
+	else
+	{
+		if (self.dmg > 0 && (self.waterlevel < WL_EYES || has_biosuit(self) ) ) {
+			if (skill > 2)
+				self.armorvalue = min(armax, self.health + ceil(self.dmg/4));
+			else
+				self.armorvalue = min(armax, self.health + ceil(self.dmg/2));
+			self.dmg = max(0, self.dmg - 1);
+			self.armortime = time + 0.5;
+		}	
+	}
+}
+
+
+
+/*
+============
+IntermissionThink
+
+When the player presses attack or jump, change to the next level
+============
+*/
+void() IntermissionThink =
+{
+	// this was for coop pre-exit camera spectating, but it shudders really badly 
+	// on non-server clients, so players just get to look around while waiting
+//	self.angles = self.v_angle = self.goalentity.mangle;
+//	self.fixangle = TRUE;
+	self.flags = not(self.flags, FL_ONGROUND);
+
+	if (self.impulse)
+	{
+		// cycle forward or back in the intermissions with weapnext/weapprev
+		if (self.attack_finished < time)
+		{
+			// stay on cameras twice as long if player cycles to them manually
+			if (self.impulse == 10 || self.impulse == 14)
+			{
+				move_player_to_next_intermission();
+				self.attack_finished = time + 0.2;
+				self.lifetime_finished = time + 12;
+			}
+			else if (self.impulse == 12 || self.impulse == 13)
+			{
+				move_player_to_previous_intermission();
+				self.attack_finished = time + 0.2;
+				self.lifetime_finished = time + 12;
+			}
+		}
+		self.impulse = 0;
+	}
+	
+	if (!intermission) return;
+	
+	// auto-cycle intermission camera after six seconds
+	else if (time > self.lifetime_finished)
+	{
+		move_player_to_next_intermission();
+		self.lifetime_finished = time + 6;
+	}
+	
+	if (time < intermission_exittime)
+		return;
+
+	// start listening for input to leave
+	if (!self.button0 && !self.button1 && !self.button2) {
+		if (self.wait) ExitIntermission ();
+		self.wait = 0;
+		return;
+	}
+	
+	self.wait = 1;
+}
+
+/*
+============
+PlayerDeathThink
+
+When the player presses attack or jump, respawn or restart
+============
+*/
+void() PlayerDeathThink =
+{
+	local float		forward;
+
+	if ((self.flags & FL_ONGROUND))
+	{
+		forward = vlen (self.velocity);
+		forward = forward - 20;
+		if (forward <= 0)
+			self.velocity = '0 0 0';
+		else	
+			self.velocity = forward * normalize(self.velocity);
+	}
+
+	if (self.flags & FL_GODMODE && self.deadflag)
+	{
+		CopyToBodyQueue (self);
+		
+		self.health = self.max_health;
+		self.deadflag = DEAD_NO;
+		clientsAlive += 1;
+		self.takedamage = DAMAGE_AIM;
+		self.air_finished = time + 12;
+		self.dmg = 0;   		// initial water damage
+		
+		self.solid = SOLID_SLIDEBOX;
+		self.movetype = MOVETYPE_WALK;
+		setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
+		self.flags = FL_CLIENT;
+		self.customflags = 0;
+
+		self.effects = 0;
+		self.enemy = world;
+		self.show_hostile = 0;
+		self.attack_finished = time + 0.1;	// don't shoot on the first frame if we clicked to spawn
+		
+		teleport_flash();
+		spawn_tdeath (self.origin, self);
+		
+		self.view_ofs = '0 0 22';
+		self.modelindex = modelindex_player;
+		SUB_CallAsSelf(player_stand1, self.animcontroller);
+		W_ChangeWeapon(self.weapon, TRUE);
+		
+		return;
+	}
+	
+	if (time < self.lifetime_finished) return;
+	
+	// wait for all buttons released
+	if (!self.button0 && !self.button1 && !self.button2) {
+		if (self.wait)
+			respawn();
+		
+		self.wait = 0;
+		return;
+	}
+	
+	self.wait = 1;
+}
+
+
+void() PlayerJump =
+{
+
+	float upspeed;
+
+	if (self.flags & FL_WATERJUMP)
+		return;
+	
+	if (self.waterlevel >= WL_WAIST)
+	{
+		if (self.onladder)
+		{
+			self.velocity_z = 160;
+			return;
+		}
+
+		if (self.wasonladder)
+			return;
+
+		// fix for +jump not swimming upward as fast as +moveup
+		upspeed = cvar("cl_upspeed");
+		if (self.waterlevel < WL_EYES)
+			upspeed *= 0.5; // match vanilla swim values at the surface so 
+							// we don't launch out of the water any higher
+		else
+			upspeed *= 0.7;	// match moveup from SV_WaterMove
+		
+		if (self.watertype == CONTENT_LAVA)
+			upspeed *= 0.5;	// originally 50
+		else if (self.watertype == CONTENT_SLIME)
+			upspeed *= 0.8;	// originally 80
+		
+		// scale upspeed to match WaterMove since playerjump gets called after it
+		self.velocity_z = upspeed - 0.8 * self.waterlevel * frametime * upspeed;
+
+		
+		
+		// play swimming sound
+		if (self.nextmovesound < time)
+		{
+			self.nextmovesound = time + 1;
+			if (random() < 0.5)
+				sound (self, CHAN_BODY, "misc/water1.wav", 1, ATTN_NORM);
+			else
+				sound (self, CHAN_BODY, "misc/water2.wav", 1, ATTN_NORM);
+		}
+
+		return;
+	}
+
+	if (self.movetype != MOVETYPE_NOCLIP)
+	{
+		if (!(self.flags & FL_ONGROUND)) return;
+		if ( !(self.flags & FL_JUMPRELEASED) ) return;		// don't pogo stick
+		
+		// jump sounds
+		local float rs;
+		rs = rint((random() * 6) + 1); // random 1–7
+
+		if (rs == 1)
+			sound (self, CHAN_VOICE, "player/player_jump1.wav", 1, ATTN_NORM);
+		else if (rs == 2)
+			sound (self, CHAN_VOICE, "player/player_jump2.wav", 1, ATTN_NORM);
+		else if (rs == 3)
+			sound (self, CHAN_VOICE, "player/player_jump3.wav", 1, ATTN_NORM);
+		else if (rs == 4)
+			sound (self, CHAN_VOICE, "player/player_jump4.wav", 1, ATTN_NORM);
+		else if (rs == 5)
+			sound (self, CHAN_VOICE, "player/player_jump5.wav", 1, ATTN_NORM);
+		else if (rs == 6)
+			sound (self, CHAN_VOICE, "player/player_jump6.wav", 1, ATTN_NORM);
+		else
+			sound (self, CHAN_VOICE, "player/player_jump7.wav", 1, ATTN_NORM);
+	}
+	
+//	self.flags = self.flags - (self.flags & FL_JUMPRELEASED);
+//	self.flags = self.flags - FL_ONGROUND;	// don't stairwalk
+	self.flags = not(self.flags, FL_JUMPRELEASED | FL_ONGROUND);	// don't stairwalk
+	
+	self.button2 = 0;
+	self.velocity_z = self.velocity_z + 270;
+}
+
+
+
+/*
+===========
+WaterTest
+test for liquids touching self from all directions
+
+doesn't set self.waterlevel/self.watertype directly because it's also used by
+monsters, and faffing with those values makes them spam constant splash noises
+============
+*/
+/*
+vector() WaterTest =
+{
+	if (self.movetype == MOVETYPE_NOCLIP)
+		return VEC_ORIGIN;
+		
+	float wl = 0;
+	float wt = 0;
+	float wp;
+	
+	// iw -- fix waterlevel detection
+	vector waist;
+
+	// this is how the engine calculates the player's waist height (see
+	// the "SV_CheckWater" function in "sv_phys.c")
+	waist = self.origin;
+	waist_z += (self.mins_z + self.maxs_z) * 0.5;
+
+	//wp = pointcontents(self.origin);
+	wp = pointcontents(waist);
+	// iw -- END
+	if (wp < -2 && wp > -6)
+	{
+		wl += 1;
+		wt = min(wt,wp);
+	}
+	wp = pointcontents(self.origin + self.mins);
+	if (wp < -2 && wp > -6)
+	{
+		wl += 1;
+		wt = min(wt,wp);
+	}
+	wp = pointcontents(self.origin + self.maxs);
+	if (wp < -2 && wp > -6)
+	{
+		wl += 1;
+		wt = min(wt,wp);
+	}
+	wp = pointcontents(self.origin + self.view_ofs);
+	if (wp < -2 && wp > -6)
+	{
+		wl += 1;
+		wt = min(wt,wp);
+	}
+	
+	return Vector(min(3,wl),wt,0);
+}
+*/
+/*
+===========
+PlayerWaterTest
+deprecated, use checkClientInWaterBrush
+============
+*/
+/*
+void() PlayerWaterTest =
+{
+	vector wtt;
+	wtt = WaterTest();
+	float wl, wt;
+	wl = wtt_x;
+	wt = wtt_y;
+
+	self.waterlevel = max(wl,self.waterlevel);
+	self.watertype = min(wt,self.watertype);
+}
+*/
+/*
+===========
+WaterMove
+============
+*/
+void() WaterMove =
+{
+	if (self.movetype == MOVETYPE_NOCLIP) {
+		self.air_finished = time + 120;
+		self.waterlevel = 0;
+		self.watertype = 0;
+		return;
+	}
+	if (self.health < 0)
+		return;
+	
+	if (self.waterlevel < WL_EYES)	// view is above water
+	{
+		if (self.flags & FL_UNDERWATER)
+		{
+			self.flags -= FL_UNDERWATER;
+			self.nextmovesound = time + 0.5;
+			if (random() < 0.5)
+				sound (self, CHAN_BODY, "misc/water1.wav", 1, ATTN_NORM);
+			else
+				sound (self, CHAN_BODY, "misc/water2.wav", 1, ATTN_NORM);
+		}
+		
+		if (time > 1) // QSS-only hack for gasping after every level transition
+		{
+			if (time > self.air_finished ||
+				time > self.air_finished - 10 && self.dmg)
+			{
+				// Gasp2 (out-of-air gasp)
+				float rs;
+				rs = rint((random() * 3) + 1);
+
+				if (rs == 1)
+					sound (self, CHAN_VOICE, "player/player_gasp2_1.wav", 1, ATTN_NORM);
+				else if (rs == 2)
+					sound (self, CHAN_VOICE, "player/player_gasp2_2.wav", 1, ATTN_NORM);
+				else if (rs == 3)
+					sound (self, CHAN_VOICE, "player/player_gasp2_3.wav", 1, ATTN_NORM);
+				else
+					sound (self, CHAN_VOICE, "player/player_gasp2_4.wav", 1, ATTN_NORM);
+
+				self.healthtime = time + 0.5;
+			}
+			else if (time > self.air_finished - 9)
+			{
+				// Gasp1 (near-end breath)
+				rs = rint((random() * 4) + 1);
+
+				if (rs == 1)
+					sound (self, CHAN_VOICE, "player/player_gasp1_1.wav", 1, ATTN_NORM);
+				else if (rs == 2)
+					sound (self, CHAN_VOICE, "player/player_gasp1_2.wav", 1, ATTN_NORM);
+				else if (rs == 3)
+					sound (self, CHAN_VOICE, "player/player_gasp1_3.wav", 1, ATTN_NORM);
+				else if (rs == 4)
+					sound (self, CHAN_VOICE, "player/player_gasp1_4.wav", 1, ATTN_NORM);
+				else
+					sound (self, CHAN_VOICE, "player/player_gasp1_5.wav", 1, ATTN_NORM);
+			}
+		}
+
+		// pentagram protects you from drowning, but if you spend enough time underwater,
+		// you're instantly out of air when it ends
+		self.air_finished = max(self.invincible_finished, time + 12);
+		//self.dmg = 0;	// remember damage taken to recover it slowly
+	}
+	else	// view is below the water
+	{
+		if (!(self.flags & FL_UNDERWATER))
+		{
+			self.flags |= FL_UNDERWATER;
+			if (self.watertype != CONTENT_LAVA)
+			{
+				if (self.jump_flag < -300)
+				{
+					sound (self, CHAN_OTHER, "misc/w_under2.wav", 1, ATTN_NORM);
+					local float i = 0;
+					local vector b;
+					while(i > self.jump_flag)
+					{
+						i -= 75;
+						b = self.absmin + vec_scale(self.size, Vector(random(),random(),random()));
+						if (pointcontents2(b) == CONTENT_WATER)
+							bubble_spawn(b);
+					}
+				}
+				else
+				{
+					sound (self, CHAN_OTHER, "misc/w_under.wav", 1, ATTN_STATIC);
+				}
+			}
+		}
+		// if you don't catch your breath from the last drowning episode before diving 
+		// again, you start to drown sooner the next time
+		if (self.air_finished < time + self.dmg / 2)
+		{	// drown!
+			if (self.pain_finished < time)
+			{
+				T_Damage (self, world, world, max(self.dmg, 1), DMGTYPE_DROWNING | DMGTYPE_NOARMOR);
+				self.pain_finished = time + 1;
+				
+				if (!has_invuln(self))	// don't advance the drowning timer with pent, or we
+					self.dmg = min(15, self.dmg + 1);	// could recover health we didn't lose
+			}
+		}
+	}
+
+	if (self.onladder) {
+		self.flags &~= FL_INWATER;
+	}
+
+	if (!self.waterlevel)
+	{
+		if (self.flags & FL_INWATER)
+		{	
+			// play leave water sound
+			sound (self, CHAN_BODY, "misc/outwater.wav", 1, ATTN_NORM);
+			self.flags = self.flags - FL_INWATER;
+		}
+		return;
+	}
+
+	if (self.watertype == CONTENT_LAVA)
+	{	// do damage
+		if (self.dmgtime < time)
+		{
+			if (has_biosuit(self))
+				self.dmgtime = time + 1;
+			else
+				self.dmgtime = time + 0.2;
+
+			if (self.waterlevel)
+			{
+				// biosuit protects from lava if it's 16u deep or less
+				if (!(has_biosuit(self) && pointcontents2(self.origin - '0 0 7') != CONTENT_LAVA))
+					T_Damage (self, world, world, 10 * self.waterlevel, DMGTYPE_LAVA);
+			}
+		}
+	}
+	else if (self.watertype == CONTENT_SLIME)
+	{	// do damage
+		if (self.dmgtime < time && self.radsuit_finished < time)
+		{
+			self.dmgtime = time + 1;
+			T_Damage (self, world, world, 4 * self.waterlevel, DMGTYPE_SLIME);
+		}
+	}
+	
+	if ( !(self.flags & FL_INWATER) && !self.onladder && !self.wasonladder)
+	{	// player enter water sound
+		if (self.watertype == CONTENT_LAVA)
+			sound (self, CHAN_BODY, "player/inlava.wav", 1, ATTN_NORM);
+		else if (self.watertype == CONTENT_WATER)
+		{
+			if (self.jump_flag < -300)
+				sound (self, CHAN_BODY, "player/h2ojump.wav", 1, ATTN_NORM);
+			else
+				sound (self, CHAN_BODY, "player/inh2o.wav", 1, ATTN_NORM);
+		}
+		//else if (self.watertype == CONTENT_SLIME)
+			//sound (self, CHAN_BODY, "player/slimbrn2.wav", 1, ATTN_NORM);
+
+		self.flags = self.flags + FL_INWATER;
+		self.dmgtime = 0;
+	}
+	
+	if ( !(self.flags & FL_WATERJUMP) )
+	{
+		// this is for water friction
+		self.velocity = self.velocity - 0.8 * self.waterlevel * frametime * self.velocity;
+	}
+}
+
+void() CheckWaterJump =
+{
+	if (self.movetype == MOVETYPE_NOCLIP)
+		return;
+		
+	local vector start, end;
+
+	
+	// check for a jump-out-of-water
+	makevectors (self.angles);
+	start = self.origin;
+	start_z = start_z + 8; 
+	
+	if (v_forward_z < -0.25)
+		return;		// don't waterjump if looking down into the water
+		
+	v_forward_z = 0;
+	normalize(v_forward);
+	end = start + v_forward*24;
+	
+	traceline (start, end, TRUE, self);
+	
+	if (trace_fraction < 1)
+	{
+		// solid at waist
+		start_z = start_z + self.maxs_z - 8;
+		end = start + v_forward*24;
+		self.movedir = trace_plane_normal * -50;
+		
+		traceline (start, end, TRUE, self);
+		
+		if (trace_fraction == 1)
+		{
+			// open at eye level
+			self.flags = self.flags | FL_WATERJUMP;
+			self.velocity_z = 225;
+			self.flags = self.flags - (self.flags & FL_JUMPRELEASED);
+			self.teleport_time = time + 2;	// safety net
+			
+			return;
+		}
+	}
+}
+
+
+/*
+================
+CheckPowerups
+
+Check for turning off powerups
+================
+*/
+void() CheckPowerups =
+{
+	if (self.health <= 0)
+		return;
+
+// invisibility
+	if (self.invisible_finished)
+	{
+		// sound and screen flash when items starts to run out
+		if (self.invisible_finished < time + 3)
+		{
+			if (self.invisible_time == 1)
+			{
+				sprint (self, "Ring of Shadows' magic is fading ...\n");
+				stuffcmd (self, "bf\n");
+				sound (self, CHAN_POWERUP, "items/inv2.wav", 1, ATTN_NORM);
+				self.invisible_time = time + 1;
+			}
+			
+			if (self.invisible_time < time)
+			{
+				self.invisible_time = time + 1;
+				stuffcmd (self, "bf\n");
+			}
+		}
+		// ambient whispering
+		else if (self.invisible_sound < time)
+		{
+			sound (self, CHAN_POWERUP, "items/inv3.wav", 0.5, ATTN_IDLE);
+			self.invisible_sound = time + ((random() * 3) + 1);
+		}
+
+
+		if (self.invisible_finished < time)
+		{	// just stopped
+			self.items = not(self.items, IT_INVISIBILITY);
+			//self.notrace = 0;
+			self.invisible_finished = 0;
+			self.invisible_time = 0;
+		}
+		
+	// use the eyes
+		self.frame = 0;
+		self.modelindex = modelindex_eyes;
+	}
+	else
+		self.modelindex = modelindex_player;	// don't use eyes
+
+// invincibility
+	if (self.invincible_finished)
+	{
+// sound and screen flash when items starts to run out
+		if (self.invincible_finished < time + 3)
+		{
+			if (self.invincible_time == 1)
+			{
+				sprint (self, "Protection is almost burned out ...\n");
+				stuffcmd (self, "bf\n");
+				sound (self, CHAN_POWERUP, "items/protect2.wav", 1, ATTN_NORM);
+				self.invincible_time = time + 1;
+			}
+			
+			if (self.invincible_time < time)
+			{
+				self.invincible_time = time + 1;
+				stuffcmd (self, "bf\n");
+			}
+		}
+		
+		if (self.invincible_finished < time)
+		{	// just stopped
+			self.items = not(self.items, IT_INVULNERABILITY);
+			self.invincible_time = 0;
+			self.invincible_finished = 0;
+		}
+		if (self.invincible_finished > time)
+			self.effects = self.effects | EF_DIMLIGHT;
+		else
+			self.effects = self.effects - (self.effects & EF_DIMLIGHT);
+	}
+
+// super damage
+	if (self.super_damage_finished)
+	{
+
+// sound and screen flash when items starts to run out
+
+		if (self.super_damage_finished < time + 3)
+		{
+			if (self.super_time == 1)
+			{
+				sprint (self, "Quad damage's power weakens ...\n");
+				stuffcmd (self, "bf\n");
+				sound (self, CHAN_POWERUP, "items/damage2.wav", 1, ATTN_NORM);
+				self.super_time = time + 1;
+			}	  
+			
+			if (self.super_time < time)
+			{
+				self.super_time = time + 1;
+				stuffcmd (self, "bf\n");
+			}
+		}
+
+		if (self.super_damage_finished < time)
+		{	// just stopped
+			self.items = not(self.items, IT_QUAD);
+			self.super_damage_finished = 0;
+			self.super_time = 0;
+		}
+		if (self.super_damage_finished > time)
+			self.effects = self.effects | EF_DIMLIGHT;
+		else
+			self.effects = self.effects - (self.effects & EF_DIMLIGHT);
+	}	
+
+// suit	
+	if (self.radsuit_finished)
+	{
+		self.air_finished = time + 12;		// don't drown
+
+// sound and screen flash when items starts to run out
+		if (self.radsuit_finished < time + 3)
+		{
+			if (self.rad_time == 1)
+			{
+				sprint (self, "Air supply in Biosuit expiring ...\n");
+				stuffcmd (self, "bf\n");
+				sound (self, CHAN_POWERUP, "items/suit2.wav", 1, ATTN_NORM);
+				self.rad_time = time + 1;
+			}
+			
+			if (self.rad_time < time)
+			{
+				self.rad_time = time + 1;
+				stuffcmd (self, "bf\n");
+			}
+		}
+
+		if (self.radsuit_finished < time)
+		{	// just stopped
+			self.items = self.items - IT_SUIT;
+			self.rad_time = 0;
+			self.radsuit_finished = 0;
+		}
+	}
+
+	// vampirism (reliq)
+	if (self.vamp_finished)
+	{
+
+	// sound and screen flash when items starts to run out
+
+		if (self.vamp_finished < time + 3)
+		{
+			if (self.vamp_time == 1)
+			{
+				sprint (self, "You feel sated ...\n");
+				stuffcmd (self, "bf\n");
+				sound (self, CHAN_POWERUP, "items/vampfade.wav", 1, ATTN_NORM);
+				self.vamp_time = time + 1;
+			}	  
+			
+			if (self.vamp_time < time)
+			{
+				self.vamp_time = time + 1;
+				stuffcmd (self, "bf\n");
+			}
+		}
+
+		if (self.vamp_finished < time)
+		{	// just stopped
+			self.items_qbj = not(self.items_qbj, IT_VAMP);
+
+			csf_clear(self, 100);
+
+			bprint("\bVampirism Total Heal:\b ");
+			bprint(ftos(self.globehealth_cou));
+			bprint("\n");
+			self.globehealth_cou = 0;
+			
+			self.vamp_finished = 0;
+			self.vamp_time = 0;
+			//self.fw_screenshift = 1;
+		}
+	}
+
+	if (self.berserk_finished) {
+		if (self.berserk_finished < time + 3) {
+			if (self.berserk_time == 1) {
+				sprint(self, "Your rage subsides ...\n");
+				stuffcmd(self, "bf\n");
+				
+				sound (self, CHAN_WEAPON, "items/berserk_fade.wav", 1, ATTN_NORM);
+				self.berserk_time = time + 1;
+			}
+
+			if (self.berserk_time < time) {
+				self.berserk_time = time + 1;
+				stuffcmd(self, "bf\n");
+			}
+		}
+
+		if (self.berserk_finished < time) {
+			// Just stopped
+			self.items_qbj = self.items_qbj - IT_BERSERK;
+			self.berserk_finished = 0;
+			self.berserk_time = 0;
+			csf_clear(self, 100);
+
+			if (self.weapon == IT_AXE)
+			{
+				if (W_CheckWeapon(IT_AXE, self) == WEAPONSTAT_AVAILABLE)
+					W_ChangeWeapon(IT_AXE, TRUE); // force weapon reset to restore wrench model
+				else
+					W_SelectBestWeapon();
+			}
+		}
+
+		if (self.berserk_finished > time) {
+			self.effects |= EF_DIMLIGHT;
+		} else {
+			self.effects &~= EF_DIMLIGHT;
+		}
+	}	
+
+	// gorgon sledgehammer
+	/*
+	if (self.gorgon_finished)
+	{
+
+	// sound and screen flash when items starts to run out
+
+		if (self.gorgon_finished < time + 3)
+		{
+			if (self.gorgon_time == 1)
+			{
+				sprint (self, "Gorgon Sledgehammer expiring ...\n");
+				stuffcmd (self, "bf\n");
+				sound (self, CHAN_POWERUP, "items/gorgonfade.wav", 1, ATTN_NORM);
+				self.gorgon_time = time + 1;
+			}	  
+			
+			if (self.gorgon_time < time)
+			{
+				self.gorgon_time = time + 1;
+				stuffcmd (self, "bf\n");
+			}
+		}
+
+		if (self.gorgon_finished < time)
+		{	// just stopped
+			self.items_qbj &~= IT_GORGON;
+
+			csf_clear(self, 100);
+
+			self.gorgon_finished = 0;
+			self.gorgon_time = 0;
+
+			if (self.weapon == IT_AXE)
+			{
+				if (W_CheckWeapon(IT_AXE, self) == WEAPONSTAT_AVAILABLE)
+					W_ChangeWeapon(IT_AXE, TRUE); // force weapon reset to restore wrench model
+				else
+					W_SelectBestWeapon();
+			}
+		}
+	}
+	*/
+}
+
+// a failed experiment to fix DOOF-DOOF-DOOFing down stairs
+/*
+void() CheckStairDescend =
+{
+	local vector drop;
+	if (!(self.customflags & CFL_WASONGROUND))
+		return;
+	if (self.velocity_z > 0)
+		return;
+		
+	drop = self.origin;
+	
+	if (droptofloor(0,16))
+	{
+		drop = drop - self.origin;
+		bprint("dropped ");
+		bprint(ftos(drop_z));
+		bprint(" units\n");
+		self.view_ofs_z += drop_z;
+	}
+}
+*/
+
+
+/*
+================
+PlayerPreThink
+
+Called every frame before physics are run
+================
+*/
+void() PlayerPreThink =
+{
+	if (initCleanup)
+	{
+		fog_setFromEnt( self, self );
+		csf_apply(self);
+		/*
+		if ( !( self.customflags & (CFL_PLUNGE|CFL_LIMBO) ) )
+		{
+			TintScreen(self, 0);
+		}
+		else if ( self.customflags & CFL_LIMBO )
+		{
+			TintScreen(self, 255);
+		}
+		*/
+	}
+
+	if (intermission || self.deadflag == DEAD_SPECTATING )
+	{
+		IntermissionThink ();	// otherwise a button could be missed between
+		return;					// the think tics
+	}
+	makevectors (self.v_angle);		// is this still used
+									// lunaran: "yes"
+
+	CheckRules();
+
+	if (self.deadflag >= DEAD_DEAD)
+	{
+		PlayerDeathThink ();
+		return;
+	}
+	
+	if (self.deadflag == DEAD_DYING)
+		return;	// dying, so do nothing
+
+	self.wait = 0;
+	
+	//PlayerWaterTest();
+	WaterMove();
+	if (self.waterlevel == WL_WAIST && !self.onladder)
+		CheckWaterJump ();
+
+	if (self.onladder) {
+		
+		if (fabs(self.velocity_x) < 1 && fabs(self.velocity_y) < 1 &&
+			self.velocity_z < 0 && self.velocity_z > -42 &&
+			!(self.flags & FL_WATERJUMP) &&
+			self.v_angle_x < 90
+		) {
+			self.velocity_z = 0;
+		}
+
+		self.velocity_x *= 0.9;
+		self.velocity_y *= 0.9;
+
+		if (fabs(self.velocity_z) > 160) {
+			if (self.velocity_z > 0) self.velocity_z = 160;
+			else self.velocity_z = -160;
+		}
+
+		if (self.velocity_z == 0) {
+			self.ladder_step_height = self.origin_z + 49;
+		}
+
+		if (
+			(
+				(self.onladder && !self.wasonladder) ||
+				(self.onladder && self.wasonladder && fabs(self.origin_z - self.ladder_step_height) > 48)
+			) && (self.velocity_z != 0)
+
+		)
+		{
+			self.ladder_step_height = self.origin_z;
+
+			if (random() > 0.5)
+				sound (self, CHAN_AUTO, "misc/ladder.wav", 0.5, ATTN_NORM);
+			else
+				sound (self, CHAN_AUTO, "misc/ladder2.wav", 0.5, ATTN_NORM);
+		}
+	}
+	else
+		self.gravity = 0;
+
+	if (self.button2)
+	{
+		PlayerJump ();
+	}
+	else
+	{
+		self.flags = self.flags | FL_JUMPRELEASED;
+	}
+
+	if (self.vamp_finished > time)
+	{
+		entity head;
+		head = findradiusplus(self.origin, 160, classname, "VampGlobe");
+		while (head)
+		{
+			if ((head.think != VampGlobeHome) && (head.flags & FL_ONGROUND))
+			{
+				head.nextthink = time + 0.05;
+				head.buddy = self;
+				head.think = VampGlobeHome;
+			}
+			head = head.chain;
+		}
+	}
+	
+// teleporters can force a non-moving pause time	
+	if (time < self.pausetime)
+		self.velocity = '0 0 0';
+
+	if (time > self.attack_finished && W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
+		W_ChangeWeapon(W_BestWeapon(), FALSE);
+
+	if (self.movetype == MOVETYPE_NOCLIP)
+	{
+		self.flags = self.flags | FL_FLY;
+	}
+
+	// sanity check for cshift every few frames
+	if (framecount & 4) {
+		if (self.csf_priority == 0 && self.csf_density > 0)
+			csf_clear_all(self);
+	}
+
+	checkClientInWaterBrush();
+	if (self.onladder){
+		self.gravity = 0.00000001;
+		self.waterlevel = 2;
+	}
+	self.wasonladder = self.onladder;
+	self.onladder = 0;
+
+
+	// ai_nav
+	//nav_editorThink();
+}
+	
+
+/*
+================
+PlayerPostThink
+
+Called every frame after physics are run
+================
+*/
+void() PlayerPostThink =
+{
+	checkClientInWaterBrush();
+
+	if (self.wasonladder){
+		self.gravity = 0.00000001;
+		self.waterlevel = 2;
+	}
+	
+	if ( intermission ) return;
+	
+	if (self.view_ofs == '0 0 0')
+		return;		// intermission or finale
+	if (self.deadflag)
+		return;
+	
+	if (self.customflags & CFL_LIMBO)
+	{
+		teleport_limbo_think();
+		return;
+	}
+
+	if (self.impulse)
+		ImpulseCommands();
+
+	// do weapon stuff
+	W_WeaponFrame ();
+	// do health stuff
+	PlayerHealthTick();
+	PlayerArmorTick();
+
+	// check to see if player landed and play landing sound
+	if ((self.jump_flag < -300) && (self.flags & FL_ONGROUND) && (self.health > 0))
+	{
+		if (self.jump_flag < -650 && !(self.customflags & CFL_PLUNGE) && !self.waterlevel)
+		{
+			// Hard landing — play one of the heavy land sounds
+			T_Damage (self, world, world, 5, DMGTYPE_FALLING); 
+
+			local float rs;
+			rs = rint((random() * 1) + 1); // random 1–2
+
+			if (rs == 1)
+				sound (self, CHAN_VOICE, "player/player_land2_1.wav", 1, ATTN_NORM);
+			else
+				sound (self, CHAN_VOICE, "player/player_land2_2.wav", 1, ATTN_NORM);
+		}
+		else if (self.waterlevel < WL_EYES && !(self.customflags & CFL_PLUNGE))
+		{
+			// Normal landing — play one of the light land sounds
+			rs = rint((random() * 5) + 1); // random 1–6
+
+			if (rs == 1)
+				sound (self, CHAN_VOICE, "player/player_land1_1.wav", 1, ATTN_NORM);
+			else if (rs == 2)
+				sound (self, CHAN_VOICE, "player/player_land1_2.wav", 1, ATTN_NORM);
+			else if (rs == 3)
+				sound (self, CHAN_VOICE, "player/player_land1_3.wav", 1, ATTN_NORM);
+			else if (rs == 4)
+				sound (self, CHAN_VOICE, "player/player_land1_4.wav", 1, ATTN_NORM);
+			else if (rs == 5)
+				sound (self, CHAN_VOICE, "player/player_land1_5.wav", 1, ATTN_NORM);
+			else
+				sound (self, CHAN_VOICE, "player/player_land1_6.wav", 1, ATTN_NORM);
+		}
+
+		self.jump_flag = 0;
+	}
+
+	CheckPowerups ();
+	
+	if (self.movetype != MOVETYPE_NOCLIP) 
+	{
+		self.flags = not(self.flags, FL_FLY);
+	}
+	
+	if (!(self.flags & FL_ONGROUND))
+		self.jump_flag = self.velocity_z;
+	
+	if (self.v_angle_z) {
+		self.angles = normalizeAngles180(self.v_angle);
+
+		if (fabs(self.angles_z) < 0.5) 
+			self.angles_z = 0;
+		else
+			self.angles_z = self.angles_z - sign(self.angles_z)*(fabs(self.angles_z)/40 + 0.2);
+
+		self.fixangle = 1;
+	}
+
+	W_SetCrosshair();
+
+
+	// vaulting off the top of stairs sucks, but the right place to fix this is the .exe
+	/*
+	if (self.flags & FL_ONGROUND)
+	{
+		self.customflags = self.customflags | CFL_WASONGROUND;
+	}
+	else
+	{
+		self.jump_flag = self.velocity_z;
+		CheckStairDescend();
+		
+		self.customflags = not(self.customflags, CFL_WASONGROUND);
+	}
+	*/
+}
+
+void() W_SetCrosshair =
+{
+	if (cvar("scratch1") == 1) return; 
+
+    if (self.weapon == IT_AXE)
+        stuffcmd(self, "crosshair 0\n");
+    else if (self.weapon == IT_SHOTGUN)
+        stuffcmd(self, "crosshair -1\n");
+    else if (self.weapon == IT_SUPER_SHOTGUN)
+        stuffcmd(self, "crosshair -2\n");
+    else if (self.weapon == IT_NAILGUN)
+        stuffcmd(self, "crosshair -3\n");
+    else if (self.weapon == IT_SUPER_NAILGUN)
+        stuffcmd(self, "crosshair -4\n");
+    else if (self.weapon == IT_GRENADE_LAUNCHER)
+        stuffcmd(self, "crosshair -5\n");
+    else if (self.weapon == IT_ROCKET_LAUNCHER)
+        stuffcmd(self, "crosshair -6\n");
+    else if (self.weapon == IT_LIGHTNING)
+        stuffcmd(self, "crosshair -7\n");
+    else
+        stuffcmd(self, "crosshair 0\n");
+}
+
+/*
+============
+ClientKill
+
+Player entered the suicide command
+============
+*/
+void() ClientKill =
+{
+	// don't kill the player through a special mechanism or too much stuff gets skipped
+	self.invincible_finished = 0;
+	T_Damage(self,self,self,self.health, DMGTYPE_SCRIPT | DMGTYPE_NOARMOR);
+	
+	/*
+	bprint (self.netname);
+	bprint (" suicides\n");
+	TransferKeys();
+	DropBackpack();
+	set_suicide_frame ();
+	self.modelindex = modelindex_player;
+	self.frags = self.frags - 2;	// extra penalty
+	respawn();
+	*/
+}
+
+void() CreateAnimController = {
+	self.animcontroller = spawn();
+	self.animcontroller.owner = self;
+	self.animcontroller.classname = "animcontroller";
+}
+
+/*
+===========
+ClientConnect
+
+called when a player connects to a server
+============
+*/
+void() ClientConnect =
+{
+	bprint (self.netname);
+	bprint (" entered the game\n");
+	
+	clients += 1;
+//	clientsAlive += 1;	// happens on putclientinserver
+	
+	if (self.animcontroller.classname != "animcontroller") CreateAnimController();
+
+	//eprint(self);
+// a client connecting during an intermission can cause problems
+	if (intermission)
+		ExitIntermission ();
+}
+
+
+/*
+===========
+ClientDisconnect
+
+called when a player disconnects from a server
+============
+*/
+void() ClientDisconnect =
+{
+	if (gameover)
+		return;
+	// if the level end trigger has been activated, just return
+	// since they aren't *really* leaving
+
+	clients -= 1;
+	if (self.health > 0)
+		clientsAlive -= 1;
+	
+	// don't leave with keys
+	TransferKeys();
+	
+	// let everyone else know
+	bprint (self.netname);
+	if (deathmatch)
+	{
+		bprint(" left the game with ");
+		bprint(ftos(self.frags));
+		bprint(" frags\n");
+	}
+	else if (coop)
+	{
+		bprint(" left the game\n");
+		self.flags = 0;	// let others grab the bag
+		DropBackpack(0);
+	}
+	sound (self, CHAN_BODY, "player/tornoff2.wav", 1, ATTN_NONE);
+	set_suicide_frame ();
+
+	if (self.animcontroller.classname == "animcontroller") remove(self.animcontroller);
+}
+
+/*
+===========
+ClientObituary
+
+called when a player dies
+============
+*/
+void(float dmgtype) ClientObituary =
+{
+	local	float rnum;
+	local	string deathstring, deathstring2;
+	rnum = random();
+	
+	entity attacker = self.enemy;
+
+	if (coop == 1 && mapname != "start")
+	{
+		// centerprint before bprint if you want players to see both
+		entity e;
+		e = nextent(world);
+			
+		while (e.flags & FL_CLIENT)
+		{
+			if (e != self)
+			{
+				if (clientsAlive == 1)
+					centerprint2(e, self.netname, " is down -\nthere's no one left but you!");
+				else
+					centerprint2(e, self.netname, " is down!");
+			}
+			e = nextent(e);
+		}
+	}
+	
+	if (attacker.deathtype != string_null && attacker.classname != "player" )
+	{
+		bprint(self.netname);
+		bprint(" ");
+		bprint(attacker.deathtype);
+		bprint("\n");
+		
+		if (deathmatch && (attacker.classname == "trigger_void" || attacker.classname == "func_void"))
+			self.frags = self.frags - 1;
+		return;
+	}
+	if (attacker.classname == "teledeath")
+	{
+		bprint (self.netname);
+		bprint (" was telefragged by ");
+		bprint (attacker.owner.netname);
+		bprint ("\n");
+
+		if (deathmatch)
+			attacker.owner.frags = attacker.owner.frags + 1;
+		return;
+	}
+	if (attacker.classname == "trigger_void" || attacker.classname == "func_void")
+	{
+		bprint (self.netname);
+		bprint (" was lost to the void\n");
+		if (deathmatch)
+			self.frags = self.frags - 1;
+		return;
+	}
+	if (attacker.classname == "teledeath2")
+	{
+		bprint ("Satan's power deflects ");
+		bprint (self.netname);
+		bprint ("'s telefrag\n");
+
+		if (deathmatch)
+			self.frags = self.frags - 1;
+		return;
+	}
+
+	if (attacker.classname == "player")
+	{
+		if (self == attacker)
+		{
+			// killed self
+			attacker.frags = attacker.frags - 1;
+			bprint (self.netname);
+			
+			if (self.weapon == IT_LIGHTNING && self.waterlevel >= WL_WAIST)
+			{
+				bprint (" discharges into the water\n");
+				return;
+			}
+			if (self.weapon == IT_GRENADE_LAUNCHER)
+				bprint (" tries to put the pin back in\n");
+			else if (self.weapon == IT_ROCKET_LAUNCHER)
+			{
+				if (random() < 0.5)
+					bprint (" rocket-jumps into the next world\n");
+				else
+					bprint (" is no rocket surgeon\n");
+			}
+			else if (self.dmg_inflictor.deathtype != string_null)
+			{
+				bprint(" ");
+				bprint(self.dmg_inflictor.deathtype);
+				bprint("\n");
+			}				
+			else
+				bprint (" becomes bored with life\n");
+			return;
+		}
+		
+		if ( (teamplay == 2) && (self.team > 0) && (self.team == attacker.team) )
+		{
+			if (rnum < 0.25)
+				deathstring = " mows down a teammate\n";
+			else if (rnum < 0.50)
+				deathstring = " checks their glasses\n";
+			else if (rnum < 0.75)
+				deathstring = " gets a frag for the other team\n";
+			else
+				deathstring = " loses another friend\n";
+			bprint (attacker.netname);
+			bprint (deathstring);
+			if (deathmatch)
+				attacker.frags = attacker.frags - 1;
+			return;
+		}
+		else
+		{
+			if (deathmatch)
+				attacker.frags = attacker.frags + 1;
+
+			rnum = attacker.weapon;
+			if (rnum == IT_AXE)
+			{
+				if (random() < 0.5)
+					deathstring = " was axe-murdered by ";
+				else
+					deathstring = " got the chop from ";
+				deathstring2 = "\n";
+			}
+			if (rnum == IT_SHOTGUN)
+			{
+				deathstring = " chewed on ";
+				deathstring2 = "'s boomstick\n";
+			}
+			if (rnum == IT_SUPER_SHOTGUN)
+			{
+				deathstring = " ate 2 loads of ";
+				deathstring2 = "'s buckshot\n";
+			}
+			if (rnum == IT_NAILGUN)
+			{
+				deathstring = " was nailed by ";
+				deathstring2 = "\n";
+			}
+			if (rnum == IT_SUPER_NAILGUN)
+			{
+				deathstring = " was punctured by ";
+				deathstring2 = "\n";
+			}
+			if (rnum == IT_GRENADE_LAUNCHER)
+			{
+				deathstring = " eats ";
+				deathstring2 = "'s pineapple\n";
+				if (self.health < -40)
+				{
+					deathstring = " was gibbed by ";
+					deathstring2 = "'s grenade\n";
+				}
+			}
+			if (rnum == IT_ROCKET_LAUNCHER)
+			{
+				deathstring = " rides ";
+				deathstring2 = "'s rocket\n";
+				if (self.health < -40)
+				{
+					deathstring = " was gibbed by ";
+					deathstring2 = "'s rocket\n" ;
+				}
+			}
+			if (rnum == IT_LIGHTNING)
+			{
+				deathstring = " accepts ";
+				if (attacker.waterlevel >= WL_WAIST)
+					deathstring2 = "'s discharge\n";
+				else
+					deathstring2 = "'s shaft\n";
+			}
+			bprint (self.netname);
+			bprint (deathstring);
+			bprint (attacker.netname);
+			bprint (deathstring2);
+		}
+		return;
+	}
+	else
+	{
+		//self.frags = self.frags - 1;
+		bprint (self.netname);
+
+		// killed by a monster?
+		if (attacker.flags & FL_MONSTER)
+		{
+			// moved monster obits to their individual *.qc files
+			bprint (" was uninsured\n");
+			return;
+		}
+
+		// tricks and traps
+		if (attacker.classname == "explo_box")
+		{
+			bprint (" blew up\n");
+			return;
+		}
+		if (attacker.solid == SOLID_BSP && attacker != world || (dmgtype & DMGTYPE_CRUSH) )
+		{	
+			bprint (" was squished\n");
+			return;
+		}
+		if (attacker.classname == "trap_shooter" || attacker.classname == "trap_spikeshooter")
+		{
+			bprint (" was spiked\n");
+			return;
+		}
+		if (attacker.classname == "fireball")
+		{
+			bprint (" ate a lavaball\n");
+			return;
+		}
+		if (attacker.classname == "trigger_changelevel")
+		{
+			bprint (" tried to leave\n");
+			return;
+		}
+
+		// liquid deaths
+		if (dmgtype & DMGTYPE_DROWNING)
+		{
+			if (random() < 0.5)
+				bprint (" sleeps with the fishes\n");
+			else
+				bprint (" sucks it down\n");
+			return;
+		}
+		else if (dmgtype & DMGTYPE_SLIME)
+		{
+			if (random() < 0.5)
+				bprint (" gulped a load of slime\n");
+			else
+				bprint (" can't exist on slime alone\n");
+			return;
+		}
+		else if (dmgtype & DMGTYPE_LAVA)
+		{
+			if (self.waterlevel < WL_EYES)
+			{
+				bprint (" burst into flames\n");
+				return;
+			}
+			if (random() < 0.5)
+				bprint (" turned into hot slag\n");
+			else
+				bprint (" visits the Volcano God\n");
+			return;
+		}
+		// fell to their death?
+		else if (dmgtype & DMGTYPE_FALLING)
+		{
+			if (random() < 0.5)
+				bprint (" cratered\n");
+			else
+				bprint (" fell to their death\n");
+			return;
+		}
+
+		// ELEPHINO
+		bprint (" died\n");
+	}
+}
+
+
+
+/*
+=============================================================================
+
+	SPAWNPOINTS
+
+=============================================================================
+*/
+
+/*FGD
+@baseclass base(Appearflags, Angle, Fog, Target) size(-16 -16 -24, 16 16 32) 
+	color(0 255 0) model({ "path": ":progs/player_qbj.mdl" }) = PlayerClass []
+*/
+
+/*QUAKED info_player_start (1 0 0) (-16 -16 -24) (16 16 24) 
+The normal starting point for a level. Only one is allowed. Will fire its targets when a player is spawned here, with player as activator.
+
+"angle" viewing angle when spawning
+"fog_color"/"fog_density"/"fog_sky" set the fog when spawning at this spot (fog_sky 0 = no change, -1 = clear to 0)
+*/
+/*FGD
+@PointClass base(PlayerClass) = info_player_start : "Player 1 start. Fires targets when a player spawns here." []
+*/
+void() info_player_start =
+{
+	setsize(self,VEC_HULL_MIN,VEC_HULL_MAX);	// for telefrag testing
+	self.mangle = self.angles;
+	fog_fixKeys();
+}
+
+
+/*QUAKED info_player_start2 (1 0 0) (-16 -16 -24) (16 16 24) 
+Only used on start map for the return point from an episode. Will fire its targets when a player is spawned here, with player as activator.
+
+"angle" viewing angle when spawning
+"fog_color"/"fog_density"/"fog_sky" set the fog when spawning at this spot (fog_sky 0 = no change, -1 = clear to 0)
+"svflags" set the bits for a specific set of runes/serverflags you want to test
+"style" how to interpret svflags:
+	0: player will spawn here if they have any of the runes in svflags
+	1: player will only spawn here if they have all of them
+	2: player will NOT spawn here if they have any of them
+*/
+/*FGD
+@PointClass base(PlayerClass) = info_player_start2 : "Player episode return point. Fires targets when a player spawns here." [
+	svflags(Flags) =
+	[
+		1		: "Episode 1" : 0
+		2		: "Episode 2" : 0
+		4		: "Episode 3" : 0
+		8		: "Episode 4" : 0
+		16		: "Bit 5" :  0
+		32		: "Bit 6" :  0
+		64		: "Bit 7" :  0
+		128		: "Bit 8" :  0
+		256		: "Bit 9" :  0
+		512		: "Bit 10" : 0
+		1024	: "Bit 11" : 0
+		2048	: "Bit 12" : 0
+		4096	: "Bit 13" : 0
+		8192	: "Bit 14" : 0
+		16384	: "Bit 15" : 0
+		32768	: "Bit 16" : 0
+		65536	: "Bit 17" : 0
+		131072	: "Bit 18" : 0
+		262144	: "Bit 19" : 0
+		524288	: "Bit 20" : 0
+		1048576	: "Bit 21" : 0
+	]
+	style(Choices) : "Requirement" : 0 =
+	[
+		0 : "Have Any"
+		1 : "Must Have All"
+		2 : "Must Not Have Any"
+	]
+]
+*/
+void() info_player_start2 =
+{
+	setsize(self,VEC_HULL_MIN,VEC_HULL_MAX);	// for telefrag testing
+	self.mangle = self.angles;
+	fog_fixKeys();
+	
+	if (!self.svflags)
+		self.svflags = 2097151;	// all bits up to 21
+	if (self.style < 0 || self.style > 2)
+		self.style = 0;
+}
+
+
+/*QUAKED info_player_start_test (1 0 0) (-16 -16 -24) (16 16 24) USE
+Debug starting point for a level.  Overrides info_player_start if present and 'USE' is checked, does nothing if 'USE' is not checked. Will fire its targets when a player is spawned, here with player as activator.
+
+"angle" viewing angle when spawning
+"fog_color"/"fog_density"/"fog_sky" set the fog when spawning at this spot (fog_sky 0 = no change, -1 = clear to 0)
+*/
+/*FGD
+@PointClass base(PlayerClass) = info_player_start_test : "Developer-only spawn point" [
+	spawnflags(flags) = [
+		1 : "Spawn at this one plz" : 0
+	]
+]
+*/
+void() info_player_start_test =
+{
+	if (!(self.spawnflags & 1))
+	{
+		remove(self);
+		return;
+	}
+	self.mangle = self.angles;
+	fog_fixKeys();
+}
+void() testplayerstart = {info_player_start_test();}	// back compat with old editors that use regioned compiles
+
+/*QUAKED info_player_deathmatch (1 0 1) (-16 -16 -24) (16 16 24)
+potential spawning position for deathmatch games
+
+"angle" viewing angle when spawning
+"fog_color"/"fog_density"/"fog_sky" set the fog when spawning at this spot (fog_sky 0 = no change, -1 = clear to 0)
+*/
+/*FGD
+@PointClass base(PlayerClass) = info_player_deathmatch : "Deathmatch start" []
+*/
+void() info_player_deathmatch =
+{
+	fog_fixKeys();
+}
+
+// dumb way to make coop starts visible/invisible to the cyclical spawnpoint search 
+// code without making that code overly complex
+void(float unlock) coop_lock =
+{
+	if (unlock)
+		self.classname = "info_player_coop";
+	else
+		self.classname = "info_player_coop_notyet";
+}
+
+void() coop_enable =
+{
+	self.classname = "info_player_coop";
+	self.use = SUB_Null;
+}
+
+/*QUAKED info_player_coop (1 0 1) (-16 -16 -24) (16 16 24) TRIGGER_FIRST
+Potential spawning position(s) for coop games. Will fire its targets when a player is spawned here, with player as activator.
+
+"angle" viewing angle when spawning
+"fog_color"/"fog_density"/"fog_sky" set the fog when spawning at this spot (fog_sky 0 = no change, -1 = clear to 0)
+
+TRIGGER_FIRST - this start won't be used to spawn coop players until triggered, so respawning players don't have to walk all the way back to the action
+*/
+/*FGD
+@PointClass base(PlayerClass, Targetname) = info_player_coop : "Player cooperative start" [
+	spawnflags(flags) = [
+		1 : "Trigger first" : 0
+	]
+]
+*/
+void() info_player_coop =
+{
+	self.mangle = self.angles;
+	if (self.spawnflags & 1)
+	{
+		self.classname = "info_player_coop_notyet";
+		self.use = coop_enable;
+	}
+	self.lock = coop_lock;
+	fog_fixKeys();
+	setsize(self,VEC_HULL_MIN,VEC_HULL_MAX);	// for telefrag testing
+}

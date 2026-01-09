@@ -1,0 +1,527 @@
+/*
+===============================================================================
+
+BACKPACKS
+
+===============================================================================
+*/
+
+/*
+================================
+print_quant
+pretty-print a quantity to a client's buffer
+================================
+*/
+void(float amt, string noun, entity to) print_quant =
+{
+	string s;
+	
+	if (amt == 1)
+	{
+		sprint (to, "1 ");
+		sprint (to, noun);
+		return;
+	}
+	
+	s = ftos(amt);
+	sprint (to, s);
+	sprint (to, " ");
+	sprint (to, noun);
+	sprint (to, "s");
+}
+
+/*
+================================
+BackpackTouch
+================================
+*/
+void() BackpackTouch =
+{
+	if (!CheckValidTouch()) return;
+
+	// coop 1: players can only pick up their own backpacks
+	//if (coop == 1 && self.buddy && self.buddy != other) return;
+	// reverted:
+	// with no good way to indicate whose backpack is whose (because .colormap
+	// only works on players outside the original software renderer) this led to 
+	// a lot of ignored mystery backpacks players kept obsessively touching.
+	// going out of your way for your own ammo is also a waste of time unless
+	// the level is extremely linear, which good quake levels never are
+
+	float acount;
+	
+	other.ammo_shells = other.ammo_shells + self.ammo_shells;
+	other.ammo_nails = other.ammo_nails + self.ammo_nails;
+	other.ammo_rockets = other.ammo_rockets + self.ammo_rockets;
+	//other.ammo_cells = other.ammo_cells + self.ammo_cells;
+	bound_ammo(other);
+	T_GiveArmor(other, self.armorvalue);	
+	
+	sprint (other, "You got ");
+
+	if (self.items && (other.items & self.items) == 0)
+	{
+		acount = TRUE;
+		other.items |= self.items;
+		sprint (other, "the ");
+		sprint (other, self.netname);
+	
+		// change to the weapon
+		W_BetterWeapon(other, self.items);
+	}
+
+	if (self.armorvalue)
+	{
+		if (acount) sprint(other, ", ");
+		acount = 1;
+		sprint(other, ftos(self.armorvalue));
+		sprint(other, " armor");
+	}
+	if (self.ammo_shells)
+	{
+		if (acount) sprint(other, ", ");
+		acount = 2;
+		print_quant(self.ammo_shells, "shell", other);
+	}
+	if (self.ammo_nails)
+	{
+		if (acount) sprint(other, ", ");
+		acount = 2;
+		print_quant(self.ammo_nails, "nail", other);
+	}
+	if (self.ammo_rockets)
+	{
+		if (acount) sprint(other, ", ");
+		acount = 2;
+		print_quant(self.ammo_rockets, "explosive", other);
+	}
+	/*
+	if (self.ammo_cells)
+	{
+		if (acount) sprint(other, ", ");
+		acount = 2;
+		print_quant(self.ammo_cells, "fragment", other);
+	}
+	*/
+	
+	sprint (other, "\n");
+	
+	// do this after because t_heal prints its own message
+	if (self.healamount)
+		T_Heal(other, self.healamount, 0);
+
+	// regular monster backpacks don't make the AWESOME NEW backpack sound
+	if (self.classname == "item_backpack")
+	{
+		if (acount == 2)
+			sound(other, CHAN_ITEM, "items/pack.wav", 1, ATTN_NORM);
+		else	// only got armor, play armor sound instead
+			sound(other, CHAN_ITEM, "items/patch.wav", 1, ATTN_NORM);
+	}
+	else
+		sound (other, CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM);
+		
+	stuffcmd (other, "bf\n");
+
+	if ((coop == 1 && self.buddy && self.buddy == other)
+		|| (!other.weapon))
+		SUB_CallAsSelf_float(W_SelectBestWeapon, other);		
+	else
+		SUB_CallAsSelf(W_UpdateCurrentAmmo, other);
+	ItemTouched();
+}
+
+/*
+================================
+BackpackAutoTouch
+
+backpacks can always be picked up, so mapper-placed ammo backpacks should 
+give the player something else if they're maxxed out on any ammo types,
+since they're little exploration rewards for hiding behind crates and etc
+================================
+*/
+void() BackpackAutoTouch =
+{
+	if (!CheckValidTouch()) return;
+
+	if (self.spawnflags & 1)
+		sprint (other, "You found a big blue backpack!\n");
+	else
+		sprint (other, "You found a backpack\n");
+		
+	if (other.ammo_shells + self.ammo_shells > MAX_AMMO_SHELLS)
+	{
+		self.armorvalue += other.ammo_shells + self.ammo_shells - MAX_AMMO_SHELLS;
+		self.ammo_shells = MAX_AMMO_SHELLS - other.ammo_shells;
+	}
+	if (other.ammo_nails + self.ammo_nails > MAX_AMMO_NAILS)
+	{
+		self.armorvalue += ceil((other.ammo_nails + self.ammo_nails - MAX_AMMO_NAILS) / 2);
+		self.ammo_nails = MAX_AMMO_NAILS - other.ammo_nails;
+	}
+	if (other.ammo_rockets + self.ammo_rockets > MAX_AMMO_ROCKETS)
+	{
+		self.armorvalue += (other.ammo_rockets + self.ammo_rockets - MAX_AMMO_ROCKETS) * 5;
+		self.ammo_rockets = MAX_AMMO_ROCKETS - other.ammo_rockets;
+	}
+	/*
+	if (other.ammo_cells + self.ammo_cells > MAX_AMMO_CELLS)
+	{
+		self.armorvalue += (other.ammo_cells + self.ammo_cells - MAX_AMMO_CELLS) * 10;
+		self.ammo_cells = MAX_AMMO_CELLS - other.ammo_cells;
+
+	}
+	*/
+	
+	//self.armorvalue = floor(self.armorvalue / 2);	//don't half my math!
+	BackpackTouch();
+	
+	if (self.wait > 0)
+	{
+		setmodel (self, "progs/backpack.mdl");
+			
+		self.ammo_shells 	= 10;	//= 10 armor
+		self.ammo_nails 	= 20;	//= 10 armor
+		self.ammo_rockets	=  1;	//= 5 armor
+		//self.ammo_cells	=  0;	//= 0 armor
+		
+		if (self.spawnflags & 1) //Big Blue Backpack
+		{
+			setmodel (self, "progs/backpack_big.mdl");
+			
+			self.ammo_shells  = 15;	//= 1 armor
+			self.ammo_nails   = 40; //= 20 armor
+			self.ammo_rockets =  3; //= 15 armor
+			//self.ammo_cells =  0; //= 0 armor		
+		}	
+		self.armorvalue = 0;
+	}
+}
+
+/*QUAKED item_backpack (0 .5 .5) (-16 -16 0) (16 16 40) BIG ? SUSPENDED -
+A forgotten explorer's backpack. Grants 10 shells, 20 nails, 1 explosive. If exceed max ammo grant bonus armor up to 25 total.
+
+Flags:
+"Big Blue" Gives 15 shells, 40 nails, 3 explosives. If exceed max ammo grant bonus armor up to 50 total.
+    
+Keys:
+"target/2/3/4/k" - entity to trigger when picked up
+"targetname" - will not spawn until triggered
+"wait" - will respawn after 'wait' seconds. fires targets every time.
+"count" - limit number of times to respawn
+*/
+/*FGD
+@PointClass base(Item) size(-16 -16 0, 16 16 40) color(0 128 128) 
+	model({ "path": ":progs/backpack.mdl" }) 
+	= item_backpack : 
+"A forgotten explorer's backpack. Grants 10 shells, 20 nails, 1 explosive. If exceed max ammo grant bonus armor up to 25 total."
+[
+	spawnflags(flags) =	[
+		1 : "Big Blue (15 shells, 40 nails, 3 explosives)" : 0
+	]
+]
+*/
+void() item_backpack =
+{
+	if (!SUB_ShouldSpawn()) return;
+	precache_model_safe("progs/backpack.mdl");
+	precache_model_safe("progs/backpack_big.mdl");
+	precache_sound3("items/pack.wav");	// backpacks can play either of these
+	precache_sound3("items/patch.wav");
+	setsize (self, '-16 -16 0', '16 16 56');
+	
+	setmodel (self, "progs/backpack.mdl");
+		
+	self.ammo_shells 	= 10;	//= 10 armor
+	self.ammo_nails 	= 20;	//= 10 armor
+	self.ammo_rockets	=  1;	//= 5 armor
+	//self.ammo_cells	=  0;	//= 0 armor
+	
+	if (self.spawnflags & 1) //Big Blue Backpack
+	{
+		setmodel (self, "progs/backpack_big.mdl");
+		
+		self.ammo_shells  = 15;	//= 1 armor
+		self.ammo_nails   = 40; //= 20 armor
+		self.ammo_rockets =  3; //= 15 armor
+		//self.ammo_cells =  0; //= 0 armor		
+	}	
+	self.touch = BackpackAutoTouch;
+	StartItem ();
+}
+
+
+/*
+===============
+DropBackpack
+===============
+*/
+void(float skin_num) DropBackpack =
+{
+	entity item;
+
+	if (!(self.ammo_shells + self.ammo_nails + self.ammo_rockets + self.ammo_cells))
+		return;	// nothing in it
+
+	item = spawn();
+	item.origin = self.origin - '0 0 24';
+	
+	if (coop != 1)
+	{
+		item.items = self.weapon;
+		if (item.items == IT_AXE)
+			item.netname = string_null;
+		else if (item.items == IT_SHOTGUN)
+			item.netname = "Stechkin Pistol";
+		else if (item.items == IT_SUPER_SHOTGUN)
+			item.netname = "KS-23 FLAK";
+		else if (item.items == IT_NAILGUN)
+			item.netname = "Twin Nailguns";
+		else if (item.items == IT_SUPER_NAILGUN)
+			item.netname = "Rebar Cannon";
+		else if (item.items == IT_GRENADE_LAUNCHER)
+			item.netname = "RG-6 Grenade Launcher";
+		else if (item.items == IT_ROCKET_LAUNCHER)
+			item.netname = "Multi Mini-Missile Launcher";
+		else if (item.items == IT_LIGHTNING)
+			item.netname = "The Invoker";
+		else
+			item.netname = string_null;
+		
+	}
+	
+	if (coop == 1)
+	{
+		// keep half your shells and nails on respawn to make getting your backpack possible
+		self.ammo_shells = floor(self.ammo_shells / 2);
+		self.ammo_nails = floor(self.ammo_nails / 2);
+	}
+	item.ammo_shells = self.ammo_shells;
+	item.ammo_nails = self.ammo_nails;
+	item.ammo_rockets = self.ammo_rockets;
+	item.ammo_cells = self.ammo_cells;
+
+	item.velocity_z = 300;
+	item.velocity_x = -100 + (random() * 200);
+	item.velocity_y = -100 + (random() * 200);
+	
+	item.flags = FL_ITEM;
+	item.solid = SOLID_TRIGGER;
+	item.movetype = MOVETYPE_TOSS;
+	setmodel (item, "progs/backpack.mdl");
+	setsize (item, '-16 -16 0', '16 16 56');
+	item.touch = BackpackTouch;
+	
+	if (self.flags & FL_CLIENT)
+	{	// apply player's colormap to his backpack, although currently this only works in software
+		item.colormap = self.colormap;
+		//item.skin = 3;
+		
+		if (coop == 1)
+		{	// players can only pick up their own backpacks, which never despawn (body run rules)
+			item.buddy = self;
+			return;
+		}
+	}
+
+	item.skin = skin_num;
+	
+	item.nextthink = time + 116;	// remove after 2 minutes
+	item.think = ItemDespawnBlink;	// blink 4 times
+}
+
+void(float ammo_type) DropEnemyAmmo =
+{
+	entity item;
+
+	if (!(self.ammo_shells + self.ammo_nails + self.ammo_rockets + self.ammo_cells))
+		return;	// nothing in it
+
+	item = spawn();
+	item.origin = self.origin - '0 0 24';
+	
+	item.ammo_shells = self.ammo_shells;
+	item.ammo_nails = self.ammo_nails;
+	item.ammo_rockets = self.ammo_rockets;
+	item.ammo_cells = self.ammo_cells;
+
+	item.velocity_z = 300;
+	item.velocity_x = -100 + (random() * 200);
+	item.velocity_y = -100 + (random() * 200);
+	
+	item.flags = FL_ITEM;
+	item.solid = SOLID_TRIGGER;
+	item.movetype = MOVETYPE_TOSS;
+	
+	if 	(ammo_type == 1)	setmodel (item, "progs/ammo/shells_drop.mdl");
+	//else if (ammo_type == 2)	setmodel (item, "progs/ammo/nails_drop.mdl");
+	else if (ammo_type == 3)	setmodel (item, "progs/ammo/explosives_drop.mdl");
+	//else if (ammo_type == 4)	setmodel (item, "progs/ammo/fragments_drop.mdl");
+	else				setmodel (item, "progs/backpack.mdl");
+	
+	setsize (item, '-16 -16 0', '16 16 56');
+	item.touch = BackpackTouch;
+	
+	item.nextthink = time + 116;	// remove after 2 minutes
+	item.think = ItemDespawnBlink;	// blink 4 times
+}
+
+/*
+===============
+VampGlobe Stuff
+they're basically backpacks, really.
+===============
+*/
+void(entity attacker) CheckVampGlobe =
+{
+	float VampCouRemaining = 0;
+	//if they player doesn't have vampiric blood, don't bother
+	if (attacker.vamp_finished < time)
+	return;
+
+	//check what tier the monster is, so we know how many globes to drop
+	if ((self.classname == "monster_wizard") || 
+		(self.classname == "monster_enforcer") || 
+		(self.classname == "monster_knight"))
+		self.cnt = 2;
+
+	else if ((self.classname == "monster_hell_knight") ||
+		(self.classname == "monster_shield_knight") ||
+		(self.classname == "monster_ogre"))
+		self.cnt = 3;
+
+	else if ((self.classname == "monster_shambler") ||
+		(self.classname == "monster_shalrath") ||
+		(self.classname == "monster_demon1") ||
+		(self.classname == "monster_amalgam") ||
+		(self.classname == "monster_spawn"))
+		self.cnt = 4;
+	
+	else self.cnt = 1;
+
+	while(self.cnt > VampCouRemaining)
+	{
+		DropVampGlobe(attacker);
+		VampCouRemaining++;
+	}
+}
+
+/*
+===============
+DropVampGlobe
+===============
+*/
+void(entity player) DropVampGlobe =
+{
+	entity item;
+
+	item = spawn();
+	item.origin = self.origin + '0 0 24';
+
+	item.velocity_z = 300 + (random() * 100);
+	item.velocity_x = -150 + (random() * 300);
+	item.velocity_y = -150 + (random() * 300);
+	
+	item.flags = FL_ITEM;
+	item.solid = SOLID_TRIGGER;
+	item.movetype = MOVETYPE_TOSS;
+	item.classname = "VampGlobe";
+	setmodel (item, "progs/item_vampglobe.mdl");
+	item.touch = VampGlobeTouch;
+	setsize (item, '-16 -16 -24', '16 16 64');
+
+	if (player.vamp_finished > 4)
+	item.nextthink = player.vamp_finished - 4;	// remove after powerup runs out on player
+	else
+	item.nextthink = time;
+
+	item.think = ItemDespawnBlink;	// blink 4 times
+	return;
+}
+
+void() VampGlobeTouch =
+{
+	if (!CheckValidTouch()) return;
+
+	//for summary on health healed during powerup duration
+	other.globehealth_cou += 5;
+	//for coagulated (lol) health received prints so we don't spam console
+	//with tinylittleman hp received prints
+	other.globehealth_cou_short += 5;
+	
+	if (random() < 0.33)
+		sound(other, CHAN_ITEM, "items/vamppickup1.wav", 1, ATTN_NORM);
+	else if (random() > 0.5)
+		sound(other, CHAN_ITEM, "items/vamppickup2.wav", 1, ATTN_NORM);
+	else
+		sound(other, CHAN_ITEM, "items/vamppickup3.wav", 1, ATTN_NORM);
+
+	T_Heal(other,5,1);
+	SUB_Remove();
+}
+
+void() VampGlobeHome =
+{
+    float rate, dot;
+    //vector lookat;
+    self.movetype = MOVETYPE_NOCLIP;
+    if (!self.distance)
+    {
+        self.distance = 35;
+    }
+   //if (self.count == 0)
+   //{
+   //    self.count = 1;
+   //    lookat = self.origin - self.origin;
+   //    lookat = normalize(lookat);
+   //    self.angles = vectoangles(lookat);
+   //}
+
+    if ((self.buddy.health < 1)) //change this to the self/whatever we're using for checking of player is alive
+    {
+        remove(self);
+    }
+
+    self.nextthink = time + 0.04;
+    rate = 400;
+
+	if (self.distance < 500)
+    	self.distance += 55;
+
+    dot = normalize(self.velocity) * normalize(self.buddy.origin - self.origin);
+    self.owner = self.trueowner;
+
+    // good homing (full turn rate):
+    {
+        if (dot < 0)
+        {
+            rate *= min(1.4, 1.4 + fabs(dot));
+        }
+        self.velocity = self.distance * VampTurnToward(self.buddy, rate);
+    }
+
+    //small randomization on left/right vectors for flavour
+    self.velocity += Vector(random(),random(), 0) * 4;
+
+    self.think = VampGlobeHome;
+    self.oldvelocity = self.velocity;
+}
+
+vector(entity targ, float turnrate) VampTurnToward =
+{
+	vector	vel, aimdir, temp, temp2, out;
+
+	temp = targ.origin;
+	aimdir = temp - self.origin;
+	aimdir = normalize(aimdir);
+	vel = normalize(self.velocity);
+	
+	temp = CrossProduct(vel, aimdir);
+	out = rotateVectorAround(vel, temp, turnrate * 0.05);
+	
+	// don't turn past the desired direction
+	temp2 = CrossProduct(out, aimdir);
+	if ((temp * temp2) < 0)
+		return aimdir;
+	return out;
+}

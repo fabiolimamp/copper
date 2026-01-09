@@ -1,0 +1,787 @@
+void() main =
+{
+	dprint ("main function\n");
+	
+// these are just commands to the prog compiler to copy these files
+
+	precache_file ("progs.dat");
+	precache_file ("gfx.wad");
+	precache_file ("quake.rc");
+	precache_file ("default.cfg");
+
+	precache_file ("end1.bin");
+	precache_file2 ("end2.bin");
+
+	precache_file ("demo1.dem");
+	precache_file ("demo2.dem");
+	precache_file ("demo3.dem");
+
+//
+// these are all of the lumps from the cached.ls files
+//
+	precache_file ("gfx/palette.lmp");
+	precache_file ("gfx/colormap.lmp");
+
+	precache_file2 ("gfx/pop.lmp");
+
+	precache_file ("gfx/complete.lmp");
+	precache_file ("gfx/inter.lmp");
+
+	precache_file ("gfx/ranking.lmp");
+	precache_file ("gfx/vidmodes.lmp");
+	precache_file ("gfx/finale.lmp");
+	precache_file ("gfx/conback.lmp");
+	precache_file ("gfx/qplaque.lmp");
+
+	precache_file ("gfx/menudot1.lmp");
+	precache_file ("gfx/menudot2.lmp");
+	precache_file ("gfx/menudot3.lmp");
+	precache_file ("gfx/menudot4.lmp");
+	precache_file ("gfx/menudot5.lmp");
+	precache_file ("gfx/menudot6.lmp");
+
+	precache_file ("gfx/menuplyr.lmp");
+	precache_file ("gfx/bigbox.lmp");
+	precache_file ("gfx/dim_modm.lmp");
+	precache_file ("gfx/dim_drct.lmp");
+	precache_file ("gfx/dim_ipx.lmp");
+	precache_file ("gfx/dim_tcp.lmp");
+	precache_file ("gfx/dim_mult.lmp");
+	precache_file ("gfx/mainmenu.lmp");
+	
+	precache_file ("gfx/box_tl.lmp");
+	precache_file ("gfx/box_tm.lmp");
+	precache_file ("gfx/box_tr.lmp");
+	
+	precache_file ("gfx/box_ml.lmp");
+	precache_file ("gfx/box_mm.lmp");
+	precache_file ("gfx/box_mm2.lmp");
+	precache_file ("gfx/box_mr.lmp");
+	
+	precache_file ("gfx/box_bl.lmp");
+	precache_file ("gfx/box_bm.lmp");
+	precache_file ("gfx/box_br.lmp");
+	
+	precache_file ("gfx/sp_menu.lmp");
+	precache_file ("gfx/ttl_sgl.lmp");
+	precache_file ("gfx/ttl_main.lmp");
+	precache_file ("gfx/ttl_cstm.lmp");
+	
+	precache_file ("gfx/mp_menu.lmp");
+	
+	precache_file ("gfx/netmen1.lmp");
+	precache_file ("gfx/netmen2.lmp");
+	precache_file ("gfx/netmen3.lmp");
+	precache_file ("gfx/netmen4.lmp");
+	precache_file ("gfx/netmen5.lmp");
+	
+	precache_file ("gfx/sell.lmp");
+	
+	precache_file ("gfx/help0.lmp");
+	precache_file ("gfx/help1.lmp");
+	precache_file ("gfx/help2.lmp");
+	precache_file ("gfx/help3.lmp");
+	precache_file ("gfx/help4.lmp");
+	precache_file ("gfx/help5.lmp");
+
+	precache_file ("gfx/pause.lmp");
+	precache_file ("gfx/loading.lmp");
+
+	precache_file ("gfx/p_option.lmp");
+	precache_file ("gfx/p_load.lmp");
+	precache_file ("gfx/p_save.lmp");
+	precache_file ("gfx/p_multi.lmp");
+
+// sounds loaded by C code
+	precache_sound ("misc/menu1.wav");
+	precache_sound ("misc/menu2.wav");
+	precache_sound ("misc/menu3.wav");
+
+	precache_sound ("ambience/water1.wav");
+	precache_sound ("ambience/wind2.wav");
+
+// shareware
+	precache_file ("maps/start.bsp");
+
+	precache_file ("maps/e1m1.bsp");
+	precache_file ("maps/e1m2.bsp");
+	precache_file ("maps/e1m3.bsp");
+	precache_file ("maps/e1m4.bsp");
+	precache_file ("maps/e1m5.bsp");
+	precache_file ("maps/e1m6.bsp");
+	precache_file ("maps/e1m7.bsp");
+	precache_file ("maps/e1m8.bsp");
+
+// registered
+	precache_file2 ("gfx/pop.lmp");
+
+	precache_file2 ("maps/e2m1.bsp");
+	precache_file2 ("maps/e2m2.bsp");
+	precache_file2 ("maps/e2m3.bsp");
+	precache_file2 ("maps/e2m4.bsp");
+	precache_file2 ("maps/e2m5.bsp");
+	precache_file2 ("maps/e2m6.bsp");
+	precache_file2 ("maps/e2m7.bsp");
+
+	precache_file2 ("maps/e3m1.bsp");
+	precache_file2 ("maps/e3m2.bsp");
+	precache_file2 ("maps/e3m3.bsp");
+	precache_file2 ("maps/e3m4.bsp");
+	precache_file2 ("maps/e3m5.bsp");
+	precache_file2 ("maps/e3m6.bsp");
+	precache_file2 ("maps/e3m7.bsp");
+
+	precache_file2 ("maps/e4m1.bsp");
+	precache_file2 ("maps/e4m2.bsp");
+	precache_file2 ("maps/e4m3.bsp");
+	precache_file2 ("maps/e4m4.bsp");
+	precache_file2 ("maps/e4m5.bsp");
+	precache_file2 ("maps/e4m6.bsp");
+	precache_file2 ("maps/e4m7.bsp");
+	precache_file2 ("maps/e4m8.bsp");
+
+	precache_file2 ("maps/end.bsp");
+
+	precache_file2 ("maps/dm1.bsp");
+	precache_file2 ("maps/dm2.bsp");
+	precache_file2 ("maps/dm3.bsp");
+	precache_file2 ("maps/dm4.bsp");
+	precache_file2 ("maps/dm5.bsp");
+	precache_file2 ("maps/dm6.bsp");
+}
+
+
+
+//=======================
+/*QUAKED worldspawn (0 0 0) ?
+
+Keys:
+"light" default light level
+"message" sets the title of the map
+"sounds" CD track to play
+"wad" which graphics wads to use. semicolon delineated, no spaces
+"worldtype" style of keys to spawn
+    0 = medieval
+    1 = metal
+    2 = base
+"gravity" how fast your dreams come crashing down
+
+"_sunlight" "#"
+"_sun_mangle" "# # 0" yaw pitch roll. pitch is 90 to -90 degrees up to down.
+"_sunlight_color" "# # #"
+
+"_dirt" use dirtmapping
+"_dirtdepth" length of dirt rays, default 128.
+"_dirtscale" Scale factor used in dirt calculations, default 1 (higher is darker)
+"_dirtgain" Exponent used in dirt calculation, default 1 (lower is darker)
+*/
+/*FGD
+@SolidClass color(240 240 240) = worldspawn : "World entity"
+[
+	message(string) : "Map name"
+	worldtype(choices) : "Key Style" : 0 =
+	[
+		0 : "Medieval"
+		1 : "Runemetal"
+		2 : "Base"
+	]
+	fog(string) : "Set fog via engine (D R G B)"
+	fog_density(string) : "Set fog density via mod"
+	fog_color(string) : "Set fog color via mod (R G B)"
+	sounds(integer) : "CD track to play" : 0
+	light(integer) : "Ambient light"
+	gravity(integer) : "Gravity"
+	sky(string) : "Skybox"
+	_skyfog(string) : "Sky fog strength"
+	_wateralpha(string) : "Water alpha"
+	_lavaalpha(string) : "Lava alpha" : "1.0"
+	_telealpha(string) : "Tele alpha" : "1.0"
+	_sunlight(integer) : "Sunlight"
+	_sun_mangle(string) : "Sun mangle (Yaw pitch roll)"
+	_sunlight_color(string) : "Sun color"
+	_dirt(integer) : "use dirtmapping" : 0
+	_dirtdepth(integer) : "length of dirt rays" : 128
+	_dirtscale(string) : "Scale factor used in dirt calculations, higher is darker" : "1.0"
+	_dirtgain(string) : "Exponent used in dirt calculation, lower is darker" : "1.0"
+]
+*/
+//=======================
+void() worldspawn =
+{
+	lastspawn = world;
+	startingserverflags = serverflags;
+
+	backstop = spawn_builtin();
+
+	InitBodyQueue ();
+	InitLightStyles();	// moved to lights.qc
+	
+	mapvar_setuparray();
+	if (!self.gravity)
+	{
+		if (mapname == "e1m8")
+		{
+			self.gravity = 100;
+		}
+		else
+		{
+			self.gravity = 800;
+		}
+	}
+	cvar_set("sv_gravity", ftos(self.gravity));
+	
+	// learn to map petersen i hate u
+	if (mapname == "e4m5") sandyMadeThis = TRUE;
+	
+	// make sure these are set for spawnfuncs, which happen before the first startframe()
+	teamplay = cvar("teamplay");
+	skill = cvar("skill");
+	
+	self.light_lev = 0;	// shut up FTEQCC warning
+	
+	fog_fixKeys();	// -1 -> 0 switch, if world has fog values
+	
+	keyType = "Key";	// default if there are no keys placed in the map
+
+	if (cvar("pr_checkextension"))
+	{
+		if (checkextension("QUAKE_EX"))
+		{
+			// do absolutely nothing in the rerelease
+			isKex = TRUE;
+		}
+#ifndef NO_CSQC
+		else
+		{
+			isCSQC = TRUE;
+			/*
+			// globalstat is inconsistently implemented (ironwail) because the "EXT_CSQC" 
+			// extension is actually undefined and meaningless
+			if (checkextension("EXT_CSQC"))
+			{
+				globalstat(STAT_CLIENTS, 2, "clients");
+				globalstat(STAT_CLIENTDATA, 2, "clientsAliveMask");	// client death status monitor
+			}
+			else
+			*/
+			clientstat(STAT_KEYCOUNTS, 2, worldtype);	// multiple keys on hud
+			clientstat(STAT_CLIENTDATA, 2, clientdata);	// shitty client death status monitor
+			clientstat(STAT_TINTAMOUNT, 2, tint);		// backdoor v_cshift
+			clientstat(STAT_TINTCOLOR_R, 2, tint_color_x);
+			clientstat(STAT_TINTCOLOR_G, 2, tint_color_y);
+			clientstat(STAT_TINTCOLOR_B, 2, tint_color_z);
+			clientstat(STAT_ITEMS_QBJ, 2, items_qbj);
+			clientstat(STAT_RELOADPERC, 2, weaponreload_perc);
+		}
+#endif
+	}
+
+	cdtrack = &world.sounds;	// absolute madness. see void() target_music_use
+
+// the area based ambient sounds MUST be the first precache_sounds
+
+// player precaches	
+	W_Precache ();			// get weapon precaches
+
+	precache_sound ("misc/null.wav");
+
+	// sounds used from C physics code
+	precache_sound ("demon/dland2.wav");		// landing thud
+	precache_sound ("misc/h2ohit1.wav");		// landing splash
+
+	// player sounds
+	precache_sound ("items/itembk2.wav");		// item respawn sound
+	precache_sound ("player/plyrjmp8.wav");		// player jump
+	precache_sound ("player/land.wav");			// player landing
+	precache_sound ("player/land2.wav");		// player hurt landing
+	precache_sound ("player/drown1.wav");		// drowning pain
+	precache_sound ("player/drown2.wav");		// drowning pain
+	precache_sound ("player/gasp1.wav");		// gasping for air
+	precache_sound ("player/gasp2.wav");		// taking breath
+	precache_sound ("player/h2odeath.wav");		// drowning death
+
+	// footsteps
+	precache_sound ("player/footstep1.wav"); //solidground
+	precache_sound ("player/footstep2.wav");
+	precache_sound ("player/footstep3.wav");
+	precache_sound ("player/footstep4.wav");
+	precache_sound ("player/footstep5.wav");
+	precache_sound ("player/footstep6.wav");
+	precache_sound ("player/footstep7.wav");
+	precache_sound ("player/footstep8.wav");
+	precache_sound ("player/footstep9.wav");
+	precache_sound ("player/footstep10.wav");
+	precache_sound ("player/waterstep1.wav"); //water
+	precache_sound ("player/waterstep2.wav");
+	precache_sound ("player/waterstep3.wav");
+	precache_sound ("player/waterstep4.wav");
+	precache_sound ("player/waterstep5.wav");
+	precache_sound ("player/waterstep6.wav");
+	precache_sound ("player/waterstep7.wav");
+	precache_sound ("player/waterstep8.wav");
+	precache_sound ("player/waterstep9.wav");
+	precache_sound ("player/waterstep10.wav");
+
+	precache_sound ("misc/talk.wav");			// talk
+	precache_sound ("player/teledth1.wav");		// telefrag
+	precache_sound ("misc/r_tele1.wav");		// teleport sounds
+	precache_sound ("misc/r_tele2.wav");
+	precache_sound ("misc/r_tele3.wav");
+	precache_sound ("misc/r_tele4.wav");
+	precache_sound ("misc/r_tele5.wav");
+	
+// iw -- fix powerup cheat sounds
+// sounds used by cheats
+	precache_sound ("items/suit2.wav");			// suit (finish)
+	precache_sound ("items/protect2.wav");		// pent (finish)
+	precache_sound ("items/protect3.wav");		// pent (protect)
+	precache_sound ("items/inv2.wav");			// ring (finish)
+	precache_sound ("items/inv3.wav");			// ring (idle)
+	precache_sound ("items/damage2.wav");		// quad (finish)
+	precache_sound ("items/damage3.wav");		// quad (attack)
+// iw -- END
+
+	// items
+	precache_sound ("weapons/lock4.wav");		// ammo pick up
+	precache_sound ("weapons/pkup.wav");		// weapon up
+	precache_sound ("items/armor1.wav");		// armor up
+
+	precache_sound ("items/armor_shard.wav");	// new armor sounds
+	precache_sound ("items/armor_light.wav");
+	precache_sound ("items/armor_heavy.wav");
+
+	precache_sound3("items/pack.wav");	// backpacks can play either of these
+	precache_sound3("items/patch.wav");
+
+	// player gib sounds
+	precache_sound ("player/gib.wav");			// player gib sound
+	precache_sound ("player/udeath.wav");		// player gib sound
+	precache_sound ("player/udeath2.wav");
+	precache_sound ("player/tornoff2.wav");		// gib sound
+
+	precache_sound ("items/vampstart.wav");
+	precache_sound ("items/vampfade.wav");
+	precache_sound ("items/vamppickup1.wav");
+	precache_sound ("items/vamppickup2.wav");
+	precache_sound ("items/vamppickup3.wav");
+
+	precache_model ("progs/item_berserk.mdl");
+	precache_model ("progs/v_berserk.mdl");
+	precache_sound ("items/berserk_pickup.wav");
+	precache_sound ("items/berserk_fade.wav");
+	precache_sound ("items/berserk_fire.wav");	
+
+// player pain sounds
+
+	precache_sound ("player/pain1.wav");
+	precache_sound ("player/pain2.wav");
+	precache_sound ("player/pain3.wav");
+	precache_sound ("player/pain4.wav");
+	precache_sound ("player/pain5.wav");
+	precache_sound ("player/pain6.wav");
+
+// player death sounds
+	precache_sound ("player/death1.wav");
+	precache_sound ("player/death2.wav");
+	precache_sound ("player/death3.wav");
+	precache_sound ("player/death4.wav");
+	precache_sound ("player/death5.wav");
+
+// liquids
+	precache_sound ("player/h2ojump.wav");		// player jumping into water
+	//precache_sound ("player/slimbrn2.wav");		// player enter slime
+	precache_sound ("player/inh2o.wav");		// player enter water
+	precache_sound ("player/inlava.wav");		// player enter lava
+	precache_sound ("misc/outwater.wav");		// leaving water sound
+	precache_sound ("misc/w_under.wav");		// copper: diving water sound
+	precache_sound ("misc/w_under2.wav");		// copper: diving water sound
+	precache_sound ("player/lburn1.wav");		// lava burn
+	precache_sound ("player/lburn2.wav");		// lava burn
+	precache_sound ("misc/water1.wav");			// swimming
+	precache_sound ("misc/water2.wav");			// swimming
+
+	precache_sound ("player/player_burn1.wav");
+	precache_sound ("player/player_burn2.wav");
+	precache_sound ("player/player_burn3.wav");
+	precache_sound ("player/player_burn4.wav");
+	precache_sound ("player/player_death1.wav");
+	precache_sound ("player/player_death2.wav");
+	precache_sound ("player/player_death3.wav");
+	precache_sound ("player/player_death4.wav");
+	precache_sound ("player/player_death5.wav");
+	precache_sound ("player/player_death6.wav");
+	precache_sound ("player/player_death7.wav");
+	precache_sound ("player/player_drown1.wav");
+	precache_sound ("player/player_drown2.wav");
+	precache_sound ("player/player_drown3.wav");
+	precache_sound ("player/player_drown4.wav");
+	precache_sound ("player/player_drown5.wav");
+	precache_sound ("player/player_drown6.wav");
+	precache_sound ("player/player_fall1.wav");
+	precache_sound ("player/player_fall2.wav");
+	precache_sound ("player/player_fall3.wav");
+	precache_sound ("player/player_gasp1_1.wav");
+	precache_sound ("player/player_gasp1_2.wav");
+	precache_sound ("player/player_gasp1_3.wav");
+	precache_sound ("player/player_gasp1_4.wav");
+	precache_sound ("player/player_gasp1_5.wav");
+	precache_sound ("player/player_gasp2_1.wav");
+	precache_sound ("player/player_gasp2_2.wav");
+	precache_sound ("player/player_gasp2_3.wav");
+	precache_sound ("player/player_gasp2_4.wav");
+	precache_sound ("player/player_h2odeath1.wav");
+	precache_sound ("player/player_h2odeath2.wav");
+	precache_sound ("player/player_h2odeath3.wav");
+	precache_sound ("player/player_jump1.wav");
+	precache_sound ("player/player_jump2.wav");
+	precache_sound ("player/player_jump3.wav");
+	precache_sound ("player/player_jump4.wav");
+	precache_sound ("player/player_jump5.wav");
+	precache_sound ("player/player_jump6.wav");
+	precache_sound ("player/player_jump7.wav");
+	precache_sound ("player/player_land1_1.wav");
+	precache_sound ("player/player_land1_2.wav");
+	precache_sound ("player/player_land1_3.wav");
+	precache_sound ("player/player_land1_4.wav");
+	precache_sound ("player/player_land1_5.wav");
+	precache_sound ("player/player_land1_6.wav");
+	precache_sound ("player/player_land2_1.wav");
+	precache_sound ("player/player_land2_2.wav");
+	precache_sound ("player/player_pain1.wav");
+	precache_sound ("player/player_pain2.wav");
+	precache_sound ("player/player_pain3.wav");
+	precache_sound ("player/player_pain4.wav");
+	precache_sound ("player/player_pain5.wav");
+	precache_sound ("player/player_pain6.wav");
+	precache_sound ("player/player_pain7.wav");
+	precache_sound ("player/player_pain8.wav");
+	precache_sound ("player/player_pain9.wav");
+
+
+	precache_model ("progs/player.mdl");
+	precache_model ("progs/player_qbj.mdl");
+	precache_model ("progs/eyes.mdl");
+	precache_model ("progs/h_player.mdl");
+	precache_model ("progs/gibs/gibhead_rover.mdl");
+
+	
+	precache_model("progs/fx/invoked_player.mdl");
+
+	precache_model ("progs/gibs/gib_gen_1.mdl"); // generic gibs
+	precache_model ("progs/gibs/gib_gen_2.mdl");
+	precache_model ("progs/gibs/gib_gen_3.mdl");
+	precache_model ("progs/gibs/gib_gen_4.mdl");
+	precache_model ("progs/gibs/gib_gen_5.mdl");
+	precache_model ("progs/gibs/gib_gen_6.mdl");
+
+	precache_model ("progs/gibs/gib_conc_1.mdl"); // concrete alt gibs
+	precache_model ("progs/gibs/gib_conc_2.mdl");
+	precache_model ("progs/gibs/gib_conc_3.mdl");
+
+	precache_model ("progs/gibs/gib_shambler_1.mdl"); // shambler specific gibs
+	precache_model ("progs/gibs/gib_shambler_2.mdl");
+	precache_model ("progs/gibs/gib_shambler_3.mdl");
+	precache_model ("progs/gibs/gib_shambler_4.mdl");
+	precache_model ("progs/gibs/gib_shambler_5.mdl");
+	precache_model ("progs/gibs/gib_shambler_6.mdl");
+
+	precache_model ("progs/s_bubble.spr");	// drowning bubbles
+	//precache_model ("progs/s_explod.spr");	// sprite explosion
+	//precache_model ("progs/s_explo2.spr");	// sprite weak explosion
+
+	precache_model ("progs/bolt.mdl");	// for lightning gun
+	precache_model ("progs/bolt2.mdl");	// for lightning gun
+	precache_model ("progs/bolt3.mdl");	// for boss shock
+	precache_model ("progs/lavaball.mdl");	// for testing
+	
+	precache_model ("progs/missile.mdl");
+	precache_model ("progs/proj_grenade.mdl");
+	precache_model ("progs/spike.mdl");
+	//precache_model ("progs/s_spike.mdl");
+
+	precache_model ("progs/null.mdl");
+
+	precache_model ("progs/backpack.mdl");
+	precache_model ("progs/backpack_big.mdl");
+
+	precache_model ("progs/item_vampglobe.mdl");
+
+	precache_model ("progs/zom_gib.mdl");
+			
+	precache_model ("progs/ammo/shells_drop.mdl");		// dropped ammo pickups (replaces backpack)
+	//precache_model ("progs/ammo/nails_drop.mdl");		// no enemies drop nails
+	precache_model ("progs/ammo/explosives_drop.mdl");	// dropped ammo pickups (replaces backpack)
+	//precache_model ("progs/ammo/fragments_drop.mdl");	// no enemies drop cells
+	//precache_model ("progs/ammo/health_drop.mdl");	// no enemies drop health
+	
+	precache_model ("progs/s_explode_fire_256x.spr");	// new QBJ3 sprite explosions
+	precache_model ("progs/s_explode_fire_128x.spr");
+	precache_model ("progs/s_explode_fire_96x.spr");
+	precache_model ("progs/s_explode_fire_64x.spr");	
+	precache_model ("progs/s_explode_smoke_64x.spr");
+	precache_model ("progs/s_explode_sploder_96x.spr");
+	precache_model ("progs/s_explode_purple_96x.spr");
+	precache_model ("progs/s_explode_purple_48x.spr");
+}
+
+void() StartFrame =
+{
+	teamplay = cvar("teamplay");
+	
+	if (initCleanup)
+	{
+		initCleanup -= 1;
+		
+		if (skill_str != string_null)
+		{
+			dprint("restoring skill from save\n");
+			cvar_set("skill",skill_str);
+		}
+	}
+	else if (!gamestarted && framecount > 2)
+	{
+		if (framecount != 3)
+			initCleanup += 2;
+		
+		gamestarted = TRUE;
+	}
+		
+	float sk = cvar("skill");
+	entity skbtn;
+	if (sk != skill)
+	{
+		skill = sk;
+		skbtn = skill_head;
+		while (skbtn)
+		{
+			self = skbtn;
+			dprint("activating skillbutton from startframe\n");
+			skillbutton_activate();
+			skbtn = skbtn.owner;
+		}
+		self = world;
+	}	
+	
+	framecount++;
+	//cvar_set("registered",ftos(framecount));
+
+	if (framecount == 1) {
+		startupWaterBrushes();
+		CreateBackstop();
+	}
+
+#ifndef NO_CSQC
+	// assemble two bytes out of client count and a bitmask of who's dead to send to 
+	// players for display on the hud and scoreboard	
+	if (coop || deathmatch)
+	{
+		entity e = nextent(world);
+		float p = 16;
+		float clientDataMask;
+		clientDataMask = clients & 15;
+
+		while (e.flags & FL_CLIENT)
+		{
+			if (e.health > 0 && e.deadflag != DEAD_DEAD)
+			clientDataMask |= p;
+			p *= 2;
+			e = nextent(e);
+		}
+		
+		// globalstat() isn't reliable in quake ports that implement completely random 
+		// assortments of csqc extensions, but somehow clientstat() is implemented in
+		// every engine that implements any csqc, so we have to copy the number to every 
+		// player and send it as a client stat instead. so it goes.
+		e = nextent(world);
+		while (e.flags & FL_CLIENT)
+		{
+			e.clientdata = clientDataMask;
+			e = nextent(e);
+		}
+	}
+#endif
+
+	/*
+	'activator' should be a parameter of *_use(), but it's a global. so it goes.
+
+	this can lead to lots of hard-to-repro bugs in cases where 'activator' isn't set
+	properly, since it just happens to be set to the player anyway *most* of the time.
+
+	for this reason I enforce a global ban on activator ever being 'world' (via a
+	gameplay-ending error() in SUB_UseTargets) and nulling it out every single frame.
+	stale or incorrectly set activators are thus smoked out immediately, and not six
+	months from now the first time a monster touches a door field at a critical but
+	impossible to reproduce moment.
+	*/
+	activator = world;
+}
+
+
+
+//=================================================
+// EndFrame code from Preach
+//=================================================
+entity backstop;
+float prevframe;
+
+
+entity() spawn = {
+	entity e;
+	e = spawn_builtin();
+	if (nextent(e) != world)
+		return e;
+	// e is now the last entity on the list
+	// so we need to swap it with the backstop
+	entity f;
+	f = backstop;
+	f.think = e.think;
+	f.nextthink = e.nextthink;
+	f.classname = e.classname;
+	 
+	e.think = EndFrame;
+	e.nextthink = time;
+	e.classname = "backstop";
+	backstop = e;
+	
+	return f;
+}
+
+void() CreateBackstop = {
+	entity e, f, head;
+	//begin our list with the temp backstop
+	e = f = head = backstop;
+	// spawn() already contains the code to make a backstop
+	// so we just burn off enough entities that one appears
+	// at the back
+	do {
+		f = spawn();
+		e.chain = f;
+		e = e.chain;
+	} while (nextent(backstop) != world);
+
+	while (head != f) {
+		e = head;
+		head = e.chain;
+		remove(e);
+	}
+}
+
+float waterchecked, pointcontentchecks;
+float numents;
+entity lastwaterchecked;
+
+void() EndFrame = {
+	if (prevframe == framecount) {
+		return;
+	}
+	//dprint3("Liquid brushes checked: ", ftos(liquidbrushchecks), "\n");
+
+	//eprint(backstop);
+	//if(!nextent(backstop)) dprint("Backstop is last\n");
+	//else dprint("\bWARNING!!\b Backstop is not last\n");
+
+	prevframe = framecount;
+	// set ourselves up to think again next frame
+	backstop.nextthink = time + 0.002;
+	// prevent accidental modification of the backstop
+	self = world;
+	
+	if (framecount <= 2) {
+		return;
+	}
+	updateRebars();
+	updateNails();
+	//gibswaterchecked = 0;
+	waterchecked = 0;
+	pointcontentchecks = 0;
+	numents = 0;
+	if (framecount >= 1) {
+		self = nextent(lastwaterchecked);
+		while (self != lastwaterchecked && pointcontentchecks < 3000) {
+			//numents++;
+			if (
+				(self.movetype == MOVETYPE_STEP ||
+				self.movetype == MOVETYPE_TOSS ||
+				self.movetype == MOVETYPE_BOUNCE ||
+				self.movetype == MOVETYPE_BOUNCEMISSILE
+			)
+				&& !(self.flags & FL_CLIENT)
+			) {
+				entity_watercheck();
+				//dprint3("pointcontentchecks checked: ", ftos(pointcontentchecks), "\n");
+			}
+			self = nextent(self);
+		}
+		//dprint3("Liquid brushes checked: ", ftos(pointcontentchecks), "\n");
+	}
+	lastwaterchecked = self;
+	/*self = nextent(world);
+	while (self) {
+		entity_watercheck();
+		self = nextent(self);
+	}*/
+
+	//dprint3("Total entities: ", ftos(numents), "\n");
+
+}
+/*
+==============================================================================
+
+BODY QUE[UE ~ ed.]
+
+==============================================================================
+*/
+
+void() bodyqueue =
+{	// just here so spawn functions don't complain after the world creates bodyqueues
+}
+
+void() InitBodyQueue =
+{
+	/*entity bq;
+	bq = spawn();
+	bq.classname = "bodyqueue";
+	bq.owner = bq;
+	
+	bodyqueue_head = bq;
+	float i = 0;
+	while (i < 5)
+	{
+		bq = spawn();
+		bq.classname = "bodyqueue";
+		bq.owner = bodyqueue_head.owner;
+		bodyqueue_head.owner = bq;
+		i++;
+	}
+
+	*/
+	bodyqueue_head = spawn();
+	bodyqueue_head.owner = bodyqueue_head;
+	bodyqueue_head.classname = "bodyqueue";
+	bodyqueue_head.owner = spawn();
+	bodyqueue_head.owner.classname = "bodyqueue";
+	bodyqueue_head.owner.owner = spawn();
+	bodyqueue_head.owner.owner.classname = "bodyqueue";
+	bodyqueue_head.owner.owner.owner = spawn();
+	bodyqueue_head.owner.owner.owner.classname = "bodyqueue";
+	bodyqueue_head.owner.owner.owner.owner = bodyqueue_head;
+
+}
+
+
+// make a body queue entry for the given ent so the ent can be
+// respawned elsewhere
+void(entity ent) CopyToBodyQueue =
+{
+	bodyqueue_head.angles = ent.angles;
+	bodyqueue_head.model = ent.model;
+	bodyqueue_head.modelindex = ent.modelindex;
+	bodyqueue_head.frame = ent.frame;
+	bodyqueue_head.colormap = ent.colormap;
+	bodyqueue_head.movetype = ent.movetype;
+	bodyqueue_head.velocity = ent.velocity;
+	bodyqueue_head.flags = 0;
+	setorigin (bodyqueue_head, ent.origin);
+	setsize (bodyqueue_head, ent.mins, ent.maxs);
+	bodyqueue_head = bodyqueue_head.owner;
+}

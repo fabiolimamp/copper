@@ -1,0 +1,360 @@
+
+
+/*
+======================
+StepDirection
+
+Turns to the movement direction, and walks the current distance if
+facing it.
+
+======================
+*/
+float(float yaw, float dist) walkmove2 = {
+	float pc;
+
+
+	self.oldorigin = self.origin;
+	float ret;
+
+	ret = walkmove(yaw, dist);
+
+	if (ret && self.flags & FL_SWIM2) {
+		//checkSelfInWaterBrush();
+		//if (self.waterlevel < 3){
+		pc = pointcontents2(self.origin);
+		if (pc > CONTENT_WATER){
+			if (pointcontents2([self.origin_x, self.origin_y, self.oldorigin_z]) <= CONTENT_WATER) {
+				setorigin(self, [self.origin_x, self.origin_y, self.oldorigin_z]);
+				return TRUE;
+			}
+			
+			setorigin(self, self.oldorigin);
+
+			//if (pointcontents2(self.origin) > CONTENT_WATER)
+			//	self.flags &~= FL_FLY;
+
+			return FALSE;
+		}
+
+		//if (self.health) self.flags |= FL_FLY;
+	}
+	return ret;
+		
+	
+}
+
+float(float yaw, float dist) StepDirection = {
+
+	self.ideal_yaw = yaw;
+
+	if (self.classname != "monster_amalgam")
+	{
+		
+
+		ChangeYaw();
+
+		float delta = self.angles_y - self.ideal_yaw;
+
+		if (delta > 45 && delta < 315) 
+			// not turned far enough, so don't take the step
+			return TRUE;
+	}
+
+	if (walkmove2(yaw, dist)) 
+		return TRUE;
+	
+	return FALSE;
+
+}
+
+
+float DI_NODIR = -1;
+
+void(entity enm, float dist) NewChaseDir = {
+	float		deltax,deltay;
+	vector d;
+	float		tdir, olddir, turnaround;
+
+	olddir = anglemod((self.ideal_yaw/45)*45);
+	turnaround = anglemod(olddir - 180);
+
+	deltax = enm.origin_x - self.origin_x;
+	deltay = enm.origin_y - self.origin_y;
+
+	if (deltax > 10)
+		d_x = 0;
+	else if (deltax < -10)
+		d_x = 180;
+	else
+		d_x = DI_NODIR;
+
+	if (deltay < -10)
+		d_y = 270;
+	else if (deltay > 10)
+		d_y = 90;
+	else
+		d_y = DI_NODIR;
+
+	// try direct route
+	if (d_x != DI_NODIR && d_y != DI_NODIR) {
+		if (d_x == 0)
+			tdir = d_y == 90 ? 45 : 315;
+		else
+			tdir = d_y == 90 ? 135 : 215;
+
+		if (tdir != turnaround && StepDirection(tdir, dist))
+			return;
+	}
+
+	// try other directions
+	if (random() < 0.333 ||  fabs(deltay) > fabs(deltax)) {
+		tdir = d_x;
+		d_x = d_y;
+		d_y = tdir;
+	}
+
+	if (d_x != DI_NODIR && d_x != turnaround && StepDirection(d_x, dist))
+		return;
+
+	if (d_y != DI_NODIR && d_y != turnaround && StepDirection(d_y, dist))
+		return;
+
+	/* there is no direct path to the player, so pick another direction */
+
+	if (olddir != DI_NODIR && StepDirection(olddir, dist))
+		return;
+
+	if (random() < 0.5) { /*randomly determine direction of search*/
+		for (tdir = 0; tdir <= 315; tdir += 45)
+			if (tdir != turnaround && StepDirection(tdir, dist)) return;
+	}
+	else {
+		for (tdir = 315 ; tdir >= 0 ; tdir -= 45)
+			if (tdir != turnaround && StepDirection(tdir, dist)) return;
+	}
+
+	if (turnaround != DI_NODIR && StepDirection(turnaround, dist) )
+		return;
+
+	self.ideal_yaw = olddir;		// can't move
+
+	// if a bridge was pulled out from underneath a monster, it may not have
+	// a valid standing position at all
+
+	if (!checkbottom(self))
+		self.flags = self.flags | FL_PARTIALGROUND;
+
+}
+
+
+float(entity goal, float dist) CloseEnough = {
+	float i;
+
+	for (i = 0; i < 3; i++)
+	{
+		if (goal.absmin[i] > self.absmax[i] + dist)
+			return FALSE;
+		if (goal.absmax[i] < self.absmin[i] - dist)
+			return FALSE;
+	}
+	return TRUE;
+}
+
+float(entity goal, float dist) CloseEnoughFUCKFISH = {
+    vector delta = goal.origin - self.origin;
+
+    // If any axis difference is greater than the allowed distance, return FALSE
+    if (fabs(delta_x) > dist)
+        return FALSE;
+    if (fabs(delta_y) > dist)
+        return FALSE;
+    if (fabs(delta_z) > dist)
+        return FALSE;
+
+    return TRUE;
+};
+
+void(float dist) movetogoal2 = {
+	
+	if (!(self.flags & FL_SWIM2)) {// && self.classname != "monster_amalgam") {
+		movetogoal(dist);
+		return;
+	}
+
+	entity		goal;
+
+	goal = self.goalentity;
+
+	if (!(self.flags & (FL_ONGROUND|FL_FLY|FL_SWIM)))
+		return;
+
+	// if the next step hits the enemy, return immediately
+	if (self.classname == "monster_fish")
+	{
+		if (self.enemy && CloseEnoughFUCKFISH(goal, dist))
+			return;
+	}
+	else
+	{
+		if (self.enemy && CloseEnough(goal, dist))
+			return;
+	}
+
+	// bump around...
+	if ((random() < 0.333) || !StepDirection(self.ideal_yaw, dist)) {
+		NewChaseDir(goal, dist);
+	}
+}
+
+
+//=================================================================================================
+
+/*
+float(float launch_h, float launch_v, float yaw) movejump_test = {
+
+
+	makevectors([0, yaw, 0]);
+
+	traceline(self.origin, self.origin + v_forward*64, FALSE, self);
+	if (trace_fraction < 1){
+		dprint("blocked\n");
+		return FALSE;
+	}
+
+	traceline([self.origin_x, self.origin_y, self.absmin_z + 1] + v_forward*self.size_x, [self.origin_x, self.origin_y, self.absmin_z + 1] + v_forward*self.size_x - '0 0 20', FALSE, self);
+	if (trace_fraction < 1){
+		dprint("not a gap\n");
+		return FALSE;
+	}
+
+	vector sim_origin = self.origin + [0, 0, self.mins_z];
+	vector sim_origin_prev = sim_origin;
+
+	float counter = 20;
+	
+	float v_velocity = launch_v;
+
+	float grav = cvar("sv_gravity");
+	if (self.gravity) grav *= self.gravity;
+	
+	sim_origin += v_forward*launch_h*0.1 + [0, 0, v_velocity]*0.1;
+	traceline(sim_origin_prev, sim_origin, FALSE, self);
+
+	entity bbl;
+	
+	while (counter > 0 && trace_fraction == 1) {
+		sim_origin_prev	= sim_origin;
+
+		v_velocity -= grav * 0.1;
+		sim_origin += v_forward*launch_h*0.1 + [0, 0, v_velocity]*0.1;
+
+		traceline(sim_origin_prev, sim_origin, FALSE, self);
+
+		if (developer) {
+			//particle(next, '0 0 0', 250, 9);
+			bbl = spawn();
+			setorigin(bbl, sim_origin);
+			setmodel(bbl, "progs/s_bubble.spr");
+			setsize(bbl, 0, 0);
+			bbl.think = SUB_Remove;
+			bbl.nextthink = time + 5;
+		}
+
+		counter--;
+	}
+
+	if (counter <= 0){
+		dprint("counter max\n");
+		return FALSE;
+	}
+
+	if (self.goalentity.classname == "path_angry" || self.goalentity.classname == "path_corner") {
+		if (trace_endpos_z < self.goalentity.origin_z - 32){
+			dprint("below target\n");
+			return FALSE;
+		}
+	}
+	else {
+		if (trace_endpos_z < (self.goalentity.origin_z + self.goalentity.mins_z) - 16){
+			dprint("below target\n");
+			return FALSE;
+		}
+	}
+	
+	
+	if (fabs(trace_endpos_z - self.origin_z) > 384){
+		dprint("jump too high\n");
+		return FALSE;
+	}
+
+	if (trace_ent.solid != SOLID_BSP){
+		dprint("not bsp\n");
+		return FALSE;
+	}
+
+	if (trace_plane_normal_z < 0.6) {
+		dprint("too steep\n");
+		return FALSE;
+	}
+
+	dprint("jump ok\n");
+	return TRUE;
+
+}
+
+void(float dist) movetogoaljump {
+
+	if (self.autojump <= 0 || world.autojump < 0 || time < self.autojump_block_finished) {
+		movetogoal(dist);
+		return;
+	}
+
+	entity goal;
+
+	goal = self.goalentity;
+
+	if (!(self.flags & FL_ONGROUND))
+		return;
+
+	// if the next step hits the enemy, return immediately
+	if (self.enemy && CloseEnough(goal, dist))
+		return;
+
+	// bump around...
+	float prevyaw = self.angles_y;
+	float trystep = StepDirection(self.ideal_yaw, dist);
+
+	if (!trystep && self.goalentity.origin_z <= self.origin_z) {
+		float launch_h, launch_v;
+
+		
+		if (fabs(self.goalentity.origin_z - self.origin_z) <= 16)
+			launch_v = 300;
+		else
+			launch_v = 200;
+		
+		launch_h = 200;
+		if (movejump_test(launch_h, launch_v, prevyaw)) {
+			self.angles_y = prevyaw;
+			self.flags &~= FL_ONGROUND;
+			self.velocity = v_forward*launch_h + [0, 0, launch_v];
+
+			return;
+		}
+		
+		launch_h = 300;
+		if (movejump_test(launch_h, launch_v, prevyaw)) {
+			self.angles_y = prevyaw;
+			self.flags &~= FL_ONGROUND;
+			self.velocity = v_forward*launch_h + [0, 0, launch_v];
+
+			return;
+		}
+	}
+
+	if ((random() < 0.333 || !trystep) && (self.flags & FL_ONGROUND) ) {
+		NewChaseDir(goal, dist);
+	}
+
+}
+*/
