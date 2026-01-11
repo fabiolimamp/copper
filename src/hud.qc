@@ -480,7 +480,7 @@ void Hud_DrawSigils(vector pos)
 	{
 		if (time < itemtimes[24] + 1.5) pulse = 1.2 - 2 * ((time - itemtimes[24]) % 0.5);
 		else pulse = 1;
-		drawpic(pos + '8 0', "sb_sigil2", '8 16', '1 1 1', pulse, 0);
+		drawpic(pos + '9 0', "sb_sigil2", '8 16', '1 1 1', pulse, 0);
 	}
 	if (stat_items2 & 128)
 	{
@@ -1146,11 +1146,9 @@ void(vector screensize, float scoreboard) CSQC_DrawScores =
 		div += '24 0';
 	}
 	
-	drawpic(pos + '0 48', "gfx/inter2.lmp", '160 144', '1 1 1', 1);
-	
 	// kills
 	pos += '0 56';
-	//drawsubpic(pos + '51 2', '96 24', "gfx/inter2.lmp", [8/160, 88/144], [96/160, 24/144], '1 1 1', 1);
+	drawsubpic(pos + '51 2', '96 24', "gfx/inter.lmp", [8/160, 88/144], [96/160, 24/144], '1 1 1', 1);
 	
 	value = clampf(getstatf(STAT_MONSTERS), 9999);
 	Hud_DrawLargeValue(pos+div, value, -1);
@@ -1160,7 +1158,7 @@ void(vector screensize, float scoreboard) CSQC_DrawScores =
 	
 	// secrets
 	pos += '0 36';
-	//drawsubpic(pos + '8 2', '136 24', "gfx/inter2.lmp", [8/160, 48/144], [136/160, 24/144], '1 1 1', 1);
+	drawsubpic(pos + '8 2', '136 24', "gfx/inter.lmp", [8/160, 48/144], [136/160, 24/144], '1 1 1', 1);
 	
 	value = clampf(getstatf(STAT_SECRETS), 9999);
 	Hud_DrawLargeValue(pos+div, value, -1);
@@ -1170,7 +1168,7 @@ void(vector screensize, float scoreboard) CSQC_DrawScores =
 	
 	// time
 	pos += '0 36';
-	//drawsubpic(pos + '67 2', '80 24', "gfx/inter2.lmp", [8/160, 8/144], [80/160, 24/144], '1 1 1', 1);
+	drawsubpic(pos + '67 2', '80 24', "gfx/inter.lmp", [8/160, 8/144], [80/160, 24/144], '1 1 1', 1);
 	
 	mins = clampf(mins, 999);
 	Hud_DrawLargeValue(pos+div, mins, -1);
@@ -1276,7 +1274,6 @@ void() Hud_Init
 	//precache_pic("sb_teams", TRUE);
 	
 	precache_pic("gfx/complete.lmp", FALSE);
-	precache_pic("gfx/inter2.lmp", FALSE);
 	
 	paintime = -1;
 	lookseed = floor(random() * 100);

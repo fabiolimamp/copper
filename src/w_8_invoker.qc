@@ -244,7 +244,6 @@ void(vector org, vector dir, float drawTrail) invokerTrace =
 
 	if (drawTrail)
 		drawInvokerTrail(self, org, trace_endpos);
-
 };
 //=============================================================================================
 

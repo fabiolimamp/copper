@@ -5,8 +5,8 @@
 //const string 	version_s 		= "Copper Quake 1.30 - 31 October 2023";
 //const float 	version_f		= 1.30;
 
-const string 	version_s 		= "QBJ3 dev 1.5";
-const float 	version_f 		= 1.5;
+const string 	version_s 		= "DEV";	//placeholder
+const float 	version_f 		= 0.1;		//placeholder
 
 const float	FALSE			= 0;
 const float 	TRUE			= 1;
@@ -150,6 +150,19 @@ const float	IT_GRENADE_LAUNCHER	= 16;
 const float	IT_ROCKET_LAUNCHER	= 32;
 const float	IT_LIGHTNING		= 64;
 const float	IT_WEAPONS		= 127 + 4096;
+
+
+/*
+const float	IT_WEAPONS		= 	IT_AXE + IT_SHOTGUN + IT_SUPER_SHOTGUN +
+						IT_NAILGUN + IT_NAILGUN + IT_SUPER_NAILGUN +
+						IT_GRENADE_LAUNCHER + IT_ROCKET_LAUNCHER + IT_LIGHTNING; +
+						IT_SHOTGUN_SUPER + IT_SHOTGUN_LEVER + IT_SHOTGUN_STACK;
+						
+const float	IT_SHOTGUN_SUPER	= 65536;
+const float	IT_SHOTGUN_LEVER	= 800000;
+const float	IT_SHOTGUN_STACK	= ;
+*/
+
 
 const float	IT_NO_WEAPON		= 128;
 

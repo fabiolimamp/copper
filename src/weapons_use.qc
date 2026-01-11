@@ -197,6 +197,34 @@ void() W_Precache =
 	precache_sound ("misc/draw1.wav");
 	
 	//=============================================================================================	
+											//PLACEHOLDER
+	precache_sound ("placeholder_sound/shotgun1.wav");
+	precache_sound ("placeholder_sound/shotgun2.wav");
+	precache_sound ("placeholder_sound/shell_reload.wav");
+	precache_sound ("placeholder_sound/shell_reload.wav");
+	precache_sound ("placeholder_sound/shotgn3.wav");
+	
+	precache_model ("progs/placeholder_progs/proj_pellet_blue.mdl");
+	precache_model ("progs/placeholder_progs/proj_stake.mdl");
+	precache_model ("progs/placeholder_progs/proj_stake_smoke.mdl");
+	
+	precache_model ("progs/placeholder_progs/v_shotgun_super2.mdl");
+	precache_model ("progs/placeholder_progs/v_shotgun_super3.mdl");
+	precache_model ("progs/placeholder_progs/v_shotgun_super4.mdl");
+	precache_model ("progs/placeholder_progs/v_shotgun_lever.mdl");
+	precache_model ("progs/placeholder_progs/v_shotgun_stack.mdl");
+	precache_model ("progs/placeholder_progs/v_shotgun_brazil.mdl");
+	precache_model ("progs/placeholder_progs/v_shotgun_rotary.mdl");	
+	precache_model ("progs/placeholder_progs/v_shotgun_auto.mdl");	
+	precache_model ("progs/placeholder_progs/v_shotgun_sweeper.mdl");	
+	
+	precache_model ("progs/placeholder_progs/v_rebar_multi.mdl");	
+	precache_model ("progs/placeholder_progs/v_rebar_wide.mdl");	
+	precache_model ("progs/placeholder_progs/v_rebar_tall.mdl");	
+	precache_model ("progs/placeholder_progs/v_rebar_fast.mdl");		
+	precache_model ("progs/placeholder_progs/v_rebar_buff.mdl");		
+	
+	//=============================================================================================	
 
 
 
@@ -302,7 +330,12 @@ weaponclass_t wpc_shotgun = {
 	weaponanim_draw // drawfunction
 };
 
-weaponclass_t wpc_supershotgun = {
+//=============================================================================================
+
+//wpc_supershotgun
+
+weaponclass_t wpc_SHOTGUN_FLAK = {
+//weaponclass_t wpc_SHOTGUN_FLAK = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
 	0, // slotPos
@@ -315,6 +348,130 @@ weaponclass_t wpc_supershotgun = {
 	SUB_Null, // idlefunction
 	weaponanim_draw // drawfunction
 };
+
+weaponclass_t wpc_SHOTGUN_BLUE = {
+//weaponclass_t wpc_SHOTGUN_BLUE = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	0, // slotPos
+	SHOTGUN_BLUE_NAME, // name
+	SHOTGUN_BLUE_MODEL, // model
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SHOTGUN_BLUE_COST, // ammo_usage
+	weaponanim_SHOTGUN_BLUE, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_SHOTGUN_SUPER = {
+//weaponclass_t wpc_SHOTGUN_SUPER = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	0, // slotPos
+	SHOTGUN_SUPER_NAME, // name
+	SHOTGUN_SUPER_MODEL, // model
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SHOTGUN_SUPER_COST, // ammo_usage
+	weaponanim_SHOTGUN_SUPER, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_SHOTGUN_LEVER = {
+//weaponclass_t wpc_SHOTGUN_LEVER = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	0, // slotPos
+	SHOTGUN_LEVER_NAME, // name
+	SHOTGUN_LEVER_MODEL, // model
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SHOTGUN_LEVER_COST, // ammo_usage
+	weaponanim_SHOTGUN_LEVER, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_SHOTGUN_STACK = {
+//weaponclass_t wpc_SHOTGUN_STACK = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	0, // slotPos
+	SHOTGUN_STACK_NAME, // name
+	SHOTGUN_STACK_MODEL, // model
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SHOTGUN_STACK_COST, // ammo_usage
+	weaponanim_SHOTGUN_STACK, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_SHOTGUN_BRAZIL = {
+//weaponclass_t wpc_SHOTGUN_BRAZIL = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	0, // slotPos
+	SHOTGUN_BRAZIL_NAME, // name
+	SHOTGUN_BRAZIL_MODEL, // model
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SHOTGUN_BRAZIL_COST, // ammo_usage
+	weaponanim_SHOTGUN_BRAZIL, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_SHOTGUN_ROTARY = {
+//weaponclass_t wpc_SHOTGUN_ROTARY = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	0, // slotPos
+	SHOTGUN_ROTARY_NAME, // name
+	SHOTGUN_ROTARY_MODEL, // model
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SHOTGUN_ROTARY_COST, // ammo_usage
+	weaponanim_SHOTGUN_ROTARY, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_SHOTGUN_AUTO = {
+//weaponclass_t wpc_SHOTGUN_AUTO = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	0, // slotPos
+	SHOTGUN_AUTO_NAME, // name
+	SHOTGUN_AUTO_MODEL, // model
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SHOTGUN_AUTO_COST, // ammo_usage
+	weaponanim_SHOTGUN_AUTO, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_supershotgun = {
+//weaponclass_t wpc_SHOTGUN_SWEEPER = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	0, // slotPos
+	SHOTGUN_SWEEPER_NAME, // name
+	SHOTGUN_SWEEPER_MODEL, // model
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SHOTGUN_SWEEPER_COST, // ammo_usage
+	weaponanim_SHOTGUN_SWEEPER, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+//wpc_supershotgun
+
+//=============================================================================================
 
 weaponclass_t wpc_nailgun = {
 	IT_NAILGUN,
@@ -330,7 +487,12 @@ weaponclass_t wpc_nailgun = {
 	weaponanim_draw // drawfunction
 };
 
-weaponclass_t wpc_supernailgun = {
+//=============================================================================================
+
+//wpc_supernailgun
+
+weaponclass_t wpc_REBAR_CANNON = {
+//weaponclass_t wpc_REBAR_CANNON = {
 	IT_SUPER_NAILGUN,
 	5, // slot
 	0, // slotPos
@@ -343,6 +505,100 @@ weaponclass_t wpc_supernailgun = {
 	SUB_Null, // idlefunction
 	weaponanim_draw // drawfunction
 };
+
+weaponclass_t wpc_REBAR_MULTI = {
+//weaponclass_t wpc_REBAR_MULTI = {
+	IT_SUPER_NAILGUN,
+	5, // slot
+	0, // slotPos
+	REBAR_MULTI_NAME, // name
+	REBAR_MULTI_MODEL, // model
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	REBAR_MULTI_COST, // ammo_usage
+	weaponanim_REBAR_MULTI, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_REBAR_WIDE = {
+//weaponclass_t wpc_REBAR_WIDE = {
+	IT_SUPER_NAILGUN,
+	5, // slot
+	0, // slotPos
+	REBAR_WIDE_NAME, // name
+	REBAR_WIDE_MODEL, // model
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	REBAR_WIDE_COST, // ammo_usage
+	weaponanim_REBAR_WIDE, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_REBAR_TALL = {
+//weaponclass_t wpc_REBAR_TALL = {
+	IT_SUPER_NAILGUN,
+	5, // slot
+	0, // slotPos
+	REBAR_TALL_NAME, // name
+	REBAR_TALL_MODEL, // model
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	REBAR_TALL_COST, // ammo_usage
+	weaponanim_REBAR_TALL, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_REBAR_TRIPLE = {
+//weaponclass_t wpc_REBAR_TRIPLE = {
+	IT_SUPER_NAILGUN,
+	5, // slot
+	0, // slotPos
+	REBAR_TRIPLE_NAME, // name
+	REBAR_TRIPLE_MODEL, // model
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	REBAR_TRIPLE_COST, // ammo_usage
+	weaponanim_REBAR_TRIPLE, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_REBAR_FAST = {
+//weaponclass_t wpc_REBAR_FAST = {
+	IT_SUPER_NAILGUN,
+	5, // slot
+	0, // slotPos
+	REBAR_FAST_NAME, // name
+	REBAR_FAST_MODEL, // model
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	REBAR_FAST_COST, // ammo_usage
+	weaponanim_REBAR_FAST, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_supernailgun = {
+//weaponclass_t wpc_REBAR_BUFF = {
+	IT_SUPER_NAILGUN,
+	5, // slot
+	0, // slotPos
+	REBAR_BUFF_NAME, // name
+	REBAR_BUFF_MODEL, // model
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	REBAR_BUFF_COST, // ammo_usage
+	weaponanim_REBAR_BUFF, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+//wpc_supernailgun
+
+//=============================================================================================
 
 weaponclass_t wpc_grenade = {
 	IT_GRENADE_LAUNCHER,
@@ -387,11 +643,15 @@ weaponclass_t wpc_invoker = {
 };
 
 
+//weaponclass_t weaponsclass[12] = {
 weaponclass_t weaponsclass[9] = {
 	wpc_no_weapon,
 	wpc_axe,
 	wpc_shotgun,
 	wpc_supershotgun,
+	//wpc_SHOTGUN_SUPER,
+	//wpc_SHOTGUN_LEVER,
+	//wpc_SHOTGUN_STACK,
 	wpc_nailgun,
 	wpc_supernailgun,
 	wpc_grenade,
@@ -426,6 +686,7 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1}, 	//0
 	{{wpc_axe}, 1}, 	//1
 	{{wpc_shotgun}, 1}, 	//2
+	//{{wpc_supershotgun, wpc_SHOTGUN_SUPER, wpc_SHOTGUN_LEVER, wpc_SHOTGUN_STACK}, 4},//3
 	{{wpc_supershotgun}, 1},//3
 	{{wpc_nailgun}, 1}, 	//4
 	{{wpc_supernailgun}, 1},//5

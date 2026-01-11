@@ -34,7 +34,7 @@ float() weaponanim_flakshotgun =
 
 	self.currentammo = self.ammo_shells = self.ammo_shells - 1;
 
-	self.attack_finished = time + 1.05;
+	self.attack_finished = time + 1;
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	
@@ -87,8 +87,10 @@ void() W_FireFlakShotgun =
 	//self.velocity = self.velocity + (v_forward * -100) + '0 0 25';
 	self.punchangle_x = -4;
 	
-	float shotcount = 22;
-	vector spread = '280 60 0';
+	//float shotcount = 22;
+	float shotcount = 18;
+	//vector spread = '280 60 0';
+	vector spread = '270 60 0';
 	vector view_origin = self.origin + self.view_ofs + v_forward*12 - v_up*4; //+ v_right* 8;
 
 	vector mvel;
@@ -109,7 +111,8 @@ entity(vector org, vector vel) Launch_Flak =
 	entity flak;
 	//gunshot(org);
 	flak = toss_projectile(org, vel, "flak");
-	flak.lifetime_finished = time + 1.1;
+	//flak.lifetime_finished = time + 1.1;
+	flak.lifetime_finished = time + 1;
 	flak.attack_finished = time + 2;
 	flak.gravity = .5;
 	flak.think = FlakThink;
@@ -210,10 +213,18 @@ void() FlakTouch =
 
 	if (other.takedamage)
 	{
-		T_Damage(other, self, self.trueowner, 4);
+		if (other.classname == "monster_swarmer" || other.classname == "monster_fish")
+			if (other.health <= 5)
+				if (random() < 0.5)
+					T_Damage(other, self, self.trueowner, 50);	//gib anything about to die from 1 pellet  (1/4 chance per pellet)
+					
+		//T_Damage(other, self, self.trueowner, 4);
+		
+		T_Damage(other, self, self.trueowner, 5);
 		
 		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
-		SpawnBlood(self.origin, self.velocity, 40);
+		//SpawnBlood(self.origin, self.velocity, 40);
+		SpawnBlood(self.origin, self.velocity, 50);
 
 		if (random() < 0.25)	FX_Impact(FX_BLOOD_BIG, self.origin, self.velocity);
 
@@ -228,7 +239,7 @@ void() FlakTouch =
 	FlakBounce();
 	gunshot(self.origin);
 
-	self.touch = FlakTouch_2;
+	//self.touch = FlakTouch_2;
 	self.lifetime_finished = time + 0.5;
 	
 	float chance = random();
@@ -237,7 +248,7 @@ void() FlakTouch =
 	else if (chance < 0.5) sound(self, CHAN_AUTO, "weapons/ric2.wav", 0.25, ATTN_NORM);
 	else sound(self, CHAN_AUTO, "weapons/ric3.wav", 0.25, ATTN_NORM);
 }
-
+/*
 void() FlakTouch_2 =
 {
 	if (CheckProjectilePassthru()) return;
@@ -251,9 +262,11 @@ void() FlakTouch_2 =
 
 	if (other.takedamage)
 	{
-		T_Damage(other, self, self.trueowner, 4);
+		//T_Damage(other, self, self.trueowner, 4);
+		T_Damage(other, self, self.trueowner, 5);
 		
-		SpawnBlood(self.origin, self.velocity, 40);
+		//SpawnBlood(self.origin, self.velocity, 40);
+		SpawnBlood(self.origin, self.velocity, 50);
 		sound_flakshotgun_impact();
 
 		if (other.health <= 0) projectile_passthru();
@@ -264,6 +277,7 @@ void() FlakTouch_2 =
 	
 	gunshot(self.origin);
 }
+*/
 //=============================================================================================
 
 void() BuckshotCasingTouch2 =

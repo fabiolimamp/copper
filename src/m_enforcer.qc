@@ -237,23 +237,17 @@ float() enf_shouldbreak =
 	if (!alive(self.enemy) || self.enemy.customflags & CFL_LIMBO )
 		return TRUE;
 	
-	enemy_range = range(self.enemy);
-	if (enemy_range >= RANGE_TOOFAR)
-		return TRUE;
-	
 	if (angledif(self.ideal_yaw, self.angles_y) > 80)	// player got behind us
 		return TRUE;
 	
-	// randomly break volley if player is being sneaky or backs out of attack range
-	if ((has_invis(self.enemy) || enemy_range >= RANGE_FAR) && random() > 0.80)
+	if (has_invis(self.enemy) && random() > 0.80)
 	{
-		ai_attack_finished(0.25 + random());
+		ai_attack_finished(0.25 + random()); // randomly break volley if player is being sneaky
 		return TRUE;
 	}
-	// force a little maneuvering if LOS is broken
 	if (!enforcer_clear_attack())
 	{
-		ai_attack_finished(1 + random());
+		ai_attack_finished(1 + random());	// force a little maneuvering if LOS is broken
 		return TRUE;
 	}
 	return FALSE;
@@ -269,6 +263,7 @@ void()	enf_atk7	=[	$attack7,	enf_atk8	] {ai_face(); }
 void()	enf_atk8	=[	$attack8,	enf_atk9	] {ai_face(); }
 void()	enf_atk9	=[	$attack9,	enf_atk10	] {ai_face(); if (!enf_shouldbreak()) self.think = enf_atk6; }
 void()	enf_atk10	=[	$attack10,	enf_run1	] {self.yaw_speed = 20; ai_face();}
+
 void()	enf_atk7nm	=[	$attack7,	enf_atk8nm	] {ai_face(); self.nextthink = time + 0.08;}	//Copper Upstream
 void()	enf_atk8nm	=[	$attack6,	enf_atk7	] {ai_face(); enforcer_fire(); }		//Copper Upstream
 

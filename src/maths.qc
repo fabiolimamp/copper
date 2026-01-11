@@ -434,7 +434,6 @@ float(float num) sqrt =
 
 // reflect incident over normal, dampening it against the normal
 vector(vector incident, vector normal, float dampening) reflect = {
-
     // project incident along normal
     float d = incident * normal;
     vector p = d * normal;
