@@ -240,20 +240,21 @@ void(entity hitent, vector org, vector dir) hitwrench =
 		{	
 			sound_wrench_hit_enemy(1);
 					
-if ((hitent.movetype == MOVETYPE_STEP || hitent.movetype == MOVETYPE_WALK) && 
-	// don't swat bosses or other non-standard-sized enemies around
-	hitent.maxs_x <= 32 && hitent.health > 0 && hitent.type != "boss")
-	{
-	local vector toss;
-	toss = v_forward;
-	toss_z = 0;
-	toss = normalize(toss) * 200;
-	toss_z = 150;
-	hitent.origin_z = hitent.origin_z + 1;
-	hitent.velocity = toss;
-	hitent.flags = not(hitent.flags, FL_ONGROUND);
-	}	
+			if ((hitent.movetype == MOVETYPE_STEP || hitent.movetype == MOVETYPE_WALK) && 
+				// don't swat bosses or other non-standard-sized enemies around
+				hitent.maxs_x <= 32 && hitent.health > 0 && hitent.type != "boss")
+			{
+				local vector toss;
+				toss = v_forward;
+				toss_z = 0;
+				toss = normalize(toss) * 200;
+				toss_z = 150;
+				hitent.origin_z = hitent.origin_z + 1;
+				hitent.velocity = toss;
+				hitent.flags = not(hitent.flags, FL_ONGROUND);
+			}	
 		}
+			
 		//johnfitz
 
 		if (trace_ent.flags & FL_MONSTER)
