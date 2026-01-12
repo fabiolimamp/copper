@@ -113,8 +113,7 @@ entity(vector org, vector vel) launch_impaler_REBAR_BUFF =
 	impaler.think = ImpalerThink;
 	impaler.touch = ImpalerTouch_REBAR_BUFF;
 	impaler.alpha = 1;
-	setsize(impaler, '-12 -12 -12', '12 12 12');
-	impaler.movetype = MOVETYPE_BOUNCEMISSILE;
+	impaler.movetype = MOVETYPE_FLYMISSILE;
 
 	return impaler;
 }

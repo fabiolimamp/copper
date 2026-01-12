@@ -98,6 +98,7 @@ entity(vector org, vector vel) launch_impaler =
 	impaler.think = ImpalerThink;
 	impaler.touch = ImpalerTouch;
 	impaler.alpha = 1;
+	impaler.movetype = MOVETYPE_FLYMISSILE;
 
 	return impaler;
 }
@@ -109,11 +110,11 @@ void() ImpalerThink =
 		ImpalerFade();
 		return;
 	}
-
-	self.angles = vectoangles(self.velocity);
 	self.flags &~= FL_ONGROUND;
 	self.oldvelocity = self.velocity;
+	self.velocity.z -= 25;
 	self.nextthink = time + 0.05;
+	self.angles = vectoangles(self.velocity);
 }
 
 void() ImpalerFade =
