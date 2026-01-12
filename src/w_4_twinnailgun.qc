@@ -197,15 +197,7 @@ void() twinnail_touch =
 		spawn_touchblood (other, self.dmg);
 		T_Damage (other, self, self.trueowner, self.dmg);
 				
-		if (random() < 0.8)
-		{
-			if (other.classname == "monster_hell_knight")
-			{
-				FX_Impact(FX_SPARK, self.origin, self.oldvelocity);
-				sound_bullet_hit_metal(1);
-			}
-			else	sound_bullet_hit_enemy(0.7);
-		}
+		if (random() < 0.8)	sound_bullet_hit_enemy(0.7);
 		
 		if (random() < 0.75)	FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);
 	}

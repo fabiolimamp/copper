@@ -222,7 +222,10 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rebar_wide.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_tall.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_fast.mdl");		
-	precache_model ("progs/placeholder_progs/v_rebar_buff.mdl");		
+	precache_model ("progs/placeholder_progs/v_rebar_buff.mdl");
+			
+	precache_model ("progs/placeholder_progs/v_nail_heavy.mdl");		
+	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		
 	
 	//=============================================================================================	
 
@@ -488,7 +491,10 @@ weaponclass_t wpc_SHOTGUN_SWEEPER = {
 
 //=============================================================================================
 
-weaponclass_t wpc_nailgun = {
+//wpc_nailgun
+
+weaponclass_t wpc_NAIL_TWIN = {
+//weaponclass_t wpc_NAIL_TWIN = {
 	IT_NAILGUN,
 	4, // slot
 	0, // slotPos
@@ -498,6 +504,21 @@ weaponclass_t wpc_nailgun = {
 	IT_NAILS, // ammo_item
 	1, // ammo_usage
 	weaponanim_twinnailgun, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
+weaponclass_t wpc_nailgun = {
+//weaponclass_t wpc_NAIL_HEAVY = {
+	IT_NAILGUN,
+	4, // slot
+	0, // slotPos
+	NAIL_HEAVY_NAME, // name
+	NAIL_HEAVY_MODEL, // model
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	NAIL_HEAVY_COST, // ammo_usage
+	weaponanim_NAIL_HEAVY, // animfunction
 	SUB_Null, // idlefunction
 	weaponanim_draw // drawfunction
 };
