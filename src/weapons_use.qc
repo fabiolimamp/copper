@@ -249,7 +249,6 @@ void() W_Precache =
 typedef struct {
 	float id;
 	float slot;
-	float slotPos;
 	string name;
 	string model;
 	float ammofield;
@@ -616,11 +615,11 @@ float() W_SelectBestNailgun =
 	}
 }
 
-float(float slotNum, float slotPos) FindWeaponIndex =
+float(float weapId, string weapName) FindWeaponIndex =
 {
 	float i;
 	for (i = 0; i <= MAX_WEAPON_NUM; i++) {
-		if (weaponsclass[i].slot == slotNum && weaponsclass[i].slotPos == slotPos) {
+		if (weaponsclass[i].id == weapId && weaponsclass[i].name == weapName) {
 			return i;
 		}
 	}
@@ -719,14 +718,17 @@ float(float imp) W_ChangeSlot =
 
 	while (i < slotQuantity) 
 	{
-		float checkedWeaponId = weaponslots[imp].weaps[startSlotPos].id;
+		// Get the specific weapon data from your weaponslots array 
+		weaponclass_t targetWeap = weaponslots[imp].weaps[startSlotPos];
+		float checkedWeaponId = targetWeap.id;
 		
 		weaponstat = W_CheckWeapon(checkedWeaponId, self);
 		if (weaponstat == WEAPONSTAT_AVAILABLE)
 		{
 			self.active_slot_weapon[imp] = startSlotPos;
 			
-			float weapIndex = FindWeaponIndex(imp, startSlotPos);
+			// Find the global index using the ID and Name from your slot definition [cite: 25]
+			float weapIndex = FindWeaponIndex(targetWeap.id, targetWeap.name);
 
 			// Print the weapon name to the player
 			bprint("Selected: ");

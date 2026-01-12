@@ -13,7 +13,6 @@ WEAPON DEFINITIONS
 weaponclass_t wpc_no_weapon = {
 	IT_NO_WEAPON,
 	0, // slot
-	0, // slotPos
 	"No weapon", // name
 	"", // model
 	0, // ammofield
@@ -31,7 +30,6 @@ weaponclass_t wpc_no_weapon = {
 weaponclass_t wpc_axe = {
 	IT_AXE,
 	1, // slot
-	0, // slotPos
 	"Wrench", // name
 	"progs/v_wrench.mdl", // model
 	0, // ammofield
@@ -49,7 +47,6 @@ weaponclass_t wpc_axe = {
 weaponclass_t wpc_shotgun = {
 	IT_SHOTGUN,
 	2, // slot
-	0, // slotPos
 	"Pistol", // name
 	"progs/v_pistol.mdl", // model
 	5, // ammofield
@@ -67,7 +64,6 @@ weaponclass_t wpc_shotgun = {
 weaponclass_t wpc_SHOTGUN_FLAK = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	0, // slotPos
 	"Flak Shotgun",
 	"progs/v_flakshotgun.mdl",
 	1, // ammofield
@@ -81,7 +77,6 @@ weaponclass_t wpc_SHOTGUN_FLAK = {
 weaponclass_t wpc_supershotgun = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	1, // slotPos
 	SHOTGUN_BLUE_NAME,
 	SHOTGUN_BLUE_MODEL,
 	1, // ammofield
@@ -95,7 +90,6 @@ weaponclass_t wpc_supershotgun = {
 weaponclass_t wpc_SHOTGUN_SUPER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	2, // slotPos
 	SHOTGUN_SUPER_NAME,
 	SHOTGUN_SUPER_MODEL,
 	1, // ammofield
@@ -109,7 +103,6 @@ weaponclass_t wpc_SHOTGUN_SUPER = {
 weaponclass_t wpc_SHOTGUN_LEVER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	3, // slotPos
 	SHOTGUN_LEVER_NAME,
 	SHOTGUN_LEVER_MODEL,
 	1, // ammofield
@@ -123,7 +116,6 @@ weaponclass_t wpc_SHOTGUN_LEVER = {
 weaponclass_t wpc_SHOTGUN_STACK = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	4, // slotPos
 	SHOTGUN_STACK_NAME,
 	SHOTGUN_STACK_MODEL,
 	1, // ammofield
@@ -137,7 +129,6 @@ weaponclass_t wpc_SHOTGUN_STACK = {
 weaponclass_t wpc_SHOTGUN_BRAZIL = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	5, // slotPos
 	SHOTGUN_BRAZIL_NAME,
 	SHOTGUN_BRAZIL_MODEL,
 	1, // ammofield
@@ -151,7 +142,6 @@ weaponclass_t wpc_SHOTGUN_BRAZIL = {
 weaponclass_t wpc_SHOTGUN_ROTARY = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	6, // slotPos
 	SHOTGUN_ROTARY_NAME,
 	SHOTGUN_ROTARY_MODEL,
 	1, // ammofield
@@ -165,7 +155,6 @@ weaponclass_t wpc_SHOTGUN_ROTARY = {
 weaponclass_t wpc_SHOTGUN_ROTARYv2 = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	7, // slotPos
 	SHOTGUN_ROTARYv2_NAME,
 	SHOTGUN_ROTARYv2_MODEL,
 	1, // ammofield
@@ -179,7 +168,6 @@ weaponclass_t wpc_SHOTGUN_ROTARYv2 = {
 weaponclass_t wpc_SHOTGUN_AUTO = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	8, // slotPos
 	SHOTGUN_AUTO_NAME,
 	SHOTGUN_AUTO_MODEL,
 	1, // ammofield
@@ -193,7 +181,6 @@ weaponclass_t wpc_SHOTGUN_AUTO = {
 weaponclass_t wpc_SHOTGUN_SWEEPER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	9, // slotPos
 	SHOTGUN_SWEEPER_NAME,
 	SHOTGUN_SWEEPER_MODEL,
 	1, // ammofield
@@ -211,7 +198,6 @@ weaponclass_t wpc_SHOTGUN_SWEEPER = {
 weaponclass_t wpc_nailgun = {
 	IT_NAILGUN,
 	4, // slot
-	0, // slotPos
 	"Twin Nailgun",
 	"progs/v_tnailgun.mdl",
 	2, // ammofield
@@ -229,7 +215,6 @@ weaponclass_t wpc_nailgun = {
 weaponclass_t wpc_REBAR_CANNON = {
 	IT_SUPER_NAILGUN,
 	5, // slot
-	0, // slotPos
 	"Rebar Cannon",
 	"progs/v_rebar.mdl",
 	2, // ammofield
@@ -243,7 +228,6 @@ weaponclass_t wpc_REBAR_CANNON = {
 weaponclass_t wpc_REBAR_MULTI = {
 	IT_SUPER_NAILGUN,
 	5, // slot
-	1, // slotPos
 	REBAR_MULTI_NAME,
 	REBAR_MULTI_MODEL,
 	2, // ammofield
@@ -257,7 +241,6 @@ weaponclass_t wpc_REBAR_MULTI = {
 weaponclass_t wpc_REBAR_WIDE = {
 	IT_SUPER_NAILGUN,
 	5, // slot
-	2, // slotPos
 	REBAR_WIDE_NAME,
 	REBAR_WIDE_MODEL,
 	2, // ammofield
@@ -271,7 +254,6 @@ weaponclass_t wpc_REBAR_WIDE = {
 weaponclass_t wpc_REBAR_TALL = {
 	IT_SUPER_NAILGUN,
 	5, // slot
-	3, // slotPos
 	REBAR_TALL_NAME,
 	REBAR_TALL_MODEL,
 	2, // ammofield
@@ -285,7 +267,6 @@ weaponclass_t wpc_REBAR_TALL = {
 weaponclass_t wpc_REBAR_TRIPLE = {
 	IT_SUPER_NAILGUN,
 	5, // slot
-	4, // slotPos
 	REBAR_TRIPLE_NAME,
 	REBAR_TRIPLE_MODEL,
 	2, // ammofield
@@ -299,7 +280,6 @@ weaponclass_t wpc_REBAR_TRIPLE = {
 weaponclass_t wpc_REBAR_FAST = {
 	IT_SUPER_NAILGUN,
 	5, // slot
-	5, // slotPos
 	REBAR_FAST_NAME,
 	REBAR_FAST_MODEL,
 	2, // ammofield
@@ -313,7 +293,6 @@ weaponclass_t wpc_REBAR_FAST = {
 weaponclass_t wpc_supernailgun = {
 	IT_SUPER_NAILGUN,
 	5, // slot
-	6, // slotPos
 	REBAR_BUFF_NAME,
 	REBAR_BUFF_MODEL,
 	2, // ammofield
@@ -331,7 +310,6 @@ weaponclass_t wpc_supernailgun = {
 weaponclass_t wpc_grenade = {
 	IT_GRENADE_LAUNCHER,
 	6, // slot
-	0, // slotPos
 	"Grenade Launcher",
 	"progs/v_grenlauncher.mdl",
 	3, // ammofield
@@ -349,7 +327,6 @@ weaponclass_t wpc_grenade = {
 weaponclass_t wpc_rocket = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
-	0, // slotPos
 	"Multi-Missile Launcher",
 	"progs/v_mmml.mdl",
 	3, // ammofield
@@ -367,7 +344,6 @@ weaponclass_t wpc_rocket = {
 weaponclass_t wpc_invoker = {
 	IT_LIGHTNING,
 	8, // slot
-	0, // slotPos
 	"The Invoker",
 	"progs/v_invoker.mdl",
 	4, // ammofield
@@ -397,13 +373,13 @@ weaponclass_t weaponsclass[] = {
 	wpc_SHOTGUN_AUTO,
 	wpc_SHOTGUN_SWEEPER,
 	wpc_nailgun,
+	wpc_supernailgun,
 	wpc_REBAR_CANNON,
-	wpc_REBAR_MULTI,
 	wpc_REBAR_WIDE,
 	wpc_REBAR_TALL,
 	wpc_REBAR_TRIPLE,
 	wpc_REBAR_FAST,
-	wpc_supernailgun,
+	wpc_REBAR_MULTI,
 	wpc_grenade,
 	wpc_rocket,
 	wpc_invoker
@@ -412,13 +388,13 @@ weaponclass_t weaponsclass[] = {
 float MAX_WEAPON_NUM = 23;
 
 weaponslot_t weaponslots[9] = {
-	{{wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon}, 1},
-	{{wpc_axe, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon}, 1},
-	{{wpc_shotgun, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon}, 1},
-	{{wpc_SHOTGUN_FLAK, wpc_supershotgun, wpc_SHOTGUN_SUPER, wpc_SHOTGUN_LEVER, wpc_SHOTGUN_STACK, wpc_SHOTGUN_BRAZIL, wpc_SHOTGUN_ROTARY, wpc_SHOTGUN_ROTARYv2, wpc_SHOTGUN_AUTO, wpc_SHOTGUN_SWEEPER}, 10},
-	{{wpc_nailgun, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon}, 1},
-	{{wpc_REBAR_CANNON, wpc_REBAR_MULTI, wpc_REBAR_WIDE, wpc_REBAR_TALL, wpc_REBAR_TRIPLE, wpc_REBAR_FAST, wpc_supernailgun, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon}, 7},
-	{{wpc_grenade, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon}, 1},
-	{{wpc_rocket, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon}, 1},
-	{{wpc_invoker, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon, wpc_no_weapon}, 1}
+	{{wpc_no_weapon}, 1},
+	{{wpc_axe}, 1},
+	{{wpc_shotgun}, 1},
+	{{wpc_SHOTGUN_FLAK, wpc_supershotgun, wpc_SHOTGUN_ROTARY}, 3},
+	{{wpc_nailgun}, 1},
+	{{wpc_supernailgun}, 2},
+	{{wpc_grenade}, 1},
+	{{wpc_rocket}, 1},
+	{{wpc_invoker}, 1}
 };
