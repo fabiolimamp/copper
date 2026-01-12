@@ -367,7 +367,7 @@ weaponclass_t wpc_SHOTGUN_BLUE = {
 	weaponanim_draw // drawfunction
 };
 
-weaponclass_t wpc_SHOTGUN_SUPER = {
+weaponclass_t wpc_supershotgun = {
 //weaponclass_t wpc_SHOTGUN_SUPER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -442,7 +442,7 @@ weaponclass_t wpc_SHOTGUN_ROTARY = {
 	weaponanim_draw // drawfunction
 };
 
-weaponclass_t wpc_supershotgun = {
+weaponclass_t wpc_SHOTGUN_ROTARYv2 = {
 //weaponclass_t wpc_SHOTGUN_ROTARYv2 = {
 	IT_SUPER_SHOTGUN,
 	3, // slot

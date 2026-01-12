@@ -50,8 +50,8 @@ float() weaponanim_SHOTGUN_SUPER =
 	
 	self.customflags |= CFL_WEAPONLOCK;	//weapon LOCK
 	
-	//W_Fire_SHOTGUN_SUPER_hitscan();
-	W_Fire_SHOTGUN_SUPER_flak();
+	W_Fire_SHOTGUN_SUPER_hitscan();
+	//W_Fire_SHOTGUN_SUPER_flak();
 
 	self.weaponframe = 11;	
 	self.think = weaponanim_SHOTGUN_SUPER_loop;
@@ -86,7 +86,7 @@ void() weaponanim_SHOTGUN_SUPER_loop =
 }
 
 //=============================================================================================
-/*
+
 void() W_Fire_SHOTGUN_SUPER_hitscan =
 {
 	sound(self, CHAN_AUTO, "placeholder_sound/shotgun2.wav", 0.3, ATTN_NORM);
@@ -109,7 +109,7 @@ void() W_Fire_SHOTGUN_SUPER_hitscan =
 	ApplyMultiDamage ();
 	self.punchangle_x = -4;	//punch AFTER makevectors
 };
-*/
+
 //=============================================================================================
 
 void() W_Fire_SHOTGUN_SUPER_flak =
