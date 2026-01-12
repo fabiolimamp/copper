@@ -59,6 +59,7 @@ REBAR_FAST.qc
 REBAR_BUFF.qc
 NAIL_HEAVY.qc
 weapons_use.qc
+weapondefintion.qc
 dev.qc
 impulse.qc
 

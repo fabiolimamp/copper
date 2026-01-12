@@ -245,6 +245,9 @@ void() ImpulseCommands =
 		case 17:
 			toggle_custom_crosshairs();
 			break;
+		case 18:
+			ret = W_CycleSlotWeapon();
+			break;
 
 		case 40:
 			dev_impulse_list();

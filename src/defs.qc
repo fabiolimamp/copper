@@ -311,6 +311,8 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .float		pain_finished;
 .float		search_time;
 .float		attack_state;
+.float		active_slot_weapon[9];
+.float		active_weapon_index;
 .float 		pausetime;
 .string 	invokedmodel;
 

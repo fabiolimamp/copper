@@ -231,11 +231,41 @@ void() W_Precache =
 
 
 
-	for (float i = 0; i < 9; i++) {
+	for (float i = 0; i <= MAX_WEAPON_NUM; i++) {
 		if (weaponsclass[i].model != "") precache_model(weaponsclass[i].model);
 	}
 
 }
+
+.float ammofieldlist[6] = {
+	currentammo,
+	ammo_shells,
+	ammo_nails, 
+	ammo_rockets,
+	ammo_cells,
+	pistol_ammo_count
+};
+
+typedef struct {
+	float id;
+	float slot;
+	float slotPos;
+	string name;
+	string model;
+	float ammofield;
+	float ammo_item;
+	float ammo_usage;
+	float() animfunction;
+	void() idlefunction;
+	void() drawfunction;
+} weaponclass_t;
+
+typedef struct {
+	weaponclass_t weaps[10];
+	float qt;
+} weaponslot_t;
+
+float() weaponanim_null = {return FALSE;}
 
 
 
@@ -264,472 +294,19 @@ void() weaponanim_draw_loop =
 	self.nextthink = time + 0.033;
 }
 
-//=====================================================================================================================
-
-typedef struct {
-	float id;
-	float slot;
-	float slotPos;
-	string name;
-	string model;
-	float ammofield;
-	float ammo_item;
-	float ammo_usage;
-	float() animfunction;
-	void() idlefunction;
-	void() drawfunction;
-} weaponclass_t;
-
-.float ammofieldlist[6] = {
-	currentammo,
-	ammo_shells,
-	ammo_nails, 
-	ammo_rockets,
-	ammo_cells,
-	pistol_ammo_count
-};
-
-float() weaponanim_null = {return FALSE;}
-
-weaponclass_t wpc_no_weapon = {
-	IT_NO_WEAPON,
-	0, // slot
-	0, // slotPos
-	"No weapon", // name
-	"", // model
-	0, // ammofield
-	0, // ammo_item
-	0, // ammo_usage
-	weaponanim_null, // animfunction
-	SUB_Null, // idlefunction
-	SUB_Null // drawfunction
-};
-
-weaponclass_t wpc_axe = {
-	IT_AXE,
-	1, // slot
-	0, // slotPos
-	"Wrench", // name
-	"progs/v_wrench.mdl", // model
-	0, // ammofield
-	0, // ammo_item
-	0, // ammo_usage
-	weaponanim_wrench, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw_wrench // drawfunction
-};
-
-weaponclass_t wpc_shotgun = {
-	IT_SHOTGUN,
-	2, // slot
-	0, // slotPos
-	"Pistol", // name
-	"progs/v_pistol.mdl", // model
-	5, // ammofield
-	0, // ammo_item
-	0, // ammo_usage
-	weaponanim_pistol, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-//=============================================================================================
-
-//wpc_supershotgun
-
-weaponclass_t wpc_SHOTGUN_FLAK = {
-//weaponclass_t wpc_SHOTGUN_FLAK = {
-	IT_SUPER_SHOTGUN,
-	3, // slot
-	0, // slotPos
-	"Flak Shotgun", // name
-	"progs/v_flakshotgun.mdl", // model
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	1, // ammo_usage
-	weaponanim_flakshotgun, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_SHOTGUN_BLUE = {
-//weaponclass_t wpc_SHOTGUN_BLUE = {
-	IT_SUPER_SHOTGUN,
-	3, // slot
-	0, // slotPos
-	SHOTGUN_BLUE_NAME, // name
-	SHOTGUN_BLUE_MODEL, // model
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	SHOTGUN_BLUE_COST, // ammo_usage
-	weaponanim_SHOTGUN_BLUE, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_supershotgun = {
-//weaponclass_t wpc_SHOTGUN_SUPER = {
-	IT_SUPER_SHOTGUN,
-	3, // slot
-	0, // slotPos
-	SHOTGUN_SUPER_NAME, // name
-	SHOTGUN_SUPER_MODEL, // model
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	SHOTGUN_SUPER_COST, // ammo_usage
-	weaponanim_SHOTGUN_SUPER, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_SHOTGUN_LEVER = {
-//weaponclass_t wpc_SHOTGUN_LEVER = {
-	IT_SUPER_SHOTGUN,
-	3, // slot
-	0, // slotPos
-	SHOTGUN_LEVER_NAME, // name
-	SHOTGUN_LEVER_MODEL, // model
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	SHOTGUN_LEVER_COST, // ammo_usage
-	weaponanim_SHOTGUN_LEVER, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_SHOTGUN_STACK = {
-//weaponclass_t wpc_SHOTGUN_STACK = {
-	IT_SUPER_SHOTGUN,
-	3, // slot
-	0, // slotPos
-	SHOTGUN_STACK_NAME, // name
-	SHOTGUN_STACK_MODEL, // model
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	SHOTGUN_STACK_COST, // ammo_usage
-	weaponanim_SHOTGUN_STACK, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_SHOTGUN_BRAZIL = {
-//weaponclass_t wpc_SHOTGUN_BRAZIL = {
-	IT_SUPER_SHOTGUN,
-	3, // slot
-	0, // slotPos
-	SHOTGUN_BRAZIL_NAME, // name
-	SHOTGUN_BRAZIL_MODEL, // model
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	SHOTGUN_BRAZIL_COST, // ammo_usage
-	weaponanim_SHOTGUN_BRAZIL, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_SHOTGUN_ROTARY = {
-//weaponclass_t wpc_SHOTGUN_ROTARY = {
-	IT_SUPER_SHOTGUN,
-	3, // slot
-	0, // slotPos
-	SHOTGUN_ROTARY_NAME, // name
-	SHOTGUN_ROTARY_MODEL, // model
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	SHOTGUN_ROTARY_COST, // ammo_usage
-	weaponanim_SHOTGUN_ROTARY, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_SHOTGUN_ROTARYv2 = {
-//weaponclass_t wpc_SHOTGUN_ROTARYv2 = {
-	IT_SUPER_SHOTGUN,
-	3, // slot
-	0, // slotPos
-	SHOTGUN_ROTARYv2_NAME, // name
-	SHOTGUN_ROTARYv2_MODEL, // model
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	SHOTGUN_ROTARYv2_COST, // ammo_usage
-	weaponanim_SHOTGUN_ROTARYv2, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_SHOTGUN_AUTO = {
-//weaponclass_t wpc_SHOTGUN_AUTO = {
-	IT_SUPER_SHOTGUN,
-	3, // slot
-	0, // slotPos
-	SHOTGUN_AUTO_NAME, // name
-	SHOTGUN_AUTO_MODEL, // model
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	SHOTGUN_AUTO_COST, // ammo_usage
-	weaponanim_SHOTGUN_AUTO, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_SHOTGUN_SWEEPER = {
-//weaponclass_t wpc_SHOTGUN_SWEEPER = {
-	IT_SUPER_SHOTGUN,
-	3, // slot
-	0, // slotPos
-	SHOTGUN_SWEEPER_NAME, // name
-	SHOTGUN_SWEEPER_MODEL, // model
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	SHOTGUN_SWEEPER_COST, // ammo_usage
-	weaponanim_SHOTGUN_SWEEPER, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-//wpc_supershotgun
-
-//=============================================================================================
-
-//wpc_nailgun
-
-weaponclass_t wpc_NAIL_TWIN = {
-//weaponclass_t wpc_NAIL_TWIN = {
-	IT_NAILGUN,
-	4, // slot
-	0, // slotPos
-	"Twin Nailgun", // name
-	"progs/v_tnailgun.mdl", // model
-	2, // ammofield
-	IT_NAILS, // ammo_item
-	1, // ammo_usage
-	weaponanim_twinnailgun, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_nailgun = {
-//weaponclass_t wpc_NAIL_HEAVY = {
-	IT_NAILGUN,
-	4, // slot
-	0, // slotPos
-	NAIL_HEAVY_NAME, // name
-	NAIL_HEAVY_MODEL, // model
-	2, // ammofield
-	IT_NAILS, // ammo_item
-	NAIL_HEAVY_COST, // ammo_usage
-	weaponanim_NAIL_HEAVY, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-//=============================================================================================
-
-//wpc_supernailgun
-
-weaponclass_t wpc_REBAR_CANNON = {
-//weaponclass_t wpc_REBAR_CANNON = {
-	IT_SUPER_NAILGUN,
-	5, // slot
-	0, // slotPos
-	"Rebar Cannon", // name
-	"progs/v_rebar.mdl", // model
-	2, // ammofield
-	IT_NAILS, // ammo_item
-	10, // ammo_usage
-	weaponanim_rebarcannon, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_REBAR_MULTI = {
-//weaponclass_t wpc_REBAR_MULTI = {
-	IT_SUPER_NAILGUN,
-	5, // slot
-	0, // slotPos
-	REBAR_MULTI_NAME, // name
-	REBAR_MULTI_MODEL, // model
-	2, // ammofield
-	IT_NAILS, // ammo_item
-	REBAR_MULTI_COST, // ammo_usage
-	weaponanim_REBAR_MULTI, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_REBAR_WIDE = {
-//weaponclass_t wpc_REBAR_WIDE = {
-	IT_SUPER_NAILGUN,
-	5, // slot
-	0, // slotPos
-	REBAR_WIDE_NAME, // name
-	REBAR_WIDE_MODEL, // model
-	2, // ammofield
-	IT_NAILS, // ammo_item
-	REBAR_WIDE_COST, // ammo_usage
-	weaponanim_REBAR_WIDE, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_REBAR_TALL = {
-//weaponclass_t wpc_REBAR_TALL = {
-	IT_SUPER_NAILGUN,
-	5, // slot
-	0, // slotPos
-	REBAR_TALL_NAME, // name
-	REBAR_TALL_MODEL, // model
-	2, // ammofield
-	IT_NAILS, // ammo_item
-	REBAR_TALL_COST, // ammo_usage
-	weaponanim_REBAR_TALL, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_REBAR_TRIPLE = {
-//weaponclass_t wpc_REBAR_TRIPLE = {
-	IT_SUPER_NAILGUN,
-	5, // slot
-	0, // slotPos
-	REBAR_TRIPLE_NAME, // name
-	REBAR_TRIPLE_MODEL, // model
-	2, // ammofield
-	IT_NAILS, // ammo_item
-	REBAR_TRIPLE_COST, // ammo_usage
-	weaponanim_REBAR_TRIPLE, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_REBAR_FAST = {
-//weaponclass_t wpc_REBAR_FAST = {
-	IT_SUPER_NAILGUN,
-	5, // slot
-	0, // slotPos
-	REBAR_FAST_NAME, // name
-	REBAR_FAST_MODEL, // model
-	2, // ammofield
-	IT_NAILS, // ammo_item
-	REBAR_FAST_COST, // ammo_usage
-	weaponanim_REBAR_FAST, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_supernailgun = {
-//weaponclass_t wpc_REBAR_BUFF = {
-	IT_SUPER_NAILGUN,
-	5, // slot
-	0, // slotPos
-	REBAR_BUFF_NAME, // name
-	REBAR_BUFF_MODEL, // model
-	2, // ammofield
-	IT_NAILS, // ammo_item
-	REBAR_BUFF_COST, // ammo_usage
-	weaponanim_REBAR_BUFF, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-//wpc_supernailgun
-
-//=============================================================================================
-
-weaponclass_t wpc_grenade = {
-	IT_GRENADE_LAUNCHER,
-	6, // slot
-	0, // slotPos
-	"Grenade Launcher", // name
-	"progs/v_grenlauncher.mdl", // model
-	3, // ammofield
-	IT_ROCKETS, // ammo_item
-	1, // ammo_usage
-	weaponanim_qbj3grenade, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_rocket = {
-	IT_ROCKET_LAUNCHER,
-	7, // slot
-	0, // slotPos
-	"Multi-Missile Launcher", // name
-	"progs/v_mmml.mdl", // model
-	3, // ammofield
-	IT_ROCKETS, // ammo_item
-	1, // ammo_usage
-	weaponanim_boxrocket, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw // drawfunction
-};
-
-weaponclass_t wpc_invoker = {
-	IT_LIGHTNING,
-	8, // slot
-	0, // slotPos
-	"The Invoker", // name
-	"progs/v_invoker.mdl", // model
-	4, // ammofield
-	IT_CELLS, // ammo_item
-	1, // ammo_usage
-	weaponanim_invoker, // animfunction
-	SUB_Null, // idlefunction
-	weaponanim_draw_invoker // drawfunction
-};
-
-
-//weaponclass_t weaponsclass[12] = {
-weaponclass_t weaponsclass[9] = {
-	wpc_no_weapon,
-	wpc_axe,
-	wpc_shotgun,
-	wpc_supershotgun,
-	//wpc_SHOTGUN_SUPER,
-	//wpc_SHOTGUN_LEVER,
-	//wpc_SHOTGUN_STACK,
-	wpc_nailgun,
-	wpc_supernailgun,
-	wpc_grenade,
-	wpc_rocket,
-	wpc_invoker
-};
-
-float MAX_WEAPON_NUM = 8;
-
 float(float weap) getWeapon = {
 	switch (weap) {
-		case IT_AXE:			return 1;
-		case IT_SHOTGUN:		return 2;
-		case IT_SUPER_SHOTGUN:		return 3;
-		case IT_NAILGUN:		return 4;
-		case IT_SUPER_NAILGUN:		return 5;
-		case IT_GRENADE_LAUNCHER:	return 6;
-		case IT_ROCKET_LAUNCHER:	return 7;
-		case IT_LIGHTNING:		return 8;
-
-		default:			return 0;
+		case IT_AXE:				return 1;
+		case IT_SHOTGUN:			return 2;
+		case IT_SUPER_SHOTGUN:		return 3; //these numbers have to match the dumb sequence
+		case IT_NAILGUN:			return 13;// any way to make this dynamic? -fw
+		case IT_SUPER_NAILGUN:		return 14;
+		case IT_GRENADE_LAUNCHER:	return 21;
+		case IT_ROCKET_LAUNCHER:	return 22;
+		case IT_LIGHTNING:			return 23;
+		default:					return 0;
 	}
 }
-
-
-typedef struct {
-	weaponclass_t weaps[4];
-	float qt;
-} weaponslot_t;
-
-weaponslot_t weaponslots[9] = {
-	{{wpc_no_weapon}, 1}, 	//0
-	{{wpc_axe}, 1}, 	//1
-	{{wpc_shotgun}, 1}, 	//2
-	//{{wpc_supershotgun, wpc_SHOTGUN_SUPER, wpc_SHOTGUN_LEVER, wpc_SHOTGUN_STACK}, 4},//3
-	{{wpc_supershotgun}, 1},//3
-	{{wpc_nailgun}, 1}, 	//4
-	{{wpc_supernailgun}, 1},//5
-	{{wpc_grenade}, 1}, 	//6
-	{{wpc_rocket}, 1}, 	//7
-	{{wpc_invoker}, 1} 	//8
-};
 
 
 enum {
@@ -787,7 +364,13 @@ void() W_WeaponFrame =
 // syncs up current ammo with its correspondent ammo_* field
 void() W_UpdateCurrentAmmo =
 {
-	weaponclass_t weap = weaponsclass[getWeapon(self.weapon)];
+	float weapIndex;
+	if (self.active_weapon_index > 0 && self.active_weapon_index <= MAX_WEAPON_NUM)
+		weapIndex = self.active_weapon_index;
+	else
+		weapIndex = getWeapon(self.weapon);
+		
+	weaponclass_t weap = weaponsclass[weapIndex];
 	self.currentammo = self.(ammofieldlist[weap.ammofield]);
 }
 
@@ -822,7 +405,14 @@ float() W_BestWeapon =
 
 float(float weap, entity cl) W_CheckWeapon =
 {
-	weaponclass_t weapcl = weaponsclass[getWeapon(weap)];
+	float weapIndex;
+	
+	if (weap == cl.weapon && cl.active_weapon_index > 0 && cl.active_weapon_index <= MAX_WEAPON_NUM)
+		weapIndex = cl.active_weapon_index;
+	else
+		weapIndex = getWeapon(weap);
+	
+	weaponclass_t weapcl = weaponsclass[weapIndex];
 
 	//if (has_gorgon(cl) && weap == IT_AXE) return WEAPONSTAT_AVAILABLE;
 	if (has_berserk(cl) && weap == IT_AXE) return WEAPONSTAT_AVAILABLE;
@@ -845,7 +435,13 @@ void() W_ResetWeaponState =
 
 void() W_Attack =
 {
-	weaponclass_t weap = weaponsclass[getWeapon(self.weapon)];
+	float weapIndex;
+	if (self.active_weapon_index > 0 && self.active_weapon_index <= MAX_WEAPON_NUM)
+		weapIndex = self.active_weapon_index;
+	else
+		weapIndex = getWeapon(self.weapon);
+	
+	weaponclass_t weap = weaponsclass[weapIndex];
 
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE) {
 		return;
@@ -881,14 +477,21 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon =
 		return weapstat;
 	}
 
+	float weapIndex = getWeapon(weap);
+
+	if (self.active_weapon_index != weapIndex && self.active_weapon_index > 0) {
+		forcereset = TRUE;
+	}
+
 	if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
 		self.pistol_ammo_count = 10;	// reset pistol reload
 
 	self.weaponreload_perc = 0;
-	weaponclass_t weapcl = weaponsclass[getWeapon(weap)];
+	weaponclass_t weapcl = weaponsclass[weapIndex];
 
 	self.prev_weapon = self.weapon;
 	self.weapon = weap;
+	self.active_weapon_index = weapIndex;
 	self.currentammo = self.(ammofieldlist[weapcl.ammofield]);
 	self.items &~= (IT_SHELLS | IT_NAILS | IT_ROCKETS | IT_CELLS);
 	self.items |= weapcl.ammo_item;
@@ -1013,6 +616,70 @@ float() W_SelectBestNailgun =
 	}
 }
 
+float(float slotNum, float slotPos) FindWeaponIndex =
+{
+	float i;
+	for (i = 0; i <= MAX_WEAPON_NUM; i++) {
+		if (weaponsclass[i].slot == slotNum && weaponsclass[i].slotPos == slotPos) {
+			return i;
+		}
+	}
+	return 0;
+}
+
+float(float weapIndex) W_ChangeWeaponByIndex =
+{
+	weaponclass_t weapcl = weaponsclass[weapIndex];
+	float weap = weapcl.id;
+	
+	if (self.animcontroller.owner != self) return WEAPONSTAT_CHANGELOCKED;
+	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
+
+	float weapstat = W_CheckWeapon(weap, self);
+	if (weapstat < WEAPONSTAT_AVAILABLE){
+		return weapstat;
+	}
+
+	float forcereset = (self.active_weapon_index != weapIndex);
+
+	if (self.weapon == weap && !forcereset){
+		return weapstat;
+	}
+
+	if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
+		self.pistol_ammo_count = 10;
+
+	self.weaponreload_perc = 0;
+
+	self.prev_weapon = self.weapon;
+	self.weapon = weap;
+	self.active_weapon_index = weapIndex;
+	
+	self.currentammo = self.(ammofieldlist[weapcl.ammofield]);
+	self.items &~= (IT_SHELLS | IT_NAILS | IT_ROCKETS | IT_CELLS);
+	self.items |= weapcl.ammo_item;
+
+	if (weapcl.ammofield)
+		self.currentammo = self.(ammofieldlist[weapcl.ammofield]);
+	else 	
+		self.currentammo = 0;
+	
+	if (has_berserk(self) && weap == IT_AXE)
+		weapcl.model = "progs/v_berserk.mdl";
+	
+	self.weaponmodel = weapcl.model;
+	self.weaponframe = 0;
+	self.attackpressed = 0;
+	self.attackhold = 0;
+	self.animcontroller.think = player_run;
+	self.think = SUB_Null;
+
+	weapcl.idlefunction();
+	weapcl.drawfunction(); 
+	
+	return weapstat;
+}
+
 float(float imp) W_ChangeSlot =
 {
 	// Pistol Manual Reload
@@ -1020,47 +687,76 @@ float(float imp) W_ChangeSlot =
 	{
 		if (self.pistol_ammo_count != 10)
 			weaponanim_reloadpistol();
-		
 		else if (self.pistol_ammo_count == 10)
 			weaponanim_twirlpistol();
-					
-		return	WEAPONSTAT_AVAILABLE;
+		return WEAPONSTAT_AVAILABLE;
 	}
 		
 	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
 
-	weaponslot_t newSlot = weaponslots[imp];
-
-	weaponclass_t currentWeapon = weaponsclass[getWeapon(self.weapon)];
+	float slotQuantity = weaponslots[imp].qt;
+	
+	weaponclass_t currentWeapon;
+	if (self.active_weapon_index > 0 && self.active_weapon_index <= MAX_WEAPON_NUM)
+		currentWeapon = weaponsclass[self.active_weapon_index];
+	else
+		currentWeapon = weaponsclass[getWeapon(self.weapon)];
 
 	float startSlotPos;
 
 	if (currentWeapon.slot == imp)
-		startSlotPos = wrap(currentWeapon.slotPos + 1, 0, newSlot.qt - 1);
+	{
+		startSlotPos = self.active_slot_weapon[imp];
+		startSlotPos = wrap(startSlotPos + 1, 0, slotQuantity - 1);
+	}
 	else
-		startSlotPos = 0;
+	{
+		startSlotPos = self.active_slot_weapon[imp];
+	}
 
-	float i;
-	
+	float i = 0;
 	float weaponstat;
 
-	while (i < newSlot.qt) {
-		weaponstat = W_CheckWeapon(newSlot.weaps[startSlotPos].id, self);
-		if (weaponstat == WEAPONSTAT_AVAILABLE){
-			W_ChangeWeapon(newSlot.weaps[startSlotPos].id, FALSE);
+	while (i < slotQuantity) 
+	{
+		float checkedWeaponId = weaponslots[imp].weaps[startSlotPos].id;
+		
+		weaponstat = W_CheckWeapon(checkedWeaponId, self);
+		if (weaponstat == WEAPONSTAT_AVAILABLE)
+		{
+			self.active_slot_weapon[imp] = startSlotPos;
+			
+			float weapIndex = FindWeaponIndex(imp, startSlotPos);
+			
+			W_ChangeWeaponByIndex(weapIndex);
 			return weaponstat;
 		}
-		startSlotPos = wrap(startSlotPos + 1, 0, newSlot.qt - 1);
+		startSlotPos = wrap(startSlotPos + 1, 0, slotQuantity - 1);
 		i++;
 	}
 	
 	if (weaponstat == WEAPONSTAT_NOAMMO)
 		sprint(self, "not enough ammo.\n");
-
 	if (weaponstat == WEAPONSTAT_NOWEAPON)
 		sprint(self, "no weapon.\n");
 
 	return weaponstat;
+}
+
+float() W_CycleSlotWeapon =
+{
+	weaponclass_t currentWeapon;
+	if (self.active_weapon_index > 0 && self.active_weapon_index <= MAX_WEAPON_NUM)
+		currentWeapon = weaponsclass[self.active_weapon_index];
+	else
+		currentWeapon = weaponsclass[getWeapon(self.weapon)];
+		
+	float currentSlot = currentWeapon.slot;
+	
+	if (currentSlot <= 2)
+		return WEAPONSTAT_CHANGELOCKED;
+	
+	return W_ChangeSlot(currentSlot);
 }
 
 
