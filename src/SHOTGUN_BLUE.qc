@@ -3,7 +3,7 @@
 //=============================================================================================
 
 string	SHOTGUN_BLUE_NAME	=	"SHOTGUN_BLUE";
-string	SHOTGUN_BLUE_MODEL	=	"progs/placeholder_progs/v_shotgun_super4.mdl";
+string	SHOTGUN_BLUE_MODEL	=	"progs/placeholder_progs/v_shotgun_blue2.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPREAD			DESCRIPTION
@@ -19,6 +19,7 @@ string	SHOTGUN_BLUE_MODEL	=	"progs/placeholder_progs/v_shotgun_super4.mdl";
 //	2	13	20	4	'420 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bonuce (260)
 //	2	26	10	4	'540 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bonuce (260)
 //	2	13	20	4	'540 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bonuce (260)
+//	2	13	20	3	'640 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bonuce (260)
 
 
 //=============================================================================================
@@ -29,10 +30,10 @@ string	SHOTGUN_BLUE_MODEL	=	"progs/placeholder_progs/v_shotgun_super4.mdl";
 	float	SHOTGUN_BLUE_COUNT	=	13;		//number of shots
 	float	SHOTGUN_BLUE_DMG 	=	20;	//260	//damage per shot
 
-	float	SHOTGUN_BLUE_COST	=	4;		//ammo cost to fire
+	float	SHOTGUN_BLUE_COST	=	3;		//ammo cost to fire
 	
 	//vector	SHOTGUN_BLUE_SPREAD	=	'0.2 0.05 0';	//seconds post-fire	//W_Fire_SHOTGUN_BLUE_hitscan
-	vector	SHOTGUN_BLUE_SPREAD	=	'540 180 0';	//seconds post-fire	//W_Fire_SHOTGUN_BLUE_flak (128)
+	vector	SHOTGUN_BLUE_SPREAD	=	'640 180 0';	//seconds post-fire	//W_Fire_SHOTGUN_BLUE_flak (128)
 
 
 //=============================================================================================

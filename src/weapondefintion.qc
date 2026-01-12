@@ -61,7 +61,7 @@ weaponclass_t wpc_shotgun = {
 // SLOT 3: Shells
 // ====================================================================================
 
-weaponclass_t wpc_SHOTGUN_FLAK = {
+weaponclass_t wpc_supershotgun = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
 	"Flak Shotgun",
@@ -74,7 +74,7 @@ weaponclass_t wpc_SHOTGUN_FLAK = {
 	weaponanim_draw
 };
 
-weaponclass_t wpc_supershotgun = {
+weaponclass_t wpc_SHOTGUN_BLUE = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
 	SHOTGUN_BLUE_NAME,
@@ -362,8 +362,8 @@ weaponclass_t weaponsclass[] = {
 	wpc_no_weapon,
 	wpc_axe,
 	wpc_shotgun,
-	wpc_SHOTGUN_FLAK,
 	wpc_supershotgun,
+	wpc_SHOTGUN_BLUE,
 	wpc_SHOTGUN_SUPER,
 	wpc_SHOTGUN_LEVER,
 	wpc_SHOTGUN_STACK,
@@ -391,7 +391,7 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
 	{{wpc_axe}, 1},
 	{{wpc_shotgun}, 1},
-	{{wpc_SHOTGUN_FLAK, wpc_supershotgun, wpc_SHOTGUN_ROTARY}, 3},
+	{{wpc_supershotgun, wpc_SHOTGUN_BLUE, wpc_SHOTGUN_ROTARY}, 3},
 	{{wpc_nailgun}, 1},
 	{{wpc_supernailgun}, 2},
 	{{wpc_grenade}, 1},
