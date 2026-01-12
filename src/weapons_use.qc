@@ -439,6 +439,21 @@ weaponclass_t wpc_SHOTGUN_ROTARY = {
 	weaponanim_draw // drawfunction
 };
 
+weaponclass_t wpc_supershotgun = {
+//weaponclass_t wpc_SHOTGUN_ROTARYv2 = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	0, // slotPos
+	SHOTGUN_ROTARYv2_NAME, // name
+	SHOTGUN_ROTARYv2_MODEL, // model
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SHOTGUN_ROTARYv2_COST, // ammo_usage
+	weaponanim_SHOTGUN_ROTARYv2, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
 weaponclass_t wpc_SHOTGUN_AUTO = {
 //weaponclass_t wpc_SHOTGUN_AUTO = {
 	IT_SUPER_SHOTGUN,
@@ -454,7 +469,7 @@ weaponclass_t wpc_SHOTGUN_AUTO = {
 	weaponanim_draw // drawfunction
 };
 
-weaponclass_t wpc_supershotgun = {
+weaponclass_t wpc_SHOTGUN_SWEEPER = {
 //weaponclass_t wpc_SHOTGUN_SWEEPER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
