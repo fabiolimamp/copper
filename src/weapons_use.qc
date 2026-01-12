@@ -727,6 +727,11 @@ float(float imp) W_ChangeSlot =
 			self.active_slot_weapon[imp] = startSlotPos;
 			
 			float weapIndex = FindWeaponIndex(imp, startSlotPos);
+
+			// Print the weapon name to the player
+			bprint("Selected: ");
+			bprint(weaponsclass[weapIndex].name);
+			bprint("\n");
 			
 			W_ChangeWeaponByIndex(weapIndex);
 			return weaponstat;
