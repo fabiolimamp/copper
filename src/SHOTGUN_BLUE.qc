@@ -25,10 +25,10 @@ string	SHOTGUN_BLUE_MODEL	=	"progs/placeholder_progs/v_shotgun_blue2.mdl";
 //=============================================================================================
 	
 	
-	float	SHOTGUN_BLUE_ROF	=	2;		//seconds post-fire
+	float	SHOTGUN_BLUE_ROF	=	1.9;		//seconds post-fire
 	
-	float	SHOTGUN_BLUE_COUNT	=	13;		//number of shots
-	float	SHOTGUN_BLUE_DMG 	=	20;	//260	//damage per shot
+	float	SHOTGUN_BLUE_COUNT	=	22;		//number of shots
+	float	SHOTGUN_BLUE_DMG 	=	13;	//286	//damage per shot
 
 	float	SHOTGUN_BLUE_COST	=	3;		//ammo cost to fire
 	
