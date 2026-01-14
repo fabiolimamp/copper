@@ -37,6 +37,7 @@ alias quad "impulse 255"
 alias idkfa "impulse 9"
 alias keys "impulse 99"
 alias toggle_custom_crosshair "impulse 17"
+alias toggle_hud "impulse 18"
 
 alias gohome "changelevel start"
 

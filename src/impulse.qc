@@ -203,6 +203,28 @@ void() toggle_custom_crosshairs =
 	}
 }
 
+void() toggle_hudstyle =
+{
+	if (cvar("saved1") == 0)
+	{
+		stuffcmd(self, "saved1 1\n");
+		stuffcmd(self, "hudstyle 1\n");
+		centerprint(self, "Modern 1 HUD selected\n");
+	}
+	else if (cvar("saved1") == 1)
+	{
+		stuffcmd(self, "saved1 2\n");
+		stuffcmd(self, "hudstyle 2\n");
+		centerprint(self, "Modern 2 HUD selected\n");
+	}
+	else
+	{
+		stuffcmd(self, "saved1 0\n");
+		stuffcmd(self, "hudstyle 0\n");
+		centerprint(self, "Classic HUD selected\n");
+	}
+}
+
 
 // --------------------------------
 // ImpulseCommands
@@ -244,6 +266,9 @@ void() ImpulseCommands =
 			break;
 		case 17:
 			toggle_custom_crosshairs();
+			break;
+		case 18:
+			toggle_hudstyle();
 			break;
 
 		case 40:
