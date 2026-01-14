@@ -2,14 +2,14 @@
 // Blood Gem
 //=============================================================================================
 /*
-	The Invoker (fast, -0.7 sec = -28 frames)
+	The Invoker (fast, -0.7 sec = -28 frames, post fire +0.6 sec = +24 frames)
 	{0-82}
 	v_invoker
 	
 	0  idle
 	1-10  draw > idle
-	67-82  idle loop
-	11-(50)-83  charge (fire) > idle
+	91-106  idle loop
+	11-(50)-107  charge (fire) > idle
 	
 	MD3
 	v_invoker_gloves
@@ -22,7 +22,7 @@ float() weaponanim_invoker =
 	if (self.attack_finished > time)
 		return FALSE;
 
-	if (self.weaponframe >= 11 && self.weaponframe <= 66)
+	if (self.weaponframe >= 11 && self.weaponframe <= 90)
 		return FALSE;
 
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
@@ -72,7 +72,7 @@ void() weaponanim_invoker_loop =
 		self.weaponframe++;
 	}
 
-	if (self.weaponframe >= 82)	// added post-fire + ready to fire --> idle padding
+	if (self.weaponframe >= 106)	// added post-fire + ready to fire --> idle padding
 	{
 		weaponanim_idle_invoker();
 		return;
@@ -110,7 +110,7 @@ void() weaponanim_draw_invoker_loop =
 
 void() weaponanim_idle_invoker =
 {	
-	self.weaponframe = 67;
+	self.weaponframe = 91;
 	
 	self.think = weaponanim_idle_invoker_loop;
 	self.nextthink = time + 0.1;
@@ -119,7 +119,7 @@ void() weaponanim_idle_invoker =
 void() weaponanim_idle_invoker_loop =
 {
 
-	if (self.weaponframe >= 82)	//restart idle loop
+	if (self.weaponframe >= 106)	//restart idle loop
 	{
 		weaponanim_idle_invoker();
 		return;
