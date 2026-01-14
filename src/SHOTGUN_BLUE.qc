@@ -261,8 +261,9 @@ void() FlakTouch_SHOTGUN_BLUE_pierce_knockback =
 	
 	if (other.takedamage)
 	{
-		if (other.classname == "monster_swarmer" || other.classname == "monster_zombie" || other.classname == "monster_fish" )	//insta gib
-			T_Damage(other, self, self.trueowner, 80);
+		if ((other.classname == "monster_swarmer" || other.classname == "monster_zombie" ) ||	// IF swarmer or zombie...
+			(other.classname == "monster_fish" && other.health <= SHOTGUN_BLUE_DMG))	// OR IF fish 1 pellet away from death...
+			T_Damage(other, self, self.trueowner, 60);					// gib'em!
 		else
 			T_Damage(other, self, self.trueowner, SHOTGUN_BLUE_DMG);
 
