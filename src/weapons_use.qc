@@ -218,6 +218,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_shotgun_auto.mdl");	
 	precache_model ("progs/placeholder_progs/v_shotgun_sweeper.mdl");	
 	precache_model ("progs/placeholder_progs/v_shotgun_blue2.mdl");	
+	precache_model ("progs/placeholder_progs/v_shotgun_bigblue.mdl");	
 	
 	precache_model ("progs/placeholder_progs/v_rebar_multi.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_wide.mdl");	

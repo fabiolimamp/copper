@@ -3,7 +3,7 @@
 //=============================================================================================
 
 string	SHOTGUN_BLUE_NAME	=	"SHOTGUN_BLUE";
-string	SHOTGUN_BLUE_MODEL	=	"progs/placeholder_progs/v_shotgun_blue2.mdl";
+string	SHOTGUN_BLUE_MODEL	=	"progs/placeholder_progs/v_shotgun_bigblue.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPREAD			DESCRIPTION
@@ -16,10 +16,12 @@ string	SHOTGUN_BLUE_MODEL	=	"progs/placeholder_progs/v_shotgun_blue2.mdl";
 //	1.9	18	14	4	'0.25 0.05 0'		//W_Fire_SHOTGUN_BLUE_hitscan (252)
 //	2	16	16	4	'0.2 0.05 0'		//W_Fire_SHOTGUN_BLUE_hitscan (256)
 
-//	2	13	20	4	'420 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bonuce (260)
-//	2	26	10	4	'540 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bonuce (260)
-//	2	13	20	4	'540 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bonuce (260)
-//	2	13	20	3	'640 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bonuce (260)
+//	2	13	20	4	'420 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bounce (260)
+//	2	26	10	4	'540 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bounce (260)
+//	2	13	20	4	'540 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bounce (260)
+//	2	13	20	3	'640 180 0'		//FlakTouch_SHOTGUN_BLUE_pierce_knockback (260)
+//	1.9	22	13	3	'640 180 0'		//FlakTouch_SHOTGUN_BLUE_pierce_knockback (286)
+//	1.9	19	15	3	'640 180 0'		//FlakTouch_SHOTGUN_BLUE_pierce_knockback (285)
 
 
 //=============================================================================================
@@ -32,8 +34,8 @@ string	SHOTGUN_BLUE_MODEL	=	"progs/placeholder_progs/v_shotgun_blue2.mdl";
 
 	float	SHOTGUN_BLUE_COST	=	3;		//ammo cost to fire
 	
-	//vector	SHOTGUN_BLUE_SPREAD	=	'0.2 0.05 0';	//seconds post-fire	//W_Fire_SHOTGUN_BLUE_hitscan
-	vector	SHOTGUN_BLUE_SPREAD	=	'640 180 0';	//seconds post-fire	//W_Fire_SHOTGUN_BLUE_flak (128)
+//	vector	SHOTGUN_BLUE_SPREAD	=	'0.2 0.05 0';	//seconds post-fire	//W_Fire_SHOTGUN_BLUE_hitscan
+	vector	SHOTGUN_BLUE_SPREAD	=	'640 180 0';	//seconds post-fire	//W_Fire_SHOTGUN_BLUE_flak
 
 
 //=============================================================================================
@@ -96,7 +98,7 @@ void() weaponanim_SHOTGUN_BLUE_loop =
 
 void() W_Fire_SHOTGUN_BLUE_hitscan =
 {
-	sound(self, CHAN_AUTO, "placeholder_sound/shotgun2.wav", 0.3, ATTN_NORM);
+	sound(self, CHAN_AUTO, "placeholder_sound/shotgun2.wav", 0.6, ATTN_NORM);
 	
 	makevectors (self.v_angle);
 	vector org_gun = self.origin + self.view_ofs - v_up * 8 + v_right *  8 + v_forward * 8;
@@ -259,8 +261,8 @@ void() FlakTouch_SHOTGUN_BLUE_pierce_knockback =
 	
 	if (other.takedamage)
 	{
-		if (other.classname == "monster_swarmer" || other.classname == "monster_zombie")	//insta gib
-			T_Damage(other, self, self.trueowner, 60);
+		if (other.classname == "monster_swarmer" || other.classname == "monster_zombie" || other.classname == "monster_fish" )	//insta gib
+			T_Damage(other, self, self.trueowner, 80);
 		else
 			T_Damage(other, self, self.trueowner, SHOTGUN_BLUE_DMG);
 

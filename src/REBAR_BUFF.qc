@@ -9,15 +9,7 @@ string	REBAR_BUFF_MODEL	=	"progs/placeholder_progs/v_rebar_buff.mdl";
 //	ROF	COUNT * DMG	COST	SPREAD		DESCRIPTION
 //	1	1	100	10	'0 0 0'		//QBJ3 Rebar Cannon (100+)
 
-//	1	1	150	15	'0 0 0'		//REBAR CANNON BUFF (150+)
-
-//	1.6	4	50	20	500, 25		//REBAR MULTI (4*50=200+)
-//	0.8	4	20	10	700, 25		//REBAR WIDE (4*20=80+)
-//	1	3	30	10	500, 50		//REBAR TALL (3*30=90+)
-//	0.7	1	50	5			//REBAR FAST (50+)
-//	0.8	1	60	5			//REBAR FAST (60+)
-//	0.5	1	50	5			//REBAR FAST (40+)
-
+//	1	1	140	10	'0 0 0'		//REBAR CANNON BUFF (140+)
 
 //=============================================================================================
 	

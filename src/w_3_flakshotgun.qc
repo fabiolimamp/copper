@@ -216,7 +216,7 @@ void() FlakTouch =
 		if (other.classname == "monster_swarmer" || other.classname == "monster_fish")
 			if (other.health <= 5)
 				if (random() < 0.5)
-					T_Damage(other, self, self.trueowner, 50);	//gib anything about to die from 1 pellet  (1/4 chance per pellet)
+					T_Damage(other, self, self.trueowner, 50);	//gib anything about to die from 1 pellet
 					
 		//T_Damage(other, self, self.trueowner, 4);
 		
