@@ -105,8 +105,8 @@ entity(vector org, vector vel) launch_qbj3grenade =
 	
 	grenade = toss_projectile(org, vel, "grenade");
 	grenade.lifetime_finished = time + 2.5;
-	//grenade.avelocity = '300 300 300';
-	grenade.avelocity = '-600 0 0';
+	grenade.avelocity = '300 300 300';	//ID1 tumble
+	//grenade.avelocity = '-600 0 0';
 	SUB_ChangeModel (grenade, "progs/proj_grenade.mdl");
 	
 	return grenade;
