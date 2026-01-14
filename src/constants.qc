@@ -5,8 +5,8 @@
 //const string 	version_s 		= "Copper Quake 1.30 - 31 October 2023";
 //const float 	version_f		= 1.30;
 
-const string 	version_s 		= "QBJ3 dev 1.5";
-const float 	version_f 		= 1.5;
+const string 	version_s 		= "QBJ3 post-release 1.6";
+const float 	version_f 		= 1.6;
 
 const float	FALSE			= 0;
 const float 	TRUE			= 1;
