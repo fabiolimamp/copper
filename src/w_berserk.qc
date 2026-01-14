@@ -118,7 +118,7 @@ void() weaponanim_berserk_loop =	// End Check [Junction]
 	if (self.weaponframe == 14
 	 || self.weaponframe == 34
 	 || self.weaponframe == 54
-	 || self.weaponframe == 64)	W_FireBerserk();
+	 || self.weaponframe == 64)	W_Fire_Berserker_Multi();	//W_FireBerserk();
 
 
 	if (self.weaponframe == 60)	self.weaponframe = 40;
@@ -142,6 +142,7 @@ void() weaponanim_berserk_loop =	// End Check [Junction]
 }
 
 //=================================================================================================
+/*
 void() W_FireBerserk =
 {
 	local vector toss;
@@ -212,6 +213,7 @@ void() W_FireBerserk =
 		gunshot(org);
 	}
 }
+*/
 //=============================================================================================
 
 void() weaponanim_draw_berserker =
@@ -267,4 +269,149 @@ void(float fisthit_volume) sound_berserk_fist_hit_enemy =
 	else if (r == 1)	sound (self, CHAN_AUTO, "impact/fist_impact2.wav", fisthit_volume, ATTN_NORM);
 	else if (r == 2)	sound (self, CHAN_AUTO, "impact/fist_impact3.wav", fisthit_volume, ATTN_NORM);
 	else 			sound (self, CHAN_AUTO, "impact/fist_impact4.wav", fisthit_volume, ATTN_NORM);
+}
+
+//=============================================================================================
+
+void() W_Fire_Berserker_Multi =
+{
+	if (self.health <= 0)
+		return;
+
+	if (self.weaponframe == 14 || self.weaponframe == 64)
+		self.customflags |= CFL_LEFTY; // if {R} start || {R} combo = {L} alternator
+	else
+		self.customflags &~= CFL_LEFTY;	// if {L} start || {L} combo = {R} alternator
+	
+	
+	local	vector	source;
+	
+	entity hitent1, hitent2;
+	vector hitpos1, hitpos2;
+	float shortest_hit1 = 1000;
+	float shortest_hit2 = 1000;
+
+	makevectors (self.v_angle);
+	source = self.origin + self.view_ofs - v_up*0;
+
+	traceline2 (source, source + v_forward*70 - v_right*30, self, FALSE);
+	if (trace_fraction < 1) {
+		shortest_hit1 = vlen(trace_endpos - source);
+		hitent1 = trace_ent;
+		hitpos1 = trace_endpos;
+ 	}
+
+	traceline2 (source, source + v_forward*85 - v_right*15, self, FALSE);
+	if (trace_fraction < 1) {
+		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
+			shortest_hit1 = vlen(trace_endpos - source);
+			hitent1 = trace_ent;
+			hitpos1 = trace_endpos;
+		}
+		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
+			shortest_hit2 = vlen(trace_endpos - source);
+			hitent2 = trace_ent;
+			hitpos2 = trace_endpos;
+		}
+	}
+
+	traceline2 (source, source + v_forward*100, self, FALSE);
+	if (trace_fraction < 1) {
+		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
+			shortest_hit1 = vlen(trace_endpos - source);
+			hitent1 = trace_ent;
+			hitpos1 = trace_endpos;
+		}
+		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
+			shortest_hit2 = vlen(trace_endpos - source);
+			hitent2 = trace_ent;
+			hitpos2 = trace_endpos;
+		}
+	}
+
+	traceline2 (source, source + v_forward*85 + v_right*15, self, FALSE);
+	if (trace_fraction < 1) {
+		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
+			shortest_hit1 = vlen(trace_endpos - source);
+			hitent1 = trace_ent;
+			hitpos1 = trace_endpos;
+		}
+		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
+			shortest_hit2 = vlen(trace_endpos - source);
+			hitent2 = trace_ent;
+			hitpos2 = trace_endpos;
+		}
+	}
+
+	traceline2 (source, source + v_forward*70 + v_right*30, self, FALSE);
+	if (trace_fraction < 1) {
+		if (trace_ent == hitent1 && vlen(trace_endpos - source) < shortest_hit1) {
+			shortest_hit1 = vlen(trace_endpos - source);
+			hitent1 = trace_ent;
+			hitpos1 = trace_endpos;
+		}
+		if (trace_ent != hitent1 && vlen(trace_endpos - source) < shortest_hit2) {
+			shortest_hit2 = vlen(trace_endpos - source);
+			hitent2 = trace_ent;
+			hitpos2 = trace_endpos;
+		}
+	}
+
+	if (shortest_hit1 == 1000 && shortest_hit2 == 1000) {
+		return;
+	}
+
+	self.show_hostile = time + 1; // hit something, so alert monsters
+	
+	vector dir = v_right * 20 - v_up*5; // direction for blood particles
+
+	if (shortest_hit1 < 1000) hit_berserker_punch(hitent1, hitpos1 - v_forward*4, dir);
+	if (shortest_hit2 < 1000 && hitent1 != hitent2) hit_berserker_punch(hitent2, hitpos2 - v_forward*4, dir);
+};
+//=============================================================================================
+
+void(entity hitent, vector org, vector dir) hit_berserker_punch =
+{
+	self.show_hostile = time + 1;	// wake monsters up
+	
+	if (hitent.takedamage) 
+	{		
+		hitent.wrenchhitme = 1;
+
+		if ((hitent.flags & FL_MONSTER) || (hitent.classname == "player"))
+		{	
+			if (hitent.classname == "monster_amalgam" || hitent.classname == "monster_shalrath" )
+				T_Damage(hitent, self, self, 600, DMGTYPE_MELEE);	//pop'em
+						
+			sound_berserk_fist_hit_enemy(1);	
+			
+			if ((hitent.movetype == MOVETYPE_STEP || hitent.movetype == MOVETYPE_WALK) && 
+				// don't swat bosses or other non-standard-sized enemies around
+				hitent.maxs_x <= 32 && hitent.health > 0 && hitent.type != "boss")
+			{
+				local vector toss;
+				toss = v_forward;
+				toss_z = 0;
+				toss = normalize(toss) * 800;	// beserk doubled the knockback with the axe but removed the quad knockback
+				toss_z = 100;
+				hitent.origin_z = hitent.origin_z + 1;
+				hitent.velocity = toss;
+				hitent.flags = not(hitent.flags, FL_ONGROUND);
+			}	
+		}
+		
+		SpawnBlood(org, dir, 240);
+		FX_Impact(FX_BLOOD, org, dir);
+
+		T_Damage(hitent, self, self, 480, DMGTYPE_MELEE);
+		
+		SuperDamageSound();	//always play quad sound even if missing	
+	}
+	else
+	{	// hit wall
+		sound (self, CHAN_OTHER, "impact/fist_hit.wav", 1, ATTN_NORM);
+		
+		SuperDamageSound();
+		gunshot(org);
+	}
 }
