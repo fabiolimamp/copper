@@ -239,7 +239,7 @@ void() FlakTouch =
 	FlakBounce();
 	gunshot(self.origin);
 
-	//self.touch = FlakTouch_2;
+	self.touch = FlakTouch_2;
 	self.lifetime_finished = time + 0.5;
 	
 	float chance = random();
@@ -248,7 +248,7 @@ void() FlakTouch =
 	else if (chance < 0.5) sound(self, CHAN_AUTO, "weapons/ric2.wav", 0.25, ATTN_NORM);
 	else sound(self, CHAN_AUTO, "weapons/ric3.wav", 0.25, ATTN_NORM);
 }
-/*
+
 void() FlakTouch_2 =
 {
 	if (CheckProjectilePassthru()) return;
@@ -262,6 +262,11 @@ void() FlakTouch_2 =
 
 	if (other.takedamage)
 	{
+		if (other.classname == "monster_swarmer" || other.classname == "monster_fish")
+			if (other.health <= 5)
+				if (random() < 0.5)
+					T_Damage(other, self, self.trueowner, 50);	//gib anything about to die from 1 pellet
+		
 		//T_Damage(other, self, self.trueowner, 4);
 		T_Damage(other, self, self.trueowner, 5);
 		
@@ -277,7 +282,7 @@ void() FlakTouch_2 =
 	
 	gunshot(self.origin);
 }
-*/
+
 //=============================================================================================
 
 void() BuckshotCasingTouch2 =
