@@ -2,14 +2,14 @@
 // Blood Gem
 //=============================================================================================
 /*
-	The Invoker (fast, -0.7 sec = -28 frames, post fire +0.6 sec = +24 frames)
-	{0-82}
+	The Invoker
+	{0-107}
 	v_invoker
 	
 	0  idle
 	1-10  draw > idle
-	91-106  idle loop
-	11-(50)-107  charge (fire) > idle
+	91-105  idle loop
+	11-(62)-106  charge (fire) > idle
 	
 	MD3
 	v_invoker_gloves
@@ -40,8 +40,8 @@ float() weaponanim_invoker =
 	
 	return TRUE;
 	
-	// Invoker Charge Time to Fire = 1 seconds, 40fps = 40 frames
-	// Invoker Total Time Cooldown = 1.4 seconds, 40fps = 64 frames minimum
+	// Invoker Charge Time to Fire = 1.3 seconds, 40fps = 52 frames
+	// Invoker Total Time Cooldown = 2 seconds, 40fps = 80 frames
 	// Invoker weapon change lock (~80% charge)
 }
 //=============================================================================================
@@ -50,24 +50,26 @@ void() weaponanim_invoker_loop =
 {
 	if (intermission) return;
 	
-	if (self.weaponframe == 13)	sound (self, CHAN_AUTO, "invoker/magic07.wav", 1, ATTN_NORM);
+	if (self.weaponframe == 25)	sound (self, CHAN_AUTO, "invoker/magic07.wav", 1, ATTN_NORM);
 	
-	if (self.weaponframe == 49)	sound (self, CHAN_AUTO, "invoker/energy_charge.wav", 1, ATTN_NORM);
+	if (self.weaponframe == 61)	sound (self, CHAN_AUTO, "invoker/energy_charge.wav", 1, ATTN_NORM);
 	
-	if (self.weaponframe >= 36 && self.weaponframe <= 66){
+	if (self.weaponframe >= 48 && self.weaponframe <= 91){
 		self.customflags |= CFL_WEAPONLOCK;
 		//dprint("locked\n");
 	}
 	else
 		self.customflags &~= CFL_WEAPONLOCK;
 
-	if (self.weaponframe == 50)
+	if (self.weaponframe == 62)
 	{		
 		self.currentammo = self.ammo_cells = self.ammo_cells - 1;
 		self.effects = self.effects | EF_MUZZLEFLASH;
 
 		SuperDamageSound();
 		W_FireInvoker();
+		
+		self.attack_finished = time + 0.7;
 		
 		self.weaponframe++;
 	}
@@ -244,7 +246,6 @@ void(vector org, vector dir, float drawTrail) invokerTrace =
 
 	if (drawTrail)
 		drawInvokerTrail(self, org, trace_endpos);
-
 };
 //=============================================================================================
 
