@@ -3,13 +3,13 @@
 //=============================================================================================
 /*
 	The Invoker
-	{0-107}
+	{0-111}
 	v_invoker
 	
 	0  idle
 	1-10  draw > idle
-	91-105  idle loop
-	11-(62)-106  charge (fire) > idle
+	95-109  idle loop
+	11-(66)-110  charge (fire) > idle
 	
 	MD3
 	v_invoker_gloves
@@ -22,7 +22,7 @@ float() weaponanim_invoker =
 	if (self.attack_finished > time)
 		return FALSE;
 
-	if (self.weaponframe >= 11 && self.weaponframe <= 90)
+	if (self.weaponframe >= 11 && self.weaponframe <= 94)
 		return FALSE;
 
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
@@ -40,8 +40,8 @@ float() weaponanim_invoker =
 	
 	return TRUE;
 	
-	// Invoker Charge Time to Fire = 1.3 seconds, 40fps = 52 frames
-	// Invoker Total Time Cooldown = 2 seconds, 40fps = 80 frames
+	// Invoker Charge Time to Fire = 1.4 seconds, 40fps = 56 frames
+	// Invoker Total Time Cooldown = 2.1 seconds, 40fps = 84 frames
 	// Invoker weapon change lock (~80% charge)
 }
 //=============================================================================================
@@ -50,18 +50,18 @@ void() weaponanim_invoker_loop =
 {
 	if (intermission) return;
 	
-	if (self.weaponframe == 25)	sound (self, CHAN_AUTO, "invoker/magic07.wav", 1, ATTN_NORM);
+	if (self.weaponframe == 26)	sound (self, CHAN_AUTO, "invoker/magic07.wav", 1, ATTN_NORM);
 	
-	if (self.weaponframe == 61)	sound (self, CHAN_AUTO, "invoker/energy_charge.wav", 1, ATTN_NORM);
+	if (self.weaponframe == 64)	sound (self, CHAN_AUTO, "invoker/energy_charge.wav", 1, ATTN_NORM);
 	
-	if (self.weaponframe >= 48 && self.weaponframe <= 91){
+	if (self.weaponframe >= 50 && self.weaponframe <= 95){
 		self.customflags |= CFL_WEAPONLOCK;
 		//dprint("locked\n");
 	}
 	else
 		self.customflags &~= CFL_WEAPONLOCK;
 
-	if (self.weaponframe == 62)
+	if (self.weaponframe == 66)
 	{		
 		self.currentammo = self.ammo_cells = self.ammo_cells - 1;
 		self.effects = self.effects | EF_MUZZLEFLASH;
@@ -74,7 +74,7 @@ void() weaponanim_invoker_loop =
 		self.weaponframe++;
 	}
 
-	if (self.weaponframe >= 106)	// added post-fire + ready to fire --> idle padding
+	if (self.weaponframe >= 110)	// added post-fire + ready to fire --> idle padding
 	{
 		weaponanim_idle_invoker();
 		return;
@@ -112,7 +112,7 @@ void() weaponanim_draw_invoker_loop =
 
 void() weaponanim_idle_invoker =
 {	
-	self.weaponframe = 91;
+	self.weaponframe = 95;
 	
 	self.think = weaponanim_idle_invoker_loop;
 	self.nextthink = time + 0.1;
@@ -121,7 +121,7 @@ void() weaponanim_idle_invoker =
 void() weaponanim_idle_invoker_loop =
 {
 
-	if (self.weaponframe >= 106)	//restart idle loop
+	if (self.weaponframe >= 110)	//restart idle loop
 	{
 		weaponanim_idle_invoker();
 		return;
