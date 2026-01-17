@@ -90,6 +90,21 @@ vector(entity emitter, float dm) GibVelocityComplete = {
 	return vel;
 }
 
+void() GibFade =
+{
+	self.alpha -= 0.025;
+	
+	if (self.alpha <= 0)
+	{
+		remove(self);
+		return;
+	}
+
+	self.think = GibFade;
+	self.nextthink = time + 0.05;
+}
+
+
 entity(string gibname, vector vel) ThrowGib =
 {
 	entity gib;
@@ -98,7 +113,8 @@ entity(string gibname, vector vel) ThrowGib =
 	// gibs have to be thinking ballistic projectiles to pass through monsterclip/notrace
 	gib.owner = gib.trueowner = self;
 	gib.touch = projectile_touch_null;
-	gib.th_die = SUB_Remove;
+	gib.alpha = 1;
+	gib.th_die = GibFade;
 	gib.think = projectile_toss_think;
 	gib.nextthink = time;
 	gib.touch = projectile_touch_null;
