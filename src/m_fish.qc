@@ -191,7 +191,7 @@ void() f_attack18 =[ $attack18, f_attack1 ] {nmfast(); ai_charge(10);}
 
 void() f_death1 =[	$death1, f_death2 ] {if (fish_checkgib()) return;}
 void() f_death2 =[	$death2, f_death3 ] {if (fish_checkgib()) return;}
-void() f_death3 =[	$death3, f_death4 ] {if (fish_checkgib()) return;}
+void() f_death3 =[	$death3, f_death4 ] {if (fish_checkgib()) return; self.takedamage = DAMAGE_NO; self.touch = SUB_Null;}
 void() f_death4 =[	$death4, f_death5 ] {}
 void() f_death5 =[	$death5, f_death6 ] {}
 void() f_death6 =[	$death6, f_death7 ] {}
@@ -277,12 +277,27 @@ float() fish_checkgib =
 	return FALSE;
 }
 
+void() fish_dying_hit =
+{
+	if (other.customflags & CFL_PROJECTILE && other.touch) {
+		//dprint("projectile touched!\n");
+		entity oself = self;
+		entity oother = other;
+		other = oself;
+		self = oother;
+		self.touch();
+		self = oself;
+		other = oother;
+	}
+}
+
 void() fish_die =
 {
 	if (fish_checkgib()) return;
 
 	self.takedamage = DAMAGE_YES;
 	self.solid = SOLID_TRIGGER;
+	self.touch = fish_dying_hit;
 	setorigin(self, self.origin);
 	
 	sound (self, CHAN_VOICE, "fish/death.wav", 1, ATTN_NORM);

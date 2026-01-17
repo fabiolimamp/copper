@@ -213,17 +213,10 @@ void() FlakTouch =
 
 	if (other.takedamage)
 	{
-		if (other.classname == "monster_swarmer" || other.classname == "monster_fish")
-			if (other.health <= 5)
-				if (random() < 0.5)
-					T_Damage(other, self, self.trueowner, 50);	//gib anything about to die from 1 pellet
-					
-		//T_Damage(other, self, self.trueowner, 4);
-		
+
 		T_Damage(other, self, self.trueowner, 5);
 		
 		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
-		//SpawnBlood(self.origin, self.velocity, 40);
 		SpawnBlood(self.origin, self.velocity, 50);
 
 		if (random() < 0.25)	FX_Impact(FX_BLOOD_BIG, self.origin, self.velocity);
@@ -239,48 +232,18 @@ void() FlakTouch =
 	FlakBounce();
 	gunshot(self.origin);
 
-	self.touch = FlakTouch_2;
-	self.lifetime_finished = time + 0.5;
+	if (!self.state) self.lifetime_finished = time + 0.5; // hasn't bounced yet, lifetime is increased only once
 	
 	float chance = random();
 
-	if (chance < 0.33) sound(self, CHAN_AUTO, "weapons/ric1.wav", 0.25, ATTN_NORM);
-	else if (chance < 0.5) sound(self, CHAN_AUTO, "weapons/ric2.wav", 0.25, ATTN_NORM);
-	else sound(self, CHAN_AUTO, "weapons/ric3.wav", 0.25, ATTN_NORM);
-}
-
-void() FlakTouch_2 =
-{
-	if (CheckProjectilePassthru()) return;
-	
-	if (self.attack_finished < time) {
-		remove(self);
-		return;
+	// is this really supposed to only play on the first bounce?
+	if (!self.state) {
+		if (chance < 0.33) sound(self, CHAN_AUTO, "weapons/ric1.wav", 0.25, ATTN_NORM);
+		else if (chance < 0.5) sound(self, CHAN_AUTO, "weapons/ric2.wav", 0.25, ATTN_NORM);
+		else sound(self, CHAN_AUTO, "weapons/ric3.wav", 0.25, ATTN_NORM);
 	}
-	
-	FlakBounce();
 
-	if (other.takedamage)
-	{
-		if (other.classname == "monster_swarmer" || other.classname == "monster_fish")
-			if (other.health <= 5)
-				if (random() < 0.5)
-					T_Damage(other, self, self.trueowner, 50);	//gib anything about to die from 1 pellet
-		
-		//T_Damage(other, self, self.trueowner, 4);
-		T_Damage(other, self, self.trueowner, 5);
-		
-		//SpawnBlood(self.origin, self.velocity, 40);
-		SpawnBlood(self.origin, self.velocity, 50);
-		sound_flakshotgun_impact();
-
-		if (other.health <= 0) projectile_passthru();
-		else remove(self);
-
-		return;
-	}
-	
-	gunshot(self.origin);
+	self.state = 1;
 }
 
 //=============================================================================================

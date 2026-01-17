@@ -214,6 +214,7 @@ void(vector org, vector dir, float init_angle) launch_spiralrocket = {
 	newmis.touch = spiralrocket_touch;
 	newmis.angles = vectoangles(dir);
 	newmis.velocity = dir * 1000;
+	newmis.customflags |= CFL_PROJECTILE;
 
 	setmodel (newmis, "progs/proj_missile.mdl");
 	setsize (newmis, '0 0 0', '0 0 0');

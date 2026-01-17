@@ -610,7 +610,7 @@ void() amalgam_die =
 	
 	// disable directional gibs
 	self.inflictor_vel = VEC_ORIGIN;
-	self.inflictor_origin = self.origin;
+	self.inflictor_relativeorigin = '0 0 0';
 
 	amalgam_die1 ();
 }

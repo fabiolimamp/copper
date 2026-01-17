@@ -276,7 +276,7 @@ void() swarmer_melee =
 
 void() swarmer_deathA1 = [ 73, swarmer_deathA2 ]{if (swarmer_checkgib()) return;};
 void() swarmer_deathA2 = [ 74, swarmer_deathA3 ]{if (swarmer_checkgib()) return; ai_pain(8);};
-void() swarmer_deathA3 = [ 75, swarmer_deathA4 ]{if (swarmer_checkgib()) return; ai_pain(5); self.takedamage = DAMAGE_NO;};
+void() swarmer_deathA3 = [ 75, swarmer_deathA4 ]{if (swarmer_checkgib()) return; ai_pain(5); self.takedamage = DAMAGE_NO; self.touch = SUB_Null;};
 void() swarmer_deathA4 = [ 76, swarmer_deathA5 ]{ai_pain(3);};
 void() swarmer_deathA5 = [ 77, swarmer_deathA6 ]{ai_pain(1);};
 void() swarmer_deathA6 = [ 78, swarmer_deathA7 ]{ai_pain(2);};
@@ -288,7 +288,7 @@ void() swarmer_deathA11 = [ 83, SUB_Null ]{};
 
 void() swarmer_deathB1 = [ 84, swarmer_deathB2 ]{if (swarmer_checkgib()) return; ai_pain(16 + random()*8);};
 void() swarmer_deathB2 = [ 85, swarmer_deathB3 ]{if (swarmer_checkgib()) return; ai_pain(16 + random()*8);};
-void() swarmer_deathB3 = [ 86, swarmer_deathB4 ]{if (swarmer_checkgib()) return; ai_pain(16 + random() * 8); self.takedamage = DAMAGE_NO;};
+void() swarmer_deathB3 = [ 86, swarmer_deathB4 ]{if (swarmer_checkgib()) return; ai_pain(16 + random() * 8); self.takedamage = DAMAGE_NO; self.touch = SUB_Null;};
 void() swarmer_deathB4 = [ 87, swarmer_deathB5 ]{ai_pain(8);};
 void() swarmer_deathB5 = [ 88, swarmer_deathB6 ]{ai_pain(4);};
 void() swarmer_deathB6 = [ 89, swarmer_deathB7 ]{};
@@ -298,7 +298,7 @@ void() swarmer_deathB9 = [ 92, SUB_Null ]{};
 
 void() swarmer_deathC1 = [ 93, swarmer_deathC2 ]{if (swarmer_checkgib()) return; };
 void() swarmer_deathC2 = [ 94, swarmer_deathC3 ]{if (swarmer_checkgib()) return; };
-void() swarmer_deathC3 = [ 95, swarmer_deathC4 ]{if (swarmer_checkgib()) return; self.takedamage = DAMAGE_NO;};
+void() swarmer_deathC3 = [ 95, swarmer_deathC4 ]{if (swarmer_checkgib()) return; self.takedamage = DAMAGE_NO; self.touch = SUB_Null;};
 void() swarmer_deathC4 = [ 96, swarmer_deathC5 ]{};
 void() swarmer_deathC5 = [ 97, swarmer_deathC6 ]{};
 void() swarmer_deathC6 = [ 98, swarmer_deathC7 ]{};
@@ -310,7 +310,7 @@ void() swarmer_deathC11 = [ 103, SUB_Null ]{};
 
 void() swarmer_deathD1 = [ 104, swarmer_deathD2 ]{if (swarmer_checkgib()) return; ai_swarmer_charge(24);};
 void() swarmer_deathD2 = [ 105, swarmer_deathD3 ]{if (swarmer_checkgib()) return; ai_swarmer_charge(20);};
-void() swarmer_deathD3 = [ 106, swarmer_deathD4 ]{if (swarmer_checkgib()) return; ai_swarmer_charge(16); self.takedamage = DAMAGE_NO;};
+void() swarmer_deathD3 = [ 106, swarmer_deathD4 ]{if (swarmer_checkgib()) return; ai_swarmer_charge(16); self.takedamage = DAMAGE_NO; self.touch = SUB_Null;};
 void() swarmer_deathD4 = [ 107, swarmer_deathD5 ]{ai_forward(14);};
 void() swarmer_deathD5 = [ 108, swarmer_deathD6 ]{ai_forward(8);};
 void() swarmer_deathD6 = [ 109, swarmer_deathD7 ]{ai_forward(4);};
@@ -330,6 +330,19 @@ float() swarmer_checkgib =
 	return FALSE;
 }
 
+void() swarmer_dying_hit =
+{
+	if (other.customflags & CFL_PROJECTILE && other.touch) {
+		//dprint("projectile touched!\n");
+		entity oself = self;
+		entity oother = other;
+		other = oself;
+		self = oother;
+		self.touch();
+		self = oself;
+		other = oother;
+	}
+}
 
 void() swarmer_die =
 {
@@ -337,7 +350,9 @@ void() swarmer_die =
 	if (skill == 3) self.alpha = 1.0;
 
 	self.solid = SOLID_TRIGGER;
+	self.touch = swarmer_dying_hit;
 	setorigin(self, self.origin);
+	setsize(self, '-16 -16 -24', '16 16 32'); // enlarge bbox so it's easier to hit the remaining trigger
 
 	float r = random();
 	if 	(r < (1 / 3))	sound(self, CHAN_VOICE, "swarmer/death1.wav", 1, ATTN_NORM);

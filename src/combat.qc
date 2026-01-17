@@ -536,11 +536,7 @@ void(entity targ, entity inflictor, entity attacker, float damage, float dmgtype
 	}
 	
 	// store inflictor data for possible gib velocity calculation
-	targ.dmg_inflictor = inflictor;
 
-	targ.inflictor_origin = inflictor.origin;
-	targ.inflictor_customflags = inflictor.customflags;
-	targ.inflictor_vel = inflictor.velocity;
 
 	// do the damage
 	
@@ -555,6 +551,11 @@ void(entity targ, entity inflictor, entity attacker, float damage, float dmgtype
 	}
 	else if (targ.health <= 0)
 	{
+		targ.dmg_inflictor = inflictor;
+
+		targ.inflictor_relativeorigin = targ.origin - inflictor.origin;
+		targ.inflictor_customflags = inflictor.customflags;
+		targ.inflictor_vel = inflictor.velocity;
 		targ.dmgtype_death = dmgtype;
 		Killed (targ, attacker, dmgtype);
 		return;

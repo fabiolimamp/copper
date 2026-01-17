@@ -32,8 +32,8 @@ vector(entity emitter, float dm) GibVelocityFromInflictor = {
 
 	float pwr = clamp(dm * dm / 22, 10, 800);
 	
-	vector addvel = normalize(emitter.origin - emitter.inflictor_origin) * pwr;
-
+	vector addvel = normalize(emitter.inflictor_relativeorigin) * pwr;
+	//dprint3("Relative origin: ", vtos(emitter.inflictor_vel), "\n");
 
 	addvel_z *= 0.7;
 
@@ -54,9 +54,10 @@ vector(entity emitter, float dm) GibVelocityFromInflictor = {
 	if (emitter.inflictor_customflags & CFL_PROJECTILE && emitter.inflictor_vel != '0 0 0') {
 		
 		//dprint4(emitter.classname, ": adding velocity from inflictor ", emitter.dmg_inflictor.classname, "\n");
-		
-		float projlinvel = vlen(emitter.inflictor_vel);
-		addvel += emitter.inflictor_vel * min(projlinvel, 180)/projlinvel;
+		//dprint2(vtos(emitter.inflictor_vel), "\n");
+
+		float inflictor_linearvel = vlen(emitter.inflictor_vel);
+		addvel += emitter.inflictor_vel * min(inflictor_linearvel, 180)/inflictor_linearvel;
 	}
 
 	return addvel;

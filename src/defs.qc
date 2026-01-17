@@ -401,7 +401,7 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .entity		multidmg_chain;	// moved from combat.qc - for multidmg	
 .float		multi_dmg;
 
-.vector 	inflictor_origin;
+.vector 	inflictor_relativeorigin;
 .float 		inflictor_customflags;
 .vector 	inflictor_vel;
 .float		dmgtype_death;
