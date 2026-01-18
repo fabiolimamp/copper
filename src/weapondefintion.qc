@@ -61,7 +61,7 @@ weaponclass_t wpc_shotgun = {
 // SLOT 3: Shells
 // ====================================================================================
 
-weaponclass_t wpc_supershotgun = {
+weaponclass_t wpc_SHOTGUN_FLAK = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
 	"Flak Shotgun",
@@ -195,7 +195,7 @@ weaponclass_t wpc_SHOTGUN_SWEEPER = {
 // SLOT 4: Nailgun
 // ====================================================================================
 
-weaponclass_t wpc_nailgun = {
+weaponclass_t wpc_NAIL_TWIN = {
 	IT_NAILGUN,
 	4, // slot
 	"Twin Nailgun",
@@ -204,6 +204,19 @@ weaponclass_t wpc_nailgun = {
 	IT_NAILS, // ammo_item
 	1, // ammo_usage
 	weaponanim_twinnailgun,
+	SUB_Null,
+	weaponanim_draw
+};
+
+weaponclass_t wpc_NAIL_HEAVY = {
+	IT_NAILGUN,
+	4, // slot
+	NAIL_HEAVY_NAME,
+	NAIL_HEAVY_MODEL,
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	NAIL_HEAVY_COST, // ammo_usage
+	weaponanim_NAIL_HEAVY,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -290,7 +303,7 @@ weaponclass_t wpc_REBAR_FAST = {
 	weaponanim_draw
 };
 
-weaponclass_t wpc_supernailgun = {
+weaponclass_t wpc_REBAR_BUFF = {
 	IT_SUPER_NAILGUN,
 	5, // slot
 	REBAR_BUFF_NAME,
@@ -362,7 +375,8 @@ weaponclass_t weaponsclass[] = {
 	wpc_no_weapon,
 	wpc_axe,
 	wpc_shotgun,
-	wpc_supershotgun,
+	//wpc_supershotgun,
+	wpc_SHOTGUN_FLAK,
 	wpc_SHOTGUN_BLUE,
 	wpc_SHOTGUN_SUPER,
 	wpc_SHOTGUN_LEVER,
@@ -372,14 +386,17 @@ weaponclass_t weaponsclass[] = {
 	wpc_SHOTGUN_ROTARYv2,
 	wpc_SHOTGUN_AUTO,
 	wpc_SHOTGUN_SWEEPER,
-	wpc_nailgun,
-	wpc_supernailgun,
+	//wpc_nailgun,
+	wpc_NAIL_TWIN,
+	//wpc_supernailgun,
 	wpc_REBAR_CANNON,
 	wpc_REBAR_WIDE,
 	wpc_REBAR_TALL,
 	wpc_REBAR_TRIPLE,
 	wpc_REBAR_FAST,
 	wpc_REBAR_MULTI,
+	wpc_REBAR_BUFF,
+	wpc_NAIL_HEAVY,
 	wpc_grenade,
 	wpc_rocket,
 	wpc_invoker
@@ -391,9 +408,9 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
 	{{wpc_axe}, 1},
 	{{wpc_shotgun}, 1},
-	{{wpc_supershotgun, wpc_SHOTGUN_BLUE, wpc_SHOTGUN_ROTARY}, 3},
-	{{wpc_nailgun}, 1},
-	{{wpc_supernailgun}, 2},
+	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_BLUE, wpc_SHOTGUN_ROTARY}, 3},
+	{{wpc_NAIL_TWIN, wpc_NAIL_HEAVY}, 2},
+	{{wpc_REBAR_BUFF, wpc_REBAR_TRIPLE}, 2},
 	{{wpc_grenade}, 1},
 	{{wpc_rocket}, 1},
 	{{wpc_invoker}, 1}

@@ -98,7 +98,7 @@ void() weaponanim_SHOTGUN_BLUE_loop =
 
 void() W_Fire_SHOTGUN_BLUE_hitscan =
 {
-	sound(self, CHAN_AUTO, "placeholder_sound/shotgun2.wav", 0.6, ATTN_NORM);
+	sound(self, CHAN_AUTO, "placeholder_sound/shotgun2.wav", 1, ATTN_NORM);
 	
 	makevectors (self.v_angle);
 	vector org_gun = self.origin + self.view_ofs - v_up * 8 + v_right *  8 + v_forward * 8;
@@ -122,7 +122,7 @@ void() W_Fire_SHOTGUN_BLUE_hitscan =
 
 void() W_Fire_SHOTGUN_BLUE_flak =
 {
-	sound(self, CHAN_AUTO, "placeholder_sound/shotgun2.wav", 0.3, ATTN_NORM);
+	sound(self, CHAN_AUTO, "placeholder_sound/shotgun2.wav", 1, ATTN_NORM);
 	
 	makevectors(self.v_angle);
 	self.punchangle_x = -4;
