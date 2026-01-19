@@ -238,12 +238,6 @@ void(entity hitent, vector org, vector dir) hitwrench =
 
 		if ((hitent.flags & FL_MONSTER) || (hitent.classname == "player"))
 		{	
-			if (trace_ent.classname == "monster_hell_knight")
-			{
-				FX_Impact(FX_SPARK, org, dir);
-				sound_bullet_hit_metal(1);
-			}
-			
 			sound_wrench_hit_enemy(1);
 					
 			if ((hitent.movetype == MOVETYPE_STEP || hitent.movetype == MOVETYPE_WALK) && 
