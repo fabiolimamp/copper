@@ -45,7 +45,8 @@ void() Cheat_Items =
 
 	self.items = self.items | IT_LIGHTNING;
 
-	W_ChangeWeapon(IT_ROCKET_LAUNCHER, FALSE);
+	//W_ChangeWeapon(IT_ROCKET_LAUNCHER, FALSE);
+	W_ChangeWeapon(IT_SHOTGUN, FALSE);
 
 	stuffcmd(self,"bf\n");
 }
