@@ -535,8 +535,6 @@ void(entity targ, entity inflictor, entity attacker, float damage, float dmgtype
 		targ.dmg_save = targ.dmg_save + save;
 	}
 	
-	// store inflictor data for possible gib velocity calculation
-
 
 	// do the damage
 	
@@ -544,18 +542,20 @@ void(entity targ, entity inflictor, entity attacker, float damage, float dmgtype
 	targ.health = ceil(targ.health - take);	// be an integer dammit
 	
 	// already dying, so just accumulate damage for a gib check
+	// used for flak and maybe MMML
 	if (targ.health <= 0 && targ.deadflag == DEAD_DYING)
-	{
-		targ.dmgtype_death = dmgtype;
 		return;
-	}
-	else if (targ.health <= 0)
-	{
-		targ.dmg_inflictor = inflictor;
+	
 
-		targ.inflictor_relativeorigin = targ.origin - inflictor.origin;
-		targ.inflictor_customflags = inflictor.customflags;
-		targ.inflictor_vel = inflictor.velocity;
+	// store inflictor data for possible gib velocity calculation
+	targ.dmg_inflictor = inflictor;
+
+	targ.inflictor_relativeorigin = targ.origin - inflictor.origin;
+	targ.inflictor_customflags = inflictor.customflags;
+	targ.inflictor_vel = inflictor.velocity;
+	
+	if (targ.health <= 0)
+	{
 		targ.dmgtype_death = dmgtype;
 		Killed (targ, attacker, dmgtype);
 		return;
