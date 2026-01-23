@@ -50,7 +50,7 @@ float() weaponanim_REBAR_WIDE =
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	
-	self.effects = self.effects | EF_MUZZLEFLASH;
+	//self.effects = self.effects | EF_MUZZLEFLASH;
 
 	SuperDamageSound();
 	

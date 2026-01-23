@@ -2,8 +2,8 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	REBAR_BUFF_NAME		=	"REBAR_BUFF";
-string	REBAR_BUFF_MODEL	=	"progs/placeholder_progs/v_rebar_buff.mdl";
+string	REBAR_RIFLE_NAME	=	"REBAR_RIFLE";
+string	REBAR_RIFLE_MODEL	=	"progs/placeholder_progs/v_rebar_rifle.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPREAD		DESCRIPTION
@@ -11,21 +11,24 @@ string	REBAR_BUFF_MODEL	=	"progs/placeholder_progs/v_rebar_buff.mdl";
 
 //	1	1	140	10	'0 0 0'		//REBAR CANNON BUFF (140+)
 
-//=============================================================================================
-	
-	float	REBAR_BUFF_ROF		=	1;		//seconds post-fire
-	
-	float	REBAR_BUFF_COUNT	=	1;		//number of shots
-	float	REBAR_BUFF_DMG 		=	140;	// 14	//damage per shot
+//	1.2	1	100	10	'0 0 0'		//REBAR RIFLE ()
 
-	float	REBAR_BUFF_COST		=	10;		//ammo cost to fire
-	
-	//float	REBAR_BUFF_SPEED	=	1400;		//arc velocity
-	//float	REBAR_BUFF_GRAVITY	=	0.75;		//arc sinkage
 
 //=============================================================================================
+	
+	
+	float	REBAR_RIFLE_ROF		=	1.2;		//seconds post-fire
+	
+	float	REBAR_RIFLE_DMG 	=	100;	// 	//damage per shot
 
-float() weaponanim_REBAR_BUFF =
+	float	REBAR_RIFLE_COST	=	10;		//ammo cost to fire
+	
+	float	REBAR_RIFLE_SPEED	=	2000;		//arc velocity
+
+//=============================================================================================
+
+
+float() weaponanim_REBAR_RIFLE =
 {
 	if (self.attack_finished > time)
 		return FALSE;
@@ -36,62 +39,64 @@ float() weaponanim_REBAR_BUFF =
 		return FALSE;
 	}
 
-	self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_BUFF_COST;
+	self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_RIFLE_COST;
 
-	self.attack_finished = time + REBAR_BUFF_ROF;
+	self.attack_finished = time + REBAR_RIFLE_ROF;
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	
-	//self.effects = self.effects | EF_MUZZLEFLASH;
+	self.effects = self.effects | EF_MUZZLEFLASH;
 
 	SuperDamageSound();
-	W_Fire_REBAR_BUFF();
+	
+	
+	W_Fire_REBAR_RIFLE();
+	
+	
+	self.punchangle_x = -3;
+	self.effects |= EF_MUZZLEFLASH;
+
 
 	self.weaponframe = 11;
-	self.think = weaponanim_REBAR_BUFF_loop;
-	self.nextthink = time + 0.05;
+	self.think = weaponanim_REBAR_RIFLE_loop;
+	self.nextthink = time + 0.025;
 	
 	return TRUE;
 }
 
-void() weaponanim_REBAR_BUFF_loop =
+void() weaponanim_REBAR_RIFLE_loop =
 {
-	if (self.weaponframe == 18)	sound (self, CHAN_AUTO, "rebar/bow_reload2.wav", 0.3, ATTN_NORM);
-	if (self.weaponframe == 20)	sound (self, CHAN_AUTO, "rebar/bow_clank.wav", 0.4, ATTN_NORM);
-	if (self.weaponframe == 23)	sound (self, CHAN_AUTO, "rebar/bow_reload3.wav", 0.3, ATTN_NORM);
-	if (self.weaponframe == 26)	sound (self, CHAN_AUTO, "rebar/bow_reload4.wav", 0.4, ATTN_NORM);
-	
-		
-	if (self.weaponframe >= 30)
+	if (self.weaponframe >= 40)
 	{
 		self.weaponframe = 10;
 		return;
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_REBAR_BUFF_loop;
+	self.think = weaponanim_REBAR_RIFLE_loop;
 	self.nextthink = time + 0.05;
-
 }
 //=============================================================================================
 
-void() W_Fire_REBAR_BUFF =
+void() W_Fire_REBAR_RIFLE =
 {
-	sound (self, CHAN_WEAPON, "rebar/penfire.wav", 1, ATTN_NORM);
-	sound (self, CHAN_AUTO, "rebar/bow_reload1.wav", 0.5, ATTN_NORM);
+	sound (self, CHAN_WEAPON, "rebar/penfire.wav", 0.5, ATTN_NORM);
+	//sound (self, CHAN_AUTO, "rebar/bow_reload1.wav", 0.5, ATTN_NORM);
+	sound (self, CHAN_AUTO, "placeholder_sound/sniper.wav", 1, ATTN_NORM);
 	
 	self.punchangle_x = -2;
 	makevectors (self.v_angle);
-	float base = 1400;
+	float base = REBAR_RIFLE_SPEED;
 	
-	vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15;
-	vector mvel = v_forward*base + v_up*160;
+	vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15 + v_right*8;
+	//vector mvel = v_forward*base + v_up*160;
+	vector mvel = v_forward*base;
 	
-	launch_impaler_REBAR_BUFF(org, mvel);
+	launch_impaler_REBAR_RIFLE(org, mvel);
 }
 //=============================================================================================
 
-entity(vector org, vector vel) launch_impaler_REBAR_BUFF =
+entity(vector org, vector vel) launch_impaler_REBAR_RIFLE =
 {
 	entity impaler;
 	gunshot(org);
@@ -101,18 +106,33 @@ entity(vector org, vector vel) launch_impaler_REBAR_BUFF =
 	
 	SUB_ChangeModel (impaler, "progs/proj_rebar.mdl");
 
-	impaler.gravity = .75;
-	impaler.think = ImpalerThink;
-	impaler.touch = ImpalerTouch_REBAR_BUFF;
+	//impaler.gravity = .75;
+	impaler.gravity = 0;
+	impaler.think = ImpalerThink_REBAR_RIFLE;	//dont sink
+	impaler.touch = ImpalerTouch_REBAR_RIFLE;
 	impaler.alpha = 1;
 	impaler.movetype = MOVETYPE_FLYMISSILE;
 
 	return impaler;
 }
 
+void() ImpalerThink_REBAR_RIFLE =
+{
+	if (time > self.lifetime_finished)
+	{
+		ImpalerFade();
+		return;
+	}
+	self.flags &~= FL_ONGROUND;
+	self.oldvelocity = self.velocity;
+	//self.velocity.z -= 25;
+	self.nextthink = time + 0.05;
+	self.angles = vectoangles(self.velocity);
+}
+
 //=============================================================================================
 
-void() ImpalerTouch_REBAR_BUFF =
+void() ImpalerTouch_REBAR_RIFLE =
 {
 	if (CheckProjectilePassthru()) return;
 
@@ -126,7 +146,7 @@ void() ImpalerTouch_REBAR_BUFF =
 		if (other.classname == "monster_zombie")
 			T_Damage(other, self, self.trueowner, 59);
 		else
-			T_Damage(other, self, self.trueowner, REBAR_BUFF_DMG);
+			T_Damage(other, self, self.trueowner, REBAR_RIFLE_DMG);
 
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));

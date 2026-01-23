@@ -316,6 +316,32 @@ weaponclass_t wpc_REBAR_BUFF = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_REBAR_RIFLE = {
+	IT_SUPER_NAILGUN,
+	5, // slot
+	REBAR_RIFLE_NAME,
+	REBAR_RIFLE_MODEL,
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	REBAR_RIFLE_COST, // ammo_usage
+	weaponanim_REBAR_RIFLE,
+	SUB_Null,
+	weaponanim_draw
+};
+
+weaponclass_t wpc_REBAR_REPEATER = {
+	IT_SUPER_NAILGUN,
+	5, // slot
+	REBAR_REPEATER_NAME,
+	REBAR_REPEATER_MODEL,
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	REBAR_REPEATER_COST, // ammo_usage
+	weaponanim_REBAR_REPEATER,
+	SUB_Null,
+	weaponanim_draw
+};
+
 // ====================================================================================
 // SLOT 6: Grenades
 // ====================================================================================
@@ -396,13 +422,15 @@ weaponclass_t weaponsclass[] = {
 	wpc_REBAR_FAST,
 	wpc_REBAR_MULTI,
 	wpc_REBAR_BUFF,
+	wpc_REBAR_RIFLE,
+	wpc_REBAR_REPEATER,
 	wpc_NAIL_HEAVY,
 	wpc_grenade,
 	wpc_rocket,
 	wpc_invoker
 };
 
-float MAX_WEAPON_NUM = 23;
+float MAX_WEAPON_NUM = 25;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -410,7 +438,7 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_shotgun}, 1},
 	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_BLUE, wpc_SHOTGUN_ROTARY}, 3},
 	{{wpc_NAIL_TWIN, wpc_NAIL_HEAVY}, 2},
-	{{wpc_REBAR_BUFF, wpc_REBAR_TRIPLE}, 2},
+	{{wpc_REBAR_BUFF, wpc_REBAR_FAST, wpc_REBAR_REPEATER, wpc_REBAR_RIFLE}, 4},
 	{{wpc_grenade}, 1},
 	{{wpc_rocket}, 1},
 	{{wpc_invoker}, 1}

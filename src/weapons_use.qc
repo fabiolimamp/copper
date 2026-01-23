@@ -203,6 +203,7 @@ void() W_Precache =
 	precache_sound ("placeholder_sound/shell_reload.wav");
 	precache_sound ("placeholder_sound/shell_reload.wav");
 	precache_sound ("placeholder_sound/shotgn3.wav");
+	precache_sound ("placeholder_sound/sniper.wav");
 	
 	precache_model ("progs/placeholder_progs/proj_pellet_blue.mdl");
 	precache_model ("progs/placeholder_progs/proj_stake.mdl");
@@ -225,6 +226,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rebar_tall.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_fast.mdl");		
 	precache_model ("progs/placeholder_progs/v_rebar_buff.mdl");
+	precache_model ("progs/placeholder_progs/v_rebar_rifle.mdl");
 			
 	precache_model ("progs/placeholder_progs/v_nail_heavy.mdl");		
 	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		
@@ -484,7 +486,8 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon =
 		forcereset = TRUE;
 	}
 
-	if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
+	//if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
+	if (time > self.pistol_lastreload_time + 3.75)	
 		self.pistol_ammo_count = 10;	// reset pistol reload
 
 	self.weaponreload_perc = 0;
@@ -647,7 +650,8 @@ float(float weapIndex) W_ChangeWeaponByIndex =
 		return weapstat;
 	}
 
-	if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
+	//if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
+	if (time > self.pistol_lastreload_time + 3.75)	
 		self.pistol_ammo_count = 10;
 
 	self.weaponreload_perc = 0;
