@@ -16,6 +16,7 @@ string	REBAR_BOUNCE_MODEL	=	"progs/placeholder_progs/v_rebar_bounce.mdl";
 //	0.3	1	50	5	'0 0 0'		//REBAR REPEATER ()
 
 //	0.6	1	80	10	'0 0 0'		//REBAR BOUNCE ()
+//	0.5	1	60	5	'0 0 0'		//REBAR BOUNCE ()
 
 
 
@@ -87,32 +88,29 @@ void() W_Fire_REBAR_BOUNCE =
 {
 	sound (self, CHAN_WEAPON, "rebar/penfire.wav", 0.8, ATTN_NORM);
 	sound (self, CHAN_AUTO, "placeholder_sound/buzz_shoot.wav", 1, ATTN_NORM);
-	//sound (self, CHAN_AUTO, "rebar/bow_reload1.wav", 1, ATTN_NORM);
-	//sound (self, CHAN_AUTO, "placeholder_sound/sniper.wav", 1, ATTN_NORM);
 	
 	self.punchangle_x = -2;
 	makevectors (self.v_angle);
 	float base = REBAR_BOUNCE_SPEED;
 	
 	vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15 + v_right*8;
-	//vector mvel = v_forward*base + v_up*160;
-	vector mvel = v_forward*base;
+	vector mvel = v_forward*base + v_up*160;
 	
 	
 	
-	launch_impaler_REBAR_BOUNCE(org, mvel);
+	//launch_impaler_REBAR_BOUNCE(org, mvel);
 	
 	
 	
-	//HIP_LaunchLaser(org, mvel);
-	
+	Launch_Volley(org, mvel);
+		
 }
 //=============================================================================================
 
 entity(vector org, vector vel) launch_impaler_REBAR_BOUNCE =
 {
 	entity impaler;
-	gunshot(org);
+	//gunshot(org);
 
 	impaler = toss_projectile(org, vel, "impaler");
 	impaler.lifetime_finished = time + 10;
@@ -123,7 +121,7 @@ entity(vector org, vector vel) launch_impaler_REBAR_BOUNCE =
 	//impaler.gravity = .75;
 	impaler.gravity = 0;
 	impaler.think = ImpalerThink_REBAR_BOUNCE;	//dont sink
-	impaler.touch = ImpalerTouch_REBAR_BOUNCE;
+	impaler.touch = ImpalerTouch_REBAR_BOUNCE_1;
 	impaler.alpha = 1;
 	impaler.movetype = MOVETYPE_FLYMISSILE;
 	
@@ -197,7 +195,7 @@ void() ImpalerTouch_REBAR_BOUNCE =
 		
 	
 	if (other.solid == SOLID_BSP && other.classname != "func_movewall") {
-		/*
+		
 		self.movetype = MOVETYPE_NONE;
 		self.solid = SOLID_NOT;
 		self.owner = other;
@@ -219,7 +217,305 @@ void() ImpalerTouch_REBAR_BOUNCE =
 		self.alpha = 1;
 		self.think = ImpalerFade;
 		self.nextthink = time + 10;
-		*/
+	}
+	else
+		remove(self);	
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// piercing projectile Impaler code by Fairweather, edits by Kebby
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+entity(vector org, vector vel) Launch_Volley =
+{
+	
+	entity volley;
+	volley = toss_projectile(org, vel, "impaler");
+	volley.lifetime_finished = time + 10;
+	
+	volley.gravity = 0;
+	volley.think = VolleyThink;
+	volley.touch = ImpalerTouch_REBAR_BOUNCE_1;
+	volley.th_die = ImpalerFade;
+	volley.buddy = self;	
+	
+	volley.alpha = 1;
+	//volley.movetype = MOVETYPE_FLYMISSILE;	//doesnt like this for some reason?
+
+	SUB_ChangeModel (volley, "progs/placeholder_progs/proj_buzz_small.mdl");
+
+	return volley;
+}
+
+void() VolleyThink =
+{
+	if (time > self.lifetime_finished)
+	{
+		ImpalerFade();
+		return;
+	}
+	self.flags &~= FL_ONGROUND;
+	self.oldvelocity = self.velocity;
+	//self.velocity.z -= 25;
+	self.nextthink = time + 0.05;
+	self.angles = vectoangles(self.velocity);
+}
+//=============================================================================================
+
+void() VolleyTouch =
+{
+	if (other == self.owner ) return;		// don't touch owner
+	if (CheckProjectilePassthru()) return;
+	
+	if ((other.takedamage == DAMAGE_AIM) || (other.takedamage == DAMAGE_YES))
+	{
+			T_Damage(other,self.buddy,self.buddy,REBAR_BOUNCE_DMG);
+
+			particle (self.origin, self.velocity*0.1, 73, 40);
+			
+			projectile_passthru();
+
+			return;
+	}
+	if (!other.takedamage)	//do not get stuck on wall, remove with temp effect
+	{
+		float chance = random();
+
+		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "weapons/ric1.wav", 0.25, ATTN_NORM);
+		else if (chance < 0.5)	sound (self, CHAN_AUTO, "weapons/ric2.wav", 0.25, ATTN_NORM);
+		else			sound (self, CHAN_AUTO, "weapons/ric3.wav", 0.25, ATTN_NORM);
+				
+		self.touch = VolleyTouch_Bounce_1;
+	}
+	
+	if (self.buddy)	self.buddy.dmg = 0;
+}
+//=============================================================================================
+
+void() VolleyTouch_Bounce_1 =
+{
+	if (other == self.owner ) return;		// don't touch owner
+	if (CheckProjectilePassthru()) return;
+	if ((other.takedamage == DAMAGE_AIM) || (other.takedamage == DAMAGE_YES))
+	{
+			T_Damage(other,self.buddy,self.buddy,REBAR_BOUNCE_DMG);
+
+			particle (self.origin, self.velocity*0.1, 73, 40);
+
+			projectile_passthru();
+
+			return;
+	}
+	if (!other.takedamage)	//do not get stuck on wall, remove with temp effect
+	{
+		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
+		WriteByte (MSG_BROADCAST, TE_SPIKE);
+		WriteCoord (MSG_BROADCAST, self.origin_x);
+		WriteCoord (MSG_BROADCAST, self.origin_y);
+		WriteCoord (MSG_BROADCAST, self.origin_z);
+		
+		remove(self);
+	}
+	
+	if (self.buddy)	self.buddy.dmg = 0;
+}
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+//=============================================================================================
+void() ImpalerTouch_REBAR_BOUNCE_1 =
+{
+	self.gravity = 1;
+	
+	if (CheckProjectilePassthru()) return;
+
+	if (pointcontents(self.origin) == CONTENT_SKY) {
+		remove(self);
+		return;
+	}
+	
+	if (other.takedamage)
+	{
+		if (other.classname == "monster_zombie")
+			T_Damage(other, self, self.trueowner, 59);
+		else
+			T_Damage(other, self, self.trueowner, REBAR_BOUNCE_DMG);
+
+		if (other.solid != SOLID_BSP) {
+			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
+			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
+		}
+
+		FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);
+
+		particle (self.origin, self.velocity*0.1, 73, 40);
+		
+		float chance = random();
+		
+		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "rebar/pierce1.wav", 1, ATTN_NORM);
+		else if (chance < 0.5)	sound (self, CHAN_AUTO, "rebar/pierce2.wav", 1, ATTN_NORM);
+		else			sound (self, CHAN_AUTO, "rebar/pierce3.wav", 1, ATTN_NORM);
+				
+		sound (self, CHAN_AUTO, "rebar/pierce_impact.wav", 1, ATTN_NORM);
+
+		// doesn't go through doors
+		if (other.classname != "func_door" && other.classname != "func_door_secret"){
+			projectile_passthru();
+			return;
+		}
+	}
+	
+	sound (self, CHAN_AUTO, "rebar/stick1.wav", 0.5, ATTN_NORM);
+	
+	if (random() < 0.5)	sound (self, CHAN_AUTO, "rebar/stick_metal1.wav", 0.7, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "rebar/stick_metal2.wav", 0.7, ATTN_NORM);
+
+	FX_Impact(FX_SPARK, self.origin, self.oldvelocity);
+	
+	gunshot(self.origin);
+		
+		
+	self.touch = ImpalerTouch_REBAR_BOUNCE_2;
+}
+//=============================================================================================
+void() ImpalerTouch_REBAR_BOUNCE_2 =
+{
+	self.gravity = 2;
+	
+	if (CheckProjectilePassthru()) return;
+
+	if (pointcontents(self.origin) == CONTENT_SKY) {
+		remove(self);
+		return;
+	}
+	
+	if (other.takedamage)
+	{
+		if (other.classname == "monster_zombie")
+			T_Damage(other, self, self.trueowner, 59);
+		else
+			T_Damage(other, self, self.trueowner, REBAR_BOUNCE_DMG);
+
+		if (other.solid != SOLID_BSP) {
+			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
+			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
+		}
+
+		FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);
+
+		particle (self.origin, self.velocity*0.1, 73, 40);
+		
+		float chance = random();
+		
+		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "rebar/pierce1.wav", 1, ATTN_NORM);
+		else if (chance < 0.5)	sound (self, CHAN_AUTO, "rebar/pierce2.wav", 1, ATTN_NORM);
+		else			sound (self, CHAN_AUTO, "rebar/pierce3.wav", 1, ATTN_NORM);
+				
+		sound (self, CHAN_AUTO, "rebar/pierce_impact.wav", 1, ATTN_NORM);
+
+		// doesn't go through doors
+		if (other.classname != "func_door" && other.classname != "func_door_secret"){
+			projectile_passthru();
+			return;
+		}
+	}
+	
+	sound (self, CHAN_AUTO, "rebar/stick1.wav", 0.5, ATTN_NORM);
+	
+	if (random() < 0.5)	sound (self, CHAN_AUTO, "rebar/stick_metal1.wav", 0.7, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "rebar/stick_metal2.wav", 0.7, ATTN_NORM);
+
+	FX_Impact(FX_SPARK, self.origin, self.oldvelocity);
+	
+	gunshot(self.origin);
+		
+		
+	self.touch = ImpalerTouch_REBAR_BOUNCE_3;
+}
+//=============================================================================================
+void() ImpalerTouch_REBAR_BOUNCE_3 =
+{
+	self.gravity = 4;
+	
+	if (CheckProjectilePassthru()) return;
+
+	if (pointcontents(self.origin) == CONTENT_SKY) {
+		remove(self);
+		return;
+	}
+	
+	if (other.takedamage)
+	{
+		if (other.classname == "monster_zombie")
+			T_Damage(other, self, self.trueowner, 59);
+		else
+			T_Damage(other, self, self.trueowner, REBAR_BOUNCE_DMG);
+
+		if (other.solid != SOLID_BSP) {
+			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
+			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
+		}
+
+		FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);
+
+		particle (self.origin, self.velocity*0.1, 73, 40);
+		
+		float chance = random();
+		
+		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "rebar/pierce1.wav", 1, ATTN_NORM);
+		else if (chance < 0.5)	sound (self, CHAN_AUTO, "rebar/pierce2.wav", 1, ATTN_NORM);
+		else			sound (self, CHAN_AUTO, "rebar/pierce3.wav", 1, ATTN_NORM);
+				
+		sound (self, CHAN_AUTO, "rebar/pierce_impact.wav", 1, ATTN_NORM);
+
+		// doesn't go through doors
+		if (other.classname != "func_door" && other.classname != "func_door_secret"){
+			projectile_passthru();
+			return;
+		}
+	}
+	
+	sound (self, CHAN_AUTO, "rebar/stick1.wav", 0.5, ATTN_NORM);
+	
+	if (random() < 0.5)	sound (self, CHAN_AUTO, "rebar/stick_metal1.wav", 0.7, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "rebar/stick_metal2.wav", 0.7, ATTN_NORM);
+
+	FX_Impact(FX_SPARK, self.origin, self.oldvelocity);
+	
+	gunshot(self.origin);
+		
+	
+	if (other.solid == SOLID_BSP && other.classname != "func_movewall") {
+		
+		self.movetype = MOVETYPE_NONE;
+		self.solid = SOLID_NOT;
+		self.owner = other;
+		self.touch = SUB_Null;
+		// change model so that smoke doesn't appear when stuck to moving brushes
+		//setmodel(self, "progs/proj_rebar_nosmoke.mdl");
+		setmodel (self, "progs/placeholder_progs/proj_buzz_small.mdl");
+
+
+		// move origin away from walls when stuck, helps prevent "void-lighting"
+		setorigin(self, self.origin - 2*normalize(self.velocity));
+
+		self.pos1 = other.absmin;
+
+		// set state 2 to rebars attached to non-world entities (for movement and validity checks)
+		if (other != world) self.state = 2;
+		else self.state = 1;
+		
+		self.alpha = 1;
+		self.think = ImpalerFade;
+		self.nextthink = time + 10;
 	}
 	else
 		remove(self);	

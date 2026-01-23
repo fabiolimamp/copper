@@ -140,7 +140,7 @@ void() W_Fire_REBAR_TALL =
 entity(vector org, vector vel) launch_impaler_REBAR_TALL =
 {
 	entity impaler;
-	gunshot(org);
+	//gunshot(org);
 
 	impaler = toss_projectile(org, vel, "impaler");
 	impaler.lifetime_finished = time + 10;
