@@ -59,6 +59,7 @@ REBAR_FAST.qc
 REBAR_BUFF.qc
 REBAR_RIFLE.qc
 REBAR_REPEATER.qc
+REBAR_BOUNCE.qc
 NAIL_HEAVY.qc
 weapons_use.qc
 weapondefintion.qc

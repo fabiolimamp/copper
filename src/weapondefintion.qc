@@ -342,6 +342,19 @@ weaponclass_t wpc_REBAR_REPEATER = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_REBAR_BOUNCE = {
+	IT_SUPER_NAILGUN,
+	5, // slot
+	REBAR_BOUNCE_NAME,
+	REBAR_BOUNCE_MODEL,
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	REBAR_BOUNCE_COST, // ammo_usage
+	weaponanim_REBAR_BOUNCE,
+	SUB_Null,
+	weaponanim_draw
+};
+
 // ====================================================================================
 // SLOT 6: Grenades
 // ====================================================================================
@@ -424,13 +437,14 @@ weaponclass_t weaponsclass[] = {
 	wpc_REBAR_BUFF,
 	wpc_REBAR_RIFLE,
 	wpc_REBAR_REPEATER,
+	wpc_REBAR_BOUNCE,
 	wpc_NAIL_HEAVY,
 	wpc_grenade,
 	wpc_rocket,
 	wpc_invoker
 };
 
-float MAX_WEAPON_NUM = 25;
+float MAX_WEAPON_NUM = 26;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -438,7 +452,7 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_shotgun}, 1},
 	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_BLUE, wpc_SHOTGUN_ROTARY}, 3},
 	{{wpc_NAIL_TWIN, wpc_NAIL_HEAVY}, 2},
-	{{wpc_REBAR_BUFF, wpc_REBAR_FAST, wpc_REBAR_REPEATER, wpc_REBAR_RIFLE}, 4},
+	{{wpc_REBAR_BUFF, wpc_REBAR_FAST, wpc_REBAR_REPEATER, wpc_REBAR_RIFLE, wpc_REBAR_BOUNCE}, 5},
 	{{wpc_grenade}, 1},
 	{{wpc_rocket}, 1},
 	{{wpc_invoker}, 1}

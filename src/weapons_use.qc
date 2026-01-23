@@ -204,10 +204,13 @@ void() W_Precache =
 	precache_sound ("placeholder_sound/shell_reload.wav");
 	precache_sound ("placeholder_sound/shotgn3.wav");
 	precache_sound ("placeholder_sound/sniper.wav");
+	precache_sound ("placeholder_sound/buzz_shoot.wav");
+	precache_sound ("placeholder_sound/buzz_saw.wav");
 	
 	precache_model ("progs/placeholder_progs/proj_pellet_blue.mdl");
 	precache_model ("progs/placeholder_progs/proj_stake.mdl");
 	precache_model ("progs/placeholder_progs/proj_stake_smoke.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_small.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_shotgun_super2.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_super3.mdl");
@@ -227,6 +230,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rebar_fast.mdl");		
 	precache_model ("progs/placeholder_progs/v_rebar_buff.mdl");
 	precache_model ("progs/placeholder_progs/v_rebar_rifle.mdl");
+	precache_model ("progs/placeholder_progs/v_rebar_bounce.mdl");
 			
 	precache_model ("progs/placeholder_progs/v_nail_heavy.mdl");		
 	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		

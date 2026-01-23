@@ -2,8 +2,8 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	REBAR_REPEATER_NAME	=	"REBAR_REPEATER";
-string	REBAR_REPEATER_MODEL	=	"progs/placeholder_progs/v_rebar_repeater.mdl";
+string	REBAR_BOUNCE_NAME	=	"REBAR_BOUNCE";
+string	REBAR_BOUNCE_MODEL	=	"progs/placeholder_progs/v_rebar_bounce.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPREAD		DESCRIPTION
@@ -15,22 +15,25 @@ string	REBAR_REPEATER_MODEL	=	"progs/placeholder_progs/v_rebar_repeater.mdl";
 
 //	0.3	1	50	5	'0 0 0'		//REBAR REPEATER ()
 
+//	0.6	1	80	10	'0 0 0'		//REBAR BOUNCE ()
+
+
 
 //=============================================================================================
 	
 	
-	float	REBAR_REPEATER_ROF	=	0.3;		//seconds post-fire
+	float	REBAR_BOUNCE_ROF	=	0.5;		//seconds post-fire
 	
-	float	REBAR_REPEATER_DMG 	=	50;	// 	//damage per shot
+	float	REBAR_BOUNCE_DMG 	=	60;	// 	//damage per shot
 
-	float	REBAR_REPEATER_COST	=	5;		//ammo cost to fire
+	float	REBAR_BOUNCE_COST	=	5;		//ammo cost to fire
 	
-	float	REBAR_REPEATER_SPEED	=	2000;		//arc velocity
+	float	REBAR_BOUNCE_SPEED	=	2000;		//arc velocity
 
 //=============================================================================================
 
 
-float() weaponanim_REBAR_REPEATER =
+float() weaponanim_REBAR_BOUNCE =
 {
 	if (self.attack_finished > time)
 		return FALSE;
@@ -41,9 +44,9 @@ float() weaponanim_REBAR_REPEATER =
 		return FALSE;
 	}
 
-	self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_REPEATER_COST;
+	self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_BOUNCE_COST;
 
-	self.attack_finished = time + REBAR_REPEATER_ROF;
+	self.attack_finished = time + REBAR_BOUNCE_ROF;
 	
 	//SUB_CallAsSelf(player_shot1, self.animcontroller);
 	
@@ -52,7 +55,7 @@ float() weaponanim_REBAR_REPEATER =
 	SuperDamageSound();
 	
 	
-	W_Fire_REBAR_REPEATER();
+	W_Fire_REBAR_BOUNCE();
 	
 	
 	self.punchangle_x = -1;
@@ -60,13 +63,13 @@ float() weaponanim_REBAR_REPEATER =
 
 
 	self.weaponframe = 11;
-	self.think = weaponanim_REBAR_REPEATER_loop;
+	self.think = weaponanim_REBAR_BOUNCE_loop;
 	self.nextthink = time + 0.025;
 	
 	return TRUE;
 }
 
-void() weaponanim_REBAR_REPEATER_loop =
+void() weaponanim_REBAR_BOUNCE_loop =
 {
 	if (self.weaponframe >= 40)
 	{
@@ -75,30 +78,38 @@ void() weaponanim_REBAR_REPEATER_loop =
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_REBAR_REPEATER_loop;
+	self.think = weaponanim_REBAR_BOUNCE_loop;
 	self.nextthink = time + 0.025;
 }
 //=============================================================================================
 
-void() W_Fire_REBAR_REPEATER =
+void() W_Fire_REBAR_BOUNCE =
 {
-	sound (self, CHAN_WEAPON, "rebar/penfire.wav", 0.5, ATTN_NORM);
-	sound (self, CHAN_AUTO, "rebar/bow_reload1.wav", 1, ATTN_NORM);
+	sound (self, CHAN_WEAPON, "rebar/penfire.wav", 0.8, ATTN_NORM);
+	sound (self, CHAN_AUTO, "placeholder_sound/buzz_shoot.wav", 1, ATTN_NORM);
+	//sound (self, CHAN_AUTO, "rebar/bow_reload1.wav", 1, ATTN_NORM);
 	//sound (self, CHAN_AUTO, "placeholder_sound/sniper.wav", 1, ATTN_NORM);
 	
 	self.punchangle_x = -2;
 	makevectors (self.v_angle);
-	float base = REBAR_REPEATER_SPEED;
+	float base = REBAR_BOUNCE_SPEED;
 	
 	vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15 + v_right*8;
 	//vector mvel = v_forward*base + v_up*160;
 	vector mvel = v_forward*base;
 	
-	launch_impaler_REBAR_REPEATER(org, mvel);
+	
+	
+	launch_impaler_REBAR_BOUNCE(org, mvel);
+	
+	
+	
+	//HIP_LaunchLaser(org, mvel);
+	
 }
 //=============================================================================================
 
-entity(vector org, vector vel) launch_impaler_REBAR_REPEATER =
+entity(vector org, vector vel) launch_impaler_REBAR_BOUNCE =
 {
 	entity impaler;
 	gunshot(org);
@@ -106,20 +117,20 @@ entity(vector org, vector vel) launch_impaler_REBAR_REPEATER =
 	impaler = toss_projectile(org, vel, "impaler");
 	impaler.lifetime_finished = time + 10;
 	
-	//SUB_ChangeModel (impaler, "progs/proj_rebar.mdl");
-	SUB_ChangeModel (impaler, "progs/placeholder_progs/proj_stake.mdl");
+	
+	SUB_ChangeModel (impaler, "progs/placeholder_progs/proj_buzz_small.mdl");
 
 	//impaler.gravity = .75;
 	impaler.gravity = 0;
-	impaler.think = ImpalerThink_REBAR_REPEATER;	//dont sink
-	impaler.touch = ImpalerTouch_REBAR_REPEATER;
+	impaler.think = ImpalerThink_REBAR_BOUNCE;	//dont sink
+	impaler.touch = ImpalerTouch_REBAR_BOUNCE;
 	impaler.alpha = 1;
 	impaler.movetype = MOVETYPE_FLYMISSILE;
-
+	
 	return impaler;
 }
 
-void() ImpalerThink_REBAR_REPEATER =
+void() ImpalerThink_REBAR_BOUNCE =
 {
 	if (time > self.lifetime_finished)
 	{
@@ -135,7 +146,7 @@ void() ImpalerThink_REBAR_REPEATER =
 
 //=============================================================================================
 
-void() ImpalerTouch_REBAR_REPEATER =
+void() ImpalerTouch_REBAR_BOUNCE =
 {
 	if (CheckProjectilePassthru()) return;
 
@@ -149,7 +160,7 @@ void() ImpalerTouch_REBAR_REPEATER =
 		if (other.classname == "monster_zombie")
 			T_Damage(other, self, self.trueowner, 59);
 		else
-			T_Damage(other, self, self.trueowner, REBAR_REPEATER_DMG);
+			T_Damage(other, self, self.trueowner, REBAR_BOUNCE_DMG);
 
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
@@ -159,13 +170,13 @@ void() ImpalerTouch_REBAR_REPEATER =
 		FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);
 
 		particle (self.origin, self.velocity*0.1, 73, 40);
-
+		
 		float chance = random();
 		
 		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "rebar/pierce1.wav", 1, ATTN_NORM);
 		else if (chance < 0.5)	sound (self, CHAN_AUTO, "rebar/pierce2.wav", 1, ATTN_NORM);
 		else			sound (self, CHAN_AUTO, "rebar/pierce3.wav", 1, ATTN_NORM);
-		
+				
 		sound (self, CHAN_AUTO, "rebar/pierce_impact.wav", 1, ATTN_NORM);
 
 		// doesn't go through doors
@@ -183,14 +194,17 @@ void() ImpalerTouch_REBAR_REPEATER =
 	FX_Impact(FX_SPARK, self.origin, self.oldvelocity);
 	
 	gunshot(self.origin);
-
+		
+	
 	if (other.solid == SOLID_BSP && other.classname != "func_movewall") {
+		/*
 		self.movetype = MOVETYPE_NONE;
 		self.solid = SOLID_NOT;
 		self.owner = other;
 		self.touch = SUB_Null;
 		// change model so that smoke doesn't appear when stuck to moving brushes
-		setmodel(self, "progs/proj_rebar_nosmoke.mdl");
+		//setmodel(self, "progs/proj_rebar_nosmoke.mdl");
+		setmodel (self, "progs/placeholder_progs/proj_buzz_small.mdl");
 
 
 		// move origin away from walls when stuck, helps prevent "void-lighting"
@@ -205,6 +219,7 @@ void() ImpalerTouch_REBAR_REPEATER =
 		self.alpha = 1;
 		self.think = ImpalerFade;
 		self.nextthink = time + 10;
+		*/
 	}
 	else
 		remove(self);	
