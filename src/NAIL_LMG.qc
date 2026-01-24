@@ -153,13 +153,13 @@ void() W_FireThompson =
 	
 	
 		if (time < self.lastshot + 0.12) self.shotcount = min(self.shotcount + 1, 20);			// larger # = higher max shotcount multiplier	+ 1, #); 
-		else self.shotcount = max(0, self.shotcount - rint((time - self.lastshot - 0.025)/0.025));	// smaller # = faster time to reduce shotcount	- 0.#)/0.#));
+		else self.shotcount = max(0, self.shotcount - rint((time - self.lastshot - 0.02)/0.02));	// smaller # = faster time to reduce shotcount	- 0.#)/0.#));
 		
 		
-		definespread = [0.02 + 0.02 *self.shotcount, 0 + 0 *self.shotcount, 0]* (0.5);			// ['+right, +up, 0'] * (adjustment multiplier)
+		definespread = [self.shotcount* 0.02 + 0.2, self.shotcount* 0.005 + 0.05, 0]* (1);			// ['+right, +up, 0'] * (adjustment multiplier)
 			
 	
-		vector dir_skew = dir + v_right* ((self.shotcount* -0.001) -0.001) + v_up* ((self.shotcount* 0.01) +0.01);	// (right, up) muzzle rise * shotcount
+		vector dir_skew = dir + v_right* ((self.shotcount* -0.002) -0.002) + v_up* ((self.shotcount* 0) + 0);	// (right, up) muzzle rise * shotcount
 
 
 
