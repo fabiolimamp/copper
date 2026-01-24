@@ -11,19 +11,25 @@ string	NAIL_LMG_MODEL	=	"progs/placeholder_progs/v_nail_lmg.mdl";
 
 //	0.15	2	13	2	1400		//QBJ3 Twin Nailgun (2*13=26)
 
+//	0.1	1	9	1	hitscan		//Nail LMG 
+
 
 //=============================================================================================
 	
 	
-	float	NAIL_LMG_ROF		=	0.08;		//seconds post-fire
+	float	NAIL_LMG_ROF		=	0.1;		//seconds post-fire
 	
 	float	NAIL_LMG_COUNT		=	1;		//number of shots
-	float	NAIL_LMG_DMG 		=	9;	// 8	//damage per shot
+	float	NAIL_LMG_DMG 		=	10;	// 9	//damage per shot
 
 	float	NAIL_LMG_COST		=	1;		//ammo cost to fire
 	
 	//float	NAIL_LMG_SPEED		=	2000;		//arc velocity
 	
+	
+	
+	
+	// UNUSED WITH THE MUZZLE BLOOM CODE... SCROLL TO BOTTOM!!!
 	vector	NAIL_LMG_SPREAD		=	'0.01 0.01 0';
 	float	NAIL_LMG_SPREAD_WIDTH	=	0.02;
 	float	NAIL_LMG_SPREAD_RISE	=	0.08;
@@ -144,7 +150,7 @@ void() W_FireThompson =
 
 		org = self.origin + self.view_ofs - v_up* 8 + v_right* 6;	// HIP	
 			
-		sound (self, CHAN_AUTO, "placeholder_sound/tommy_fire2.wav", 1, ATTN_NORM);
+		sound (self, CHAN_AUTO, "placeholder_sound/tommy_fire2.wav", 0.6, ATTN_NORM);
 		
 
 	dir = aim (self, 10000);
@@ -152,18 +158,18 @@ void() W_FireThompson =
 		
 	
 	
-		if (time < self.lastshot + 0.12) self.shotcount = min(self.shotcount + 1, 20);			// larger # = higher max shotcount multiplier	+ 1, #); 
-		else self.shotcount = max(0, self.shotcount - rint((time - self.lastshot - 0.02)/0.02));	// smaller # = faster time to reduce shotcount	- 0.#)/0.#));
+		if (time < self.lastshot + 0.3) self.shotcount = min(self.shotcount + 1, 12);			// larger # = higher max shotcount multiplier	+ 1, #); 
+		else self.shotcount = max(0, self.shotcount - rint((time - self.lastshot - 0.01)/0.01));	// smaller # = faster time to reduce shotcount	- 0.#)/0.#));
 		
 		
-		definespread = [self.shotcount* 0.02 + 0.2, self.shotcount* 0.005 + 0.05, 0]* (1);			// ['+right, +up, 0'] * (adjustment multiplier)
+		definespread = [self.shotcount* 0.1 + 0.05, self.shotcount* 0.05 + 0.05, 0]* (0.5);			// ['+right, +up, 0'] * (adjustment multiplier)
 			
 	
 		vector dir_skew = dir + v_right* ((self.shotcount* -0.002) -0.002) + v_up* ((self.shotcount* 0) + 0);	// (right, up) muzzle rise * shotcount
 
 
 
-	finaldir = FireBulletsEE (NAIL_LMG_COUNT, NAIL_LMG_DMG, org + v_forward* 16 *trace_fraction, dir_skew, definespread, 8);
+	finaldir = FireBulletsEE (NAIL_LMG_COUNT, NAIL_LMG_DMG, org + v_forward* 8 *trace_fraction, dir_skew, definespread, 8);
 	
 	
 		
