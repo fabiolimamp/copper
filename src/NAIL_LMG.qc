@@ -158,7 +158,7 @@ void() W_FireThompson =
 		
 	
 	
-		if (time < self.lastshot + 0.3) self.shotcount = min(self.shotcount + 1, 12);			// larger # = higher max shotcount multiplier	+ 1, #); 
+		if (time < self.lastshot + 0.2) self.shotcount = min(self.shotcount + 1, 12);			// larger # = higher max shotcount multiplier	+ 1, #); 
 		else self.shotcount = max(0, self.shotcount - rint((time - self.lastshot - 0.01)/0.01));	// smaller # = faster time to reduce shotcount	- 0.#)/0.#));
 		
 		
