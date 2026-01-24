@@ -216,6 +216,9 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_stake_smoke.mdl");
 	precache_model ("progs/placeholder_progs/proj_buzz_small.mdl");
 	
+	precache_model ("progs/placeholder_progs/v_pistol_akimbo.mdl");
+	precache_model ("progs/placeholder_progs/v_pistol_revolver.mdl");
+	
 	precache_model ("progs/placeholder_progs/v_shotgun_super2.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_super3.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_super4.mdl");
@@ -495,8 +498,8 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon =
 		forcereset = TRUE;
 	}
 
-	//if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
-	if (time > self.pistol_lastreload_time + 3.75)	
+	if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
+	//if (time > self.pistol_lastreload_time + 3.75)	
 		self.pistol_ammo_count = 10;	// reset pistol reload
 
 	self.weaponreload_perc = 0;
@@ -659,8 +662,8 @@ float(float weapIndex) W_ChangeWeaponByIndex =
 		return weapstat;
 	}
 
-	//if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
-	if (time > self.pistol_lastreload_time + 3.75)	
+	if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
+	//if (time > self.pistol_lastreload_time + 3.75)	
 		self.pistol_ammo_count = 10;
 
 	self.weaponreload_perc = 0;
@@ -700,9 +703,17 @@ float(float imp) W_ChangeSlot =
 	if (imp == 2 && self.weapon == IT_SHOTGUN)
 	{
 		if (self.pistol_ammo_count != 10)
-			weaponanim_reloadpistol();
-		else if (self.pistol_ammo_count == 10)
-			weaponanim_twirlpistol();
+						
+			if 	(self.weaponmodel == "progs/placeholder_progs/v_pistol_akimbo.mdl")	weaponanim_reload_PISTOL_AKIMBO();
+			else if (self.weaponmodel == "progs/placeholder_progs/v_pistol_revolver.mdl")	weaponanim_reload_PISTOL_REVOLVER();
+			else										weaponanim_reloadpistol();
+			
+			
+		//else if (self.pistol_ammo_count == 10)	//broken spin cause idk how to determine which weaponaim to use, how to check gun equipped???
+								//make all pistol reloads take place in the same frames for easy switching!!! <--- KEBBY
+			
+			//weaponanim_twirlpistol();
+		
 		return WEAPONSTAT_AVAILABLE;
 	}
 		

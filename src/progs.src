@@ -42,6 +42,8 @@ w_6_grenadelauncher.qc
 w_7_clusterrocket.qc
 w_8_invoker.qc
 w_berserk.qc
+PISTOL_AKIMBO.qc
+PISTOL_REVOLVER.qc
 SHOTGUN_SUPER.qc
 SHOTGUN_BLUE.qc
 SHOTGUN_LEVER.qc
@@ -51,6 +53,9 @@ SHOTGUN_ROTARY.qc
 SHOTGUN_ROTARYv2.qc
 SHOTGUN_AUTO.qc
 SHOTGUN_SWEEPER.qc
+NAIL_HEAVY.qc
+NAIL_TURBO.qc
+NAIL_LMG.qc
 REBAR_MULTI.qc
 REBAR_WIDE.qc
 REBAR_TALL.qc
@@ -60,9 +65,6 @@ REBAR_BUFF.qc
 REBAR_RIFLE.qc
 REBAR_REPEATER.qc
 REBAR_BOUNCE.qc
-NAIL_HEAVY.qc
-NAIL_TURBO.qc
-NAIL_LMG.qc
 weapons_use.qc
 weapondefintion.qc
 dev.qc
