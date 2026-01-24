@@ -122,8 +122,8 @@ void() W_Fire_NAIL_TURBO =
 	spike.nextthink = time + 4; //air lifetime
 	spike.think = SUB_Remove;
 	
-	//SUB_ChangeModel (spike, "progs/proj_nail.mdl");
-	SUB_ChangeModel (spike, "progs/placeholder_progs/proj_stake.mdl");
+	SUB_ChangeModel (spike, "progs/proj_nail.mdl");
+	//SUB_ChangeModel (spike, "progs/placeholder_progs/proj_stake.mdl");
 }
 //=============================================================================================
 

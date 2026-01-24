@@ -206,6 +206,10 @@ void() W_Precache =
 	precache_sound ("placeholder_sound/sniper.wav");
 	precache_sound ("placeholder_sound/buzz_shoot.wav");
 	precache_sound ("placeholder_sound/buzz_saw.wav");
+	precache_sound ("placeholder_sound/cod_hitmarker.wav");
+	precache_sound ("placeholder_sound/cs_headshot.wav");
+	precache_sound ("placeholder_sound/tommy_fire.wav");
+	precache_sound ("placeholder_sound/tommy_fire2.wav");
 	
 	precache_model ("progs/placeholder_progs/proj_pellet_blue.mdl");
 	precache_model ("progs/placeholder_progs/proj_stake.mdl");
