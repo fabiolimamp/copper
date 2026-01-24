@@ -18,7 +18,7 @@ string	NAIL_TURBO_MODEL	=	"progs/placeholder_progs/v_nail_turbo.mdl";
 	float	NAIL_TURBO_ROF		=	0.1;		//seconds post-fire
 	
 	//float	NAIL_TURBO_COUNT	=	1;		//number of shots
-	float	NAIL_TURBO_DMG 		=	6;	// 90	//damage per shot
+	float	NAIL_TURBO_DMG 		=	6;	// 6	//damage per shot
 
 	float	NAIL_TURBO_COST		=	1;		//ammo cost to fire
 	

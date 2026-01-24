@@ -18,7 +18,7 @@ string	NAIL_HEAVY_MODEL	=	"progs/placeholder_progs/v_nail_heavy.mdl";
 	float	NAIL_HEAVY_ROF		=	0.15;		//seconds post-fire
 	
 	//float	NAIL_HEAVY_COUNT	=	1;		//number of shots
-	float	NAIL_HEAVY_DMG 		=	13;	// 90	//damage per shot
+	float	NAIL_HEAVY_DMG 		=	13;	//26	//damage per shot
 
 	float	NAIL_HEAVY_COST		=	2;		//ammo cost to fire
 	

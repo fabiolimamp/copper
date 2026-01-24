@@ -204,12 +204,11 @@ void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir,
 		
 		float spread_result = ((spread_width / 2) + pellet_spacing) - (pellet_spacing * shotcount);
 		
-				
 		direction = dir + spread_result*rt + weighted_crandom(2)*spread_rise*up;
 		
-
-		shotcount--;
 		
+		shotcount--;
+			
 		
 		if (trace_debug) dprint("* firing a bullet *\n");
 		

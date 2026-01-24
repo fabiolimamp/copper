@@ -234,6 +234,7 @@ void() W_Precache =
 			
 	precache_model ("progs/placeholder_progs/v_nail_heavy.mdl");		
 	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		
+	precache_model ("progs/placeholder_progs/v_nail_lmg.mdl");		
 	
 	//=============================================================================================	
 

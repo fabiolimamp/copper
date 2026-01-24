@@ -62,6 +62,7 @@ REBAR_REPEATER.qc
 REBAR_BOUNCE.qc
 NAIL_HEAVY.qc
 NAIL_TURBO.qc
+NAIL_LMG.qc
 weapons_use.qc
 weapondefintion.qc
 dev.qc
