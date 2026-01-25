@@ -136,10 +136,10 @@ void() T_ROCKET_RPG_Explode =
 {
 	if (other.health)
 	{
-		T_Damage (other, self, self.trueowner, ROCKET_RPG_DMG_MAIN, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
-		T_Damage (other, self, self.trueowner, ROCKET_RPG_DMG_ADD, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
+		T_Damage (other, self, self.trueowner, ROCKET_RPG_DMG_MAIN + ROCKET_RPG_DMG_ADD, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
 	}
 
 	// don't do radius damage to other, because all damage will be done in the impact
-	T_RadiusDamage (self, self.trueowner, ROCKET_RPG_DMG_MAIN + ROCKET_RPG_DMG_ADD, other, DMGTYPE_EXPLOSION);
+	T_RadiusDamage (self, self.trueowner, ROCKET_RPG_DMG_MAIN, other, DMGTYPE_EXPLOSION);
+	T_RadiusDamage (self, self.trueowner, ROCKET_RPG_DMG_ADD, other, DMGTYPE_EXPLOSION);
 }

@@ -13,7 +13,9 @@ string	ROCKET_INSTANT_MODEL	=	"progs/placeholder_progs/v_rocket_instant.mdl";
 	
 	float	ROCKET_INSTANT_ROF	=	1.5;		//seconds post-fire
 	
-	float	ROCKET_INSTANT_DMG	=	120;		//damage per shot
+	//float	ROCKET_INSTANT_DMG	=	120;		//damage per shot
+	
+	float	ROCKET_INSTANT_DMG	=	55;	//55*3=165 damage but only 55 splash radius
 	
 	float	ROCKET_INSTANT_COST	=	2;		//ammo cost to fire
 	
@@ -166,10 +168,12 @@ void() T_ROCKET_INSTANT_Explode =
 {
 	if (other.health)
 	{
-		T_Damage (other, self, self.trueowner, ROCKET_INSTANT_DMG, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
+		T_Damage (other, self, self.trueowner, ROCKET_INSTANT_DMG*3, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
 	}
 
 	// don't do radius damage to other, because all damage will be done in the impact
+	T_RadiusDamage (self, self.trueowner, ROCKET_INSTANT_DMG, other, DMGTYPE_EXPLOSION);
+	T_RadiusDamage (self, self.trueowner, ROCKET_INSTANT_DMG, other, DMGTYPE_EXPLOSION);
 	T_RadiusDamage (self, self.trueowner, ROCKET_INSTANT_DMG, other, DMGTYPE_EXPLOSION);
 }
 
@@ -178,24 +182,26 @@ void() T_ROCKET_INSTANT_Explode =
 
 void() Start_Smoketrail_ROCKET_INSTANT = 
 {
-	vector 	org;
+	vector 	org_start, org_end;
 
 	if (self.t_width < time)
 		self.t_width = time + 0.6;
 
 	makevectors(self.v_angle);
 
-	org = self.origin + self.view_ofs + v_up * -8 + v_right * 10;
+	org_start = self.origin + self.view_ofs + v_up * -8 + v_right * 10;	
+	traceline(org_start, org_start + v_forward * 16, FALSE, self);
 	
-	traceline(org, org + v_forward * 16, FALSE, self);
+
+	org_end = self.origin + self.view_ofs;
+	traceline2(org_end, org_end + v_forward * (4000), self, 0);
 	
-	org = org + v_forward*16*trace_fraction;
 
 	vector dir = aim(self, 0);
 
-	vector endpos = Smoketrail_Direction(org, dir);
+	vector endpos = Smoketrail_Direction(org_end, dir);
 	
-	Draw_Smoketrail(self, org, endpos, 0);
+	Draw_Smoketrail(self, org_start, endpos, 0);
 };
 
 vector(vector org, vector dir) Smoketrail_Direction = 
