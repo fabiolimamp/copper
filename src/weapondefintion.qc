@@ -483,6 +483,19 @@ weaponclass_t wpc_ROCKET_ORIGINAL = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_ROCKET_RPG = {
+	IT_ROCKET_LAUNCHER,
+	7, // slot
+	ROCKET_RPG_NAME,
+	ROCKET_RPG_MODEL,
+	3, // ammofield
+	IT_ROCKETS, // ammo_item
+	ROCKET_RPG_COST, // ammo_usage
+	weaponanim_ROCKET_RPG,
+	SUB_Null,
+	weaponanim_draw
+};
+
 // ====================================================================================
 // SLOT 8: Superweapon
 // ====================================================================================
@@ -547,11 +560,12 @@ weaponclass_t weaponsclass[] = {
 //───────────────────────────────────────── ROCKETS {explosives}
 	wpc_ROCKET_MMML,
 	wpc_ROCKET_ORIGINAL,
+	wpc_ROCKET_RPG,
 //───────────────────────────────────────── POWER WEAPONS {fragments}
 	wpc_invoker
 };
 
-float MAX_WEAPON_NUM = 34;
+float MAX_WEAPON_NUM = 35;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -562,10 +576,10 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_PISTOL_REVOLVER}, 1},
 	
 	{{wpc_SHOTGUN_FLAK, wpc_SSG_BLUE, wpc_SHOTGUN_PRISM}, 3},
-	{{wpc_NAIL_TWIN, wpc_NAIL_LMG}, 2},
+	{{wpc_NAIL_TWIN, wpc_NAIL_HEAVY}, 2},
 	{{wpc_REBAR_BUFF, wpc_REBAR_BOUNCE}, 2},
 	
 	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT}, 2},
-	{{wpc_ROCKET_MMML, wpc_ROCKET_ORIGINAL}, 2},
+	{{wpc_ROCKET_MMML, wpc_ROCKET_ORIGINAL, wpc_ROCKET_RPG}, 3},
 	{{wpc_invoker}, 1}
 };
