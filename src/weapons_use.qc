@@ -215,6 +215,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_stake.mdl");
 	precache_model ("progs/placeholder_progs/proj_stake_smoke.mdl");
 	precache_model ("progs/placeholder_progs/proj_buzz_small.mdl");
+	precache_model ("progs/placeholder_progs/railtrail_smoke.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_pistol_akimbo.mdl");
 	precache_model ("progs/placeholder_progs/v_pistol_revolver.mdl");
@@ -249,6 +250,7 @@ void() W_Precache =
 	
 	precache_model ("progs/placeholder_progs/v_rocket_original.mdl");		
 	precache_model ("progs/placeholder_progs/v_rocket_rpg.mdl");		
+	precache_model ("progs/placeholder_progs/v_rocket_instant.mdl");		
 	
 	//=============================================================================================	
 

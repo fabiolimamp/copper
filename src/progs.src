@@ -69,6 +69,7 @@ REBAR_BOUNCE.qc
 GRENADE_DIRECT.qc
 ROCKET_ORIGINAL.qc
 ROCKET_RPG.qc
+ROCKET_INSTANT.qc
 weapons_use.qc
 weapondefintion.qc
 dev.qc
