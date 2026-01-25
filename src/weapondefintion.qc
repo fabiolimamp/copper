@@ -100,19 +100,6 @@ weaponclass_t wpc_SHOTGUN_FLAK = {
 	weaponanim_draw
 };
 
-weaponclass_t wpc_SHOTGUN_BLUE = {
-	IT_SUPER_SHOTGUN,
-	3, // slot
-	SHOTGUN_BLUE_NAME,
-	SHOTGUN_BLUE_MODEL,
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	SHOTGUN_BLUE_COST, // ammo_usage
-	weaponanim_SHOTGUN_BLUE,
-	SUB_Null,
-	weaponanim_draw
-};
-
 weaponclass_t wpc_SHOTGUN_PRISM = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -122,19 +109,6 @@ weaponclass_t wpc_SHOTGUN_PRISM = {
 	IT_SHELLS, // ammo_item
 	SHOTGUN_PRISM_COST, // ammo_usage
 	weaponanim_SHOTGUN_PRISM,
-	SUB_Null,
-	weaponanim_draw
-};
-
-weaponclass_t wpc_SHOTGUN_SUPER = {
-	IT_SUPER_SHOTGUN,
-	3, // slot
-	SHOTGUN_SUPER_NAME,
-	SHOTGUN_SUPER_MODEL,
-	1, // ammofield
-	IT_SHELLS, // ammo_item
-	SHOTGUN_SUPER_COST, // ammo_usage
-	weaponanim_SHOTGUN_SUPER,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -178,54 +152,82 @@ weaponclass_t wpc_SHOTGUN_BRAZIL = {
 	weaponanim_draw
 };
 
-weaponclass_t wpc_SHOTGUN_ROTARY = {
+// ====================================================================================
+
+weaponclass_t wpc_SSG_BLUE = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	SHOTGUN_ROTARY_NAME,
-	SHOTGUN_ROTARY_MODEL,
+	SSG_BLUE_NAME,
+	SSG_BLUE_MODEL,
 	1, // ammofield
 	IT_SHELLS, // ammo_item
-	SHOTGUN_ROTARY_COST, // ammo_usage
-	weaponanim_SHOTGUN_ROTARY,
+	SSG_BLUE_COST, // ammo_usage
+	weaponanim_SSG_BLUE,
 	SUB_Null,
 	weaponanim_draw
 };
 
-weaponclass_t wpc_SHOTGUN_ROTARYv2 = {
+weaponclass_t wpc_SSG_SUPER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	SHOTGUN_ROTARYv2_NAME,
-	SHOTGUN_ROTARYv2_MODEL,
+	SSG_SUPER_NAME,
+	SSG_SUPER_MODEL,
 	1, // ammofield
 	IT_SHELLS, // ammo_item
-	SHOTGUN_ROTARYv2_COST, // ammo_usage
-	weaponanim_SHOTGUN_ROTARYv2,
+	SSG_SUPER_COST, // ammo_usage
+	weaponanim_SSG_SUPER,
 	SUB_Null,
 	weaponanim_draw
 };
 
-weaponclass_t wpc_SHOTGUN_AUTO = {
+weaponclass_t wpc_SSG_ROTARY = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	SHOTGUN_AUTO_NAME,
-	SHOTGUN_AUTO_MODEL,
+	SSG_ROTARY_NAME,
+	SSG_ROTARY_MODEL,
 	1, // ammofield
 	IT_SHELLS, // ammo_item
-	SHOTGUN_AUTO_COST, // ammo_usage
-	weaponanim_SHOTGUN_AUTO,
+	SSG_ROTARY_COST, // ammo_usage
+	weaponanim_SSG_ROTARY,
 	SUB_Null,
 	weaponanim_draw
 };
 
-weaponclass_t wpc_SHOTGUN_SWEEPER = {
+weaponclass_t wpc_SSG_ROTARYv2 = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	SHOTGUN_SWEEPER_NAME,
-	SHOTGUN_SWEEPER_MODEL,
+	SSG_ROTARYv2_NAME,
+	SSG_ROTARYv2_MODEL,
 	1, // ammofield
 	IT_SHELLS, // ammo_item
-	SHOTGUN_SWEEPER_COST, // ammo_usage
-	weaponanim_SHOTGUN_SWEEPER,
+	SSG_ROTARYv2_COST, // ammo_usage
+	weaponanim_SSG_ROTARYv2,
+	SUB_Null,
+	weaponanim_draw
+};
+
+weaponclass_t wpc_SSG_AUTO = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	SSG_AUTO_NAME,
+	SSG_AUTO_MODEL,
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SSG_AUTO_COST, // ammo_usage
+	weaponanim_SSG_AUTO,
+	SUB_Null,
+	weaponanim_draw
+};
+
+weaponclass_t wpc_SSG_SWEEPER = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	SSG_SWEEPER_NAME,
+	SSG_SWEEPER_MODEL,
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SSG_SWEEPER_COST, // ammo_usage
+	weaponanim_SSG_SWEEPER,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -491,29 +493,31 @@ weaponclass_t wpc_invoker = {
 
 weaponclass_t weaponsclass[] = {
 	wpc_no_weapon,
+//───────────────────────────────────────── MELEE {---}
 	wpc_axe,
-	//wpc_shotgun,
-	//wpc_supershotgun,
+//───────────────────────────────────────── PISTOLS {bullets}
 	wpc_PISTOL_STECHKIN,
 	wpc_PISTOL_AKIMBO,
 	wpc_PISTOL_REVOLVER,
+//───────────────────────────────────────── SHOTGUNS {shells}
 	wpc_SHOTGUN_FLAK,
-	wpc_SHOTGUN_BLUE,
 	wpc_SHOTGUN_PRISM,
-	wpc_SHOTGUN_SUPER,
 	wpc_SHOTGUN_LEVER,
 	wpc_SHOTGUN_STACK,
 	wpc_SHOTGUN_BRAZIL,
-	wpc_SHOTGUN_ROTARY,
-	wpc_SHOTGUN_ROTARYv2,
-	wpc_SHOTGUN_AUTO,
-	wpc_SHOTGUN_SWEEPER,
-	//wpc_nailgun,
+//───────────────────────────────────────── SUPER SHOTGUNS {shells}
+	wpc_SSG_BLUE,
+	wpc_SSG_SUPER,
+	wpc_SSG_ROTARY,
+	wpc_SSG_ROTARYv2,
+	wpc_SSG_AUTO,
+	wpc_SSG_SWEEPER,
+//───────────────────────────────────────── NAILGUNS {scraps}
 	wpc_NAIL_TWIN,
 	wpc_NAIL_HEAVY,
 	wpc_NAIL_TURBO,
 	wpc_NAIL_LMG,
-	//wpc_supernailgun,
+//───────────────────────────────────────── REBARS {scraps}
 	wpc_REBAR_CANNON,
 	wpc_REBAR_WIDE,
 	wpc_REBAR_TALL,
@@ -524,10 +528,12 @@ weaponclass_t weaponsclass[] = {
 	wpc_REBAR_RIFLE,
 	wpc_REBAR_REPEATER,
 	wpc_REBAR_BOUNCE,
-	//wpc_grenade,
+//───────────────────────────────────────── GRENADES {explosives}
 	wpc_GRENADE_LAUNCHER,
 	wpc_GRENADE_DIRECT,
+//───────────────────────────────────────── ROCKETS {explosives}
 	wpc_rocket,
+//───────────────────────────────────────── POWER WEAPONS {fragments}
 	wpc_invoker
 };
 
@@ -541,7 +547,7 @@ weaponslot_t weaponslots[9] = {
 	//{{wpc_PISTOL_AKIMBO}, 1},
 	{{wpc_PISTOL_REVOLVER}, 1},
 	
-	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_BLUE, wpc_SHOTGUN_PRISM}, 3},
+	{{wpc_SHOTGUN_FLAK, wpc_SSG_BLUE, wpc_SHOTGUN_PRISM}, 3},
 	{{wpc_NAIL_TWIN, wpc_NAIL_LMG}, 2},
 	{{wpc_REBAR_BUFF, wpc_REBAR_BOUNCE}, 2},
 	

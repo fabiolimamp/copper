@@ -2,8 +2,8 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	SHOTGUN_ROTARY_NAME	=	"SHOTGUN_ROTARY";
-string	SHOTGUN_ROTARY_MODEL	=	"progs/placeholder_progs/v_shotgun_rotary.mdl";
+string	SSG_ROTARY_NAME	=	"SSG_ROTARY";
+string	SSG_ROTARY_MODEL	=	"progs/placeholder_progs/v_ssg_rotary.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPREAD			DESCRIPTION
@@ -14,19 +14,19 @@ string	SHOTGUN_ROTARY_MODEL	=	"progs/placeholder_progs/v_shotgun_rotary.mdl";
 //=============================================================================================
 	
 	
-	float	SHOTGUN_ROTARY_ROF	=	1.3;		//seconds post-fire
+	float	SSG_ROTARY_ROF	=	1.3;		//seconds post-fire
 	
-	float	SHOTGUN_ROTARY_COUNT	=	20;		//number of shots
-	float	SHOTGUN_ROTARY_DMG 	=	2;	//40	//damage per shot
+	float	SSG_ROTARY_COUNT	=	20;		//number of shots
+	float	SSG_ROTARY_DMG 	=	2;	//40	//damage per shot
 
-	float	SHOTGUN_ROTARY_COST	=	1;		//ammo cost to fire
+	float	SSG_ROTARY_COST	=	1;		//ammo cost to fire
 	
-	vector	SHOTGUN_ROTARY_SPREAD	=	'0.1 0.02 0';	//seconds post-fire	//W_Fire_SHOTGUN_ROTARY_hitscan
+	vector	SSG_ROTARY_SPREAD	=	'0.1 0.02 0';	//seconds post-fire	//W_Fire_SSG_ROTARY_hitscan
 
 
 //=============================================================================================
 
-float() weaponanim_SHOTGUN_ROTARY =
+float() weaponanim_SSG_ROTARY =
 {
 	if (self.attack_finished > time)
 		return FALSE;
@@ -35,8 +35,8 @@ float() weaponanim_SHOTGUN_ROTARY =
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;}
 	
-	//self.currentammo = self.ammo_shells = self.ammo_shells - SHOTGUN_ROTARY_COST;
-	self.attack_finished = time + SHOTGUN_ROTARY_ROF;
+	//self.currentammo = self.ammo_shells = self.ammo_shells - SSG_ROTARY_COST;
+	self.attack_finished = time + SSG_ROTARY_ROF;
 
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	self.effects = self.effects | EF_MUZZLEFLASH;
@@ -45,25 +45,25 @@ float() weaponanim_SHOTGUN_ROTARY =
 	
 	self.customflags |= CFL_WEAPONLOCK;	//weapon LOCK
 	
-	W_Fire_SHOTGUN_ROTARY_hitscan();
-	//W_Fire_SHOTGUN_ROTARY_flak();
+	W_Fire_SSG_ROTARY_hitscan();
+	//W_Fire_SSG_ROTARY_flak();
 
 	self.weaponframe = 11;
-	self.think = weaponanim_SHOTGUN_ROTARY_loop;
+	self.think = weaponanim_SSG_ROTARY_loop;
 	self.nextthink = time + 0.025;	
 	return TRUE;
 }
 
-void() weaponanim_SHOTGUN_ROTARY_loop =
+void() weaponanim_SSG_ROTARY_loop =
 {
 	if (intermission) return;
 
 	//fires:  1,  8, 16, 24
 	//+draw: 11, 18, 26, 34
 
-	if (self.weaponframe == 18)	W_Fire_SHOTGUN_ROTARY_hitscan();
-	if (self.weaponframe == 26)	W_Fire_SHOTGUN_ROTARY_hitscan();
-	if (self.weaponframe == 34)	W_Fire_SHOTGUN_ROTARY_hitscan();
+	if (self.weaponframe == 18)	W_Fire_SSG_ROTARY_hitscan();
+	if (self.weaponframe == 26)	W_Fire_SSG_ROTARY_hitscan();
+	if (self.weaponframe == 34)	W_Fire_SSG_ROTARY_hitscan();
 		
 	if (self.weaponframe >= 50)	self.customflags &~= CFL_WEAPONLOCK;	//weapon UNLOCK
 	
@@ -74,17 +74,17 @@ void() weaponanim_SHOTGUN_ROTARY_loop =
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_SHOTGUN_ROTARY_loop;
+	self.think = weaponanim_SSG_ROTARY_loop;
 	self.nextthink = time + 0.025;
 }
 
 //=============================================================================================
 
-void() W_Fire_SHOTGUN_ROTARY_hitscan =
+void() W_Fire_SSG_ROTARY_hitscan =
 {
 	sound(self, CHAN_WEAPON, "placeholder_sound/shotgn3.wav", 1, ATTN_NORM);
 	
-	self.currentammo = self.ammo_shells = self.ammo_shells - SHOTGUN_ROTARY_COST;
+	self.currentammo = self.ammo_shells = self.ammo_shells - SSG_ROTARY_COST;
 	Eject_BuckshotCasing();
 	
 	makevectors(self.v_angle);
@@ -92,11 +92,11 @@ void() W_Fire_SHOTGUN_ROTARY_hitscan =
 	local vector dir = aim(self, AUTOAIM_DIST);
 	
 	ClearMultiDamage();
-	FireBulletsEx_SHOTGUN_ROTARY(SHOTGUN_ROTARY_COUNT, dir, SHOTGUN_ROTARY_SPREAD, SHOTGUN_ROTARY_DMG);
+	FireBulletsEx_SSG_ROTARY(SSG_ROTARY_COUNT, dir, SSG_ROTARY_SPREAD, SSG_ROTARY_DMG);
 	ApplyMultiDamage();
 }
 
-void(float shotcount, vector dir, vector spread, float damage) FireBulletsEx_SHOTGUN_ROTARY =
+void(float shotcount, vector dir, vector spread, float damage) FireBulletsEx_SSG_ROTARY =
 {
 	vector src, direction;
 	entity ig;

@@ -2,8 +2,8 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	SHOTGUN_SWEEPER_NAME	=	"SHOTGUN_SWEEPER";
-string	SHOTGUN_SWEEPER_MODEL	=	"progs/placeholder_progs/v_shotgun_sweeper.mdl";
+string	SSG_SWEEPER_NAME	=	"SSG_SWEEPER";
+string	SSG_SWEEPER_MODEL	=	"progs/placeholder_progs/v_ssg_sweeper.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPREAD			DESCRIPTION
@@ -16,21 +16,21 @@ string	SHOTGUN_SWEEPER_MODEL	=	"progs/placeholder_progs/v_shotgun_sweeper.mdl";
 //=============================================================================================
 	
 	
-	float	SHOTGUN_SWEEPER_ROF	=	0.5;		//seconds post-fire
-	float	SHOTGUN_SWEEPER_LOCK	=	0.6;		//seconds post-fire
+	float	SSG_SWEEPER_ROF	=	0.5;		//seconds post-fire
+	float	SSG_SWEEPER_LOCK	=	0.6;		//seconds post-fire
 	
-	float	SHOTGUN_SWEEPER_COUNT	=	8;		//number of shots
-	float	SHOTGUN_SWEEPER_DMG 	=	5;	//40	//damage per shot
+	float	SSG_SWEEPER_COUNT	=	8;		//number of shots
+	float	SSG_SWEEPER_DMG 	=	5;	//40	//damage per shot
 
-	float	SHOTGUN_SWEEPER_COST	=	1;		//ammo cost to fire
+	float	SSG_SWEEPER_COST	=	1;		//ammo cost to fire
 	
-	//vector	SHOTGUN_SWEEPER_SPREAD	=	'0.2 	0.02 	0';	//W_Fire_SHOTGUN_SWEEPER_hitscan	
-	float	SHOTGUN_SWEEPER_SPREAD_WIDTH	=	0.3;
-	float	SHOTGUN_SWEEPER_SPREAD_RISE	=	0.02;
+	//vector	SSG_SWEEPER_SPREAD	=	'0.2 	0.02 	0';	//W_Fire_SSG_SWEEPER_hitscan	
+	float	SSG_SWEEPER_SPREAD_WIDTH	=	0.3;
+	float	SSG_SWEEPER_SPREAD_RISE	=	0.02;
 
 //=============================================================================================
 
-float() weaponanim_SHOTGUN_SWEEPER =
+float() weaponanim_SSG_SWEEPER =
 {
 	if (self.attack_finished > time)
 		return FALSE;
@@ -39,8 +39,8 @@ float() weaponanim_SHOTGUN_SWEEPER =
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;}
 	
-	//self.currentammo = self.ammo_shells = self.ammo_shells - SHOTGUN_SWEEPER_COST;
-	self.attack_finished = time + SHOTGUN_SWEEPER_ROF;
+	//self.currentammo = self.ammo_shells = self.ammo_shells - SSG_SWEEPER_COST;
+	self.attack_finished = time + SSG_SWEEPER_ROF;
 
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	self.effects = self.effects | EF_MUZZLEFLASH;
@@ -49,26 +49,26 @@ float() weaponanim_SHOTGUN_SWEEPER =
 	
 	self.customflags |= CFL_WEAPONLOCK;	//weapon LOCK
 	
-	W_Fire_SHOTGUN_SWEEPER_hitscan();
-	//W_Fire_SHOTGUN_SWEEPER_flak();
+	W_Fire_SSG_SWEEPER_hitscan();
+	//W_Fire_SSG_SWEEPER_flak();
 	
-	self.currentammo = self.ammo_shells = self.ammo_shells - SHOTGUN_SWEEPER_COST;
+	self.currentammo = self.ammo_shells = self.ammo_shells - SSG_SWEEPER_COST;
 	Eject_BuckshotCasing();
 
 
 	self.weaponframe = 11;
-	self.think = weaponanim_SHOTGUN_SWEEPER_loop;
+	self.think = weaponanim_SSG_SWEEPER_loop;
 	self.nextthink = time + 0.025;
 	return TRUE;
 }
 
-void() weaponanim_SHOTGUN_SWEEPER_loop =
+void() weaponanim_SSG_SWEEPER_loop =
 {
 	if (intermission) return;
 	
-	if (self.weaponframe == 21)	{W_Fire_SHOTGUN_SWEEPER_hitscan();}
+	if (self.weaponframe == 21)	{W_Fire_SSG_SWEEPER_hitscan();}
 		
-	if (self.weaponframe == 32)	self.attack_finished = time + SHOTGUN_SWEEPER_LOCK;
+	if (self.weaponframe == 32)	self.attack_finished = time + SSG_SWEEPER_LOCK;
 	
 	if (self.weaponframe > 50)	self.customflags &~= CFL_WEAPONLOCK;	//weapon UNLOCK
 		
@@ -79,17 +79,17 @@ void() weaponanim_SHOTGUN_SWEEPER_loop =
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_SHOTGUN_SWEEPER_loop;
+	self.think = weaponanim_SSG_SWEEPER_loop;
 	self.nextthink = time + 0.025;
 }
 
 //=============================================================================================
 
-void() W_Fire_SHOTGUN_SWEEPER_hitscan =
+void() W_Fire_SSG_SWEEPER_hitscan =
 {
 	sound(self, CHAN_WEAPON, "placeholder_sound/shotgn3.wav", 1, ATTN_NORM);
 	
-	//self.currentammo = self.ammo_shells = self.ammo_shells - SHOTGUN_SWEEPER_COST;
+	//self.currentammo = self.ammo_shells = self.ammo_shells - SSG_SWEEPER_COST;
 	Eject_BuckshotCasing();
 		
 	makevectors(self.v_angle);
@@ -106,14 +106,14 @@ void() W_Fire_SHOTGUN_SWEEPER_hitscan =
 	
 	ClearMultiDamage();
 	
-	//FirePistolBullets(SHOTGUN_SWEEPER_COUNT, SHOTGUN_SWEEPER_DMG, org_eye, org_gun + v_forward * 24 * trace_fraction, dir_eye, SHOTGUN_SWEEPER_SPREAD, TRUE);              
+	//FirePistolBullets(SSG_SWEEPER_COUNT, SSG_SWEEPER_DMG, org_eye, org_gun + v_forward * 24 * trace_fraction, dir_eye, SSG_SWEEPER_SPREAD, TRUE);              
 	
-	FirePistolBullets_SHOTGUN_SWEEPER(SHOTGUN_SWEEPER_COUNT, SHOTGUN_SWEEPER_DMG, org_eye, org_gun + v_forward * 24 * trace_fraction, dir_eye, SHOTGUN_SWEEPER_SPREAD_WIDTH, SHOTGUN_SWEEPER_SPREAD_RISE, SHOTGUN_SWEEPER_COUNT, TRUE);              
+	FirePistolBullets_SSG_SWEEPER(SSG_SWEEPER_COUNT, SSG_SWEEPER_DMG, org_eye, org_gun + v_forward * 24 * trace_fraction, dir_eye, SSG_SWEEPER_SPREAD_WIDTH, SSG_SWEEPER_SPREAD_RISE, SSG_SWEEPER_COUNT, TRUE);              
 	
 	ApplyMultiDamage();
 }
 
-void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir, float spread_width, float spread_rise, float pellet_count, float tracer) FirePistolBullets_SHOTGUN_SWEEPER =
+void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir, float spread_width, float spread_rise, float pellet_count, float tracer) FirePistolBullets_SSG_SWEEPER =
 {
 	vector src, direction;
 	entity ig;

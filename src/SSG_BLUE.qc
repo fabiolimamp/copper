@@ -2,45 +2,45 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	SHOTGUN_BLUE_NAME	=	"SHOTGUN_BLUE";
-string	SHOTGUN_BLUE_MODEL	=	"progs/placeholder_progs/v_shotgun_bigblue.mdl";
+string	SSG_BLUE_NAME	=	"SSG_BLUE";
+string	SSG_BLUE_MODEL	=	"progs/placeholder_progs/v_ssg_bigblue.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPREAD			DESCRIPTION
 //	1.05	22	4	1	'280 60 0'		//QBJ3 flak (88)
 
-//	1.4	16	8	2	'420 180 0'		//W_Fire_SHOTGUN_BLUE_flak (128)
-//	1.5	20	10	3	'0.30 0.15 0'		//W_Fire_SHOTGUN_BLUE_hitscan (200)
-//	1.9	20	10	3	'0.30 0.15 0'		//W_Fire_SHOTGUN_BLUE_hitscan (200)
-//	1.9	25	10	3	'0.25 0.05 0'		//W_Fire_SHOTGUN_BLUE_hitscan (250)
-//	1.9	18	14	4	'0.25 0.05 0'		//W_Fire_SHOTGUN_BLUE_hitscan (252)
-//	2	16	16	4	'0.2 0.05 0'		//W_Fire_SHOTGUN_BLUE_hitscan (256)
+//	1.4	16	8	2	'420 180 0'		//W_Fire_SSG_BLUE_flak (128)
+//	1.5	20	10	3	'0.30 0.15 0'		//W_Fire_SSG_BLUE_hitscan (200)
+//	1.9	20	10	3	'0.30 0.15 0'		//W_Fire_SSG_BLUE_hitscan (200)
+//	1.9	25	10	3	'0.25 0.05 0'		//W_Fire_SSG_BLUE_hitscan (250)
+//	1.9	18	14	4	'0.25 0.05 0'		//W_Fire_SSG_BLUE_hitscan (252)
+//	2	16	16	4	'0.2 0.05 0'		//W_Fire_SSG_BLUE_hitscan (256)
 
-//	2	13	20	4	'420 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bounce (260)
-//	2	26	10	4	'540 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bounce (260)
-//	2	13	20	4	'540 180 0'		//W_Fire_SHOTGUN_BLUE_flak_pierce_bounce (260)
-//	2	13	20	3	'640 180 0'		//FlakTouch_SHOTGUN_BLUE_pierce_knockback (260)
-//	1.9	22	13	3	'640 180 0'		//FlakTouch_SHOTGUN_BLUE_pierce_knockback (286)
-//	1.9	19	15	3	'640 180 0'		//FlakTouch_SHOTGUN_BLUE_pierce_knockback (285)
-
-
-//=============================================================================================
-	
-	
-	float	SHOTGUN_BLUE_ROF	=	1.9;		//seconds post-fire
-	
-	float	SHOTGUN_BLUE_COUNT	=	22;		//number of shots
-	float	SHOTGUN_BLUE_DMG 	=	13;	//286	//damage per shot
-
-	float	SHOTGUN_BLUE_COST	=	3;		//ammo cost to fire
-	
-//	vector	SHOTGUN_BLUE_SPREAD	=	'0.2 0.05 0';	//seconds post-fire	//W_Fire_SHOTGUN_BLUE_hitscan
-	vector	SHOTGUN_BLUE_SPREAD	=	'640 180 0';	//seconds post-fire	//W_Fire_SHOTGUN_BLUE_flak
+//	2	13	20	4	'420 180 0'		//W_Fire_SSG_BLUE_flak_pierce_bounce (260)
+//	2	26	10	4	'540 180 0'		//W_Fire_SSG_BLUE_flak_pierce_bounce (260)
+//	2	13	20	4	'540 180 0'		//W_Fire_SSG_BLUE_flak_pierce_bounce (260)
+//	2	13	20	3	'640 180 0'		//FlakTouch_SSG_BLUE_pierce_knockback (260)
+//	1.9	22	13	3	'640 180 0'		//FlakTouch_SSG_BLUE_pierce_knockback (286)
+//	1.9	19	15	3	'640 180 0'		//FlakTouch_SSG_BLUE_pierce_knockback (285)
 
 
 //=============================================================================================
+	
+	
+	float	SSG_BLUE_ROF	=	1.9;		//seconds post-fire
+	
+	float	SSG_BLUE_COUNT	=	22;		//number of shots
+	float	SSG_BLUE_DMG 	=	13;	//286	//damage per shot
 
-float() weaponanim_SHOTGUN_BLUE =
+	float	SSG_BLUE_COST	=	3;		//ammo cost to fire
+	
+//	vector	SSG_BLUE_SPREAD	=	'0.2 0.05 0';	//seconds post-fire	//W_Fire_SSG_BLUE_hitscan
+	vector	SSG_BLUE_SPREAD	=	'640 180 0';	//seconds post-fire	//W_Fire_SSG_BLUE_flak
+
+
+//=============================================================================================
+
+float() weaponanim_SSG_BLUE =
 {
 	if (self.attack_finished > time)
 		return FALSE;
@@ -49,8 +49,8 @@ float() weaponanim_SHOTGUN_BLUE =
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;}
 	
-	self.currentammo = self.ammo_shells = self.ammo_shells - SHOTGUN_BLUE_COST;
-	self.attack_finished = time + SHOTGUN_BLUE_ROF;
+	self.currentammo = self.ammo_shells = self.ammo_shells - SSG_BLUE_COST;
+	self.attack_finished = time + SSG_BLUE_ROF;
 
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	self.effects = self.effects | EF_MUZZLEFLASH;
@@ -59,16 +59,16 @@ float() weaponanim_SHOTGUN_BLUE =
 	
 	self.customflags |= CFL_WEAPONLOCK;	//weapon LOCK
 	
-	//W_Fire_SHOTGUN_BLUE_hitscan();
-	W_Fire_SHOTGUN_BLUE_flak();
+	//W_Fire_SSG_BLUE_hitscan();
+	W_Fire_SSG_BLUE_flak();
 
 	self.weaponframe = 11;	
-	self.think = weaponanim_SHOTGUN_BLUE_loop;
+	self.think = weaponanim_SSG_BLUE_loop;
 	self.nextthink = time + 0.05;	
 	return TRUE;
 }
 
-void() weaponanim_SHOTGUN_BLUE_loop =
+void() weaponanim_SSG_BLUE_loop =
 {
 	if (intermission) return;
 
@@ -90,13 +90,13 @@ void() weaponanim_SHOTGUN_BLUE_loop =
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_SHOTGUN_BLUE_loop;
+	self.think = weaponanim_SSG_BLUE_loop;
 	self.nextthink = time + 0.05;
 }
 
 //=============================================================================================
 
-void() W_Fire_SHOTGUN_BLUE_hitscan =
+void() W_Fire_SSG_BLUE_hitscan =
 {
 	sound(self, CHAN_AUTO, "placeholder_sound/shotgun2.wav", 1, ATTN_NORM);
 	
@@ -104,7 +104,7 @@ void() W_Fire_SHOTGUN_BLUE_hitscan =
 	vector org_gun = self.origin + self.view_ofs - v_up * 8 + v_right *  8 + v_forward * 8;
 	vector org_eye = self.origin + self.view_ofs;
 	
-	vector spread = SHOTGUN_BLUE_SPREAD;
+	vector spread = SSG_BLUE_SPREAD;
 	
 	//self.velocity = self.velocity + (v_forward * -100) + '0 0 25';	//shotgun jump +64 units
 	self.velocity = self.velocity + (v_forward * -150) + '0 0 25';		//shotgun knockback
@@ -113,14 +113,14 @@ void() W_Fire_SHOTGUN_BLUE_hitscan =
 	vector dir_eye = normalize(trace_endpos - org_eye);
 		
 	ClearMultiDamage ();
-	FirePistolBullets (SHOTGUN_BLUE_COUNT, SHOTGUN_BLUE_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, spread, TRUE);
+	FirePistolBullets (SSG_BLUE_COUNT, SSG_BLUE_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, spread, TRUE);
 	
 	ApplyMultiDamage ();
 	self.punchangle_x = -4;	//punch AFTER makevectors
 };
 //=============================================================================================
 
-void() W_Fire_SHOTGUN_BLUE_flak =
+void() W_Fire_SSG_BLUE_flak =
 {
 	sound(self, CHAN_AUTO, "placeholder_sound/shotgun2.wav", 1, ATTN_NORM);
 	
@@ -130,8 +130,8 @@ void() W_Fire_SHOTGUN_BLUE_flak =
 	//self.velocity = self.velocity + (v_forward * -100) + '0 0 25';	//shotgun jump +64 units
 	self.velocity = self.velocity + (v_forward * -150) + '0 0 25';		//shotgun knockback
 	
-	float shotcount = SHOTGUN_BLUE_COUNT;
-	vector spread = SHOTGUN_BLUE_SPREAD;
+	float shotcount = SSG_BLUE_COUNT;
+	vector spread = SSG_BLUE_SPREAD;
 	vector view_origin = self.origin + self.view_ofs + v_forward*12 - v_up*4 + v_right* 8;
 
 	vector mvel;
@@ -139,13 +139,13 @@ void() W_Fire_SHOTGUN_BLUE_flak =
 	while (shotcount > 0)
 	{
 		mvel = (v_forward * 2000) + (v_up * 100) + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
-		fl = Launch_Flak_SHOTGUN_BLUE(view_origin, mvel);
+		fl = Launch_Flak_SSG_BLUE(view_origin, mvel);
 		fl.count = shotcount;
 		shotcount = shotcount - 1;
 	}
 }
 
-entity(vector org, vector vel) Launch_Flak_SHOTGUN_BLUE =
+entity(vector org, vector vel) Launch_Flak_SSG_BLUE =
 {
 	entity flak;
 	//gunshot(org);
@@ -155,9 +155,9 @@ entity(vector org, vector vel) Launch_Flak_SHOTGUN_BLUE =
 	flak.gravity = 0;
 	flak.think = FlakThink;
 	flak.nextthink = time + 0.05;
-	//flak.touch = FlakTouch_SHOTGUN_BLUE;
-	//flak.touch = FlakTouch_SHOTGUN_BLUE_pierce;
-	flak.touch = FlakTouch_SHOTGUN_BLUE_pierce_knockback;
+	//flak.touch = FlakTouch_SSG_BLUE;
+	//flak.touch = FlakTouch_SSG_BLUE_pierce;
+	flak.touch = FlakTouch_SSG_BLUE_pierce_knockback;
 	flak.alpha = 1;
 	flak.oldvelocity = flak.velocity;
 
@@ -166,7 +166,7 @@ entity(vector org, vector vel) Launch_Flak_SHOTGUN_BLUE =
 	return flak;
 }
 /*
-void() FlakTouch_SHOTGUN_BLUE =
+void() FlakTouch_SSG_BLUE =
 {
 	if (CheckProjectilePassthru()) return;
 
@@ -182,10 +182,10 @@ void() FlakTouch_SHOTGUN_BLUE =
 
 	if (other.takedamage)
 	{
-		T_Damage(other, self, self.trueowner, SHOTGUN_BLUE_DMG);
+		T_Damage(other, self, self.trueowner, SSG_BLUE_DMG);
 		
 		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
-		SpawnBlood(self.origin, self.velocity, SHOTGUN_BLUE_DMG*10);
+		SpawnBlood(self.origin, self.velocity, SSG_BLUE_DMG*10);
 
 		if (random() < 0.25)	FX_Impact(FX_BLOOD_BIG, self.origin, self.velocity);
 
@@ -211,7 +211,7 @@ void() FlakTouch_SHOTGUN_BLUE =
 }
 */
 /*
-void() FlakTouch_SHOTGUN_BLUE_pierce =
+void() FlakTouch_SSG_BLUE_pierce =
 {
 	if (CheckProjectilePassthru()) return;
 
@@ -222,10 +222,10 @@ void() FlakTouch_SHOTGUN_BLUE_pierce =
 	
 	if (other.takedamage)
 	{
-		T_Damage(other, self, self.trueowner, SHOTGUN_BLUE_DMG);
+		T_Damage(other, self, self.trueowner, SSG_BLUE_DMG);
 
 		if (other.solid != SOLID_BSP) {
-			//ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(SHOTGUN_BLUE_DMG));
+			//ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(SSG_BLUE_DMG));
 		}
 
 		FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);
@@ -250,7 +250,7 @@ void() FlakTouch_SHOTGUN_BLUE_pierce =
 		remove(self);	
 }
 */
-void() FlakTouch_SHOTGUN_BLUE_pierce_knockback =
+void() FlakTouch_SSG_BLUE_pierce_knockback =
 {
 	if (CheckProjectilePassthru()) return;
 
@@ -262,10 +262,10 @@ void() FlakTouch_SHOTGUN_BLUE_pierce_knockback =
 	if (other.takedamage)
 	{
 		if ((other.classname == "monster_swarmer" || other.classname == "monster_zombie" ) ||	// IF swarmer or zombie...
-			(other.classname == "monster_fish" && other.health <= SHOTGUN_BLUE_DMG))	// OR IF fish 1 pellet away from death...
+			(other.classname == "monster_fish" && other.health <= SSG_BLUE_DMG))	// OR IF fish 1 pellet away from death...
 			T_Damage(other, self, self.trueowner, 60);					// gib'em!
 		else
-			T_Damage(other, self, self.trueowner, SHOTGUN_BLUE_DMG);
+			T_Damage(other, self, self.trueowner, SSG_BLUE_DMG);
 
 		//------------------------------------------------------------------------------- proj KNOCK BACK
 		if ((other.movetype == MOVETYPE_STEP || other.movetype == MOVETYPE_WALK) && 
@@ -286,7 +286,7 @@ void() FlakTouch_SHOTGUN_BLUE_pierce_knockback =
 		//------------------------------------------------------------------------------- proj KNOCK BACK
 
 		if (other.solid != SOLID_BSP) {
-			//ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(SHOTGUN_BLUE_DMG));
+			//ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(SSG_BLUE_DMG));
 		}
 		
 		FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);

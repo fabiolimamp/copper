@@ -117,7 +117,7 @@ void() W_Fire_NAIL_LMG_hitscan =
 	//FirePistolBullets (NAIL_LMG_COUNT, NAIL_LMG_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, spread, TRUE);
 	
 	
-	FirePistolBullets_SHOTGUN_ROTARYv2(NAIL_LMG_COUNT, NAIL_LMG_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, NAIL_LMG_SPREAD_WIDTH, NAIL_LMG_SPREAD_RISE, NAIL_LMG_COUNT, TRUE);
+	FirePistolBullets_SSG_ROTARYv2(NAIL_LMG_COUNT, NAIL_LMG_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, NAIL_LMG_SPREAD_WIDTH, NAIL_LMG_SPREAD_RISE, NAIL_LMG_COUNT, TRUE);
 	
 	
 	ApplyMultiDamage ();

@@ -219,18 +219,20 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_pistol_akimbo.mdl");
 	precache_model ("progs/placeholder_progs/v_pistol_revolver.mdl");
 	
-	precache_model ("progs/placeholder_progs/v_shotgun_super2.mdl");
-	precache_model ("progs/placeholder_progs/v_shotgun_super3.mdl");
-	precache_model ("progs/placeholder_progs/v_shotgun_super4.mdl");
+	
 	precache_model ("progs/placeholder_progs/v_shotgun_lever.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_stack.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_brazil.mdl");
-	precache_model ("progs/placeholder_progs/v_shotgun_rotary.mdl");	
-	precache_model ("progs/placeholder_progs/v_shotgun_auto.mdl");	
-	precache_model ("progs/placeholder_progs/v_shotgun_sweeper.mdl");	
-	precache_model ("progs/placeholder_progs/v_shotgun_blue2.mdl");	
-	precache_model ("progs/placeholder_progs/v_shotgun_bigblue.mdl");	
 	precache_model ("progs/placeholder_progs/v_shotgun_prism.mdl");	
+		
+	precache_model ("progs/placeholder_progs/v_ssg_super2.mdl");
+	precache_model ("progs/placeholder_progs/v_ssg_super3.mdl");
+	precache_model ("progs/placeholder_progs/v_ssg_super4.mdl");
+	precache_model ("progs/placeholder_progs/v_ssg_rotary.mdl");	
+	precache_model ("progs/placeholder_progs/v_ssg_auto.mdl");	
+	precache_model ("progs/placeholder_progs/v_ssg_sweeper.mdl");	
+	precache_model ("progs/placeholder_progs/v_ssg_blue2.mdl");	
+	precache_model ("progs/placeholder_progs/v_ssg_bigblue.mdl");	
 	
 	precache_model ("progs/placeholder_progs/v_rebar_multi.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_wide.mdl");	
