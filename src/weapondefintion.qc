@@ -113,6 +113,19 @@ weaponclass_t wpc_SHOTGUN_BLUE = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_SHOTGUN_PRISM = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	SHOTGUN_PRISM_NAME,
+	SHOTGUN_PRISM_MODEL,
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SHOTGUN_PRISM_COST, // ammo_usage
+	weaponanim_SHOTGUN_PRISM,
+	SUB_Null,
+	weaponanim_draw
+};
+
 weaponclass_t wpc_SHOTGUN_SUPER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -486,6 +499,7 @@ weaponclass_t weaponsclass[] = {
 	wpc_PISTOL_REVOLVER,
 	wpc_SHOTGUN_FLAK,
 	wpc_SHOTGUN_BLUE,
+	wpc_SHOTGUN_PRISM,
 	wpc_SHOTGUN_SUPER,
 	wpc_SHOTGUN_LEVER,
 	wpc_SHOTGUN_STACK,
@@ -517,7 +531,7 @@ weaponclass_t weaponsclass[] = {
 	wpc_invoker
 };
 
-float MAX_WEAPON_NUM = 32;
+float MAX_WEAPON_NUM = 33;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -527,7 +541,7 @@ weaponslot_t weaponslots[9] = {
 	//{{wpc_PISTOL_AKIMBO}, 1},
 	{{wpc_PISTOL_REVOLVER}, 1},
 	
-	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_BLUE}, 2},
+	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_BLUE, wpc_SHOTGUN_PRISM}, 3},
 	{{wpc_NAIL_TWIN, wpc_NAIL_LMG}, 2},
 	{{wpc_REBAR_BUFF, wpc_REBAR_BOUNCE}, 2},
 	
