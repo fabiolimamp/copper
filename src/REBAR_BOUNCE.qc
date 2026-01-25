@@ -105,42 +105,6 @@ void() W_Fire_REBAR_BOUNCE =
 	Launch_REBAR_BOUNCE_Buzzsaw (org, mvel);
 		
 }
-//=============================================================================================
-
-entity(vector org, vector vel) launch_impaler_REBAR_BOUNCE =
-{
-	entity impaler;
-	//gunshot(org);
-
-	impaler = toss_projectile(org, vel, "impaler");
-	impaler.lifetime_finished = time + 10;
-	
-	
-	SUB_ChangeModel (impaler, "progs/placeholder_progs/proj_buzz_small.mdl");
-
-	//impaler.gravity = .75;
-	impaler.gravity = 0;
-	impaler.think = ImpalerThink_REBAR_BOUNCE;	//dont sink
-	impaler.touch = ImpalerTouch_REBAR_BOUNCE_Buzzsaw_1;
-	impaler.alpha = 1;
-	impaler.movetype = MOVETYPE_FLYMISSILE;
-	
-	return impaler;
-}
-
-void() ImpalerThink_REBAR_BOUNCE =
-{
-	if (time > self.lifetime_finished)
-	{
-		ImpalerFade();
-		return;
-	}
-	self.flags &~= FL_ONGROUND;
-	self.oldvelocity = self.velocity;
-	//self.velocity.z -= 25;
-	self.nextthink = time + 0.05;
-	self.angles = vectoangles(self.velocity);
-}
 
 //=============================================================================================
 
@@ -245,6 +209,7 @@ entity(vector org, vector vel) Launch_REBAR_BOUNCE_Buzzsaw =
 	//buzzsaw.movetype = MOVETYPE_FLYMISSILE;	//doesnt like this for some reason?
 
 	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_small.mdl");
+
 
 	return buzzsaw;
 }
