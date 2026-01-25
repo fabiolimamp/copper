@@ -65,6 +65,7 @@ REBAR_BUFF.qc
 REBAR_RIFLE.qc
 REBAR_REPEATER.qc
 REBAR_BOUNCE.qc
+GRENADE_DIRECT.qc
 weapons_use.qc
 weapondefintion.qc
 dev.qc

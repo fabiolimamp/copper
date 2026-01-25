@@ -18,11 +18,12 @@ string	PISTOL_REVOLVER_MODEL	=	"progs/placeholder_progs/v_pistol_revolver.mdl";
 	
 	float	PISTOL_REVOLVER_ROF 	= 0.6;		// stetchkin 0.3 sec
 
-	float	PISTOL_REVOLVER_DMG	= 40;		// stetchkin 20 damge
+	float	PISTOL_REVOLVER_COUNT	= 2;
+	float	PISTOL_REVOLVER_DMG	= 20;		// stetchkin 20 damge
 	
 	float	PISTOL_REVOLVER_RELOAD	= 2;		// stetchkin 1.5 sec
 		
-	vector	PISTOL_REVOLVER_SPREAD	= '0.01 0.02 0';	// 'width, height, 0' stetchkin '0.015 0.015 0'
+	vector	PISTOL_REVOLVER_SPREAD	= '0 0 0';	// 'width, height, 0' stetchkin '0.015 0.015 0'
 
 
 //=============================================================================================
@@ -196,7 +197,7 @@ void(float lefty) W_Fire_PISTOL_REVOLVER =
 		
 	ClearMultiDamage ();
 	
-	FirePistolBullets (1, PISTOL_REVOLVER_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, PISTOL_REVOLVER_SPREAD, TRUE);
+	FirePistolBullets (PISTOL_REVOLVER_COUNT, PISTOL_REVOLVER_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, PISTOL_REVOLVER_SPREAD, TRUE);
 	
 	ApplyMultiDamage ();
 	self.punchangle_x = -1;	//punch AFTER makevectors

@@ -237,7 +237,9 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rebar_fast.mdl");		
 	precache_model ("progs/placeholder_progs/v_rebar_buff.mdl");
 	precache_model ("progs/placeholder_progs/v_rebar_rifle.mdl");
+	
 	precache_model ("progs/placeholder_progs/v_rebar_bounce.mdl");
+	precache_model ("progs/placeholder_progs/v_grenade_direct.mdl");
 			
 	precache_model ("progs/placeholder_progs/v_nail_heavy.mdl");		
 	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		

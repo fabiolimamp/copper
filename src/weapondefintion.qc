@@ -412,7 +412,7 @@ weaponclass_t wpc_REBAR_BOUNCE = {
 // SLOT 6: Grenades
 // ====================================================================================
 
-weaponclass_t wpc_grenade = {
+weaponclass_t wpc_GRENADE_LAUNCHER = {
 	IT_GRENADE_LAUNCHER,
 	6, // slot
 	"Grenade Launcher",
@@ -421,6 +421,19 @@ weaponclass_t wpc_grenade = {
 	IT_ROCKETS, // ammo_item
 	1, // ammo_usage
 	weaponanim_qbj3grenade,
+	SUB_Null,
+	weaponanim_draw
+};
+
+weaponclass_t wpc_GRENADE_DIRECT = {
+	IT_GRENADE_LAUNCHER,
+	6, // slot
+	GRENADE_DIRECT_NAME,
+	GRENADE_DIRECT_MODEL,
+	3, // ammofield
+	IT_ROCKETS, // ammo_item
+	GRENADE_DIRECT_COST, // ammo_usage
+	weaponanim_GRENADE_DIRECT,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -497,26 +510,28 @@ weaponclass_t weaponsclass[] = {
 	wpc_REBAR_RIFLE,
 	wpc_REBAR_REPEATER,
 	wpc_REBAR_BOUNCE,
-	wpc_grenade,
+	//wpc_grenade,
+	wpc_GRENADE_LAUNCHER,
+	wpc_GRENADE_DIRECT,
 	wpc_rocket,
 	wpc_invoker
 };
 
-float MAX_WEAPON_NUM = 31;
+float MAX_WEAPON_NUM = 32;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
 	{{wpc_axe}, 1},
 	
 	//{{wpc_PISTOL_STECHKIN}, 1},	//broken spin
-	{{wpc_PISTOL_AKIMBO}, 1},
-	//{{wpc_PISTOL_REVOLVER}, 1},
+	//{{wpc_PISTOL_AKIMBO}, 1},
+	{{wpc_PISTOL_REVOLVER}, 1},
 	
-	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_BLUE, wpc_SHOTGUN_ROTARY}, 3},
-	{{wpc_NAIL_TWIN, wpc_NAIL_HEAVY, wpc_NAIL_TURBO, wpc_NAIL_LMG}, 4},
-	{{wpc_REBAR_BUFF, wpc_REBAR_RIFLE, wpc_REBAR_REPEATER, wpc_REBAR_BOUNCE}, 4},
+	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_BLUE}, 2},
+	{{wpc_NAIL_TWIN, wpc_NAIL_LMG}, 2},
+	{{wpc_REBAR_BUFF, wpc_REBAR_BOUNCE}, 2},
 	
-	{{wpc_grenade}, 1},
+	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT}, 2},
 	{{wpc_rocket}, 1},
 	{{wpc_invoker}, 1}
 };
