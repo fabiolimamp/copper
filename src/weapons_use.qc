@@ -216,6 +216,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_pellet_blue.mdl");
 	precache_model ("progs/placeholder_progs/proj_stake.mdl");
 	precache_model ("progs/placeholder_progs/proj_stake_smoke.mdl");
+	precache_model ("progs/placeholder_progs/proj_nail_heavy.mdl");
 	precache_model ("progs/placeholder_progs/proj_buzz_small.mdl");
 	precache_model ("progs/placeholder_progs/railtrail_smoke.mdl");
 	
@@ -239,6 +240,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_nail_heavy.mdl");		
 	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		
 	precache_model ("progs/placeholder_progs/v_nail_lmg.mdl");
+	precache_model ("progs/placeholder_progs/v_nail_drum.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_rebar_multi.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_wide.mdl");	

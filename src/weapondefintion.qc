@@ -289,6 +289,19 @@ weaponclass_t wpc_NAIL_LMG = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_NAIL_DRUM = {
+	IT_NAILGUN,
+	4, // slot
+	NAIL_DRUM_NAME,
+	NAIL_DRUM_MODEL,
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	NAIL_DRUM_COST, // ammo_usage
+	weaponanim_NAIL_DRUM,
+	SUB_Null,
+	weaponanim_draw
+};
+
 // ====================================================================================
 // SLOT 5: Rebar
 // ====================================================================================
@@ -556,6 +569,7 @@ weaponclass_t weaponsclass[] = {
 	wpc_NAIL_HEAVY,
 	wpc_NAIL_TURBO,
 	wpc_NAIL_LMG,
+	wpc_NAIL_DRUM,
 //───────────────────────────────────────── REBARS {scraps}
 	wpc_REBAR_CANNON,
 	wpc_REBAR_WIDE,
@@ -579,7 +593,7 @@ weaponclass_t weaponsclass[] = {
 	wpc_invoker
 };
 
-float MAX_WEAPON_NUM = 36;
+float MAX_WEAPON_NUM = 37;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -590,7 +604,7 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_PISTOL_REVOLVER}, 1},
 	
 	{{wpc_SHOTGUN_FLAK, wpc_SSG_BLUE, wpc_SHOTGUN_PRISM}, 3},
-	{{wpc_NAIL_TWIN, wpc_NAIL_HEAVY}, 2},
+	{{wpc_NAIL_TWIN, wpc_NAIL_DRUM}, 2},
 	{{wpc_REBAR_BUFF, wpc_REBAR_BOUNCE}, 2},
 	
 	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT}, 2},

@@ -104,6 +104,7 @@ void() W_Fire_ROCKET_INSTANT_hitscan =
 	
 	Start_Smoketrail_ROCKET_INSTANT();
 	
+	//FX_Impact(FX_SPARK, trace_endpos, 0);	
 	
 	self.punchangle_x = -4;
 }
