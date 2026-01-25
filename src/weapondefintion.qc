@@ -457,7 +457,7 @@ weaponclass_t wpc_GRENADE_DIRECT = {
 // SLOT 7: Rockets
 // ====================================================================================
 
-weaponclass_t wpc_rocket = {
+weaponclass_t wpc_ROCKET_MMML = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
 	"Multi-Missile Launcher",
@@ -466,6 +466,19 @@ weaponclass_t wpc_rocket = {
 	IT_ROCKETS, // ammo_item
 	1, // ammo_usage
 	weaponanim_boxrocket,
+	SUB_Null,
+	weaponanim_draw
+};
+
+weaponclass_t wpc_ROCKET_ORIGINAL = {
+	IT_ROCKET_LAUNCHER,
+	7, // slot
+	ROCKET_ORIGINAL_NAME,
+	ROCKET_ORIGINAL_MODEL,
+	3, // ammofield
+	IT_ROCKETS, // ammo_item
+	1, // ammo_usage
+	weaponanim_ROCKET_ORIGINAL,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -532,12 +545,13 @@ weaponclass_t weaponsclass[] = {
 	wpc_GRENADE_LAUNCHER,
 	wpc_GRENADE_DIRECT,
 //───────────────────────────────────────── ROCKETS {explosives}
-	wpc_rocket,
+	wpc_ROCKET_MMML,
+	wpc_ROCKET_ORIGINAL,
 //───────────────────────────────────────── POWER WEAPONS {fragments}
 	wpc_invoker
 };
 
-float MAX_WEAPON_NUM = 33;
+float MAX_WEAPON_NUM = 34;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -552,6 +566,6 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_REBAR_BUFF, wpc_REBAR_BOUNCE}, 2},
 	
 	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT}, 2},
-	{{wpc_rocket}, 1},
+	{{wpc_ROCKET_MMML, wpc_ROCKET_ORIGINAL}, 2},
 	{{wpc_invoker}, 1}
 };

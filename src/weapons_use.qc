@@ -219,7 +219,6 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_pistol_akimbo.mdl");
 	precache_model ("progs/placeholder_progs/v_pistol_revolver.mdl");
 	
-	
 	precache_model ("progs/placeholder_progs/v_shotgun_lever.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_stack.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_brazil.mdl");
@@ -234,19 +233,21 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_ssg_blue2.mdl");	
 	precache_model ("progs/placeholder_progs/v_ssg_bigblue.mdl");	
 	
+	precache_model ("progs/placeholder_progs/v_nail_heavy.mdl");		
+	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		
+	precache_model ("progs/placeholder_progs/v_nail_lmg.mdl");
+	
 	precache_model ("progs/placeholder_progs/v_rebar_multi.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_wide.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_tall.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_fast.mdl");		
 	precache_model ("progs/placeholder_progs/v_rebar_buff.mdl");
 	precache_model ("progs/placeholder_progs/v_rebar_rifle.mdl");
-	
 	precache_model ("progs/placeholder_progs/v_rebar_bounce.mdl");
+	
 	precache_model ("progs/placeholder_progs/v_grenade_direct.mdl");
-			
-	precache_model ("progs/placeholder_progs/v_nail_heavy.mdl");		
-	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		
-	precache_model ("progs/placeholder_progs/v_nail_lmg.mdl");		
+	
+	precache_model ("progs/placeholder_progs/v_rocket_original.mdl");		
 	
 	//=============================================================================================	
 
