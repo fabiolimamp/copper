@@ -15,9 +15,9 @@ string	ROCKET_INSTANT_MODEL	=	"progs/placeholder_progs/v_rocket_instant.mdl";
 	
 	float	ROCKET_INSTANT_DMG	=	120;		//damage per shot
 	
-	float	ROCKET_INSTANT_COST	=	1;		//ammo cost to fire
+	float	ROCKET_INSTANT_COST	=	2;		//ammo cost to fire
 	
-	float	ROCKET_INSTANT_SPEED	=	2000;		//arc velocity
+	float	ROCKET_INSTANT_SPEED	=	20;		//arc velocity
 	
 
 //=============================================================================================	
@@ -96,44 +96,16 @@ void() W_Fire_ROCKET_INSTANT_hitscan =
 	
 	//gunshot(org);
 	
+	
 	W_Fire_ROCKET_INSTANT(org);
+	
+	
+	Start_Smoketrail_ROCKET_INSTANT();
+	
 	
 	self.punchangle_x = -4;
 }
 
-
-/*
-void() W_Fire_ROCKET_INSTANT_hitscan =
-{
-	vector	source, org;
-	
-	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
-	sound (self, CHAN_AUTO, "mmml/fire1.wav", 1, ATTN_NORM);
-	sound (self, CHAN_AUTO, "placeholder_sound/sniper.wav", 1, ATTN_NORM);
-	
-	makevectors (self.v_angle);
-	source = self.origin + self.view_ofs;
-	traceline2(source, source + v_forward * (2000), self, 0);
-	
-	if (trace_ent == self)
-		return;	// some notrace shit happened
-	if (trace_fraction == 1.0) 
-		return;
-	
-	self.show_hostile = time + 1;	// wake monsters up
-	
-	org = trace_endpos - v_forward*16;
-
-
-	//hit anything
-	
-	//gunshot(org);
-	
-	W_Fire_ROCKET_INSTANT(org);
-	
-	self.punchangle_x = -4;
-}
-*/
 //=============================================================================================
 
 void(vector loc) W_Fire_ROCKET_INSTANT =
@@ -169,14 +141,16 @@ void() T_ROCKET_INSTANT_Touch =
 	if (pointcontents(self.origin) == CONTENT_SKY)
 	{
 		remove(self);
+				
 		return;
 	}
 
 	T_ROCKET_INSTANT_Explode();
-
+	
 	self.origin = self.origin - 8*normalize(self.velocity);
 	T_ROCKET_INSTANT_ExplosiveTouch();
 }
+
 //=============================================================================================
 
 void() T_ROCKET_INSTANT_ExplosiveTouch =
@@ -198,3 +172,87 @@ void() T_ROCKET_INSTANT_Explode =
 	// don't do radius damage to other, because all damage will be done in the impact
 	T_RadiusDamage (self, self.trueowner, ROCKET_INSTANT_DMG, other, DMGTYPE_EXPLOSION);
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Railgun code from EE by bmFbr, edits by Kebby
+
+void() Start_Smoketrail_ROCKET_INSTANT = 
+{
+	vector 	org;
+
+	if (self.t_width < time)
+		self.t_width = time + 0.6;
+
+	makevectors(self.v_angle);
+
+	org = self.origin + self.view_ofs + v_up * -8 + v_right * 10;
+	
+	traceline(org, org + v_forward * 16, FALSE, self);
+	
+	org = org + v_forward*16*trace_fraction;
+
+	vector dir = aim(self, 0);
+
+	vector endpos = Smoketrail_Direction(org, dir);
+	
+	Draw_Smoketrail(self, org, endpos, 0);
+};
+
+vector(vector org, vector dir) Smoketrail_Direction = 
+{
+	traceline (org, org + dir*4000, FALSE, self);
+	vector endpoint = trace_endpos;
+	return endpoint;
+}
+
+.entity	sibling;
+
+float 	FL_PROJECTILE	= 32768;	// ???
+
+void(entity pl, vector org, vector dest, float hit) Draw_Smoketrail = 
+{
+	float len = vlen(dest - org);
+	vector dir = normalize(dest - org);
+	vector ang = vectoangles(dest - org);
+
+	float ct = floor(len/30);
+	entity sg;
+	entity prevsg;
+	for (float i = 0; i < ct; i++) {
+		sg = spawn();
+		if (prevsg) prevsg.sibling = sg;
+
+		
+		setmodel (sg, "progs/placeholder_progs/railtrail_smoke.mdl");
+		
+			
+		setsize(sg, VEC_ORIGIN, VEC_ORIGIN);
+		setorigin(sg, org + dir * 30 * i);
+
+		sg.flags |= FL_PROJECTILE;
+		sg.classname = "lgsegment";
+		sg.angles = ang;
+		sg.angles_z = random()*360;
+		sg.owner = pl;
+		sg.think = Smoketrail_Segment_Think;
+		sg.attack_finished = time + 0.5 + 0.005*i;
+		sg.nextthink = time + 0.02;
+		sg.alpha = 1;
+		sg.state = hit;
+		sg.cnt = i;
+		prevsg = sg;
+	}
+	if (sg) sg.effects |= EF_MUZZLEFLASH;
+}
+
+void() Smoketrail_Segment_Think = 
+{
+	self.alpha = clamp(lerpCosine(1, 0, 1 - (self.attack_finished - time)/0.5), 0.0001, 1);
+
+	if (time > self.attack_finished)
+		remove(self);
+	else
+		self.nextthink = time + 0.025;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
