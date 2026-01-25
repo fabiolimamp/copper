@@ -102,7 +102,7 @@ void() W_Fire_REBAR_BOUNCE =
 	
 	
 	
-	Launch_Volley(org, mvel);
+	Launch_REBAR_BOUNCE_Buzzsaw (org, mvel);
 		
 }
 //=============================================================================================
@@ -121,7 +121,7 @@ entity(vector org, vector vel) launch_impaler_REBAR_BOUNCE =
 	//impaler.gravity = .75;
 	impaler.gravity = 0;
 	impaler.think = ImpalerThink_REBAR_BOUNCE;	//dont sink
-	impaler.touch = ImpalerTouch_REBAR_BOUNCE_1;
+	impaler.touch = ImpalerTouch_REBAR_BOUNCE_Buzzsaw_1;
 	impaler.alpha = 1;
 	impaler.movetype = MOVETYPE_FLYMISSILE;
 	
@@ -144,7 +144,7 @@ void() ImpalerThink_REBAR_BOUNCE =
 
 //=============================================================================================
 
-void() ImpalerTouch_REBAR_BOUNCE =
+void() ImpalerTouch_REBAR_BOUNCE_Buzzsaw =
 {
 	if (CheckProjectilePassthru()) return;
 
@@ -228,28 +228,28 @@ void() ImpalerTouch_REBAR_BOUNCE =
 // piercing projectile Impaler code by Fairweather, edits by Kebby
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-entity(vector org, vector vel) Launch_Volley =
+entity(vector org, vector vel) Launch_REBAR_BOUNCE_Buzzsaw =
 {
 	
-	entity volley;
-	volley = toss_projectile(org, vel, "impaler");
-	volley.lifetime_finished = time + 10;
+	entity buzzsaw;
+	buzzsaw = toss_projectile(org, vel, "impaler");
+	buzzsaw.lifetime_finished = time + 10;
 	
-	volley.gravity = 0;
-	volley.think = VolleyThink;
-	volley.touch = ImpalerTouch_REBAR_BOUNCE_1;
-	volley.th_die = ImpalerFade;
-	volley.buddy = self;	
+	buzzsaw.gravity = 0;
+	buzzsaw.think = REBAR_BOUNCE_Buzzsaw_Think;
+	buzzsaw.touch = ImpalerTouch_REBAR_BOUNCE_Buzzsaw_1;
+	buzzsaw.th_die = ImpalerFade;
+	buzzsaw.buddy = self;	
 	
-	volley.alpha = 1;
-	//volley.movetype = MOVETYPE_FLYMISSILE;	//doesnt like this for some reason?
+	buzzsaw.alpha = 1;
+	//buzzsaw.movetype = MOVETYPE_FLYMISSILE;	//doesnt like this for some reason?
 
-	SUB_ChangeModel (volley, "progs/placeholder_progs/proj_buzz_small.mdl");
+	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_small.mdl");
 
-	return volley;
+	return buzzsaw;
 }
 
-void() VolleyThink =
+void() REBAR_BOUNCE_Buzzsaw_Think =
 {
 	if (time > self.lifetime_finished)
 	{
@@ -263,75 +263,10 @@ void() VolleyThink =
 	self.angles = vectoangles(self.velocity);
 }
 //=============================================================================================
-
-void() VolleyTouch =
-{
-	if (other == self.owner ) return;		// don't touch owner
-	if (CheckProjectilePassthru()) return;
-	
-	if ((other.takedamage == DAMAGE_AIM) || (other.takedamage == DAMAGE_YES))
-	{
-			T_Damage(other,self.buddy,self.buddy,REBAR_BOUNCE_DMG);
-
-			particle (self.origin, self.velocity*0.1, 73, 40);
-			
-			projectile_passthru();
-
-			return;
-	}
-	if (!other.takedamage)	//do not get stuck on wall, remove with temp effect
-	{
-		float chance = random();
-
-		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "weapons/ric1.wav", 0.25, ATTN_NORM);
-		else if (chance < 0.5)	sound (self, CHAN_AUTO, "weapons/ric2.wav", 0.25, ATTN_NORM);
-		else			sound (self, CHAN_AUTO, "weapons/ric3.wav", 0.25, ATTN_NORM);
-				
-		self.touch = VolleyTouch_Bounce_1;
-	}
-	
-	if (self.buddy)	self.buddy.dmg = 0;
-}
-//=============================================================================================
-
-void() VolleyTouch_Bounce_1 =
-{
-	if (other == self.owner ) return;		// don't touch owner
-	if (CheckProjectilePassthru()) return;
-	if ((other.takedamage == DAMAGE_AIM) || (other.takedamage == DAMAGE_YES))
-	{
-			T_Damage(other,self.buddy,self.buddy,REBAR_BOUNCE_DMG);
-
-			particle (self.origin, self.velocity*0.1, 73, 40);
-
-			projectile_passthru();
-
-			return;
-	}
-	if (!other.takedamage)	//do not get stuck on wall, remove with temp effect
-	{
-		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-		WriteByte (MSG_BROADCAST, TE_SPIKE);
-		WriteCoord (MSG_BROADCAST, self.origin_x);
-		WriteCoord (MSG_BROADCAST, self.origin_y);
-		WriteCoord (MSG_BROADCAST, self.origin_z);
-		
-		remove(self);
-	}
-	
-	if (self.buddy)	self.buddy.dmg = 0;
-}
 //=============================================================================================
 //=============================================================================================
 //=============================================================================================
-//=============================================================================================
-//=============================================================================================
-//=============================================================================================
-//=============================================================================================
-//=============================================================================================
-//=============================================================================================
-//=============================================================================================
-void() ImpalerTouch_REBAR_BOUNCE_1 =
+void() ImpalerTouch_REBAR_BOUNCE_Buzzsaw_1 =
 {
 	self.gravity = 1;
 	
@@ -383,10 +318,10 @@ void() ImpalerTouch_REBAR_BOUNCE_1 =
 	gunshot(self.origin);
 		
 		
-	self.touch = ImpalerTouch_REBAR_BOUNCE_2;
+	self.touch = ImpalerTouch_REBAR_BOUNCE_Buzzsaw_2;
 }
 //=============================================================================================
-void() ImpalerTouch_REBAR_BOUNCE_2 =
+void() ImpalerTouch_REBAR_BOUNCE_Buzzsaw_2 =
 {
 	self.gravity = 2;
 	
@@ -438,10 +373,10 @@ void() ImpalerTouch_REBAR_BOUNCE_2 =
 	gunshot(self.origin);
 		
 		
-	self.touch = ImpalerTouch_REBAR_BOUNCE_3;
+	self.touch = ImpalerTouch_REBAR_BOUNCE_Buzzsaw_3;
 }
 //=============================================================================================
-void() ImpalerTouch_REBAR_BOUNCE_3 =
+void() ImpalerTouch_REBAR_BOUNCE_Buzzsaw_3 =
 {
 	self.gravity = 4;
 	
