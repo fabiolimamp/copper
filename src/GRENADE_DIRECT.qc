@@ -18,6 +18,8 @@ string	GRENADE_DIRECT_MODEL	=	"progs/placeholder_progs/v_grenade_direct.mdl";
 	
 	float	GRENADE_DIRECT_COST	=	1;		//ammo cost to fire
 	
+	float	GRENADE_DIRECT_TIMER	=	0.7;		//seconds before explode 2.5 default
+	
 	float	GRENADE_DIRECT_SPEED	=	1200;		//arc velocity
 	
 
@@ -95,12 +97,12 @@ entity(vector org, vector vel) launch_impaler_GRENADE_DIRECT =
 	//gunshot(org);
 
 	grenade = toss_projectile(org, vel, "grenade");
-	grenade.lifetime_finished = time + 2.5;
+	grenade.lifetime_finished = time + GRENADE_DIRECT_TIMER;
 	
 	SUB_ChangeModel (grenade, "progs/proj_grenade.mdl");
 	
 	
-	grenade.think = ImpalerThink;
+	grenade.think = GRENADE_DIRECT_Think;
 	grenade.movetype = MOVETYPE_FLYMISSILE;
 	
 
