@@ -18,7 +18,7 @@ string	ROCKET_RPG_MODEL	=	"progs/placeholder_progs/v_rocket_rpg.mdl";
 	
 	float	ROCKET_RPG_COST		=	1;		//ammo cost to fire
 	
-	float	ROCKET_RPG_SPEED	=	1400;		//arc velocity
+	float	ROCKET_RPG_SPEED	=	800;		//rocket speed
 	
 
 //=============================================================================================	
