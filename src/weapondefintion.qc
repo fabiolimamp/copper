@@ -466,6 +466,19 @@ weaponclass_t wpc_GRENADE_DIRECT = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_GRENADE_TRIBOLT = {
+	IT_GRENADE_LAUNCHER,
+	6, // slot
+	GRENADE_TRIBOLT_NAME,
+	GRENADE_TRIBOLT_MODEL,
+	3, // ammofield
+	IT_ROCKETS, // ammo_item
+	GRENADE_DIRECT_COST, // ammo_usage
+	weaponanim_GRENADE_TRIBOLT,
+	SUB_Null,
+	weaponanim_draw
+};
+
 // ====================================================================================
 // SLOT 7: Rockets
 // ====================================================================================
@@ -584,6 +597,7 @@ weaponclass_t weaponsclass[] = {
 //───────────────────────────────────────── GRENADES {explosives}
 	wpc_GRENADE_LAUNCHER,
 	wpc_GRENADE_DIRECT,
+	wpc_GRENADE_TRIBOLT,
 //───────────────────────────────────────── ROCKETS {explosives}
 	wpc_ROCKET_MMML,
 	wpc_ROCKET_ORIGINAL,
@@ -593,7 +607,7 @@ weaponclass_t weaponsclass[] = {
 	wpc_invoker
 };
 
-float MAX_WEAPON_NUM = 37;
+float MAX_WEAPON_NUM = 38;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -607,7 +621,7 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_NAIL_TWIN, wpc_NAIL_DRUM}, 2},
 	{{wpc_REBAR_BUFF, wpc_REBAR_BOUNCE}, 2},
 	
-	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT}, 2},
+	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT, wpc_GRENADE_TRIBOLT}, 3},
 	{{wpc_ROCKET_MMML, wpc_ROCKET_ORIGINAL, wpc_ROCKET_RPG, wpc_ROCKET_INSTANT}, 4},
 	{{wpc_invoker}, 1}
 };

@@ -219,6 +219,10 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_nail_heavy.mdl");
 	precache_model ("progs/placeholder_progs/proj_buzz_small.mdl");
 	precache_model ("progs/placeholder_progs/railtrail_smoke.mdl");
+	precache_model ("progs/placeholder_progs/proj_grenade_mini.mdl");
+	precache_model ("progs/placeholder_progs/proj_grenade_mini_nosmoke.mdl");
+	precache_model ("progs/placeholder_progs/proj_grenade_nosmoke.mdl");
+	precache_model ("progs/placeholder_progs/proj_missile_nosmoke.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_pistol_akimbo.mdl");
 	precache_model ("progs/placeholder_progs/v_pistol_revolver.mdl");
@@ -251,6 +255,9 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rebar_bounce.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_grenade_direct.mdl");
+	precache_model ("progs/placeholder_progs/v_grenade_crossbow.mdl");
+	precache_model ("progs/placeholder_progs/v_grenade_thumper.mdl");
+	precache_model ("progs/placeholder_progs/v_grenade_tribolt.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_rocket_original.mdl");		
 	precache_model ("progs/placeholder_progs/v_rocket_rpg.mdl");		

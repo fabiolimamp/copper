@@ -7,7 +7,8 @@ string	GRENADE_DIRECT_MODEL	=	"progs/placeholder_progs/v_grenade_direct.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPEED_BASE	DESCRIPTION
-//	0.6	1	120	1	200*3=600	//QBJ3 Rebar Cannon (100+)
+
+//	0.8	1	85	1	1400		//Grenade DIRECT	0.4 timer (85) contact
 
 //=============================================================================================
 	
