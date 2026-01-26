@@ -11,15 +11,15 @@ string	ROCKET_INSTANT_MODEL	=	"progs/placeholder_progs/v_rocket_instant.mdl";
 //=============================================================================================
 	
 	
-	float	ROCKET_INSTANT_ROF	=	1.5;		//seconds post-fire
+	float	ROCKET_INSTANT_ROF	=	1.6;		//seconds post-fire
 	
 	//float	ROCKET_INSTANT_DMG	=	120;		//damage per shot
 	
-	float	ROCKET_INSTANT_DMG	=	55;	//55*3=165 damage but only 55 splash radius
+	float	ROCKET_INSTANT_DMG	=	55;	//55*4=220 damage but only 55 splash radius
 	
 	float	ROCKET_INSTANT_COST	=	2;		//ammo cost to fire
 	
-	float	ROCKET_INSTANT_SPEED	=	20;		//arc velocity
+	float	ROCKET_INSTANT_SPEED	=	16;		//"fuse" time until explodes
 	
 
 //=============================================================================================	
@@ -169,10 +169,11 @@ void() T_ROCKET_INSTANT_Explode =
 {
 	if (other.health)
 	{
-		T_Damage (other, self, self.trueowner, ROCKET_INSTANT_DMG*3, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
+		T_Damage (other, self, self.trueowner, ROCKET_INSTANT_DMG*4, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
 	}
 
 	// don't do radius damage to other, because all damage will be done in the impact
+	T_RadiusDamage (self, self.trueowner, ROCKET_INSTANT_DMG, other, DMGTYPE_EXPLOSION);
 	T_RadiusDamage (self, self.trueowner, ROCKET_INSTANT_DMG, other, DMGTYPE_EXPLOSION);
 	T_RadiusDamage (self, self.trueowner, ROCKET_INSTANT_DMG, other, DMGTYPE_EXPLOSION);
 	T_RadiusDamage (self, self.trueowner, ROCKET_INSTANT_DMG, other, DMGTYPE_EXPLOSION);

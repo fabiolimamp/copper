@@ -14,13 +14,13 @@ string	GRENADE_DIRECT_MODEL	=	"progs/placeholder_progs/v_grenade_direct.mdl";
 	
 	float	GRENADE_DIRECT_ROF	=	0.8;		//seconds post-fire
 	
-	float	GRENADE_DIRECT_DMG 	=	80;	// 	//damage per shot
+	float	GRENADE_DIRECT_DMG 	=	85;	// 	//damage per shot
 	
 	float	GRENADE_DIRECT_COST	=	1;		//ammo cost to fire
 	
-	float	GRENADE_DIRECT_TIMER	=	0.7;		//seconds before explode 2.5 default
+	float	GRENADE_DIRECT_TIMER	=	0.4;		//seconds before explode 2.5 default
 	
-	float	GRENADE_DIRECT_SPEED	=	1200;		//arc velocity
+	float	GRENADE_DIRECT_SPEED	=	1400;		//arc velocity
 	
 
 //=============================================================================================	
@@ -87,7 +87,7 @@ void() W_Fire_GRENADE_DIRECT =
 	vector org = self.origin + self.view_ofs + v_up*-8 + v_forward*15 + v_right*8;
 	vector mvel = v_forward*base + v_up*160;
 	
-	launch_impaler_GRENADE_DIRECT (org, mvel);
+	launch_impaler_GRENADE_DIRECT (org, mvel + v_right*-8);
 }
 //=============================================================================================
 
@@ -166,7 +166,7 @@ void() T_GRENADE_DIRECT_ExplosiveTouch =
 void() T_GRENADE_DIRECT_MissileExplode =
 {
 	local float	damg;
-	damg = GRENADE_DIRECT_DMG + random()*20;
+	damg = GRENADE_DIRECT_DMG;
 	
 	if (other.health)
 	{

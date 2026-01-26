@@ -22,6 +22,7 @@ string	SSG_BLUE_MODEL	=	"progs/placeholder_progs/v_ssg_bigblue.mdl";
 //	2	13	20	3	'640 180 0'		//FlakTouch_SSG_BLUE_pierce_knockback (260)
 //	1.9	22	13	3	'640 180 0'		//FlakTouch_SSG_BLUE_pierce_knockback (286)
 //	1.9	19	15	3	'640 180 0'		//FlakTouch_SSG_BLUE_pierce_knockback (285)
+//	1.9	22	13	4	'640 180 0'		//Big Hitbox + Short Linear Travel = 4 cost (286)
 
 
 //=============================================================================================
@@ -32,9 +33,10 @@ string	SSG_BLUE_MODEL	=	"progs/placeholder_progs/v_ssg_bigblue.mdl";
 	float	SSG_BLUE_COUNT	=	22;		//number of shots
 	float	SSG_BLUE_DMG 	=	13;	//286	//damage per shot
 
-	float	SSG_BLUE_COST	=	3;		//ammo cost to fire
+	float	SSG_BLUE_COST	=	4;		//ammo cost to fire
 	
-//	vector	SSG_BLUE_SPREAD	=	'0.2 0.05 0';	//seconds post-fire	//W_Fire_SSG_BLUE_hitscan
+	float	SSG_BLUE_LIFE	=	0.15;		//0.25 sec of pellet life
+	
 	vector	SSG_BLUE_SPREAD	=	'640 180 0';	//seconds post-fire	//W_Fire_SSG_BLUE_flak
 
 
@@ -59,7 +61,6 @@ float() weaponanim_SSG_BLUE =
 	
 	self.customflags |= CFL_WEAPONLOCK;	//weapon LOCK
 	
-	//W_Fire_SSG_BLUE_hitscan();
 	W_Fire_SSG_BLUE_flak();
 
 	self.weaponframe = 11;	
@@ -93,31 +94,6 @@ void() weaponanim_SSG_BLUE_loop =
 	self.think = weaponanim_SSG_BLUE_loop;
 	self.nextthink = time + 0.05;
 }
-
-//=============================================================================================
-
-void() W_Fire_SSG_BLUE_hitscan =
-{
-	sound(self, CHAN_AUTO, "placeholder_sound/shotgun2.wav", 1, ATTN_NORM);
-	
-	makevectors (self.v_angle);
-	vector org_gun = self.origin + self.view_ofs - v_up * 8 + v_right *  8 + v_forward * 8;
-	vector org_eye = self.origin + self.view_ofs;
-	
-	vector spread = SSG_BLUE_SPREAD;
-	
-	//self.velocity = self.velocity + (v_forward * -100) + '0 0 25';	//shotgun jump +64 units
-	self.velocity = self.velocity + (v_forward * -150) + '0 0 25';		//shotgun knockback
-
-	traceline2(org_eye, org_eye + v_forward * 10000, self, FALSE);	//aim point directly in front of the crosshair
-	vector dir_eye = normalize(trace_endpos - org_eye);
-		
-	ClearMultiDamage ();
-	FirePistolBullets (SSG_BLUE_COUNT, SSG_BLUE_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, spread, TRUE);
-	
-	ApplyMultiDamage ();
-	self.punchangle_x = -4;	//punch AFTER makevectors
-};
 //=============================================================================================
 
 void() W_Fire_SSG_BLUE_flak =
@@ -132,7 +108,7 @@ void() W_Fire_SSG_BLUE_flak =
 	
 	float shotcount = SSG_BLUE_COUNT;
 	vector spread = SSG_BLUE_SPREAD;
-	vector view_origin = self.origin + self.view_ofs + v_forward*12 - v_up*4 + v_right* 8;
+	vector view_origin = self.origin + self.view_ofs + v_forward*12 + v_up*-4 + v_right*4;
 
 	vector mvel;
 	entity fl;
@@ -144,112 +120,29 @@ void() W_Fire_SSG_BLUE_flak =
 		shotcount = shotcount - 1;
 	}
 }
+//=============================================================================================
 
 entity(vector org, vector vel) Launch_Flak_SSG_BLUE =
 {
 	entity flak;
 	//gunshot(org);
 	flak = toss_projectile(org, vel, "flak");
-	flak.lifetime_finished = time + 0.25;
+	flak.lifetime_finished = time + SSG_BLUE_LIFE;
 	flak.attack_finished = time + 1;
 	flak.gravity = 0;
 	flak.think = FlakThink;
 	flak.nextthink = time + 0.05;
-	//flak.touch = FlakTouch_SSG_BLUE;
-	//flak.touch = FlakTouch_SSG_BLUE_pierce;
 	flak.touch = FlakTouch_SSG_BLUE_pierce_knockback;
 	flak.alpha = 1;
 	flak.oldvelocity = flak.velocity;
+	flak.movetype = MOVETYPE_FLYMISSILE;
 
 	SUB_ChangeModel (flak, "progs/placeholder_progs/proj_pellet_blue.mdl");
 
 	return flak;
 }
-/*
-void() FlakTouch_SSG_BLUE =
-{
-	if (CheckProjectilePassthru()) return;
+//=============================================================================================
 
-	if (self.attack_finished < time) {
-		remove(self);
-		return;
-	}
-
-	if (pointcontents(self.origin) == CONTENT_SKY) {
-		remove(self);
-		return;
-	}
-
-	if (other.takedamage)
-	{
-		T_Damage(other, self, self.trueowner, SSG_BLUE_DMG);
-		
-		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
-		SpawnBlood(self.origin, self.velocity, SSG_BLUE_DMG*10);
-
-		if (random() < 0.25)	FX_Impact(FX_BLOOD_BIG, self.origin, self.velocity);
-
-		sound_flakshotgun_impact();
-
-		if (other.health <= 0) projectile_passthru();
-		else remove(self);
-		
-		return;
-	}
-
-	FlakBounce();
-	gunshot(self.origin);
-
-	//self.touch = FlakTouch_2;
-	self.lifetime_finished = time + 0.1;
-	
-	float chance = random();
-
-	if (chance < 0.33) sound(self, CHAN_AUTO, "weapons/ric1.wav", 0.25, ATTN_NORM);
-	else if (chance < 0.5) sound(self, CHAN_AUTO, "weapons/ric2.wav", 0.25, ATTN_NORM);
-	else sound(self, CHAN_AUTO, "weapons/ric3.wav", 0.25, ATTN_NORM);
-}
-*/
-/*
-void() FlakTouch_SSG_BLUE_pierce =
-{
-	if (CheckProjectilePassthru()) return;
-
-	if (pointcontents(self.origin) == CONTENT_SKY) {
-		remove(self);
-		return;
-	}
-	
-	if (other.takedamage)
-	{
-		T_Damage(other, self, self.trueowner, SSG_BLUE_DMG);
-
-		if (other.solid != SOLID_BSP) {
-			//ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(SSG_BLUE_DMG));
-		}
-
-		FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);
-
-		particle (self.origin, self.velocity*0.1, 73, 40);
-
-		float chance = random();
-		
-		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "rebar/pierce1.wav", 0.2, ATTN_NORM);
-		else if (chance < 0.5)	sound (self, CHAN_AUTO, "rebar/pierce2.wav", 0.2, ATTN_NORM);
-		else			sound (self, CHAN_AUTO, "rebar/pierce3.wav", 0.2, ATTN_NORM);
-		
-		//sound (self, CHAN_AUTO, "rebar/pierce_impact.wav", 1, ATTN_NORM);
-
-		// doesn't go through doors
-		if (other.classname != "func_door" && other.classname != "func_door_secret"){
-			projectile_passthru();
-			return;
-		}
-	}
-	else
-		remove(self);	
-}
-*/
 void() FlakTouch_SSG_BLUE_pierce_knockback =
 {
 	if (CheckProjectilePassthru()) return;

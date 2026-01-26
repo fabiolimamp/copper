@@ -16,7 +16,7 @@ string	PISTOL_REVOLVER_MODEL	=	"progs/placeholder_progs/v_pistol_revolver.mdl";
 //=============================================================================================
 
 	
-	float	PISTOL_REVOLVER_ROF 	= 0.6;		// stetchkin 0.3 sec
+	float	PISTOL_REVOLVER_ROF 	= 0.5;		// stetchkin 0.3 sec
 
 	float	PISTOL_REVOLVER_COUNT	= 2;
 	float	PISTOL_REVOLVER_DMG	= 20;		// stetchkin 20 damge
@@ -87,7 +87,7 @@ float() weaponanim_PISTOL_REVOLVER =
 	self.weaponframe = 11;
 	
 	self.think = weaponanim_PISTOL_REVOLVER_loop;
-	self.nextthink = time + 0.04;
+	self.nextthink = time + 0.033;
 	
 	return TRUE;
 }
@@ -109,7 +109,7 @@ void() weaponanim_PISTOL_REVOLVER_loop =
 	else	self.weaponframe++;
 
 	self.think = weaponanim_PISTOL_REVOLVER_loop;
-	self.nextthink = time + 0.04;
+	self.nextthink = time + 0.033;
 }
 
 //=====================================================================================================================

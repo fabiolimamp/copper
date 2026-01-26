@@ -11,14 +11,14 @@ string	ROCKET_RPG_MODEL	=	"progs/placeholder_progs/v_rocket_rpg.mdl";
 //=============================================================================================
 	
 	
-	float	ROCKET_RPG_ROF		=	1.5;		//seconds post-fire
+	float	ROCKET_RPG_ROF		=	1.2;		//seconds post-fire
 	
-	float	ROCKET_RPG_DMG_MAIN	=	120;		//damage per shot
-	float	ROCKET_RPG_DMG_ADD	=	80;	 	//damage per shot
+	float	ROCKET_RPG_DMG_MAIN	=	100;		//damage per shot
+	float	ROCKET_RPG_DMG_ADD	=	55;	 	//damage per shot
 	
-	float	ROCKET_RPG_COST		=	2;		//ammo cost to fire
+	float	ROCKET_RPG_COST		=	1;		//ammo cost to fire
 	
-	float	ROCKET_RPG_SPEED	=	500;		//arc velocity
+	float	ROCKET_RPG_SPEED	=	1400;		//arc velocity
 	
 
 //=============================================================================================	
