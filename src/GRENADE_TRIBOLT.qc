@@ -3,7 +3,9 @@
 //=============================================================================================
 
 string	GRENADE_TRIBOLT_NAME	=	"GRENADE_TRIBOLT";
-string	GRENADE_TRIBOLT_MODEL	=	"progs/placeholder_progs/v_grenade_tribolt.mdl";
+//string	GRENADE_TRIBOLT_MODEL	=	"progs/placeholder_progs/v_grenade_crossbow.mdl";
+//string	GRENADE_TRIBOLT_MODEL	=	"progs/placeholder_progs/v_grenade_tribolt.mdl";
+string	GRENADE_TRIBOLT_MODEL	=	"progs/placeholder_progs/v_grenade_triple.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPEED_BASE	DESCRIPTION
@@ -69,7 +71,8 @@ void() weaponanim_GRENADE_TRIBOLT_loop =
 	
 	
 	if (self.weaponframe == 20)	{
-		sound (self, CHAN_AUTO, "rebar/bow_reload2.wav", 0.3, ATTN_NORM);
+		//sound (self, CHAN_AUTO, "rebar/bow_reload2.wav", 0.3, ATTN_NORM);
+		sound (self, CHAN_AUTO, "grenade/grenade_reload.wav", 1, ATTN_NORM);
 		self.customflags &~= CFL_WEAPONLOCK;	//weapon UNLOCK
 	}
 	if (self.weaponframe == 25)	sound (self, CHAN_AUTO, "rebar/bow_clank.wav", 0.4, ATTN_NORM);
@@ -151,7 +154,8 @@ void() GRENADE_TRIBOLT_Explode =
 	//T_GibDownedZombies (self, 120);
 	
 	//BecomeMiniBlast(0); //normal, no TE_effects
-	BecomeExplosion();
+	BecomeTarExplosion();
+	//BecomeExplosion();
 }
 
 void() GRENADE_TRIBOLT_Touch =
@@ -169,11 +173,12 @@ void() GRENADE_TRIBOLT_Touch =
 void() T_GRENADE_TRIBOLT_ExplosiveTouch =
 {
 	if (other.classname == "monster_shambler")
-		//BecomeMiniBlast(2); //weak, no TE_effects
-		BecomeWeakExplosion();
+		BecomeMiniBlast(2); //weak, no TE_effects
+		//BecomeWeakExplosion();
 	else
 		//BecomeMiniBlast(0); //normal, no TE_effects
-		BecomeExplosion();
+		BecomeTarExplosion();
+		//BecomeExplosion();
 }
 
 void() T_GRENADE_TRIBOLT_MissileExplode =

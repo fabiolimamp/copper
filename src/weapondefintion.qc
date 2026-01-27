@@ -622,6 +622,6 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_REBAR_BUFF, wpc_REBAR_BOUNCE}, 2},
 	
 	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT, wpc_GRENADE_TRIBOLT}, 3},
-	{{wpc_ROCKET_MMML, wpc_ROCKET_ORIGINAL, wpc_ROCKET_RPG, wpc_ROCKET_INSTANT}, 4},
+	{{wpc_ROCKET_MMML, wpc_ROCKET_RPG, wpc_ROCKET_INSTANT}, 3},
 	{{wpc_invoker}, 1}
 };

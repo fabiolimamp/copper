@@ -12,21 +12,23 @@ string	NAIL_DRUM_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
 //	0.15	2	13	2	1400		//Heavy Bolter	(2*13=26)
 
 //	0.12	1	18	2	1500		//Nail Drum
+//	0.2	1	25	2	1400	50	//Nail Drum
 
 
 //=============================================================================================
 	
 	
-	float	NAIL_DRUM_ROF		=	0.16;		//seconds post-fire
+	float	NAIL_DRUM_ROF		=	0.2;		//seconds post-fire
 	
 //	float	NAIL_DRUM_COUNT		=	1;		//number of shots
-	float	NAIL_DRUM_DMG 		=	18;		//damage per shot
+	float	NAIL_DRUM_DMG 		=	25;		//damage per shot
 
-	float	NAIL_DRUM_COST		=	2;		//ammo cost to fire
+	float	NAIL_DRUM_COST		=	3;		//ammo cost to fire
 	
-	float	NAIL_DRUM_SPEED		=	1400;		//velocity
+	float	NAIL_DRUM_SPEED		=	1000;		//velocity
 	
-	float	NAIL_DRUM_GRAVITY	=	25;		//25 rebar
+	float	NAIL_DRUM_GRAVITY	=	20;		//25 rebar
+	float	NAIL_DRUM_VUP		=	80;		//160*v_up launch angle
 	
 //	vector	NAIL_DRUM_SPREAD	=	'100 100 0';
 
@@ -65,8 +67,10 @@ float() weaponanim_NAIL_DRUM =
 	self.effects |= EF_MUZZLEFLASH;
 	
 	sound (self, CHAN_AUTO, "placeholder_sound/tommy_fire2.wav", 0.5, ATTN_NORM);
-	//sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 0.8, ATTN_NORM);	
 	sound (self, CHAN_AUTO, "nail/airpuff.wav", 0.5, ATTN_NORM);	
+	
+	//sound (self, CHAN_WEAPON, "rebar/penfire.wav", 0.2, ATTN_NORM);
+	
 	nailgun_sound(0.45);
 
 
@@ -92,7 +96,7 @@ void() weaponanim_NAIL_DRUM_loop =
 	self.nextthink = time + 0.025;
 }
 //=============================================================================================
-
+/*
 void() W_Fire_NAIL_DRUM =
 {
 	makevectors(self.v_angle);
@@ -174,6 +178,7 @@ void() NAIL_DRUM_touch =
 	else 
 		remove(self);
 }
+*/
 //=============================================================================================
 //=============================================================================================
 //=============================================================================================
@@ -184,11 +189,10 @@ void() W_Fire_NAIL_DRUM_Heavy =
 {
 	self.punchangle_x = -1;
 	makevectors (self.v_angle);
-	float base = REBAR_FAST_SPEED;
 	
 	vector org = self.origin + self.view_ofs + v_forward*11 + v_right*8 + v_up*-10;
 	
-	vector mvel = v_forward*base + v_up*160;
+	vector mvel = v_forward*NAIL_DRUM_SPEED + v_up*NAIL_DRUM_VUP;
 
 	launch_NAIL_DRUM_Heavy (org, mvel + v_right*-12);
 }
@@ -204,10 +208,13 @@ entity(vector org, vector vel) launch_NAIL_DRUM_Heavy =
 	nail.lifetime_finished = time + 10;
 	
 	SUB_ChangeModel (nail, "progs/placeholder_progs/proj_nail_heavy.mdl");
+	//SUB_ChangeModel (nail, "progs/placeholder_progs/proj_stake.mdl");
 
 	nail.think = ImpalerThink_NAIL_DRUM;
-	//nail.touch = ImpalerTouch_NAIL_DRUM;
+	
+	//nail.touch = ImpalerTouch_NAIL_DRUM;	//maybe pierce?
 	nail.touch = NAIL_DRUM_Heavy_touch;	//dont pierce with nail
+	
 	nail.alpha = 1;
 	nail.movetype = MOVETYPE_FLYMISSILE;
 
@@ -373,7 +380,7 @@ void() ImpalerTouch_NAIL_DRUM =
 	else
 		remove(self);	
 }
-
+*/
 void() updateRebars_NAIL_DRUM =
 {
 	entity e = find(world, classname, "impaler");
@@ -400,4 +407,3 @@ void() updateRebars_NAIL_DRUM =
 		e = find(e, classname, "impaler");
 	}
 }
-*/

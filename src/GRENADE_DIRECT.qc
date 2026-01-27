@@ -3,7 +3,8 @@
 //=============================================================================================
 
 string	GRENADE_DIRECT_NAME	=	"GRENADE_DIRECT";
-string	GRENADE_DIRECT_MODEL	=	"progs/placeholder_progs/v_grenade_direct.mdl";
+string	GRENADE_DIRECT_MODEL	=	"progs/placeholder_progs/v_grenade_thumper.mdl";
+//string	GRENADE_DIRECT_MODEL	=	"progs/placeholder_progs/v_grenade_direct.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPEED_BASE	DESCRIPTION
@@ -135,7 +136,8 @@ void() GRENADE_DIRECT_Explode =
 	T_RadiusDamage (self, self.trueowner, GRENADE_DIRECT_DMG, world, DMGTYPE_EXPLOSION);
 	//T_GibDownedZombies (self, 120);
 	
-	BecomeExplosion ();
+	//BecomeExplosion ();
+	BecomeTarExplosion();
 }
 
 void() GRENADE_DIRECT_Touch =
@@ -158,10 +160,12 @@ void() GRENADE_DIRECT_Touch =
 void() T_GRENADE_DIRECT_ExplosiveTouch =
 {
 	if (other.classname == "monster_shambler")
-		BecomeWeakExplosion();
+		//BecomeWeakExplosion();
+		BecomeMiniBlast(2); //weak, no TE_effects
 	else
 		//BecomeBoxExplosion();
-		BecomeExplosion();
+		//BecomeExplosion();
+		BecomeTarExplosion();
 }
 
 void() T_GRENADE_DIRECT_MissileExplode =
