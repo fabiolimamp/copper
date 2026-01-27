@@ -7,6 +7,7 @@ string	ROCKET_RPG_MODEL	=	"progs/placeholder_progs/v_rocket_rpg.mdl";
 
 //	ROF	COUNT * DMG	COST	SPEED_BASE	DESCRIPTION
 //	0.8	1	120	1	1000		//ID RL (120+)
+//	1.2	1	160	1	700		//RPG (160)
 
 //=============================================================================================
 	
@@ -14,11 +15,12 @@ string	ROCKET_RPG_MODEL	=	"progs/placeholder_progs/v_rocket_rpg.mdl";
 	float	ROCKET_RPG_ROF		=	1.2;		//seconds post-fire
 	
 	float	ROCKET_RPG_DMG_MAIN	=	100;		//damage per shot
-	float	ROCKET_RPG_DMG_ADD	=	55;	 	//damage per shot
+	float	ROCKET_RPG_DMG_ADD	=	60;	 	//damage per shot
 	
 	float	ROCKET_RPG_COST		=	1;		//ammo cost to fire
 	
-	float	ROCKET_RPG_SPEED	=	800;		//rocket speed
+	float	ROCKET_RPG_SPEED	=	900;		//rocket speed
+	float	ROCKET_RPG_GRAVITY	=	20;		//25 grav
 	
 
 //=============================================================================================	
@@ -95,14 +97,28 @@ entity(vector org, vector vel) launch_ROCKET_RPG =
 	entity missile;
 	
 	missile = launch_projectile(org, vel, "rocket");	// FLYMISSILE
-	//missile.dmg = ROCKET_RPG_DMG;
+
 	missile.touch = T_ROCKET_RPG_Touch;
 	missile.type = "missile";
+	
+	missile.nextthink = time + 0.05;
+	missile.think = ROCKET_RPG_think;
 	
 	SUB_ChangeModel (missile, "progs/proj_missile.mdl");
 	
 	return missile;
 }
+//=============================================================================================
+
+void() ROCKET_RPG_think =
+{
+	self.flags &~= FL_ONGROUND;
+	self.oldvelocity = self.velocity;
+	self.velocity.z -= ROCKET_RPG_GRAVITY;
+	self.nextthink = time + 0.05;
+	self.angles = vectoangles(self.velocity);
+}
+
 //=============================================================================================
 
 void() T_ROCKET_RPG_Touch =
