@@ -223,6 +223,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_grenade_mini_nosmoke.mdl");
 	precache_model ("progs/placeholder_progs/proj_grenade_nosmoke.mdl");
 	precache_model ("progs/placeholder_progs/proj_missile_nosmoke.mdl");
+	precache_model ("progs/placeholder_progs/proj_missile_heavy.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_pistol_akimbo.mdl");
 	precache_model ("progs/placeholder_progs/v_pistol_revolver.mdl");
@@ -231,6 +232,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_shotgun_stack.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_brazil.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_prism.mdl");	
+	precache_model ("progs/placeholder_progs/v_shotgun_cowboy.mdl");	
 		
 	precache_model ("progs/placeholder_progs/v_ssg_super2.mdl");
 	precache_model ("progs/placeholder_progs/v_ssg_super3.mdl");
@@ -263,6 +265,8 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rocket_original.mdl");		
 	precache_model ("progs/placeholder_progs/v_rocket_rpg.mdl");		
 	precache_model ("progs/placeholder_progs/v_rocket_instant.mdl");		
+	precache_model ("progs/placeholder_progs/v_rocket_heavy.mdl");		
+	precache_model ("progs/placeholder_progs/v_rocket_halflife.mdl");		
 	
 	//=============================================================================================	
 

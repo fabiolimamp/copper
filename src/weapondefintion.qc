@@ -113,6 +113,19 @@ weaponclass_t wpc_SHOTGUN_PRISM = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_SHOTGUN_COWBOY = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	SHOTGUN_COWBOY_NAME,
+	SHOTGUN_COWBOY_MODEL,
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SHOTGUN_COWBOY_COST, // ammo_usage
+	weaponanim_SHOTGUN_COWBOY,
+	SUB_Null,
+	weaponanim_draw
+};
+
 weaponclass_t wpc_SHOTGUN_LEVER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -522,6 +535,19 @@ weaponclass_t wpc_ROCKET_RPG = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_ROCKET_HEAVY = {
+	IT_ROCKET_LAUNCHER,
+	7, // slot
+	ROCKET_HEAVY_NAME,
+	ROCKET_HEAVY_MODEL,
+	3, // ammofield
+	IT_ROCKETS, // ammo_item
+	ROCKET_HEAVY_COST, // ammo_usage
+	weaponanim_ROCKET_HEAVY,
+	SUB_Null,
+	weaponanim_draw
+};
+
 weaponclass_t wpc_ROCKET_INSTANT = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
@@ -567,6 +593,7 @@ weaponclass_t weaponsclass[] = {
 //───────────────────────────────────────── SHOTGUNS {shells}
 	wpc_SHOTGUN_FLAK,
 	wpc_SHOTGUN_PRISM,
+	wpc_SHOTGUN_COWBOY,
 	wpc_SHOTGUN_LEVER,
 	wpc_SHOTGUN_STACK,
 	wpc_SHOTGUN_BRAZIL,
@@ -602,12 +629,13 @@ weaponclass_t weaponsclass[] = {
 	wpc_ROCKET_MMML,
 	wpc_ROCKET_ORIGINAL,
 	wpc_ROCKET_RPG,
+	wpc_ROCKET_HEAVY,
 	wpc_ROCKET_INSTANT,
 //───────────────────────────────────────── POWER WEAPONS {fragments}
 	wpc_invoker
 };
 
-float MAX_WEAPON_NUM = 38;
+float MAX_WEAPON_NUM = 40;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -617,11 +645,11 @@ weaponslot_t weaponslots[9] = {
 	//{{wpc_PISTOL_AKIMBO}, 1},
 	{{wpc_PISTOL_REVOLVER}, 1},
 	
-	{{wpc_SHOTGUN_FLAK, wpc_SSG_BLUE, wpc_SHOTGUN_PRISM}, 3},
+	{{wpc_SHOTGUN_FLAK, wpc_SSG_BLUE, wpc_SHOTGUN_COWBOY}, 3},
 	{{wpc_NAIL_TWIN, wpc_NAIL_DRUM}, 2},
 	{{wpc_REBAR_BUFF, wpc_REBAR_BOUNCE}, 2},
 	
 	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT, wpc_GRENADE_TRIBOLT}, 3},
-	{{wpc_ROCKET_MMML, wpc_ROCKET_RPG, wpc_ROCKET_INSTANT}, 3},
+	{{wpc_ROCKET_MMML, wpc_ROCKET_RPG, wpc_ROCKET_HEAVY, wpc_ROCKET_INSTANT}, 4},
 	{{wpc_invoker}, 1}
 };

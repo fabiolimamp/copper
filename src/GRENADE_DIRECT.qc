@@ -16,13 +16,13 @@ string	GRENADE_DIRECT_MODEL	=	"progs/placeholder_progs/v_grenade_thumper.mdl";
 	
 	float	GRENADE_DIRECT_ROF	=	0.8;		//seconds post-fire
 	
-	float	GRENADE_DIRECT_DMG 	=	85;	// 	//damage per shot
+	float	GRENADE_DIRECT_DMG 	=	90;	// 	//damage per shot
 	
 	float	GRENADE_DIRECT_COST	=	1;		//ammo cost to fire
 	
-	float	GRENADE_DIRECT_TIMER	=	0.4;		//seconds before explode 2.5 default
+	float	GRENADE_DIRECT_TIMER	=	0.5;		//seconds before explode 2.5 default
 	
-	float	GRENADE_DIRECT_SPEED	=	1400;		//arc velocity
+	float	GRENADE_DIRECT_SPEED	=	1000;		//arc velocity
 	
 
 //=============================================================================================	
