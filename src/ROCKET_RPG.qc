@@ -19,8 +19,8 @@ string	ROCKET_RPG_MODEL	=	"progs/placeholder_progs/v_rocket_halflife.mdl";
 	
 	float	ROCKET_RPG_COST		=	1;		//ammo cost to fire
 	
-	float	ROCKET_RPG_SPEED_BASE	=	130;		//rocket speed start
-	float	ROCKET_RPG_SPEED_MULTI	=	1.3;		//accelerator
+	float	ROCKET_RPG_SPEED_BASE	=	200;		//rocket speed start
+	float	ROCKET_RPG_SPEED_MULTI	=	1.5;		//accelerator
 	
 	
 	float	ROCKET_RPG_SPEED_MAX	=	2000;		//rocket speed limit
@@ -78,11 +78,42 @@ void() weaponanim_ROCKET_RPG_loop =
 
 void() W_Fire_ROCKET_RPG =
 {
+	//entity g;
+	vector gvel;
+	
+	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
+	sound (self, CHAN_AUTO, "mmml/fire1.wav", 1, ATTN_NORM);
+	SuperDamageSound();
+	
+	self.punchangle_x = -4;
+
+	// set grenade speed	
+	makevectors (self.v_angle);
+	
+	gvel = v_forward * 400 + '0 0 250';
+		
+
+	vector	source;
+	
+	//makevectors (self.v_angle);
+	source = self.origin + self.view_ofs;
+	traceline2(source, source + v_forward, self, 0);
+	
+	//if (trace_ent == self)	return;
+
+	//g.v_angle = trace_endpos;
+	
+	launch_ROCKET_RPG_toss (self.origin + v_forward * 8 + v_right * 12 + v_up * 16, gvel, trace_endpos);
+	//launch_ROCKET_RPG_toss (self.origin + v_forward * 8 + v_right * 12 + v_up * 16, gvel);
+	
+	
+	
+	//  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	
+	/*
 	local entity missile;
 	local vector loc;
-	
-	//self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
-	
+		
 	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
 	sound (self, CHAN_AUTO, "mmml/fire1.wav", 1, ATTN_NORM);
 
@@ -93,7 +124,107 @@ void() W_Fire_ROCKET_RPG =
 	
 	missile = launch_ROCKET_RPG( loc, v_forward * 1 );
 	//self.attack_finished = time + 0.8;
+	*/
 }
+//=============================================================================================
+
+
+.vector go_that_way;
+
+
+
+void(vector org, vector vel, vector endpos_angle) launch_ROCKET_RPG_toss =
+//void(vector org, vector vel) launch_ROCKET_RPG_toss =
+{
+	entity grenade;
+	
+	grenade = toss_projectile(org, vel, "grenade");
+
+	grenade.avelocity = '-100 0 0';
+	
+	SUB_ChangeModel (grenade, "progs/placeholder_progs/proj_missile_nosmoke.mdl");
+	
+	//grenade.nextthink = 0.4;
+	
+	
+	
+	
+	/*
+	vector	player_aim_source;
+	
+	//makevectors (self.v_angle);
+	player_aim_source = self.owner.origin + self.owner.view_ofs;
+	traceline2(player_aim_source, player_aim_source + v_forward, self.owner, 0);
+	
+	if (trace_ent == self.owner)
+		return;
+	*/
+		
+	grenade.go_that_way = trace_endpos;
+	
+	
+	
+	grenade.lifetime_finished = time + 0.4;
+	grenade.th_die = launch_ROCKET_RPG_at_endpos;
+	
+	
+	//grenade.think = launch_ROCKET_RPG_at_endpos;
+	
+	grenade.touch = T_ROCKET_RPG_Touch;
+}
+
+//=============================================================================================
+
+void() launch_ROCKET_RPG_at_endpos =
+{
+	self.movetype = MOVETYPE_FLYMISSILE;
+	self.solid = SOLID_BBOX;
+	
+	self.touch = T_ROCKET_RPG_Touch;
+	self.type = "missile";
+	
+	//self.nextthink = time + 0.05;
+	self.avelocity = self.v_angle;
+	
+	//vector go_that_way = self.owner.origin;
+	
+	
+	//self.velocity = v_forward * ROCKET_RPG_SPEED_BASE;
+	
+	
+	
+	
+	
+	launch_ROCKET_RPG (self.origin, self.owner.go_that_way);
+	
+	
+	//self.think = ROCKET_RPG_think;
+	
+	SUB_ChangeModel (self, "progs/proj_missile.mdl");
+	
+	
+	remove(self);
+
+	
+	
+	/*
+	entity missile;
+		
+	missile = launch_projectile(self.origin, self.v_angle, "rocket");	// FLYMISSILE
+
+	missile.touch = T_ROCKET_RPG_Touch;
+	missile.type = "missile";
+	
+	missile.nextthink = time;
+	missile.velocity = v_forward * ROCKET_RPG_SPEED_BASE;
+	missile.think = ROCKET_RPG_think;
+	
+	SUB_ChangeModel (missile, "progs/proj_missile.mdl");
+
+	//return missile;
+	*/
+}
+//=============================================================================================
 
 entity(vector org, vector vel) launch_ROCKET_RPG =
 {
@@ -104,7 +235,7 @@ entity(vector org, vector vel) launch_ROCKET_RPG =
 	missile.touch = T_ROCKET_RPG_Touch;
 	missile.type = "missile";
 	
-	missile.nextthink = time + 0.05;
+	missile.nextthink = time;
 	missile.velocity = v_forward * ROCKET_RPG_SPEED_BASE;
 	missile.think = ROCKET_RPG_think;
 	
