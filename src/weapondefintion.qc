@@ -565,7 +565,7 @@ weaponclass_t wpc_ROCKET_INSTANT = {
 // SLOT 8: Superweapon
 // ====================================================================================
 
-weaponclass_t wpc_invoker = {
+weaponclass_t wpc_POWER_INVOKER = {
 	IT_LIGHTNING,
 	8, // slot
 	"The Invoker",
@@ -574,6 +574,19 @@ weaponclass_t wpc_invoker = {
 	IT_CELLS, // ammo_item
 	1, // ammo_usage
 	weaponanim_invoker,
+	SUB_Null,
+	weaponanim_draw_invoker
+};
+
+weaponclass_t wpc_POWER_RIFLE = {
+	IT_LIGHTNING,
+	8, // slot
+	POWER_RIFLE_NAME,
+	POWER_RIFLE_MODEL,
+	4, // ammofield
+	IT_CELLS, // ammo_item
+	POWER_RIFLE_COST, // ammo_usage
+	weaponanim_POWER_RIFLE,
 	SUB_Null,
 	weaponanim_draw_invoker
 };
@@ -632,10 +645,11 @@ weaponclass_t weaponsclass[] = {
 	wpc_ROCKET_HEAVY,
 	wpc_ROCKET_INSTANT,
 //───────────────────────────────────────── POWER WEAPONS {fragments}
-	wpc_invoker
+	wpc_POWER_INVOKER,
+	wpc_POWER_RIFLE
 };
 
-float MAX_WEAPON_NUM = 40;
+float MAX_WEAPON_NUM = 41;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -651,5 +665,5 @@ weaponslot_t weaponslots[9] = {
 	
 	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT, wpc_GRENADE_TRIBOLT}, 3},
 	{{wpc_ROCKET_MMML, wpc_ROCKET_RPG, wpc_ROCKET_HEAVY, wpc_ROCKET_INSTANT}, 4},
-	{{wpc_invoker}, 1}
+	{{wpc_POWER_INVOKER, wpc_POWER_RIFLE}, 2}
 };

@@ -74,6 +74,7 @@ ROCKET_ORIGINAL.qc
 ROCKET_RPG.qc
 ROCKET_HEAVY.qc
 ROCKET_INSTANT.qc
+POWER_RIFLE.qc
 weapons_use.qc
 weapondefintion.qc
 dev.qc

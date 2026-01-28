@@ -266,7 +266,9 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rocket_rpg.mdl");		
 	precache_model ("progs/placeholder_progs/v_rocket_instant.mdl");		
 	precache_model ("progs/placeholder_progs/v_rocket_heavy.mdl");		
-	precache_model ("progs/placeholder_progs/v_rocket_halflife.mdl");		
+	precache_model ("progs/placeholder_progs/v_rocket_halflife.mdl");
+			
+	precache_model ("progs/placeholder_progs/v_power_rifle.mdl");		
 	
 	//=============================================================================================	
 
