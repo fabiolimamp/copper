@@ -261,6 +261,8 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_grenade_thumper.mdl");
 	precache_model ("progs/placeholder_progs/v_grenade_tribolt.mdl");
 	precache_model ("progs/placeholder_progs/v_grenade_triple.mdl");
+	precache_model ("progs/placeholder_progs/v_grenade_auto.mdl");
+	precache_model ("progs/placeholder_progs/v_grenade_auto2.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_rocket_original.mdl");		
 	precache_model ("progs/placeholder_progs/v_rocket_rpg.mdl");		
