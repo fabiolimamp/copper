@@ -17,6 +17,12 @@
 */
 //=============================================================================================
 
+
+	float	POWER_INVOKER_DMG =	666;
+
+
+//=============================================================================================
+
 float() weaponanim_invoker = 
 {
 	if (self.attack_finished > time)
@@ -147,24 +153,24 @@ void() W_FireInvoker =
 	vector up = v_up;
 	vector right = v_right;
 
-	invokerTrace(org + (up * 32) + (right * -32), dir, TRUE); // top left
-	invokerTrace(org + (up * 32) + (right * 0), dir, TRUE); // top center
-	invokerTrace(org + (up * 32) + (right * 32), dir, TRUE); // top right
-	invokerTrace(org + (up * 0) + (right * -32), dir, TRUE); // center left
-	invokerTrace(org + (up * 0) + (right * 0), dir, TRUE); // center
-	invokerTrace(org + (up * 0) + (right * 32), dir, TRUE); // center right
-	invokerTrace(org + (up * -32) + (right * -32), dir, TRUE); // bottom left
-	invokerTrace(org + (up * -32) + (right * 0), dir, TRUE); // bottom center
-	invokerTrace(org + (up * -32) + (right * 32), dir, TRUE); // bottom right
+	invokerTrace(POWER_INVOKER_DMG, org + (up * 32) + (right * -32), dir, TRUE); // top left
+	invokerTrace(POWER_INVOKER_DMG, org + (up * 32) + (right * 0), dir, TRUE); // top center
+	invokerTrace(POWER_INVOKER_DMG, org + (up * 32) + (right * 32), dir, TRUE); // top right
+	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * -32), dir, TRUE); // center left
+	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * 0), dir, TRUE); // center
+	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * 32), dir, TRUE); // center right
+	invokerTrace(POWER_INVOKER_DMG, org + (up * -32) + (right * -32), dir, TRUE); // bottom left
+	invokerTrace(POWER_INVOKER_DMG, org + (up * -32) + (right * 0), dir, TRUE); // bottom center
+	invokerTrace(POWER_INVOKER_DMG, org + (up * -32) + (right * 32), dir, TRUE); // bottom right
 
 	// extra invisible traces to the sides of the crosshair to catch up rogue swarmers
-	invokerTrace(org + (up * 0) + (right * -12), dir, FALSE); // left
-	invokerTrace(org + (up * 0) + (right * -24), dir, FALSE); // left
-	invokerTrace(org + (up * 0) + (right * 12), dir, FALSE); // right
-	invokerTrace(org + (up * 0) + (right * 24), dir, FALSE); // right
+	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * -12), dir, FALSE); // left
+	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * -24), dir, FALSE); // left
+	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * 12), dir, FALSE); // right
+	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * 24), dir, FALSE); // right
 }
 
-void(vector org, vector dir, float drawTrail) invokerTrace =
+void(float invoke_damage, vector org, vector dir, float drawTrail) invokerTrace =
 {
 	float timetoend;
 	vector vel, loopsrc, destination, dir2, dir3;
@@ -200,9 +206,9 @@ void(vector org, vector dir, float drawTrail) invokerTrace =
 				target_ent.effects = target_ent.effects | EF_MUZZLEFLASH;
 
 				if (deathmatch != 0)
-					T_Damage (target_ent, self, self, 333);
+					T_Damage (target_ent, self, self, invoke_damage/2);
 				else
-					T_Damage (target_ent, self, self, 666);
+					T_Damage (target_ent, self, self, invoke_damage);
 				
 				// ded
 				if (target_ent && target_ent.health <= 0 && target_ent.flags & (FL_MONSTER | FL_CLIENT))

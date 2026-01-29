@@ -13,12 +13,11 @@ string	POWER_RIFLE_MODEL	=	"progs/placeholder_progs/v_power_rifle.mdl";
 //=============================================================================================
 	
 	
-	float	POWER_RIFLE_ROF		=	1.5;		//seconds post-fire
+	float	POWER_RIFLE_ROF		=	1.6;		//seconds post-fire
 	
-	float	POWER_RIFLE_COUNT	=	6;	// 	//damage per shot
-	float	POWER_RIFLE_DMG 	=	666;	// 	//damage per shot
+	float	POWER_RIFLE_DMG 	=	333;	// 	//damage per shot
 
-	float	POWER_RIFLE_COST	=	1;		//ammo cost to fire
+	float	POWER_RIFLE_COST	=	5;		//ammo cost to fire
 	
 
 //=============================================================================================
@@ -94,7 +93,7 @@ void() W_Fire_POWER_RIFLE =
 	vector right = v_right;
 
 
-	invokerTrace(org + (up * 0) + (right * 0), dir, TRUE); // center
+	invokerTrace(POWER_RIFLE_DMG, org + (up * 0) + (right * 0), dir, TRUE); // center
 	
 	
 	Start_Smoketrail_ROCKET_INSTANT();
