@@ -206,15 +206,15 @@ weaponclass_t wpc_SSG_ROTARY = {
 	weaponanim_draw
 };
 
-weaponclass_t wpc_SSG_ROTARYv2 = {
+weaponclass_t wpc_SSG_ROTARYFAST = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	SSG_ROTARYv2_NAME,
-	SSG_ROTARYv2_MODEL,
+	SSG_ROTARYFAST_NAME,
+	SSG_ROTARYFAST_MODEL,
 	1, // ammofield
 	IT_SHELLS, // ammo_item
-	SSG_ROTARYv2_COST, // ammo_usage
-	weaponanim_SSG_ROTARYv2,
+	SSG_ROTARYFAST_COST, // ammo_usage
+	weaponanim_SSG_ROTARYFAST,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -535,6 +535,19 @@ weaponclass_t wpc_ROCKET_RPG = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_ROCKET_HALFLIFE = {
+	IT_ROCKET_LAUNCHER,
+	7, // slot
+	ROCKET_HALFLIFE_NAME,
+	ROCKET_HALFLIFE_MODEL,
+	3, // ammofield
+	IT_ROCKETS, // ammo_item
+	ROCKET_HALFLIFE_COST, // ammo_usage
+	weaponanim_ROCKET_HALFLIFE,
+	SUB_Null,
+	weaponanim_draw
+};
+
 weaponclass_t wpc_ROCKET_HEAVY = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
@@ -544,6 +557,32 @@ weaponclass_t wpc_ROCKET_HEAVY = {
 	IT_ROCKETS, // ammo_item
 	ROCKET_HEAVY_COST, // ammo_usage
 	weaponanim_ROCKET_HEAVY,
+	SUB_Null,
+	weaponanim_draw
+};
+
+weaponclass_t wpc_ROCKET_DOUBLE = {
+	IT_ROCKET_LAUNCHER,
+	7, // slot
+	ROCKET_DOUBLE_NAME,
+	ROCKET_DOUBLE_MODEL,
+	3, // ammofield
+	IT_ROCKETS, // ammo_item
+	ROCKET_DOUBLE_COST, // ammo_usage
+	weaponanim_ROCKET_DOUBLE,
+	SUB_Null,
+	weaponanim_draw
+};
+
+weaponclass_t wpc_ROCKET_FLASH = {
+	IT_ROCKET_LAUNCHER,
+	7, // slot
+	ROCKET_FLASH_NAME,
+	ROCKET_FLASH_MODEL,
+	3, // ammofield
+	IT_ROCKETS, // ammo_item
+	ROCKET_FLASH_COST, // ammo_usage
+	weaponanim_ROCKET_FLASH,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -598,72 +637,95 @@ weaponclass_t wpc_POWER_RIFLE = {
 weaponclass_t weaponsclass[] = {
 	wpc_no_weapon,
 //───────────────────────────────────────── MELEE {---}
-	wpc_axe,
+
+	wpc_axe,		//YES
+	
 //───────────────────────────────────────── PISTOLS {bullets}
-	wpc_PISTOL_STECHKIN,
-	wpc_PISTOL_AKIMBO,
-	wpc_PISTOL_REVOLVER,
+
+	wpc_PISTOL_STECHKIN,	//maybe?
+	wpc_PISTOL_AKIMBO,	//YES
+	wpc_PISTOL_REVOLVER,	//YES
+	
 //───────────────────────────────────────── SHOTGUNS {shells}
-	wpc_SHOTGUN_FLAK,
-	wpc_SHOTGUN_PRISM,
-	wpc_SHOTGUN_COWBOY,
-	wpc_SHOTGUN_LEVER,
-	wpc_SHOTGUN_STACK,
-	wpc_SHOTGUN_BRAZIL,
+
+	wpc_SHOTGUN_FLAK,	//YES
+	wpc_SHOTGUN_PRISM,	//no
+	wpc_SHOTGUN_COWBOY,	//maybe?
+	wpc_SHOTGUN_LEVER,	//no
+	wpc_SHOTGUN_STACK,	//no
+	wpc_SHOTGUN_BRAZIL,	//no
+	
 //───────────────────────────────────────── SUPER SHOTGUNS {shells}
-	wpc_SSG_BLUE,
-	wpc_SSG_SUPER,
-	wpc_SSG_ROTARY,
-	wpc_SSG_ROTARYv2,
-	wpc_SSG_AUTO,
-	wpc_SSG_SWEEPER,
+
+	wpc_SSG_BLUE,		//YES
+	wpc_SSG_SUPER,		//no
+	wpc_SSG_ROTARY,		//YES*
+	wpc_SSG_ROTARYFAST,	//no
+	wpc_SSG_AUTO,		//no
+	wpc_SSG_SWEEPER,	//no
+	
 //───────────────────────────────────────── NAILGUNS {scraps}
-	wpc_NAIL_TWIN,
-	wpc_NAIL_HEAVY,
-	wpc_NAIL_TURBO,
-	wpc_NAIL_LMG,
-	wpc_NAIL_DRUM,
+
+	wpc_NAIL_TWIN,		//YES
+	wpc_NAIL_HEAVY,		//no
+	wpc_NAIL_TURBO,		//no
+	wpc_NAIL_LMG,		//no
+	wpc_NAIL_DRUM,		//YES
+	
 //───────────────────────────────────────── REBARS {scraps}
-	wpc_REBAR_CANNON,
-	wpc_REBAR_WIDE,
-	wpc_REBAR_TALL,
-	wpc_REBAR_TRIPLE,
-	wpc_REBAR_FAST,
-	wpc_REBAR_MULTI,
-	wpc_REBAR_BUFF,
-	wpc_REBAR_RIFLE,
-	wpc_REBAR_REPEATER,
-	wpc_REBAR_BOUNCE,
+
+	wpc_REBAR_CANNON,	//no
+	wpc_REBAR_WIDE,		//no
+	wpc_REBAR_TALL,		//no
+	wpc_REBAR_TRIPLE,	//no
+	wpc_REBAR_FAST,		//no
+	wpc_REBAR_MULTI,	//no
+	wpc_REBAR_BUFF,		//YES
+	wpc_REBAR_RIFLE,	//no
+	wpc_REBAR_REPEATER,	//no
+	wpc_REBAR_BOUNCE,	//YES
+	
 //───────────────────────────────────────── GRENADES {explosives}
-	wpc_GRENADE_LAUNCHER,
-	wpc_GRENADE_DIRECT,
-	wpc_GRENADE_TRIBOLT,
+
+	wpc_GRENADE_LAUNCHER,	//YES
+	wpc_GRENADE_DIRECT,	//maybe?
+	wpc_GRENADE_TRIBOLT,	//maybe?
+	
 //───────────────────────────────────────── ROCKETS {explosives}
-	wpc_ROCKET_MMML,
-	wpc_ROCKET_ORIGINAL,
-	wpc_ROCKET_RPG,
-	wpc_ROCKET_HEAVY,
-	wpc_ROCKET_INSTANT,
+
+	wpc_ROCKET_MMML,	//YES
+	wpc_ROCKET_ORIGINAL,	//maybe?
+	wpc_ROCKET_RPG,		//maybe?
+	wpc_ROCKET_HALFLIFE,	//no
+	wpc_ROCKET_HEAVY,	//no
+	wpc_ROCKET_DOUBLE,	//no
+	wpc_ROCKET_FLASH,	//no
+	wpc_ROCKET_INSTANT,	//no
+	
 //───────────────────────────────────────── POWER WEAPONS {fragments}
-	wpc_POWER_INVOKER,
-	wpc_POWER_RIFLE
+
+	wpc_POWER_INVOKER,	//YES
+	wpc_POWER_RIFLE		//maybe?
+	
 };
 
-float MAX_WEAPON_NUM = 41;
+float MAX_WEAPON_NUM = 44;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
 	{{wpc_axe}, 1},
 	
-	//{{wpc_PISTOL_STECHKIN}, 1},	//broken spin
-	//{{wpc_PISTOL_AKIMBO}, 1},
-	{{wpc_PISTOL_REVOLVER}, 1},
+	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER}, 3},	//broken manual reload, no spin
 	
-	{{wpc_SHOTGUN_FLAK, wpc_SSG_BLUE, wpc_SHOTGUN_COWBOY}, 3},
+	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_COWBOY, wpc_SSG_BLUE, wpc_SSG_ROTARY}, 4},
+	
 	{{wpc_NAIL_TWIN, wpc_NAIL_DRUM}, 2},
+	
 	{{wpc_REBAR_BUFF, wpc_REBAR_BOUNCE}, 2},
 	
 	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT, wpc_GRENADE_TRIBOLT}, 3},
-	{{wpc_ROCKET_MMML, wpc_ROCKET_RPG, wpc_ROCKET_HEAVY, wpc_ROCKET_INSTANT}, 4},
+	
+	{{wpc_ROCKET_MMML, wpc_ROCKET_ORIGINAL, wpc_ROCKET_RPG}, 3},
+	
 	{{wpc_POWER_INVOKER, wpc_POWER_RIFLE}, 2}
 };

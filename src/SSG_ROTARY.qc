@@ -2,7 +2,7 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	SSG_ROTARY_NAME	=	"SSG_ROTARY";
+string	SSG_ROTARY_NAME		=	"SSG_ROTARY";
 string	SSG_ROTARY_MODEL	=	"progs/placeholder_progs/v_ssg_rotary.mdl";
 
 
@@ -14,12 +14,12 @@ string	SSG_ROTARY_MODEL	=	"progs/placeholder_progs/v_ssg_rotary.mdl";
 //=============================================================================================
 	
 	
-	float	SSG_ROTARY_ROF	=	1.3;		//seconds post-fire
+	float	SSG_ROTARY_ROF		=	1.3;		//seconds post-fire
 	
 	float	SSG_ROTARY_COUNT	=	20;		//number of shots
-	float	SSG_ROTARY_DMG 	=	2;	//40	//damage per shot
+	float	SSG_ROTARY_DMG 		=	2;	//40	//damage per shot
 
-	float	SSG_ROTARY_COST	=	1;		//ammo cost to fire
+	float	SSG_ROTARY_COST		=	1;		//ammo cost to fire
 	
 	vector	SSG_ROTARY_SPREAD	=	'0.1 0.02 0';	//seconds post-fire	//W_Fire_SSG_ROTARY_hitscan
 

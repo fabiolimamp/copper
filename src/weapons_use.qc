@@ -267,6 +267,8 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rocket_instant.mdl");		
 	precache_model ("progs/placeholder_progs/v_rocket_heavy.mdl");		
 	precache_model ("progs/placeholder_progs/v_rocket_halflife.mdl");
+	precache_model ("progs/placeholder_progs/v_rocket_double.mdl");
+	precache_model ("progs/placeholder_progs/v_rocket_flash.mdl");
 			
 	precache_model ("progs/placeholder_progs/v_power_rifle.mdl");		
 	
@@ -727,6 +729,7 @@ float(float weapIndex) W_ChangeWeaponByIndex =
 float(float imp) W_ChangeSlot =
 {
 	// Pistol Manual Reload
+	/*
 	if (imp == 2 && self.weapon == IT_SHOTGUN)
 	{
 		if (self.pistol_ammo_count != 10)
@@ -743,7 +746,7 @@ float(float imp) W_ChangeSlot =
 		
 		return WEAPONSTAT_AVAILABLE;
 	}
-		
+	*/
 	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
 
 	float slotQuantity = weaponslots[imp].qt;

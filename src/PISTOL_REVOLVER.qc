@@ -50,6 +50,12 @@ float() weaponanim_PISTOL_REVOLVER =
 	}
 	
 	self.weaponreload_perc = 0;
+	
+	if (self.pistol_ammo_count == 1)
+	{	
+		weaponanim_reload_PISTOL_REVOLVER();
+		return FALSE;
+	}
 	self.pistol_ammo_count--;
 	self.pistol_ammo_count--;
 

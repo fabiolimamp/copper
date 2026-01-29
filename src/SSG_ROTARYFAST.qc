@@ -2,8 +2,8 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	SSG_ROTARYv2_NAME	=	"SSG_ROTARYv2";
-string	SSG_ROTARYv2_MODEL	=	"progs/placeholder_progs/v_ssg_rotary.mdl";
+string	SSG_ROTARYFAST_NAME	=	"SSG_ROTARYFAST";
+string	SSG_ROTARYFAST_MODEL	=	"progs/placeholder_progs/v_ssg_rotary.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPREAD			DESCRIPTION
@@ -16,21 +16,21 @@ string	SSG_ROTARYv2_MODEL	=	"progs/placeholder_progs/v_ssg_rotary.mdl";
 //=============================================================================================
 	
 	
-	float	SSG_ROTARYv2_ROF	=	1.2;		//seconds post-fire
+	float	SSG_ROTARYFAST_ROF	=	1.2;		//seconds post-fire
 	
-	float	SSG_ROTARYv2_COUNT	=	5;		//number of shots
-	float	SSG_ROTARYv2_DMG 	=	10;	//50	//damage per shot
+	float	SSG_ROTARYFAST_COUNT	=	5;		//number of shots
+	float	SSG_ROTARYFAST_DMG 	=	10;	//50	//damage per shot
 
-	float	SSG_ROTARYv2_COST	=	2;		//ammo cost to fire
+	float	SSG_ROTARYFAST_COST	=	2;		//ammo cost to fire
 	
-	//vector	SSG_ROTARYv2_SPREAD	=	'0.1 0.02 0';	//seconds post-fire	//W_Fire_SSG_ROTARYv2_hitscan
-	float	SSG_ROTARYv2_SPREAD_WIDTH	=	0.2;
-	float	SSG_ROTARYv2_SPREAD_RISE	=	0.02;
+	//vector	SSG_ROTARYFAST_SPREAD	=	'0.1 0.02 0';	//seconds post-fire	//W_Fire_SSG_ROTARYFAST_hitscan
+	float	SSG_ROTARYFAST_SPREAD_WIDTH	=	0.2;
+	float	SSG_ROTARYFAST_SPREAD_RISE	=	0.02;
 
 
 //=============================================================================================
 
-float() weaponanim_SSG_ROTARYv2 =
+float() weaponanim_SSG_ROTARYFAST =
 {
 	if (self.attack_finished > time)
 		return FALSE;
@@ -39,8 +39,8 @@ float() weaponanim_SSG_ROTARYv2 =
 		W_ChangeWeapon(W_BestWeapon(), FALSE);
 		return FALSE;}
 	
-	self.currentammo = self.ammo_shells = self.ammo_shells - SSG_ROTARYv2_COST;
-	self.attack_finished = time + SSG_ROTARYv2_ROF;
+	self.currentammo = self.ammo_shells = self.ammo_shells - SSG_ROTARYFAST_COST;
+	self.attack_finished = time + SSG_ROTARYFAST_ROF;
 
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	self.effects = self.effects | EF_MUZZLEFLASH;
@@ -49,26 +49,26 @@ float() weaponanim_SSG_ROTARYv2 =
 	
 	self.customflags |= CFL_WEAPONLOCK;	//weapon LOCK
 	
-	W_Fire_SSG_ROTARYv2_hitscan();
+	W_Fire_SSG_ROTARYFAST_hitscan();
 	
-	//W_Fire_SSG_ROTARYv2_flak();
+	//W_Fire_SSG_ROTARYFAST_flak();
 
 	self.weaponframe = 11;
-	self.think = weaponanim_SSG_ROTARYv2_loop;
+	self.think = weaponanim_SSG_ROTARYFAST_loop;
 	self.nextthink = time + 0.025;	
 	return TRUE;
 }
 
-void() weaponanim_SSG_ROTARYv2_loop =
+void() weaponanim_SSG_ROTARYFAST_loop =
 {
 	if (intermission) return;
 
 	//fires:  1,  8, 16, 24
 	//+draw: 11, 18, 26, 34
 
-	if (self.weaponframe == 15)	W_Fire_SSG_ROTARYv2_hitscan();
-	if (self.weaponframe == 20)	W_Fire_SSG_ROTARYv2_hitscan();
-	if (self.weaponframe == 25)	W_Fire_SSG_ROTARYv2_hitscan();
+	if (self.weaponframe == 15)	W_Fire_SSG_ROTARYFAST_hitscan();
+	if (self.weaponframe == 20)	W_Fire_SSG_ROTARYFAST_hitscan();
+	if (self.weaponframe == 25)	W_Fire_SSG_ROTARYFAST_hitscan();
 		
 	if (self.weaponframe >= 50)	self.customflags &~= CFL_WEAPONLOCK;	//weapon UNLOCK
 	
@@ -79,17 +79,17 @@ void() weaponanim_SSG_ROTARYv2_loop =
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_SSG_ROTARYv2_loop;
+	self.think = weaponanim_SSG_ROTARYFAST_loop;
 	self.nextthink = time + 0.025;
 }
 
 //=============================================================================================
 
-void() W_Fire_SSG_ROTARYv2_hitscan =
+void() W_Fire_SSG_ROTARYFAST_hitscan =
 {
 	sound(self, CHAN_WEAPON, "placeholder_sound/shotgn3.wav", 1, ATTN_NORM);
 	
-	//self.currentammo = self.ammo_shells = self.ammo_shells - SSG_ROTARYv2_COST;
+	//self.currentammo = self.ammo_shells = self.ammo_shells - SSG_ROTARYFAST_COST;
 
 	makevectors(self.v_angle);
 	vector org_gun = self.origin + self.view_ofs - v_up * 8 + v_right *  6;
@@ -105,14 +105,14 @@ void() W_Fire_SSG_ROTARYv2_hitscan =
 	
 	ClearMultiDamage();
 	
-	//FireBulletsEx_SSG_ROTARYv2(SSG_ROTARYv2_COUNT, dir, SSG_ROTARYv2_SPREAD, SSG_ROTARYv2_DMG);
+	//FireBulletsEx_SSG_ROTARYFAST(SSG_ROTARYFAST_COUNT, dir, SSG_ROTARYFAST_SPREAD, SSG_ROTARYFAST_DMG);
 	
-	FirePistolBullets_SSG_ROTARYv2(SSG_ROTARYv2_COUNT, SSG_ROTARYv2_DMG, org_eye, org_gun + v_forward * 24 * trace_fraction, dir_eye, SSG_ROTARYv2_SPREAD_WIDTH, SSG_ROTARYv2_SPREAD_RISE, SSG_ROTARYv2_COUNT, TRUE);    
+	FirePistolBullets_SSG_ROTARYFAST(SSG_ROTARYFAST_COUNT, SSG_ROTARYFAST_DMG, org_eye, org_gun + v_forward * 24 * trace_fraction, dir_eye, SSG_ROTARYFAST_SPREAD_WIDTH, SSG_ROTARYFAST_SPREAD_RISE, SSG_ROTARYFAST_COUNT, TRUE);    
 	
 	ApplyMultiDamage();
 }
 /*
-void(float shotcount, vector dir, vector spread, float damage) FireBulletsEx_SSG_ROTARYv2 =
+void(float shotcount, vector dir, vector spread, float damage) FireBulletsEx_SSG_ROTARYFAST =
 {
 	vector src, direction;
 	entity ig;
@@ -180,7 +180,7 @@ void(float shotcount, vector dir, vector spread, float damage) FireBulletsEx_SSG
 	}
 }
 */
-void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir, float spread_width, float spread_rise, float pellet_count, float tracer) FirePistolBullets_SSG_ROTARYv2 =
+void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir, float spread_width, float spread_rise, float pellet_count, float tracer) FirePistolBullets_SSG_ROTARYFAST =
 {
 	vector src, direction;
 	entity ig;
