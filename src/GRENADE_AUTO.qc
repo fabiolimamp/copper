@@ -15,7 +15,7 @@ string	GRENADE_AUTO_MODEL	=	"progs/placeholder_progs/v_grenade_auto2.mdl";
 	
 	float	GRENADE_AUTO_ROF	=	0.8;		//seconds post-fire
 	
-	float	GRENADE_AUTO_DMG 	=	55;	// 	//damage per shot
+	float	GRENADE_AUTO_DMG 	=	65;	// 	//damage per shot
 	
 	float	GRENADE_AUTO_COST	=	1;		//ammo cost to fire
 	

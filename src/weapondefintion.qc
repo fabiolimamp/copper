@@ -486,7 +486,7 @@ weaponclass_t wpc_GRENADE_TRIBOLT = {
 	GRENADE_TRIBOLT_MODEL,
 	3, // ammofield
 	IT_ROCKETS, // ammo_item
-	GRENADE_DIRECT_COST, // ammo_usage
+	GRENADE_TRIBOLT_COST, // ammo_usage
 	weaponanim_GRENADE_TRIBOLT,
 	SUB_Null,
 	weaponanim_draw
