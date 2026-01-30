@@ -212,6 +212,7 @@ void() W_Precache =
 	precache_sound ("placeholder_sound/tommy_fire2.wav");
 	
 	precache_model ("progs/placeholder_progs/dev_point.mdl");
+	precache_model ("progs/placeholder_progs/dev_point_anim.mdl");
 	precache_model ("progs/placeholder_progs/dev_bbox32.mdl");
 	precache_model ("progs/placeholder_progs/proj_pellet_blue.mdl");
 	precache_model ("progs/placeholder_progs/proj_stake.mdl");

@@ -205,7 +205,7 @@ void() launch_ROCKET_HALFLIFE_at_endpos =
 	SUB_ChangeModel (self, "progs/proj_missile.mdl");
 	
 	
-	FX_Impact(FX_CHAINS, trace_endpos, 0);
+	FX_Impact(FX_DEV, trace_endpos, 0);
 	
 	remove(self);
 }

@@ -27,6 +27,7 @@ void(vector a, vector b, entity who) fx_beam =
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+float FX_DEV 		= 0;
 float FX_BLOOD 		= 1;
 float FX_BLOOD_BIG 	= 2;
 float FX_BULLET		= 4;
@@ -60,7 +61,11 @@ void(float impact_type, vector impact_org, vector dir) FX_Impact =
 	
 	float r = floor(random()*4);
 	
-	if	(impact_type == FX_BLOOD)	// smaller for melee
+	
+	if 	(impact_type == FX_DEV)	setmodel (fx, "progs/placeholder_progs/dev_point_anim.mdl");	// testing only
+	
+	
+	else if	(impact_type == FX_BLOOD)	// smaller for melee
 	{
 		if 	(r == 0)	setmodel (fx, "progs/fx/blood1.mdl");
 		else if (r == 1)	setmodel (fx, "progs/fx/blood2.mdl");
