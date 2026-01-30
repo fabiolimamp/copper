@@ -27,7 +27,7 @@ weaponclass_t wpc_no_weapon = {
 // SLOT 1: Melee
 // ====================================================================================
 
-weaponclass_t wpc_axe = {
+weaponclass_t wpc_MELEE_WRENCH = {
 	IT_AXE,
 	1, // slot
 	"Wrench", // name
@@ -39,6 +39,20 @@ weaponclass_t wpc_axe = {
 	SUB_Null, // idlefunction
 	weaponanim_draw_wrench // drawfunction
 };
+
+weaponclass_t wpc_MELEE_KNIFE = {
+	IT_AXE,
+	1, // slot
+	MELEE_KNIFE_NAME, // name
+	MELEE_KNIFE_MODEL, // model
+	0, // ammofield
+	0, // ammo_item
+	0, // ammo_usage
+	weaponanim_MELEE_KNIFE, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
 
 // ====================================================================================
 // SLOT 2: Handguns
@@ -651,7 +665,8 @@ weaponclass_t weaponsclass[] = {
 	wpc_no_weapon,
 //───────────────────────────────────────── MELEE {---}
 
-	wpc_axe,		//YES
+	wpc_MELEE_WRENCH,	//YES
+	wpc_MELEE_KNIFE,	//maybe?
 	
 //───────────────────────────────────────── PISTOLS {bullets}
 
@@ -723,11 +738,12 @@ weaponclass_t weaponsclass[] = {
 	
 };
 
-float MAX_WEAPON_NUM = 45;
+float MAX_WEAPON_NUM = 46;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
-	{{wpc_axe}, 1},
+	
+	{{wpc_MELEE_WRENCH, wpc_MELEE_KNIFE}, 2},
 	
 	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER}, 3},	//broken manual reload, no spin
 	

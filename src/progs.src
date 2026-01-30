@@ -42,6 +42,7 @@ w_6_grenadelauncher.qc
 w_7_clusterrocket.qc
 w_8_invoker.qc
 w_berserk.qc
+MELEE_KNIFE.qc
 PISTOL_AKIMBO.qc
 PISTOL_REVOLVER.qc
 SHOTGUN_PRISM.qc

@@ -211,6 +211,14 @@ void() W_Precache =
 	precache_sound ("placeholder_sound/tommy_fire.wav");
 	precache_sound ("placeholder_sound/tommy_fire2.wav");
 	
+	precache_sound ("placeholder_sound/knife_slash1.wav");
+	precache_sound ("placeholder_sound/knife_slash2.wav");
+	precache_sound ("placeholder_sound/knife_hit1.wav");
+	precache_sound ("placeholder_sound/knife_hit2.wav");
+	precache_sound ("placeholder_sound/knife_hit3.wav");
+	precache_sound ("placeholder_sound/knife_hit4.wav");
+	precache_sound ("placeholder_sound/knife_hitwall1.wav");
+	
 	precache_model ("progs/placeholder_progs/dev_point.mdl");
 	precache_model ("progs/placeholder_progs/dev_point_anim.mdl");
 	precache_model ("progs/placeholder_progs/dev_bbox32.mdl");
@@ -225,6 +233,10 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_grenade_nosmoke.mdl");
 	precache_model ("progs/placeholder_progs/proj_missile_nosmoke.mdl");
 	precache_model ("progs/placeholder_progs/proj_missile_heavy.mdl");
+	
+	precache_model ("progs/placeholder_progs/v_melee_knife.mdl");
+	precache_model ("progs/placeholder_progs/v_melee_knife2.mdl");
+	precache_model ("progs/placeholder_progs/v_melee_knife3.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_pistol_akimbo.mdl");
 	precache_model ("progs/placeholder_progs/v_pistol_revolver.mdl");
