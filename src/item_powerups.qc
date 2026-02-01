@@ -365,7 +365,7 @@ Health orbs heal 5 per drop, and monsters drop more orbs based on their tier.
 1 Globe - Zombie, Grunts, Dog
 2 Globes - Scrag, Enforcer, Knight
 3 Globes - Death Knight, Ogre
-4 Globes - Shambler, Vore, Fiend, Amalgam, Spawn
+4 Globes - Shambler, Vore, Fiend, Amalgam, Spawn, Brute
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -381,7 +381,7 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 1 Globe - Zombie, Grunts, Dog
 2 Globes - Scrag, Enforcer, Knight
 3 Globes - Death Knight, Ogre
-4 Globes - Shambler, Vore, Fiend, Amalgam, Spawn"[]
+4 Globes - Shambler, Vore, Fiend, Amalgam, Spawn, Brute"[]
 */
 void() item_artifact_vampirism =
 {

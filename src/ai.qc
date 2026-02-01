@@ -605,6 +605,13 @@ void() SightSound =
 		else
 			sound (self, CHAN_VOICE, "swarmer/sight3.wav", 1, ATTN_NORM);
 	}
+		else if (self.classname == "monster_brute") {
+		if (random() < 0.5) {
+			sound (self, CHAN_VOICE, "placeholder_sound/brute/sight1.wav", 1, ATTN_NORM);
+		} else {
+			sound (self, CHAN_VOICE, "placeholder_sound/brute/sight2.wav", 1, ATTN_NORM);
+		}
+	}
 }
 
 void() ogre_sight_sound =

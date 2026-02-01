@@ -394,7 +394,8 @@ void(entity attacker) CheckVampGlobe =
 		(self.classname == "monster_shalrath") ||
 		(self.classname == "monster_demon1") ||
 		(self.classname == "monster_amalgam") ||
-		(self.classname == "monster_spawn"))
+		(self.classname == "monster_spawn") ||
+		(self.classname == "monster_brute"))
 		self.cnt = 4;
 	
 	else self.cnt = 1;

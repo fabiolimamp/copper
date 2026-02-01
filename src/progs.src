@@ -130,6 +130,7 @@ m_oldone.qc	// registered
 m_amalgam.qc    // reliq
 m_swarmer.qc 	// Alkaline
 m_sploder.qc 	// Dwell
+m_brute.qc		// Dwell
 
 m_soldier_pistol.qc //QBJ3
 m_soldier_shotgun.qc //QBJ3

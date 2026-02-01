@@ -38,7 +38,7 @@ $frame pain1 pain2 pain3 pain4 pain5 pain6
 $frame death1 death2 death3 death4 death5 death6 
 $frame death7 death8 death9 death10 death11
 
-void() sham_stand1	=[	$stand1,	sham_stand2	] {ai_stand(); zaplight(0);}
+void() sham_stand1	=[	$stand1,	sham_stand2	] {ai_stand()/*; zaplight(0)*/;}
 void() sham_stand2	=[	$stand2,	sham_stand3	] {ai_stand();}
 void() sham_stand3	=[	$stand3,	sham_stand4	] {ai_stand();}
 void() sham_stand4	=[	$stand4,	sham_stand5	] {ai_stand();}
@@ -56,7 +56,7 @@ void() sham_stand15	=[	$stand15,	sham_stand16	] {ai_stand();}
 void() sham_stand16	=[	$stand16,	sham_stand17	] {ai_stand();}
 void() sham_stand17	=[	$stand17,	sham_stand1	] {ai_stand();}
 
-void() sham_walk1	=[      $walk1,        sham_walk2 	] {ai_walk(10); zaplight(0);}
+void() sham_walk1	=[      $walk1,        sham_walk2 	] {ai_walk(10)/*; zaplight(0)*/;}
 void() sham_walk2       =[      $walk2,        sham_walk3 	] {ai_walk(9);}
 void() sham_walk3       =[      $walk3,        sham_walk4 	] {ai_walk(9);}
 void() sham_walk4       =[      $walk4,        sham_walk5 	] {ai_walk(5);}
@@ -71,7 +71,7 @@ void() sham_walk12      =[      $walk12,       sham_walk1 	] {ai_walk(7);
 if (random() > 0.8)
 	sound (self, CHAN_VOICE, "shambler/sidle.wav", 1, ATTN_IDLE);}
 
-void() sham_run1       =[      	$run1,        sham_run2      	] {ai_run(20); zaplight(0);}
+void() sham_run1       =[      	$run1,        sham_run2      	] {ai_run(20)/*; zaplight(0)*/;}
 void() sham_run2       =[      	$run2,        sham_run3      	] {ai_run(24);}
 void() sham_run3       =[      	$run3,        sham_run4      	] {ai_run(20);}
 void() sham_run4       =[      	$run4,        sham_run5      	] {ai_run(20);}
@@ -108,7 +108,7 @@ void() ShamSmash =
 void() sham_smash1     =[      $smash1,       sham_smash2    ] {
 	sound (self, CHAN_VOICE, "shambler/melee1.wav", 1, ATTN_NORM);
 	ai_charge(2);
-	zaplight(0);
+	//zaplight(0);
 }
 void() sham_smash2     =[      $smash2,       sham_smash3    	] {nmfast(); ai_charge(6);}
 void() sham_smash3     =[      $smash3,       sham_smash4    	] {nmfast(); ai_charge(6);}
@@ -146,7 +146,7 @@ void(float side) ShamClaw =
 void() sham_swingl1	=[      $swingl1,      sham_swingl2   ] {
 	sound (self, CHAN_VOICE, "shambler/melee2.wav", 1, ATTN_NORM);
 	ai_charge(5);
-	zaplight(0);
+	//zaplight(0);
 }
 void() sham_swingl2 =[      $swingl2,      sham_swingl3   ] {nmfast(); ai_charge(3);}
 void() sham_swingl3 =[      $swingl3,      sham_swingl4   ] {nmfast(); ai_charge(7);}
@@ -166,7 +166,7 @@ void() sham_swingl9 =[      $swingl9,      sham_run1  ] {
 void() sham_swingr1	=[      $swingr1,      sham_swingr2   ] {
 	sound (self, CHAN_VOICE, "shambler/melee1.wav", 1, ATTN_NORM);
 	ai_charge(1);
-	zaplight(0);
+	//zaplight(0);
 }
 void() sham_swingr2	=[      $swingr2,      sham_swingr3   ] {nmfast(); ai_charge(8);}
 void() sham_swingr3 =[      $swingr3,      sham_swingr4   ] {nmfast(); ai_charge(14);}
@@ -198,11 +198,12 @@ void() sham_melee =
 	// continuing to melee, so that attempting a shambler dance is an
 	// increasingly dangerous gamble and not a solidly predictable exploit
 	if (chance < floor(self.lip) / 6.66)	// step up by 15% every other melee
+/*
 	{
 		sham_magic1();
 		return;
 	}
-	
+*/
 	if (self.health > 575)
 	{
 		if (chance > 0.2)
@@ -226,8 +227,7 @@ void() sham_melee =
 
 
 //============================================================================
-
-
+/*
 void() CastLightning =
 {
 	vector	org, dir;
@@ -328,7 +328,7 @@ void() sham_magic12    =[      $magic12,      sham_run1	   ] {}
 // with the name preserved because it's been used in past maps as a secret hack way 
 // to fire nightmare-only triggers
 void() sham_magic11    =[      $magic11,      sham_magic12   ]{ if (skill >= 3) CastLightning(); }
-
+*/
 
 void() sham_pain1       =[      $pain1, sham_pain2      ] {}
 void() sham_pain2       =[      $pain2, sham_pain3      ] {}
@@ -401,14 +401,14 @@ float() ShamCheckAttack =
 	
 	// missile attack
 	//if (enemy_range >= RANGE_FAR)
-	if (vlen(self.origin - enemy_vispos()) > SHAM_LIGHTNING_RANGE)
+	//if (vlen(self.origin - enemy_vispos()) > SHAM_LIGHTNING_RANGE)				
 		return FALSE;
 		
-	self.attack_state = AS_MISSILE;
+	//self.attack_state = AS_MISSILE;
 	// attack_finished can't go here, because the attack may still not 
 	// be successful and we shouldn't reset the next attack timer until it is
 	//ai_attack_finished (2 + 2*random());
-	return TRUE;
+	//return TRUE;
 }
 
 //============================================================================
@@ -441,7 +441,7 @@ float() sham_checkgib =
 
 void() sham_die =
 {
-	zaplight(0);
+//	zaplight(0);
 // check for gib
 	if (sham_checkgib()) return;
 
@@ -468,10 +468,10 @@ void() monster_shambler_spawn =
 	self.th_run = sham_run1;
 	self.th_die = sham_die;
 	self.th_melee = sham_melee;
-	self.th_missile = sham_magic1;
+	//self.th_missile = sham_magic1;
 	self.th_pain = sham_pain;
 	self.th_checkattack = ShamCheckAttack;
-	zaplight(0);
+	//zaplight(0);
 	
 	self.invokedmodel = "progs/fx/invoked_shambler.mdl";
 
@@ -516,9 +516,8 @@ void() monster_shambler =
 		return;
 	}
 	precache_model ("progs/shambler_qbj.mdl");
-	precache_model ("progs/s_light.mdl");
-	precache_model ("progs/bolt.mdl");
-
+	//precache_model ("progs/s_light.mdl");
+	//precache_model ("progs/bolt.mdl");
 	self.invokedmodel = "progs/fx/invoked_shambler.mdl";
 	precache_model(self.invokedmodel);
 
