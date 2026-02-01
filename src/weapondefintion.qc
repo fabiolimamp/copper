@@ -140,6 +140,19 @@ weaponclass_t wpc_SHOTGUN_COWBOY = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_SHOTGUN_COWBOYv2 = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	SHOTGUN_COWBOYv2_NAME,
+	SHOTGUN_COWBOYv2_MODEL,
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SHOTGUN_COWBOYv2_COST, // ammo_usage
+	weaponanim_SHOTGUN_COWBOYv2,
+	SUB_Null,
+	weaponanim_draw
+};
+
 weaponclass_t wpc_SHOTGUN_LEVER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -678,7 +691,8 @@ weaponclass_t weaponsclass[] = {
 
 	wpc_SHOTGUN_FLAK,	//YES
 	wpc_SHOTGUN_PRISM,	//no
-	wpc_SHOTGUN_COWBOY,	//maybe?
+	wpc_SHOTGUN_COWBOY,	//no
+	wpc_SHOTGUN_COWBOYv2,	//maybe?
 	wpc_SHOTGUN_LEVER,	//no
 	wpc_SHOTGUN_STACK,	//no
 	wpc_SHOTGUN_BRAZIL,	//no
@@ -738,7 +752,7 @@ weaponclass_t weaponsclass[] = {
 	
 };
 
-float MAX_WEAPON_NUM = 46;
+float MAX_WEAPON_NUM = 47;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -747,7 +761,7 @@ weaponslot_t weaponslots[9] = {
 	
 	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER}, 3},	//broken manual reload, no spin
 	
-	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_COWBOY, wpc_SSG_BLUE, wpc_SSG_ROTARY}, 4},
+	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_COWBOYv2, wpc_SSG_BLUE, wpc_SSG_ROTARY}, 4},
 	
 	{{wpc_NAIL_TWIN, wpc_NAIL_DRUM}, 2},
 	
