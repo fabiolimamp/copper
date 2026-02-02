@@ -342,6 +342,19 @@ weaponclass_t wpc_NAIL_DRUM = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_NAIL_SPINUP = {
+	IT_NAILGUN,
+	4, // slot
+	NAIL_SPINUP_NAME,
+	NAIL_SPINUP_MODEL,
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	NAIL_SPINUP_COST, // ammo_usage
+	weaponanim_NAIL_SPINUP,
+	SUB_Null,
+	weaponanim_draw
+};
+
 // ====================================================================================
 // SLOT 5: Rebar
 // ====================================================================================
@@ -701,7 +714,7 @@ weaponclass_t weaponsclass[] = {
 
 	wpc_SSG_BLUE,		//YES
 	wpc_SSG_SUPER,		//no
-	wpc_SSG_ROTARY,		//YES*
+	wpc_SSG_ROTARY,		//YES
 	wpc_SSG_ROTARYFAST,	//no
 	wpc_SSG_AUTO,		//no
 	wpc_SSG_SWEEPER,	//no
@@ -712,7 +725,8 @@ weaponclass_t weaponsclass[] = {
 	wpc_NAIL_HEAVY,		//no
 	wpc_NAIL_TURBO,		//no
 	wpc_NAIL_LMG,		//no
-	wpc_NAIL_DRUM,		//YES
+	wpc_NAIL_DRUM,		//maybe?
+	wpc_NAIL_SPINUP,	//maybe?
 	
 //───────────────────────────────────────── REBARS {scraps}
 
@@ -752,7 +766,7 @@ weaponclass_t weaponsclass[] = {
 	
 };
 
-float MAX_WEAPON_NUM = 47;
+float MAX_WEAPON_NUM = 48;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -763,7 +777,7 @@ weaponslot_t weaponslots[9] = {
 	
 	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_COWBOYv2, wpc_SSG_BLUE, wpc_SSG_ROTARY}, 4},
 	
-	{{wpc_NAIL_TWIN, wpc_NAIL_DRUM}, 2},
+	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUP}, 2},
 	
 	{{wpc_REBAR_BUFF, wpc_REBAR_BOUNCE}, 2},
 	
