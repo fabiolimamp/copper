@@ -9,14 +9,15 @@ string	REBAR_BUFF_MODEL	=	"progs/placeholder_progs/v_rebar_buff.mdl";
 //	ROF	COUNT * DMG	COST	SPREAD		DESCRIPTION
 //	1	1	100	10	'0 0 0'		//QBJ3 Rebar Cannon (100+)
 
-//	1	1	140	10	'0 0 0'		//REBAR CANNON BUFF (140+)
+//	1	1	140	10	'0 0 0'		//REBAR CANNON BUFF (140+) *bbox
+//	1	1	150	10	'0 0 0'		//REBAR CANNON BUFF (150+) *point 
 
 //=============================================================================================
 	
 	float	REBAR_BUFF_ROF		=	1;		//seconds post-fire
 	
 	float	REBAR_BUFF_COUNT	=	1;		//number of shots
-	float	REBAR_BUFF_DMG 		=	140;	// 14	//damage per shot
+	float	REBAR_BUFF_DMG 		=	150;	// 140	//damage per shot
 
 	float	REBAR_BUFF_COST		=	10;		//ammo cost to fire
 	
@@ -105,7 +106,7 @@ entity(vector org, vector vel) launch_impaler_REBAR_BUFF =
 	impaler.think = ImpalerThink;
 	impaler.touch = ImpalerTouch_REBAR_BUFF;
 	impaler.alpha = 1;
-	impaler.movetype = MOVETYPE_FLYMISSILE;
+	//impaler.movetype = MOVETYPE_FLYMISSILE;
 
 	return impaler;
 }

@@ -112,7 +112,7 @@ void() ImpalerThink =
 	}
 	self.flags &~= FL_ONGROUND;
 	self.oldvelocity = self.velocity;
-	self.velocity.z -= 25;
+	//self.velocity.z -= 25;
 	self.nextthink = time + 0.05;
 	self.angles = vectoangles(self.velocity);
 }

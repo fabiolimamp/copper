@@ -15,11 +15,18 @@ string	PISTOL_REVOLVER_MODEL	=	"progs/placeholder_progs/v_pistol_revolver.mdl";
 */
 //=============================================================================================
 
+//	ROF	COUNT * DMG	COST	SPREAD		DESCRIPTION
+//	0.5	2	20	2	'0 0 0'		//Revolver (40) pierce 20/20
+//	0.6	1	25++	2	'0 0 0'		//Revolver (20++) pierce 100%
+
+
+//=============================================================================================
+
 	
 	float	PISTOL_REVOLVER_ROF 	= 0.5;		// stetchkin 0.3 sec
 
-	float	PISTOL_REVOLVER_COUNT	= 2;
-	float	PISTOL_REVOLVER_DMG	= 20;		// stetchkin 20 damge
+	//float	PISTOL_REVOLVER_COUNT	= 2;
+	float	PISTOL_REVOLVER_DMG	= 30;	//++	// stetchkin 20 damge
 	
 	float	PISTOL_REVOLVER_RELOAD	= 2;		// stetchkin 1.5 sec
 		
@@ -79,7 +86,7 @@ float() weaponanim_PISTOL_REVOLVER =
 	SuperDamageSound();
 	
 			
-	W_Fire_PISTOL_REVOLVER(0); //fancy tracers and all that
+	W_Fire_PISTOL_REVOLVER(); //fancy tracers and all that
 	
 	
 	// --------------------------------
@@ -183,7 +190,7 @@ void() weaponanim_reload_PISTOL_REVOLVER_loop =
 
 //=====================================================================================================================
 
-void(float lefty) W_Fire_PISTOL_REVOLVER =
+void() W_Fire_PISTOL_REVOLVER =
 {
 	sound (self, CHAN_AUTO, "pistol/pistol_fire.wav", 1, ATTN_NORM);
 	sound_pistol_fire(1);
@@ -191,8 +198,7 @@ void(float lefty) W_Fire_PISTOL_REVOLVER =
 	makevectors (self.v_angle);
 	vector org_gun;
 	
-	if (lefty)	org_gun = self.origin + self.view_ofs - v_up * 8 - v_right *  8;
-	else		org_gun = self.origin + self.view_ofs - v_up * 8 + v_right *  8;
+	org_gun = self.origin + self.view_ofs - v_up * 8 + v_right *  8;
 	
 	vector org_eye = self.origin + self.view_ofs;
 	
@@ -203,8 +209,115 @@ void(float lefty) W_Fire_PISTOL_REVOLVER =
 		
 	ClearMultiDamage ();
 	
-	FirePistolBullets (PISTOL_REVOLVER_COUNT, PISTOL_REVOLVER_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, PISTOL_REVOLVER_SPREAD, TRUE);
+	
+	
+	//FirePistolBullets (PISTOL_REVOLVER_COUNT, PISTOL_REVOLVER_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, PISTOL_REVOLVER_SPREAD, TRUE);
+	
+	
+	
+	pierce_hitscanTrace(PISTOL_REVOLVER_DMG, org_gun, org_eye, dir_eye, TRUE);
+	
+	
+	
+	//invokerTrace(PISTOL_REVOLVER_DMG, org + (up * 0) + (right * 0), dir, FALSE); // center
+	//invokerTrace(PISTOL_REVOLVER_DMG, org_eye, dir_eye, FALSE); // center
+		
+	//Start_Smoketrail_ROCKET_INSTANT();
+		
+	//FX_Impact(FX_SPARK, trace_endpos, 0);
+	
+	
 	
 	ApplyMultiDamage ();
 	self.punchangle_x = -1;	//punch AFTER makevectors
+};
+//=====================================================================================================================
+//=====================================================================================================================
+//=====================================================================================================================
+//=====================================================================================================================
+//=====================================================================================================================
+
+void(float pierce_damage, vector org_gun, vector org_eye, vector dir_eye, float drawTrail) pierce_hitscanTrace =
+{
+	float timetoend;
+	vector vel, loopsrc, destination, dir2, dir3;
+	entity target_ent;
+	
+	
+	destination = org_eye + (dir_eye * 8192);
+	
+	loopsrc = org_eye;
+	target_ent = self;
+	
+	vector neworg = org_eye;
+	while ( !timetoend )
+	{
+		traceline2(loopsrc, destination, target_ent, 0);
+		if (trace_fraction != 1.0)
+		{
+			target_ent = trace_ent;
+
+			neworg = trace_endpos - dir_eye*4;
+
+			if (target_ent.takedamage && target_ent != self)
+			{
+				vel = dir_eye + 2*trace_plane_normal;
+				vel = vel * pierce_damage;
+
+				SpawnBlood(neworg, vel*0.2, pierce_damage);
+				
+				FX_Impact(FX_BLOOD, neworg, dir_eye);
+				
+				//sound_invoker_impact(1);
+				
+				target_ent.effects = target_ent.effects | EF_MUZZLEFLASH;
+
+				//if (deathmatch != 0)
+				//	T_Damage (target_ent, self, self, pierce_damage/2);
+				//else
+					T_Damage (target_ent, self, self, pierce_damage);
+				
+				// ded
+				if (target_ent && target_ent.health <= 0 && target_ent.flags & (FL_MONSTER | FL_CLIENT))
+				{
+					// if we have the right amount of health add some velocity if we're not gibbing
+					if (!(target_ent.customflags & CFL_GIBBED))
+					{
+						
+						target_ent.velocity.z = pierce_damage;
+						// zero out the velocity and give it some z velocity so its off ground
+						target_ent.flags = target_ent.flags - (target_ent.flags & FL_ONGROUND);
+						// also set the flag
+						
+						// we don't want z velocity, so we're going to zero that out too.
+						dir3 = BoundsCenter(self); // player
+						dir3_z = 0;
+						dir2 = target_ent.origin; // monster
+						dir2_z = 0;
+						dir2 = dir2 - dir3; // direction from player to monster
+						dir2 = normalize(dir2);
+						target_ent.velocity = target_ent.velocity + (dir2 * pierce_damage);
+					}								
+					// gibbed, so just let meat fly and call the invoked effect
+					//else
+						//FX_Invoked(target_ent.invokedmodel, target_ent.origin, dir, self.origin);
+				}
+
+				// Trace from inside of the hitted monster (vf)
+				loopsrc = trace_endpos + (dir_eye * 4);
+			}
+			else
+			{
+				if (drawTrail) gunshot(trace_endpos);
+				timetoend = 1;
+			}
+		}
+		else timetoend = 1;
+	}
+
+	if (drawTrail)
+		//drawInvokerTrail(self, org, trace_endpos);
+		Draw_Smoketrail(self, org_gun, trace_endpos, 0);
+		
+	FX_Impact(FX_SPARK, trace_endpos, 0);
 };
