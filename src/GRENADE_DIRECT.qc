@@ -136,7 +136,6 @@ void() GRENADE_DIRECT_Explode =
 	T_RadiusDamage (self, self.trueowner, GRENADE_DIRECT_DMG, world, DMGTYPE_EXPLOSION);
 	//T_GibDownedZombies (self, 120);
 	
-	//BecomeExplosion ();
 	BecomeTarExplosion();
 }
 
@@ -144,27 +143,19 @@ void() GRENADE_DIRECT_Touch =
 {
 	if (other == self.owner ) return;		// don't explode on owner
 	if (CheckProjectilePassthru()) return;
-	//if (other.takedamage == DAMAGE_AIM)
-	//{
-		self.velocity = '0 0 0';
-		T_GRENADE_DIRECT_MissileExplode();
-		T_GRENADE_DIRECT_ExplosiveTouch();
-		return;
-	//}
-	//sound (self, CHAN_WEAPON, "weapons/bounce.wav", 1, ATTN_NORM);	// bounce sound
-	//if (self.velocity == '0 0 0')
-	//	self.avelocity = '0 0 0';
+
+	self.velocity = '0 0 0';
+	T_GRENADE_DIRECT_MissileExplode();
+	T_GRENADE_DIRECT_ExplosiveTouch();
+	return;
 }
 //=============================================================================================
 
 void() T_GRENADE_DIRECT_ExplosiveTouch =
 {
 	if (other.classname == "monster_shambler")
-		//BecomeWeakExplosion();
 		BecomeMiniBlast(2); //weak, no TE_effects
-	else
-		//BecomeBoxExplosion();
-		//BecomeExplosion();
+	else	
 		BecomeTarExplosion();
 }
 
@@ -177,7 +168,6 @@ void() T_GRENADE_DIRECT_MissileExplode =
 	{
 		T_Damage (other, self, self.trueowner, damg, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
 	}
-
 	// don't do radius damage to other, because all damage will be done in the impact
 	T_RadiusDamage (self, self.trueowner, GRENADE_DIRECT_DMG, other, DMGTYPE_EXPLOSION);
 }
