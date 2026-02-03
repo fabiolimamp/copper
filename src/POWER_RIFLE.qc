@@ -34,7 +34,7 @@ float() weaponanim_POWER_RIFLE =
 		return FALSE;
 	}
 
-	self.currentammo = self.ammo_nails = self.ammo_nails - POWER_RIFLE_COST;
+	self.currentammo = self.ammo_cells = self.ammo_cells - POWER_RIFLE_COST;
 
 	self.attack_finished = time + POWER_RIFLE_ROF;
 	

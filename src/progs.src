@@ -43,6 +43,7 @@ w_7_clusterrocket.qc
 w_8_invoker.qc
 w_berserk.qc
 MELEE_KNIFE.qc
+MELEE_THROW.qc
 PISTOL_AKIMBO.qc
 PISTOL_REVOLVER.qc
 SHOTGUN_PRISM.qc

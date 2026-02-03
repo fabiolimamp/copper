@@ -53,6 +53,18 @@ weaponclass_t wpc_MELEE_KNIFE = {
 	weaponanim_draw // drawfunction
 };
 
+weaponclass_t wpc_MELEE_THROW = {
+	IT_AXE,
+	1, // slot
+	MELEE_THROW_NAME, // name
+	MELEE_THROW_MODEL, // model
+	0, // ammofield
+	0, // ammo_item
+	0, // ammo_usage
+	weaponanim_MELEE_THROW, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
 
 // ====================================================================================
 // SLOT 2: Handguns
@@ -692,11 +704,13 @@ weaponclass_t weaponsclass[] = {
 //───────────────────────────────────────── MELEE {---}
 
 	wpc_MELEE_WRENCH,	//YES
+	wpc_PISTOL_STECHKIN,	//(force impulse 9 reset with pistol)
 	wpc_MELEE_KNIFE,	//maybe?
+	wpc_MELEE_THROW,	//maybe?
 	
 //───────────────────────────────────────── PISTOLS {bullets}
 
-	wpc_PISTOL_STECHKIN,	//maybe?
+	//wpc_PISTOL_STECHKIN,	//maybe?
 	wpc_PISTOL_AKIMBO,	//YES
 	wpc_PISTOL_REVOLVER,	//YES
 	
@@ -766,12 +780,12 @@ weaponclass_t weaponsclass[] = {
 	
 };
 
-float MAX_WEAPON_NUM = 48;
+float MAX_WEAPON_NUM = 49;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
 	
-	{{wpc_MELEE_WRENCH, wpc_MELEE_KNIFE}, 2},
+	{{wpc_MELEE_WRENCH, wpc_MELEE_THROW}, 2},
 	
 	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER}, 3},	//broken manual reload, no spin
 	

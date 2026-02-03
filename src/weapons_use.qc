@@ -233,10 +233,12 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_grenade_nosmoke.mdl");
 	precache_model ("progs/placeholder_progs/proj_missile_nosmoke.mdl");
 	precache_model ("progs/placeholder_progs/proj_missile_heavy.mdl");
+	precache_model ("progs/placeholder_progs/proj_knife.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_melee_knife.mdl");
 	precache_model ("progs/placeholder_progs/v_melee_knife2.mdl");
 	precache_model ("progs/placeholder_progs/v_melee_knife3.mdl");
+	precache_model ("progs/placeholder_progs/v_melee_throw.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_pistol_akimbo.mdl");
 	precache_model ("progs/placeholder_progs/v_pistol_revolver.mdl");

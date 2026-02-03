@@ -42,7 +42,7 @@ float() weaponanim_GRENADE_TRIBOLT =
 		return FALSE;
 	}
 
-	self.currentammo = self.ammo_nails = self.ammo_nails - GRENADE_TRIBOLT_COST;
+	self.currentammo = self.ammo_rockets = self.ammo_rockets - GRENADE_TRIBOLT_COST;
 
 	self.attack_finished = time + GRENADE_TRIBOLT_ROF;
 	

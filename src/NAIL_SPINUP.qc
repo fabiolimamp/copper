@@ -27,11 +27,11 @@ string	NAIL_SPINUP_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
 
 	float	NAIL_SPINUP_COST	=	2;		//ammo cost to fire
 	
-	float	NAIL_SPINUP_SPEED	=	800;		//velocity
+	float	NAIL_SPINUP_SPEED	=	1200;		//velocity
 	
-	float	NAIL_SPINUP_VUP		=	80;		//160*v_up launch angle
+	float	NAIL_SPINUP_VUP		=	0;		//160*v_up launch angle
 	
-	float	NAIL_SPINUP_GRAVITY	=	25;		//25 rebar
+	float	NAIL_SPINUP_GRAVITY	=	1;		//25 rebar
 
 	
 	
@@ -47,7 +47,9 @@ string	NAIL_SPINUP_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
 	
 	float	NAIL_SPINUP_MAX_SPEED	=	1600;	//max nail speed
 	
-	float	NAIL_SPINUP_MAX_VUP	=	120;	//max v_up angle
+	float	NAIL_SPINUP_MAX_VUP	=	160;	//max v_up angle
+	
+	float	NAIL_SPINUP_MAX_GRAVITY	=	1;	//max gravity downward
 	
 	
 	
@@ -62,6 +64,8 @@ string	NAIL_SPINUP_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
 	float	NAIL_SPINUP_SUM_SPEED	=	(NAIL_SPINUP_MAX_SPEED - NAIL_SPINUP_SPEED) / NAIL_SPINUP_MAX_LEVEL;
 	
 	float	NAIL_SPINUP_SUM_VUP	=	(NAIL_SPINUP_MAX_VUP - NAIL_SPINUP_VUP) / NAIL_SPINUP_MAX_LEVEL;
+	
+	float	NAIL_SPINUP_SUM_GRAVITY	=	(NAIL_SPINUP_GRAVITY - NAIL_SPINUP_MAX_GRAVITY) / NAIL_SPINUP_MAX_LEVEL;
 	
 
 
@@ -82,8 +86,6 @@ float() weaponanim_NAIL_SPINUP =
 	
 	self.currentammo = self.ammo_nails = self.ammo_nails - NAIL_SPINUP_COST;
 
-
-	
 	
 	self.attack_finished = time + (NAIL_SPINUP_ROF - (self.NAIL_SPINUP_LEVEL * NAIL_SPINUP_SUM_ROF));
 	
@@ -108,7 +110,7 @@ float() weaponanim_NAIL_SPINUP =
 	
 	self.effects |= EF_MUZZLEFLASH;
 	
-	sound (self, CHAN_AUTO, "placeholder_sound/tommy_fire2.wav", 0.6, ATTN_NORM);
+	sound (self, CHAN_AUTO, "placeholder_sound/tommy_fire2.wav", 0.5, ATTN_NORM);
 	sound (self, CHAN_AUTO, "nail/airpuff.wav", 0.5, ATTN_NORM);	
 	
 	//sound (self, CHAN_WEAPON, "rebar/penfire.wav", 0.2, ATTN_NORM);
@@ -166,16 +168,24 @@ entity(vector org, vector vel) launch_NAIL_SPINUP_Heavy =
 	
 	SUB_ChangeModel (nail, "progs/placeholder_progs/proj_nail_heavy.mdl");
 
-	nail.think = ImpalerThink_NAIL_SPINUP;
+	//nail.think = ImpalerThink_NAIL_SPINUP;
 	
 	nail.touch = NAIL_SPINUP_Heavy_touch;	//dont pierce with nail
 	
 	nail.alpha = 1;
-	nail.movetype = MOVETYPE_FLYMISSILE;	//point vs bbox
+	//nail.movetype = MOVETYPE_FLYMISSILE;	//point vs bbox
+
+
+	//nail.avelocity = '0 0 -1200';
+
+	nail.gravity = NAIL_SPINUP_GRAVITY;
+	
+	//nail.gravity = NAIL_SPINUP_MAX_GRAVITY - (self.NAIL_SPINUP_LEVEL * NAIL_SPINUP_SUM_GRAVITY);
+	
 
 	return nail;
 }
-
+/*
 void() ImpalerThink_NAIL_SPINUP =
 {
 	if (time > self.lifetime_finished)
@@ -189,7 +199,7 @@ void() ImpalerThink_NAIL_SPINUP =
 	self.nextthink = time + 0.05;
 	self.angles = vectoangles(self.velocity);
 }
-
+*/
 void() ImpalerFade_NAIL_SPINUP =
 {
 	self.alpha -= 0.025;
