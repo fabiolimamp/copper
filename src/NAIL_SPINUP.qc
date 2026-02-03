@@ -14,8 +14,8 @@ string	NAIL_SPINUP_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
 //	0.12	1	18	2	1500		//Nail Drum
 //	0.2	1	25	2	1400	50	//Nail Drum
 
-//	0.2	1	20	2	1000		//Nail SPINUP
-//	0.12	1	20	2	1400		//Nail SPINUP MAX
+//	0.2	1	18	2	1200		//Nail SPINUP
+//	0.12	1	18	2	1600		//Nail SPINUP MAX
 
 
 //=============================================================================================
@@ -23,25 +23,25 @@ string	NAIL_SPINUP_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
 	
 	float	NAIL_SPINUP_ROF		=	0.2;		//seconds post-fire
 	
-	float	NAIL_SPINUP_DMG 	=	20;		//damage per shot
+	float	NAIL_SPINUP_DMG 	=	18;		//damage per shot
 
 	float	NAIL_SPINUP_COST	=	2;		//ammo cost to fire
 	
 	float	NAIL_SPINUP_SPEED	=	1200;		//velocity
 	
-	float	NAIL_SPINUP_VUP		=	0;		//160*v_up launch angle
+	float	NAIL_SPINUP_VUP		=	0;		//v_up launch angle
 	
-	float	NAIL_SPINUP_GRAVITY	=	1;		//25 rebar
+	float	NAIL_SPINUP_GRAVITY	=	1;		//base gravity
 
 	
 	
-//	vector	NAIL_SPINUP_SPREAD	=	'100 100 0';
+	vector	NAIL_SPINUP_SPREAD	=	'200 100 0';	//NAIL_SPINUP_SPREAD_x	//NAIL_SPINUP_SPREAD_y	//weighted_crandom(4);
 
 
 
 	.float	NAIL_SPINUP_LEVEL;			//0 ~ MAX
 	
-	float	NAIL_SPINUP_MAX_LEVEL	=	8;	//number of shots to reach MAX
+	float	NAIL_SPINUP_MAX_LEVEL	=	4;	//number of shots to reach MAX
 	
 	float	NAIL_SPINUP_MAX_ROF	=	0.12;	//max firerate
 	
@@ -49,7 +49,7 @@ string	NAIL_SPINUP_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
 	
 	float	NAIL_SPINUP_MAX_VUP	=	160;	//max v_up angle
 	
-	float	NAIL_SPINUP_MAX_GRAVITY	=	1;	//max gravity downward
+	float	NAIL_SPINUP_MAX_GRAVITY	=	1;	//max gravity
 	
 	
 	
@@ -90,9 +90,17 @@ float() weaponanim_NAIL_SPINUP =
 	self.attack_finished = time + (NAIL_SPINUP_ROF - (self.NAIL_SPINUP_LEVEL * NAIL_SPINUP_SUM_ROF));
 	
 	
-	if (self.NAIL_SPINUP_LEVEL > NAIL_SPINUP_MAX_LEVEL)	self.NAIL_SPINUP_LEVEL = NAIL_SPINUP_MAX_LEVEL;
+	if 	(self.NAIL_SPINUP_LEVEL == 0)	sprint(self, "spinup 0  [    ]\n");
+	else if (self.NAIL_SPINUP_LEVEL == 1)	sprint(self, "spinup 1  [-   ]\n");
+	else if (self.NAIL_SPINUP_LEVEL == 2)	sprint(self, "spinup 2  [--  ]\n");
+	else if (self.NAIL_SPINUP_LEVEL == 3)	sprint(self, "spinup 3  [--- ]\n");
+	else if (self.NAIL_SPINUP_LEVEL == 4)	sprint(self, "spinup 4  [++++] MAX\n");
+	else					sprint(self, "???");
 	
-	else	self.NAIL_SPINUP_LEVEL++;
+	
+	if (self.NAIL_SPINUP_LEVEL < NAIL_SPINUP_MAX_LEVEL)	self.NAIL_SPINUP_LEVEL++;
+	
+	else	self.NAIL_SPINUP_LEVEL = NAIL_SPINUP_MAX_LEVEL;
 
 
 	
@@ -151,9 +159,29 @@ void() W_Fire_NAIL_SPINUP_Heavy =
 	
 	vector org = self.origin + self.view_ofs + v_forward*11 + v_right*8 + v_up*-10;
 	
-	vector mvel = (v_forward*(NAIL_SPINUP_SPEED + (self.NAIL_SPINUP_LEVEL*NAIL_SPINUP_SUM_SPEED))) + (v_up*(NAIL_SPINUP_VUP + (self.NAIL_SPINUP_LEVEL*NAIL_SPINUP_SUM_VUP)));
+	
+	
+	float spread_spreader = ((NAIL_SPINUP_MAX_LEVEL * NAIL_SPINUP_MAX_LEVEL) + NAIL_SPINUP_MAX_LEVEL) - (self.NAIL_SPINUP_LEVEL * NAIL_SPINUP_MAX_LEVEL);	
+	
+	//spread_spreader ((4 * 4 = 16) + 4 = 20) - (0~4 * 4) = 0,4,8,12,16,20 MAX
+	
+		
+	
+	vector mvel = (v_forward*(NAIL_SPINUP_SPEED + (self.NAIL_SPINUP_LEVEL*NAIL_SPINUP_SUM_SPEED)))
+	
+		+ (weighted_crandom(spread_spreader)*NAIL_SPINUP_SPREAD_x*v_right)
+	
+		+ (v_up*(NAIL_SPINUP_VUP + (self.NAIL_SPINUP_LEVEL*NAIL_SPINUP_SUM_VUP)))
+	
+		+ (weighted_crandom(spread_spreader)*NAIL_SPINUP_SPREAD_y*v_up);
 
-	launch_NAIL_SPINUP_Heavy (org, mvel + v_right*-12);
+
+
+
+
+
+
+	launch_NAIL_SPINUP_Heavy (org, mvel + v_right*-13);
 }
 
 //=============================================================================================
