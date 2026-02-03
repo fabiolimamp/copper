@@ -22,16 +22,8 @@
 
 //	ROF	COUNT * DMG	COST	SPEED		DESCRIPTION
 //	0.08	1	9	1	1996		//QBJ3 Twin Nailgun (9)
-//	0.08	1	10	1	1996		//Twin Nailgun (10) BBOX
-
-
-
-	float	NAIL_TWIN_DMG	=	10;	//9	(112.5 --> 125 DPS)
-
-
 
 //=============================================================================================
-
 
 float() weaponanim_twinnailgun =
 {
@@ -138,7 +130,7 @@ void(float offs) W_FireTwinNailgun =
 	entity spike = launch_projectile(org, dir * 1996, "nail");
 	spike.touch = twinnail_touch;
 	spike.alpha = 1;
-	spike.dmg = NAIL_TWIN_DMG;
+	spike.dmg = 9;
 
 	spike.nextthink = time + 4; //air lifetime
 	spike.think = SUB_Remove;
