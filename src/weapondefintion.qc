@@ -232,6 +232,19 @@ weaponclass_t wpc_SSG_BLUE = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_SSG_SAWEDBLUE = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	SSG_SAWEDBLUE_NAME,
+	SSG_SAWEDBLUE_MODEL,
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SSG_SAWEDBLUE_COST, // ammo_usage
+	weaponanim_SSG_SAWEDBLUE,
+	SUB_Null,
+	weaponanim_draw
+};
+
 weaponclass_t wpc_SSG_SUPER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -741,6 +754,7 @@ weaponclass_t weaponsclass[] = {
 //───────────────────────────────────────── SUPER SHOTGUNS {shells}
 
 	wpc_SSG_BLUE,		//YES
+	wpc_SSG_SAWEDBLUE,	//maybe?
 	wpc_SSG_SUPER,		//no
 	wpc_SSG_ROTARY,		//YES
 	wpc_SSG_ROTARYFAST,	//no
@@ -794,7 +808,7 @@ weaponclass_t weaponsclass[] = {
 	
 };
 
-float MAX_WEAPON_NUM = 50;
+float MAX_WEAPON_NUM = 51;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -803,7 +817,7 @@ weaponslot_t weaponslots[9] = {
 	
 	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER}, 3},	//broken manual reload, no spin
 	
-	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_SAWED, wpc_SSG_BLUE, wpc_SSG_ROTARY}, 4},
+	{{wpc_SHOTGUN_FLAK, wpc_SSG_SAWEDBLUE, wpc_SSG_ROTARY}, 3},
 	
 	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUP}, 2},
 	
