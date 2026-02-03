@@ -248,6 +248,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_shotgun_brazil.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_prism.mdl");	
 	precache_model ("progs/placeholder_progs/v_shotgun_cowboy.mdl");	
+	precache_model ("progs/placeholder_progs/v_shotgun_sawed.mdl");	
 		
 	precache_model ("progs/placeholder_progs/v_ssg_super2.mdl");
 	precache_model ("progs/placeholder_progs/v_ssg_super3.mdl");

@@ -196,7 +196,60 @@ void() Flak_setvelocity =
 	self.nextthink = time + 0.01;
 }
 //=============================================================================================
+// updated FlakTouch from Monolith
 
+void() FlakTouch =
+{
+	if (CheckProjectilePassthru()) return;
+
+	if (self.attack_finished < time) {
+		remove(self);
+		return;
+	}
+
+	if (pointcontents(self.origin) == CONTENT_SKY) {
+		remove(self);
+		return;
+	}
+
+	if (other.takedamage)
+	{
+
+		T_Damage(other, self, self.trueowner, 5);
+		
+		//dprint3("Dealing damage, health ", ftos(other.health), "\n");
+		SpawnBlood(self.origin, self.velocity, 50);
+
+		if (random() < 0.25)	FX_Impact(FX_BLOOD_BIG, self.origin, self.velocity);
+
+		sound_flakshotgun_impact();
+
+		if (other.health <= 0) projectile_passthru();
+		else remove(self);
+		
+		return;
+	}
+
+	FlakBounce();
+	gunshot(self.origin);
+
+	if (!self.state) self.lifetime_finished = time + 0.5; // hasn't bounced yet, lifetime is increased only once
+	
+	float chance = random();
+
+	// is this really supposed to only play on the first bounce?
+	if (!self.state) {
+		if (chance < 0.33) sound(self, CHAN_AUTO, "weapons/ric1.wav", 0.25, ATTN_NORM);
+		else if (chance < 0.5) sound(self, CHAN_AUTO, "weapons/ric2.wav", 0.25, ATTN_NORM);
+		else sound(self, CHAN_AUTO, "weapons/ric3.wav", 0.25, ATTN_NORM);
+	}
+
+	self.state = 1;
+}
+
+//=============================================================================================
+
+/*
 void() FlakTouch =
 {
 	if (CheckProjectilePassthru()) return;
@@ -282,7 +335,7 @@ void() FlakTouch_2 =
 	
 	gunshot(self.origin);
 }
-
+*/
 //=============================================================================================
 
 void() BuckshotCasingTouch2 =
