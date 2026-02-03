@@ -6,19 +6,21 @@ string	SHOTGUN_SAWED_NAME	=	"SHOTGUN_SAWED";
 string	SHOTGUN_SAWED_MODEL	=	"progs/placeholder_progs/v_shotgun_sawed.mdl";
 
 
-//	ROF	COUNT * DMG	COST	SPREAD			DESCRIPTION
-//	1	18	5	1	'270 60 0'		//QBJ3 flak (90)
-//	0.8	10	5	1	'160 240 0'		//COWBOYv2	(50*)
-//	0.8	20	5	1	'160 240 0'		//SAWED OFF	(100*)
+//	ROF	COUNT * DMG	COST	SPREAD		LIFETIME	DESCRIPTION
+//	1	18	5	1	'270 60 0'	1++		//QBJ3 flak 	(90)	point
+//	0.8	10	5	1	'160 240 0'	0.5		//COWBOYv2	(50*)	bbox
+//	1.5	20	5	2	'300 200 0'	0.5		//SAWED OFF	(100)	bbox
+//	1.7	25	5	2	'300 200 0'	0.5		//SAWED OFF	(125)	point
+//	1.6	20	6	2	'300 200 0'	0.5		//SAWED OFF	(120)	point
 
 
 //=============================================================================================
 	
 	
-	float	SHOTGUN_SAWED_ROF	=	1.5;		//seconds post-fire
+	float	SHOTGUN_SAWED_ROF	=	1.6;		//seconds post-fire
 	
 	float	SHOTGUN_SAWED_COUNT	=	20;		//number of shots
-	float	SHOTGUN_SAWED_DMG 	=	5;	//60	//damage per shot
+	float	SHOTGUN_SAWED_DMG 	=	6;	//60	//damage per shot
 
 	float	SHOTGUN_SAWED_COST	=	2;		//ammo cost to fire
 	float	SHOTGUN_SAWED_LIFE	=	0.5;		//seconds for pellet
@@ -117,14 +119,14 @@ entity(vector org, vector vel) Launch_Flak_SHOTGUN_SAWED =
 	flak = toss_projectile(org, vel, "flak");
 	flak.lifetime_finished = time + SHOTGUN_SAWED_LIFE;
 	flak.attack_finished = time + 1;
-	flak.gravity = 0;
+	flak.gravity = -0.1;
 	flak.think = FlakThink;
 	flak.nextthink = time + 0.05;
 	//flak.touch = FlakTouch_SHOTGUN_SAWED_pierce;
 	flak.touch = FlakTouch_SHOTGUN_SAWED;
 	flak.alpha = 1;
 	flak.oldvelocity = flak.velocity;
-	flak.movetype = MOVETYPE_FLYMISSILE;
+	//flak.movetype = MOVETYPE_FLYMISSILE;
 
 	SUB_ChangeModel (flak, "progs/proj_pellet.mdl");
 
