@@ -127,7 +127,10 @@ void(float offs) W_FireTwinNailgun =
 	// default sv_maxvelocity is 2000, any higher leads to weird 
 	// angular offsets caused by clamping the velocity
 	
-	entity spike = launch_projectile(org, dir * 1996, "nail");
+	//entity spike = launch_projectile(org, dir * 1996, "nail");
+	
+	entity spike = launch_projectile_nail_point(org, dir * 1996, "nail");
+	
 	spike.touch = twinnail_touch;
 	spike.alpha = 1;
 	spike.dmg = 9;
@@ -137,6 +140,26 @@ void(float offs) W_FireTwinNailgun =
 	
 	SUB_ChangeModel (spike, "progs/proj_nail.mdl");
 }
+//=============================================================================================
+//=============================================================================================
+
+entity(vector org, vector vel, string cname) launch_projectile_nail_point =
+{
+	entity nail;
+	
+	nail = toss_projectile(org, vel, "nail");
+	nail.lifetime_finished = time + 10;
+	
+	SUB_ChangeModel (nail, "progs/placeholder_progs/proj_nail_heavy.mdl");
+
+	//nail.avelocity = '0 0 -3000';
+
+	nail.gravity = -0.001;
+
+	return nail;
+}
+
+//=============================================================================================
 //=============================================================================================
 
 void(float nailgun_volume) nailgun_sound =

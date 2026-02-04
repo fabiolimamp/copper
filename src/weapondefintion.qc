@@ -393,6 +393,19 @@ weaponclass_t wpc_NAIL_SPINUP = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_NAIL_SPINUPv2 = {
+	IT_NAILGUN,
+	4, // slot
+	NAIL_SPINUPv2_NAME,
+	NAIL_SPINUPv2_MODEL,
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	NAIL_SPINUPv2_COST, // ammo_usage
+	weaponanim_NAIL_SPINUPv2,
+	SUB_Null,
+	weaponanim_draw
+};
+
 // ====================================================================================
 // SLOT 5: Rebar
 // ====================================================================================
@@ -780,8 +793,9 @@ weaponclass_t weaponsclass[] = {
 	wpc_NAIL_HEAVY,		//no
 	wpc_NAIL_TURBO,		//no
 	wpc_NAIL_LMG,		//no
-	wpc_NAIL_DRUM,		//maybe?
+	wpc_NAIL_DRUM,		//no
 	wpc_NAIL_SPINUP,	//maybe?
+	wpc_NAIL_SPINUPv2,	//maybe?
 	
 //───────────────────────────────────────── REBARS {scraps}
 
@@ -822,18 +836,18 @@ weaponclass_t weaponsclass[] = {
 	
 };
 
-float MAX_WEAPON_NUM = 52;
+float MAX_WEAPON_NUM = 53;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
 	
 	{{wpc_MELEE_WRENCH, wpc_MELEE_THROW}, 2},
 	
-	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER}, 3},	//broken manual reload, no spin
+	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER}, 3},	//impulse 19 = manual reload & pin
 	
 	{{wpc_SHOTGUN_FLAK, wpc_SSG_SAWEDBLUE, wpc_SSG_ROTARY}, 3},
 	
-	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUP}, 2},
+	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUPv2}, 2},
 	
 	{{wpc_REBAR_BUFF, wpc_REBAR_BUZZSAW}, 2},
 	
