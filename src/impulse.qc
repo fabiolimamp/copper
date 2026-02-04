@@ -206,6 +206,24 @@ void() toggle_custom_crosshairs =
 
 
 // --------------------------------
+// Manual_Reload
+// --------------------------------
+
+void() Manual_Reload =
+{
+	if (self.weapon == IT_SHOTGUN)
+	{
+		if (self.pistol_ammo_count != 10)
+		{
+			if 	(self.weaponmodel == "progs/placeholder_progs/v_pistol_akimbo.mdl")	weaponanim_reload_PISTOL_AKIMBO();
+			else if (self.weaponmodel == "progs/placeholder_progs/v_pistol_revolver.mdl")	weaponanim_reload_PISTOL_REVOLVER();
+			else										weaponanim_reloadpistol();
+		}	
+		else if (self.pistol_ammo_count == 10)	weaponanim_twirlpistol();
+	}	
+}
+
+// --------------------------------
 // ImpulseCommands
 // --------------------------------
 void() ImpulseCommands =
@@ -249,7 +267,13 @@ void() ImpulseCommands =
 		case 18:
 			ret = W_CycleSlotWeapon();
 			break;
-
+		
+		
+		case 19:
+			Manual_Reload();
+			break;
+			
+			
 		case 40:
 			dev_impulse_list();
 			break;
