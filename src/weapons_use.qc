@@ -248,8 +248,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_shotgun_brazil.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_prism.mdl");	
 	precache_model ("progs/placeholder_progs/v_shotgun_cowboy.mdl");	
-	precache_model ("progs/placeholder_progs/v_shotgun_sawed.mdl");	
-	precache_model ("progs/placeholder_progs/v_shotgun_sawed2.mdl");	
+	precache_model ("progs/placeholder_progs/v_shotgun_sawed.mdl");		
 		
 	precache_model ("progs/placeholder_progs/v_ssg_super2.mdl");
 	precache_model ("progs/placeholder_progs/v_ssg_super3.mdl");
@@ -259,6 +258,8 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_ssg_sweeper.mdl");	
 	precache_model ("progs/placeholder_progs/v_ssg_blue2.mdl");	
 	precache_model ("progs/placeholder_progs/v_ssg_bigblue.mdl");	
+	precache_model ("progs/placeholder_progs/v_ssg_sawed2.mdl");	
+	precache_model ("progs/placeholder_progs/v_ssg_sawed4.mdl");	
 	
 	precache_model ("progs/placeholder_progs/v_nail_heavy.mdl");		
 	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		
