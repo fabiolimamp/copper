@@ -3,7 +3,7 @@
 //=============================================================================================
 
 string	SSG_SAWEDBLUE_NAME	=	"SSG_SAWEDBLUE";
-string	SSG_SAWEDBLUE_MODEL	=	"progs/placeholder_progs/v_shotgun_sawed.mdl";
+string	SSG_SAWEDBLUE_MODEL	=	"progs/placeholder_progs/v_shotgun_sawed2.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPREAD			DESCRIPTION
@@ -119,13 +119,13 @@ entity(vector org, vector vel) Launch_Flak_SSG_SAWEDBLUE =
 	flak = toss_projectile(org, vel, "flak");
 	flak.lifetime_finished = time + SSG_SAWEDBLUE_LIFE;
 	flak.attack_finished = time + 1;
-	flak.gravity = 0;
+	flak.gravity = -0.001;
 	flak.think = FlakThink;
 	flak.nextthink = time + 0.05;
 	flak.touch = FlakTouch_SSG_SAWEDBLUE_pierce_knockback;
 	flak.alpha = 1;
 	flak.oldvelocity = flak.velocity;
-	flak.movetype = MOVETYPE_FLYMISSILE;
+	//flak.movetype = MOVETYPE_FLYMISSILE;	//point
 
 	//SUB_ChangeModel (flak, "progs/placeholder_progs/proj_pellet_blue.mdl");
 	SUB_ChangeModel (flak, "progs/proj_pellet.mdl");
