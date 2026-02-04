@@ -514,15 +514,15 @@ weaponclass_t wpc_REBAR_REPEATER = {
 	weaponanim_draw
 };
 
-weaponclass_t wpc_REBAR_BOUNCE = {
+weaponclass_t wpc_REBAR_BUZZSAW = {
 	IT_SUPER_NAILGUN,
 	5, // slot
-	REBAR_BOUNCE_NAME,
-	REBAR_BOUNCE_MODEL,
+	REBAR_BUZZSAW_NAME,
+	REBAR_BUZZSAW_MODEL,
 	2, // ammofield
 	IT_NAILS, // ammo_item
-	REBAR_BOUNCE_COST, // ammo_usage
-	weaponanim_REBAR_BOUNCE,
+	REBAR_BUZZSAW_COST, // ammo_usage
+	weaponanim_REBAR_BUZZSAW,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -744,8 +744,8 @@ weaponclass_t weaponsclass[] = {
 
 	wpc_MELEE_WRENCH,	//YES
 	wpc_PISTOL_STECHKIN,	//(force impulse 9 reset with pistol)
-	wpc_MELEE_KNIFE,	//maybe?
-	wpc_MELEE_THROW,	//maybe?
+	wpc_MELEE_KNIFE,	//no
+	wpc_MELEE_THROW,	//no
 	
 //───────────────────────────────────────── PISTOLS {bullets}
 
@@ -794,7 +794,7 @@ weaponclass_t weaponsclass[] = {
 	wpc_REBAR_BUFF,		//YES
 	wpc_REBAR_RIFLE,	//no
 	wpc_REBAR_REPEATER,	//no
-	wpc_REBAR_BOUNCE,	//YES
+	wpc_REBAR_BUZZSAW,	//maybe?
 	
 //───────────────────────────────────────── GRENADES {explosives}
 
@@ -835,7 +835,7 @@ weaponslot_t weaponslots[9] = {
 	
 	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUP}, 2},
 	
-	{{wpc_REBAR_BUFF, wpc_REBAR_BOUNCE}, 2},
+	{{wpc_REBAR_BUFF, wpc_REBAR_BUZZSAW}, 2},
 	
 	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT, wpc_GRENADE_TRIBOLTqc, wpc_GRENADE_TRIBOLT}, 4},
 	
