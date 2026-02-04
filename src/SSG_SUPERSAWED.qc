@@ -14,6 +14,8 @@ string	SSG_SUPERSAWED_MODEL	=	"progs/placeholder_progs/v_shotgun_sawed.mdl";
 
 //	1.8	15	10	2	'600 200 0'		//Nerfed Double Barrel SSG (150++) point ent
 
+//	1.8	15	10	2	'600 400 0'		//Double Barrel (150) bbox ent, knocback + player hop, NO PIERCE
+
 
 //=============================================================================================
 	
@@ -25,9 +27,9 @@ string	SSG_SUPERSAWED_MODEL	=	"progs/placeholder_progs/v_shotgun_sawed.mdl";
 
 	float	SSG_SUPERSAWED_COST	=	2;		//ammo cost to fire
 	
-	float	SSG_SUPERSAWED_LIFE	=	0.2;		//0.25 sec of pellet life
+	float	SSG_SUPERSAWED_LIFE	=	0.4;		//seconds of pellet life
 	
-	vector	SSG_SUPERSAWED_SPREAD	=	'600 200 0';	//seconds post-fire	//W_Fire_SSG_SUPERSAWED_flak
+	vector	SSG_SUPERSAWED_SPREAD	=	'600 400 0';	//projectile based
 
 
 //=============================================================================================
@@ -55,7 +57,7 @@ float() weaponanim_SSG_SUPERSAWED =
 
 	self.weaponframe = 11;	
 	self.think = weaponanim_SSG_SUPERSAWED_loop;
-	self.nextthink = time + 0.06;	
+	self.nextthink = time + 0.05;	
 	return TRUE;
 }
 
@@ -70,9 +72,9 @@ void() weaponanim_SSG_SUPERSAWED_loop =
 		sound(self, CHAN_AUTO, "placeholder_sound/shell_reload.wav", 1, ATTN_NORM);
 	}
 	
-	if (self.weaponframe == 34) sound(self, CHAN_AUTO, "placeholder_sound/shell_reload.wav", 1, ATTN_NORM);
+	if (self.weaponframe == 33) sound(self, CHAN_AUTO, "placeholder_sound/shell_reload.wav", 1, ATTN_NORM);
 	
-	if (self.weaponframe >= 40)	self.customflags &~= CFL_WEAPONLOCK;	//weapon UNLOCK
+	if (self.weaponframe >= 34)	self.customflags &~= CFL_WEAPONLOCK;	//weapon UNLOCK
 	
 	if (self.weaponframe >= 50)
 	{
@@ -93,7 +95,6 @@ void() W_Fire_SSG_SUPERSAWED_flak =
 	makevectors(self.v_angle);
 	self.punchangle_x = -4;
 	
-	//self.velocity = self.velocity + (v_forward * -100) + '0 0 25';	//shotgun jump +64 units
 	self.velocity = self.velocity + (v_forward * -150) + '0 0 25';		//shotgun knockback
 	
 	float shotcount = SSG_SUPERSAWED_COUNT;
@@ -125,7 +126,7 @@ entity(vector org, vector vel) Launch_Flak_SSG_SUPERSAWED =
 	flak.touch = FlakTouch_SSG_SUPERSAWED_pierce_knockback;
 	flak.alpha = 1;
 	flak.oldvelocity = flak.velocity;
-	//flak.movetype = MOVETYPE_FLYMISSILE;	//point
+	flak.movetype = MOVETYPE_FLYMISSILE;	//point
 
 	//SUB_ChangeModel (flak, "progs/placeholder_progs/proj_pellet_blue.mdl");
 	SUB_ChangeModel (flak, "progs/proj_pellet.mdl");
@@ -138,11 +139,16 @@ void() FlakTouch_SSG_SUPERSAWED_pierce_knockback =
 {
 	if (CheckProjectilePassthru()) return;
 
+	if (self.attack_finished < time) {
+		remove(self);
+		return;
+	}
+
 	if (pointcontents(self.origin) == CONTENT_SKY) {
 		remove(self);
 		return;
 	}
-	
+
 	if (other.takedamage)
 	{
 		if ((other.classname == "monster_swarmer" || other.classname == "monster_zombie" ) ||	// IF swarmer or zombie...
@@ -154,7 +160,7 @@ void() FlakTouch_SSG_SUPERSAWED_pierce_knockback =
 		//------------------------------------------------------------------------------- proj KNOCK BACK
 		if ((other.movetype == MOVETYPE_STEP || other.movetype == MOVETYPE_WALK) && 
 			// don't swat bosses or other non-standard-sized enemies around
-			other.maxs_x <= 128 && /*other.health > 0 &&*/ other.type != "boss")
+			other.maxs_x <= 128 && other.type != "boss")
 		{			
 			local vector toss;
 			toss = v_forward;
@@ -168,31 +174,19 @@ void() FlakTouch_SSG_SUPERSAWED_pierce_knockback =
 			other.flags = not(other.flags, FL_ONGROUND);		
 		}
 		//------------------------------------------------------------------------------- proj KNOCK BACK
-
-		if (other.solid != SOLID_BSP) {
-			//ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(SSG_SUPERSAWED_DMG));
-		}
 		
 		FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);
 
 		particle (self.origin, self.velocity*0.1, 73, 40);
 
-		float chance = random();
-		
-		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "rebar/pierce1.wav", 0.2, ATTN_NORM);
-		else if (chance < 0.5)	sound (self, CHAN_AUTO, "rebar/pierce2.wav", 0.2, ATTN_NORM);
-		else			sound (self, CHAN_AUTO, "rebar/pierce3.wav", 0.2, ATTN_NORM);
-		
-		//sound (self, CHAN_AUTO, "rebar/pierce_impact.wav", 1, ATTN_NORM);
+		sound_flakshotgun_impact();
 
-		// doesn't go through doors
-		if (other.classname != "func_door" && other.classname != "func_door_secret"){
-			projectile_passthru();
-			return;
-		}
+		if (other.health <= 0) projectile_passthru();
+		else remove(self);
+		
+		return;
 	}
-	else
-		//FX_Impact(FX_SPARK_LASER, self.origin, self.origin);
-		FX_Impact(FX_SPARK, self.origin, self.origin);
-		remove(self);	
+	
+	FX_Impact(FX_SPARK, self.origin, self.origin);
+	remove(self);
 }

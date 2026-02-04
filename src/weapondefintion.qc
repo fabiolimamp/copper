@@ -887,7 +887,7 @@ weaponslot_t weaponslots[9] = {
 	
 	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER}, 3},	//impulse 19 = manual reload & pin
 	
-	{{wpc_SHOTGUN_FLAK, wpc_SSG_TRIPLE, wpc_SSG_ROTARY}, 3},
+	{{wpc_SHOTGUN_FLAK, wpc_SSG_SUPERSAWED, wpc_SSG_TRIPLE, wpc_SSG_ROTARY}, 4},
 	
 	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUPv2}, 2},
 	
