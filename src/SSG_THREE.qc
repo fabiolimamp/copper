@@ -110,7 +110,7 @@ void() W_Fire_SSG_THREE_flak =
 	entity fl;
 	while (shotcount > 0)
 	{
-		mvel = (v_forward * 2000) + (v_up * 100) + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
+		mvel = (v_forward * 2000) + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
 		fl = Launch_Flak_SSG_THREE(view_origin, mvel);
 		fl.count = shotcount;
 		shotcount = shotcount - 1;
@@ -151,11 +151,7 @@ void() FlakTouch_SSG_THREE_pierce_knockback =
 	
 	if (other.takedamage)
 	{
-		if ((other.classname == "monster_swarmer" || other.classname == "monster_zombie" ) ||	// IF swarmer or zombie...
-			(other.classname == "monster_fish" && other.health <= SSG_THREE_DMG))	// OR IF fish 1 pellet away from death...
-			T_Damage(other, self, self.trueowner, 60);					// gib'em!
-		else
-			T_Damage(other, self, self.trueowner, SSG_THREE_DMG);
+		T_Damage(other, self, self.trueowner, SSG_THREE_DMG);
 
 		//------------------------------------------------------------------------------- proj KNOCK BACK
 		if ((other.movetype == MOVETYPE_STEP || other.movetype == MOVETYPE_WALK) && 

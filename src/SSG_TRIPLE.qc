@@ -95,7 +95,7 @@ void() W_Fire_SSG_TRIPLE_flak =
 	makevectors(self.v_angle);
 	self.punchangle_x = -4;
 	
-	//self.velocity = self.velocity + (v_forward * -150) + '0 0 25';		//shotgun knockback
+	self.velocity = self.velocity + (v_forward * -150) + '0 0 25';		//shotgun knockback
 	
 	float shotcount = SSG_TRIPLE_COUNT;
 	vector spread = SSG_TRIPLE_SPREAD;
@@ -105,7 +105,7 @@ void() W_Fire_SSG_TRIPLE_flak =
 	entity fl;
 	while (shotcount > 0)
 	{
-		mvel = (v_forward * 2000) + (v_up * 100) + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
+		mvel = (v_forward * 2000) + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
 		fl = Launch_Flak_SSG_TRIPLE(view_origin, mvel);
 		fl.count = shotcount;
 		shotcount = shotcount - 1;
@@ -189,74 +189,4 @@ void() FlakTouch_SSG_TRIPLE_pierce_knockback =
 	
 	FX_Impact(FX_SPARK, self.origin, self.origin);
 	remove(self);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*
-	if (CheckProjectilePassthru()) return;
-
-	if (pointcontents(self.origin) == CONTENT_SKY) {
-		remove(self);
-		return;
-	}
-	
-	if (other.takedamage)
-	{
-		if ((other.classname == "monster_swarmer" || other.classname == "monster_zombie" ) ||	// IF swarmer or zombie...
-			(other.classname == "monster_fish" && other.health <= SSG_TRIPLE_DMG))	// OR IF fish 1 pellet away from death...
-			T_Damage(other, self, self.trueowner, 60);					// gib'em!
-		else
-			T_Damage(other, self, self.trueowner, SSG_TRIPLE_DMG);
-
-		//------------------------------------------------------------------------------- proj KNOCK BACK
-		if ((other.movetype == MOVETYPE_STEP || other.movetype == MOVETYPE_WALK) && 
-			// don't swat bosses or other non-standard-sized enemies around
-			other.maxs_x <= 128 && other.type != "boss")
-		{			
-			local vector toss;
-			toss = v_forward;
-			toss_z = 0;
-				
-			toss = normalize(toss) * 400;
-			toss_z = 100;
-			
-			other.origin_z = other.origin_z + 0;
-			other.velocity = toss;
-			other.flags = not(other.flags, FL_ONGROUND);		
-		}
-		//------------------------------------------------------------------------------- proj KNOCK BACK
-
-		if (other.solid != SOLID_BSP) {
-			//ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(SSG_TRIPLE_DMG));
-		}
-		
-		FX_Impact(FX_BLOOD_BIG, self.origin, self.oldvelocity);
-
-		particle (self.origin, self.velocity*0.1, 73, 40);
-
-		float chance = random();
-		
-		if 	(chance < 0.33)	sound (self, CHAN_AUTO, "rebar/pierce1.wav", 0.2, ATTN_NORM);
-		else if (chance < 0.5)	sound (self, CHAN_AUTO, "rebar/pierce2.wav", 0.2, ATTN_NORM);
-		else			sound (self, CHAN_AUTO, "rebar/pierce3.wav", 0.2, ATTN_NORM);
-		
-		//sound (self, CHAN_AUTO, "rebar/pierce_impact.wav", 1, ATTN_NORM);
-
-		// doesn't go through doors
-		if (other.classname != "func_door" && other.classname != "func_door_secret"){
-			projectile_passthru();
-			return;
-		}
-	}
-	
-	//FX_Impact(FX_SPARK_LASER, self.origin, self.origin);
-	FX_Impact(FX_SPARK, self.origin, self.origin);
-	remove(self);
-	*/
 }
