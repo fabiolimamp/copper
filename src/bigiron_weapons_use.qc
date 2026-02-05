@@ -203,100 +203,37 @@ void() W_Precache =
 	precache_sound ("placeholder_sound/shell_reload.wav");
 	precache_sound ("placeholder_sound/shell_reload.wav");
 	precache_sound ("placeholder_sound/shotgn3.wav");
-	precache_sound ("placeholder_sound/sniper.wav");
-	precache_sound ("placeholder_sound/buzz_shoot.wav");
-	precache_sound ("placeholder_sound/buzz_saw.wav");
-	precache_sound ("placeholder_sound/cod_hitmarker.wav");
-	precache_sound ("placeholder_sound/cs_headshot.wav");
-	precache_sound ("placeholder_sound/tommy_fire.wav");
-	precache_sound ("placeholder_sound/tommy_fire2.wav");
-	precache_sound ("placeholder_sound/tommy_fire2.wav");
-	precache_sound ("placeholder_sound/puckler_snap.wav");
 	
-	precache_sound ("placeholder_sound/knife_slash1.wav");
-	precache_sound ("placeholder_sound/knife_slash2.wav");
-	precache_sound ("placeholder_sound/knife_hit1.wav");
-	precache_sound ("placeholder_sound/knife_hit2.wav");
-	precache_sound ("placeholder_sound/knife_hit3.wav");
-	precache_sound ("placeholder_sound/knife_hit4.wav");
-	precache_sound ("placeholder_sound/knife_hitwall1.wav");
-	
-	precache_model ("progs/placeholder_progs/dev_point.mdl");
-	precache_model ("progs/placeholder_progs/dev_point_anim.mdl");
-	precache_model ("progs/placeholder_progs/dev_bbox32.mdl");
 	precache_model ("progs/placeholder_progs/proj_pellet_blue.mdl");
 	precache_model ("progs/placeholder_progs/proj_stake.mdl");
 	precache_model ("progs/placeholder_progs/proj_stake_smoke.mdl");
-	precache_model ("progs/placeholder_progs/proj_nail_heavy.mdl");
-	precache_model ("progs/placeholder_progs/proj_buzz_small.mdl");
-	precache_model ("progs/placeholder_progs/railtrail_smoke.mdl");
-	precache_model ("progs/placeholder_progs/proj_grenade_mini.mdl");
-	precache_model ("progs/placeholder_progs/proj_grenade_mini_nosmoke.mdl");
-	precache_model ("progs/placeholder_progs/proj_grenade_nosmoke.mdl");
-	precache_model ("progs/placeholder_progs/proj_missile_nosmoke.mdl");
-	precache_model ("progs/placeholder_progs/proj_missile_heavy.mdl");
-	precache_model ("progs/placeholder_progs/proj_knife.mdl");
 	
-	precache_model ("progs/placeholder_progs/v_melee_knife.mdl");
-	precache_model ("progs/placeholder_progs/v_melee_knife2.mdl");
-	precache_model ("progs/placeholder_progs/v_melee_knife3.mdl");
-	precache_model ("progs/placeholder_progs/v_melee_throw.mdl");
-	
-	precache_model ("progs/placeholder_progs/v_pistol_akimbo.mdl");
-	precache_model ("progs/placeholder_progs/v_pistol_revolver.mdl");
-	precache_model ("progs/placeholder_progs/v_pistol_bigiron.mdl");
-	
+	precache_model ("progs/placeholder_progs/v_shotgun_super2.mdl");
+	precache_model ("progs/placeholder_progs/v_shotgun_super3.mdl");
+	precache_model ("progs/placeholder_progs/v_shotgun_super4.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_lever.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_stack.mdl");
 	precache_model ("progs/placeholder_progs/v_shotgun_brazil.mdl");
-	precache_model ("progs/placeholder_progs/v_shotgun_prism.mdl");	
-	precache_model ("progs/placeholder_progs/v_shotgun_cowboy.mdl");	
-	precache_model ("progs/placeholder_progs/v_shotgun_sawed.mdl");		
-		
-	precache_model ("progs/placeholder_progs/v_ssg_super2.mdl");
-	precache_model ("progs/placeholder_progs/v_ssg_super3.mdl");
-	precache_model ("progs/placeholder_progs/v_ssg_super4.mdl");
-	precache_model ("progs/placeholder_progs/v_ssg_rotary.mdl");	
-	precache_model ("progs/placeholder_progs/v_ssg_auto.mdl");	
-	precache_model ("progs/placeholder_progs/v_ssg_sweeper.mdl");	
-	precache_model ("progs/placeholder_progs/v_ssg_blue2.mdl");	
-	precache_model ("progs/placeholder_progs/v_ssg_bigblue.mdl");	
-	precache_model ("progs/placeholder_progs/v_ssg_sawed2.mdl");	
-	precache_model ("progs/placeholder_progs/v_ssg_sawed4.mdl");	
-	precache_model ("progs/placeholder_progs/v_ssg_3tri.mdl");	
-	precache_model ("progs/placeholder_progs/v_ssg_3flat.mdl");	
-	
-	precache_model ("progs/placeholder_progs/v_nail_heavy.mdl");		
-	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		
-	precache_model ("progs/placeholder_progs/v_nail_lmg.mdl");
-	precache_model ("progs/placeholder_progs/v_nail_drum.mdl");
+	precache_model ("progs/placeholder_progs/v_shotgun_rotary.mdl");	
+	precache_model ("progs/placeholder_progs/v_shotgun_auto.mdl");	
+	precache_model ("progs/placeholder_progs/v_shotgun_sweeper.mdl");	
+	precache_model ("progs/placeholder_progs/v_shotgun_blue2.mdl");	
+	precache_model ("progs/placeholder_progs/v_shotgun_bigblue.mdl");	
 	
 	precache_model ("progs/placeholder_progs/v_rebar_multi.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_wide.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_tall.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_fast.mdl");		
 	precache_model ("progs/placeholder_progs/v_rebar_buff.mdl");
-	precache_model ("progs/placeholder_progs/v_rebar_rifle.mdl");
-	precache_model ("progs/placeholder_progs/v_rebar_buzzsaw.mdl");
-	
-	precache_model ("progs/placeholder_progs/v_grenade_direct.mdl");
-	precache_model ("progs/placeholder_progs/v_grenade_crossbow.mdl");
-	precache_model ("progs/placeholder_progs/v_grenade_thumper.mdl");
-	precache_model ("progs/placeholder_progs/v_grenade_tribolt.mdl");
-	precache_model ("progs/placeholder_progs/v_grenade_triboltqc.mdl");
-	precache_model ("progs/placeholder_progs/v_grenade_triple.mdl");
-	precache_model ("progs/placeholder_progs/v_grenade_auto.mdl");
-	precache_model ("progs/placeholder_progs/v_grenade_auto2.mdl");
-	
-	precache_model ("progs/placeholder_progs/v_rocket_original.mdl");		
-	precache_model ("progs/placeholder_progs/v_rocket_rpg.mdl");		
-	precache_model ("progs/placeholder_progs/v_rocket_instant.mdl");		
-	precache_model ("progs/placeholder_progs/v_rocket_heavy.mdl");		
-	precache_model ("progs/placeholder_progs/v_rocket_halflife.mdl");
-	precache_model ("progs/placeholder_progs/v_rocket_double.mdl");
-	precache_model ("progs/placeholder_progs/v_rocket_flash.mdl");
 			
-	precache_model ("progs/placeholder_progs/v_power_rifle.mdl");		
+	precache_model ("progs/placeholder_progs/v_nail_heavy.mdl");		
+	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		
+	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");	
+		
+	precache_sound ("placeholder_sound/puckler_snap.wav");			
+	precache_sound ("placeholder_sound/volley_fire1.wav");			
+	precache_sound ("placeholder_sound/volley_fire2.wav");			
+	precache_sound ("placeholder_sound/volley_fire3.wav");			
 	
 	//=============================================================================================	
 
@@ -554,7 +491,6 @@ float(float weap, float forcereset = FALSE) W_ChangeWeapon =
 	}
 
 	if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
-	//if (time > self.pistol_lastreload_time + 3.75)	
 		self.pistol_ammo_count = 10;	// reset pistol reload
 
 	self.weaponreload_perc = 0;
@@ -718,7 +654,6 @@ float(float weapIndex) W_ChangeWeaponByIndex =
 	}
 
 	if (time > self.pistol_lastreload_time + 3.75 && self.pistol_ammo_count <= 0)	
-	//if (time > self.pistol_lastreload_time + 3.75)	
 		self.pistol_ammo_count = 10;
 
 	self.weaponreload_perc = 0;
@@ -755,24 +690,15 @@ float(float weapIndex) W_ChangeWeaponByIndex =
 float(float imp) W_ChangeSlot =
 {
 	// Pistol Manual Reload
-	/*
 	if (imp == 2 && self.weapon == IT_SHOTGUN)
 	{
 		if (self.pistol_ammo_count != 10)
-						
-			if 	(self.weaponmodel == "progs/placeholder_progs/v_pistol_akimbo.mdl")	weaponanim_reload_PISTOL_AKIMBO();
-			else if (self.weaponmodel == "progs/placeholder_progs/v_pistol_revolver.mdl")	weaponanim_reload_PISTOL_REVOLVER();
-			else										weaponanim_reloadpistol();
-			
-			
-		//else if (self.pistol_ammo_count == 10)	//broken spin cause idk how to determine which weaponaim to use, how to check gun equipped???
-								//make all pistol reloads take place in the same frames for easy switching!!! <--- KEBBY
-			
-			//weaponanim_twirlpistol();
-		
+			weaponanim_reloadpistol();
+		else if (self.pistol_ammo_count == 10)
+			weaponanim_twirlpistol();
 		return WEAPONSTAT_AVAILABLE;
 	}
-	*/
+		
 	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
 
 	float slotQuantity = weaponslots[imp].qt;

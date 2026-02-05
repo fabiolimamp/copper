@@ -109,6 +109,19 @@ weaponclass_t wpc_PISTOL_REVOLVER = {
 	weaponanim_draw // drawfunction
 };
 
+weaponclass_t wpc_PISTOL_BIGIRON = {
+	IT_SHOTGUN,
+	2, // slot
+	PISTOL_BIGIRON_NAME, // name
+	PISTOL_BIGIRON_MODEL, // model
+	5, // ammofield
+	0, // ammo_item
+	0, // ammo_usage
+	weaponanim_PISTOL_BIGIRON, // animfunction
+	SUB_Null, // idlefunction
+	weaponanim_draw // drawfunction
+};
+
 // ====================================================================================
 // SLOT 3: Shells
 // ====================================================================================
@@ -856,6 +869,7 @@ weaponclass_t weaponsclass[] = {
 	//wpc_PISTOL_STECHKIN,	//maybe?
 	wpc_PISTOL_AKIMBO,	//YES
 	wpc_PISTOL_REVOLVER,	//YES
+	wpc_PISTOL_BIGIRON,	//no
 	
 //───────────────────────────────────────── SHOTGUNS {shells}
 
@@ -934,14 +948,14 @@ weaponclass_t weaponsclass[] = {
 	
 };
 
-float MAX_WEAPON_NUM = 60;
+float MAX_WEAPON_NUM = 61;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
 	
 	{{wpc_MELEE_WRENCH, wpc_MELEE_THROW}, 2},
 	
-	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER}, 3},	//impulse 19 = manual reload & pin
+	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER, wpc_PISTOL_BIGIRON}, 4},	//impulse 19 = manual reload & pin
 	
 	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_QUAKEY, wpc_SSG_THREE, wpc_SSG_ROTARY, wpc_SSG_ROTARYFLAK}, 5},
 	

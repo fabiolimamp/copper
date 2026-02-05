@@ -1,5 +1,5 @@
 //=============================================================================================
-// tracers and bullet code by bmFbr, edits by Kebby
+// Placeholder weapons testing
 //=============================================================================================
 
 string	PISTOL_REVOLVER_NAME	=	"PISTOL_REVOLVER";
@@ -25,7 +25,7 @@ string	PISTOL_REVOLVER_MODEL	=	"progs/placeholder_progs/v_pistol_revolver.mdl";
 	
 	float	PISTOL_REVOLVER_ROF 	= 0.5;		// stetchkin 0.3 sec
 
-	//float	PISTOL_REVOLVER_COUNT	= 2;
+//	float	PISTOL_REVOLVER_COUNT	= 2;
 	float	PISTOL_REVOLVER_DMG	= 30;	//++	// stetchkin 20 damge
 	
 	float	PISTOL_REVOLVER_RELOAD	= 2;		// stetchkin 1.5 sec
@@ -215,7 +215,7 @@ void() W_Fire_PISTOL_REVOLVER =
 	
 	
 	
-	pierce_hitscanTrace(PISTOL_REVOLVER_DMG, org_gun, org_eye, dir_eye, TRUE);
+	FirePierce_HitscanTrace(PISTOL_REVOLVER_DMG, org_gun, org_eye, dir_eye, TRUE);
 	
 	
 	
@@ -237,7 +237,7 @@ void() W_Fire_PISTOL_REVOLVER =
 //=====================================================================================================================
 //=====================================================================================================================
 
-void(float pierce_damage, vector org_gun, vector org_eye, vector dir_eye, float drawTrail) pierce_hitscanTrace =
+void(float pierce_damage, vector org_gun, vector org_eye, vector dir_eye, float drawTrail) FirePierce_HitscanTrace =
 {
 	float timetoend;
 	vector vel, loopsrc, destination, dir2, dir3;

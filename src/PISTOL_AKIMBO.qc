@@ -1,5 +1,5 @@
 //=============================================================================================
-// tracers and bullet code by bmFbr, edits by Kebby
+// Placeholder weapons testing
 //=============================================================================================
 
 string	PISTOL_AKIMBO_NAME	=	"PISTOL_AKIMBO";
@@ -149,6 +149,8 @@ void() weaponanim_reload_PISTOL_AKIMBO =
 
 void() weaponanim_reload_PISTOL_AKIMBO_loop =
 {	
+	if (self.weaponframe == 33) Drop_PistolMag();
+			
 	if (self.weaponframe == 35) sound (self, CHAN_AUTO, "pistol/deadlock_reload.wav", 1, ATTN_NORM);		
 		
 	if (self.weaponframe >= 48)
