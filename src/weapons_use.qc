@@ -260,6 +260,8 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_ssg_bigblue.mdl");	
 	precache_model ("progs/placeholder_progs/v_ssg_sawed2.mdl");	
 	precache_model ("progs/placeholder_progs/v_ssg_sawed4.mdl");	
+	precache_model ("progs/placeholder_progs/v_ssg_3tri.mdl");	
+	precache_model ("progs/placeholder_progs/v_ssg_3flat.mdl");	
 	
 	precache_model ("progs/placeholder_progs/v_nail_heavy.mdl");		
 	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		

@@ -284,6 +284,19 @@ weaponclass_t wpc_SSG_TRIPLE = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_SSG_THREE = {
+	IT_SUPER_SHOTGUN,
+	3, // slot
+	SSG_THREE_NAME,
+	SSG_THREE_MODEL,
+	1, // ammofield
+	IT_SHELLS, // ammo_item
+	SSG_THREE_COST, // ammo_usage
+	weaponanim_SSG_THREE,
+	SUB_Null,
+	weaponanim_draw
+};
+
 weaponclass_t wpc_SSG_SUPER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -819,10 +832,11 @@ weaponclass_t weaponsclass[] = {
 //───────────────────────────────────────── SUPER SHOTGUNS {shells}
 
 	wpc_SSG_BLUE,		//YES
-	wpc_SSG_SAWEDBLUE,	//maybe?
-	wpc_SSG_SAWEDBLUEv2,	//maybe?
-	wpc_SSG_SUPERSAWED,	//maybe?
-	wpc_SSG_TRIPLE,		//maybe?
+	wpc_SSG_SAWEDBLUE,	//no
+	wpc_SSG_SAWEDBLUEv2,	//no
+	wpc_SSG_SUPERSAWED,	//no
+	wpc_SSG_TRIPLE,		//no
+	wpc_SSG_THREE,		//maybe?
 	wpc_SSG_SUPER,		//no
 	wpc_SSG_ROTARY,		//YES
 	wpc_SSG_ROTARYFAST,	//no
@@ -878,7 +892,7 @@ weaponclass_t weaponsclass[] = {
 	
 };
 
-float MAX_WEAPON_NUM = 56;
+float MAX_WEAPON_NUM = 57;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -887,7 +901,7 @@ weaponslot_t weaponslots[9] = {
 	
 	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER}, 3},	//impulse 19 = manual reload & pin
 	
-	{{wpc_SHOTGUN_FLAK, wpc_SSG_SUPERSAWED, wpc_SSG_TRIPLE, wpc_SSG_ROTARY}, 4},
+	{{wpc_SHOTGUN_FLAK, wpc_SSG_THREE, wpc_SSG_ROTARY}, 3},
 	
 	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUPv2}, 2},
 	
