@@ -953,11 +953,11 @@ float MAX_WEAPON_NUM = 61;
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
 	
-	{{wpc_MELEE_WRENCH, wpc_MELEE_THROW}, 2},
+	{{wpc_MELEE_WRENCH}, 1},
 	
 	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER, wpc_PISTOL_BIGIRON}, 4},	//impulse 19 = manual reload & pin
 	
-	{{wpc_SHOTGUN_FLAK, wpc_SHOTGUN_QUAKEY, wpc_SSG_THREE, wpc_SSG_ROTARY, wpc_SSG_ROTARYFLAK}, 5},
+	{{wpc_SHOTGUN_FLAK, wpc_SSG_THREE, wpc_SHOTGUN_QUAKEY, wpc_SSG_ROTARY, wpc_SSG_ROTARYFLAK}, 5},
 	
 	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUPv2}, 2},
 	

@@ -35,7 +35,10 @@ float() weaponanim_wrench =
 	sound (self, CHAN_OTHER, "impact/wrench_swing.wav", 1, ATTN_NORM);
 	SuperDamageSound();
 	
+	
 	self.attack_finished = time + 0.8;
+	
+	self.customflags |= CFL_WEAPONLOCK;	//weapon LOCK
 	
 	
 	local float r = floor(random()*3);
@@ -61,6 +64,27 @@ void() weaponanim_wrench_loop =
 	if (self.weaponframe == 14 || self.weaponframe == 34 || self.weaponframe == 54)
 		W_FireWrench();
 
+	if (self.weaponframe == 20 || self.weaponframe == 40 || self.weaponframe == 60)
+		self.customflags &~= CFL_WEAPONLOCK;	//weapon UNLOCK
+	
+	
+	//---------------------------	//If used hotkey [melee] escape the anim loop back to previous old gun
+	
+		//please forgive me bmFbr...
+	
+	if (self.melee_hotkeyactive && (self.weaponframe == 21 || self.weaponframe == 41 || self.weaponframe == 61))
+	{
+		//self.think = self.melee_returnthink;
+		//self.weaponframe = self.melee_returnframe;
+		//W_ChangeWeapon(self.melee_returnoldgun, TRUE);
+		
+		W_ChangeSlot(self.melee_returnimpcheck);		//switch weapons not by IT_WEAPON, but by pressing impulse...
+		self.melee_hotkeyactive = FALSE;
+		return;	
+	}
+	//---------------------------	//Else not using hotkey [melee] so continue with regular melee swing
+	
+	
 	if (self.weaponframe == 30 || self.weaponframe == 50 || self.weaponframe == 70)
 	{
 		self.weaponframe = 10;
@@ -68,7 +92,10 @@ void() weaponanim_wrench_loop =
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_wrench_loop;
+
+	
+	self.think = weaponanim_wrench_loop;	
+		
 	self.nextthink = time + 0.05;
 }
 

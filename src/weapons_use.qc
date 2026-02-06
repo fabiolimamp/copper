@@ -773,6 +773,18 @@ float(float imp) W_ChangeSlot =
 		return WEAPONSTAT_AVAILABLE;
 	}
 	*/
+	
+	
+	
+	
+	
+		//please forgive me bmFbr...
+			
+	self.melee_returnimpcheck = imp;
+	
+	
+	
+	
 	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
 
 	float slotQuantity = weaponslots[imp].qt;

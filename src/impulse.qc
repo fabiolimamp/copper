@@ -225,6 +225,92 @@ void() Manual_Reload =
 }
 
 // --------------------------------
+// Manual_Melee
+// --------------------------------
+
+
+	//please forgive me bmFbr...
+
+.float	melee_hotkeyactive;
+.float  melee_returnimpcheck;
+//.float melee_returnoldgun;
+//.void() melee_returnthink;
+//.float melee_returnframe;
+
+
+void() Manual_Melee =
+{
+	//Save previous old gun so we can switch back when done
+	//Save previous old gun nextthink so we can return to that point in time (pause cooldown)
+	//Otherwise the previous old gun will exhaust the cooldown time during melee (in parallel)
+	
+	//*edit* IT_WEAPON does not save the last "real" weapon, but saving the Impulse key does work
+	
+	
+		
+	//if (self.weapon != IT_AXE)
+	/*
+	if (self.melee_returnimpcheck >= 2 && self.melee_returnimpcheck <= 8)
+	{
+		//self.melee_returnoldgun = self.weapon;
+		//self.melee_returnframe = self.weaponframe;
+		//self.melee_returnthink = self.think;
+	}
+	*/
+	
+	//----------------------------------------------------------------Melee is already equipped
+	if (self.weapon == IT_AXE)
+	{
+		sprint(self, "Melee is equipped... ");
+				
+		if (self.attackhold)
+		{
+			sprint(self, "Holding down attack...\n");
+			return;
+		}
+				
+		if (self.attack_finished > time)
+		{
+			sprint(self, "Can't swing yet... \n");
+			return;
+		}
+			
+		self.melee_hotkeyactive = TRUE;
+						
+		sprint(self, "\b[Melee] hotkey swing! \b\n");
+		weaponanim_wrench();
+		return;
+	}
+	//----------------------------------------------------------------Switching from previous old gun to [melee]
+	else	
+	{
+		if (self.customflags == CFL_WEAPONLOCK)
+		{
+			//sprint(self, "Gun >>>LOCKED<<< can't switch...\n");
+			sprint(self, "Gun >>>UNLOCKED<<<... ");
+			self.customflags &~= CFL_WEAPONLOCK;
+		}
+				
+		sprint(self, "Switched to Melee... ");
+		W_ChangeWeapon(IT_AXE, TRUE);
+		
+		self.melee_hotkeyactive = TRUE;
+		
+		if (self.attack_finished > time)
+		{
+			sprint(self, "\bSkipped gun cooldown! \b\n");
+			self.attack_finished = time + 0;
+			weaponanim_wrench();
+			return;
+		}
+				
+		sprint(self, "\b[Melee] hotkey swing! \b\n");
+		weaponanim_wrench();
+		return;
+	}
+}
+
+// --------------------------------
 // ImpulseCommands
 // --------------------------------
 void() ImpulseCommands =
@@ -272,6 +358,9 @@ void() ImpulseCommands =
 		
 		case 19:
 			Manual_Reload();
+			break;
+		case 49:
+			Manual_Melee();
 			break;
 			
 			

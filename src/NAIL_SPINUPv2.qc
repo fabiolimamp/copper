@@ -86,10 +86,10 @@ float() weaponanim_NAIL_SPINUPv2 =
 	
 	
 	if 	(self.NAIL_SPINUPv2_LEVEL == 0)	sprint(self, "spinup 0  [    ]\n");
-	else if (self.NAIL_SPINUPv2_LEVEL == 1)	sprint(self, "spinup 1  [-   ]\n");
-	else if (self.NAIL_SPINUPv2_LEVEL == 2)	sprint(self, "spinup 2  [--  ]\n");
-	else if (self.NAIL_SPINUPv2_LEVEL == 3)	sprint(self, "spinup 3  [--- ]\n");
-	else if (self.NAIL_SPINUPv2_LEVEL == 4)	sprint(self, "spinup 4  [++++] MAX\n");
+	else if (self.NAIL_SPINUPv2_LEVEL == 1)	sprint(self, "spinup 1  [\b-\b   ]\n");
+	else if (self.NAIL_SPINUPv2_LEVEL == 2)	sprint(self, "spinup 2  [\b--\b  ]\n");
+	else if (self.NAIL_SPINUPv2_LEVEL == 3)	sprint(self, "spinup 3  [\b---\b ]\n");
+	else if (self.NAIL_SPINUPv2_LEVEL == 4)	sprint(self, "spinup 4  [\b++++\b] MAX\n");
 	else					sprint(self, "???");
 	
 	
