@@ -302,6 +302,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rocket_flash.mdl");
 	precache_model ("progs/placeholder_progs/v_rocket_remote.mdl");
 	precache_model ("progs/placeholder_progs/v_rocket_remote2.mdl");
+	precache_model ("progs/placeholder_progs/v_rocket_triple.mdl");
 			
 	precache_model ("progs/placeholder_progs/v_power_rifle.mdl");		
 	

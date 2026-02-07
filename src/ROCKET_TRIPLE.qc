@@ -2,8 +2,8 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	ROCKET_FLASH_NAME	=	"ROCKET_FLASH";
-string	ROCKET_FLASH_MODEL	=	"progs/placeholder_progs/v_rocket_flash.mdl";
+string	ROCKET_TRIPLE_NAME	=	"ROCKET_TRIPLE";
+string	ROCKET_TRIPLE_MODEL	=	"progs/placeholder_progs/v_rocket_triple.mdl";
 
 //	ROF	COUNT * DMG	COST	SPEED_BASE	DESCRIPTION
 //	0.8	1	120	1	1000		//ID RL (120+)
@@ -12,23 +12,23 @@ string	ROCKET_FLASH_MODEL	=	"progs/placeholder_progs/v_rocket_flash.mdl";
 //=============================================================================================
 	
 	
-	float	ROCKET_FLASH_ROF		=	1.6;		//seconds post-fire
+	float	ROCKET_TRIPLE_ROF		=	1.6;		//seconds post-fire
 	
-	float	ROCKET_FLASH_DMG		=	60;	//*4=240	//damage per shot
+	float	ROCKET_TRIPLE_DMG		=	45;	//(*2)*3=270	//damage per shot
 	
-	float	ROCKET_FLASH_COST		=	2;		//ammo cost to fire
+	float	ROCKET_TRIPLE_COST		=	3;		//ammo cost to fire
 		
-	float	ROCKET_FLASH_SPEED_BASE		=	30;		//rocket speed start
-	float	ROCKET_FLASH_SPEED_MULTI	=	3;		//accelerator	
+	float	ROCKET_TRIPLE_SPEED_BASE	=	30;		//rocket speed start
+	float	ROCKET_TRIPLE_SPEED_MULTI	=	3;		//accelerator	
 	
-	float	ROCKET_FLASH_SPEED_MAX		=	2000;		//rocket speed limit
+	float	ROCKET_TRIPLE_SPEED_MAX		=	2000;		//rocket speed limit
 	
-	//vector	ROCKET_FLASH_SPREAD		=	'10 10 0';		//rocket speed limit
+	//vector	ROCKET_TRIPLE_SPREAD		=	'10 10 0';		//rocket speed limit
 	
 
 //=============================================================================================
 
-float() weaponanim_ROCKET_FLASH =
+float() weaponanim_ROCKET_TRIPLE =
 {
 	if (self.attack_finished > time)
 		return FALSE;
@@ -39,9 +39,9 @@ float() weaponanim_ROCKET_FLASH =
 		return FALSE;
 	}
 
-	self.currentammo = self.ammo_rockets = self.ammo_rockets - ROCKET_FLASH_COST;
+	self.currentammo = self.ammo_rockets = self.ammo_rockets - ROCKET_TRIPLE_COST;
 
-	self.attack_finished = time + ROCKET_FLASH_ROF;
+	self.attack_finished = time + ROCKET_TRIPLE_ROF;
 	
 	SUB_CallAsSelf(player_rockatt1, self.animcontroller);
 	
@@ -49,11 +49,10 @@ float() weaponanim_ROCKET_FLASH =
 
 
 
-	W_Fire_ROCKET_FLASH(0);
+	W_Fire_ROCKET_TRIPLE(0);
 
 
 	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
-	sound (self, CHAN_AUTO, "mmml/fire1.wav", 1, ATTN_NORM);
 	sound (self, CHAN_AUTO, "mmml/fire1.wav", 1, ATTN_NORM);
 	sound (self, CHAN_AUTO, "mmml/fire1.wav", 1, ATTN_NORM);
 	sound (self, CHAN_AUTO, "mmml/fire1.wav", 1, ATTN_NORM);
@@ -64,17 +63,16 @@ float() weaponanim_ROCKET_FLASH =
 
 	self.weaponframe = 11;
 	
-	self.think = weaponanim_ROCKET_FLASH_loop;
+	self.think = weaponanim_ROCKET_TRIPLE_loop;
 	self.nextthink = time + 0.02;
 	
 	return TRUE;
 }
 
-void() weaponanim_ROCKET_FLASH_loop =
+void() weaponanim_ROCKET_TRIPLE_loop =
 {
-	if (self.weaponframe == 12)	W_Fire_ROCKET_FLASH(1);	
-	if (self.weaponframe == 13)	W_Fire_ROCKET_FLASH(2);	
-	if (self.weaponframe == 14)	W_Fire_ROCKET_FLASH(3);	
+	if (self.weaponframe == 12)	W_Fire_ROCKET_TRIPLE(1);	
+	if (self.weaponframe == 13)	W_Fire_ROCKET_TRIPLE(2);	
 	
 	if (self.weaponframe >= 50)
 	{
@@ -83,13 +81,13 @@ void() weaponanim_ROCKET_FLASH_loop =
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_ROCKET_FLASH_loop;
+	self.think = weaponanim_ROCKET_TRIPLE_loop;
 	self.nextthink = time + 0.02;
 }
 
 //=============================================================================================
 
-void(float offset) W_Fire_ROCKET_FLASH =
+void(float offset) W_Fire_ROCKET_TRIPLE =
 {
 	local entity missile;
 	local vector loc;
@@ -98,28 +96,27 @@ void(float offset) W_Fire_ROCKET_FLASH =
 	
 	makevectors (self.v_angle);
 	
-	if 	(offset == 0)	loc = self.origin + v_forward * 8 + '0 0 24' + v_right*10;
-	else if (offset == 1)	loc = self.origin + v_forward * 8 + '0 0 10' + v_right*10;
-	else if (offset == 2)	loc = self.origin + v_forward * 8 + '0 0 24' + v_right*24;
-	else			loc = self.origin + v_forward * 8 + '0 0 10' + v_right*24;
+	if 	(offset == 0)	loc = self.origin + v_forward * 8 + v_up*32 + v_right*16;
+	else if (offset == 1)	loc = self.origin + v_forward * 8 + v_up*16 + v_right*16;
+	else			loc = self.origin + v_forward * 8 + v_up*0 + v_right*16;
 	
 	
-	missile = launch_ROCKET_FLASH( loc, v_forward * 1 );
+	missile = launch_ROCKET_TRIPLE( loc, v_forward * ROCKET_TRIPLE_SPEED_BASE );
 }
 //=============================================================================================
 
-entity(vector org, vector vel) launch_ROCKET_FLASH =
+entity(vector org, vector vel) launch_ROCKET_TRIPLE =
 {
 	entity missile;
 	
 	missile = launch_projectile(org, vel, "rocket");	// FLYMISSILE
 
-	missile.touch = T_ROCKET_FLASH_Touch;
+	missile.touch = T_ROCKET_TRIPLE_Touch;
 	missile.type = "missile";
 	
 	missile.nextthink = time;
-	missile.velocity = v_forward * ROCKET_FLASH_SPEED_BASE;
-	missile.think = ROCKET_FLASH_think;
+	missile.velocity = v_forward * ROCKET_TRIPLE_SPEED_BASE;
+	missile.think = ROCKET_TRIPLE_think;
 	
 	SUB_ChangeModel (missile, "progs/proj_missile.mdl");
 	
@@ -127,11 +124,11 @@ entity(vector org, vector vel) launch_ROCKET_FLASH =
 }
 //=============================================================================================
 
-void() ROCKET_FLASH_think =
+void() ROCKET_TRIPLE_think =
 {
 	float spd = vlen(self.velocity);
-	spd *= ROCKET_FLASH_SPEED_MULTI;
-	if (spd > ROCKET_FLASH_SPEED_MAX) spd = ROCKET_FLASH_SPEED_MAX;
+	spd *= ROCKET_TRIPLE_SPEED_MULTI;
+	if (spd > ROCKET_TRIPLE_SPEED_MAX) spd = ROCKET_TRIPLE_SPEED_MAX;
 	self.velocity = normalize(self.velocity) * spd;
 
 	
@@ -143,7 +140,7 @@ void() ROCKET_FLASH_think =
 
 //=============================================================================================
 
-void() T_ROCKET_FLASH_Touch =
+void() T_ROCKET_TRIPLE_Touch =
 {
 	if (other == self.owner) return;		// don't explode on owner
 	if (CheckProjectilePassthru()) return;
@@ -154,31 +151,32 @@ void() T_ROCKET_FLASH_Touch =
 		return;
 	}
 
-	T_ROCKET_FLASH_Explode();
+	T_ROCKET_TRIPLE_Explode();
 
 	self.origin = self.origin - 8*normalize(self.velocity);
-	T_ROCKET_FLASH_ExplosiveTouch();
+	T_ROCKET_TRIPLE_ExplosiveTouch();
 }
 //=============================================================================================
 
-void() T_ROCKET_FLASH_ExplosiveTouch =
+void() T_ROCKET_TRIPLE_ExplosiveTouch =
 {
 	if (other.classname == "monster_shambler")
 		//BecomeWeakExplosion();
 		BecomeMiniBlast(2); //weak, no TE_effects
 	else
-		//BecomeExplosion();
+		BecomeExplosion();
 		//BecomeBoxExplosion();	//big
-		BecomeMiniBlast(0); //normal, no TE_effects
+		//BecomeMiniBlast(0); //normal, no TE_effects
 }
 
-void() T_ROCKET_FLASH_Explode =
+void() T_ROCKET_TRIPLE_Explode =
 {
 	if (other.health)
 	{
-		T_Damage (other, self, self.trueowner, ROCKET_FLASH_DMG, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
+		T_Damage (other, self, self.trueowner, ROCKET_TRIPLE_DMG*2, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
 	}
 
 	// don't do radius damage to other, because all damage will be done in the impact
-	T_RadiusDamage (self, self.trueowner, ROCKET_FLASH_DMG, other, DMGTYPE_EXPLOSION);
+	T_RadiusDamage (self, self.trueowner, ROCKET_TRIPLE_DMG, other, DMGTYPE_EXPLOSION);
+	T_RadiusDamage (self, self.trueowner, ROCKET_TRIPLE_DMG, other, DMGTYPE_EXPLOSION);
 }
