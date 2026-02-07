@@ -99,7 +99,6 @@ void(float offset) W_Fire_ROCKET_FLASH =
 	else			loc = self.origin + v_forward * 8 + '0 0 10' + v_right*22;
 	
 	missile = launch_ROCKET_FLASH( loc, v_forward * 1 );
-	self.attack_finished = time + 1.2;
 }
 //=============================================================================================
 

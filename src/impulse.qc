@@ -221,7 +221,13 @@ void() Manual_Reload =
 			else										weaponanim_reloadpistol();
 		}	
 		else if (self.pistol_ammo_count == 10)	weaponanim_twirlpistol();
-	}	
+	}
+	else if	(self.weaponmodel == "progs/placeholder_progs/v_rocket_remote.mdl")
+	{
+		//Check_To_Fire_Mine();
+		W_Detonate_Mine();
+		return;
+	}
 }
 
 // --------------------------------

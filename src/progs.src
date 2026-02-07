@@ -94,6 +94,7 @@ ROCKET_HEAVY.qc
 ROCKET_DOUBLE.qc
 ROCKET_FLASH.qc
 ROCKET_INSTANT.qc
+ROCKET_REMOTE.qc
 POWER_RIFLE.qc
 weapons_use.qc
 weapondefintion.qc

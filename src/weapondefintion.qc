@@ -821,6 +821,19 @@ weaponclass_t wpc_ROCKET_INSTANT = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_ROCKET_REMOTE = {
+	IT_ROCKET_LAUNCHER,
+	7, // slot
+	ROCKET_REMOTE_NAME,
+	ROCKET_REMOTE_MODEL,
+	3, // ammofield
+	IT_ROCKETS, // ammo_item
+	ROCKET_REMOTE_COST, // ammo_usage
+	weaponanim_ROCKET_REMOTE,
+	SUB_Null,
+	weaponanim_draw
+};
+
 // ====================================================================================
 // SLOT 8: Superweapon
 // ====================================================================================
@@ -937,9 +950,10 @@ weaponclass_t weaponsclass[] = {
 	wpc_ROCKET_RPG,		//maybe?
 	wpc_ROCKET_HALFLIFE,	//no
 	wpc_ROCKET_HEAVY,	//no
-	wpc_ROCKET_DOUBLE,	//no
+	wpc_ROCKET_DOUBLE,	//maybe?
 	wpc_ROCKET_FLASH,	//no
 	wpc_ROCKET_INSTANT,	//no
+	wpc_ROCKET_REMOTE,	//maybe?
 	
 //───────────────────────────────────────── POWER WEAPONS {fragments}
 
@@ -948,7 +962,7 @@ weaponclass_t weaponsclass[] = {
 	
 };
 
-float MAX_WEAPON_NUM = 61;
+float MAX_WEAPON_NUM = 62;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -965,7 +979,7 @@ weaponslot_t weaponslots[9] = {
 	
 	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT, wpc_GRENADE_TRIBOLTqc, wpc_GRENADE_TRIBOLT}, 4},
 	
-	{{wpc_ROCKET_MMML, wpc_ROCKET_ORIGINAL, wpc_ROCKET_RPG}, 3},
+	{{wpc_ROCKET_MMML, wpc_ROCKET_REMOTE, wpc_ROCKET_ORIGINAL, wpc_ROCKET_RPG, wpc_ROCKET_DOUBLE}, 5},
 	
 	{{wpc_POWER_INVOKER, wpc_POWER_RIFLE}, 2}
 };

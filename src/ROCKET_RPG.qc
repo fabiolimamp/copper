@@ -89,7 +89,6 @@ void() W_Fire_ROCKET_RPG =
 	loc = self.origin + v_forward * 8 + '0 0 16' + v_right*8;
 	
 	missile = launch_ROCKET_RPG( loc, v_forward * 1 );
-	self.attack_finished = time + 1.2;
 }
 //=============================================================================================
 

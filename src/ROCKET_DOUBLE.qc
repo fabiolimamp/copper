@@ -12,17 +12,16 @@ string	ROCKET_DOUBLE_MODEL	=	"progs/placeholder_progs/v_rocket_double.mdl";
 //=============================================================================================
 	
 	
-	float	ROCKET_DOUBLE_ROF		=	1.6;		//seconds post-fire
+	float	ROCKET_DOUBLE_ROF		=	1.4;	//seconds post-fire
+
+	float	ROCKET_DOUBLE_DMG_ADD		=	35;	//(add*3)*2 = total	(35*3=105)*2 = 210
+
+	float	ROCKET_DOUBLE_COST		=	2;	//ammo cost to fire
 	
-	float	ROCKET_DOUBLE_DMG_MAIN		=	60;		//damage per shot
-	float	ROCKET_DOUBLE_DMG_ADD		=	60;	 	//damage per shot
-	
-	float	ROCKET_DOUBLE_COST		=	2;		//ammo cost to fire
-		
-	float	ROCKET_DOUBLE_SPEED_BASE	=	40;		//rocket speed start
-	float	ROCKET_DOUBLE_SPEED_MULTI	=	1.6;		//accelerator	
-	
-	float	ROCKET_DOUBLE_SPEED_MAX		=	2000;		//rocket speed limit
+	float	ROCKET_DOUBLE_SPEED_BASE	=	30;	//rocket speed start
+	float	ROCKET_DOUBLE_SPEED_MULTI	=	1.5;	//accelerator	
+
+	float	ROCKET_DOUBLE_SPEED_MAX		=	2000;	//rocket speed limit
 	
 
 //=============================================================================================
@@ -93,7 +92,6 @@ void(float offset) W_Fire_ROCKET_DOUBLE =
 	else			loc = self.origin + v_forward * 8 + '0 0 10' + v_right*12;
 	
 	missile = launch_ROCKET_DOUBLE( loc, v_forward * 1 );
-	self.attack_finished = time + 1.2;
 }
 //=============================================================================================
 
@@ -163,10 +161,11 @@ void() T_ROCKET_DOUBLE_Explode =
 {
 	if (other.health)
 	{
-		T_Damage (other, self, self.trueowner, ROCKET_DOUBLE_DMG_MAIN + ROCKET_DOUBLE_DMG_ADD, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
+		T_Damage (other, self, self.trueowner, ROCKET_DOUBLE_DMG_ADD*3, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
 	}
 
 	// don't do radius damage to other, because all damage will be done in the impact
-	T_RadiusDamage (self, self.trueowner, ROCKET_DOUBLE_DMG_MAIN, other, DMGTYPE_EXPLOSION);
+	T_RadiusDamage (self, self.trueowner, ROCKET_DOUBLE_DMG_ADD, other, DMGTYPE_EXPLOSION);
+	T_RadiusDamage (self, self.trueowner, ROCKET_DOUBLE_DMG_ADD, other, DMGTYPE_EXPLOSION);
 	T_RadiusDamage (self, self.trueowner, ROCKET_DOUBLE_DMG_ADD, other, DMGTYPE_EXPLOSION);
 }
