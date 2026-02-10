@@ -1906,3 +1906,185 @@ void() target_fade =
 #undef ALPHA_END
 #undef TIME_START
 #undef TIME_END
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Hipnotic's bullet holes
+entity		bulletholes, lastbullet;
+float		numbulletholes, numbulletsframe;
+.entity     	lastvictim, prevvictim;
+
+/* Bullet holes QuickC program
+	By Jim Dose'  11/20/96
+	Copyright (c)1996 Hipnotic Interactive, Inc.
+	All rights reserved.
+	Distributed (unsupported) on 3.12.97
+
+	Modified by bmFbr then by Kebby_
+*/
+
+// maximum bulletholes on the map
+float BULLETHOLES_MAX = 150;			// MAX ON SCREEN (if over limit, removes last created hole)
+// maximum bulletholes spawned per frame
+//float BULLETHOLES_MAXFRAME = 30;		// GLOBAL MAX (stops creating new holes after this limit)
+
+float BULLETHOLES_LIFETIME = 60;		// TIME +
+
+
+void() InitBulletHoles =
+{
+	precache_model("progs/s_bullet_hole.spr");
+
+	bulletholes = world;
+	lastbullet = world;
+	numbulletholes = 0;
+};
+
+void() RestartBulletHoles =
+{
+	bulletholes = world;
+	lastbullet = world;
+	numbulletholes = 0;
+
+	entity e = find(world, classname, "bullethole");
+	while (e) {
+		remove(e);
+		e = find(e, classname, "bullethole");
+	}
+}
+
+void() remove_bullethole =
+{
+	local entity e;
+
+	e = self;
+	
+	if (e.classname != "bullethole") {
+		dprint("bulletholes: Tried to remove non-bullethole\n");
+		return;
+	}
+
+	if (e == bulletholes) { // first in list
+		bulletholes = e.lastvictim;
+
+		if (e.lastvictim ) // there's a next one
+			e.lastvictim.prevvictim = world; 
+		else // there's no next one
+			lastbullet = world;
+	}
+	else if (e == lastbullet) { // last in list (if this condition is reached then we're sure there's at least one before it)
+		if (e.prevvictim) // checks just to be sure if prevvictim isn't world, but it should never happen
+			e.prevvictim.lastvictim = world; 
+		lastbullet = e.prevvictim;
+	}
+	else { // somewhere between
+		e.prevvictim.lastvictim = e.lastvictim;
+		e.lastvictim.prevvictim = e.prevvictim;
+	}
+
+	remove(e);
+	numbulletholes = numbulletholes - 1;
+};
+
+void() show_bulletholes =
+{
+	entity e;
+	e = bulletholes;
+	while (e) {
+		setmodel(e, "progs/placeholder_progs/wish/s_bullet_hole.spr");
+		e.frame = floor(random()*6.99);
+		setsize (e, '0 0 0', '0 0 0');
+		e = e.lastvictim;
+	}
+};
+
+void() hide_bulletholes =
+{
+	entity e;
+	e = bulletholes;
+	while (e) {
+		setmodel(e, "");
+		setsize (e, '0 0 0', '0 0 0');
+		e = e.lastvictim;
+	}
+};
+
+void() update_bulletholes = 
+{
+	entity e = find(world, classname, "bullethole");
+	while (e)
+	{
+		// hole is in a valid non-world solid entity
+		if (e.owner && e.owner.solid == SOLID_BSP)
+		{
+			if (e.owner.absmin != e.oldorigin)
+			{
+				setorigin(e, e.origin - e.oldorigin + e.owner.absmin);
+				e.oldorigin = e.owner.absmin;
+			}
+		}
+
+		// hole was originally in a non-world entity, but it was removed or changed to non-solid
+		else if (e.state) { 
+			remove(e);
+		}
+
+		e = find(e, classname, "bullethole");
+	}
+};
+
+void(vector pos, vector norm, entity tgt) placebullethole =
+{	
+	if (tgt.solid != SOLID_BSP)
+		return;
+
+	local entity new;
+
+	new = spawn();
+	new.movetype = MOVETYPE_NONE;
+	new.owner = other;
+	new.solid = SOLID_NOT;
+	new.classname = "bullethole";
+
+	
+	setmodel(new, "progs/placeholder_progs/wish/s_bullet_hole.spr");
+	new.frame = floor(random()*6.99);
+	setsize (new, '0 0 0', '0 0 0');
+	
+
+	new.owner = tgt; // entity whose this bullethole is attached to, world or otherwise
+	new.oldorigin = tgt.absmin;
+	// set state 1 to holes attached to non-world entities (for movement and validity checks)
+	// bullet holes move with plats, doors, trains and dissapear with func_wall killtarget
+	if (tgt != world) new.state = 1;
+
+	norm_x = 0 - norm_x;
+	norm_y = 0 - norm_y;
+
+	new.angles = vectoangles(norm);
+	makevectors([-self.angles_x, self.angles_y, self.angles_z]);
+	setorigin(new, pos - (v_forward * (0.5 + random()*0.1)));
+
+	new.think = remove_bullethole;
+	new.nextthink = time + BULLETHOLES_LIFETIME;
+
+	if (numbulletholes > BULLETHOLES_MAX) {
+		SUB_CallAsSelf(remove_bullethole, bulletholes);
+	}
+
+	numbulletholes++;
+	numbulletsframe++;
+
+	if (lastbullet) {
+		lastbullet.lastvictim = new;
+		new.prevvictim = lastbullet;
+	}
+	else {
+		bulletholes = new;
+	}
+	new.lastvictim = world;
+	lastbullet = new;
+};

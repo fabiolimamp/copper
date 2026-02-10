@@ -878,26 +878,43 @@ weaponclass_t wpc_POWER_RIFLE = {
 };
 
 // ====================================================================================
+// SLOT X: Secretweapon
+// ====================================================================================
+
+weaponclass_t wpc_SECRET_ASH = {
+	IT_NAILGUN,
+	5, // slot
+	ash_NAME,
+	ash_MODEL,
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	ash_COST, // ammo_usage
+	weaponanim_ash,
+	SUB_Null,
+	weaponanim_draw_ash
+};
+
+// ====================================================================================
 // WEAPON ARRAY - Contains all weapons in order
 // ====================================================================================
 
 weaponclass_t weaponsclass[] = {
 	wpc_no_weapon,
-//───────────────────────────────────────── MELEE {---}
+//─────────────────────────────────────────[1]  MELEE {---}
 
 	wpc_MELEE_WRENCH,	//YES
 	wpc_PISTOL_STECHKIN,	//(force impulse 9 reset with pistol)
 	wpc_MELEE_KNIFE,	//no
 	wpc_MELEE_THROW,	//no
 	
-//───────────────────────────────────────── PISTOLS {bullets}
+//─────────────────────────────────────────[2]  PISTOLS {bullets}
 
 	//wpc_PISTOL_STECHKIN,	//maybe?
 	wpc_PISTOL_AKIMBO,	//YES
 	wpc_PISTOL_REVOLVER,	//YES
 	wpc_PISTOL_BIGIRON,	//no
 	
-//───────────────────────────────────────── SHOTGUNS {shells}
+//─────────────────────────────────────────[3]  SHOTGUNS {shells}
 
 	wpc_SHOTGUN_FLAK,	//YES
 	wpc_SHOTGUN_PRISM,	//no
@@ -909,7 +926,7 @@ weaponclass_t weaponsclass[] = {
 	wpc_SHOTGUN_STACK,	//no
 	wpc_SHOTGUN_BRAZIL,	//no
 	
-//───────────────────────────────────────── SUPER SHOTGUNS {shells}
+//─────────────────────────────────────────[4]  SUPER SHOTGUNS {shells}
 
 	wpc_SSG_BLUE,		//no
 	wpc_SSG_SAWEDBLUE,	//no
@@ -925,7 +942,7 @@ weaponclass_t weaponsclass[] = {
 	wpc_SSG_AUTO,		//no
 	wpc_SSG_SWEEPER,	//no
 	
-//───────────────────────────────────────── NAILGUNS {scraps}
+//─────────────────────────────────────────[5]  NAILGUNS {scraps}
 
 	wpc_NAIL_TWIN,		//YES
 	wpc_NAIL_HEAVY,		//no
@@ -935,7 +952,7 @@ weaponclass_t weaponsclass[] = {
 	wpc_NAIL_SPINUP,	//maybe?
 	wpc_NAIL_SPINUPv2,	//maybe?
 	
-//───────────────────────────────────────── REBARS {scraps}
+//─────────────────────────────────────────[6]  REBARS {scraps}
 
 	wpc_REBAR_CANNON,	//no
 	wpc_REBAR_WIDE,		//no
@@ -948,7 +965,7 @@ weaponclass_t weaponsclass[] = {
 	wpc_REBAR_REPEATER,	//no
 	wpc_REBAR_BUZZSAW,	//maybe?
 	
-//───────────────────────────────────────── GRENADES {explosives}
+//─────────────────────────────────────────[7]  GRENADES {explosives}
 
 	wpc_GRENADE_LAUNCHER,	//YES
 	wpc_GRENADE_DIRECT,	//maybe?
@@ -956,7 +973,7 @@ weaponclass_t weaponsclass[] = {
 	wpc_GRENADE_TRIBOLTqc,	//maybe?
 	wpc_GRENADE_AUTO,	//maybe?
 	
-//───────────────────────────────────────── ROCKETS {explosives}
+//─────────────────────────────────────────[8]  ROCKETS {explosives}
 
 	wpc_ROCKET_MMML,	//YES
 	wpc_ROCKET_ORIGINAL,	//maybe?
@@ -969,14 +986,18 @@ weaponclass_t weaponsclass[] = {
 	wpc_ROCKET_INSTANT,	//no
 	wpc_ROCKET_REMOTE,	//maybe?
 	
-//───────────────────────────────────────── POWER WEAPONS {fragments}
+//─────────────────────────────────────────[9]  POWER WEAPONS {fragments}
 
 	wpc_POWER_INVOKER,	//YES
-	wpc_POWER_RIFLE		//maybe?
+	wpc_POWER_RIFLE,	//maybe?
+
+//─────────────────────────────────────────[X]  SECRET WEAPONS {---}
+	
+	wpc_SECRET_ASH		//secret!
 	
 };
 
-float MAX_WEAPON_NUM = 63;
+float MAX_WEAPON_NUM = 64;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -987,7 +1008,7 @@ weaponslot_t weaponslots[9] = {
 	
 	{{wpc_SHOTGUN_FLAK, wpc_SSG_THREE, wpc_SHOTGUN_QUAKEY, wpc_SSG_ROTARY, wpc_SSG_ROTARYFLAK}, 5},
 	
-	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUPv2}, 2},
+	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUPv2, wpc_SECRET_ASH}, 3},
 	
 	{{wpc_REBAR_BUFF, wpc_REBAR_BUZZSAW}, 2},
 	

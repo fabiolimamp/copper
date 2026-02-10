@@ -92,7 +92,8 @@ void() weaponanim_SHOTGUN_QUAKEY_loop =
 
 void() W_Fire_SHOTGUN_QUAKEY =
 {
-	sound(self, CHAN_AUTO, "placeholder_sound/shotgun1.wav", 0.4, ATTN_NORM);
+	sound(self, CHAN_AUTO, "placeholder_sound/shotgun1.wav", 0.8, ATTN_NORM);
+	sound (self, CHAN_AUTO, "flak/volley_fire1.wav", 1, ATTN_NORM);
 	//sound_shotgun_shoot(0.5);
 	
 		

@@ -691,6 +691,7 @@ void() EndFrame = {
 	}
 	updateRebars();
 	updateNails();
+	update_bulletholes();
 	//gibswaterchecked = 0;
 	waterchecked = 0;
 	pointcontentchecks = 0;

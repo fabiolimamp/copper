@@ -222,6 +222,9 @@ void() Manual_Reload =
 		}	
 		else if (self.pistol_ammo_count == 10)	weaponanim_twirlpistol();
 	}
+	
+	else if (self.weaponmodel == "progs/placeholder_progs/wish/v_ash.mdl")	weaponanim_inspect_ash();
+		
 	else if	(self.weaponmodel == "progs/placeholder_progs/v_rocket_remote.mdl")
 	{
 		//Check_To_Fire_Mine();

@@ -97,6 +97,7 @@ ROCKET_TRIPLE.qc
 ROCKET_INSTANT.qc
 ROCKET_REMOTE.qc
 POWER_RIFLE.qc
+SECRET_ASH.qc
 weapons_use.qc
 weapondefintion.qc
 dev.qc

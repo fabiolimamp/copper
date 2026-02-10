@@ -186,8 +186,8 @@ void(float lefty) W_Fire_PISTOL_AKIMBO =
 	makevectors (self.v_angle);
 	vector org_gun;
 	
-	if (lefty)	org_gun = self.origin + self.view_ofs - v_up * 8 - v_right *  8;
-	else		org_gun = self.origin + self.view_ofs - v_up * 8 + v_right *  8;
+	if (lefty)	org_gun = self.origin + self.view_ofs + v_up * -6 + v_right *  -18;
+	else		org_gun = self.origin + self.view_ofs + v_up * -6 + v_right *  10;
 	
 	vector org_eye = self.origin + self.view_ofs;
 	

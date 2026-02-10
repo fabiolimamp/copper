@@ -187,7 +187,7 @@ void() W_FirePistol =
 	vector dir_eye = normalize(trace_endpos - org_eye);
 		
 	ClearMultiDamage ();
-	FirePistolBullets (1, 20, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, spread, TRUE);
+	FirePistolBullets (1, 20, org_eye, org_gun + v_forward * 32 * trace_fraction, dir_eye, spread, TRUE);
 	
 	ApplyMultiDamage ();
 	self.punchangle_x = -2;	//punch AFTER makevectors
@@ -236,7 +236,10 @@ void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir,
 
 			if (tracer && !(vlen(tracer_org - trace_endpos) < 128 && trace_ent.solid == SOLID_BSP))
 			{
-				drawTracer(tracer_org, trace_endpos);
+				//drawTracer(tracer_org, trace_endpos);
+				
+				Draw_Tracertrail(self, tracer_org + v_forward * 24 + v_right * 4 + v_up * -4, trace_endpos, 0);
+								
 			}
 			// if we've already pelted a monster enough to kill it, let additional bullets add 
 			// up for possible gibs (ala quake), but trace them again through the target for 
@@ -250,11 +253,14 @@ void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir,
 				HasBeenShotToDeath(trace_ent) )
 			{
 				BulletImpact (2+2*random(), direction);
+				
+				placebullethole(trace_endpos, trace_plane_normal, trace_ent);
 
 				// start 0.1 unit forward, or else when shooting an adjacent enemy we'll
 				// just hit ourselves again
 				src = trace_endpos + direction * 0.1;
 				ig = trace_ent;
+				
 				if (trace_debug) dprint3("bullet hit ", ig.classname, ", continuing thru\n");
 			}
 			else

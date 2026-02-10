@@ -317,7 +317,7 @@ void(float pierce_damage, vector org_gun, vector org_eye, vector dir_eye, float 
 
 	if (drawTrail)
 		//drawInvokerTrail(self, org, trace_endpos);
-		Draw_Smoketrail(self, org_gun, trace_endpos, 0);
+		Draw_Smoketrail(self, org_gun + v_forward * 32, trace_endpos, 0);
 		
 	FX_Impact(FX_SPARK, trace_endpos, 0);
 };

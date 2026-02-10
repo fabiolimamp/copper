@@ -197,7 +197,7 @@ void() W_Precache =
 	precache_sound ("misc/draw1.wav");
 	
 	//=============================================================================================	
-											//PLACEHOLDER
+											//PLACEHOLDER		
 	precache_sound ("placeholder_sound/shotgun1.wav");
 	precache_sound ("placeholder_sound/shotgun2.wav");
 	precache_sound ("placeholder_sound/shell_reload.wav");
@@ -223,6 +223,20 @@ void() W_Precache =
 	precache_sound ("placeholder_sound/knife_hit4.wav");
 	precache_sound ("placeholder_sound/knife_hitwall1.wav");
 	
+	precache_sound ("placeholder_sound/ash_casing.wav");
+	precache_sound ("placeholder_sound/ash_casing2.wav");
+	precache_sound ("placeholder_sound/ash_casing3.wav");
+	precache_sound ("placeholder_sound/ash_click.wav");
+	precache_sound ("placeholder_sound/ash_click2.wav");
+	precache_sound ("placeholder_sound/ash_click3.wav");
+	precache_sound ("placeholder_sound/ash_fire.wav");
+	precache_sound ("placeholder_sound/ash_fire2.wav");
+	precache_sound ("placeholder_sound/ash_fire3.wav");
+	precache_sound ("placeholder_sound/ash_fire4.wav");
+	precache_sound ("placeholder_sound/ash_fire5.wav");
+	precache_sound ("placeholder_sound/ash_fire6.wav");
+	precache_sound ("placeholder_sound/ash_reload.wav");
+	
 	precache_model ("progs/placeholder_progs/dev_point.mdl");
 	precache_model ("progs/placeholder_progs/dev_point_anim.mdl");
 	precache_model ("progs/placeholder_progs/dev_bbox32.mdl");
@@ -232,6 +246,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_nail_heavy.mdl");
 	precache_model ("progs/placeholder_progs/proj_buzz_small.mdl");
 	precache_model ("progs/placeholder_progs/railtrail_smoke.mdl");
+	precache_model ("progs/placeholder_progs/railtrail_tracer.mdl");
 	precache_model ("progs/placeholder_progs/proj_grenade_mini.mdl");
 	precache_model ("progs/placeholder_progs/proj_grenade_mini_nosmoke.mdl");
 	precache_model ("progs/placeholder_progs/proj_grenade_nosmoke.mdl");
@@ -304,7 +319,15 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rocket_remote2.mdl");
 	precache_model ("progs/placeholder_progs/v_rocket_triple.mdl");
 			
-	precache_model ("progs/placeholder_progs/v_power_rifle.mdl");		
+	precache_model ("progs/placeholder_progs/v_power_rifle.mdl");	
+	
+	precache_model ("progs/placeholder_progs/wish/g_ash.mdl");
+	precache_model ("progs/placeholder_progs/wish/v_ash.mdl");
+	precache_model ("progs/placeholder_progs/wish/casing_big.mdl");
+	precache_model ("progs/placeholder_progs/wish/mag_ash.mdl");
+	precache_model ("progs/placeholder_progs/wish/mag_ash_empty.mdl");
+	precache_model ("progs/placeholder_progs/wish/mag_ash_empty.mdl");	
+	precache_model ("progs/placeholder_progs/wish/s_bullet_hole.spr");	
 	
 	//=============================================================================================	
 
