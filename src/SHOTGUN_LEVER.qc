@@ -93,7 +93,7 @@ void() W_Fire_SHOTGUN_LEVER_hitscan =
 	vector dir_eye = normalize(trace_endpos - org_eye);
 		
 	ClearMultiDamage ();
-	FirePistolBullets (SHOTGUN_LEVER_COUNT, SHOTGUN_LEVER_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, spread, TRUE);
+	FirePistolBullets (SHOTGUN_LEVER_COUNT, SHOTGUN_LEVER_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, spread, 2, TRUE);
 	
 	ApplyMultiDamage ();
 	self.punchangle_x = -2;	//punch AFTER makevectors

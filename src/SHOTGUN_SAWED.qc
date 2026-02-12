@@ -20,7 +20,7 @@ string	SHOTGUN_SAWED_MODEL	=	"progs/placeholder_progs/v_shotgun_sawed.mdl";
 	float	SHOTGUN_SAWED_ROF	=	1.6;		//seconds post-fire
 	
 	float	SHOTGUN_SAWED_COUNT	=	20;		//number of shots
-	float	SHOTGUN_SAWED_DMG 	=	6;	//60	//damage per shot
+	float	SHOTGUN_SAWED_DMG 	=	6;	//120	//damage per shot
 
 	float	SHOTGUN_SAWED_COST	=	2;		//ammo cost to fire
 	float	SHOTGUN_SAWED_LIFE	=	0.5;		//seconds for pellet

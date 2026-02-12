@@ -187,7 +187,7 @@ void() W_FirePistol =
 	vector dir_eye = normalize(trace_endpos - org_eye);
 		
 	ClearMultiDamage ();
-	FirePistolBullets (1, 20, org_eye, org_gun + v_forward * 32 * trace_fraction, dir_eye, spread, TRUE);
+	FirePistolBullets (1, 20, org_eye, org_gun + v_forward * 32 * trace_fraction, dir_eye, spread, 2, TRUE);
 	
 	ApplyMultiDamage ();
 	self.punchangle_x = -2;	//punch AFTER makevectors
@@ -205,7 +205,7 @@ void(float pistolfire_volume) sound_pistol_fire =
 }
 //=============================================================================================
 
-void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir, vector spread, float tracer) FirePistolBullets =
+void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir, vector spread, float centerbias, float tracer) FirePistolBullets =
 {
 	vector src, direction;
 	entity ig;
@@ -221,7 +221,7 @@ void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir,
 	for (s = 0; s < shotcount; s++)
 	{
 		src = shot_org;
-		direction = dir + weighted_crandom(2)*spread_x*rt + weighted_crandom(2)*spread_y*up;
+		direction = dir + weighted_crandom(centerbias)*spread_x*rt + weighted_crandom(centerbias)*spread_y*up;
 		
 		if (trace_debug) dprint("* firing a bullet *\n");
 		

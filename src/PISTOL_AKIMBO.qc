@@ -198,7 +198,7 @@ void(float lefty) W_Fire_PISTOL_AKIMBO =
 		
 	ClearMultiDamage ();
 	
-	FirePistolBullets (1, PISTOL_AKIMBO_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, PISTOL_AKIMBO_SPREAD, TRUE);
+	FirePistolBullets (1, PISTOL_AKIMBO_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, PISTOL_AKIMBO_SPREAD, 4, TRUE);
 	
 	ApplyMultiDamage ();
 	self.punchangle_x = -1;	//punch AFTER makevectors

@@ -257,7 +257,7 @@ void() pistolarmy_fire =
 	
 	// lunaran: moved multidamage here
 	ClearMultiDamage ();
-	FirePistolBullets (1, 12, src, src, dir, '0.1 0.1 0', TRUE);
+	FirePistolBullets (1, 12, src, src, dir, '0.1 0.1 0', 2, TRUE);
 	ApplyMultiDamage ();
 }
 

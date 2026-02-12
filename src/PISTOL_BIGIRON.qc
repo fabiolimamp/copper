@@ -189,7 +189,7 @@ void() W_Fire_PISTOL_BIGIRON =
 	ClearMultiDamage ();
 	
 	
-	FirePistolBullets (PISTOL_BIGIRON_COUNT, PISTOL_BIGIRON_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, spread, TRUE);
+	FirePistolBullets (PISTOL_BIGIRON_COUNT, PISTOL_BIGIRON_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, spread, 4, TRUE);
 	
 	//FirePierce_HitscanTrace(PISTOL_BIGIRON_DMG, org_gun, org_eye, dir_eye, TRUE);
 	

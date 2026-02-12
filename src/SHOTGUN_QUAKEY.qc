@@ -111,7 +111,7 @@ void() W_Fire_SHOTGUN_QUAKEY =
 	
 	ClearMultiDamage();
 	
-	FirePistolBullets(SHOTGUN_QUAKEY_COUNT, SHOTGUN_QUAKEY_DMG, org_eye, org_gun + v_forward * 24 * trace_fraction, dir_eye, SHOTGUN_QUAKEY_SPREAD, TRUE);                        
+	FirePistolBullets(SHOTGUN_QUAKEY_COUNT, SHOTGUN_QUAKEY_DMG, org_eye, org_gun + v_forward * 24 * trace_fraction, dir_eye, SHOTGUN_QUAKEY_SPREAD, 2, TRUE);                        
 	
 	ApplyMultiDamage();
 }

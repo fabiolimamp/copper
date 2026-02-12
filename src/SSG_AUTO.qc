@@ -150,7 +150,7 @@ void() W_Fire_SSG_AUTO_hitscan_same =
 	local vector dir = aim(self, AUTOAIM_DIST);
 	
 	ClearMultiDamage();
-	FirePistolBullets(SSG_AUTO_COUNT, SSG_AUTO_DMG, org_eye, org_gun + v_forward * 24 * trace_fraction, dir_eye, SSG_AUTO_SPREAD, TRUE);              
+	FirePistolBullets(SSG_AUTO_COUNT, SSG_AUTO_DMG, org_eye, org_gun + v_forward * 24 * trace_fraction, dir_eye, SSG_AUTO_SPREAD, 2, TRUE);              
 	ApplyMultiDamage();
 }
 
@@ -204,7 +204,7 @@ void(float sequence) W_Fire_SSG_AUTO_hitscan =
          */
 	
 	
-	FirePistolBullets(SSG_AUTO_COUNT, SSG_AUTO_DMG, org_eye, org_gun + v_forward * 24 * trace_fraction, dir_eye, SSG_AUTO_SPREAD, TRUE);
+	FirePistolBullets(SSG_AUTO_COUNT, SSG_AUTO_DMG, org_eye, org_gun + v_forward * 24 * trace_fraction, dir_eye, SSG_AUTO_SPREAD, 2, TRUE);
 	
 	
 	ApplyMultiDamage();
