@@ -158,6 +158,8 @@ void(float shotcount, vector dir, vector spread, float damage) FireBulletsEx_SSG
 		if (trace_fraction != 1.0)
 		{
 			BulletImpact (damage, direction);
+			
+			placebullethole(trace_endpos, trace_plane_normal, trace_ent);
 		}
 		
 		if (trace_debug) dprint("bullet is over\n\n");

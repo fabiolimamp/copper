@@ -166,5 +166,6 @@ void() FlakTouch_SSG_ROTARYFLAK =
 	}
 	
 	FX_Impact(FX_SPARK, self.origin, self.origin);
+		
 	remove(self);
 }

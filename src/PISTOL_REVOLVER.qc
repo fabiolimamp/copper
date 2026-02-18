@@ -310,6 +310,8 @@ void(float pierce_damage, vector org_gun, vector org_eye, vector dir_eye, float 
 			{
 				if (drawTrail) gunshot(trace_endpos);
 				timetoend = 1;
+				
+				placebullethole(trace_endpos, trace_plane_normal, trace_ent);
 			}
 		}
 		else timetoend = 1;

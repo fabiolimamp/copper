@@ -254,8 +254,6 @@ void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir,
 			{
 				BulletImpact (2+2*random(), direction);
 				
-				placebullethole(trace_endpos, trace_plane_normal, trace_ent);
-
 				// start 0.1 unit forward, or else when shooting an adjacent enemy we'll
 				// just hit ourselves again
 				src = trace_endpos + direction * 0.1;
@@ -278,6 +276,8 @@ void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir,
 		if (trace_fraction != 1.0)
 		{
 			BulletImpact (dmg, direction);
+			
+			placebullethole(trace_endpos, trace_plane_normal, trace_ent);
 		}
 		
 		if (trace_debug) dprint("bullet is over\n\n");

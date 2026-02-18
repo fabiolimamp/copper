@@ -256,6 +256,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_mine.mdl");
 	precache_model ("progs/placeholder_progs/proj_mine_nosmoke.mdl");
 	precache_model ("progs/placeholder_progs/proj_mine_armed.mdl");
+	precache_model ("progs/placeholder_progs/cube.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_melee_knife.mdl");
 	precache_model ("progs/placeholder_progs/v_melee_knife2.mdl");

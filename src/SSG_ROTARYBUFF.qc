@@ -46,7 +46,6 @@ float() weaponanim_SSG_ROTARYBUFF =
 	self.customflags |= CFL_WEAPONLOCK;	//weapon LOCK
 	
 	W_Fire_SSG_ROTARYBUFF_hitscan();
-	//W_Fire_SSG_ROTARYBUFF_flak();
 
 	self.weaponframe = 11;
 	self.think = weaponanim_SSG_ROTARYBUFF_loop;
@@ -87,13 +86,27 @@ void() W_Fire_SSG_ROTARYBUFF_hitscan =
 	self.currentammo = self.ammo_shells = self.ammo_shells - SSG_ROTARYBUFF_COST;
 	Eject_BuckshotCasing();
 	
-	makevectors(self.v_angle);
-	self.punchangle_x = -2;
-	local vector dir = aim(self, AUTOAIM_DIST);
+	//makevectors(self.v_angle);
+	//local vector dir = aim(self, AUTOAIM_DIST);
+	
+	makevectors (self.v_angle);
+	vector org_gun = self.origin + self.view_ofs - v_up * 8 + v_right *  4;
+	vector org_eye = self.origin + self.view_ofs;
+	
+	
+	traceline2(org_eye, org_eye + v_forward * 10000, self, FALSE);
+
+	vector dir_eye = normalize(trace_endpos - org_eye);
 	
 	ClearMultiDamage();
-	FireBulletsEx_SSG_ROTARYBUFF(SSG_ROTARYBUFF_COUNT, dir, SSG_ROTARYBUFF_SPREAD, SSG_ROTARYBUFF_DMG);
+	//FireBulletsEx_SSG_ROTARYBUFF(SSG_ROTARYBUFF_COUNT, dir, SSG_ROTARYBUFF_SPREAD, SSG_ROTARYBUFF_DMG);
+	
+	
+	//FirePistolBullets (1, 20, org_eye, org_gun + v_forward * 32 * trace_fraction, dir_eye, spread, 2, TRUE);
+	FirePistolBullets(SSG_ROTARYBUFF_COUNT, SSG_ROTARYBUFF_DMG, org_eye, org_gun + v_forward * 32 * trace_fraction, dir_eye, SSG_ROTARYBUFF_SPREAD, 2, TRUE);
+	
 	ApplyMultiDamage();
+	self.punchangle_x = -2;
 }
 
 void(float shotcount, vector dir, vector spread, float damage) FireBulletsEx_SSG_ROTARYBUFF =

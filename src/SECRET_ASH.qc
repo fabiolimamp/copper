@@ -327,7 +327,7 @@ void(entity pl, vector org, vector dest, float hit) Draw_Tracertrail =
 		sg.cnt = i;
 		prevsg = sg;
 	}
-	if (sg) sg.effects |= EF_MUZZLEFLASH;
+	//if (sg) sg.effects |= EF_MUZZLEFLASH;
 }
 
 void() Draw_Tracertrail_Segment_Think = 
