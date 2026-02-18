@@ -90,7 +90,7 @@ void() W_Fire_SSG_ROTARYBUFF_hitscan =
 	//local vector dir = aim(self, AUTOAIM_DIST);
 	
 	makevectors (self.v_angle);
-	vector org_gun = self.origin + self.view_ofs - v_up * 8 + v_right *  4;
+	vector org_gun = self.origin + self.view_ofs - v_up * 6 + v_right *  4;
 	vector org_eye = self.origin + self.view_ofs;
 	
 	
