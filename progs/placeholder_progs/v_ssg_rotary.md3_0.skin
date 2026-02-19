@@ -1,3 +1,5 @@
-v_ssg_rotary,progs/placeholder_progs/rotary.png
-v_ssg_rotary_glove,progs/gloves.tga
-v_ssg_rotary_shell,progs/placeholder_progs/shell_casing.png
+v_ssg_rotary_gun,progs/placeholder_progs/rotary.png
+v_ssg_rotary_barrel,progs/placeholder_progs/rotary.png
+v_ssg_rotary_gloves,progs/gloves.tga
+v_ssg_rotary_shells,progs/placeholder_progs/shell_casing.png
+v_ssg_rotary_muzz,progs/placeholder_progs/wish/muzzle_atlas.png
