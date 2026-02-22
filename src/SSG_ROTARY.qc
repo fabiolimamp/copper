@@ -48,7 +48,7 @@ float() weaponanim_SSG_ROTARY =
 	W_Fire_SSG_ROTARY_hitscan();
 	//W_Fire_SSG_ROTARY_flak();
 
-	self.weaponframe = 11;
+	self.weaponframe = 11; 
 	self.think = weaponanim_SSG_ROTARY_loop;
 	self.nextthink = time + 0.025;	
 	return TRUE;
