@@ -612,6 +612,7 @@ void() SightSound =
 			sound (self, CHAN_VOICE, "placeholder_sound/brute/sight2.wav", 1, ATTN_NORM);
 		}
 	}
+		else if (self.classname == "monster_chaingunner") sound (self, CHAN_VOICE, "placeholder_sound/chaingunner/chalert.wav", 1, ATTN_NORM);
 }
 
 void() ogre_sight_sound =

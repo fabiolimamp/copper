@@ -6,9 +6,7 @@
 // for the very latest version before anything else
 
 // Based heavily on quake.fgd by autolycus/czg/et al
-// Generated from Copper QuakeC source comments on 10.19.2025
-
-// Quake Brutalist Jam 3 --- QBJ3 dev v1.3
+// Generated from Copper QuakeC source comments on 02.23.2026
 
 //
 // defs.qc
@@ -143,7 +141,7 @@ Checking the Bezier spawnflag will make this pathcorner act as a bilinear contro
 		8 : "Rebar Cannon" : 0
 		16 : "Grenade Laucher" : 0
 		32 : "Multi Mini-Missile Launcher" : 0
-		64 : "The Invoker" : 0
+		64 : "The Prototype" : 0
 		4096 : "Wrench" : 0
 		131072 : "Silver Key" : 0
 		262144 : "Gold Key" : 0
@@ -214,9 +212,9 @@ Spawnflag Usage:
 @PointClass size(0 0 0, 32 32 24) color(0 128 128) base(Item) 
 	model(
         {{
-            spawnflags & 2 ->   ":progs/tb/health_2.mdl",
-            spawnflags & 1 ->   ":progs/tb/health_0.mdl",
-                                ":progs/tb/health_1.mdl"
+            spawnflags & 2 ->   ":maps/b_bh100.bsp",
+            spawnflags & 1 ->   ":maps/b_bh10.bsp",
+                                ":maps/b_bh25.bsp"
         }}
     ) =
     item_health : "Health pack, +25" 
@@ -253,7 +251,7 @@ Spawnflag Usage:
 @PointClass base(Weapon) model({ "path": ":progs/g_invoker.mdl" }) = weapon_invoker : "The Invoker.
 1 cell." []
 @PointClass base(Weapon) model({ "path": ":progs/g_wrench.mdl" }) = weapon_wrench : "Wrench." []
-@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 2 : "YOOGE (refill half max ammo)" 1 : "Large box (2x)" : 0 ] ]
+@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 2 : "YOOGE (refills 50%)" 1 : "Large box (2x)" : 0 ] ]
 @PointClass base(Ammo)
     model(
         {{
@@ -261,7 +259,7 @@ Spawnflag Usage:
             spawnflags & 1 ->   ":progs/tb/shells_1.mdl",
                                 ":progs/tb/shells_0.mdl"
         }}
-    ) = item_shells : "Shotgun Shells, 8/16/50" []
+    ) = item_shells : "Shells, 8/16/50" []
 @PointClass base(Ammo) 
     model(
         {{
@@ -269,16 +267,16 @@ Spawnflag Usage:
             spawnflags & 1 ->   ":progs/tb/nails_1.mdl",
                                 ":progs/tb/nails_0.mdl"
         }}
-    ) = item_spikes : "Nails and Rebar, 30/60/150" []
+    ) = item_spikes : "Nailgun/Perforator ammo, 30/60/150" []
 @PointClass base(Ammo) 
     model(
         {{
-            spawnflags & 2 ->   ":progs/tb/explosives_2.mdl",	    
+            spawnflags & 2 ->   ":progs/tb/explosives_2.mdl",
             spawnflags & 1 ->   ":progs/tb/explosives_1.mdl",
                                 ":progs/tb/explosives_0.mdl"
         }}
     ) =
-    item_rockets : "Explosive Rounds, 4/8/50" []
+    item_rockets : "Rockets, 4/8/50" []
 @PointClass base(Ammo) 
     model(
         {{
@@ -287,7 +285,7 @@ Spawnflag Usage:
                                 ":progs/tb/fragments_0.mdl"
         }}
     ) =
-    item_cells : "Invoker Fragments, 1/3/5" []
+    item_cells : "The Invoker, 1/3/5" []
 
 
 //
@@ -309,7 +307,7 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 1 Globe - Zombie, Grunts, Dog
 2 Globes - Scrag, Enforcer, Knight
 3 Globes - Death Knight, Ogre
-4 Globes - Shambler, Vore, Fiend, Amalgam, Spawn"[]
+4 Globes - Shambler, Vore, Fiend, Amalgam, Spawn, Brute"[]
 @PointClass size(-16 -16 -24, 16 16 32) base(Item) model({ "path": ":progs/item_berserk.mdl" }) =
 	item_artifact_berserk : "Berserk. x10 melee damage and 50% damage reduction for 30 seconds." []
 
@@ -324,16 +322,16 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 @baseclass = svFlags [
 	svflags(Flags) =
 	[
-		1	: "Episode 1" : 0
-		2	: "Episode 2" : 0
-		4	: "Episode 3" : 0
-		8	: "Episode 4" : 0
-		16	: "Bit 5" :  0
-		32	: "Bit 6" :  0
-		64	: "Bit 7" :  0
-		128	: "Bit 8" :  0
-		256	: "Bit 9" :  0
-		512	: "Bit 10" : 0
+		1		: "Episode 1" : 0
+		2		: "Episode 2" : 0
+		4		: "Episode 3" : 0
+		8		: "Episode 4" : 0
+		16		: "Bit 5" :  0
+		32		: "Bit 6" :  0
+		64		: "Bit 7" :  0
+		128		: "Bit 8" :  0
+		256		: "Bit 9" :  0
+		512		: "Bit 10" : 0
 		1024	: "Bit 11" : 0
 		2048	: "Bit 12" : 0
 		4096	: "Bit 13" : 0
@@ -368,12 +366,8 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 // item_backpack.qc
 //
 @PointClass base(Item) size(-16 -16 0, 16 16 40) color(0 128 128) 
-	model(
-	{{
-		spawnflags & 1 ->	":progs/backpack_big.mdl",
-					":progs/backpack.mdl"
-        }}
-	) = item_backpack : 
+	model({ "path": ":progs/backpack.mdl" }) 
+	= item_backpack : 
 "A forgotten explorer's backpack. Grants 10 shells, 20 nails, 1 explosive. If exceed max ammo grant bonus armor up to 25 total."
 [
 	spawnflags(flags) =	[
@@ -424,16 +418,16 @@ Health orbs heal 3 per drop, and monsters drop more orbs based on their tier.
 @PointClass base(PlayerClass) = info_player_start2 : "Player episode return point. Fires targets when a player spawns here." [
 	svflags(Flags) =
 	[
-		1	: "Episode 1" : 0
-		2	: "Episode 2" : 0
-		4	: "Episode 3" : 0
-		8	: "Episode 4" : 0
-		16	: "Bit 5" :  0
-		32	: "Bit 6" :  0
-		64	: "Bit 7" :  0
-		128	: "Bit 8" :  0
-		256	: "Bit 9" :  0
-		512	: "Bit 10" : 0
+		1		: "Episode 1" : 0
+		2		: "Episode 2" : 0
+		4		: "Episode 3" : 0
+		8		: "Episode 4" : 0
+		16		: "Bit 5" :  0
+		32		: "Bit 6" :  0
+		64		: "Bit 7" :  0
+		128		: "Bit 8" :  0
+		256		: "Bit 9" :  0
+		512		: "Bit 10" : 0
 		1024	: "Bit 11" : 0
 		2048	: "Bit 12" : 0
 		4096	: "Bit 13" : 0
@@ -526,9 +520,9 @@ Alt Target Pattern: 'target' when starting to open, 'target2' when opened, 'targ
 		1 : "Starts Open" : 0
 		4 : "Don't link with touching" : 0
 		8 : "Gold Key" : 0
-        	16 : "Silver Key" : 0
-        	32 : "Toggle" : 0
-        	64 : "Crusher" : 0
+        16 : "Silver Key" : 0
+        32 : "Toggle" : 0
+        64 : "Crusher" : 0
 	]
 ]
 @SolidClass base(Appearflags, Targetname, Target, Func) = func_door_secret : 
@@ -563,7 +557,7 @@ Activating this door with a trigger while it is opening will have no effect. Act
 		2 : "Move left first" : 0
 		4 : "Move down first" : 0
 		8 : "Not shootable" : 0
-       		16 : "Always shootable" : 0
+        16 : "Always shootable" : 0
 	]
 ]
 
@@ -627,10 +621,6 @@ Alt Target Pattern: 'target' when touched, 'target2' when fully depressed, 'targ
 //
 // triggers.qc
 //
-@baseclass = Mapvar [
-	mapvar(integer) : "Mapvar ID to check (1-69). Will trigger only if this mapvar is set to ON."
-	mapvar_not(integer) : "Mapvar ID to check (1-69). Will trigger only if this mapvar is set to OFF."
-]
 @baseclass = TriggerSounds
 [
 	sounds(choices) : "Sounds" : 2 =
@@ -652,13 +642,8 @@ Alt Target Pattern: 'target' when touched, 'target2' when fully depressed, 'targ
 @baseclass base(TriggerNoTargets, Target) = Trigger 
 [
 	message(string) : "message to display when triggered"
-	message2(string) : "replaces 'message' when the mapvar set via 'mapvar_message' is on"
-	mapvar_message(integer) : "mapvar ID for message field toggling"
-	spawnflags(Flags) = [
-		4194304 : "Print to console" : 0
-	]
 ]
-@baseclass base(Trigger, TriggerSounds, Angle, Mapvar) = TriggerMulti
+@baseclass base(Trigger, TriggerSounds, Angle) = TriggerMulti
 [
 	health(integer) : "solid, must be killed to activate"
 	count(integer) : "limit uses before self destructing" : 0
@@ -728,10 +713,10 @@ Spawnflags:
 	]
 	message(string) : "Message"
 ]
-@PointClass base(Secret, Targetname, Mapvar) color(160 0 160) = target_secret : "Secret counter trigger.  Player gets a secret credit when triggered.  Note when using a target_secret: if triggered by touching an item, and the item can't be picked up (because of health/armor/ammo limits already being met, etc), it won't fire its targets and thus the target_secret won't give credit. Use a trigger in that case.
+@PointClass base(Secret, Targetname) color(160 0 160) = target_secret : "Secret counter trigger.  Player gets a secret credit when triggered.  Note when using a target_secret: if triggered by touching an item, and the item can't be picked up (because of health/armor/ammo limits already being met, etc), it won't fire its targets and thus the target_secret won't give credit. Use a trigger in that case.
 
 Set the 'supersecret' spawnflag to hide its existence in the total until it's found. Think very carefully if you actually want to use this." []
-@SolidClass base(Trigger, Secret, Mapvar) = trigger_secret : "Secret counter trigger. Player gets a secret credit when touched." 
+@SolidClass base(Trigger, Secret) = trigger_secret : "Secret counter trigger. Player gets a secret credit when touched." 
 [
 	spawnflags(flags) = [
 		1 : "Notouch (legacy)" : 0
@@ -748,7 +733,7 @@ Counts as a secret, trigger to give credit" []
 	]
 ]
 @PointClass base(Setskill, Targetname) color(160 0 160) = target_setskill : "Target: Set Skill" []
-@SolidClass base(Setskill, Trigger, Mapvar) = trigger_setskill : "Trigger: Set Skill" []
+@SolidClass base(Setskill, Trigger) = trigger_setskill : "Trigger: Set Skill" []
 @SolidClass base(Trigger) = trigger_onlyregistered : "Trigger: Registered only
 Only fires if playing the registered version, otherwise prints 'message'." []
 @baseclass base(TriggerNoTargets) = Hurt [
@@ -760,9 +745,9 @@ Only fires if playing the registered version, otherwise prints 'message'." []
 	dmg(integer) : "Damage" : 5
 	delay(string) : "Interval (seconds)" : "1"
 ]
-@SolidClass base(Hurt, Mapvar) = trigger_hurt : "Trigger: Hurt. Any creature touching this will be damaged.
+@SolidClass base(Hurt) = trigger_hurt : "Trigger: Hurt. Any creature touching this will be damaged.
 Resist the urge to put a tiny one of these on every light_flame." []
-@PointClass base(Hurt,Bounds, Mapvar) = trigger_hurt_box : "Trigger: Hurt. Any creature touching this will be damaged.
+@PointClass base(Hurt,Bounds) = trigger_hurt_box : "Trigger: Hurt. Any creature touching this will be damaged.
 Quoth2-style edict-saving bounding box trigger: define size with 'size', and the trigger volume will be that size centered on the trigger's origin.
 Resist the urge to put a tiny one of these on every light_flame." []
 @SolidClass base(Angle, TriggerNoTargets) = trigger_push : "Trigger: Push.
@@ -821,6 +806,45 @@ The recommended way to set up a ladder trigger is to make it 16 units deep jutti
 "
 [
 	angle(integer) : "Angle" : : "Optional. If set, the player will only stick to the ladder while facing this direction. If you need to set angle 0, use 360 instead."
+]
+@SolidClass base(Appearflags, Targetname) = trigger_textstory :
+"Trigger to show long centerprint texts. Message remains on screen while player is inside the trigger volume. Can have custom sounds, or be made silent.
+
+Horizontal space is limited to 40 characters, so you must place linefeeds (\n) into your text.
+
+You can set it to be show the message only when the player is facing a certain angle within the trigger. Set the central angle with 'angles', and the viewcone size with 'view_ofs' (both in 'pitch yaw 0' format). Set view_ofs to '360 360 0' if you want the message to show regardless of viewing angle."
+
+[
+	angles(string) : "Central view angle" : : "Central point of the viewcone, in 'pitch yaw 0' format"
+	view_ofs(string) : "Viewcone size" : "180 180 0" : "Total viewcone angle for each axis, in 'vertical horizontal 0' format. Set it to '360 360 0' if you want the message to show regardless of viewing angle."
+	message(string) : "Message" : : "Message to show on-screen."
+	message2(string) : "Alternate message" : : "Alternate message to show on-screen when the mapvar ID in 'mapvar_message' is active."
+	mapvar_message(integer) : "Mapvar filter" : : "If the specified mapvar is true, show 'message2' instead of 'message'"
+	noise1(string) : "Activate sound" : "misc/talk.wav" : "Gets played when the message is shown. Use 'misc/talk.wav' for the default centerprint beep."
+	noise2(string) : "Deactivate sound" : : "Played when the message fades away."
+	wait(integer) : "Minimum message duration" : 1 : "Minimum time the message will stay onscreen, even after the player leaves the trigger. Set to -1 to clear instantly"
+	spawnflags(flags) = [
+		1: "Silent"
+		2: "Fade background"
+	]
+]
+@PointClass base(Appearflags, Targetname) = target_textstory :
+"Trigger to show long centerprint texts. Message remains on screen for the duration of 'wait'. Can have custom sounds, or be made silent.
+
+Horizontal space is limited to 40 characters, so you must place linefeeds (\n) into your text.
+"
+[
+	wait(integer) : "Message duration" : 5
+	message(string) : "Message" : : "Message to show on-screen."
+	message2(string) : "Alternate message" : : "Alternate message to show on-screen when the mapvar ID in 'mapvar_message' is active."
+	mapvar_message(integer) : "Mapvar filter" : : "If the specified mapvar is true, show 'message2' instead of 'message'"
+	noise1(string) : "Activate sound" : "misc/talk.wav" : "Gets played when the message is shown. Use 'misc/talk.wav' for the default centerprint beep."
+	noise2(string) : "Deactivate sound" : : "Played when the message fades away."
+	spawnflags(flags) = [
+		1: "Silent"
+		2: "Fade background"
+		4: "Show to all players"
+	]
 ]
 
 
@@ -909,7 +933,6 @@ This ideally should match the same size and shape of the trigger_instateleport b
 	[
 		1: "No intermission" : 0
 	]
-	jump_flag(integer) : "Mapvar ID to activate when this changelevel is used/touched"
 ]
 @SolidClass base(Trigger, ChangeLevel) = trigger_changelevel : "Trigger: Change level.
 When the player touches this, he gets sent to the map listed in the 'map' variable. The view will go to the info_intermission spot and display stats."
@@ -930,7 +953,7 @@ When this is triggered, the player is sent to the map listed in the 'map' variab
 //
 // t_ctrl.qc
 //
-@PointClass size(16 16 16) color(160 0 160) base(Appearflags, TriggerSounds, Target, Targetname, AltTarget, Mapvar) = trigger_relay : "Trigger: Relay.
+@PointClass size(16 16 16) color(160 0 160) base(Appearflags, TriggerSounds, Target, Targetname, AltTarget) = trigger_relay : "Trigger: Relay.
 This fixed size trigger cannot be touched, it can only be fired by other events. Target this with a target_lock to selectively disable/reenable it for logic fun.
 The 'Hold' spawnflag will cause the relay to fire only the first time it is triggered (toggle on), and fire again after 'wait' seconds have passed without being triggered (toggle off)."
 [
@@ -1261,6 +1284,9 @@ Choose size with 'width' and 'height' (leave either at 0 for random selection)."
 		1: "Short"
 		2: "Medium"
 		3: "Tall"
+	]
+	spawnflags(flags) = [
+		4: "Floating" : 0
 	]
 	distance(string) : "Float distance (rough)" : "16"
 	speed(string) : "Float speed modifier (<1 = slower, >1 = faster)" : "1.0"
@@ -1846,43 +1872,37 @@ Alt Target Pattern: in distance mode, target is fading object, target2 on begin 
 //
 // m_ogre.qc
 //
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/ogre_qbj.mdl", "skin": skin }) = monster_ogre : "Ogre"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/ogre_qbj.mdl", "skin": skin }) = monster_ogre : "Ogre" []
 
 
 //
 // m_demon.qc
 //
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/demon_qbj.mdl", "skin": skin }) = monster_fiend : "Fiend"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/demon_qbj.mdl", "skin": skin }) = monster_fiend : "Fiend" []
 
 
 //
 // m_shambler.qc
 //
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shambler_qbj.mdl", "skin": skin }) = monster_shambler : "Shambler"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shambler_qbj.mdl", "skin": skin }) = monster_shambler : "Shambler" []
 
 
 //
 // m_knight.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/knight_qbj.mdl", "skin": skin }) = monster_knight : "Knight"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate" ]]
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/knight_qbj.mdl", "skin": skin }) = monster_knight : "Knight" []
 
 
 //
 // m_wizard.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/wizard_qbj.mdl", "skin": skin }) = monster_wizard : "Scrag"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/wizard_qbj.mdl", "skin": skin }) = monster_wizard : "Scrag" []
 
 
 //
 // m_dog.qc
 //
-@PointClass base(Monster) size(-32 -32 -24, 32 32 40) model({ "path": ":progs/dog_qbj.mdl", "skin": skin }) = monster_dog : "Rottweiler"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-32 -32 -24, 32 32 40) model({ "path": ":progs/dog_qbj.mdl", "skin": skin }) = monster_dog : "Rottweiler" []
 
 
 //
@@ -1890,12 +1910,6 @@ Alt Target Pattern: in distance mode, target is fading object, target2 on begin 
 //
 @PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/zombie_qbj.mdl", "skin": skin }) = monster_zombie : "Golem (Zombie)" 
 [
-	skin(choices) : "Skin" : 0 =
-	[	
-		0: "Default"
-		1: "Alternate"
-	]
-
 	spawnflags(Flags) = 
 	[
 		1 : "Crucified" : 0
@@ -1927,36 +1941,31 @@ Setup is weird and special: it must find two func_doors each with a 'target' (no
 //
 // m_tarbaby.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/spawn_qbj.mdl", "skin": skin }) = monster_spawn : "Spawn"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/spawn_qbj.mdl", "skin": skin }) = monster_spawn : "Spawn" []
 
 
 //
 // m_hknight.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/hknight_qbj.mdl", "skin": skin }) = monster_hell_knight : "Champion (Death Knight)"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/hknight_qbj.mdl", "skin": skin }) = monster_hell_knight : "Champion (Death Knight)" []
 
 
 //
 // m_fish.qc
 //
-@PointClass base(Monster) size(-16 -16 -16, 16 16 16) model({ "path": ":progs/fish_qbj.mdl", "skin": skin }) = monster_fish : "Fleshworm"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-16 -16 -16, 16 16 16) model({ "path": ":progs/fish_qbj.mdl", "skin": skin }) = monster_fish : "Fleshworm" []
 
 
 //
 // m_shalrath.qc
 //
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shalrath_qbj.mdl", "skin": skin }) = monster_shalrath : "Vore"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shalrath_qbj.mdl", "skin": skin }) = monster_shalrath : "Vore" []
 
 
 //
 // m_enforcer.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/enforcer_qbj.mdl", "skin": skin }) = monster_enforcer : "Enforcer"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/enforcer_qbj.mdl", "skin": skin }) = monster_enforcer : "Enforcer" []
 
 
 //
@@ -1978,51 +1987,53 @@ death will trigger the finale cutscene, unless 'Don't end level' is checked, in 
 	message(string) : "Intermission text" : "congratulations and well done etc..."
 ]
 
-//
-// m_brute.qc
-//
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/placeholder_progs/mon_brute.mdl" }) = monster_brute : "Brute" []
 
 //
 // m_amalgam.qc
 //
-@PointClass base(Monster) size(-32 -32 -32, 32 32 72) model({ "path": ":progs/toothy_qbj.mdl", "skin": skin }) = monster_amalgam : "Amalgam"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-32 -32 -32, 32 32 72) model({ "path": ":progs/toothy_qbj.mdl", "skin": skin }) = monster_amalgam : "Amalgam" []
+
+
+//
+// m_chaingunner.qc
+//
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/PROTOTYPE_chaingunner.mdl" }) = monster_chaingunner : "Chaingunner" []
 
 
 //
 // m_swarmer.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/swarmer_qbj.mdl", "skin": skin }) = monster_swarmer : "Swarmer"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/swarmer_qbj.mdl", "skin": skin }) = monster_swarmer : "Swarmer" []
 
 
 //
 // m_sploder.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/sploder_qbj.mdl", "skin": skin }) = monster_sploder : "Sploder"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/sploder_qbj.mdl", "skin": skin }) = monster_sploder : "Sploder" []
+
+
+//
+// m_brute.qc
+//
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/placeholder_progs/mon_brute.mdl" }) = monster_brute : "Brute" []
 
 
 //
 // m_soldier_pistol.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_pistol_qbj.mdl", "skin": skin }) = monster_army_pistol : "Pistol Trenchknight (Pistol Grunt)"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_pistol_qbj.mdl", "skin": skin }) = monster_army_pistol : "Pistol Trenchknight (Pistol Grunt)" []
 
 
 //
 // m_soldier_shotgun.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_shotgun_qbj.mdl", "skin": skin }) = monster_army : "Shotgun Trenchknight (Shotgun Grunt)"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_shotgun_qbj.mdl", "skin": skin }) = monster_army : "Shotgun Trenchknight (Shotgun Grunt)" []
 
 
 //
 // m_soldier_rocket.qc
 //
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_rocket_qbj.mdl", "skin": skin }) = monster_army_rocket : "Rocket Trenchknight (Rocket Grunt)"
-[skin(choices) : "Skin" : 0 =[	0: "Default"	1: "Alternate"	]]
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_rocket_qbj.mdl", "skin": skin }) = monster_army_rocket : "Rocket Trenchknight (Rocket Grunt)" []
 
 
 //
@@ -2193,77 +2204,3 @@ For collison on rotators, refer to the func_movewall brush entity.
 	]
 ]
 
-
-@PointClass color(192 0 128) base(Appearflags, Target, Targetname) = trigger_mapvar_read :
-"Reads a value from the mapvar bank, and relays the trigger if the specified value is met.
-When given a targetname, it'll read/relay when triggered. Otherwise, it'll fire automatically once after the map starts - good for modifying map structures or enabling/disabling triggers right from the start.
-
-Select the desired mapvar id using the 'mapvar' field, and the relay condition in 'style'. When the condition is met, it'll function like a conventional trigger_relay.
-
-Mapvars are miscellaneous flags (only true/false values) that can be freely used by the mapper whose values persist across level changes. Useful to track completion progress on mapjams for example. You have a total of 69 flags availabe to use, each identified by a number in the 1-69 range.
-"
-[
-	mapvar(int) : "Mapvar ID" : : "Obligatory. Must range between 1 and 69."
-	style(choices) : "Relay condition" : 2 = [
-		1 : "Trigger if mapvar is off/false"
-		2 : "Trigger if mapvar is on/true"
-	]
-]
-
-@PointClass color(192 0 128) base(Appearflags, Targetname) = trigger_mapvar_write :
-"Writes a value to the mapvar bank.
-
-Select the desired mapvar id using the 'mapvar' field, and the value to be set in 'style'. You can either set to on, set to off, or toggle the flag's value.
-
-Mapvars are miscellaneous flags (only true/false values) that can be freely used by the mapper whose values persist across level changes. Useful to track completion progress on mapjams for example. You have a total of 69 flags availabe to use, each identified by a number in the 1-69 range.
-"
-[
-	mapvar(int) : "Mapvar ID" : : "Obligatory. Must range between 1 and 69."
-	style(choices) : "Value to write" : 2 = [
-		1 : "Set flag to off/false"
-		2 : "Set flag to on/true"
-		3 : "Toggle flag value"
-	]
-]
-
-
-@SolidClass base(Appearflags, Targetname) = trigger_textstory :
-"Trigger to show long centerprint texts. Message remains on screen while player is inside the trigger volume. Can have custom sounds, or be made silent.
-
-Horizontal space is limited to 40 characters, so you must place linefeeds (\n) into your text.
-
-You can set it to be show the message only when the player is facing a certain angle within the trigger. Set the central angle with 'angles', and the viewcone size with 'view_ofs' (both in 'pitch yaw 0' format). Set view_ofs to '360 360 0' if you want the message to show regardless of viewing angle."
-
-[
-	angles(string) : "Central view angle" : : "Central point of the viewcone, in 'pitch yaw 0' format"
-	view_ofs(string) : "Viewcone size" : "180 180 0" : "Total viewcone angle for each axis, in 'vertical horizontal 0' format. Set it to '360 360 0' if you want the message to show regardless of viewing angle."
-	message(string) : "Message" : : "Message to show on-screen."
-	message2(string) : "Alternate message" : : "Alternate message to show on-screen when the mapvar ID in 'mapvar_message' is active."
-	mapvar_message(integer) : "Mapvar filter" : : "If the specified mapvar is true, show 'message2' instead of 'message'"
-	noise1(string) : "Activate sound" : "misc/talk.wav" : "Gets played when the message is shown. Use 'misc/talk.wav' for the default centerprint beep."
-	noise2(string) : "Deactivate sound" : : "Played when the message fades away."
-	wait(integer) : "Minimum message duration" : 1 : "Minimum time the message will stay onscreen, even after the player leaves the trigger. Set to -1 to clear instantly"
-	spawnflags(flags) = [
-		1: "Silent"
-		2: "Fade background"
-	]
-]
-
-@PointClass base(Appearflags, Targetname) = target_textstory :
-"Trigger to show long centerprint texts. Message remains on screen for the duration of 'wait'. Can have custom sounds, or be made silent.
-
-Horizontal space is limited to 40 characters, so you must place linefeeds (\n) into your text.
-"
-[
-	wait(integer) : "Message duration" : 5
-	message(string) : "Message" : : "Message to show on-screen."
-	message2(string) : "Alternate message" : : "Alternate message to show on-screen when the mapvar ID in 'mapvar_message' is active."
-	mapvar_message(integer) : "Mapvar filter" : : "If the specified mapvar is true, show 'message2' instead of 'message'"
-	noise1(string) : "Activate sound" : "misc/talk.wav" : "Gets played when the message is shown. Use 'misc/talk.wav' for the default centerprint beep."
-	noise2(string) : "Deactivate sound" : : "Played when the message fades away."
-	spawnflags(flags) = [
-		1: "Silent"
-		2: "Fade background"
-		4: "Show to all players"
-	]
-]

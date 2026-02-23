@@ -114,7 +114,7 @@ void(void() th) pistolarmy_nm_repeat =
 	if (skill != 3) return;
 	if (!alive(self.enemy)) return;
 
-	if (chaingunner_clear_attack())
+	if (pistolarmy_clear_attack())
 	{
 		self.cnt += 1;
 		self.think = th;
@@ -124,7 +124,7 @@ void(void() th) pistolarmy_nm_repeat =
 	self.cnt = 0;
 }
 
-float() chaingunner_clear_attack =
+float() pistolarmy_clear_attack =
 {
 	vector spot1, spot2;
 
