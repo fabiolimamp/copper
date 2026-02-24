@@ -156,6 +156,8 @@ m_soldier_pistol.qc //QBJ3
 m_soldier_shotgun.qc //QBJ3
 m_soldier_rocket.qc //QBJ3
 
+m_bulwark.qc        // megalith
+
 cshift.qc
 water.qc
 rotators.qc 	// sorry Lun

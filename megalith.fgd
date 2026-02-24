@@ -6,7 +6,7 @@
 // for the very latest version before anything else
 
 // Based heavily on quake.fgd by autolycus/czg/et al
-// Generated from Copper QuakeC source comments on 02.23.2026
+// Generated from Copper QuakeC source comments on 02.24.2026
 
 //
 // defs.qc
@@ -1995,12 +1995,6 @@ death will trigger the finale cutscene, unless 'Don't end level' is checked, in 
 
 
 //
-// m_chaingunner.qc
-//
-@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/PROTOTYPE_chaingunner.mdl" }) = monster_chaingunner : "Chaingunner" []
-
-
-//
 // m_swarmer.qc
 //
 @PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/swarmer_qbj.mdl", "skin": skin }) = monster_swarmer : "Swarmer" []
@@ -2019,6 +2013,12 @@ death will trigger the finale cutscene, unless 'Don't end level' is checked, in 
 
 
 //
+// m_chaingunner.qc
+//
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/PROTOTYPE_chaingunner.mdl" }) = monster_chaingunner : "Chaingunner" []
+
+
+//
 // m_soldier_pistol.qc
 //
 @PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_pistol_qbj.mdl", "skin": skin }) = monster_army_pistol : "Pistol Trenchknight (Pistol Grunt)" []
@@ -2034,6 +2034,12 @@ death will trigger the finale cutscene, unless 'Don't end level' is checked, in 
 // m_soldier_rocket.qc
 //
 @PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_rocket_qbj.mdl", "skin": skin }) = monster_army_rocket : "Rocket Trenchknight (Rocket Grunt)" []
+
+
+//
+// m_bulwark.qc
+//
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/placeholder_progs/mon_bulwark.mdl", "skin": skin }) = monster_bulwark : "Bulwark" []
 
 
 //
