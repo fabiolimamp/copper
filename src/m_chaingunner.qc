@@ -13,12 +13,14 @@ void() chain_fire =
 	target_pos = enemy_vispos() + enemy_aim_vertical();
 	dir = normalize(target_pos - shot_org);
 
-    spike = launch_projectile(shot_org, dir*1800, "cshot");
+	dir = normalize(dir + v_right * crandom() * 0.03 + v_up * crandom() * 0.03);
+    spike = launch_projectile(shot_org, dir*1400, "cshot");
 	spike.dmg = 5;
 	spike.touch = spike_touch;
 	SUB_ChangeModel (spike, "progs/proj_pellet.mdl");
 
-    spike2 = launch_projectile(shot_org, dir*1400, "cshot");
+	dir = normalize(dir + v_right * crandom() * 0.03 + v_up * crandom() * 0.03);
+    spike2 = launch_projectile(shot_org, dir*1000, "cshot");
 	spike2.dmg = 5;
 	spike2.touch = spike_touch;
 	SUB_ChangeModel (spike2, "progs/proj_pellet.mdl");
