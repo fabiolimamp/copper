@@ -1117,7 +1117,7 @@ void(vector screensize, float scoreboard) CSQC_DrawScores =
 	else if (skill == 2)
 		s = strcat(mapname, " - Hard");
 	else if (skill == 3)
-		s = strcat(mapname, " - \bNightmare\b");
+		s = strcat(mapname, " - \bBrutal\b");
 
 	value = stringwidth( s, TRUE, '8 8');
 	drawstring(pos + [160 - value/2, 36], s, '8 8', '1 1 1', 1, 0);
