@@ -17,7 +17,7 @@ string	POWER_RIFLE_MODEL	=	"progs/placeholder_progs/v_power_rifle.mdl";
 	
 	float	POWER_RIFLE_DMG 	=	333;	// 	//damage per shot
 
-	float	POWER_RIFLE_COST	=	5;		//ammo cost to fire
+	float	POWER_RIFLE_COST	=	1;		//ammo cost to fire
 	
 
 //=============================================================================================

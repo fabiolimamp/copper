@@ -282,7 +282,7 @@ void()	chain_die2	=[	$death2,	chain_die3	] {}
 void()	chain_die3	=[	$death3,	chain_die4	] {
 	self.solid = SOLID_NOT;
 	self.ammo_shells = 10;
-	DropBackpack();
+	DropBackpack(0);
 }
 void()	chain_die4	=[	$death4,	chain_die5	] {ai_forward(14);}
 void()	chain_die5	=[	$death5,	chain_die6	] {ai_forward(2);}
@@ -301,7 +301,7 @@ void()	chain_fdie2	=[	$fdeath2,	chain_fdie3	] {}
 void()	chain_fdie3	=[	$fdeath3,	chain_fdie4	] {
 	self.solid = SOLID_NOT;
 	self.ammo_shells = 10;
-	DropBackpack();
+	DropBackpack(0);
 }
 void()	chain_fdie4	=[	$fdeath4,	chain_fdie5	] {}
 void()	chain_fdie5	=[	$fdeath5,	chain_fdie6	] {}
@@ -320,7 +320,7 @@ void() chain_die =
 	if (self.health < -35)
 	{
 		self.ammo_shells = 10;
-		DropBackpack();
+		DropBackpack(0);
 		Gib ("progs/h_PROTOTYPE_chaingunner.mdl", self.health);
 		return;
 	}
