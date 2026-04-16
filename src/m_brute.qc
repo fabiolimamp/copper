@@ -3,6 +3,12 @@
 
 Brute
 
+Nightmare buffs:
+- Decreased think time during firing and melee by 25%
+- Refire chance on second shot of volley
+- Increased pain cooldown (4 instead of 2)
+- More Z-awareness (~88% instead of 66%)
+
 ==============================================================================
 */
 
@@ -38,6 +44,7 @@ $frame death1 death2 death3 death4 death5 death6 death7 death8 death9 death10 de
 $frame pain1 pain2 pain3 pain4 pain5 pain6 pain7 pain8 pain9
 
 $frame deathb1 deathb2 deathb3 deathb4 deathb5 deathb6 deathb7 deathb8 deathb9 deathb10 deathb11 deathb12 deathb13 deathb14
+
 //=============================================================================
 
 void() BruteGrenadeExplode =
@@ -91,7 +98,11 @@ vector(vector dest, float speed, float spray_angle) BruteAimGrenade =
 		theta = clamp(theta, -80, 70);
 	else
 		theta = clamp(theta, -60, 60);
-	theta = (theta * 2 + 18) / 3;
+
+	if (skill == 3)
+		theta = (theta + theta + theta + 18) / 3; // nightmare: 88% z-awareness
+	else
+		theta = (theta + theta + 18) / 2;	// copper: 66% z-awareness
 
 	angs_x = -theta;	
 	makevectors(angs);
@@ -129,16 +140,16 @@ void(float sequence, float spray) BruteFireGrenade =
 	makevectors(self.angles);
 	switch (sequence) {
 	case BRUTE_GRENADE_SEQUENCE_A_LEFT:
-		gorg = self.origin + v_forward * 100 + v_up * 40 - v_right * 25;
+		gorg = self.origin + v_forward * 10 + v_up * 40 - v_right * 12;
 		break;
 
 	case BRUTE_GRENADE_SEQUENCE_A_RIGHT:
-		gorg = self.origin + v_forward * 100 + v_up * 37 + v_right * 21;
+		gorg = self.origin + v_forward * 10 + v_up * 40 + v_right * 38;
 		spray_angle = spray_angle * -1;
 		break;
 
 	case BRUTE_GRENADE_SEQUENCE_B:
-		gorg = self.origin + v_forward * 80 + v_up * 20 - v_right * 25;
+		gorg = self.origin + v_forward * 10 + v_up * 40 - v_right * 1;
 
 		// Spray both left and right
 		if (random() < 0.5) {
@@ -190,7 +201,14 @@ void() brute_punch =
 	if (!CanDamage (self.enemy, self.origin))
 		return;
 		
-	ldmg = (random() + random() + random()) * 40;
+	//get the player off the ground so it launches them :D -fw
+	if (self.enemy.flags & FL_ONGROUND){
+		self.enemy.flags = self.enemy.flags - FL_ONGROUND;
+		self.enemy.origin_z = self.enemy.origin_z + 10;
+		self.enemy.velocity_z = self.enemy.velocity_z + 270;
+	}
+	
+	ldmg = 60;
 	T_Damage(self.enemy, self, self, ldmg, DMGTYPE_MELEE);
 	sound (self, CHAN_VOICE, "shambler/smack.wav", 1, ATTN_NORM);
 
@@ -590,57 +608,74 @@ float() BruteCheckAttack =
 }
 
 void(entity attacker, float damage)	brute_pain =
-{	if (self.health <= 0) {
+{	
+	if (self.health <= 0) {
 		return;
 	}
 
-	// don't make multiple pain sounds right after each other
 	if (self.pain_finished > time) {
 		return;
 	}
 
-	if (random() * 400 > damage) {
+	if (random() * 700 > damage) {
 		// didn't flinch
 		return;
-	}	
-
-	if (random() < 0.5) {
-		sound(self, CHAN_VOICE, "placeholder_sound/brute/injure1.wav", 1, ATTN_NORM);
-	} else {
-		sound(self, CHAN_VOICE, "placeholder_sound/brute/injure2.wav", 1, ATTN_NORM);
 	}
+
+	if (random() < 0.5)
+		sound(self, CHAN_VOICE, "placeholder_sound/brute/injure1.wav", 1, ATTN_NORM);
+	 else
+		sound(self, CHAN_VOICE, "placeholder_sound/brute/injure2.wav", 1, ATTN_NORM);
+	
+	if (skill == 3)
+		self.pain_finished = time + 4;
+	else
+		self.pain_finished = time + 2;
+
 	brute_pain1();
 }
 
 void() brute_die =
 {
-	// check for gib
-	if (self.health < -100)
-	{
-		Gib ("progs/placeholder_progs/h_brute.mdl", self.health);
-		return;
-	}
+	brute_dropammo();
 
 	if (random() < 0.5)	{
 		sound(self, CHAN_VOICE, "placeholder_sound/brute/death1.wav", 1, ATTN_NORM);
 	} else {
 		sound(self, CHAN_VOICE, "placeholder_sound/brute/death2.wav", 1, ATTN_NORM);
 	}
-	brute_die1();
+	
+		if (self.health < -150)
+	{
+		Gib ("progs/placeholder_progs/h_brute.mdl", self.health);
+		return;
+	}
+	
+	if (random() <0.5)	{
+		brute_die1();
+	} else {
+	brute_dieb1();
+	}
 }
 
 void() brute_melee =
 {
-	if (random() > 0.5) {
+	self.deathtype = "was bopped by a Brute";
+
+	if (self.customflags & CFL_LEFTY) {
+		self.customflags -= CFL_LEFTY;
 		brute_meleea1();
 	} else {
 		brute_meleeb1();
+		self.customflags |= CFL_LEFTY;
 	}
 }
 
 void() brute_gren =
 {
-	if (random() < 0.1) {
+	self.deathtype = "was bombed by a Brute";
+	
+	if (random() < 0.5) {
 		brute_grenb1();
 	} else {
 		brute_grena1();
@@ -653,12 +688,12 @@ void() monster_brute_spawn =
 {
 	self.classname = "monster_brute";
 	self.type = "brute";
-	
+
 	self.solid = SOLID_SLIDEBOX;
 
 	setmodel (self, "progs/placeholder_progs/mon_brute.mdl");
 
-	self.health = 700;
+	self.health = 600;
 	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);	
 
 	self.th_stand = brute_standa1;
@@ -669,6 +704,8 @@ void() monster_brute_spawn =
 	self.th_missile = brute_gren;
 	self.th_pain = brute_pain;
 	self.th_checkattack = BruteCheckAttack;
+
+	nmspeed(0.075);
 
 	if (self.deathtype == string_null)
 		self.deathtype = "was bopped by a Brute";
@@ -695,7 +732,7 @@ Keys:
 "movedir" set to a velocity to make the monster jump on awakening
 */
 /*FGD
-@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/placeholder_progs/mon_brute.mdl" }) = monster_brute : "Brute" []
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/placeholder_progs/mon_brute" }) = monster_brute : "Brute" []
 */
 void() monster_brute =
 {
@@ -709,7 +746,7 @@ void() monster_brute =
 
 	precache_model ("progs/placeholder_progs/mon_brute.mdl");
 	precache_model ("progs/placeholder_progs/h_brute.mdl");
-	precache_model ("progs/grenade.mdl");
+	precache_model ("progs/proj_grenade.mdl");
 
 	precache_sound ("placeholder_sound/brute/death1.wav");
 	precache_sound ("placeholder_sound/brute/death2.wav");
@@ -726,7 +763,7 @@ void() monster_brute =
 	precache_sound ("placeholder_sound/brute/walk2.wav");
 	precache_sound ("shambler/smack.wav");
 	
-	self.health = 700;
+	self.health = 600;
 	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
 	if (monster_spawnsetup( monster_brute_spawner )) {
         return;
