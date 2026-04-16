@@ -104,12 +104,12 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass size(0 0 0, 32 32 24) color(0 128 128) base(Item) 
+@PointClass size(-16 -16 0, 16 16 24) color(0 128 128) base(Item) 
 	model(
         {{
-            spawnflags & 2 ->   ":maps/b_bh100.bsp",
-            spawnflags & 1 ->   ":maps/b_bh10.bsp",
-                                ":maps/b_bh25.bsp"
+            spawnflags & 2 ->   ":progs/ammo/health_large.mdl",
+            spawnflags & 1 ->   ":progs/ammo/health_small.mdl",
+                                ":progs/ammo/health_med.mdl"
         }}
     ) =
     item_health : "Health pack, +25" 
