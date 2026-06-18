@@ -166,7 +166,9 @@ void() ImpalerTouch_REBAR_BUZZSAW_Buzzsaw =
 		self.touch = SUB_Null;
 		// change model so that smoke doesn't appear when stuck to moving brushes
 		//setmodel(self, "progs/proj_rebar_nosmoke.mdl");
-		setmodel (self, "progs/placeholder_progs/proj_buzz_small.mdl");
+		
+		//setmodel (self, "progs/placeholder_progs/proj_buzz_small.mdl");
+		setmodel (self, "progs/placeholder_progs/proj_buzz_large.mdl");
 
 
 		// move origin away from walls when stuck, helps prevent "void-lighting"
@@ -208,7 +210,8 @@ entity(vector org, vector vel) Launch_REBAR_BUZZSAW_Buzzsaw =
 	buzzsaw.alpha = 1;
 	//buzzsaw.movetype = MOVETYPE_FLYMISSILE;	//doesnt like this for some reason?
 
-	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_small.mdl");
+	//SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_small.mdl");
+	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_large_hot.mdl");	//_hot leaves trail + glowing
 
 
 	return buzzsaw;
@@ -401,7 +404,9 @@ void() ImpalerTouch_REBAR_BUZZSAW_Buzzsaw_3 =
 		self.touch = SUB_Null;
 		// change model so that smoke doesn't appear when stuck to moving brushes
 		//setmodel(self, "progs/proj_rebar_nosmoke.mdl");
-		setmodel (self, "progs/placeholder_progs/proj_buzz_small.mdl");
+		
+		//setmodel (self, "progs/placeholder_progs/proj_buzz_small.mdl");
+		setmodel (self, "progs/placeholder_progs/proj_buzz_large.mdl");
 
 
 		// move origin away from walls when stuck, helps prevent "void-lighting"

@@ -245,6 +245,9 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_stake_smoke.mdl");
 	precache_model ("progs/placeholder_progs/proj_nail_heavy.mdl");
 	precache_model ("progs/placeholder_progs/proj_buzz_small.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_small_hot.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_large.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_large_hot.mdl");
 	precache_model ("progs/placeholder_progs/railtrail_smoke.mdl");
 	precache_model ("progs/placeholder_progs/railtrail_tracer.mdl");
 	precache_model ("progs/placeholder_progs/proj_grenade_mini.mdl");
