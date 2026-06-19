@@ -896,7 +896,7 @@ weaponclass_t wpc_POWER_RIFLE = {
 
 weaponclass_t wpc_SECRET_ASH = {
 	IT_NAILGUN,
-	5, // slot
+	4, // slot
 	ash_NAME,
 	ash_MODEL,
 	2, // ammofield
