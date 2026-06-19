@@ -315,6 +315,9 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .float		active_weapon_index;
 .float 		pausetime;
 .string 	invokedmodel;
+.string 	splithalftorso;
+.string 	splithalflegs;
+.string 	enemydropgun;
 
 // player only fields
 .float		walkframe;

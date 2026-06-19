@@ -201,6 +201,159 @@ void() anim_invoked =
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+//FX_Split_Half(target_ent.splithalftorso, target_ent.splithalflegs, target_ent.enemydropgun, target_ent.origin, dir);
+
+void(string split_half_torso, string split_half_legs, string enemy_drop_gun, vector impact_org, vector dir) FX_Split_Half =
+{
+	local entity fx;
+	
+	fx = spawn ();
+	fx.owner = self;
+	fx.movetype = MOVETYPE_NONE;
+	fx.solid = SOLID_NOT;
+	fx.classname = "impact";
+
+	if (dir == VEC_ORIGIN) {
+		makevectors(self.v_angle);
+		dir = v_forward;
+	}
+	
+	fx.angles = vectoangles(dir);
+	fx.nextthink = time;
+	
+	//backwards 0-9
+	//forwards 10-20
+	
+	if (random() < 0.5)
+		fx.frame = 0;
+	else
+		fx.frame = 10;
+	
+	fx.alpha = 1;
+		
+	fx.think = anim_split_half_legs;
+
+	if (split_half_legs != "")
+		setmodel (fx, split_half_legs);
+	else
+		setmodel (fx, "progs/null.mdl");
+
+	setorigin(fx, impact_org + '0 0 32');
+
+	setsize (fx, '0 0 0', '0 0 0');
+
+
+	
+	//hardcoded for testing soldier_p...
+
+	Throw_Split_Half_Torso(split_half_torso, dir + '0 0 100');
+}
+//==============================================
+
+void() anim_split_half_legs =
+{	
+	if (self.frame == 0)
+	{	
+		if (self.frame >= 9)
+		{	
+			self.frame = 9;
+			return;
+		}
+		else
+			self.frame++;
+	}
+	else if (self.frame == 10)
+	{
+		if (self.frame >= 20)
+		{
+			self.frame =20;
+			return;
+		}
+		else
+			self.frame++;
+	}
+	
+	self.think = anim_split_half_legs;
+	self.nextthink = time + 0.1;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+entity(string split_half_torso, vector vel) Throw_Split_Half_Torso =
+	{
+		entity torso;
+		torso = spawn();
+				
+		// gibs have to be thinking ballistic projectiles to pass through monsterclip/notrace
+		torso.owner = torso.trueowner = self;
+		torso.touch = splithalftorso_touch_null;	//torso.touch = projectile_touch_null;
+		torso.th_die = SUB_Remove;
+		torso.think = splithalftorso_toss_think;	//torso.think = projectile_toss_think;
+		torso.nextthink = time;
+		torso.touch = splithalftorso_touch_null;	//torso.touch = projectile_touch_null;
+		torso.lifetime_finished = time + 6 + random() * 6;
+	
+		setmodel(torso, split_half_torso);
+		setsize (torso, VEC_ORIGIN, VEC_ORIGIN);
+		setorigin (torso, self.origin);
+	
+		if ((torso.owner.gibgroup == GIBGROUP_TAR_ALLOWED) && (torso.owner.skin == 1))
+			torso.skin = 1;
+	
+		torso.velocity = torso.oldvelocity = vel;	
+		torso.avelocity = Vector(random(),random(),random()) * 600;
+	
+		torso.movetype = MOVETYPE_BOUNCE;
+		
+		torso.type = "gib";
+		
+		return torso;
+	}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void() splithalftorso_touch_null = { CheckProjectilePassthru(); }
+
+void() splithalftorso_toss_think =
+{
+	if (time > self.lifetime_finished)
+	{
+		self.th_die();
+		return;
+	}
+	if (self.velocity == VEC_ORIGIN)	// stopped on the ground
+	{
+		//hardcoded for testing soldier_p...
+		if (random() < 0.5)
+			setmodel(self, "progs/placeholder_progs/splithalf_soldier_p_torso_floor.mdl");
+		else
+			setmodel(self, "progs/placeholder_progs/splithalf_soldier_p_torso_floor2.mdl");
+		
+		meat_noise();
+				
+		self.think = self.th_die;
+		self.nextthink = self.lifetime_finished;
+		self.th_die = SUB_Null;
+		self.lifetime_finished = 0;
+		self.solid = SOLID_NOT;
+		return;
+	}
+		
+	self.flags = not(self.flags, FL_ONGROUND);
+	self.oldvelocity = self.velocity;
+	self.nextthink = time + 0.05;	// 10hz is probably enough, but 20hz is surely twice as good
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 void(float enable) zaplight = 
 {	

@@ -657,6 +657,19 @@ weaponclass_t wpc_REBAR_BUZZSAW = {
 	weaponanim_draw
 };
 
+weaponclass_t wpc_REBAR_BUZZSAW2 = {
+	IT_SUPER_NAILGUN,
+	5, // slot
+	REBAR_BUZZSAW2_NAME,
+	REBAR_BUZZSAW2_MODEL,
+	2, // ammofield
+	IT_NAILS, // ammo_item
+	REBAR_BUZZSAW2_COST, // ammo_usage
+	weaponanim_REBAR_BUZZSAW2,
+	SUB_Null,
+	weaponanim_draw
+};
+
 // ====================================================================================
 // SLOT 6: Grenades
 // ====================================================================================
@@ -978,6 +991,7 @@ weaponclass_t weaponsclass[] = {
 	wpc_REBAR_RIFLE,	//no
 	wpc_REBAR_REPEATER,	//no
 	wpc_REBAR_BUZZSAW,	//maybe?
+	wpc_REBAR_BUZZSAW2,	//maybe?
 	
 //─────────────────────────────────────────[7]  GRENADES {explosives}
 
@@ -1011,7 +1025,7 @@ weaponclass_t weaponsclass[] = {
 	
 };
 
-float MAX_WEAPON_NUM = 65;
+float MAX_WEAPON_NUM = 66;
 
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
@@ -1024,7 +1038,7 @@ weaponslot_t weaponslots[9] = {
 	
 	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUPv2, wpc_SECRET_ASH}, 3},
 	
-	{{wpc_REBAR_BUFF, wpc_REBAR_BUZZSAW}, 2},
+	{{wpc_REBAR_BUFF, wpc_REBAR_BUZZSAW, wpc_REBAR_BUZZSAW2}, 3},
 	
 	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT, wpc_GRENADE_TRIBOLTqc, wpc_GRENADE_TRIBOLT}, 4},
 	

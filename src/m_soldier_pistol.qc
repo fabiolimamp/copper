@@ -407,6 +407,8 @@ void() monster_pistolarmy_spawn =
 	self.th_die = pistolarmy_die;
 	self.th_checkattack = PistolSoldierCheckAttack;
 	self.invokedmodel = "progs/fx/invoked_soldier_p.mdl";
+	self.splithalftorso = "progs/placeholder/splithalf_soldier_p_torso.mdl";
+	self.splithalflegs = "progs/placeholder/splithalf_soldier_p_legs.mdl";
 	
 	if (self.deathtype == string_null)
 		self.deathtype = "was struck during a Pistol Trenchknight-involved shooting and later died from their injuries";
@@ -449,6 +451,22 @@ void() monster_army_pistol =
 	
 	self.invokedmodel = "progs/fx/invoked_soldier_p.mdl";
 	precache_model(self.invokedmodel);
+
+	precache_model ("progs/placeholder_progs/splithalf_soldier_p_torso.mdl");
+	precache_model ("progs/placeholder_progs/splithalf_soldier_p_legs.mdl");
+	precache_model ("progs/placeholder_progs/splithalf_soldier_p_gun.mdl");
+		
+	self.splithalftorso = "progs/placeholder_progs/splithalf_soldier_p_torso.mdl";
+	self.splithalflegs = "progs/placeholder_progs/splithalf_soldier_p_legs.mdl";
+	self.enemydropgun = "progs/placeholder_progs/splithalf_soldier_p_gun.mdl";
+	precache_model(self.splithalftorso);
+	precache_model(self.splithalflegs);
+	precache_model(self.enemydropgun);
+
+	precache_model ("progs/placeholder_progs/splithalf_soldier_p_gun_floor.mdl");
+	precache_model ("progs/placeholder_progs/splithalf_soldier_p_torso_floor2.mdl");
+	precache_model ("progs/placeholder_progs/splithalf_soldier_p_torso_floor.mdl");
+	
 
 	precache_model	("progs/gibs/gib_gen_1.mdl");
 	precache_model	("progs/gibs/gib_gen_2.mdl");

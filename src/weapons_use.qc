@@ -303,6 +303,7 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rebar_buff.mdl");
 	precache_model ("progs/placeholder_progs/v_rebar_rifle.mdl");
 	precache_model ("progs/placeholder_progs/v_rebar_buzzsaw.mdl");
+	precache_model ("progs/placeholder_progs/v_rebar_buzzsaw_charge.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_grenade_direct.mdl");
 	precache_model ("progs/placeholder_progs/v_grenade_crossbow.mdl");
