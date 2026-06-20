@@ -298,7 +298,7 @@ void(entity pl, vector org, vector dest, float hit) Draw_Tracertrail =
 {
 	float len = vlen(dest - org);
 	vector dir = normalize(dest - org);
-	vector ang = vectoangles(dest - org);
+	vector ang = vectoangles2(dest - org);
 
 	float ct = floor(len/30);
 	entity sg;
