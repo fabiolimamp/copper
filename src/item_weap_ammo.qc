@@ -67,10 +67,22 @@ void() weapon_swap_touch =
 	self.think = weapon_swap_restore;
 	self.nextthink = time + 2;
 
-	SUB_CallAsSelf((void())W_ToggleAlternate, other);
+	// flip the alternate bit for this slot
+	float weapSlot = weaponsclass[getWeapon(self.items)].slot;
+	other.weapon_alternate = other.weapon_alternate ^ SlotBit(weapSlot);
+	float newPos = (other.weapon_alternate & SlotBit(weapSlot)) ? 1 : 0;
+
+	// equip new variant player has ammo for it, otherwise stay on current weapon
+	weaponclass_t newWeap = weaponslots[weapSlot].weaps[newPos];
+	if (W_CheckWeapon(newWeap.id, other) == WEAPONSTAT_AVAILABLE)
+	{
+		entity oself = self; self = other;
+		W_ChangeWeaponByIndex(FindWeaponIndex(newWeap.id, newWeap.name));
+		self = oself;
+	}
 
 	sprint(other, "You got the ");
-	sprint(other, weaponsclass[other.active_weapon_index].name);
+	sprint(other, weaponslots[weapSlot].weaps[newPos].name);
 	sprint(other, "\n");
 	sound(other, CHAN_ITEM, "weapons/pkup.wav", 1, ATTN_NORM);
 	stuffcmd(other, "bf\n");
@@ -147,11 +159,21 @@ void() weapon_touch =
 			self.think = weapon_swap_restore;
 			self.nextthink = time + 2;
 
-			// force-equip
-			SUB_CallAsSelf((void())W_ToggleAlternate, other);
+			// flip the alternate bit for this slot
+			other.weapon_alternate = other.weapon_alternate ^ SlotBit(weapSlot);
+			float newPos = (other.weapon_alternate & SlotBit(weapSlot)) ? 1 : 0;
+
+			// equip new variant player has ammo for it, otherwise stay on current weapon
+			weaponclass_t newWeap = weaponslots[weapSlot].weaps[newPos];
+			if (W_CheckWeapon(newWeap.id, other) == WEAPONSTAT_AVAILABLE)
+			{
+				entity oself = self; self = other;
+				W_ChangeWeaponByIndex(FindWeaponIndex(newWeap.id, newWeap.name));
+				self = oself;
+			}
 
 			sprint(other, "You got the ");
-			sprint(other, weaponsclass[other.active_weapon_index].name);
+			sprint(other, weaponslots[weapSlot].weaps[newPos].name);
 			sprint(other, "\n");
 			sound(other, CHAN_ITEM, "weapons/pkup.wav", 1, ATTN_NORM);
 			stuffcmd(other, "bf\n");
