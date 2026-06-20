@@ -84,7 +84,7 @@ void() W_FireQBJ3Grenade =
 
 	// set grenade speed	
 	makevectors (self.v_angle);
-	base = 200;
+	base = 250;
 	if (self.v_angle_x)
 		gvel = v_forward * base * 3 + v_up * base + crandom() * v_right * 10 + crandom() * v_up * 10;
 	else
@@ -94,7 +94,10 @@ void() W_FireQBJ3Grenade =
 		gvel_z = base;
 	}
 	
-	g = launch_qbj3grenade(self.origin, gvel);
+	vector fire_org;
+	fire_org = self.origin + v_right * 10 + v_forward * 16 + v_up * -4; //16 is as far as i can push it out before it starts clipping into walls :(
+
+	g = launch_qbj3grenade(fire_org, gvel);
 	g.touch = GrenadeTouch;
 	g.th_die = GrenadeExplode;
 }
@@ -104,8 +107,8 @@ entity(vector org, vector vel) launch_qbj3grenade =
 	entity grenade;
 	
 	grenade = toss_projectile(org, vel, "grenade");
-	grenade.lifetime_finished = time + 2.5;
-	grenade.avelocity = '300 300 300';
+	grenade.lifetime_finished = time + 2;
+	grenade.avelocity = '500 300 300';
 	//grenade.avelocity = '-600 0 0';
 	SUB_ChangeModel (grenade, "progs/proj_grenade.mdl");
 	
