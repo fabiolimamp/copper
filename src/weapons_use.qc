@@ -402,17 +402,18 @@ void() weaponanim_draw_loop =
 }
 
 float(float weap) getWeapon = {
-	switch (weap) {
-		case IT_AXE:				return 1;
-		case IT_SHOTGUN:			return 2;
-		case IT_SUPER_SHOTGUN:		return 3; //these numbers have to match the dumb sequence
-		case IT_NAILGUN:			return 13;// any way to make this dynamic? -fw
-		case IT_SUPER_NAILGUN:		return 14;
-		case IT_GRENADE_LAUNCHER:	return 21;
-		case IT_ROCKET_LAUNCHER:	return 22;
-		case IT_LIGHTNING:			return 23;
-		default:					return 0;
+	//replaced the old hardcoded system with something dynamic.
+	float i, j;
+	for (i = 0; i < 9; i++) {
+		if (weaponslots[i].weaps[0].id == weap) {
+			weaponclass_t target = weaponslots[i].weaps[0];
+			for (j = 0; j < MAX_WEAPON_NUM; j++) {
+				if (weaponsclass[j].id == target.id && weaponsclass[j].name == target.name)
+					return j;
+			}
+		}
 	}
+	return 0;
 }
 
 
@@ -916,6 +917,8 @@ float() W_ToggleAlternate =
 	self.weapon_alternate = self.weapon_alternate ^ altBit;
 	return weaponstat;
 }
+
+void() W_ToggleAlternate_void = { W_ToggleAlternate(); } 
 
 
 

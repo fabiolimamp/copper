@@ -2,7 +2,7 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	REBAR_BUZZSAW2_NAME	=	"REBAR_BUZZSAW2";
+string	REBAR_BUZZSAW2_NAME	=	"Buzzsaw Cannon";
 string	REBAR_BUZZSAW2_MODEL	=	"progs/placeholder_progs/v_rebar_buzzsaw_charge.mdl";
 
 

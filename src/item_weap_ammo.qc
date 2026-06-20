@@ -8,6 +8,7 @@ WEAPONS
 
 float	ITEM_AMMO_BIG = 1;
 float	ITEM_AMMO_YOOGE = 2;
+float	ITEM_WEAPON_ALTERNATE = 8;
 
 
 void(entity e) bound_ammo =
@@ -45,10 +46,6 @@ void(entity to) weapon_give =
 		
 	bound_ammo(to);
 
-	sprint (to, "You got the ");
-	sprint (to, self.netname);
-	sprint (to, "\n");
-
 	sound (to, CHAN_ITEM, "weapons/pkup.wav", 1, ATTN_NORM);
 	stuffcmd (to, "bf\n");
 }
@@ -58,9 +55,39 @@ void(entity to) weapon_give =
 weapon_touch
 =============
 */
+
+void() weapon_swap_touch =
+{
+	if (!CheckValidTouch()) return;
+	if (!(other.items & self.items)) return;	// player doesn't have this slot weapon
+
+	self.alpha = 0.25;
+	self.solid = SOLID_NOT;
+	self.touch = SUB_Null;
+	self.think = weapon_swap_restore;
+	self.nextthink = time + 2;
+
+	SUB_CallAsSelf((void())W_ToggleAlternate, other);
+
+	sprint(other, "You got the ");
+	sprint(other, weaponsclass[other.active_weapon_index].name);
+	sprint(other, "\n");
+	sound(other, CHAN_ITEM, "weapons/pkup.wav", 1, ATTN_NORM);
+	stuffcmd(other, "bf\n");
+}
+
+void() weapon_swap_restore =
+{
+	self.alpha = 1;
+	self.solid = SOLID_TRIGGER;
+	self.touch = weapon_swap_touch;
+	self.think = SUB_Null;
+	self.nextthink = -1;
+}
+
 void() weapon_touch =
 {
-	float	leave, nsw;
+	float	leave;
 
 	if (!CheckValidTouch()) return;
 
@@ -68,24 +95,70 @@ void() weapon_touch =
 		leave = 1;
 	else
 		leave = 0;
-	
+
 	if (leave)
 	{
-		if (other.items & self.items == self.items)	// already have it
+		if (other.items & self.items == self.items)
 		{
 			weapon_touch_coop();
 			return;
 		}
 	}
-	
-	if (self.items & other.items) nsw = TRUE;
 
-	weapon_give(other);
-	// change to the weapon
-	if (nsw)
-		SUB_CallAsSelf(W_ResetWeaponState, other);
-	else
+	float hasSlotWeapon = (other.items & self.items) ? TRUE : FALSE;
+
+	if (!hasSlotWeapon)
+	{
+		// scenario 1: player has nothing for this slot, give the weapon.
+		weapon_give(other);
 		W_BetterWeapon(other, self.items);
+		if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
+			SUB_CallAsSelf((void())W_ToggleAlternate, other);
+		sprint(other, "You got the ");
+		sprint(other, weaponsclass[other.active_weapon_index].name);
+		sprint(other, "\n");
+	}
+	else
+	{
+		// work out whether the pickup's variant matches what the player currently has
+		// slot and alternate bit for this weapon type.
+		float weapSlot  = weaponsclass[getWeapon(self.items)].slot;
+		float altBit    = SlotBit(weapSlot);
+		float playerHasAlt  = (other.weapon_alternate & altBit) ? TRUE : FALSE;
+		float pickupIsAlt   = (self.spawnflags & ITEM_WEAPON_ALTERNATE) ? TRUE : FALSE;
+		float variantMatches = (playerHasAlt == pickupIsAlt);
+
+		if (variantMatches)
+		{
+			// scenario 2: player already has this variant, just give ammo without swapping
+			weapon_give(other);
+			SUB_CallAsSelf(W_ResetWeaponState, other);
+			sprint(other, "You got the ");
+			sprint(other, weaponsclass[other.active_weapon_index].name);
+			sprint(other, "\n");
+		}
+		else
+		{
+			// scenario 3: player has the other variant, so we force-equip theirs and
+			// turn this node into a swap point
+			self.alpha = 0.25;
+			self.solid = SOLID_NOT;
+			self.touch = SUB_Null;
+			self.think = weapon_swap_restore;
+			self.nextthink = time + 2;
+
+			// force-equip
+			SUB_CallAsSelf((void())W_ToggleAlternate, other);
+
+			sprint(other, "You got the ");
+			sprint(other, weaponsclass[other.active_weapon_index].name);
+			sprint(other, "\n");
+			sound(other, CHAN_ITEM, "weapons/pkup.wav", 1, ATTN_NORM);
+			stuffcmd(other, "bf\n");
+
+			return;
+		}
+	}
 
 	if (coop == 1)
 	{
@@ -126,10 +199,12 @@ void() StartWeapon =
 // ===============================================================================
 
 /*FGD
-@baseclass size(-16 -16 0, 16 16 56) color(0 0 200) base(Item) = Weapon []
+@baseclass size(-16 -16 0, 16 16 56) color(0 0 200) base(Item) = Weapon [
+	spawnflags(flags) = [ 8 : "ALTERNATE" : 0 ]
+]
 */
 
-/*QUAKED weapon_pistol (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+/*QUAKED weapon_pistol (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
 Pistol.
 
 Keys:
@@ -155,7 +230,7 @@ void() weapon_pistol =
 void() weapon_shotgun = {weapon_pistol();} //for legacy compat
 
 
-/*QUAKED weapon_flak (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+/*QUAKED weapon_flak (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
 Flak shotgun.
 
 Keys:
@@ -183,7 +258,7 @@ void() weapon_supershotgun = {weapon_flak();} //for legacy compat
 
 
 
-/*QUAKED weapon_nailgun (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+/*QUAKED weapon_nailgun (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
 Twin Nailgun.
 
 Keys:
@@ -207,7 +282,7 @@ void() weapon_nailgun =
 	StartWeapon();
 }
 
-/*QUAKED weapon_rebar (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+/*QUAKED weapon_rebar (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
 Rebar Cannon.
 
 Keys:
@@ -233,7 +308,7 @@ void() weapon_rebar =
 
 void() weapon_supernailgun = {weapon_rebar();} //for legacy compat
 
-/*QUAKED weapon_grenadelauncher (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+/*QUAKED weapon_grenadelauncher (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
 Grenade Launcher.
 
 Keys:
@@ -257,7 +332,7 @@ void() weapon_grenadelauncher =
 	StartWeapon();
 }
 
-/*QUAKED weapon_mmml (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+/*QUAKED weapon_mmml (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
 Multi Mini-Missile Launcher.
 
 Keys:
@@ -283,7 +358,7 @@ void() weapon_mmml =
 
 void() weapon_rocketlauncher = {weapon_mmml();} //for legacy compat
 
-/*QUAKED weapon_invoker (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+/*QUAKED weapon_invoker (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
 The Invoker.
 
 Keys:
@@ -309,7 +384,7 @@ void() weapon_invoker =
 
 void() weapon_lightning = {weapon_invoker();} //for legacy compat
 
-/*QUAKED weapon_wrench (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED
+/*QUAKED weapon_wrench (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
 The Wrench, should you happen to make the player start without one.
 
 Keys:
