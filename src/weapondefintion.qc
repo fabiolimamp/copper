@@ -1038,7 +1038,7 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_MELEE_WRENCH}, 1},
 
 	// 2 PISTOLS
-	{{wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER}, 2},
+	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_REVOLVER}, 2},
 
 	// 3 SHOTGUNS
 	{{wpc_SHOTGUN_FLAK, wpc_SSG_ROTARY}, 2},
