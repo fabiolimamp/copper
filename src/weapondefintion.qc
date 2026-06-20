@@ -1027,22 +1027,34 @@ weaponclass_t weaponsclass[] = {
 
 float MAX_WEAPON_NUM = 66;
 
+// ====================================================================================
+// WEAPONS ASSIGNED
+// ====================================================================================
+
 weaponslot_t weaponslots[9] = {
 	{{wpc_no_weapon}, 1},
-	
-	{{wpc_MELEE_WRENCH}, 1},
-	
-	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_AKIMBO, wpc_PISTOL_REVOLVER, wpc_PISTOL_BIGIRON}, 4},	//impulse 19 = manual reload & pin
-	
-	{{wpc_SHOTGUN_FLAK, wpc_SSG_THREE, wpc_SHOTGUN_QUAKEY, wpc_SHOTGUN_OVERUNDER, wpc_SHOTGUN_SAWED, wpc_SSG_ROTARY, wpc_SSG_ROTARYBUFF, wpc_SSG_ROTARYFLAK}, 8},
-	
-	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUPv2, wpc_SECRET_ASH}, 3},
-	
-	{{wpc_REBAR_BUFF, wpc_REBAR_BUZZSAW, wpc_REBAR_BUZZSAW2}, 3},
-	
-	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_DIRECT, wpc_GRENADE_TRIBOLTqc, wpc_GRENADE_TRIBOLT}, 4},
-	
-	{{wpc_ROCKET_MMML, wpc_ROCKET_TRIPLE, wpc_ROCKET_REMOTE, wpc_ROCKET_ORIGINAL, wpc_ROCKET_RPG, wpc_ROCKET_DOUBLE}, 6},
-	
+
+	// 1 MELEE
+	{{wpc_MELEE_WRENCH, wpc_MELEE_KNIFE}, 2},
+
+	// 2 PISTOLS
+	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_BIGIRON}, 2},
+
+	// 3 SHOTGUNS
+	{{wpc_SHOTGUN_FLAK, wpc_SSG_ROTARY}, 2},
+
+	// 4 NAILGUNS
+	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUPv2}, 2},
+
+	// 5 REBARS
+	{{wpc_REBAR_BUFF, wpc_REBAR_BUZZSAW2}, 2},
+
+	// 6 GRENADES
+	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_TRIBOLTqc}, 2},
+
+	// 7 ROCKETS
+	{{wpc_ROCKET_MMML, wpc_ROCKET_REMOTE}, 2},
+
+	// 8 POWER WEAPONS
 	{{wpc_POWER_INVOKER, wpc_POWER_RIFLE}, 2}
 };

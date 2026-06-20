@@ -74,6 +74,7 @@ void() SetChangeParms =
 	parm8 = self.weapon;
 	parm9 = self.armortype;
 	parm10 = self.items_qbj;
+	parm11 = self.weapon_alternate;
 }
 
 void() SetNewParms =
@@ -87,7 +88,8 @@ void() SetNewParms =
 	parm6 = 0;
 	parm7 = 0;
 	parm9 = 0;
-//	parm10 = 0;
+	parm10 = 0;
+	parm11 = 0;
 
 	// Are map variables live?
 	if (mapvar_started) dprint("\b[CLIENT]\b LIVE Map Variables Detected\n");
@@ -123,6 +125,7 @@ void() SetCoopParms =
 	parm7 = 0;
 	parm9 = 0;
 //	parm10 = 0;
+	parm11 = 0;
 
 	armor_set_type(self);
 }
@@ -148,6 +151,7 @@ void() DecodeLevelParms =
 	self.ammo_cells = parm7;
 	self.armortype = parm9;
 	self.items_qbj = parm10;
+	self.weapon_alternate = parm11;
 	
 	//self.weapon = parm8;
 	W_ChangeWeapon(parm8, FALSE);

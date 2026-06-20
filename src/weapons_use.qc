@@ -789,79 +789,68 @@ float(float weapIndex) W_ChangeWeaponByIndex =
 	return weapstat;
 }
 
+// converts slot number to the bit
+float(float n) SlotBit =
+{
+	float v = 1;
+	float i;
+	for (i = 0; i < n; i++)
+		v = v * 2;
+	return v;
+};
+
 float(float imp) W_ChangeSlot =
 {
-	// Pistol Manual Reload
-	/*
-	if (imp == 2 && self.weapon == IT_SHOTGUN)
-	{
-		if (self.pistol_ammo_count != 10)
-						
-			if 	(self.weaponmodel == "progs/placeholder_progs/v_pistol_akimbo.mdl")	weaponanim_reload_PISTOL_AKIMBO();
-			else if (self.weaponmodel == "progs/placeholder_progs/v_pistol_revolver.mdl")	weaponanim_reload_PISTOL_REVOLVER();
-			else										weaponanim_reloadpistol();
-			
-			
-		//else if (self.pistol_ammo_count == 10)	//broken spin cause idk how to determine which weaponaim to use, how to check gun equipped???
-								//make all pistol reloads take place in the same frames for easy switching!!! <--- KEBBY
-			
-			//weaponanim_twirlpistol();
-		
-		return WEAPONSTAT_AVAILABLE;
-	}
-	*/
-	
-	
-	
-	
-	
-		//please forgive me bmFbr...
-			
 	self.melee_returnimpcheck = imp;
-	
-	
-	
-	
+
 	if (self.customflags & CFL_WEAPONLOCK) return WEAPONSTAT_CHANGELOCKED;
 
-	float slotQuantity = weaponslots[imp].qt;
-	
+	float altBit = SlotBit(imp);
+
 	weaponclass_t currentWeapon;
 	if (self.active_weapon_index > 0 && self.active_weapon_index <= MAX_WEAPON_NUM)
 		currentWeapon = weaponsclass[self.active_weapon_index];
 	else
 		currentWeapon = weaponsclass[getWeapon(self.weapon)];
 
-	float startSlotPos;
+	float alreadyOnSlot = (currentWeapon.slot == imp);
+	float slotQuantity = weaponslots[imp].qt;
 
-	if (currentWeapon.slot == imp)
+	float targetPos;
+
+	if (alreadyOnSlot)
 	{
-		startSlotPos = self.active_slot_weapon[imp];
-		startSlotPos = wrap(startSlotPos + 1, 0, slotQuantity - 1);
+		// already on this weapon, toggle to the other weapon if one exists (for testing only)
+		if (slotQuantity < 2) return WEAPONSTAT_AVAILABLE;
+
+		self.weapon_alternate = self.weapon_alternate ^ altBit;
+		targetPos = (self.weapon_alternate & altBit) ? 1 : 0;
 	}
 	else
 	{
-		startSlotPos = self.active_slot_weapon[imp];
+		// restore the last-used position for this slot.
+		targetPos = (self.weapon_alternate & altBit) ? 1 : 0;
+		if (targetPos >= slotQuantity)
+			targetPos = 0;
 	}
 
-	float i = 0;
-	float weaponstat;
-
-	while (i < slotQuantity) 
+	float i;
+	for (i = 0; i < slotQuantity; i++)
 	{
 		// Get the specific weapon data from your weaponslots array 
-		weaponclass_t targetWeap = weaponslots[imp].weaps[startSlotPos];
-		float checkedWeaponId = targetWeap.id;
-		
-		weaponstat = W_CheckWeapon(checkedWeaponId, self);
+		float tryPos = (targetPos + i) % slotQuantity;
+		weaponclass_t targetWeap = weaponslots[imp].weaps[tryPos];
+
+		float weaponstat = W_CheckWeapon(targetWeap.id, self);
 		if (weaponstat == WEAPONSTAT_AVAILABLE)
 		{
-			self.active_slot_weapon[imp] = startSlotPos;
-			
-			// Find the global index using the ID and Name from your slot definition [cite: 25]
+			if (tryPos == 1)
+				self.weapon_alternate = self.weapon_alternate | altBit;
+			else
+				self.weapon_alternate = self.weapon_alternate &~ altBit;
+
 			float weapIndex = FindWeaponIndex(targetWeap.id, targetWeap.name);
 
-			// Print the weapon name to the player
 			bprint("Selected: ");
 			bprint(weaponsclass[weapIndex].name);
 			bprint("\n");
@@ -869,33 +858,37 @@ float(float imp) W_ChangeSlot =
 			W_ChangeWeaponByIndex(weapIndex);
 			return weaponstat;
 		}
-		startSlotPos = wrap(startSlotPos + 1, 0, slotQuantity - 1);
-		i++;
 	}
-	
-	if (weaponstat == WEAPONSTAT_NOAMMO)
+
+	// otherwise...
+	weaponclass_t fallback = weaponslots[imp].weaps[0];
+	float fallbackStat = W_CheckWeapon(fallback.id, self);
+	if (fallbackStat == WEAPONSTAT_NOAMMO)
 		sprint(self, "not enough ammo.\n");
-	if (weaponstat == WEAPONSTAT_NOWEAPON)
+	if (fallbackStat == WEAPONSTAT_NOWEAPON)
 		sprint(self, "no weapon.\n");
 
-	return weaponstat;
+	return fallbackStat;
 }
 
-float() W_CycleSlotWeapon =
+
+float() W_ToggleAlternate =
 {
 	weaponclass_t currentWeapon;
 	if (self.active_weapon_index > 0 && self.active_weapon_index <= MAX_WEAPON_NUM)
 		currentWeapon = weaponsclass[self.active_weapon_index];
 	else
 		currentWeapon = weaponsclass[getWeapon(self.weapon)];
-		
+
 	float currentSlot = currentWeapon.slot;
-	
-	if (currentSlot <= 2)
+
+	// no alt for nothing. duh.
+	if (currentSlot <= 0)
 		return WEAPONSTAT_CHANGELOCKED;
 	
 	return W_ChangeSlot(currentSlot);
 }
+
 
 
 float(float stp) W_CycleWeapon =

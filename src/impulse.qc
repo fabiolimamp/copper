@@ -361,7 +361,7 @@ void() ImpulseCommands =
 			toggle_custom_crosshairs();
 			break;
 		case 18:
-			ret = W_CycleSlotWeapon();
+			ret = W_ToggleAlternate();
 			break;
 		
 		

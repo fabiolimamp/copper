@@ -340,6 +340,7 @@ float sandyMadeThis; // for special-casing SOMEBODY's stale keyvalues and clumsy
 .float		healthtime;
 .string		deathtype;		// keeps track of how the player died
 .float		prev_weapon;
+.float		weapon_alternate;	// bitmask for if the player has obtain alt weapons per slot
 
 .float  	pistol_ammo_count;
 .float		pistol_lastreload_time;
