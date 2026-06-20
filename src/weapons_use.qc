@@ -818,26 +818,32 @@ float(float imp) W_ChangeSlot =
 
 	float targetPos;
 
+	// if slot has alternate and player has it, no selecting primary
+	float hasAlternate = (slotQuantity >= 2 && W_CheckWeapon(weaponslots[imp].weaps[1].id, self) != WEAPONSTAT_NOWEAPON);
+
 	if (alreadyOnSlot)
 	{
-		// already on this weapon, toggle to the other weapon if one exists (for testing only)
 		if (slotQuantity < 2) return WEAPONSTAT_AVAILABLE;
 
+		if (hasAlternate)
+		{
+			return WEAPONSTAT_AVAILABLE;
+		}
 		self.weapon_alternate = self.weapon_alternate ^ altBit;
 		targetPos = (self.weapon_alternate & altBit) ? 1 : 0;
 	}
 	else
 	{
-		// restore the last-used position for this slot.
-		targetPos = (self.weapon_alternate & altBit) ? 1 : 0;
+		if (hasAlternate)
+			targetPos = 1;	// force alternate, no selecting primary
+		else
+			targetPos = 0;
 		if (targetPos >= slotQuantity)
 			targetPos = 0;
 	}
-
 	float i;
 	for (i = 0; i < slotQuantity; i++)
 	{
-		// Get the specific weapon data from your weaponslots array 
 		float tryPos = (targetPos + i) % slotQuantity;
 		weaponclass_t targetWeap = weaponslots[imp].weaps[tryPos];
 
@@ -867,7 +873,6 @@ float(float imp) W_ChangeSlot =
 		sprint(self, "not enough ammo.\n");
 	if (fallbackStat == WEAPONSTAT_NOWEAPON)
 		sprint(self, "no weapon.\n");
-
 	return fallbackStat;
 }
 
