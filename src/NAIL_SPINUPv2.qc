@@ -23,7 +23,7 @@ string	NAIL_SPINUPv2_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
 	
 	float	NAIL_SPINUPv2_ROF	=	0.2;		//seconds post-fire
 	
-	float	NAIL_SPINUPv2_DMG 	=	18;		//damage per shot
+	float	NAIL_SPINUPv2_DMG 	=	20;		//damage per shot
 
 	float	NAIL_SPINUPv2_COST	=	2;		//ammo cost to fire
 	
