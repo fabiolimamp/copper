@@ -818,26 +818,19 @@ float(float imp) W_ChangeSlot =
 
 	float targetPos;
 
-	// if slot has alternate and player has it, no selecting primary
-	float hasAlternate = (slotQuantity >= 2 && W_CheckWeapon(weaponslots[imp].weaps[1].id, self) != WEAPONSTAT_NOWEAPON);
+	float hasAlternate = (self.weapon_alternate & altBit);
 
 	if (alreadyOnSlot)
 	{
 		if (slotQuantity < 2) return WEAPONSTAT_AVAILABLE;
 
 		if (hasAlternate)
-		{
 			return WEAPONSTAT_AVAILABLE;
-		}
-		self.weapon_alternate = self.weapon_alternate ^ altBit;
-		targetPos = (self.weapon_alternate & altBit) ? 1 : 0;
+		return WEAPONSTAT_AVAILABLE;
 	}
 	else
 	{
-		if (hasAlternate)
-			targetPos = 1;	// force alternate, no selecting primary
-		else
-			targetPos = 0;
+		targetPos = hasAlternate ? 1 : 0;
 		if (targetPos >= slotQuantity)
 			targetPos = 0;
 	}
@@ -850,11 +843,6 @@ float(float imp) W_ChangeSlot =
 		float weaponstat = W_CheckWeapon(targetWeap.id, self);
 		if (weaponstat == WEAPONSTAT_AVAILABLE)
 		{
-			if (tryPos == 1)
-				self.weapon_alternate = self.weapon_alternate | altBit;
-			else
-				self.weapon_alternate = self.weapon_alternate &~ altBit;
-
 			float weapIndex = FindWeaponIndex(targetWeap.id, targetWeap.name);
 
 			bprint("Selected: ");
@@ -886,12 +874,29 @@ float() W_ToggleAlternate =
 		currentWeapon = weaponsclass[getWeapon(self.weapon)];
 
 	float currentSlot = currentWeapon.slot;
+	if (currentSlot <= 0) return WEAPONSTAT_CHANGELOCKED;
 
-	// no alt for nothing. duh.
-	if (currentSlot <= 0)
-		return WEAPONSTAT_CHANGELOCKED;
-	
-	return W_ChangeSlot(currentSlot);
+	float slotQuantity = weaponslots[currentSlot].qt;
+	if (slotQuantity < 2) return WEAPONSTAT_AVAILABLE;
+
+	float altBit = SlotBit(currentSlot);
+
+	// toggle the ownership bit
+	self.weapon_alternate = self.weapon_alternate ^ altBit;
+	float targetPos = (self.weapon_alternate & altBit) ? 1 : 0;
+
+	weaponclass_t targetWeap = weaponslots[currentSlot].weaps[targetPos];
+	float weaponstat = W_CheckWeapon(targetWeap.id, self);
+	if (weaponstat == WEAPONSTAT_AVAILABLE)
+	{
+		float weapIndex = FindWeaponIndex(targetWeap.id, targetWeap.name);
+		W_ChangeWeaponByIndex(weapIndex);
+		return weaponstat;
+	}
+
+	// target wasn't available, flip the bit back
+	self.weapon_alternate = self.weapon_alternate ^ altBit;
+	return weaponstat;
 }
 
 

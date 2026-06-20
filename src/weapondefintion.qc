@@ -1038,7 +1038,7 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_MELEE_WRENCH, wpc_MELEE_KNIFE}, 2},
 
 	// 2 PISTOLS
-	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_BIGIRON}, 2},
+	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_REVOLVER}, 2},
 
 	// 3 SHOTGUNS
 	{{wpc_SHOTGUN_FLAK, wpc_SSG_ROTARY}, 2},
@@ -1053,7 +1053,7 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_TRIBOLTqc}, 2},
 
 	// 7 ROCKETS
-	{{wpc_ROCKET_MMML, wpc_ROCKET_REMOTE}, 2},
+	{{wpc_ROCKET_MMML, wpc_ROCKET_RPG}, 2},
 
 	// 8 POWER WEAPONS
 	{{wpc_POWER_INVOKER, wpc_POWER_RIFLE}, 2}
