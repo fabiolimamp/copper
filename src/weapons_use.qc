@@ -484,25 +484,33 @@ void() W_UpdateCurrentAmmo =
 
 float(float weapons, entity cl, float waterlevel) W_BestWeaponParms =
 {
-	//if (W_CheckWeapon(IT_LIGHTNING, cl) 	== WEAPONSTAT_AVAILABLE)	return IT_LIGHTNING;
-	if (W_CheckWeapon(IT_SUPER_NAILGUN, cl) == WEAPONSTAT_AVAILABLE)	return IT_SUPER_NAILGUN;
-	if (W_CheckWeapon(IT_SUPER_SHOTGUN, cl) == WEAPONSTAT_AVAILABLE)	return IT_SUPER_SHOTGUN;
-	if (W_CheckWeapon(IT_NAILGUN, cl) 	== WEAPONSTAT_AVAILABLE)	return IT_NAILGUN;
-	if (W_CheckWeapon(IT_SHOTGUN, cl) 	== WEAPONSTAT_AVAILABLE)	return IT_SHOTGUN;
-	if (W_CheckWeapon(IT_AXE, cl)		== WEAPONSTAT_AVAILABLE)	return IT_AXE;
-
-	return IT_NO_WEAPON; 
+	// iterate slots from highest to lowest priority
+	// for each slot, check the variant the player currently has equipped
+	float i, altBit, pos;
+	for (i = 8; i >= 1; i--)
+	{
+		if (weaponslots[i].qt < 1) continue;
+		altBit = SlotBit(i);
+		pos = (cl.weapon_alternate & altBit) ? 1 : 0;
+		weaponclass_t weap = weaponslots[i].weaps[pos];
+		if (W_CheckWeapon(weap.id, cl) == WEAPONSTAT_AVAILABLE)
+			return weap.id;
+	}
+	return IT_NO_WEAPON;
 };
 
 float(float w) W_RankForWeapon =
 {
-	if (!w)				return 666;
-	if (w == IT_LIGHTNING)		return 1;
-	if (w == IT_ROCKET_LAUNCHER)	return 2;
-	if (w == IT_SUPER_NAILGUN)	return 3;
-	if (w == IT_GRENADE_LAUNCHER)	return 4;
-	if (w == IT_SUPER_SHOTGUN)	return 5;
-	if (w == IT_NAILGUN)		return 6;
+	float i, altBit, pos;
+	if (!w) return 666;
+	for (i = 1; i <= 8; i++)
+	{
+		if (weaponslots[i].qt < 1) continue;
+		altBit = SlotBit(i);
+		pos = (self.weapon_alternate & altBit) ? 1 : 0;
+		if (weaponslots[i].weaps[pos].id == w)
+			return (9 - i);
+	}
 	return 7;
 }
 
@@ -917,8 +925,6 @@ float() W_ToggleAlternate =
 	self.weapon_alternate = self.weapon_alternate ^ altBit;
 	return weaponstat;
 }
-
-void() W_ToggleAlternate_void = { W_ToggleAlternate(); } 
 
 
 
