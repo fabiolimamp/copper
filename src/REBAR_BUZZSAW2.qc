@@ -3,7 +3,7 @@
 //=============================================================================================
 
 string	REBAR_BUZZSAW2_NAME	=	"Buzzsaw Cannon";
-string	REBAR_BUZZSAW2_MODEL	=	"progs/placeholder_progs/v_rebar_buzzsaw_charge.mdl";
+string	REBAR_BUZZSAW2_MODEL	=	"progs/placeholder_progs/v_rebar_buzzsaw_charge_1.mdl";
 
 .float	buzzsaw_charge;
 
@@ -30,7 +30,7 @@ string	REBAR_BUZZSAW2_MODEL	=	"progs/placeholder_progs/v_rebar_buzzsaw_charge.md
 									//frames: 11-51		         (11-20, 21-30, 31-40, 41-50, 51+)	
 									//total refire at 40fps = 1 second charge + 0.5 cooldown
 
-	float	REBAR_BUZZSAW2_COST	=	20;	//5;		//ammo cost to fire
+	float	REBAR_BUZZSAW2_COST	=	5;			//ammo cost to fire * per charge level
 	
 	float	REBAR_BUZZSAW2_SPEED	=	2000;			//arc velocity
 
@@ -49,33 +49,38 @@ float() weaponanim_REBAR_BUZZSAW2 =
 	}
 
 	self.attack_finished = time + 0.1;
+	
 	self.buzzsaw_charge = 1;
 	self.weaponframe = 11;
+	self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_1.mdl";
+	
 	self.think = weaponanim_REBAR_BUZZSAW2_loop_charge;
 	self.nextthink = time + 0.025;
 
-
+	//self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_BUZZSAW2_COST;
+	
 	return TRUE;
 }
 
 void() weaponanim_REBAR_BUZZSAW2_loop_charge =
 {
 	local float swf = self.weaponframe;
-		
+	
 	if (self.button0)
 	{
-		if 	(swf > 10 && swf <= 20)		self.buzzsaw_charge = 1;
-		else if (swf > 20 && swf <= 30)	self.buzzsaw_charge = 2;
-		else if (swf > 30 && swf <= 40)	self.buzzsaw_charge = 3;
-		else if (swf > 40 && swf <= 50)	self.buzzsaw_charge = 4;
+		if 	(swf > 10 && swf <= 20)	{self.buzzsaw_charge = 1;	self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_1.mdl";	}
+		else if (swf > 20 && swf <= 30)	{self.buzzsaw_charge = 2;	self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_2.mdl";	sound (self, CHAN_WEAPON, "placeholder_sound/beep_tone_1.wav", 1, ATTN_NORM);}
+		else if (swf > 30 && swf <= 40)	{self.buzzsaw_charge = 3;	self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_3.mdl";	sound (self, CHAN_WEAPON, "placeholder_sound/beep_tone_2.wav", 1, ATTN_NORM);}
+		else if (swf > 40 && swf <= 50)	{self.buzzsaw_charge = 4;	self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_4.mdl";	sound (self, CHAN_WEAPON, "placeholder_sound/beep_tone_3.wav", 1, ATTN_NORM);}
 		else if (swf >= 51)
 		{
 			self.buzzsaw_charge = 5;
+			self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_5.mdl";
+			sound (self, CHAN_WEAPON, "placeholder_sound/beep_tone_5.wav", 1, ATTN_NORM);
 			
 			swf = 51;
-
-
 			self.weaponframe = 51;
+			
 			W_Fire_REBAR_BUZZSAW2_CHARGE();
 			weaponanim_REBAR_BUZZSAW2_loop_fire();
 			
@@ -89,9 +94,8 @@ void() weaponanim_REBAR_BUZZSAW2_loop_charge =
 	else
 	{
 		swf = 51;
-		
-
 		self.weaponframe = 51;
+		
 		W_Fire_REBAR_BUZZSAW2_CHARGE();
 		weaponanim_REBAR_BUZZSAW2_loop_fire();
 		
@@ -112,6 +116,7 @@ void() weaponanim_REBAR_BUZZSAW2_loop_fire =
 	if (self.weaponframe >= 80)
 	{
 		self.weaponframe = 10;
+		self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_1.mdl";
 		return;
 	}
 	else 	self.weaponframe++;
@@ -130,7 +135,8 @@ void() W_Fire_REBAR_BUZZSAW2_CHARGE =
 	makevectors (self.v_angle);
 	float base = REBAR_BUZZSAW2_SPEED;
 	
-	vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15 + v_right*8;
+	//vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15 + v_right*8;
+	vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15;			//let's try firing buzzsaws from center like Rebar Cannon
 	vector mvel = v_forward*base + v_up*160;
 	
 	Launch_REBAR_BUZZSAW2_Buzzsaw (org, mvel);
@@ -138,19 +144,17 @@ void() W_Fire_REBAR_BUZZSAW2_CHARGE =
 	dprint5("\n\bBUZZSAW TOTAL ", ftos(self.buzzsaw_charge), " * ", ftos(REBAR_BUZZSAW2_DMG), " = ");
 	dprint(ftos(self.buzzsaw_charge * REBAR_BUZZSAW2_DMG));
 	
-	self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_BUZZSAW2_COST;
+	self.currentammo = self.ammo_nails = self.ammo_nails - (self.buzzsaw_charge * REBAR_BUZZSAW2_COST);	//FIXME nail ammo should be deucted while charging, auto fire early if ammo empty
 	
 	SuperDamageSound();
 	
 	self.effects = self.effects | EF_MUZZLEFLASH;
-	
-	//self.attack_finished = time + REBAR_BUZZSAW2_COOLDOWN;
-		
+			
 	self.buzzsaw_charge = 1;		
 }
 
 //=============================================================================================
-
+/*
 void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw =
 {
 	if (CheckProjectilePassthru()) return;
@@ -162,6 +166,7 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw =
 	
 	if (other.takedamage)
 	{
+		
 		if (!(other.customflags & CFL_GIBBED))
 		{
 			if (other.model == "progs/soldier_pistol_qbj.mdl")
@@ -171,14 +176,11 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw =
 		
 		//if ((other.health < REBAR_BUZZSAW2_DMG) && (other.model == "progs/soldier_pistol_qbj.mdl"))
 		//	FX_Split_Half(other.splithalftorso, other.splithalflegs, other.enemydropgun, other.origin, other.oldvelocity);
-		
-		
-		
-		
+				
 		if (other.classname == "monster_zombie")
 			T_Damage(other, self, self.trueowner, 59);
 		else
-			T_Damage(other, self, self.trueowner, self.buzzsaw_charge * REBAR_BUZZSAW2_DMG);
+			T_Damage(other, self, self.trueowner, self.owner.buzzsaw_charge * REBAR_BUZZSAW2_DMG);
 
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
@@ -220,12 +222,14 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw =
 		self.solid = SOLID_NOT;
 		self.owner = other;
 		self.touch = SUB_Null;
-		// change model so that smoke doesn't appear when stuck to moving brushes
-		//setmodel(self, "progs/proj_rebar_nosmoke.mdl");
 		
-		//setmodel (self, "progs/placeholder_progs/proj_buzz_small.mdl");
-		setmodel (self, "progs/placeholder_progs/proj_buzz_large.mdl");
-
+		// change model so that smoke doesn't appear when stuck to moving brushes
+		if 	(self.model == "progs/placeholder_progs/proj_buzz_hot_1.mdl")	setmodel (self, "progs/placeholder_progs/proj_buzz_1.mdl");
+		else if (self.model == "progs/placeholder_progs/proj_buzz_hot_2.mdl")	setmodel (self, "progs/placeholder_progs/proj_buzz_2.mdl");
+		else if (self.model == "progs/placeholder_progs/proj_buzz_hot_3.mdl")	setmodel (self, "progs/placeholder_progs/proj_buzz_3.mdl");
+		else if (self.model == "progs/placeholder_progs/proj_buzz_hot_4.mdl")	setmodel (self, "progs/placeholder_progs/proj_buzz_4.mdl");
+		else if (self.model == "progs/placeholder_progs/proj_buzz_hot_5.mdl")	setmodel (self, "progs/placeholder_progs/proj_buzz_5.mdl");
+		else	setmodel (self, "progs/null.mdl");
 
 		// move origin away from walls when stuck, helps prevent "void-lighting"
 		setorigin(self, self.origin - 2*normalize(self.velocity));
@@ -243,7 +247,7 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw =
 	else
 		remove(self);	
 }
-
+*/
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -266,9 +270,12 @@ entity(vector org, vector vel) Launch_REBAR_BUZZSAW2_Buzzsaw =
 	buzzsaw.alpha = 1;
 	//buzzsaw.movetype = MOVETYPE_FLYMISSILE;	//doesnt like this for some reason?
 
-	//SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_small.mdl");
-	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_large_hot.mdl");	//_hot leaves trail + glowing
-
+	if 	(buzzsaw.trueowner.buzzsaw_charge == 1)	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_hot_1.mdl");	
+	else if (buzzsaw.trueowner.buzzsaw_charge == 2)	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_hot_2.mdl");	
+	else if (buzzsaw.trueowner.buzzsaw_charge == 3)	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_hot_3.mdl");
+	else if (buzzsaw.trueowner.buzzsaw_charge == 4)	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_hot_4.mdl");
+	else if (buzzsaw.trueowner.buzzsaw_charge == 5)	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_hot_5.mdl");	//_hot leaves trail + glowing
+	else	SUB_ChangeModel (buzzsaw, "progs/null.mdl");
 
 	return buzzsaw;
 }
@@ -306,8 +313,41 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw_1 =
 		if (other.classname == "monster_zombie")
 			T_Damage(other, self, self.trueowner, 59);
 		else
-			T_Damage(other, self, self.trueowner, self.buzzsaw_charge * REBAR_BUZZSAW2_DMG);
-
+		{
+			//T_Damage(other, self, self.trueowner, self.trueowner.buzzsaw_charge * REBAR_BUZZSAW2_DMG);	//self.buzzsaw is technically a player local value? use .trueowner to extract data
+			if 	(self.model == "progs/placeholder_progs/proj_buzz_hot_1.mdl")	T_Damage(other, self, self.trueowner, 1 * REBAR_BUZZSAW2_DMG);
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_2.mdl")	T_Damage(other, self, self.trueowner, 2 * REBAR_BUZZSAW2_DMG);
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_3.mdl")	T_Damage(other, self, self.trueowner, 3 * REBAR_BUZZSAW2_DMG);
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_4.mdl")	T_Damage(other, self, self.trueowner, 4 * REBAR_BUZZSAW2_DMG);
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_5.mdl")	T_Damage(other, self, self.trueowner, 5 * REBAR_BUZZSAW2_DMG);
+			else	T_Damage(other, self, self.trueowner, REBAR_BUZZSAW2_DMG);
+		}
+		
+		
+		// TEMP/WIP... makes every gibbed enemy a soldier_p lol
+		if (other.customflags & CFL_GIBBED)
+		{
+			if (other.model == "progs/soldier_pistol_qbj.mdl")
+								
+				dprint("/n/bSoldier_p got gibbed...");
+				
+				setmodel (other, "progs/placeholder_progs/splithalf_soldier_p_legs.mdl");
+				other.frame = 0;
+				setorigin(other, other.origin + '0 0 24');
+				other.movetype = MOVETYPE_NONE;
+				other.solid = SOLID_NOT;
+				other.think = anim_split_half_legs;
+				other.nextthink = time + 0.1;
+				
+				GoopBlood(0);
+				
+				Throw_Split_Half_Torso("progs/placeholder_progs/splithalf_soldier_p_torso.mdl", (self.oldvelocity * -0.05) + '0 0 200');
+				
+				//FX_Split_Half(other.splithalftorso, other.splithalflegs, other.enemydropgun, other.origin, other.oldvelocity);
+				//TODO ^^^ this needs some work so we don't have raw other. calls inside the Touch function
+		}
+		
+		
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
@@ -361,7 +401,15 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw_2 =
 		if (other.classname == "monster_zombie")
 			T_Damage(other, self, self.trueowner, 59);
 		else
-			T_Damage(other, self, self.trueowner, self.buzzsaw_charge * REBAR_BUZZSAW2_DMG);
+		{
+			//T_Damage(other, self, self.trueowner, self.trueowner.buzzsaw_charge * REBAR_BUZZSAW2_DMG);	//self.buzzsaw is technically a player local value? use .trueowner to extract data
+			if 	(self.model == "progs/placeholder_progs/proj_buzz_hot_1.mdl")	T_Damage(other, self, self.trueowner, 1 * REBAR_BUZZSAW2_DMG);
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_2.mdl")	T_Damage(other, self, self.trueowner, 2 * REBAR_BUZZSAW2_DMG);
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_3.mdl")	T_Damage(other, self, self.trueowner, 3 * REBAR_BUZZSAW2_DMG);
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_4.mdl")	T_Damage(other, self, self.trueowner, 4 * REBAR_BUZZSAW2_DMG);
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_5.mdl")	T_Damage(other, self, self.trueowner, 5 * REBAR_BUZZSAW2_DMG);
+			else	T_Damage(other, self, self.trueowner, REBAR_BUZZSAW2_DMG);
+		}
 
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
@@ -416,8 +464,16 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw_3 =
 		if (other.classname == "monster_zombie")
 			T_Damage(other, self, self.trueowner, 59);
 		else
-			T_Damage(other, self, self.trueowner, self.buzzsaw_charge * REBAR_BUZZSAW2_DMG);
-
+		{
+			//T_Damage(other, self, self.trueowner, self.trueowner.buzzsaw_charge * REBAR_BUZZSAW2_DMG);	//self.buzzsaw is technically a player local value? use .trueowner to extract data
+			if 	(self.model == "progs/placeholder_progs/proj_buzz_hot_1.mdl")	T_Damage(other, self, self.trueowner, 1 * REBAR_BUZZSAW2_DMG);
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_2.mdl")	T_Damage(other, self, self.trueowner, 2 * REBAR_BUZZSAW2_DMG);
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_3.mdl")	T_Damage(other, self, self.trueowner, 3 * REBAR_BUZZSAW2_DMG);
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_4.mdl")	T_Damage(other, self, self.trueowner, 4 * REBAR_BUZZSAW2_DMG);
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_5.mdl")	T_Damage(other, self, self.trueowner, 5 * REBAR_BUZZSAW2_DMG);
+			else	T_Damage(other, self, self.trueowner, REBAR_BUZZSAW2_DMG);
+		}
+		
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
@@ -458,12 +514,14 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw_3 =
 		self.solid = SOLID_NOT;
 		self.owner = other;
 		self.touch = SUB_Null;
-		// change model so that smoke doesn't appear when stuck to moving brushes
-		//setmodel(self, "progs/proj_rebar_nosmoke.mdl");
 		
-		//setmodel (self, "progs/placeholder_progs/proj_buzz_small.mdl");
-		setmodel (self, "progs/placeholder_progs/proj_buzz_large.mdl");
-
+		// change model so that smoke doesn't appear when stuck to moving brushes
+		if 	(self.model == "progs/placeholder_progs/proj_buzz_hot_1.mdl")	setmodel (self, "progs/placeholder_progs/proj_buzz_1.mdl");
+		else if (self.model == "progs/placeholder_progs/proj_buzz_hot_2.mdl")	setmodel (self, "progs/placeholder_progs/proj_buzz_2.mdl");
+		else if (self.model == "progs/placeholder_progs/proj_buzz_hot_3.mdl")	setmodel (self, "progs/placeholder_progs/proj_buzz_3.mdl");
+		else if (self.model == "progs/placeholder_progs/proj_buzz_hot_4.mdl")	setmodel (self, "progs/placeholder_progs/proj_buzz_4.mdl");
+		else if (self.model == "progs/placeholder_progs/proj_buzz_hot_5.mdl")	setmodel (self, "progs/placeholder_progs/proj_buzz_5.mdl");
+		else	setmodel (self, "progs/null.mdl");
 
 		// move origin away from walls when stuck, helps prevent "void-lighting"
 		setorigin(self, self.origin - 2*normalize(self.velocity));

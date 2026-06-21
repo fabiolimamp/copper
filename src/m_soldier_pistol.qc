@@ -407,8 +407,8 @@ void() monster_pistolarmy_spawn =
 	self.th_die = pistolarmy_die;
 	self.th_checkattack = PistolSoldierCheckAttack;
 	self.invokedmodel = "progs/fx/invoked_soldier_p.mdl";
-	self.splithalftorso = "progs/placeholder/splithalf_soldier_p_torso.mdl";
-	self.splithalflegs = "progs/placeholder/splithalf_soldier_p_legs.mdl";
+	self.splithalftorso = "progs/placeholder_progs/splithalf_soldier_p_torso.mdl";
+	self.splithalflegs = "progs/placeholder_progs/splithalf_soldier_p_legs.mdl";
 	
 	if (self.deathtype == string_null)
 		self.deathtype = "was struck during a Pistol Trenchknight-involved shooting and later died from their injuries";

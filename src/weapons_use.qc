@@ -237,6 +237,12 @@ void() W_Precache =
 	precache_sound ("placeholder_sound/ash_fire6.wav");
 	precache_sound ("placeholder_sound/ash_reload.wav");
 	
+	precache_sound ("placeholder_sound/beep_tone_1.wav");
+	precache_sound ("placeholder_sound/beep_tone_2.wav");
+	precache_sound ("placeholder_sound/beep_tone_3.wav");
+	precache_sound ("placeholder_sound/beep_tone_4.wav");
+	precache_sound ("placeholder_sound/beep_tone_5.wav");
+	
 	precache_model ("progs/placeholder_progs/dev_point.mdl");
 	precache_model ("progs/placeholder_progs/dev_point_anim.mdl");
 	precache_model ("progs/placeholder_progs/dev_bbox32.mdl");
@@ -248,6 +254,16 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_buzz_small_hot.mdl");
 	precache_model ("progs/placeholder_progs/proj_buzz_large.mdl");
 	precache_model ("progs/placeholder_progs/proj_buzz_large_hot.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_hot_1.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_hot_2.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_hot_3.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_hot_4.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_hot_5.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_1.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_2.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_3.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_4.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_5.mdl");
 	precache_model ("progs/placeholder_progs/railtrail_smoke.mdl");
 	precache_model ("progs/placeholder_progs/railtrail_tracer.mdl");
 	precache_model ("progs/placeholder_progs/proj_grenade_mini.mdl");
@@ -304,6 +320,11 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rebar_rifle.mdl");
 	precache_model ("progs/placeholder_progs/v_rebar_buzzsaw.mdl");
 	precache_model ("progs/placeholder_progs/v_rebar_buzzsaw_charge.mdl");
+	precache_model ("progs/placeholder_progs/v_rebar_buzzsaw_charge_1.mdl");
+	precache_model ("progs/placeholder_progs/v_rebar_buzzsaw_charge_2.mdl");
+	precache_model ("progs/placeholder_progs/v_rebar_buzzsaw_charge_3.mdl");
+	precache_model ("progs/placeholder_progs/v_rebar_buzzsaw_charge_4.mdl");
+	precache_model ("progs/placeholder_progs/v_rebar_buzzsaw_charge_5.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_grenade_direct.mdl");
 	precache_model ("progs/placeholder_progs/v_grenade_crossbow.mdl");
@@ -334,7 +355,14 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/wish/mag_ash_empty.mdl");
 	precache_model ("progs/placeholder_progs/wish/mag_ash_empty.mdl");	
 	precache_model ("progs/placeholder_progs/wish/s_bullet_hole.spr");	
-	
+	/*
+	precache_model ("progs/placeholder_progs/splithalf_soldier_p_legs.mdl");
+	precache_model ("progs/placeholder_progs/splithalf_soldier_p_torso_floor.mdl");
+	precache_model ("progs/placeholder_progs/splithalf_soldier_p_torso_floor2.mdl");
+	precache_model ("progs/placeholder_progs/splithalf_soldier_p_gun_floor.mdl");
+	precache_model ("progs/placeholder_progs/splithalf_soldier_p_gun.mdl");
+	precache_model ("progs/placeholder_progs/splithalf_soldier_p_torso.mdl");
+	*/
 	//=============================================================================================	
 
 

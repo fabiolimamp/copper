@@ -216,33 +216,35 @@ void(string split_half_torso, string split_half_legs, string enemy_drop_gun, vec
 	fx.movetype = MOVETYPE_NONE;
 	fx.solid = SOLID_NOT;
 	fx.classname = "impact";
-
+	
 	if (dir == VEC_ORIGIN) {
 		makevectors(self.v_angle);
 		dir = v_forward;
 	}
-	
+		
 	fx.angles = vectoangles(dir);
 	fx.nextthink = time;
 	
 	//backwards 0-9
 	//forwards 10-20
 	
+	fx.frame = 0;
+	/*
 	if (random() < 0.5)
 		fx.frame = 0;
 	else
 		fx.frame = 10;
-	
+	*/
 	fx.alpha = 1;
 		
 	fx.think = anim_split_half_legs;
-
+	
 	if (split_half_legs != "")
-		setmodel (fx, split_half_legs);
+		setmodel (self, split_half_legs);
 	else
-		setmodel (fx, "progs/null.mdl");
-
-	setorigin(fx, impact_org + '0 0 32');
+		setmodel (self, "progs/null.mdl");
+	
+	setorigin(fx, impact_org + '0 0 0');
 
 	setsize (fx, '0 0 0', '0 0 0');
 
@@ -256,6 +258,15 @@ void(string split_half_torso, string split_half_legs, string enemy_drop_gun, vec
 
 void() anim_split_half_legs =
 {	
+	if (self.frame >= 9)
+	{	
+		self.frame = 9;
+		return;
+	}
+	else
+		self.frame++;
+	
+	/*
 	if (self.frame == 0)
 	{	
 		if (self.frame >= 9)
@@ -276,7 +287,7 @@ void() anim_split_half_legs =
 		else
 			self.frame++;
 	}
-	
+	*/
 	self.think = anim_split_half_legs;
 	self.nextthink = time + 0.1;
 };

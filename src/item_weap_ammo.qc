@@ -443,18 +443,18 @@ Keys:
 void() weapon_mmml =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model_safe ("progs/g_rocket_rpg.mdl");
-	precache_model_safe ("progs/placeholder_progs/g_mmml.mdl");
+	precache_model_safe ("progs/placeholder_progs/g_rocket_rpg.mdl");
+	precache_model_safe ("progs/g_mmml.mdl");
 
 	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 	{
-		setmodel (self, "progs/placeholder_progs/g_mmml.mdl");
-		self.invokedmodel = "progs/g_rocket_rpg.mdl";
+		setmodel (self, "progs/g_mmml.mdl");
+		self.invokedmodel = "progs/placeholder_progs/g_rocket_rpg.mdl";
 	}
 	else
 	{
-		setmodel (self, "progs/g_rocket_rpg.mdl");
-		self.invokedmodel = "progs/placeholder_progs/g_mmml.mdl";
+		setmodel (self, "progs/placeholder_progs/g_rocket_rpg.mdl");
+		self.invokedmodel = "progs/g_mmml.mdl";
 	}
 
 	self.items = IT_ROCKET_LAUNCHER;
@@ -481,18 +481,18 @@ Keys:
 void() weapon_invoker =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model_safe ("progs/g_railgun_rifle.mdl");
-	precache_model_safe ("progs/placeholder_progs/g_invoker.mdl");
+	precache_model_safe ("progs/placeholder_progs/g_railgun_rifle.mdl");
+	precache_model_safe ("progs/g_invoker.mdl");
 
 	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 	{
-		setmodel (self, "progs/placeholder_progs/g_invoker.mdl");
-		self.invokedmodel = "progs/g_railgun_rifle.mdl";
+		setmodel (self, "progs/g_invoker.mdl");
+		self.invokedmodel = "progs/placeholder_progs/g_railgun_rifle.mdl";
 	}
 	else
 	{
-		setmodel (self, "progs/g_railgun_rifle.mdl");
-		self.invokedmodel = "progs/placeholder_progs/g_invoker.mdl";
+		setmodel (self, "progs/placeholder_progs/g_railgun_rifle.mdl");
+		self.invokedmodel = "progs/g_invoker.mdl";
 	}
 
 	self.items = IT_LIGHTNING;
