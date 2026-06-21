@@ -239,7 +239,7 @@ vector(float shotcount, float dmg, vector org, vector dir, vector spread, float 
 	}
 	ApplyMultiDamage ();
 	
-	Draw_Tracertrail(self, org + v_forward * 24 + v_right * 4 + v_up * -4, trace_endpos, 0);
+	Draw_Tracertrail(self, org + v_forward * 24 + v_right * 4 + v_up * -4, trace_endpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 0.2);
 
 	return direction;
 };
@@ -289,12 +289,12 @@ void() BulletCasingTouch2_ash =
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
 .entity	sibling;
 
 float 	FL_PROJECTILE	= 32768;	// ???
 
-void(entity pl, vector org, vector dest, float hit) Draw_Tracertrail = 
+void(entity pl, vector org, vector dest, float hit, string trailmodel) Draw_Tracertrail = 
 {
 	float len = vlen(dest - org);
 	vector dir = normalize(dest - org);
@@ -308,7 +308,8 @@ void(entity pl, vector org, vector dest, float hit) Draw_Tracertrail =
 		if (prevsg) prevsg.sibling = sg;
 
 		
-		setmodel (sg, "progs/placeholder_progs/railtrail_tracer.mdl");
+		//setmodel (sg, "progs/placeholder_progs/railtrail_tracer.mdl");
+		setmodel (sg, trailmodel);
 		
 			
 		setsize(sg, VEC_ORIGIN, VEC_ORIGIN);
@@ -339,6 +340,7 @@ void() Draw_Tracertrail_Segment_Think =
 	else
 		self.nextthink = time + 0.02;
 }
+*/
 ////////////////////////////////////////////////////////////////////////////////////////////////
 void() weaponanim_draw_ash =
 {		

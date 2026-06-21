@@ -203,7 +203,8 @@ void() Start_Smoketrail_ROCKET_INSTANT =
 
 	vector endpos = Smoketrail_Direction(org_end, dir);
 	
-	Draw_Smoketrail(self, org_start, endpos, 0);
+	//Draw_Smoketrail(self, org_start, endpos, 0);
+	
 };
 
 vector(vector org, vector dir) Smoketrail_Direction = 
@@ -212,7 +213,7 @@ vector(vector org, vector dir) Smoketrail_Direction =
 	vector endpoint = trace_endpos;
 	return endpoint;
 }
-
+/*
 .entity	sibling;
 
 float 	FL_PROJECTILE	= 32768;	// ???
@@ -221,7 +222,7 @@ void(entity pl, vector org, vector dest, float hit) Draw_Smoketrail =
 {
 	float len = vlen(dest - org);
 	vector dir = normalize(dest - org);
-	vector ang = vectoangles(dest - org);
+	vector ang = vectoangles2(dest - org);
 
 	float ct = floor(len/30);
 	entity sg;
@@ -250,7 +251,6 @@ void(entity pl, vector org, vector dest, float hit) Draw_Smoketrail =
 		sg.cnt = i;
 		prevsg = sg;
 	}
-	//if (sg) sg.effects |= EF_MUZZLEFLASH;
 }
 
 void() Smoketrail_Segment_Think = 
@@ -262,5 +262,5 @@ void() Smoketrail_Segment_Think =
 	else
 		self.nextthink = time + 0.025;
 }
-
+*/
 ////////////////////////////////////////////////////////////////////////////////////////////////

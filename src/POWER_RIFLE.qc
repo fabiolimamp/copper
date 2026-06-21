@@ -96,7 +96,9 @@ void() W_Fire_POWER_RIFLE =
 	invokerTrace(POWER_RIFLE_DMG, org + (up * 0) + (right * 0), dir, TRUE); // center
 	
 	
-	Start_Smoketrail_ROCKET_INSTANT();
+	//Start_Smoketrail_ROCKET_INSTANT();
+	
+	Draw_Tracertrail(self, org, trace_endpos, 0, "progs/placeholder_progs/railtrail_smoke.mdl", 1);
 	
 	
 	FX_Impact(FX_CHAINS, trace_endpos, 0);

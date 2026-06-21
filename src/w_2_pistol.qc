@@ -238,7 +238,7 @@ void(float shotcount, float dmg, vector shot_org, vector tracer_org, vector dir,
 			{
 				//drawTracer(tracer_org, trace_endpos);
 				
-				Draw_Tracertrail(self, tracer_org + v_forward * 24 + v_right * 4 + v_up * -4, trace_endpos, 0);
+				Draw_Tracertrail(self, tracer_org + v_forward * 24 + v_right * 4 + v_up * -4, trace_endpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 0.2);
 								
 			}
 			// if we've already pelted a monster enough to kill it, let additional bullets add 

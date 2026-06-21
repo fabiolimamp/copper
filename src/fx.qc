@@ -120,6 +120,62 @@ void() anim_impact =
 	self.nextthink = time + 0.05;
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+.entity	sibling;
+
+float 	FL_PROJECTILE	= 32768;
+
+void(entity pl, vector org, vector dest, float hit, string trailmodel, float fadetime) Draw_Tracertrail = 
+{
+	float len = vlen(dest - org);
+	vector dir = normalize(dest - org);
+	vector ang = vectoangles2(dest - org);
+
+	float ct = floor(len/30);
+	entity sg;
+	entity prevsg;
+	for (float i = 0; i < ct; i++) {
+		sg = spawn();
+		if (prevsg) prevsg.sibling = sg;
+
+		//setmodel (sg, "progs/placeholder_progs/railtrail_tracer.mdl");
+		setmodel (sg, trailmodel);
+					
+		setsize(sg, VEC_ORIGIN, VEC_ORIGIN);
+		setorigin(sg, org + dir * 30 * i);
+
+		sg.flags |= FL_PROJECTILE;
+		sg.classname = "lgsegment";
+		sg.angles = ang;
+		//sg.angles_z = random()*360;
+		sg.owner = pl;
+		sg.think = Draw_Tracertrail_Segment_Think;
+		sg.attack_finished = time + fadetime + 0.005*i;		//0.2
+		sg.nextthink = time + 0.02;
+		sg.alpha = 1;
+		sg.state = hit;
+		sg.cnt = i;
+		prevsg = sg;
+	}
+}
+
+void() Draw_Tracertrail_Segment_Think = 
+{
+	self.alpha = clamp(lerpCosine(1, 0, 1 - (self.attack_finished - time)/0.5), 0.0001, 1);
+
+	if (time > self.attack_finished)
+		remove(self);
+	else
+		self.nextthink = time + 0.02;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 void(float size) GibBloodBath =
 {
