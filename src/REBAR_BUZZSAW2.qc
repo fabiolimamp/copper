@@ -5,6 +5,7 @@
 string	REBAR_BUZZSAW2_NAME	=	"Buzzsaw Cannon";
 string	REBAR_BUZZSAW2_MODEL	=	"progs/placeholder_progs/v_rebar_buzzsaw_charge.mdl";
 
+.float	buzzsaw_charge;
 
 //	ROF	COUNT * DMG	COST	SPREAD		DESCRIPTION
 //	1	1	100	10	'0 0 0'		//QBJ3 Rebar Cannon (100+)
@@ -23,13 +24,15 @@ string	REBAR_BUZZSAW2_MODEL	=	"progs/placeholder_progs/v_rebar_buzzsaw_charge.md
 //=============================================================================================
 	
 	
-	float	REBAR_BUZZSAW2_ROF	=	1.5;	//0.5;		//seconds post-fire
+	float	REBAR_BUZZSAW2_COOLDOWN	=	0.5;			//seconds post-fire
 	
-	float	REBAR_BUZZSAW2_DMG 	=	250;	//60;	// 	//damage per shot
+	float	REBAR_BUZZSAW2_DMG 	=	50;	//250;	 	//damage per charge level: (BASE)  x1,    x2,    x3,     x4    x5 (MAX)	
+									//frames: 11-51		         (11-20, 21-30, 31-40, 41-50, 51+)	
+									//total refire at 40fps = 1 second charge + 0.5 cooldown
 
 	float	REBAR_BUZZSAW2_COST	=	20;	//5;		//ammo cost to fire
 	
-	float	REBAR_BUZZSAW2_SPEED	=	2000;		//arc velocity
+	float	REBAR_BUZZSAW2_SPEED	=	2000;			//arc velocity
 
 //=============================================================================================
 
@@ -45,44 +48,98 @@ float() weaponanim_REBAR_BUZZSAW2 =
 		return FALSE;
 	}
 
-	self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_BUZZSAW2_COST;
+	//self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_BUZZSAW2_COST;
 
-	self.attack_finished = time + REBAR_BUZZSAW2_ROF;
+	self.attack_finished = time + 0.05;	//must get past 1st frame into loop before releasing attack and firing
 	
-	//SUB_CallAsSelf(player_shot1, self.animcontroller);
+	//self.buzzsaw_charge = 1;
 	
-	//self.effects = self.effects | EF_MUZZLEFLASH;
-
-	//SuperDamageSound();
+	//self.weaponframe = 11;
+	//self.think = weaponanim_REBAR_BUZZSAW2_loop_charge;
+	//self.nextthink = time + 0.025;
 	
+	if (self.attackpressed && self.attackhold)
+	{
+		dprint("\nheld");
+			
+		self.weaponframe = 11;
+		self.think = weaponanim_REBAR_BUZZSAW2_loop_charge;
+		self.nextthink = time + 0.025;
+	}
+	else
+	{
+		dprint("\nrelease");
+		
+		self.buzzsaw_charge = 1;
 	
-	//W_Fire_REBAR_BUZZSAW2();
-	
-	
-	//self.punchangle_x = -1;
-	//self.effects |= EF_MUZZLEFLASH;
-
-
-	self.weaponframe = 11;
-	self.think = weaponanim_REBAR_BUZZSAW2_loop;
-	self.nextthink = time + 0.025;
+		self.weaponframe = 51;
+		self.think = weaponanim_REBAR_BUZZSAW2_loop_charge;
+		self.nextthink = time + 0.025;
+	}
 	
 	return TRUE;
 }
 
-void() weaponanim_REBAR_BUZZSAW2_loop =
+void() weaponanim_REBAR_BUZZSAW2_loop_charge =
 {
-	if (self.weaponframe == 51)
+	local float swf = self.weaponframe;
+		
+	if (self.attackpressed && self.attackhold)
 	{
-		self.effects = self.effects | EF_MUZZLEFLASH;
-
-		SuperDamageSound();
+		if 	(swf > 10 && swf <= 20)	
+		{
+			self.buzzsaw_charge = 1;
+			dprint2("\nbuzzsaw_charge = ", ftos(self.buzzsaw_charge));
+		}
+		else if (swf > 20 && swf <= 30)
+		{
+			self.buzzsaw_charge = 2;
+			dprint2("\nbuzzsaw_charge = ", ftos(self.buzzsaw_charge));
+		}
+		else if (swf > 30 && swf <= 40)
+		{
+			self.buzzsaw_charge = 3;
+			dprint2("\nbuzzsaw_charge = ", ftos(self.buzzsaw_charge));
+		}
+		else if (swf > 40 && swf <= 50)
+		{
+			self.buzzsaw_charge = 4;
+			dprint2("\nbuzzsaw_charge = ", ftos(self.buzzsaw_charge));
+		}
+		else if (swf >= 51)
+		{
+			self.buzzsaw_charge = 5;
+			dprint2("\nbuzzsaw_charge = ", ftos(self.buzzsaw_charge));
+			
+			swf = 51;
+			
+			weaponanim_REBAR_BUZZSAW2_loop_fire();
+			
+			self.attack_finished = time + REBAR_BUZZSAW2_COOLDOWN;
+			
+			return;
+		}
+		self.attack_finished = time + 0.1;
+	}
+	else
+	{
+		swf = 51;
 		
-		W_Fire_REBAR_BUZZSAW2();
+		weaponanim_REBAR_BUZZSAW2_loop_fire();
 		
-		self.punchangle_x = -2;
+		self.attack_finished = time + REBAR_BUZZSAW2_COOLDOWN;
+		
+		return;
 	}
 	
+	swf++;
+	
+	self.think = weaponanim_REBAR_BUZZSAW2_loop_charge;
+	self.nextthink = time + 0.025;
+}
+
+void() weaponanim_REBAR_BUZZSAW2_loop_fire =
+{
 	if (self.weaponframe >= 80)
 	{
 		self.weaponframe = 10;
@@ -90,12 +147,12 @@ void() weaponanim_REBAR_BUZZSAW2_loop =
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_REBAR_BUZZSAW2_loop;
+	self.think = weaponanim_REBAR_BUZZSAW2_loop_fire;
 	self.nextthink = time + 0.025;
 }
 //=============================================================================================
 
-void() W_Fire_REBAR_BUZZSAW2 =
+void() W_Fire_REBAR_BUZZSAW2_CHARGE =
 {
 	sound (self, CHAN_WEAPON, "rebar/penfire.wav", 0.8, ATTN_NORM);
 	sound (self, CHAN_AUTO, "placeholder_sound/buzz_shoot.wav", 1, ATTN_NORM);
@@ -107,14 +164,22 @@ void() W_Fire_REBAR_BUZZSAW2 =
 	vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15 + v_right*8;
 	vector mvel = v_forward*base + v_up*160;
 	
-	
-	
-	//launch_impaler_REBAR_BUZZSAW2(org, mvel);
-	
-	
-	
 	Launch_REBAR_BUZZSAW2_Buzzsaw (org, mvel);
+	
+	dprint5("\n\bBUZZSAW TOTAL ", ftos(self.buzzsaw_charge), " * ", ftos(REBAR_BUZZSAW2_DMG), " = ");
+	dprint(ftos(self.buzzsaw_charge * REBAR_BUZZSAW2_DMG));
+	
+	
+	
+	self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_BUZZSAW2_COST;
+	
+	SuperDamageSound();
+	
+	self.effects = self.effects | EF_MUZZLEFLASH;
+	
+	//self.attack_finished = time + REBAR_BUZZSAW2_COOLDOWN;
 		
+	self.buzzsaw_charge = 1;		
 }
 
 //=============================================================================================
@@ -146,7 +211,7 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw =
 		if (other.classname == "monster_zombie")
 			T_Damage(other, self, self.trueowner, 59);
 		else
-			T_Damage(other, self, self.trueowner, REBAR_BUZZSAW2_DMG);
+			T_Damage(other, self, self.trueowner, self.buzzsaw_charge * REBAR_BUZZSAW2_DMG);
 
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
@@ -229,7 +294,7 @@ entity(vector org, vector vel) Launch_REBAR_BUZZSAW2_Buzzsaw =
 	buzzsaw.think = REBAR_BUZZSAW2_Buzzsaw_Think;
 	buzzsaw.touch = ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw_1;
 	buzzsaw.th_die = ImpalerFade;
-	buzzsaw.buddy = self;	
+	buzzsaw.buddy = self;
 	
 	buzzsaw.alpha = 1;
 	//buzzsaw.movetype = MOVETYPE_FLYMISSILE;	//doesnt like this for some reason?
@@ -274,7 +339,7 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw_1 =
 		if (other.classname == "monster_zombie")
 			T_Damage(other, self, self.trueowner, 59);
 		else
-			T_Damage(other, self, self.trueowner, REBAR_BUZZSAW2_DMG);
+			T_Damage(other, self, self.trueowner, self.buzzsaw_charge * REBAR_BUZZSAW2_DMG);
 
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
@@ -329,7 +394,7 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw_2 =
 		if (other.classname == "monster_zombie")
 			T_Damage(other, self, self.trueowner, 59);
 		else
-			T_Damage(other, self, self.trueowner, REBAR_BUZZSAW2_DMG);
+			T_Damage(other, self, self.trueowner, self.buzzsaw_charge * REBAR_BUZZSAW2_DMG);
 
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
@@ -384,7 +449,7 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw_3 =
 		if (other.classname == "monster_zombie")
 			T_Damage(other, self, self.trueowner, 59);
 		else
-			T_Damage(other, self, self.trueowner, REBAR_BUZZSAW2_DMG);
+			T_Damage(other, self, self.trueowner, self.buzzsaw_charge * REBAR_BUZZSAW2_DMG);
 
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
