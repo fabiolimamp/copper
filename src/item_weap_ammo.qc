@@ -56,23 +56,35 @@ weapon_touch
 =============
 */
 
+void(float newPos) weapon_swap_visual =
+{
+	string tmp = self.model;
+	SUB_ChangeModel(self, self.model2);
+	self.model2 = tmp;
+}
+
 void() weapon_swap_touch =
 {
 	if (!CheckValidTouch()) return;
 	if (!(other.items & self.items)) return;	// player doesn't have this slot weapon
 
-	self.alpha = 0.25;
-	self.solid = SOLID_NOT;
-	self.touch = SUB_Null;
-	self.think = weapon_swap_restore;
-	self.nextthink = time + 2;
-
-	// flip the alternate bit for this slot
 	float weapSlot = weaponsclass[getWeapon(self.items)].slot;
 	other.weapon_alternate = other.weapon_alternate ^ SlotBit(weapSlot);
 	float newPos = (other.weapon_alternate & SlotBit(weapSlot)) ? 1 : 0;
 
-	// equip new variant player has ammo for it, otherwise stay on current weapon
+	if (newPos == 1)
+		self.spawnflags = self.spawnflags & ~ITEM_WEAPON_ALTERNATE;
+	else
+		self.spawnflags = self.spawnflags | ITEM_WEAPON_ALTERNATE;
+
+	weapon_swap_visual(1 - newPos);
+
+	self.solid = SOLID_NOT;
+	self.touch = SUB_Null;
+	self.think = weapon_swap_restore;
+	self.nextthink = time + 2;
+	self.alpha = 0.25;
+
 	weaponclass_t newWeap = weaponslots[weapSlot].weaps[newPos];
 	if (W_CheckWeapon(newWeap.id, other) == WEAPONSTAT_AVAILABLE)
 	{
@@ -92,7 +104,7 @@ void() weapon_swap_restore =
 {
 	self.alpha = 1;
 	self.solid = SOLID_TRIGGER;
-	self.touch = weapon_swap_touch;
+	self.touch = weapon_touch;
 	self.think = SUB_Null;
 	self.nextthink = -1;
 }
@@ -124,10 +136,12 @@ void() weapon_touch =
 		// scenario 1: player has nothing for this slot, give the weapon.
 		weapon_give(other);
 		W_BetterWeapon(other, self.items);
+		float scen1slot = weaponsclass[getWeapon(self.items)].slot;
+		float scen1pos = (self.spawnflags & ITEM_WEAPON_ALTERNATE) ? 1 : 0;
 		if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 			SUB_CallAsSelf((void())W_ToggleAlternate, other);
 		sprint(other, "You got the ");
-		sprint(other, weaponsclass[other.active_weapon_index].name);
+		sprint(other, weaponslots[scen1slot].weaps[scen1pos].name);
 		sprint(other, "\n");
 	}
 	else
@@ -145,25 +159,30 @@ void() weapon_touch =
 			// scenario 2: player already has this variant, just give ammo without swapping
 			weapon_give(other);
 			SUB_CallAsSelf(W_ResetWeaponState, other);
+			float scen2pos = (self.spawnflags & ITEM_WEAPON_ALTERNATE) ? 1 : 0;
 			sprint(other, "You got the ");
-			sprint(other, weaponsclass[other.active_weapon_index].name);
+			sprint(other, weaponslots[weapSlot].weaps[scen2pos].name);
 			sprint(other, "\n");
 		}
 		else
 		{
-			// scenario 3: player has the other variant, so we force-equip theirs and
-			// turn this node into a swap point
-			self.alpha = 0.25;
+			// scenario 3: player has the other variant, swap them and become a swap node
+			other.weapon_alternate = other.weapon_alternate ^ SlotBit(weapSlot);
+			float newPos = (other.weapon_alternate & SlotBit(weapSlot)) ? 1 : 0;
+
+			if (newPos == 1)
+				self.spawnflags = self.spawnflags & ~ITEM_WEAPON_ALTERNATE;
+			else
+				self.spawnflags = self.spawnflags | ITEM_WEAPON_ALTERNATE;
+
+			weapon_swap_visual(1 - newPos);
+
 			self.solid = SOLID_NOT;
 			self.touch = SUB_Null;
 			self.think = weapon_swap_restore;
 			self.nextthink = time + 2;
+			self.alpha = 0.25;
 
-			// flip the alternate bit for this slot
-			other.weapon_alternate = other.weapon_alternate ^ SlotBit(weapSlot);
-			float newPos = (other.weapon_alternate & SlotBit(weapSlot)) ? 1 : 0;
-
-			// equip new variant player has ammo for it, otherwise stay on current weapon
 			weaponclass_t newWeap = weaponslots[weapSlot].weaps[newPos];
 			if (W_CheckWeapon(newWeap.id, other) == WEAPONSTAT_AVAILABLE)
 			{
@@ -172,7 +191,9 @@ void() weapon_touch =
 				self = oself;
 			}
 
-			sprint(other, "You got the ");
+			sprint(other, "You dropped the ");
+			sprint(other, weaponslots[weapSlot].weaps[1 - newPos].name);
+			sprint(other, "\nYou got the ");
 			sprint(other, weaponslots[weapSlot].weaps[newPos].name);
 			sprint(other, "\n");
 			sound(other, CHAN_ITEM, "weapons/pkup.wav", 1, ATTN_NORM);
@@ -241,8 +262,20 @@ Keys:
 void() weapon_pistol =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model3 ("progs/g_pistol.mdl");
-	setmodel (self, "progs/g_pistol.mdl");
+	precache_model_safe ("progs/g_pistol.mdl");
+	precache_model_safe ("progs/placeholder_progs/g_pistol_revolver.mdl");
+
+	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
+	{
+		setmodel (self, "progs/placeholder_progs/g_pistol_revolver.mdl");
+		self.model2 = "progs/g_pistol.mdl";
+	}
+	else
+	{
+		setmodel (self, "progs/g_pistol.mdl");
+		self.model2 = "progs/placeholder_progs/g_pistol_revolver.mdl";
+	}
+
 	self.items = IT_SHOTGUN;
 	self.ammo_shells = 0; //FlakTax
 	self.netname = "Stechkin Pistol";
@@ -269,7 +302,19 @@ void() weapon_flak =
 {
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe ("progs/g_flakshotgun.mdl");
-	setmodel (self, "progs/g_flakshotgun.mdl");
+	precache_model_safe ("progs/placeholder_progs/g_shotgun_rotary.mdl");
+
+	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
+	{
+		setmodel (self, "progs/placeholder_progs/g_shotgun_rotary.mdl");
+		self.model2 = "progs/g_flakshotgun.mdl";
+	}
+	else
+	{
+		setmodel (self, "progs/g_flakshotgun.mdl");
+		self.model2 = "progs/placeholder_progs/g_shotgun_rotary.mdl";
+	}
+
 	self.items = IT_SUPER_SHOTGUN;
 	self.ammo_shells = 16; //FlakTax
 	self.netname = "KS-23 FLAK";
@@ -297,7 +342,17 @@ void() weapon_nailgun =
 {
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe ("progs/g_tnailgun.mdl");
-	setmodel (self, "progs/g_tnailgun.mdl");
+	precache_model_safe ("progs/placeholder_progs/g_nailgun_windup.mdl");
+	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
+	{
+		setmodel (self, "progs/placeholder_progs/g_nailgun_windup.mdl");
+		self.model2 = "progs/g_tnailgun.mdl";
+	}
+	else
+	{
+		setmodel (self, "progs/g_tnailgun.mdl");
+		self.model2 = "progs/placeholder_progs/g_nailgun_windup.mdl";
+	}
 	self.items = IT_NAILGUN;
 	self.ammo_nails = 30;
 	self.netname = "Twin Nailguns";
@@ -321,7 +376,17 @@ void() weapon_rebar =
 {
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe ("progs/g_rebar.mdl");
-	setmodel (self, "progs/g_rebar.mdl");
+	precache_model_safe ("progs/placeholder_progs/g_rebar_buzzsaw.mdl");
+	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
+	{
+		setmodel (self, "progs/placeholder_progs/g_rebar_buzzsaw.mdl");
+		self.model2 = "progs/g_rebar.mdl";
+	}
+	else
+	{
+		setmodel (self, "progs/g_rebar.mdl");
+		self.model2 = "progs/placeholder_progs/g_rebar_buzzsaw.mdl";
+	}
 	self.items = IT_SUPER_NAILGUN;
 	self.ammo_nails = 30;
 	self.netname = "Rebar Cannon";
@@ -347,7 +412,17 @@ void() weapon_grenadelauncher =
 {
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe ("progs/g_grenlauncher.mdl");
-	setmodel (self, "progs/g_grenlauncher.mdl");
+	precache_model_safe ("progs/placeholder_progs/g_grenade_tribolt.mdl");
+	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
+	{
+		setmodel (self, "progs/placeholder_progs/g_grenade_tribolt.mdl");
+		self.model2 = "progs/g_grenlauncher.mdl";
+	}
+	else
+	{
+		setmodel (self, "progs/g_grenlauncher.mdl");
+		self.model2 = "progs/placeholder_progs/g_grenade_tribolt.mdl";
+	}
 	self.items = IT_GRENADE_LAUNCHER;
 	self.ammo_rockets = 8;
 	self.netname = "RG-6 Grenade Launcher";
@@ -370,8 +445,20 @@ Keys:
 void() weapon_mmml =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model_safe ("progs/g_mmml.mdl");
-	setmodel (self, "progs/g_mmml.mdl");
+	precache_model_safe ("progs/g_rocket_rpg.mdl");
+	precache_model_safe ("progs/placeholder_progs/g_mmml.mdl");
+
+	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
+	{
+		setmodel (self, "progs/placeholder_progs/g_mmml.mdl");
+		self.model2 = "progs/g_rocket_rpg.mdl";
+	}
+	else
+	{
+		setmodel (self, "progs/g_rocket_rpg.mdl");
+		self.model2 = "progs/placeholder_progs/g_mmml.mdl";
+	}
+
 	self.items = IT_ROCKET_LAUNCHER;
 	self.ammo_rockets = 8;
 	self.netname = "Multi Mini-Missile Launcher";
@@ -396,8 +483,20 @@ Keys:
 void() weapon_invoker =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model_safe ("progs/g_invoker.mdl");
-	setmodel (self, "progs/g_invoker.mdl");
+	precache_model_safe ("progs/g_railgun_rifle.mdl");
+	precache_model_safe ("progs/placeholder_progs/g_invoker.mdl");
+
+	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
+	{
+		setmodel (self, "progs/placeholder_progs/g_invoker.mdl");
+		self.model2 = "progs/g_railgun_rifle.mdl";
+	}
+	else
+	{
+		setmodel (self, "progs/g_railgun_rifle.mdl");
+		self.model2 = "progs/placeholder_progs/g_invoker.mdl";
+	}
+
 	self.items = IT_LIGHTNING;
 	self.ammo_cells = 1;
 	self.netname = "The Invoker";
@@ -423,6 +522,7 @@ void() weapon_wrench =
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe ("progs/g_wrench.mdl");
 	setmodel (self, "progs/g_wrench.mdl");
+	self.model2 = "";
 	self.items = IT_AXE;
 	self.netname = "Skullcracker";
 	StartWeapon();
