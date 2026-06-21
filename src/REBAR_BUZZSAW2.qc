@@ -48,35 +48,13 @@ float() weaponanim_REBAR_BUZZSAW2 =
 		return FALSE;
 	}
 
-	//self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_BUZZSAW2_COST;
+	self.attack_finished = time + 0.1;
+	self.buzzsaw_charge = 1;
+	self.weaponframe = 11;
+	self.think = weaponanim_REBAR_BUZZSAW2_loop_charge;
+	self.nextthink = time + 0.025;
 
-	self.attack_finished = time + 0.05;	//must get past 1st frame into loop before releasing attack and firing
-	
-	//self.buzzsaw_charge = 1;
-	
-	//self.weaponframe = 11;
-	//self.think = weaponanim_REBAR_BUZZSAW2_loop_charge;
-	//self.nextthink = time + 0.025;
-	
-	if (self.attackpressed && self.attackhold)
-	{
-		dprint("\nheld");
-			
-		self.weaponframe = 11;
-		self.think = weaponanim_REBAR_BUZZSAW2_loop_charge;
-		self.nextthink = time + 0.025;
-	}
-	else
-	{
-		dprint("\nrelease");
-		
-		self.buzzsaw_charge = 1;
-	
-		self.weaponframe = 51;
-		self.think = weaponanim_REBAR_BUZZSAW2_loop_charge;
-		self.nextthink = time + 0.025;
-	}
-	
+
 	return TRUE;
 }
 
@@ -84,47 +62,37 @@ void() weaponanim_REBAR_BUZZSAW2_loop_charge =
 {
 	local float swf = self.weaponframe;
 		
-	if (self.attackpressed && self.attackhold)
+	if (self.button0)
 	{
-		if 	(swf > 10 && swf <= 20)	
-		{
-			self.buzzsaw_charge = 1;
-			dprint2("\nbuzzsaw_charge = ", ftos(self.buzzsaw_charge));
-		}
-		else if (swf > 20 && swf <= 30)
-		{
-			self.buzzsaw_charge = 2;
-			dprint2("\nbuzzsaw_charge = ", ftos(self.buzzsaw_charge));
-		}
-		else if (swf > 30 && swf <= 40)
-		{
-			self.buzzsaw_charge = 3;
-			dprint2("\nbuzzsaw_charge = ", ftos(self.buzzsaw_charge));
-		}
-		else if (swf > 40 && swf <= 50)
-		{
-			self.buzzsaw_charge = 4;
-			dprint2("\nbuzzsaw_charge = ", ftos(self.buzzsaw_charge));
-		}
+		if 	(swf > 10 && swf <= 20)		self.buzzsaw_charge = 1;
+		else if (swf > 20 && swf <= 30)	self.buzzsaw_charge = 2;
+		else if (swf > 30 && swf <= 40)	self.buzzsaw_charge = 3;
+		else if (swf > 40 && swf <= 50)	self.buzzsaw_charge = 4;
 		else if (swf >= 51)
 		{
 			self.buzzsaw_charge = 5;
-			dprint2("\nbuzzsaw_charge = ", ftos(self.buzzsaw_charge));
 			
 			swf = 51;
-			
+
+
+			self.weaponframe = 51;
+			W_Fire_REBAR_BUZZSAW2_CHARGE();
 			weaponanim_REBAR_BUZZSAW2_loop_fire();
 			
 			self.attack_finished = time + REBAR_BUZZSAW2_COOLDOWN;
 			
 			return;
 		}
+
 		self.attack_finished = time + 0.1;
 	}
 	else
 	{
 		swf = 51;
 		
+
+		self.weaponframe = 51;
+		W_Fire_REBAR_BUZZSAW2_CHARGE();
 		weaponanim_REBAR_BUZZSAW2_loop_fire();
 		
 		self.attack_finished = time + REBAR_BUZZSAW2_COOLDOWN;
@@ -133,6 +101,7 @@ void() weaponanim_REBAR_BUZZSAW2_loop_charge =
 	}
 	
 	swf++;
+	self.weaponframe = swf;
 	
 	self.think = weaponanim_REBAR_BUZZSAW2_loop_charge;
 	self.nextthink = time + 0.025;
@@ -165,11 +134,9 @@ void() W_Fire_REBAR_BUZZSAW2_CHARGE =
 	vector mvel = v_forward*base + v_up*160;
 	
 	Launch_REBAR_BUZZSAW2_Buzzsaw (org, mvel);
-	
+
 	dprint5("\n\bBUZZSAW TOTAL ", ftos(self.buzzsaw_charge), " * ", ftos(REBAR_BUZZSAW2_DMG), " = ");
 	dprint(ftos(self.buzzsaw_charge * REBAR_BUZZSAW2_DMG));
-	
-	
 	
 	self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_BUZZSAW2_COST;
 	
