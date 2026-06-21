@@ -39,7 +39,7 @@ weaponclass_t wpc_MELEE_WRENCH = {
 	SUB_Null, // idlefunction
 	weaponanim_draw_wrench // drawfunction
 };
-/*
+
 weaponclass_t wpc_MELEE_KNIFE = {
 	IT_AXE,
 	1, // slot
@@ -52,8 +52,7 @@ weaponclass_t wpc_MELEE_KNIFE = {
 	SUB_Null, // idlefunction
 	weaponanim_draw // drawfunction
 };
-*/
-/*
+
 weaponclass_t wpc_MELEE_THROW = {
 	IT_AXE,
 	1, // slot
@@ -66,7 +65,7 @@ weaponclass_t wpc_MELEE_THROW = {
 	SUB_Null, // idlefunction
 	weaponanim_draw // drawfunction
 };
-*/
+
 // ====================================================================================
 // SLOT 2: Handguns
 // ====================================================================================
@@ -84,7 +83,6 @@ weaponclass_t wpc_PISTOL_STECHKIN = {
 	weaponanim_draw // drawfunction
 };
 
-/*
 weaponclass_t wpc_PISTOL_AKIMBO = {
 	IT_SHOTGUN,
 	2, // slot
@@ -97,7 +95,6 @@ weaponclass_t wpc_PISTOL_AKIMBO = {
 	SUB_Null, // idlefunction
 	weaponanim_draw // drawfunction
 };
-*/
 
 weaponclass_t wpc_PISTOL_REVOLVER = {
 	IT_SHOTGUN,
@@ -112,7 +109,6 @@ weaponclass_t wpc_PISTOL_REVOLVER = {
 	weaponanim_draw // drawfunction
 };
 
-/*
 weaponclass_t wpc_PISTOL_BIGIRON = {
 	IT_SHOTGUN,
 	2, // slot
@@ -125,7 +121,7 @@ weaponclass_t wpc_PISTOL_BIGIRON = {
 	SUB_Null, // idlefunction
 	weaponanim_draw // drawfunction
 };
-*/
+
 // ====================================================================================
 // SLOT 3: Shells
 // ====================================================================================
@@ -143,7 +139,6 @@ weaponclass_t wpc_SHOTGUN_FLAK = {
 	weaponanim_draw
 };
 
-/*
 weaponclass_t wpc_SHOTGUN_PRISM = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -156,8 +151,7 @@ weaponclass_t wpc_SHOTGUN_PRISM = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SHOTGUN_COWBOY = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -170,8 +164,7 @@ weaponclass_t wpc_SHOTGUN_COWBOY = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SHOTGUN_COWBOYv2 = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -184,8 +177,7 @@ weaponclass_t wpc_SHOTGUN_COWBOYv2 = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SHOTGUN_QUAKEY = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -198,8 +190,7 @@ weaponclass_t wpc_SHOTGUN_QUAKEY = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SHOTGUN_OVERUNDER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -212,8 +203,7 @@ weaponclass_t wpc_SHOTGUN_OVERUNDER = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SHOTGUN_SAWED = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -226,8 +216,7 @@ weaponclass_t wpc_SHOTGUN_SAWED = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SHOTGUN_LEVER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -240,8 +229,7 @@ weaponclass_t wpc_SHOTGUN_LEVER = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SHOTGUN_STACK = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -254,8 +242,7 @@ weaponclass_t wpc_SHOTGUN_STACK = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SHOTGUN_BRAZIL = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -268,9 +255,9 @@ weaponclass_t wpc_SHOTGUN_BRAZIL = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
+
 // ====================================================================================
-/*
+
 weaponclass_t wpc_SSG_BLUE = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -283,8 +270,7 @@ weaponclass_t wpc_SSG_BLUE = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SSG_SAWEDBLUE = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -296,9 +282,8 @@ weaponclass_t wpc_SSG_SAWEDBLUE = {
 	weaponanim_SSG_SAWEDBLUE,
 	SUB_Null,
 	weaponanim_draw
-};
-*/
-/*
+}
+
 weaponclass_t wpc_SSG_SAWEDBLUEv2 = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -311,8 +296,7 @@ weaponclass_t wpc_SSG_SAWEDBLUEv2 = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SSG_SUPERSAWED = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -325,8 +309,7 @@ weaponclass_t wpc_SSG_SUPERSAWED = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SSG_TRIPLE = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -339,8 +322,7 @@ weaponclass_t wpc_SSG_TRIPLE = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SSG_THREE = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -353,8 +335,7 @@ weaponclass_t wpc_SSG_THREE = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SSG_SUPER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -367,7 +348,6 @@ weaponclass_t wpc_SSG_SUPER = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
 
 weaponclass_t wpc_SSG_ROTARY = {
 	IT_SUPER_SHOTGUN,
@@ -382,7 +362,6 @@ weaponclass_t wpc_SSG_ROTARY = {
 	weaponanim_draw
 };
 
-/*
 weaponclass_t wpc_SSG_ROTARYBUFF = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -395,8 +374,7 @@ weaponclass_t wpc_SSG_ROTARYBUFF = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SSG_ROTARYFLAK = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -409,8 +387,7 @@ weaponclass_t wpc_SSG_ROTARYFLAK = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SSG_ROTARYFAST = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -423,8 +400,7 @@ weaponclass_t wpc_SSG_ROTARYFAST = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SSG_AUTO = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -437,8 +413,7 @@ weaponclass_t wpc_SSG_AUTO = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_SSG_SWEEPER = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
@@ -451,7 +426,7 @@ weaponclass_t wpc_SSG_SWEEPER = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
+
 // ====================================================================================
 // SLOT 4: Nailgun
 // ====================================================================================
@@ -469,7 +444,6 @@ weaponclass_t wpc_NAIL_TWIN = {
 	weaponanim_draw
 };
 
-/*
 weaponclass_t wpc_NAIL_HEAVY = {
 	IT_NAILGUN,
 	4, // slot
@@ -482,8 +456,7 @@ weaponclass_t wpc_NAIL_HEAVY = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_NAIL_TURBO = {
 	IT_NAILGUN,
 	4, // slot
@@ -497,8 +470,6 @@ weaponclass_t wpc_NAIL_TURBO = {
 	weaponanim_draw
 };
 
-*/
-/*
 weaponclass_t wpc_NAIL_LMG = {
 	IT_NAILGUN,
 	4, // slot
@@ -511,8 +482,7 @@ weaponclass_t wpc_NAIL_LMG = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_NAIL_DRUM = {
 	IT_NAILGUN,
 	4, // slot
@@ -525,8 +495,7 @@ weaponclass_t wpc_NAIL_DRUM = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_NAIL_SPINUP = {
 	IT_NAILGUN,
 	4, // slot
@@ -538,8 +507,7 @@ weaponclass_t wpc_NAIL_SPINUP = {
 	weaponanim_NAIL_SPINUP,
 	SUB_Null,
 	weaponanim_draw
-};
-*/
+}
 
 weaponclass_t wpc_NAIL_SPINUPv2 = {
 	IT_NAILGUN,
@@ -557,7 +525,7 @@ weaponclass_t wpc_NAIL_SPINUPv2 = {
 // ====================================================================================
 // SLOT 5: Rebar
 // ====================================================================================
-/*
+
 weaponclass_t wpc_REBAR_CANNON = {
 	IT_SUPER_NAILGUN,
 	5, // slot
@@ -570,8 +538,7 @@ weaponclass_t wpc_REBAR_CANNON = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_REBAR_MULTI = {
 	IT_SUPER_NAILGUN,
 	5, // slot
@@ -584,8 +551,7 @@ weaponclass_t wpc_REBAR_MULTI = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_REBAR_WIDE = {
 	IT_SUPER_NAILGUN,
 	5, // slot
@@ -598,8 +564,7 @@ weaponclass_t wpc_REBAR_WIDE = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_REBAR_TALL = {
 	IT_SUPER_NAILGUN,
 	5, // slot
@@ -612,8 +577,7 @@ weaponclass_t wpc_REBAR_TALL = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_REBAR_TRIPLE = {
 	IT_SUPER_NAILGUN,
 	5, // slot
@@ -626,8 +590,7 @@ weaponclass_t wpc_REBAR_TRIPLE = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_REBAR_FAST = {
 	IT_SUPER_NAILGUN,
 	5, // slot
@@ -640,7 +603,6 @@ weaponclass_t wpc_REBAR_FAST = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
 
 weaponclass_t wpc_REBAR_BUFF = {
 	IT_SUPER_NAILGUN,
@@ -655,7 +617,6 @@ weaponclass_t wpc_REBAR_BUFF = {
 	weaponanim_draw
 };
 
-/*
 weaponclass_t wpc_REBAR_RIFLE = {
 	IT_SUPER_NAILGUN,
 	5, // slot
@@ -668,8 +629,7 @@ weaponclass_t wpc_REBAR_RIFLE = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_REBAR_REPEATER = {
 	IT_SUPER_NAILGUN,
 	5, // slot
@@ -682,8 +642,7 @@ weaponclass_t wpc_REBAR_REPEATER = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_REBAR_BUZZSAW = {
 	IT_SUPER_NAILGUN,
 	5, // slot
@@ -696,7 +655,6 @@ weaponclass_t wpc_REBAR_BUZZSAW = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
 
 weaponclass_t wpc_REBAR_BUZZSAW2 = {
 	IT_SUPER_NAILGUN,
@@ -728,7 +686,6 @@ weaponclass_t wpc_GRENADE_LAUNCHER = {
 	weaponanim_draw
 };
 
-/*
 weaponclass_t wpc_GRENADE_DIRECT = {
 	IT_GRENADE_LAUNCHER,
 	6, // slot
@@ -741,8 +698,7 @@ weaponclass_t wpc_GRENADE_DIRECT = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_GRENADE_TRIBOLT = {
 	IT_GRENADE_LAUNCHER,
 	6, // slot
@@ -754,8 +710,7 @@ weaponclass_t wpc_GRENADE_TRIBOLT = {
 	weaponanim_GRENADE_TRIBOLT,
 	SUB_Null,
 	weaponanim_draw
-};
-*/
+}
 
 weaponclass_t wpc_GRENADE_TRIBOLTqc = {
 	IT_GRENADE_LAUNCHER,
@@ -770,7 +725,6 @@ weaponclass_t wpc_GRENADE_TRIBOLTqc = {
 	weaponanim_draw
 };
 
-/*
 weaponclass_t wpc_GRENADE_AUTO = {
 	IT_GRENADE_LAUNCHER,
 	6, // slot
@@ -783,7 +737,7 @@ weaponclass_t wpc_GRENADE_AUTO = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
+
 // ====================================================================================
 // SLOT 7: Rockets
 // ====================================================================================
@@ -801,7 +755,6 @@ weaponclass_t wpc_ROCKET_MMML = {
 	weaponanim_draw
 };
 
-/*
 weaponclass_t wpc_ROCKET_ORIGINAL = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
@@ -813,8 +766,7 @@ weaponclass_t wpc_ROCKET_ORIGINAL = {
 	weaponanim_ROCKET_ORIGINAL,
 	SUB_Null,
 	weaponanim_draw
-};
-*/
+}
 
 weaponclass_t wpc_ROCKET_RPG = {
 	IT_ROCKET_LAUNCHER,
@@ -829,7 +781,6 @@ weaponclass_t wpc_ROCKET_RPG = {
 	weaponanim_draw
 };
 
-/*
 weaponclass_t wpc_ROCKET_HALFLIFE = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
@@ -842,8 +793,7 @@ weaponclass_t wpc_ROCKET_HALFLIFE = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_ROCKET_HEAVY = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
@@ -856,8 +806,7 @@ weaponclass_t wpc_ROCKET_HEAVY = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_ROCKET_DOUBLE = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
@@ -870,8 +819,7 @@ weaponclass_t wpc_ROCKET_DOUBLE = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_ROCKET_FLASH = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
@@ -884,8 +832,7 @@ weaponclass_t wpc_ROCKET_FLASH = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_ROCKET_TRIPLE = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
@@ -898,8 +845,7 @@ weaponclass_t wpc_ROCKET_TRIPLE = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_ROCKET_INSTANT = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
@@ -912,8 +858,7 @@ weaponclass_t wpc_ROCKET_INSTANT = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
-/*
+
 weaponclass_t wpc_ROCKET_REMOTE = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
@@ -926,7 +871,7 @@ weaponclass_t wpc_ROCKET_REMOTE = {
 	SUB_Null,
 	weaponanim_draw
 };
-*/
+
 // ====================================================================================
 // SLOT 8: Superweapon
 // ====================================================================================
@@ -984,89 +929,89 @@ weaponclass_t weaponsclass[] = {
 
 	wpc_MELEE_WRENCH,	//YES
 	wpc_PISTOL_STECHKIN,	//(force impulse 9 reset with pistol)
-	//wpc_MELEE_KNIFE,	//no
-	//wpc_MELEE_THROW,	//no
+	wpc_MELEE_KNIFE,	//no
+	wpc_MELEE_THROW,	//no
 	
 //─────────────────────────────────────────[2]  PISTOLS {bullets}
 
-	//wpc_PISTOL_STECHKIN,	//maybe?
-	//wpc_PISTOL_AKIMBO,	//YES
+	wpc_PISTOL_STECHKIN,	//maybe?
+	wpc_PISTOL_AKIMBO,	//YES
 	wpc_PISTOL_REVOLVER,	//YES
-	//wpc_PISTOL_BIGIRON,	//no
+	wpc_PISTOL_BIGIRON,	//no
 	
 //─────────────────────────────────────────[3]  SHOTGUNS {shells}
 
 	wpc_SHOTGUN_FLAK,	//YES
-	//wpc_SHOTGUN_PRISM,	//no
-	//wpc_SHOTGUN_COWBOY,	//no
-	//wpc_SHOTGUN_COWBOYv2,	//no
-	//wpc_SHOTGUN_QUAKEY,	//maybe?
-	//wpc_SHOTGUN_OVERUNDER,	//maybe?
-	//wpc_SHOTGUN_SAWED,	//no
-	//wpc_SHOTGUN_LEVER,	//no
-	//wpc_SHOTGUN_STACK,	//no
-	//wpc_SHOTGUN_BRAZIL,	//no
+	wpc_SHOTGUN_PRISM,	//no
+	wpc_SHOTGUN_COWBOY,	//no
+	wpc_SHOTGUN_COWBOYv2,	//no
+	wpc_SHOTGUN_QUAKEY,	//maybe?
+	wpc_SHOTGUN_OVERUNDER,	//maybe?
+	wpc_SHOTGUN_SAWED,	//no
+	wpc_SHOTGUN_LEVER,	//no
+	wpc_SHOTGUN_STACK,	//no
+	wpc_SHOTGUN_BRAZIL,	//no
 	
 //─────────────────────────────────────────[4]  SUPER SHOTGUNS {shells}
 
-	//wpc_SSG_BLUE,		//no
-	//wpc_SSG_SAWEDBLUE,	//no
-	//wpc_SSG_SAWEDBLUEv2,	//no
-	//wpc_SSG_SUPERSAWED,	//no
-	//wpc_SSG_TRIPLE,		//no
-	//wpc_SSG_THREE,		//maybe?
-	//wpc_SSG_SUPER,		//no
+	wpc_SSG_BLUE,		//no
+	wpc_SSG_SAWEDBLUE,	//no
+	wpc_SSG_SAWEDBLUEv2,	//no
+	wpc_SSG_SUPERSAWED,	//no
+	wpc_SSG_TRIPLE,		//no
+	wpc_SSG_THREE,		//maybe?
+	wpc_SSG_SUPER,		//no
 	wpc_SSG_ROTARY,		//YES
-	//wpc_SSG_ROTARYBUFF,	//maybe?
-	//wpc_SSG_ROTARYFLAK,	//maybe?
-	//wpc_SSG_ROTARYFAST,	//no
-	//wpc_SSG_AUTO,		//no
-	//wpc_SSG_SWEEPER,	//no
+	wpc_SSG_ROTARYBUFF,	//maybe?
+	wpc_SSG_ROTARYFLAK,	//maybe?
+	wpc_SSG_ROTARYFAST,	//no
+	wpc_SSG_AUTO,		//no
+	wpc_SSG_SWEEPER,	//no
 	
 //─────────────────────────────────────────[5]  NAILGUNS {scraps}
 
 	wpc_NAIL_TWIN,		//YES
-	//wpc_NAIL_HEAVY,		//no
-	//wpc_NAIL_TURBO,		//no
-	//wpc_NAIL_LMG,		//no
-	//wpc_NAIL_DRUM,		//no
-	//wpc_NAIL_SPINUP,	//maybe?
+	wpc_NAIL_HEAVY,		//no
+	wpc_NAIL_TURBO,		//no
+	wpc_NAIL_LMG,		//no
+	wpc_NAIL_DRUM,		//no
+	wpc_NAIL_SPINUP,	//maybe?
 	wpc_NAIL_SPINUPv2,	//maybe?
 	
 //─────────────────────────────────────────[6]  REBARS {scraps}
 
-	//wpc_REBAR_CANNON,	//no
-	//wpc_REBAR_WIDE,		//no
-	//wpc_REBAR_TALL,		//no
-	//wpc_REBAR_TRIPLE,	//no
-	//wpc_REBAR_FAST,		//no
-	//wpc_REBAR_MULTI,	//no
+	wpc_REBAR_CANNON,	//no
+	wpc_REBAR_WIDE,		//no
+	wpc_REBAR_TALL,		//no
+	wpc_REBAR_TRIPLE,	//no
+	wpc_REBAR_FAST,		//no
+	wpc_REBAR_MULTI,	//no
 	wpc_REBAR_BUFF,		//YES
-	//wpc_REBAR_RIFLE,	//no
-	//wpc_REBAR_REPEATER,	//no
-	//wpc_REBAR_BUZZSAW,	//maybe?
+	wpc_REBAR_RIFLE,	//no
+	wpc_REBAR_REPEATER,	//no
+	wpc_REBAR_BUZZSAW,	//maybe?
 	wpc_REBAR_BUZZSAW2,	//maybe?
 	
 //─────────────────────────────────────────[7]  GRENADES {explosives}
 
 	wpc_GRENADE_LAUNCHER,	//YES
-	//wpc_GRENADE_DIRECT,	//maybe?
-	//wpc_GRENADE_TRIBOLT,	//maybe?
+	wpc_GRENADE_DIRECT,	//maybe?
+	wpc_GRENADE_TRIBOLT,	//maybe?
 	wpc_GRENADE_TRIBOLTqc,	//maybe?
-	//wpc_GRENADE_AUTO,	//maybe?
+	wpc_GRENADE_AUTO,	//maybe?
 	
 //─────────────────────────────────────────[8]  ROCKETS {explosives}
 
 	wpc_ROCKET_MMML,	//YES
-	//wpc_ROCKET_ORIGINAL,	//maybe?
+	wpc_ROCKET_ORIGINAL,	//maybe?
 	wpc_ROCKET_RPG,		//maybe?
-	//wpc_ROCKET_HALFLIFE,	//no
-	//wpc_ROCKET_HEAVY,	//no
-	//wpc_ROCKET_DOUBLE,	//maybe?
-	//wpc_ROCKET_FLASH,	//maybe?
-	//wpc_ROCKET_TRIPLE,	//maybe?
-	//wpc_ROCKET_INSTANT,	//no
-	//wpc_ROCKET_REMOTE,	//maybe?
+	wpc_ROCKET_HALFLIFE,	//no
+	wpc_ROCKET_HEAVY,	//no
+	wpc_ROCKET_DOUBLE,	//maybe?
+	wpc_ROCKET_FLASH,	//maybe?
+	wpc_ROCKET_TRIPLE,	//maybe?
+	wpc_ROCKET_INSTANT,	//no
+	wpc_ROCKET_REMOTE,	//maybe?
 	
 //─────────────────────────────────────────[9]  POWER WEAPONS {fragments}
 
@@ -1079,7 +1024,7 @@ weaponclass_t weaponsclass[] = {
 	
 };
 
-float MAX_WEAPON_NUM = 16;	//66;
+float MAX_WEAPON_NUM = 66;
 
 // ====================================================================================
 // WEAPONS ASSIGNED

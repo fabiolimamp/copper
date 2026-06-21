@@ -42,6 +42,18 @@ w_6_grenadelauncher.qc
 w_7_clusterrocket.qc
 w_8_invoker.qc
 w_berserk.qc
+
+PISTOL_REVOLVER.qc
+SSG_ROTARY.qc
+NAIL_SPINUPv2.qc
+REBAR_BUFF.qc
+REBAR_BUZZSAW2.qc
+GRENADE_TRIBOLTqc.qc
+ROCKET_RPG.qc
+POWER_RIFLE.qc
+SECRET_ASH.qc
+
+/*
 MELEE_KNIFE.qc
 MELEE_THROW.qc
 PISTOL_AKIMBO.qc
@@ -100,8 +112,11 @@ ROCKET_INSTANT.qc
 ROCKET_REMOTE.qc
 POWER_RIFLE.qc
 SECRET_ASH.qc
+*/
+
 weapons_use.qc
 weapondefintion.qc
+//weapondefintion_full.qc
 dev.qc
 impulse.qc
 

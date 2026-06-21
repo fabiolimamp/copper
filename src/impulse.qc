@@ -215,22 +215,28 @@ void() Manual_Reload =
 	{
 		if (self.pistol_ammo_count != 10)
 		{
+			/*
 			if 	(self.weaponmodel == "progs/placeholder_progs/v_pistol_akimbo.mdl")	weaponanim_reload_PISTOL_AKIMBO();
 			else if (self.weaponmodel == "progs/placeholder_progs/v_pistol_revolver.mdl")	weaponanim_reload_PISTOL_REVOLVER();
 			else if (self.weaponmodel == "progs/placeholder_progs/v_pistol_bigiron.mdl")	weaponanim_reload_PISTOL_BIGIRON();
+			*/
+			
+			if (self.weaponmodel == "progs/placeholder_progs/v_pistol_revolver.mdl")	weaponanim_reload_PISTOL_REVOLVER();
 			else										weaponanim_reloadpistol();
 		}	
 		else if (self.pistol_ammo_count == 10)	weaponanim_twirlpistol();
 	}
 	
 	else if (self.weaponmodel == "progs/placeholder_progs/wish/v_ash.mdl")	weaponanim_inspect_ash();
-		
+	
+	/*	
 	else if	(self.weaponmodel == "progs/placeholder_progs/v_rocket_remote.mdl")
 	{
 		//Check_To_Fire_Mine();
 		W_Detonate_Mine();
 		return;
 	}
+	*/
 }
 
 // --------------------------------

@@ -838,16 +838,21 @@ float(float n) SlotBit =
 
 float(float imp) W_ChangeSlot =
 {
-		// Pistol Manual Reload
+	// Pistol Manual Reload
 	if (imp == 2 && self.weapon == IT_SHOTGUN)
 	{
 		if (self.pistol_ammo_count != 10)
+			
+			/*
 			if 	(self.weaponmodel == "progs/placeholder_progs/v_pistol_akimbo.mdl")
 				weaponanim_reload_PISTOL_AKIMBO();
 			else if (self.weaponmodel == "progs/placeholder_progs/v_pistol_revolver.mdl")
+			*/
+			
+			if (self.weaponmodel == "progs/placeholder_progs/v_pistol_revolver.mdl")	
 				weaponanim_reload_PISTOL_REVOLVER();
-				else
-					weaponanim_reloadpistol();
+			else
+				weaponanim_reloadpistol();
 
 		else if (self.pistol_ammo_count == 10)
 			weaponanim_twirlpistol();
