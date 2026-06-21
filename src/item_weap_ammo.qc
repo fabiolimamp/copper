@@ -59,8 +59,8 @@ weapon_touch
 void(float newPos) weapon_swap_visual =
 {
 	string tmp = self.model;
-	SUB_ChangeModel(self, self.model2);
-	self.model2 = tmp;
+	SUB_ChangeModel(self, self.invokedmodel);
+	self.invokedmodel = tmp;
 }
 
 void() weapon_swap_touch =
@@ -146,8 +146,6 @@ void() weapon_touch =
 	}
 	else
 	{
-		// work out whether the pickup's variant matches what the player currently has
-		// slot and alternate bit for this weapon type.
 		float weapSlot  = weaponsclass[getWeapon(self.items)].slot;
 		float altBit    = SlotBit(weapSlot);
 		float playerHasAlt  = (other.weapon_alternate & altBit) ? TRUE : FALSE;
@@ -268,12 +266,12 @@ void() weapon_pistol =
 	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 	{
 		setmodel (self, "progs/placeholder_progs/g_pistol_revolver.mdl");
-		self.model2 = "progs/g_pistol.mdl";
+		self.invokedmodel = "progs/g_pistol.mdl";
 	}
 	else
 	{
 		setmodel (self, "progs/g_pistol.mdl");
-		self.model2 = "progs/placeholder_progs/g_pistol_revolver.mdl";
+		self.invokedmodel = "progs/placeholder_progs/g_pistol_revolver.mdl";
 	}
 
 	self.items = IT_SHOTGUN;
@@ -307,12 +305,12 @@ void() weapon_flak =
 	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 	{
 		setmodel (self, "progs/placeholder_progs/g_shotgun_rotary.mdl");
-		self.model2 = "progs/g_flakshotgun.mdl";
+		self.invokedmodel = "progs/g_flakshotgun.mdl";
 	}
 	else
 	{
 		setmodel (self, "progs/g_flakshotgun.mdl");
-		self.model2 = "progs/placeholder_progs/g_shotgun_rotary.mdl";
+		self.invokedmodel = "progs/placeholder_progs/g_shotgun_rotary.mdl";
 	}
 
 	self.items = IT_SUPER_SHOTGUN;
@@ -346,12 +344,12 @@ void() weapon_nailgun =
 	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 	{
 		setmodel (self, "progs/placeholder_progs/g_nailgun_windup.mdl");
-		self.model2 = "progs/g_tnailgun.mdl";
+		self.invokedmodel = "progs/g_tnailgun.mdl";
 	}
 	else
 	{
 		setmodel (self, "progs/g_tnailgun.mdl");
-		self.model2 = "progs/placeholder_progs/g_nailgun_windup.mdl";
+		self.invokedmodel = "progs/placeholder_progs/g_nailgun_windup.mdl";
 	}
 	self.items = IT_NAILGUN;
 	self.ammo_nails = 30;
@@ -380,12 +378,12 @@ void() weapon_rebar =
 	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 	{
 		setmodel (self, "progs/placeholder_progs/g_rebar_buzzsaw.mdl");
-		self.model2 = "progs/g_rebar.mdl";
+		self.invokedmodel = "progs/g_rebar.mdl";
 	}
 	else
 	{
 		setmodel (self, "progs/g_rebar.mdl");
-		self.model2 = "progs/placeholder_progs/g_rebar_buzzsaw.mdl";
+		self.invokedmodel = "progs/placeholder_progs/g_rebar_buzzsaw.mdl";
 	}
 	self.items = IT_SUPER_NAILGUN;
 	self.ammo_nails = 30;
@@ -416,12 +414,12 @@ void() weapon_grenadelauncher =
 	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 	{
 		setmodel (self, "progs/placeholder_progs/g_grenade_tribolt.mdl");
-		self.model2 = "progs/g_grenlauncher.mdl";
+		self.invokedmodel = "progs/g_grenlauncher.mdl";
 	}
 	else
 	{
 		setmodel (self, "progs/g_grenlauncher.mdl");
-		self.model2 = "progs/placeholder_progs/g_grenade_tribolt.mdl";
+		self.invokedmodel = "progs/placeholder_progs/g_grenade_tribolt.mdl";
 	}
 	self.items = IT_GRENADE_LAUNCHER;
 	self.ammo_rockets = 8;
@@ -451,12 +449,12 @@ void() weapon_mmml =
 	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 	{
 		setmodel (self, "progs/placeholder_progs/g_mmml.mdl");
-		self.model2 = "progs/g_rocket_rpg.mdl";
+		self.invokedmodel = "progs/g_rocket_rpg.mdl";
 	}
 	else
 	{
 		setmodel (self, "progs/g_rocket_rpg.mdl");
-		self.model2 = "progs/placeholder_progs/g_mmml.mdl";
+		self.invokedmodel = "progs/placeholder_progs/g_mmml.mdl";
 	}
 
 	self.items = IT_ROCKET_LAUNCHER;
@@ -489,12 +487,12 @@ void() weapon_invoker =
 	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 	{
 		setmodel (self, "progs/placeholder_progs/g_invoker.mdl");
-		self.model2 = "progs/g_railgun_rifle.mdl";
+		self.invokedmodel = "progs/g_railgun_rifle.mdl";
 	}
 	else
 	{
 		setmodel (self, "progs/g_railgun_rifle.mdl");
-		self.model2 = "progs/placeholder_progs/g_invoker.mdl";
+		self.invokedmodel = "progs/placeholder_progs/g_invoker.mdl";
 	}
 
 	self.items = IT_LIGHTNING;
@@ -522,7 +520,7 @@ void() weapon_wrench =
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe ("progs/g_wrench.mdl");
 	setmodel (self, "progs/g_wrench.mdl");
-	self.model2 = "";
+	self.invokedmodel = "";
 	self.items = IT_AXE;
 	self.netname = "Skullcracker";
 	StartWeapon();
