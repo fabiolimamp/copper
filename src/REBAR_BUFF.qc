@@ -3,7 +3,7 @@
 //=============================================================================================
 
 string	REBAR_BUFF_NAME		=	"Rebar Cannon Buff";
-string	REBAR_BUFF_MODEL	=	"progs/placeholder_progs/v_rebar_buff.mdl";
+string	REBAR_BUFF_MODEL	=	"progs/v_rebar.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPREAD		DESCRIPTION
