@@ -172,7 +172,7 @@ void() W_Fire_REBAR_BUZZSAW2_CHARGE =
 	dprint5("\n\bBUZZSAW TOTAL ", ftos(self.buzzsaw_charge), " * ", ftos(REBAR_BUZZSAW2_DMG), " = ");
 	dprint(ftos(self.buzzsaw_charge * REBAR_BUZZSAW2_DMG));
 	
-	self.currentammo = self.ammo_nails = self.ammo_nails - (self.buzzsaw_charge * REBAR_BUZZSAW2_COST);	//FIXME nail ammo should be deucted while charging, auto fire early if ammo empty
+	//self.currentammo = self.ammo_nails = self.ammo_nails - (self.buzzsaw_charge * REBAR_BUZZSAW2_COST);
 	
 	SuperDamageSound();
 	
