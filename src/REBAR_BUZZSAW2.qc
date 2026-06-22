@@ -353,27 +353,27 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw_1 =
 		
 		
 		// TEMP/WIP... makes every gibbed enemy a soldier_p lol
-		if (other.customflags & CFL_GIBBED)
-		{
-			if (other.model == "progs/soldier_pistol_qbj.mdl")
-								
-				dprint("/n/bSoldier_p got gibbed...");
-				
-				setmodel (other, "progs/placeholder_progs/splithalf_soldier_p_legs.mdl");
-				other.frame = 0;
-				setorigin(other, other.origin + '0 0 24');
-				other.movetype = MOVETYPE_NONE;
-				other.solid = SOLID_NOT;
-				other.think = anim_split_half_legs;
-				other.nextthink = time + 0.1;
-				
-				GoopBlood(0);
-				
-				Throw_Split_Half_Torso("progs/placeholder_progs/splithalf_soldier_p_torso.mdl", (self.oldvelocity * -0.05) + '0 0 200');
-				
-				//FX_Split_Half(other.splithalftorso, other.splithalflegs, other.enemydropgun, other.origin, other.oldvelocity);
-				//TODO ^^^ this needs some work so we don't have raw other. calls inside the Touch function
-		}
+		//if (other.customflags & CFL_GIBBED)
+		//{
+		//	if (other.model == "progs/soldier_pistol_qbj.mdl")
+		//						
+		//		dprint("/n/bSoldier_p got gibbed...");
+		//		
+		//		setmodel (other, "progs/placeholder_progs/splithalf_soldier_p_legs.mdl");
+		//		other.frame = 0;
+		//		setorigin(other, other.origin + '0 0 24');
+		//		other.movetype = MOVETYPE_NONE;
+		//		other.solid = SOLID_NOT;
+		//		other.think = anim_split_half_legs;
+		//		other.nextthink = time + 0.1;
+		//		
+		//		GoopBlood(0);
+		//		
+		//		Throw_Split_Half_Torso("progs/placeholder_progs/splithalf_soldier_p_torso.mdl", (self.oldvelocity * -0.05) + '0 0 200');
+		//		
+		//		//FX_Split_Half(other.splithalftorso, other.splithalflegs, other.enemydropgun, other.origin, other.oldvelocity);
+		//		//TODO ^^^ this needs some work so we don't have raw other. calls inside the Touch function
+		//}
 		
 		
 		if (other.solid != SOLID_BSP) {
