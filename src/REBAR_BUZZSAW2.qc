@@ -30,7 +30,7 @@ string	REBAR_BUZZSAW2_MODEL	=	"progs/placeholder_progs/v_rebar_buzzsaw_charge_1.
 									//frames: 11-51		         (11-20, 21-30, 31-40, 41-50, 51+)	
 									//total refire at 40fps = 1 second charge + 0.5 cooldown
 
-	float	REBAR_BUZZSAW2_COST	=	5;			//ammo cost to fire * per charge level
+	float	REBAR_BUZZSAW2_COST	=	5;			//ammo cost to fire, drains per charge level
 	
 	float	REBAR_BUZZSAW2_SPEED	=	2000;			//arc velocity
 
@@ -65,28 +65,56 @@ float() weaponanim_REBAR_BUZZSAW2 =
 void() weaponanim_REBAR_BUZZSAW2_loop_charge =
 {
 	local float swf = self.weaponframe;
+	local float new_charge;
 	
 	if (self.button0)
 	{
-		if 	(swf > 10 && swf <= 20)	{self.buzzsaw_charge = 1;	self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_1.mdl";	}
-		else if (swf > 20 && swf <= 30)	{self.buzzsaw_charge = 2;	self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_2.mdl";	sound (self, CHAN_WEAPON, "placeholder_sound/beep_tone_1.wav", 1, ATTN_NORM);}
-		else if (swf > 30 && swf <= 40)	{self.buzzsaw_charge = 3;	self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_3.mdl";	sound (self, CHAN_WEAPON, "placeholder_sound/beep_tone_2.wav", 1, ATTN_NORM);}
-		else if (swf > 40 && swf <= 50)	{self.buzzsaw_charge = 4;	self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_4.mdl";	sound (self, CHAN_WEAPON, "placeholder_sound/beep_tone_3.wav", 1, ATTN_NORM);}
-		else if (swf >= 51)
+		if 	(swf > 10 && swf <= 20)	new_charge = 1;
+		else if (swf > 20 && swf <= 30)	new_charge = 2;
+		else if (swf > 30 && swf <= 40)	new_charge = 3;
+		else if (swf > 40 && swf <= 50)	new_charge = 4;
+		else if (swf >= 51)		new_charge = 5;
+
+		if (new_charge > self.buzzsaw_charge)
 		{
-			self.buzzsaw_charge = 5;
-			self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_5.mdl";
-			sound (self, CHAN_WEAPON, "placeholder_sound/beep_tone_5.wav", 1, ATTN_NORM);
-			
-			swf = 51;
-			self.weaponframe = 51;
-			
-			W_Fire_REBAR_BUZZSAW2_CHARGE();
-			weaponanim_REBAR_BUZZSAW2_loop_fire();
-			
-			self.attack_finished = time + REBAR_BUZZSAW2_COOLDOWN;
-			
-			return;
+			self.buzzsaw_charge = new_charge;
+			self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_BUZZSAW2_COST;
+
+			if (self.buzzsaw_charge == 2)
+			{ self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_2.mdl"; sound (self, CHAN_WEAPON, "placeholder_sound/beep_tone_1.wav", 1, ATTN_NORM); }
+			else if (self.buzzsaw_charge == 3)
+			{ self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_3.mdl"; sound (self, CHAN_WEAPON, "placeholder_sound/beep_tone_2.wav", 1, ATTN_NORM); }
+			else if (self.buzzsaw_charge == 4)
+			{ self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_4.mdl"; sound (self, CHAN_WEAPON, "placeholder_sound/beep_tone_3.wav", 1, ATTN_NORM); }
+			else if (self.buzzsaw_charge == 5)
+			{
+				self.weaponmodel = "progs/placeholder_progs/v_rebar_buzzsaw_charge_5.mdl";
+				sound (self, CHAN_WEAPON, "placeholder_sound/beep_tone_5.wav", 1, ATTN_NORM);
+
+				swf = 51;
+				self.weaponframe = 51;
+
+				W_Fire_REBAR_BUZZSAW2_CHARGE();
+				weaponanim_REBAR_BUZZSAW2_loop_fire();
+
+				self.attack_finished = time + REBAR_BUZZSAW2_COOLDOWN;
+
+				return;
+			}
+
+			// fire early if ammo emptied out mid-charge
+			if (self.ammo_nails < REBAR_BUZZSAW2_COST)
+			{
+				swf = 51;
+				self.weaponframe = 51;
+
+				W_Fire_REBAR_BUZZSAW2_CHARGE();
+				weaponanim_REBAR_BUZZSAW2_loop_fire();
+
+				self.attack_finished = time + REBAR_BUZZSAW2_COOLDOWN;
+
+				return;
+			}
 		}
 
 		self.attack_finished = time + 0.1;
@@ -108,7 +136,7 @@ void() weaponanim_REBAR_BUZZSAW2_loop_charge =
 	self.weaponframe = swf;
 	
 	self.think = weaponanim_REBAR_BUZZSAW2_loop_charge;
-	self.nextthink = time + 0.025;
+	self.nextthink = time + 0.05;
 }
 
 void() weaponanim_REBAR_BUZZSAW2_loop_fire =
