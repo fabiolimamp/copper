@@ -355,14 +355,14 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/wish/mag_ash_empty.mdl");
 	precache_model ("progs/placeholder_progs/wish/mag_ash_empty.mdl");	
 	precache_model ("progs/placeholder_progs/wish/s_bullet_hole.spr");	
-	/*
+	
 	precache_model ("progs/placeholder_progs/splithalf_soldier_p_legs.mdl");
 	precache_model ("progs/placeholder_progs/splithalf_soldier_p_torso_floor.mdl");
 	precache_model ("progs/placeholder_progs/splithalf_soldier_p_torso_floor2.mdl");
 	precache_model ("progs/placeholder_progs/splithalf_soldier_p_gun_floor.mdl");
 	precache_model ("progs/placeholder_progs/splithalf_soldier_p_gun.mdl");
 	precache_model ("progs/placeholder_progs/splithalf_soldier_p_torso.mdl");
-	*/
+	
 	//=============================================================================================	
 
 
