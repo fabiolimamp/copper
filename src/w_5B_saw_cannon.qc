@@ -211,9 +211,9 @@ void() SAW_CANNON_Buzzsaw_Think =
 
 void() SAW_CANNON_Buzzsaw_Touch_1 =
 {
-	local float buzzsaw_damage_total;	// = self.buzzsaw_charge * SAW_CANNON_DAMAGE
-	
 	self.gravity = 1;
+	
+	local float buzzsaw_damage_total;	// = self.buzzsaw_charge * SAW_CANNON_DAMAGE
 	
 	if (CheckProjectilePassthru()) return;
 
@@ -308,6 +308,8 @@ void() SAW_CANNON_Buzzsaw_Touch_2 =
 {
 	self.gravity = 2;
 	
+	local float buzzsaw_damage_total;	// = self.buzzsaw_charge * SAW_CANNON_DAMAGE
+	
 	if (CheckProjectilePassthru()) return;
 
 	if (pointcontents(self.origin) == CONTENT_SKY) {
@@ -321,13 +323,43 @@ void() SAW_CANNON_Buzzsaw_Touch_2 =
 			T_Damage(other, self, self.trueowner, 59);
 		else
 		{
-			if 	(self.model == "progs/placeholder_progs/proj_buzz_hot_1.mdl")	T_Damage(other, self, self.trueowner, 1 * SAW_CANNON_DAMAGE);
-			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_2.mdl")	T_Damage(other, self, self.trueowner, 2 * SAW_CANNON_DAMAGE);
-			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_3.mdl")	T_Damage(other, self, self.trueowner, 3 * SAW_CANNON_DAMAGE);
-			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_4.mdl")	T_Damage(other, self, self.trueowner, 4 * SAW_CANNON_DAMAGE);
-			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_5.mdl")	T_Damage(other, self, self.trueowner, 5 * SAW_CANNON_DAMAGE);
-			else	T_Damage(other, self, self.trueowner, SAW_CANNON_DAMAGE);
+			if 	(self.model == "progs/placeholder_progs/proj_buzz_hot_1.mdl")	buzzsaw_damage_total = 1 * SAW_CANNON_DAMAGE;
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_2.mdl")	buzzsaw_damage_total = 2 * SAW_CANNON_DAMAGE;
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_3.mdl")	buzzsaw_damage_total = 3 * SAW_CANNON_DAMAGE;
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_4.mdl")	buzzsaw_damage_total = 4 * SAW_CANNON_DAMAGE;
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_5.mdl")	buzzsaw_damage_total = 5 * SAW_CANNON_DAMAGE;
+			else	T_Damage(other, self, self.trueowner, 0);
+			
+			T_Damage(other, self, self.trueowner, buzzsaw_damage_total);
 		}
+
+
+		//------------------------------------------------------------------------------------------
+		// TEMP/WIP... makes every gibbed enemy a soldier_p lol
+		if (other.customflags & CFL_GIBBED)
+		{
+			//if (other.model == "progs/soldier_pistol_qbj.mdl")	//why doesn't this work???
+			{			
+				dprint("/n/bSoldier_p got gibbed...");
+				
+				setmodel (other, "progs/placeholder_progs/splithalf_soldier_p_legs.mdl");
+				other.frame = 0;
+				setorigin(other, other.origin + '0 0 24');
+				other.movetype = MOVETYPE_NONE;
+				other.solid = SOLID_NOT;
+				other.think = anim_split_half_legs;
+				other.nextthink = time + 0.1;
+				
+				GoopBlood(0);
+												
+				Throw_Split_Half_Torso("progs/placeholder_progs/splithalf_soldier_p_torso.mdl", (self.oldvelocity * -0.05) + v_up*(buzzsaw_damage_total*1.25));
+				
+				//FX_Split_Half(other.splithalftorso, other.splithalflegs, other.enemydropgun, other.origin, other.oldvelocity);
+				//TODO ^^^ this needs some work so we don't have raw other. calls inside the Touch function
+			}
+		}
+		//------------------------------------------------------------------------------------------
+
 
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
@@ -371,6 +403,8 @@ void() SAW_CANNON_Buzzsaw_Touch_3 =
 {
 	self.gravity = 4;
 	
+	local float buzzsaw_damage_total;	// = self.buzzsaw_charge * SAW_CANNON_DAMAGE
+	
 	if (CheckProjectilePassthru()) return;
 
 	if (pointcontents(self.origin) == CONTENT_SKY) {
@@ -384,13 +418,43 @@ void() SAW_CANNON_Buzzsaw_Touch_3 =
 			T_Damage(other, self, self.trueowner, 59);
 		else
 		{
-			if 	(self.model == "progs/placeholder_progs/proj_buzz_hot_1.mdl")	T_Damage(other, self, self.trueowner, 1 * SAW_CANNON_DAMAGE);
-			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_2.mdl")	T_Damage(other, self, self.trueowner, 2 * SAW_CANNON_DAMAGE);
-			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_3.mdl")	T_Damage(other, self, self.trueowner, 3 * SAW_CANNON_DAMAGE);
-			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_4.mdl")	T_Damage(other, self, self.trueowner, 4 * SAW_CANNON_DAMAGE);
-			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_5.mdl")	T_Damage(other, self, self.trueowner, 5 * SAW_CANNON_DAMAGE);
-			else	T_Damage(other, self, self.trueowner, SAW_CANNON_DAMAGE);
+			if 	(self.model == "progs/placeholder_progs/proj_buzz_hot_1.mdl")	buzzsaw_damage_total = 1 * SAW_CANNON_DAMAGE;
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_2.mdl")	buzzsaw_damage_total = 2 * SAW_CANNON_DAMAGE;
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_3.mdl")	buzzsaw_damage_total = 3 * SAW_CANNON_DAMAGE;
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_4.mdl")	buzzsaw_damage_total = 4 * SAW_CANNON_DAMAGE;
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_5.mdl")	buzzsaw_damage_total = 5 * SAW_CANNON_DAMAGE;
+			else	T_Damage(other, self, self.trueowner, 0);
+			
+			T_Damage(other, self, self.trueowner, buzzsaw_damage_total);
 		}
+		
+		
+		//------------------------------------------------------------------------------------------
+		// TEMP/WIP... makes every gibbed enemy a soldier_p lol
+		if (other.customflags & CFL_GIBBED)
+		{
+			//if (other.model == "progs/soldier_pistol_qbj.mdl")	//why doesn't this work???
+			{			
+				dprint("/n/bSoldier_p got gibbed...");
+				
+				setmodel (other, "progs/placeholder_progs/splithalf_soldier_p_legs.mdl");
+				other.frame = 0;
+				setorigin(other, other.origin + '0 0 24');
+				other.movetype = MOVETYPE_NONE;
+				other.solid = SOLID_NOT;
+				other.think = anim_split_half_legs;
+				other.nextthink = time + 0.1;
+				
+				GoopBlood(0);
+												
+				Throw_Split_Half_Torso("progs/placeholder_progs/splithalf_soldier_p_torso.mdl", (self.oldvelocity * -0.05) + v_up*(buzzsaw_damage_total*1));
+				
+				//FX_Split_Half(other.splithalftorso, other.splithalflegs, other.enemydropgun, other.origin, other.oldvelocity);
+				//TODO ^^^ this needs some work so we don't have raw other. calls inside the Touch function
+			}
+		}
+		//------------------------------------------------------------------------------------------
+		
 		
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));
