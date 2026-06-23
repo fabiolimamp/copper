@@ -1,0 +1,467 @@
+/*
+==============================================================================
+
+SOLDIER / PLAYER
+
+==============================================================================
+*/
+
+$cd id1/models/soldier3
+$origin 0 -6 24
+$base base		
+$skin skin
+
+$frame stand1 stand2 stand3 stand4 stand5 stand6 stand7 stand8
+
+$frame death1 death2 death3 death4 death5 death6 death7 death8
+$frame death9 death10
+
+$frame deathc1 deathc2 deathc3 deathc4 deathc5 deathc6 deathc7 deathc8
+$frame deathc9 deathc10 deathc11
+
+$frame load1 load2 load3 load4 load5 load6 load7 load8 load9 load10 load11
+
+$frame pain1 pain2 pain3 pain4 pain5 pain6
+
+$frame painb1 painb2 painb3 painb4 painb5 painb6 painb7 painb8 painb9 painb10
+$frame painb11 painb12 painb13 painb14
+
+$frame painc1 painc2 painc3 painc4 painc5 painc6 painc7 painc8 painc9 painc10
+$frame painc11 painc12 painc13
+
+$frame run1 run2 run3 run4 run5 run6 run7 run8
+
+$frame shoot1 shoot2 shoot3 shoot4 shoot5 shoot6 shoot7 shoot8 shoot9
+
+$frame prowl_1 prowl_2 prowl_3 prowl_4 prowl_5 prowl_6 prowl_7 prowl_8
+$frame prowl_9 prowl_10 prowl_11 prowl_12 prowl_13 prowl_14 prowl_15 prowl_16
+$frame prowl_17 prowl_18 prowl_19 prowl_20 prowl_21 prowl_22 prowl_23 prowl_24
+
+/*
+==============================================================================
+SOLDIER CODE
+==============================================================================
+*/
+
+void()	army_stand1	=[	$stand1,	army_stand2	] {ai_stand();}
+void()	army_stand2	=[	$stand2,	army_stand3	] {ai_stand();}
+void()	army_stand3	=[	$stand3,	army_stand4	] {ai_stand();}
+void()	army_stand4	=[	$stand4,	army_stand5	] {ai_stand();}
+void()	army_stand5	=[	$stand5,	army_stand6	] {ai_stand();}
+void()	army_stand6	=[	$stand6,	army_stand7	] {ai_stand();}
+void()	army_stand7	=[	$stand7,	army_stand8	] {ai_stand();}
+void()	army_stand8	=[	$stand8,	army_stand1	] {ai_stand();}
+
+void()	army_walk1	=[	$prowl_1,	army_walk2	] {
+if (random() < 0.08)
+	sgsoldier_idle_sound();
+ai_walk(1);}
+void()	army_walk2	=[	$prowl_2,	army_walk3	] {ai_walk(1);}
+void()	army_walk3	=[	$prowl_3,	army_walk4	] {ai_walk(1);}
+void()	army_walk4	=[	$prowl_4,	army_walk5	] {ai_walk(1);}
+void()	army_walk5	=[	$prowl_5,	army_walk6	] {ai_walk(2);}
+void()	army_walk6	=[	$prowl_6,	army_walk7	] {ai_walk(3);}
+void()	army_walk7	=[	$prowl_7,	army_walk8	] {ai_walk(4);}
+void()	army_walk8	=[	$prowl_8,	army_walk9	] {ai_walk(4);}
+void()	army_walk9	=[	$prowl_9,	army_walk10	] {ai_walk(2);}
+void()	army_walk10	=[	$prowl_10,	army_walk11	] {ai_walk(2);}
+void()	army_walk11	=[	$prowl_11,	army_walk12	] {ai_walk(2);}
+void()	army_walk12	=[	$prowl_12,	army_walk13	] {ai_walk(1);}
+void()	army_walk13	=[	$prowl_13,	army_walk14	] {ai_walk(0);}
+void()	army_walk14	=[	$prowl_14,	army_walk15	] {ai_walk(1);}
+void()	army_walk15	=[	$prowl_15,	army_walk16	] {ai_walk(1);}
+void()	army_walk16	=[	$prowl_16,	army_walk17	] {ai_walk(1);}
+void()	army_walk17	=[	$prowl_17,	army_walk18	] {ai_walk(3);}
+void()	army_walk18	=[	$prowl_18,	army_walk19	] {ai_walk(3);}
+void()	army_walk19	=[	$prowl_19,	army_walk20	] {ai_walk(3);}
+void()	army_walk20	=[	$prowl_20,	army_walk21	] {ai_walk(3);}
+void()	army_walk21	=[	$prowl_21,	army_walk22	] {ai_walk(2);}
+void()	army_walk22	=[	$prowl_22,	army_walk23	] {ai_walk(1);}
+void()	army_walk23	=[	$prowl_23,	army_walk24	] {ai_walk(1);}
+void()	army_walk24	=[	$prowl_24,	army_walk1	] {ai_walk(1);}
+
+void()	army_run1	=[	$run1,		army_run2	] {
+if (random() < 0.05 && time > self.show_hostile)
+	sgsoldier_aggro_sound();
+nmfast(); ai_run(11);}
+void()	army_run2	=[	$run2,		army_run3	] {nmfast(); ai_run(15);}
+void()	army_run3	=[	$run3,		army_run4	] {nmfast(); ai_run(10);}
+void()	army_run4	=[	$run4,		army_run5	] {nmfast(); ai_run(10);}
+void()	army_run5	=[	$run5,		army_run6	] {nmfast(); ai_run(8);}
+void()	army_run6	=[	$run6,		army_run7	] {nmfast(); ai_run(15);}
+void()	army_run7	=[	$run7,		army_run8	] {nmfast(); ai_run(10);}
+void()	army_run8	=[	$run8,		army_run1	] {nmfast(); ai_run(8);}
+
+void()	army_atk1	=[	$shoot1,	army_atk2	] {nmfast();ai_face();}
+void()	army_atk2	=[	$shoot2,	army_atk3	] {nmfast();ai_face();}
+void()	army_atk3	=[	$shoot3,	army_atk4	] {ai_face(); sound (self, CHAN_AUTO, "flak/pump_reload.wav", 0.5, ATTN_NORM);}
+void()	army_atk4	=[	$shoot4,	army_atk5	] {ai_face();}
+void()	army_atk5	=[	$shoot3,	army_atk6	] {ai_face(); army_aim(); }
+void()	army_atk6	=[	$shoot4,	army_atk7	] {ai_face();}
+void()	army_atk7	=[	$shoot5,	army_atk8	] {ai_face(); army_fire(); }
+void()	army_atk8	=[	$shoot6,	army_atk9	] {ai_face();}
+void()	army_atk9	=[	$shoot7,	army_atk10	] {ai_face(); ai_check_refire (army_atk3);}
+void()	army_atk10	=[	$shoot8,	army_atk11	] {ai_face(); ai_attack_finished (0.3 + random() + random());}
+void()	army_atk11	=[	$shoot9,	army_run1	] {ai_face();}
+
+
+void()	army_pain1	=[	$pain1,		army_pain2	] {}
+void()	army_pain2	=[	$pain2,		army_pain3	] {}
+void()	army_pain3	=[	$pain3,		army_pain4	] {}
+void()	army_pain4	=[	$pain4,		army_pain5	] {}
+void()	army_pain5	=[	$pain5,		army_pain6	] {}
+void()	army_pain6	=[	$pain6,		army_run1	] {ai_pain(1);}
+
+void()	army_painb1	=[	$painb1,	army_painb2	] {}
+void()	army_painb2	=[	$painb2,	army_painb3	] {ai_painforward(13);}
+void()	army_painb3	=[	$painb3,	army_painb4	] {ai_painforward(9);}
+void()	army_painb4	=[	$painb4,	army_painb5	] {}
+void()	army_painb5	=[	$painb5,	army_painb6	] {}
+void()	army_painb6	=[	$painb6,	army_painb7	] {}
+void()	army_painb7	=[	$painb7,	army_painb8	] {}
+void()	army_painb8	=[	$painb8,	army_painb9	] {}
+void()	army_painb9	=[	$painb9,	army_painb10	] {}
+void()	army_painb10	=[	$painb10,	army_painb11	] {}
+void()	army_painb11	=[	$painb11,	army_painb12	] {}
+void()	army_painb12	=[	$painb12,	army_painb13	] {ai_pain(2);}
+void()	army_painb13	=[	$painb13,	army_painb14	] {}
+void()	army_painb14	=[	$painb14,	army_run1	] {}
+
+void()	army_painc1	=[	$painc1,	army_painc2	] {}
+void()	army_painc2	=[	$painc2,	army_painc3	] {ai_pain(1);}
+void()	army_painc3	=[	$painc3,	army_painc4	] {}
+void()	army_painc4	=[	$painc4,	army_painc5	] {}
+void()	army_painc5	=[	$painc5,	army_painc6	] {ai_painforward(1);}
+void()	army_painc6	=[	$painc6,	army_painc7	] {ai_painforward(1);}
+void()	army_painc7	=[	$painc7,	army_painc8	] {}
+void()	army_painc8	=[	$painc8,	army_painc9	] {ai_pain(1);}
+void()	army_painc9	=[	$painc9,	army_painc10	] {ai_painforward(4);}
+void()	army_painc10	=[	$painc10,	army_painc11	] {ai_painforward(3);}
+void()	army_painc11	=[	$painc11,	army_painc12	] {ai_painforward(6);}
+void()	army_painc12	=[	$painc12,	army_painc13	] {ai_painforward(8);}
+void()	army_painc13	=[	$painc13,	army_run1	] {}
+
+void(entity attacker, float damage)	army_pain =
+{
+	local float r;
+	
+	if (self.pain_finished > time)
+		return;
+
+	r = random();
+
+	if (r < 0.2)
+	{
+		PainFinished(0.6);
+		army_pain1 ();
+		sound (self, CHAN_VOICE, "grunt/soldier_pain1.wav", 1, ATTN_NORM);
+	}
+	else if (r < 0.6)
+	{
+		PainFinished(1.1);
+		army_painb1 ();
+		sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
+	}
+	else
+	{
+		PainFinished(1.1);
+		army_painc1 ();
+		sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
+	}
+}
+
+/*
+vanilla grunts pretend to lag their shots by applying negative leading based
+on player velocity. SV_PushMove only sets origins per hostframe and doesn't 
+modify velocities, so a player standing on a train or a lift will have zero 
+velocity and get drilled constantly. (see: SMEJ w1m1)
+
+grunts now choose an aim vector 0.3 seconds before firing, rather than trying 
+to work 0.2 seconds backwards at firing time
+*/
+void() army_aim =
+{
+	// store it relative to self in case we're riding the same mover as our target
+	self.dest = enemy_vispos() + enemy_aim_vertical() - self.origin;
+}
+
+void() army_fire =
+{
+	local	vector	dir;
+	
+	ai_face();
+	self.effects = self.effects | EF_MUZZLEFLASH;	
+	sound (self, CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM);	
+
+// fire somewhat behind the player, so a dodging player is harder to hit
+//	dir = enemy_vispos() - self.enemy.velocity*0.2;
+//	dir = normalize (dir - self.origin);
+	dir = normalize (self.dest);
+
+	// lunaran: moved multidamage here
+	ClearMultiDamage ();
+	FireBullets (8, dir, '0.1 0.1 0', TRUE);
+	ApplyMultiDamage ();
+}
+
+
+/*
+===========
+SoldierCheckAttack
+
+The player is in view, so decide to move or launch an attack
+Returns FALSE if movement should continue
+============
+*/
+float() SoldierCheckAttack =
+{
+	local float		chance;
+
+	if (time < self.attack_finished)
+		return FALSE;
+		
+	if (enemy_range >= RANGE_FAR)
+		return FALSE;
+		
+	if (!CheckClearAttack()) return FALSE;
+
+	// missile attack
+	
+	if (enemy_range <= RANGE_MELEE)
+		chance = 0.9;
+	else if (enemy_range == RANGE_NEAR)
+		chance = 0.4;
+	else if (enemy_range == RANGE_MID)
+		chance = 0.05;
+	else
+		chance = 0;
+
+	if (random () < chance)
+	{
+		self.attack_state = AS_MISSILE;
+		ai_attack_finished (1 + random() + random());
+		return TRUE;
+	}
+
+	return FALSE;
+}
+//=============================================================================
+
+
+void()	army_die1	=[	$death1,	army_die2	] {army_checkgib();}
+void()	army_die2	=[	$death2,	army_die3	] {army_checkgib();}
+void()	army_die3	=[	$death3,	army_die4	]
+{if (army_checkgib()) return;
+self.solid = SOLID_NOT;self.takedamage = DAMAGE_NO; self.ammo_shells = 4;	DropEnemyAmmo(1);}	//FlakTax
+void()	army_die4	=[	$death4,	army_die5	] {}
+void()	army_die5	=[	$death5,	army_die6	] {}
+void()	army_die6	=[	$death6,	army_die7	] {}
+void()	army_die7	=[	$death7,	army_die8	] {}
+void()	army_die8	=[	$death8,	army_die9	] {}
+void()	army_die9	=[	$death9,	army_die10	] {}
+void()	army_die10	=[	$death10,	SUB_Null	] {}
+
+void()	army_cdie1	=[	$deathc1,	army_cdie2	] {army_checkgib();}
+void()	army_cdie2	=[	$deathc2,	army_cdie3	] {army_checkgib();ai_back(5);}
+void()	army_cdie3	=[	$deathc3,	army_cdie4	] {if (army_checkgib()) return;
+	self.solid = SOLID_NOT;self.ammo_shells = 4;		DropEnemyAmmo(1);	ai_back(4);}	//FlakTax
+void()	army_cdie4	=[	$deathc4,	army_cdie5	] {ai_back(13);}
+void()	army_cdie5	=[	$deathc5,	army_cdie6	] {ai_back(3);}
+void()	army_cdie6	=[	$deathc6,	army_cdie7	] {ai_back(4);}
+void()	army_cdie7	=[	$deathc7,	army_cdie8	] {}
+void()	army_cdie8	=[	$deathc8,	army_cdie9	] {}
+void()	army_cdie9	=[	$deathc9,	army_cdie10	] {}
+void()	army_cdie10	=[	$deathc10,	army_cdie11	] {}
+void()	army_cdie11	=[	$deathc11,	SUB_Null	] {}
+
+float() army_checkgib =
+{	
+	if (self.health < -35)
+	{
+		Gib("progs/gibs/gibhead_grunt_s.mdl", self.health);
+		self.ammo_shells = 4; //FlakTax
+		//DropBackpack(0);
+		DropEnemyAmmo(1);
+		GibBloodBath(2);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+void() army_die =
+{
+// check for gib
+	if (army_checkgib())
+		return;
+
+// regular death
+	sgsoldier_death_sound();
+	if (random() < 0.5)
+		army_die1 ();
+	else
+		army_cdie1 ();
+}
+
+
+void() sgsoldier_death_sound =
+{
+    local float rs;
+    rs = (random() * 2);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_death1.wav", 1, ATTN_NORM);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_death2.wav", 1, ATTN_NORM);
+};
+
+void() sgsoldier_pain_sound =
+{
+    local float rs;
+    rs = (random() * 4);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_pain1.wav", 1, ATTN_NORM);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_pain2.wav", 1, ATTN_NORM);
+    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_pain3.wav", 1, ATTN_NORM);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_pain4.wav", 1, ATTN_NORM);
+};
+
+void() sgsoldier_sight_sound =
+{
+    local float rs;
+    rs = (random() * 3);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_sight_contact.wav", 1, ATTN_NORM);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_sight_hostile.wav", 1, ATTN_NORM);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_sight_target.wav", 1, ATTN_NORM);
+};
+
+void() sgsoldier_aggro_sound =
+{
+    local float rs;
+    rs = (random() * 6);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_aggro_breakcover.wav", 1, ATTN_NORM);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_converging.wav", 1, ATTN_NORM);
+    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_mobile.wav", 1, ATTN_NORM);
+    else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_movingin.wav", 1, ATTN_NORM);
+    else if (rs < 5)	sound (self, CHAN_VOICE, "grunt/soldier_aggro_outbreak.wav", 1, ATTN_NORM);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_aggro_stopresisting.wav", 1, ATTN_NORM);
+};
+
+void() sgsoldier_idle_sound =
+{
+    local float rs;
+    rs = (random() * 5);
+    if (rs < 1)		sound (self, CHAN_VOICE, "grunt/soldier_idle_inposition.wav", 1, ATTN_IDLE);
+    else if (rs < 2)	sound (self, CHAN_VOICE, "grunt/soldier_idle_standingby.wav", 1, ATTN_IDLE);
+    else if (rs < 3)	sound (self, CHAN_VOICE, "grunt/soldier_idle_ten2.wav", 1, ATTN_IDLE);
+    else if (rs < 4)	sound (self, CHAN_VOICE, "grunt/soldier_idle_ten4.wav", 1, ATTN_IDLE);
+    else		sound (self, CHAN_VOICE, "grunt/soldier_idle_unithasnocontact.wav", 1, ATTN_IDLE);
+};
+
+
+void() monster_army_spawn =
+{
+	self.classname = "monster_army";
+	
+	self.solid = SOLID_SLIDEBOX;
+	//self.movetype = MOVETYPE_STEP;
+
+	setmodel (self, "progs/soldier_shotgun_qbj.mdl");
+	
+	setsize (self, '-16 -16 -24', '16 16 40');
+	self.health = 35;
+
+	nmspeed(0.05);
+
+	self.th_stand = army_stand1;
+	self.th_walk = army_walk1;
+	self.th_run = army_run1;
+	self.th_missile = army_atk1;
+	self.th_pain = army_pain;
+	self.th_die = army_die;
+	self.th_checkattack = SoldierCheckAttack;
+
+	if (self.deathtype == string_null)
+		self.deathtype = "was pwned by a Shotgun Trenchknight";
+
+	walkmonster_start ();
+}
+
+void() monster_army_spawner = {mon_spawner_use(monster_army_spawn);}
+
+/*QUAKED monster_army (1 0 0) (-16 -16 -24) (16 16 40) AMBUSH ? ? ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
+Shotgun Trenchknight (Shotgun Grunt), 30 health points.
+
+Flags:
+"ambush" only wake up on seeing the player, not another monster getting angry
+
+"Triggered"	will not spawn until triggered - triggering again will wake him up. Set 'count' to make this a multi-use spawner.
+"NoTfog" 	supress teleport glitter when spawned with 'triggered'
+"NoTelefrag" will silently fail to spawn if doing so would telefrag an existing monster. will try again automatically 2x/second until it succeeds.
+"Instawake" spawn angry at activator
+
+Keys:
+"target" entity to trigger when killed
+"targetname" entity name
+"movedir" set to a velocity to make the monster jump on awakening
+*/
+/*FGD
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier_shotgun_qbj.mdl", "skin": skin }) = monster_army : "Shotgun Trenchknight (Shotgun Grunt)" []
+*/
+void() monster_army =
+{	
+	if (!SUB_ShouldSpawn()) return;
+	if (nomonster()) return;
+	if (deathmatch)
+	{
+		remove(self);
+		return;
+	}
+	precache_model ("progs/soldier_shotgun_qbj.mdl");
+	precache_model ("progs/gibs/gibhead_grunt_s.mdl");
+
+	self.invokedmodel = "progs/fx/invoked_soldier_s.mdl";
+	precache_model(self.invokedmodel);
+
+	precache_model	("progs/gibs/gib_gen_1.mdl");
+	precache_model	("progs/gibs/gib_gen_2.mdl");
+	precache_model	("progs/gibs/gib_gen_3.mdl");
+	precache_model	("progs/gibs/gib_gen_4.mdl");
+	precache_model	("progs/gibs/gib_gen_5.mdl");
+	precache_model	("progs/gibs/gib_gen_6.mdl");
+
+	//precache_sound ("grunt/death1.wav");
+	//precache_sound ("grunt/idle.wav");
+	//precache_sound ("grunt/pain1.wav");
+	//precache_sound ("grunt/pain2.wav");
+	//precache_sound ("weapons/shotgn2.wav");
+	//precache_sound ("grunt/sight1.wav");
+
+	precache_sound2 ("grunt/soldier_aggro_breakcover.wav");
+	precache_sound2 ("grunt/soldier_aggro_converging.wav");
+	precache_sound2 ("grunt/soldier_aggro_mobile.wav");
+	precache_sound2 ("grunt/soldier_aggro_movingin.wav");
+	precache_sound2 ("grunt/soldier_aggro_outbreak.wav");
+	precache_sound2 ("grunt/soldier_aggro_stopresisting.wav");
+	precache_sound2 ("grunt/soldier_death1.wav");
+	precache_sound2 ("grunt/soldier_death2.wav");
+	precache_sound2 ("grunt/soldier_fireinthehole.wav");
+	precache_sound2 ("grunt/soldier_firing.wav");
+	precache_sound2 ("grunt/soldier_idle_inposition.wav");
+	precache_sound2 ("grunt/soldier_idle_standingby.wav");
+	precache_sound2 ("grunt/soldier_idle_ten2.wav");
+	precache_sound2 ("grunt/soldier_idle_ten4.wav");
+	precache_sound2 ("grunt/soldier_idle_unithasnocontact.wav");
+	precache_sound2 ("grunt/soldier_pain1.wav");
+	precache_sound2 ("grunt/soldier_pain2.wav");
+	precache_sound2 ("grunt/soldier_pain3.wav");
+	precache_sound2 ("grunt/soldier_pain4.wav");
+	precache_sound2 ("grunt/soldier_sight_contact.wav");
+	precache_sound2 ("grunt/soldier_sight_hostile.wav");
+	precache_sound2 ("grunt/soldier_sight_target.wav");
+
+	precache_sound ("player/udeath.wav");		// gib death
+	precache_sound ("player/udeath2.wav");
+	self.health = 35;
+
+	setsize (self, '-16 -16 -24', '16 16 40');
+	if ( monster_spawnsetup( monster_army_spawner ) ) return;
+	
+	addmonster(1);
+	monster_army_spawn();
+}

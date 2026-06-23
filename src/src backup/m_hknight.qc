@@ -1,0 +1,810 @@
+/*
+==============================================================================
+
+KNIGHT
+
+==============================================================================
+*/
+
+$cd id1/models/knight2
+$origin 0 0 24
+$base base
+$skin skin
+
+$frame stand1 stand2 stand3 stand4 stand5 stand6 stand7 stand8 stand9
+
+$frame walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9
+$frame walk10 walk11 walk12 walk13 walk14 walk15 walk16 walk17
+$frame walk18 walk19 walk20
+
+$frame run1 run2 run3 run4 run5 run6 run7 run8
+
+$frame pain1 pain2 pain3 pain4 pain5
+
+$frame death1 death2 death3 death4 death5 death6 death7 death8
+$frame death9 death10 death11 death12
+
+$frame deathb1 deathb2 deathb3 deathb4 deathb5 deathb6 deathb7 deathb8
+$frame deathb9
+
+// swipe left & right whilst running
+$frame char_a1 char_a2 char_a3 char_a4 char_a5 char_a6 char_a7 char_a8 char_a9 char_a10 char_a11 char_a12 char_a13 char_a14 char_a15 char_a16
+// two armed smash
+$frame magica1 magica2 magica3 magica4 magica5 magica6 magica7 magica8 magica9 magica10 magica11 magica12 magica13 magica14
+// sword gun - 7 & 8 are identical
+$frame magicb1 magicb2 magicb3 magicb4 magicb5 magicb6 magicb7 magicb8 magicb9 magicb10 magicb11 magicb12 magicb13
+// helicopter run
+$frame char_b1 char_b2 char_b3 char_b4 char_b5 char_b6
+// two armed forward swipe
+$frame slice1 slice2 slice3 slice4 slice5 slice6 slice7 slice8 slice9 slice10
+// one armed forward smash
+$frame smash1 smash2 smash3 smash4 smash5 smash6 smash7 smash8 smash9 smash10 smash11
+// swipe left & right whilst walking
+$frame w_attack1 w_attack2 w_attack3 w_attack4 w_attack5 w_attack6 w_attack7 w_attack8 w_attack9 w_attack10 w_attack11 w_attack12 w_attack13 w_attack14 w_attack15 w_attack16 w_attack17 w_attack18 w_attack19 w_attack20 w_attack21 w_attack22 
+// broad sweep attack
+$frame magicc1 magicc2 magicc3 magicc4 magicc5 magicc6 magicc7 magicc8 magicc9 magicc10 magicc11
+
+
+float() hkCheckCharge =
+{
+	// check for mad charge
+	if (!enemy_vis)
+		return FALSE;
+	if (time < self.attack_finished)
+		return FALSE;	
+	if ( fabs(self.origin_z - self.enemy.origin_z) > 32)
+		return FALSE;		// too much height change
+		
+	float dist;
+	dist = vlen (self.origin - self.enemy.origin);
+	if ( dist < 80 || (dist > 320 && random() < 0.5))
+		return FALSE;		// use regular attack
+
+	// charge		
+	ai_attack_finished (2);
+	hknight_char_a1 ();
+	return TRUE;
+}
+
+float() hkCheckContinueCharge =
+{
+	if (time > self.attack_finished)
+	{
+		ai_attack_finished (3);
+		hknight_run1 ();
+		
+		return FALSE;		// done charging
+	}
+	/*
+	if (random() > 0.5)
+		sound (self, CHAN_WEAPON, "knight/sword2.wav", 1, ATTN_NORM);
+	else
+		sound (self, CHAN_WEAPON, "knight/sword1.wav", 1, ATTN_NORM);
+	*/
+	return TRUE;
+}
+
+//===========================================================================
+
+void()	hknight_stand1	=[	$stand1,	hknight_stand2	] {ai_stand();}
+void()	hknight_stand2	=[	$stand2,	hknight_stand3	] {ai_stand();}
+void()	hknight_stand3	=[	$stand3,	hknight_stand4	] {ai_stand();}
+void()	hknight_stand4	=[	$stand4,	hknight_stand5	] {ai_stand();}
+void()	hknight_stand5	=[	$stand5,	hknight_stand6	] {ai_stand();}
+void()	hknight_stand6	=[	$stand6,	hknight_stand7	] {ai_stand();}
+void()	hknight_stand7	=[	$stand7,	hknight_stand8	] {ai_stand();}
+void()	hknight_stand8	=[	$stand8,	hknight_stand9	] {ai_stand();}
+void()	hknight_stand9	=[	$stand9,	hknight_stand1	] {ai_stand();}
+
+//===========================================================================
+
+void()	hknight_walk1	=[	$walk1,		hknight_walk2	] {
+hk_idle_sound();
+hk_footstep_sound();
+ai_walk(3);}
+void()	hknight_walk2	=[	$walk2,		hknight_walk3	] {ai_walk(2);}
+void()	hknight_walk3	=[	$walk3,		hknight_walk4	] {ai_walk(3);}
+void()	hknight_walk4	=[	$walk4,		hknight_walk5	] {ai_walk(2);}
+void()	hknight_walk5	=[	$walk5,		hknight_walk6	] {ai_walk(2);}
+void()	hknight_walk6	=[	$walk6,		hknight_walk7	] {ai_walk(2);}
+void()	hknight_walk7	=[	$walk7,		hknight_walk8	] {ai_walk(3);}
+void()	hknight_walk8	=[	$walk8,		hknight_walk9	] {ai_walk(3);}
+void()	hknight_walk9	=[	$walk9,		hknight_walk10	] {ai_walk(2);}
+void()	hknight_walk10	=[	$walk10,	hknight_walk11	] {ai_walk(3);hk_footstep_sound();}
+void()	hknight_walk11	=[	$walk11,	hknight_walk12	] {ai_walk(2);}
+void()	hknight_walk12	=[	$walk12,	hknight_walk13	] {ai_walk(2);}
+void()	hknight_walk13	=[	$walk13,	hknight_walk14	] {ai_walk(2);}
+void()	hknight_walk14	=[	$walk14,	hknight_walk15	] {ai_walk(2);}
+void()	hknight_walk15	=[	$walk15,	hknight_walk16	] {ai_walk(3);}
+void()	hknight_walk16	=[	$walk16,	hknight_walk17	] {ai_walk(2);}
+void()	hknight_walk17	=[	$walk17,	hknight_walk18	] {ai_walk(2);}
+void()	hknight_walk18	=[	$walk18,	hknight_walk19	] {ai_walk(3);}
+void()	hknight_walk19	=[	$walk19,	hknight_walk20	] {ai_walk(2);}
+void()	hknight_walk20	=[	$walk20,	hknight_walk1	] {ai_walk(2);}
+
+//===========================================================================
+
+void()	hknight_run1	=[	$run1,		hknight_run2	] {
+	hk_footstep_sound();
+	if (!hkCheckCharge()) return;
+	hk_idle_sound();
+	ai_run (20);
+}
+void()	hknight_run2	=[	$run2,		hknight_run3	] {ai_run(25);}
+void()	hknight_run3	=[	$run3,		hknight_run4	] {ai_run(18);}
+void()	hknight_run4	=[	$run4,		hknight_run5	] {ai_run(16);}
+void()	hknight_run5	=[	$run5,		hknight_run6	] {ai_run(14);hk_footstep_sound();}
+void()	hknight_run6	=[	$run6,		hknight_run7	] {ai_run(25);}
+void()	hknight_run7	=[	$run7,		hknight_run8	] {ai_run(21);}
+void()	hknight_run8	=[	$run8,		hknight_run1	] {ai_run(13);}
+
+//============================================================================
+
+void()	hknight_pain1	=[	$pain1,		hknight_pain2	] { hknight_painsound(); }
+void()	hknight_pain2	=[	$pain2,		hknight_pain3	] {}
+void()	hknight_pain3	=[	$pain3,		hknight_pain4	] {}
+void()	hknight_pain4	=[	$pain4,		hknight_pain5	] {}
+void()	hknight_pain5	=[	$pain5,		hknight_pain6	] {}
+void()	hknight_pain6	=[	$stand1,	hknight_pain7	] {}
+void()	hknight_pain7	=[	$stand5,	hknight_run1	] {}
+
+//============================================================================
+
+void()	hknight_die1	=[	$death1,	hknight_die2	] {if (hknight_checkgib()) return; ai_forward(10);}
+void()	hknight_die2	=[	$death2,	hknight_die3	] {if (hknight_checkgib()) return; ai_forward(8);}
+void()	hknight_die3	=[	$death3,	hknight_die4	]
+{if (hknight_checkgib()) return; self.solid = SOLID_NOT; self.takedamage = DAMAGE_NO; ai_forward(7);}
+void()	hknight_die4	=[	$death4,	hknight_die5	] {}
+void()	hknight_die5	=[	$death5,	hknight_die6	] {}
+void()	hknight_die6	=[	$death6,	hknight_die7	] {}
+void()	hknight_die7	=[	$death7,	hknight_die8	] {}
+void()	hknight_die8	=[	$death8,	hknight_die9	] {ai_forward(10);}
+void()	hknight_die9	=[	$death9,	hknight_die10	] {ai_forward(11);}
+void()	hknight_die10	=[	$death10,	hknight_die11	] {}
+void()	hknight_die11	=[	$death11,	hknight_die12	] {}
+void()	hknight_die12	=[	$death12,	SUB_Null	] {}
+
+void()	hknight_dieb1	=[	$deathb1,	hknight_dieb2	] {}
+void()	hknight_dieb2	=[	$deathb2,	hknight_dieb3	] {}
+void()	hknight_dieb3	=[	$deathb3,	hknight_dieb4	]
+{self.solid = SOLID_NOT;}
+void()	hknight_dieb4	=[	$deathb4,	hknight_dieb5	] {}
+void()	hknight_dieb5	=[	$deathb5,	hknight_dieb6	] {}
+void()	hknight_dieb6	=[	$deathb6,	hknight_dieb7	] {}
+void()	hknight_dieb7	=[	$deathb7,	hknight_dieb8	] {}
+void()	hknight_dieb8	=[	$deathb8,	hknight_dieb9	] {}
+void()	hknight_dieb9	=[	$deathb9,	SUB_Null	] {}
+
+void() hknight_painsound =
+{
+    local float rs;
+    rs = rint((random() * 4) + 1); // random 1–4
+    if (rs == 1)
+        sound (self, CHAN_VOICE, "hknight/hknight_pain_1.wav", 1, ATTN_NORM);
+    else if (rs == 2)
+        sound (self, CHAN_VOICE, "hknight/hknight_pain_2.wav", 1, ATTN_NORM);
+    else if (rs == 3)
+        sound (self, CHAN_VOICE, "hknight/hknight_pain_3.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "hknight/hknight_pain_4.wav", 1, ATTN_NORM);
+};
+
+float() hknight_checkgib =
+{
+	if (self.health < -40)
+	{
+		Gib ("progs/gibs/gibhead_hellknight.mdl", self.health);
+		GibBloodBath(2);
+		return TRUE;
+	}
+	return FALSE;
+
+}
+
+void() hknight_die =
+{
+// check for gib
+	if (hknight_checkgib()) return;
+
+// regular death
+	local float rs;
+	rs = rint((random() * 4) + 1);
+	if (rs == 1)
+		sound (self, CHAN_VOICE, "hknight/hknight_death_1.wav", 1, ATTN_NORM);
+	else if (rs == 2)
+		sound (self, CHAN_VOICE, "hknight/hknight_death_2.wav", 1, ATTN_NORM);
+	else if (rs == 3)
+		sound (self, CHAN_VOICE, "hknight/hknight_death_3.wav", 1, ATTN_NORM);
+	else
+		sound (self, CHAN_VOICE, "hknight/hknight_death_4.wav", 1, ATTN_NORM);
+
+	if (random() > 0.5)
+		hknight_die1 ();
+	else
+		hknight_dieb1 ();
+}
+
+
+//============================================================================
+/*
+// not used
+void()	hknight_magica1 =[	$magica1,	hknight_magica2	] {ai_face();}
+void()	hknight_magica2 =[	$magica2,	hknight_magica3	] {ai_face();}
+void()	hknight_magica3 =[	$magica3,	hknight_magica4	] {ai_face();}
+void()	hknight_magica4 =[	$magica4,	hknight_magica5	] {ai_face();}
+void()	hknight_magica5 =[	$magica5,	hknight_magica6	] {ai_face();sound (self, CHAN_WEAPON, "knight/sword_clank1.wav", 0.5, ATTN_NORM);}
+void()	hknight_magica6 =[	$magica6,	hknight_magica7	] {ai_face();}
+void()	hknight_magica7 =[	$magica7,	hknight_magica8	] {hknight_shot(-2);}
+void()	hknight_magica8 =[	$magica8,	hknight_magica9	] {hknight_shot(-1);sound (self, CHAN_WEAPON, "knight/sword_woosh4.wav", 1, ATTN_NORM);}
+void()	hknight_magica9 =[	$magica9,	hknight_magica10] {hknight_shot(0);}
+void()	hknight_magica10 =[	$magica10,	hknight_magica11] {hknight_shot(1);}
+void()	hknight_magica11 =[	$magica11,	hknight_magica12] {hknight_shot(2);}
+void()	hknight_magica12 =[	$magica12,	hknight_magica13] {hknight_shot(3);}
+void()	hknight_magica13 =[	$magica13,	hknight_magica14] {ai_face();}
+void()	hknight_magica14 =[	$magica14,	hknight_run1	] {ai_face();}
+
+//============================================================================
+// not used
+void()	hknight_magicb1 =[	$magicb1,	hknight_magicb2	] {ai_face();}
+void()	hknight_magicb2 =[	$magicb2,	hknight_magicb3	] {ai_face();sound (self, CHAN_WEAPON, "knight/sword_clank1.wav", 0.5, ATTN_NORM);}
+void()	hknight_magicb3 =[	$magicb3,	hknight_magicb4	] {ai_face();}
+void()	hknight_magicb4 =[	$magicb4,	hknight_magicb5	] {ai_face();}
+void()	hknight_magicb5 =[	$magicb5,	hknight_magicb6	] {ai_face();sound (self, CHAN_WEAPON, "knight/sword_clank2.wav", 0.5, ATTN_NORM);}
+void()	hknight_magicb6 =[	$magicb6,	hknight_magicb7	] {ai_face();}
+void()	hknight_magicb7 =[	$magicb7,	hknight_magicb8	] {hknight_shot(-2);}
+void()	hknight_magicb8 =[	$magicb8,	hknight_magicb9	] {hknight_shot(-1);}
+void()	hknight_magicb9 =[	$magicb9,	hknight_magicb10] {hknight_shot(0);}
+void()	hknight_magicb10 =[	$magicb10,	hknight_magicb11] {hknight_shot(1);}
+void()	hknight_magicb11 =[	$magicb11,	hknight_magicb12] {hknight_shot(2);}
+void()	hknight_magicb12 =[	$magicb12,	hknight_magicb13] {hknight_shot(3);}
+void()	hknight_magicb13 =[	$magicb13,	hknight_run1] {ai_face();}
+*/
+
+//============================================================================
+
+// RANGED FIRE
+
+void(vector dir, vector org) hknight_bolt =
+{
+	entity spike;
+	if (skill == 3)
+	{
+		spike = launch_projectile(self.origin + org + dir * 20, dir * 600, "knightspike");	// FLYMISSILE
+		spike.avelocity = [0, 0, random()*500 + 150];
+		SUB_ChangeModel (spike, "progs/k_spike2.mdl");
+		spike.dmg = 16 + 8 * random();
+	}
+	else
+	{
+		spike = launch_projectile(self.origin + org + dir * 20, dir * 400, "knightspike");	// FLYMISSILE
+		spike.avelocity = [0, 0, random()*500 + 150];
+		SUB_ChangeModel (spike, "progs/k_spike.mdl");
+		spike.dmg = 8;
+	}
+
+	spike.touch = HknightImpalerTouch;
+	sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
+}
+
+void(vector org_offset) hknight_bolt2 =
+{
+    entity spike;
+    vector shot_origin, target_pos, direction;
+    
+    shot_origin = self.origin + org_offset;
+    
+    target_pos = enemy_vispos();
+    target_pos += enemy_aim_vertical();
+    
+    //calculate direction from actual firing position to target
+    direction = normalize(target_pos - shot_origin);
+    
+    //slight random spread
+    makevectors(vectoangles(direction));
+    direction = direction + v_right * (random() - 0.5) * 0.06 + v_up * (random() - 0.5) * 0.06;
+    direction = normalize(direction);
+    
+    if (skill == 3)
+    {
+        spike = launch_projectile(shot_origin + direction * 20, direction * 600, "knightspike");  // FLYMISSILE
+        spike.avelocity = [0, 0, random()*500 + 150];
+        SUB_ChangeModel (spike, "progs/k_spike2.mdl");
+        spike.dmg = 16 + 8 * random();
+    }
+    else
+    {
+        spike = launch_projectile(shot_origin + direction * 20, direction * 400, "knightspike");  // FLYMISSILE
+        spike.avelocity = [0, 0, random()*500 + 150];
+        SUB_ChangeModel (spike, "progs/k_spike.mdl");
+        spike.dmg = 8;
+    }
+    spike.touch = HknightImpalerTouch;
+    sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
+}
+
+void() hknight_attack_sound =
+{
+    local float rs;
+    rs = rint((random() * 4) + 1); // random 1–4
+    if (rs == 1)
+        sound (self, CHAN_VOICE, "hknight/hknight_sight_1.wav", 1, ATTN_NORM);
+    else if (rs == 2)
+        sound (self, CHAN_VOICE, "hknight/hknight_sight_2.wav", 1, ATTN_NORM);
+    else if (rs == 3)
+        sound (self, CHAN_VOICE, "hknight/hknight_sight_3.wav", 1, ATTN_NORM);
+    else
+        sound (self, CHAN_VOICE, "hknight/hknight_sight_4.wav", 1, ATTN_NORM);
+};
+
+void(float h_offset, float v_offset) hknight_shot =
+{
+	vector	offang;
+	vector	vec;
+	float	badaim;
+
+	vec = enemy_vispos() - self.origin;
+	vec += enemy_aim_vertical();
+	offang = vectoangles(vec);
+	offang_y = offang_y + h_offset * 6;
+	offang_x = -offang_x;
+	
+	// assbolt protection
+	badaim = angledif(vectoyaw(vec), offang_y) - 45;
+	badaim = max(0, badaim);
+	badaim = badaim / 135;
+	vec = lerpVector(offang, self.angles + '0 6 0' * h_offset, badaim);
+
+	makevectors(vec);
+	vec = normalize(v_forward) + '0 0 0.05' * v_offset;
+	hknight_bolt(vec, '0 0 16');
+}
+
+void(float v_offset) hknight_shot2 =
+{
+	vector	vec;
+
+	vec = enemy_vispos() - self.origin;
+	vec += enemy_aim_vertical();
+	
+	vec = normalize(vec) + '0 0 0.02' * v_offset;
+	hknight_bolt(vec, '0 0 22');
+}
+
+void(float v_offset) hknight_shot3 = //new forearm sword-gun shot thing
+{
+    makevectors(self.angles);
+    hknight_bolt2('0 0 20' + 14 * v_right);
+}
+
+void() HknightImpalerThink =
+{
+	if (time > self.lifetime_finished)
+	{
+		HknightImpalerFade();
+		return;
+	}
+
+	self.angles = vectoangles(self.velocity);
+	self.flags &~= FL_ONGROUND;
+	self.oldvelocity = self.velocity;
+	self.nextthink = time + 0.05;
+}
+
+void() HknightImpalerFade =
+{
+	self.alpha -= 0.025;
+	
+	if (self.alpha <= 0)
+	{
+		remove(self);
+		return;
+	}
+
+	if (!self.state)
+	{
+		self.angles = vectoangles(self.velocity);
+		self.flags &~= FL_ONGROUND;
+		self.oldvelocity = self.velocity;
+	}
+
+	self.think = HknightImpalerFade;
+	self.nextthink = time + 0.05;
+}
+
+
+//=============================================================================================
+
+
+void() HknightImpalerTouch =
+{
+	if (CheckProjectilePassthru()) return;
+
+	if (other.takedamage)
+		T_Damage (other, self, self.trueowner, self.dmg);
+
+	
+	if (other.solid == SOLID_BSP && other.classname != "func_movewall") {
+		self.movetype = MOVETYPE_NONE;
+		self.solid = SOLID_NOT;
+		self.owner = other;
+		self.touch = SUB_Null;
+		// change model so that particles don't appear when stuck to moving brushes
+		setmodel(self, "progs/k_spike_cold.mdl");
+
+		sound (self, CHAN_AUTO, "weapons/tink1.wav", 0.5, ATTN_NORM);
+		gunshot(self.origin);
+
+		self.classname = "impaler";
+
+		// move origin away from walls when stuck, helps prevent "void-lighting"
+		setorigin(self, self.origin - 18*normalize(self.velocity));
+
+		if (other != world) self.state = 2;
+		else self.state = 1;
+
+		self.pos1 = other.absmin;
+		
+		self.alpha = 1;
+		self.think = HknightImpalerFade;
+		self.nextthink = time + 10;
+	}
+	else
+		remove(self);
+}
+	
+
+
+// direct fire gun-sword attack
+void()	hknight_magicnm1	=[	$magicb1,	hknight_magicnm2	] {ai_face();ai_forward(1);}
+void()	hknight_magicnm2	=[	$magicb2,	hknight_magicnm3	] {ai_face();ai_forward(1);sound (self, CHAN_WEAPON, "hknight/sword_clank1.wav", 0.5, ATTN_NORM);}
+void()	hknight_magicnm3	=[	$magicb3,	hknight_magicnm4	] {ai_face();}
+void()	hknight_magicnm4	=[	$magicb4,	hknight_magicnm5	] {ai_face();}
+void()	hknight_magicnm5	=[	$magicb5,	hknight_magicnm6	] {ai_face();sound (self, CHAN_WEAPON, "hknight/sword_clank2.wav", 0.5, ATTN_NORM);hk_footstep_sound();}
+void()	hknight_magicnm6	=[	$magicb6,	hknight_magicnm7	] {ai_face();}
+void()	hknight_magicnm7	=[	$magicb7,	hknight_magicnm8	] {ai_face();}
+void()	hknight_magicnm8	=[	$magicb8,	hknight_magicnm9	] {nmfast(); ai_face();}
+void()	hknight_magicnm9	=[	$magicb9,	hknight_magicnm10	] {nmfast(); ai_face(); hknight_shot3(2); ai_back(1);}
+void()	hknight_magicnm10	=[	$magicb8,	hknight_magicnm11	] {nmfast(); ai_face(); hknight_shot3(1);}	
+void()	hknight_magicnm11	=[	$magicb9,	hknight_magicnm12	] {nmfast(); ai_face(); hknight_shot3(2);}
+void()	hknight_magicnm12	=[	$magicb8,	hknight_magicnm13	] {nmfast(); ai_face(); hknight_shot3(1);}	
+void()	hknight_magicnm13	=[	$magicb9,	hknight_magicnm14	] {nmfast(); ai_face(); hknight_shot3(0);}
+void()	hknight_magicnm14	=[	$magicb8,	hknight_magicnm15	] {nmfast(); ai_face(); hknight_shot3(1);}	
+void()	hknight_magicnm15	=[	$magicb9,	hknight_magicnm16	] {nmfast(); ai_face(); hknight_shot3(0);}
+void()	hknight_magicnm16	=[	$magicb8,	hknight_magicnm17	] {nmfast(); ai_face(); hknight_shot3(-1);}	
+void()	hknight_magicnm17	=[	$magicb9,	hknight_magicnm18	] {nmfast(); ai_face(); hknight_shot3(-2);}	
+void()	hknight_magicnm18	=[	$magicb10,	hknight_magicnm19	] {nmfast();}
+void()	hknight_magicnm19	=[	$magicb11,	hknight_magicnm20	] {}
+void()	hknight_magicnm20	=[	$magicb12,	hknight_magicnm21	] {ai_back(1);}
+void()	hknight_magicnm21	=[	$magicb13,	hknight_run1	]	  {ai_back(1);ai_face();}
+
+
+
+// classic sweep
+void()	hknight_magicc1 =[	$magicc1,	hknight_magicc2	] {ai_face();}
+void()	hknight_magicc2 =[	$magicc2,	hknight_magicc3	] {ai_face();}
+void()	hknight_magicc3 =[	$magicc3,	hknight_magicc4	] {ai_face();sound (self, CHAN_AUTO, "hknight/sword_ignite.wav", 0.5, ATTN_NORM);}
+void()	hknight_magicc4 =[	$magicc4,	hknight_magicc5	] {ai_face();}
+void()	hknight_magicc5 =[	$magicc5,	hknight_magicc6	] {nmfast(); ai_face(); 
+	if (skill == 3)
+		self.think = hknight_magicc6nm;
+}
+void()	hknight_magicc6 =[	$magicc6,	hknight_magicc7	] {ai_face(); hknight_shot(3.5, crandom());}
+void()	hknight_magicc7 =[	$magicc7,	hknight_magicc8	] {ai_face(); hknight_shot(3, crandom());}
+void()	hknight_magicc8 =[	$magicc8,	hknight_magicc9	] {ai_face(); hknight_shot(2, crandom());}
+void()	hknight_magicc9 =[	$magicc9,	hknight_magicc10] {ai_face(); hknight_shot(1, crandom());}
+void()	hknight_magicc10 =[	$magicc10,	hknight_magicc11] {ai_face(); hknight_shot(0.5, crandom());}
+void()	hknight_magicc11 =[	$magicc11,	hknight_run1]	  {ai_face(); hknight_shot(0, crandom());}
+
+// nightmare: faster sweep with an extra, centered bolt
+void()	hknight_magicc6nm =[	$magicc6,	hknight_magicc7nm	] {nmfast(); ai_face(); hknight_shot(2.6, crandom() ); hknight_shot(1.6, crandom() );}
+void()	hknight_magicc7nm =[	$magicc7,	hknight_magicc8nm	] {nmfast(); ai_face(); hknight_shot( 0.6, crandom() ); }
+void()	hknight_magicc8nm =[	$magicc8,	hknight_magicc9nm	] {nmfast(); ai_face(); hknight_shot(0, crandom()); }
+void()	hknight_magicc9nm =[	$magicc9,	hknight_magicc10nm	] {nmfast(); ai_face(); hknight_shot( -0.6, crandom() );}
+void()	hknight_magicc10nm =[	$magicc10,	hknight_magicc11nm	] {nmfast(); ai_face(); hknight_shot( 0, crandom() ); hknight_shot( -0.5, crandom() );}
+void()	hknight_magicc11nm =[	$magicc11,	hknight_run1]	  	  {nmfast(); }
+
+//===========================================================================
+
+void()	hknight_char_a1	=[	$char_a1,	hknight_char_a2	] {nmfast();ai_rush(20);hk_footstep_sound();}
+void()	hknight_char_a2	=[	$char_a2,	hknight_char_a3	] {nmfast();ai_rush(25);}
+void()	hknight_char_a3	=[	$char_a3,	hknight_char_a4	] {nmfast();ai_rush(18);  }
+void()	hknight_char_a4	=[	$char_a4,	hknight_char_a5	] {nmfast();ai_rush(16); ai_melee(); sound (self, CHAN_WEAPON, "hknight/sword_woosh1.wav", 1, ATTN_NORM);hk_footstep_sound();}
+void()	hknight_char_a5	=[	$char_a5,	hknight_char_a6	] {nmfast();ai_rush(14); ai_melee(); }
+void()	hknight_char_a6	=[	$char_a6,	hknight_char_a7	] {nmfast();ai_rush(20); ai_melee(); }
+void()	hknight_char_a7	=[	$char_a7,	hknight_char_a8	] {nmfast();ai_rush(21);  }
+void()	hknight_char_a8	=[	$char_a8,	hknight_char_a9	] {nmfast();ai_rush(13); }
+void()	hknight_char_a9	=[	$char_a9,	hknight_char_a10] {nmfast();ai_rush(20);  }
+void()	hknight_char_a10=[	$char_a10,	hknight_char_a11] {nmfast();ai_rush(20); ai_melee();hk_footstep_sound();}
+void()	hknight_char_a11=[	$char_a11,	hknight_char_a12] {nmfast();ai_rush(18); ai_melee();sound (self, CHAN_WEAPON, "hknight/sword_woosh2.wav", 1, ATTN_NORM);}
+void()	hknight_char_a12=[	$char_a12,	hknight_char_a13] {nmfast();ai_rush(16); ai_melee();hk_footstep_sound();}
+void()	hknight_char_a13=[	$char_a13,	hknight_char_a14] {nmfast();ai_rush(14); ai_melee();}
+void()	hknight_char_a14=[	$char_a14,	hknight_char_a15] {nmfast();ai_rush(25);  }
+void()	hknight_char_a15=[	$char_a15,	hknight_char_a16] {nmfast();ai_rush(21);}
+void()	hknight_char_a16=[	$char_a16,	hknight_run1	] {nmfast();ai_rush(13);}
+
+//===========================================================================
+
+void()	hknight_char_b1	=[	$char_b1,	hknight_char_b2	] {
+	hk_footstep_sound();
+	if (hkCheckContinueCharge()) return;
+	sound (self, CHAN_WEAPON, "hknight/sword_woosh3.wav", 1, ATTN_NORM);
+	ai_rush(23);
+	ai_melee();
+}
+void()	hknight_char_b2	=[	$char_b2,	hknight_char_b3	] {ai_rush(17); ai_melee();}
+void()	hknight_char_b3	=[	$char_b3,	hknight_char_b4	] {ai_rush(12); ai_melee();hk_footstep_sound();}
+void()	hknight_char_b4	=[	$char_b4,	hknight_char_b5	] {ai_rush(22); ai_melee();}
+void()	hknight_char_b5	=[	$char_b5,	hknight_char_b6	] {ai_rush(18); ai_melee();}
+void()	hknight_char_b6	=[	$char_b6,	hknight_char_b1	] {ai_rush(8); 	ai_melee();}
+
+//===========================================================================
+
+void()	hknight_slice1	=[	$slice1,	hknight_slice2	] {ai_charge(9);}
+void()	hknight_slice2	=[	$slice2,	hknight_slice3	] {ai_charge(6);	sound (self, CHAN_WEAPON, "hknight/sword_clank1.wav", 0.5, ATTN_NORM);}
+void()	hknight_slice3	=[	$slice3,	hknight_slice4	] {ai_charge(13);	hk_footstep_sound();}
+void()	hknight_slice4	=[	$slice4,	hknight_slice5	] {ai_charge(4);}
+void()	hknight_slice5	=[	$slice5,	hknight_slice6	] {ai_charge(7); 	ai_melee();sound (self, CHAN_WEAPON, "hknight/sword_woosh2.wav", 1, ATTN_NORM);hk_footstep_sound();}
+void()	hknight_slice6	=[	$slice6,	hknight_slice7	] {ai_charge(15); 	ai_melee();}
+void()	hknight_slice7	=[	$slice7,	hknight_slice8	] {ai_charge(8); 	ai_melee();}
+void()	hknight_slice8	=[	$slice8,	hknight_slice9	] {ai_charge(2); 	ai_melee();}
+void()	hknight_slice9	=[	$slice9,	hknight_slice10	] {ai_melee();}
+void()	hknight_slice10	=[	$slice10,	hknight_run1	] {ai_charge(3);}
+
+//===========================================================================
+
+void()	hknight_smash1	=[	$smash1,	hknight_smash2	] {ai_charge(1);}
+void()	hknight_smash2	=[	$smash2,	hknight_smash3	] {ai_charge(13);}
+void()	hknight_smash3	=[	$smash3,	hknight_smash4	] {ai_charge(9);	hk_footstep_sound();}
+void()	hknight_smash4	=[	$smash4,	hknight_smash5	] {ai_charge(11);}
+void()	hknight_smash5	=[	$smash5,	hknight_smash6	] {ai_charge(10); 	ai_melee();}
+void()	hknight_smash6	=[	$smash6,	hknight_smash7	] {ai_charge(7); 	ai_melee();}
+void()	hknight_smash7	=[	$smash7,	hknight_smash8	] {ai_charge(12); 	ai_melee();sound (self, CHAN_WEAPON, "hknight/sword_woosh1.wav", 1, ATTN_NORM);}
+void()	hknight_smash8	=[	$smash8,	hknight_smash9	] {ai_charge(2); 	ai_melee();hk_footstep_sound();}
+void()	hknight_smash9	=[	$smash9,	hknight_smash10	] {ai_charge(3); 	ai_melee();}
+void()	hknight_smash10	=[	$smash10,	hknight_smash11	] {ai_charge(0);}
+void()	hknight_smash11	=[	$smash11,	hknight_run1	] {ai_charge(0);}
+
+//============================================================================
+
+void()	hknight_watk1	=[	$w_attack1,	hknight_watk2	] {ai_charge(2);}
+void()	hknight_watk2	=[	$w_attack2,	hknight_watk3	] {ai_charge(0);}
+void()	hknight_watk3	=[	$w_attack3,	hknight_watk4	] {ai_charge(0);}
+void()	hknight_watk4	=[	$w_attack4,	hknight_watk5	] {ai_charge(0);}
+void()	hknight_watk5	=[	$w_attack5,	hknight_watk6	] {ai_charge(0);}
+void()	hknight_watk6	=[	$w_attack6,	hknight_watk7	] {ai_charge(0);}
+void()	hknight_watk7	=[	$w_attack7,	hknight_watk8	] {ai_charge(1); ai_melee();sound (self, CHAN_WEAPON, "hknight/sword_woosh1.wav", 1, ATTN_NORM);}
+void()	hknight_watk8	=[	$w_attack8,	hknight_watk9	] {ai_charge(4); ai_melee();}
+void()	hknight_watk9	=[	$w_attack9,	hknight_watk10	] {ai_charge(5); ai_melee();}
+void()	hknight_watk10	=[	$w_attack10,	hknight_watk11	] {ai_charge(3); ai_melee();hk_footstep_sound();}
+void()	hknight_watk11	=[	$w_attack11,	hknight_watk12	] {ai_charge(2); ai_melee();}
+void()	hknight_watk12	=[	$w_attack12,	hknight_watk13	] {ai_charge(2); ai_melee();}
+void()	hknight_watk13	=[	$w_attack13,	hknight_watk14	] {ai_charge(0); sound (self, CHAN_WEAPON, "hknight/sword_woosh2.wav", 1, ATTN_NORM);}
+void()	hknight_watk14	=[	$w_attack14,	hknight_watk15	] {ai_charge(0);}
+void()	hknight_watk15	=[	$w_attack15,	hknight_watk16	] {ai_charge(0);}
+void()	hknight_watk16	=[	$w_attack16,	hknight_watk17	] {ai_charge(1); hk_footstep_sound();}
+void()	hknight_watk17	=[	$w_attack17,	hknight_watk18	] {ai_charge(1); ai_melee();}
+void()	hknight_watk18	=[	$w_attack18,	hknight_watk19	] {ai_charge(3); ai_melee();}
+void()	hknight_watk19	=[	$w_attack19,	hknight_watk20	] {ai_charge(4); ai_melee();}
+void()	hknight_watk20	=[	$w_attack20,	hknight_watk21	] {ai_charge(6);}
+void()	hknight_watk21	=[	$w_attack21,	hknight_watk22	] {ai_charge(7);}
+void()	hknight_watk22	=[	$w_attack22,	hknight_run1	] {ai_charge(3);}
+
+//============================================================================
+
+void() hk_idle_sound =
+{
+    local float rs;
+    if (random() < 0.2 && time > self.show_hostile)
+    {
+        rs = rint((random() * 3) + 1); // random 1–4
+        if (rs == 1)
+            sound (self, CHAN_VOICE, "hknight/hknight_idle_1.wav", 0.2, ATTN_NORM);
+        else if (rs == 2)
+            sound (self, CHAN_VOICE, "hknight/hknight_idle_2.wav", 0.2, ATTN_NORM);
+        else if (rs == 3)
+            sound (self, CHAN_VOICE, "hknight/hknight_idle_3.wav", 0.2, ATTN_NORM);
+        else
+            sound (self, CHAN_VOICE, "hknight/hknight_idle_4.wav", 0.2, ATTN_NORM);
+    }
+};
+
+void() hk_footstep_sound =
+{
+	local float r;
+	r = floor(random()*4);
+	
+	if 	(r == 0)	sound (self, CHAN_AUTO, "hknight/armor_footstep1.wav", 0.2, ATTN_NORM);
+	else if (r == 1)	sound (self, CHAN_AUTO, "hknight/armor_footstep2.wav", 0.2, ATTN_NORM);
+	else if (r == 2)	sound (self, CHAN_AUTO, "hknight/armor_footstep3.wav", 0.2, ATTN_NORM);
+	else			sound (self, CHAN_AUTO, "hknight/armor_footstep4.wav", 0.2, ATTN_NORM);
+	/*
+	step sound frame = -1 ground contact frame:
+	9, 18, 29, 33, 63, 66, 72, 74, 97, 106, 108, 114, 116, 124, 129, 142, 148
+	
+	9, 18,			walk1, walk10, 
+	29, 33,			run1, run5, 
+	63, 66, 72, 74,		charge_A1, charge_A4, charge_A10, charge_A12,
+	97,			magic_B5,
+	106, 108,		charge_B1, charge_B3, 
+	114, 116,		slice3, slice5
+	124, 129,		smash3, smash8
+	142, 148		W_attack10, W_attack16
+	
+	
+	sword sfx:
+	woosh1	66, 128, 139	charge_A4, smash7, W_attack7
+	woosh2	73, 116, 146	charge_A11, slice5, W_attack14
+	woosh3	106		charge_B1
+	woosh4	86		magic_A8
+	clank1	83, 94, 113	magic_A5, magic_B2, slice2
+	clank2	97		magic_B5
+	ignite	157		magic_C3
+	*/
+};
+
+void() hknight_pain_go =
+{
+	hknight_pain1 ();
+	PainFinished(1);
+}
+
+void(entity attacker, float damage)	hknight_pain =
+{
+	if (self.pain_finished > time)
+		return;
+
+	//if (skill < 3 && time - self.pain_finished > 5)
+	if (skill < 3 && time - self.pain_finished > 8)
+	{	// always go into pain frame if it has been a while
+		hknight_pain_go();
+		return;
+	}
+	
+	//if ( ( random()*30 > damage ) )
+	if ( ( 44 > damage ) )
+		return;		// didn't flinch
+
+	hknight_pain_go();
+}
+
+float hknight_type;
+
+void() hknight_melee =
+{
+	hknight_type = hknight_type + 1;
+
+	//sound (self, CHAN_WEAPON, "hknight/slash1.wav", 1, ATTN_NORM);
+	
+	if (hknight_type == 1)
+		hknight_slice1 ();
+	else if (hknight_type == 2)
+		hknight_smash1 ();
+	else if (hknight_type == 3)
+	{
+		hknight_watk1 ();
+		hknight_type = 0;
+	}
+}
+
+void() hknight_ranged =
+{
+	if ((enemy_range <= RANGE_MID) && (random() < 0.3))	//0.2
+		hknight_magicc1();	// classic sweep*
+	else
+		hknight_magicnm1();	// direct fire gun-sword attack
+}
+
+void() monster_hell_knight_spawn =
+{
+	self.classname = "monster_hell_knight";
+		
+	self.solid = SOLID_SLIDEBOX;
+	//self.movetype = MOVETYPE_STEP;
+
+	setmodel (self, "progs/hknight_qbj.mdl");
+
+	setsize (self, '-16 -16 -24', '16 16 40');
+
+	self.th_stand = hknight_stand1;
+	self.th_walk = hknight_walk1;
+	self.th_run = hknight_run1;
+	self.th_melee = hknight_melee;
+	self.th_missile = hknight_ranged;
+	self.th_pain = hknight_pain;
+	self.th_die = hknight_die;
+	self.th_checkattack = CheckAttack;
+	self.invokedmodel = "progs/fx/invoked_champion.mdl";
+	
+	self.type = "brigade";	// no infighting amongst the hell death brigade legion squad
+
+	if (self.deathtype == string_null)
+		self.deathtype = "was dominated by a Champion";
+
+	walkmonster_start ();
+}
+
+void() monster_hell_knight_spawner = {mon_spawner_use(monster_hell_knight_spawn);}
+
+/*QUAKED monster_hell_knight (1 0 0) (-16 -16 -24) (16 16 40) AMBUSH ? ? ? TRIGGERED NOTFOG NOTELEFRAG INSTAWAKE
+Champion (Death Knight), 250 health points.
+
+Flags:
+"ambush" only wake up on seeing the player, not another monster getting angry
+"Triggered"	will not spawn until triggered - triggering again will wake him up. Set 'count' to make this a multi-use spawner.
+"NoTfog" 	supress teleport glitter when spawned with 'triggered'
+"NoTelefrag" will silently fail to spawn if doing so would telefrag an existing monster. will try again automatically 2x/second until it succeeds.
+"Instawake" spawn angry at activator
+
+Keys:
+"target" entity to trigger when killed
+"targetname" entity name
+"movedir" set to a velocity to make the monster jump on awakening
+*/
+/*FGD
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/hknight_qbj.mdl", "skin": skin }) = monster_hell_knight : "Champion (Death Knight)" []
+*/
+void() monster_hell_knight =
+{
+	if (!SUB_ShouldSpawn()) return;
+	if (nomonster()) return;
+	if (deathmatch)
+	{
+		remove(self);
+		return;
+	}
+	precache_model2 ("progs/hknight_qbj.mdl");
+	precache_model2 ("progs/k_spike.mdl");
+	precache_model2 ("progs/k_spike_cold.mdl");
+	precache_model2 ("progs/k_spike2.mdl");
+	precache_model2 ("progs/gibs/gibhead_hellknight.mdl");
+
+	self.invokedmodel = "progs/fx/invoked_champion.mdl";
+	precache_model(self.invokedmodel);
+	
+	precache_sound2 ("hknight/attack1.wav");
+	precache_sound ("hknight/hit.wav");		// used by C code, so don't sound2
+	precache_sound2 ("hknight/slash1.wav");
+	precache_sound2 ("hknight/idle.wav");
+	precache_sound2 ("hknight/grunt.wav");
+
+	precache_sound2 ("hknight/hknight_death_1.wav");
+	precache_sound2 ("hknight/hknight_death_2.wav");
+	precache_sound2 ("hknight/hknight_death_3.wav");
+	precache_sound2 ("hknight/hknight_death_4.wav");
+	precache_sound2 ("hknight/hknight_idle_1.wav");
+	precache_sound2 ("hknight/hknight_idle_2.wav");
+	precache_sound2 ("hknight/hknight_idle_3.wav");
+	precache_sound2 ("hknight/hknight_idle_4.wav");
+	precache_sound2 ("hknight/hknight_pain_1.wav");
+	precache_sound2 ("hknight/hknight_pain_2.wav");
+	precache_sound2 ("hknight/hknight_pain_3.wav");
+	precache_sound2 ("hknight/hknight_pain_4.wav");
+	precache_sound2 ("hknight/hknight_sight_1.wav");
+	precache_sound2 ("hknight/hknight_sight_2.wav");
+	precache_sound2 ("hknight/hknight_sight_3.wav");
+	precache_sound2 ("hknight/hknight_sight_4.wav");
+	
+	precache_sound2 ("hknight/armor_footstep1.wav");
+	precache_sound2 ("hknight/armor_footstep2.wav");
+	precache_sound2 ("hknight/armor_footstep3.wav");
+	precache_sound2 ("hknight/armor_footstep4.wav");
+	
+	precache_sound2 ("hknight/sword_clank1.wav");
+	precache_sound2 ("hknight/sword_clank2.wav");
+	precache_sound2 ("hknight/sword_draw.wav");
+	precache_sound2 ("hknight/sword_ignite.wav");
+	precache_sound2 ("hknight/sword_woosh1.wav");
+	precache_sound2 ("hknight/sword_woosh2.wav");
+	precache_sound2 ("hknight/sword_woosh3.wav");
+	precache_sound2 ("hknight/sword_woosh4.wav");
+	
+	precache_sound ("knight/sword1.wav");
+	precache_sound ("knight/sword2.wav");
+	
+	self.health = 250;
+	setsize (self, '-16 -16 -24', '16 16 40');
+	if ( monster_spawnsetup( monster_hell_knight_spawner ) ) return;
+	
+	addmonster(1);
+	monster_hell_knight_spawn();
+}
