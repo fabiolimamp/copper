@@ -2,8 +2,8 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	PISTOL_REVOLVER_NAME	=	"PISTOL_REVOLVER";
-string	PISTOL_REVOLVER_MODEL	=	"progs/placeholder_progs/v_pistol_revolver.mdl";
+string	REVOLVER_NAME	=	"Revolver";
+string	REVOLVER_MODEL	=	"progs/placeholder_progs/v_pistol_revolver.mdl";
 
 /*
 	mateva revolver (WIP)
@@ -23,25 +23,25 @@ string	PISTOL_REVOLVER_MODEL	=	"progs/placeholder_progs/v_pistol_revolver.mdl";
 //=============================================================================================
 
 	
-	float	PISTOL_REVOLVER_ROF 	= 0.5;		// stetchkin 0.3 sec
+	float	REVOLVER_COOLDOWN 	= 0.5;		// stetchkin 0.3 sec
 
-//	float	PISTOL_REVOLVER_COUNT	= 2;
-	float	PISTOL_REVOLVER_DMG	= 30;	//++	// stetchkin 20 damge
+//	float	REVOLVER_COUNT	= 2;
+	float	REVOLVER_DAMAGE	= 30;	//++	// stetchkin 20 damge
 	
-	float	PISTOL_REVOLVER_RELOAD	= 2;		// stetchkin 1.5 sec
+	float	REVOLVER_RELOAD	= 2;		// stetchkin 1.5 sec
 		
-	vector	PISTOL_REVOLVER_SPREAD	= '0 0 0';	// 'width, height, 0' stetchkin '0.015 0.015 0'
+	vector	REVOLVER_SPREAD	= '0 0 0';	// 'width, height, 0' stetchkin '0.015 0.015 0'
 
 
 //=============================================================================================
 
-float() weaponanim_PISTOL_REVOLVER =
+float() weaponanim_REVOLVER =
 {
 	if (self.attack_finished > time)
 		return FALSE;
 
 	// detects if a reload is still happening without having to rely on attack_finished
-	if (self.think == weaponanim_reload_PISTOL_REVOLVER_loop) 
+	if (self.think == weaponanim_reload_REVOLVER_loop) 
 		return FALSE;
 
 	if (W_CheckWeapon(self.weapon, self) != WEAPONSTAT_AVAILABLE)
@@ -60,7 +60,7 @@ float() weaponanim_PISTOL_REVOLVER =
 	
 	if (self.pistol_ammo_count == 1)
 	{	
-		weaponanim_reload_PISTOL_REVOLVER();
+		weaponanim_reload_REVOLVER();
 		return FALSE;
 	}
 	self.pistol_ammo_count--;
@@ -75,7 +75,7 @@ float() weaponanim_PISTOL_REVOLVER =
 	
 	
 	
-	self.attack_finished = time + PISTOL_REVOLVER_ROF;
+	self.attack_finished = time + REVOLVER_COOLDOWN;
 	
 	
 	
@@ -86,7 +86,7 @@ float() weaponanim_PISTOL_REVOLVER =
 	SuperDamageSound();
 	
 			
-	W_Fire_PISTOL_REVOLVER(); //fancy tracers and all that
+	W_Fire_REVOLVER(); //fancy tracers and all that
 	
 	
 	// --------------------------------
@@ -99,18 +99,18 @@ float() weaponanim_PISTOL_REVOLVER =
 
 	self.weaponframe = 11;
 	
-	self.think = weaponanim_PISTOL_REVOLVER_loop;
+	self.think = weaponanim_REVOLVER_loop;
 	self.nextthink = time + 0.033;
 	
 	return TRUE;
 }
 
-void() weaponanim_PISTOL_REVOLVER_loop =
+void() weaponanim_REVOLVER_loop =
 {	
 	
 	if (self.pistol_ammo_count <= 0 && time > (self.attack_finished - 0.1))
 	{
-		weaponanim_reload_PISTOL_REVOLVER(); 
+		weaponanim_reload_REVOLVER(); 
 		return;
 	}
 	
@@ -121,21 +121,21 @@ void() weaponanim_PISTOL_REVOLVER_loop =
 	}
 	else	self.weaponframe++;
 
-	self.think = weaponanim_PISTOL_REVOLVER_loop;
+	self.think = weaponanim_REVOLVER_loop;
 	self.nextthink = time + 0.033;
 }
 
 //=====================================================================================================================
 
-void() weaponanim_reload_PISTOL_REVOLVER =
+void() weaponanim_reload_REVOLVER =
 {
-	if (self.think == weaponanim_reload_PISTOL_REVOLVER_loop) 
+	if (self.think == weaponanim_reload_REVOLVER_loop) 
 		return;
 	
 	
 	self.pistol_lastreload_time = time;
 
-	self.nextthink1 = time + PISTOL_REVOLVER_RELOAD;
+	self.nextthink1 = time + REVOLVER_RELOAD;
 	
 	sound (self, CHAN_AUTO, "pistol/gun_click.wav", 1, ATTN_NORM);
 
@@ -146,11 +146,11 @@ void() weaponanim_reload_PISTOL_REVOLVER =
 
 	self.weaponframe = 31;
 	
-	self.think = weaponanim_reload_PISTOL_REVOLVER_loop;
+	self.think = weaponanim_reload_REVOLVER_loop;
 	self.nextthink = time + 0.05;
 }
 
-void() weaponanim_reload_PISTOL_REVOLVER_loop =
+void() weaponanim_reload_REVOLVER_loop =
 {	
 	if (self.weaponframe == 35) sound (self, CHAN_AUTO, "pistol/deadlock_reload.wav", 1, ATTN_NORM);		
 	
@@ -184,13 +184,13 @@ void() weaponanim_reload_PISTOL_REVOLVER_loop =
 	if (time >= self.nextthink1)
 		self.weaponframe = 60;
 
-	self.think = weaponanim_reload_PISTOL_REVOLVER_loop;
+	self.think = weaponanim_reload_REVOLVER_loop;
 	self.nextthink = time + 0.05;
 }
 
 //=====================================================================================================================
 
-void() W_Fire_PISTOL_REVOLVER =
+void() W_Fire_REVOLVER =
 {
 	sound (self, CHAN_AUTO, "pistol/pistol_fire.wav", 1, ATTN_NORM);
 	sound_pistol_fire(1);
@@ -211,16 +211,16 @@ void() W_Fire_PISTOL_REVOLVER =
 	
 	
 	
-	//FirePistolBullets (PISTOL_REVOLVER_COUNT, PISTOL_REVOLVER_DMG, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, PISTOL_REVOLVER_SPREAD, TRUE);
+	//FirePistolBullets (REVOLVER_COUNT, REVOLVER_DAMAGE, org_eye, org_gun + v_forward * 16 * trace_fraction, dir_eye, REVOLVER_SPREAD, TRUE);
 	
 	
 	
-	FirePierce_HitscanTrace(PISTOL_REVOLVER_DMG, org_gun, org_eye, dir_eye, TRUE);
+	FirePierce_HitscanTrace(REVOLVER_DAMAGE, org_gun, org_eye, dir_eye, TRUE);
 	
 	
 	
-	//invokerTrace(PISTOL_REVOLVER_DMG, org + (up * 0) + (right * 0), dir, FALSE); // center
-	//invokerTrace(PISTOL_REVOLVER_DMG, org_eye, dir_eye, FALSE); // center
+	//invokerTrace(REVOLVER_DAMAGE, org + (up * 0) + (right * 0), dir, FALSE); // center
+	//invokerTrace(REVOLVER_DAMAGE, org_eye, dir_eye, FALSE); // center
 		
 	//Start_Smoketrail_ROCKET_INSTANT();
 		

@@ -2,16 +2,16 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	ash_NAME	=	"ASh-12";
-string	ash_MODEL	=	"progs/placeholder_progs/wish/v_ash.mdl";
+string	BULLPUP_NAME	=	"ASh-12";
+string	BULLPUP_MODEL	=	"progs/placeholder_progs/wish/v_ash.mdl";
 
 //=============================================================================================
 	
-	float	ash_ROF		=	0.12;	//0.06;		//seconds post-fire
+	float	BULLPUP_COOLDOWN		=	0.12;	//0.06;		//seconds post-fire
 	
-	float	ash_DMG 	=	25;	//15;	// 9	//damage per shot
+	float	BULLPUP_DAMAGE 	=	25;	//15;	// 9	//damage per shot
 
-	float	ash_COST	=	2;			//ammo cost to fire
+	float	BULLPUP_COST	=	2;			//ammo cost to fire
 	
 //=============================================================================================
 
@@ -26,9 +26,9 @@ float() weaponanim_ash =
 		return FALSE;
 	}
 	
-	self.currentammo = self.ammo_nails = self.ammo_nails - ash_COST;
+	self.currentammo = self.ammo_nails = self.ammo_nails - BULLPUP_COST;
 
-	self.attack_finished = time + ash_ROF;
+	self.attack_finished = time + BULLPUP_COOLDOWN;
 	
 	//SUB_CallAsSelf(player_shot1, self.animcontroller);
 	
@@ -45,13 +45,13 @@ float() weaponanim_ash =
 	
 
 	self.weaponframe = 11;
-	self.think = weaponanim_ash_loop;
+	self.think = weaponanim_BULLPUP_loop;
 	self.nextthink = time + 0.025;
 	
 	return TRUE;
 }
 
-void() weaponanim_ash_loop =
+void() weaponanim_BULLPUP_loop =
 {
 	if (self.weaponframe == 12)	Eject_BulletCasing_ash();
 	
@@ -62,7 +62,7 @@ void() weaponanim_ash_loop =
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_ash_loop;
+	self.think = weaponanim_BULLPUP_loop;
 	self.nextthink = time + 0.025;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,7 +102,7 @@ void() W_Fire_ash =
 		vector dir_skew = dir + v_right* ((self.shotcount* -0.005) +0.005) + v_up* ((self.shotcount* 0.01) + 0.01);		// (right, up) muzzle rise * shotcount
 
 
-	finaldir = FireBullets_ash (1, ash_DMG, org + v_forward* 8 *trace_fraction + (v_up * -0.2 * self.shotcount), dir_skew, definespread, 8);
+	finaldir = FireBullets_ash (1, BULLPUP_DAMAGE, org + v_forward* 8 *trace_fraction + (v_up * -0.2 * self.shotcount), dir_skew, definespread, 8);
 	
 				
 	//--------------------------------------- MUZZLE RISER
@@ -226,18 +226,18 @@ void() weaponanim_draw_ash =
 	
 	self.weaponframe = 1;
 	
-	self.think = weaponanim_draw_ash_loop;
+	self.think = weaponanim_draw_BULLPUP_loop;
 	self.nextthink = time + 0.025;
 }
 
-void() weaponanim_draw_ash_loop =
+void() weaponanim_draw_BULLPUP_loop =
 {
 	if (self.weaponframe >= 10)
 		return;
 	else 
 		self.weaponframe++;
 
-	self.think = weaponanim_draw_ash_loop;
+	self.think = weaponanim_draw_BULLPUP_loop;
 	self.nextthink = time + 0.05;
 }
 
@@ -249,17 +249,17 @@ void() weaponanim_inspect_ash =
 	
 	self.weaponframe = 31;
 	
-	self.think = weaponanim_inspect_ash_loop;
+	self.think = weaponanim_inspect_BULLPUP_loop;
 	self.nextthink = time + 0.05;
 }
 
-void() weaponanim_inspect_ash_loop =
+void() weaponanim_inspect_BULLPUP_loop =
 {
 	if (self.weaponframe >= 120)
 		return;
 	else 
 		self.weaponframe++;
 
-	self.think = weaponanim_inspect_ash_loop;
+	self.think = weaponanim_inspect_BULLPUP_loop;
 	self.nextthink = time + 0.05;
 }

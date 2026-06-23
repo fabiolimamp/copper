@@ -2,8 +2,8 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	GRENADE_TRIBOLTqc_NAME	=	"GRENADE_TRIBOLTqc";
-string	GRENADE_TRIBOLTqc_MODEL	=	"progs/placeholder_progs/v_grenade_triboltqc.mdl";
+string	TRIDENT_NAME	=	"TRIDENT";
+string	TRIDENT_MODEL	=	"progs/placeholder_progs/v_grenade_triboltqc.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPEED_BASE	DESCRIPTION
@@ -39,22 +39,22 @@ string	GRENADE_TRIBOLTqc_MODEL	=	"progs/placeholder_progs/v_grenade_triboltqc.md
 //=============================================================================================
 	
 	
-	float	GRENADE_TRIBOLTqc_ROF		=	1.3;		//seconds post-fire
+	float	TRIDENT_COOLDOWN		=	1.3;		//seconds post-fire
 
 	
-	float	GRENADE_TRIBOLTqc_DMG 		=	90;	// 90*3=270	//damage per shot
+	float	TRIDENT_DAMAGE 		=	90;	// 90*3=270	//damage per shot
 
-	float	GRENADE_TRIBOLTqc_COST		=	3;		//ammo cost to fire
+	float	TRIDENT_COST		=	3;		//ammo cost to fire
 	
-	float	GRENADE_TRIBOLTqc_TIMER		=	0.6;		//sec before explodey
+	float	TRIDENT_TIMER		=	0.6;		//sec before explodey
 	
-	float	GRENADE_TRIBOLTqc_SPEED		=	1000;		//arc velocity
-	float	GRENADE_TRIBOLTqc_GRAVITY	=	50;		//arc sinkage
+	float	TRIDENT_VELOCITY		=	1000;		//arc velocity
+	float	TRIDENT_GRAVITY	=	50;		//arc sinkage
 	
 
 //=============================================================================================
 
-float() weaponanim_GRENADE_TRIBOLTqc =
+float() weaponanim_TRIDENT =
 {
 	if (self.attack_finished > time)
 		return FALSE;
@@ -65,9 +65,9 @@ float() weaponanim_GRENADE_TRIBOLTqc =
 		return FALSE;
 	}
 
-	self.currentammo = self.ammo_rockets = self.ammo_rockets - GRENADE_TRIBOLTqc_COST;
+	self.currentammo = self.ammo_rockets = self.ammo_rockets - TRIDENT_COST;
 
-	self.attack_finished = time + GRENADE_TRIBOLTqc_ROF;
+	self.attack_finished = time + TRIDENT_COOLDOWN;
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	
@@ -75,22 +75,22 @@ float() weaponanim_GRENADE_TRIBOLTqc =
 
 	SuperDamageSound();
 	
-	W_Fire_GRENADE_TRIBOLTqc();
+	W_Fire_TRIDENT();
 	
 	self.customflags |= CFL_WEAPONLOCK;	//weapon LOCK
 
 	self.weaponframe = 11;
-	self.think = weaponanim_GRENADE_TRIBOLTqc_loop;
+	self.think = weaponanim_TRIDENT_loop;
 	self.nextthink = time + 0.025;
 	
 	return TRUE;
 }
 
-void() weaponanim_GRENADE_TRIBOLTqc_loop =
+void() weaponanim_TRIDENT_loop =
 {
-	if (self.weaponframe == 16)	W_Fire_GRENADE_TRIBOLTqc();
+	if (self.weaponframe == 16)	W_Fire_TRIDENT();
 	
-	if (self.weaponframe == 21)	W_Fire_GRENADE_TRIBOLTqc();
+	if (self.weaponframe == 21)	W_Fire_TRIDENT();
 	
 	
 	if (self.weaponframe == 40)
@@ -110,13 +110,13 @@ void() weaponanim_GRENADE_TRIBOLTqc_loop =
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_GRENADE_TRIBOLTqc_loop;
+	self.think = weaponanim_TRIDENT_loop;
 	self.nextthink = time + 0.025;
 
 }
 //=============================================================================================
 
-void() W_Fire_GRENADE_TRIBOLTqc =
+void() W_Fire_TRIDENT =
 {
 	sound (self, CHAN_WEAPON, "weapons/grenade.wav", 1, ATTN_NORM);	
 	sound_grenade_fire(1);
@@ -124,34 +124,34 @@ void() W_Fire_GRENADE_TRIBOLTqc =
 	
 	self.punchangle_x = -2;
 	makevectors (self.v_angle);
-	float base = GRENADE_TRIBOLTqc_SPEED;
+	float base = TRIDENT_VELOCITY;
 	
 	vector org = self.origin + self.view_ofs + v_up*-8 + v_forward*15 + v_right*8;
 	vector mvel = v_forward*base + v_up*160;
 	
-	launch_impaler_GRENADE_TRIBOLTqc (org, mvel + v_right*-8);
+	launch_impaler_TRIDENT (org, mvel + v_right*-8);
 }
 //=============================================================================================
 
-entity(vector org, vector vel) launch_impaler_GRENADE_TRIBOLTqc =
+entity(vector org, vector vel) launch_impaler_TRIDENT =
 {
 	entity grenade;
 	//gunshot(org);
 
 	grenade = toss_projectile(org, vel, "grenade");
-	grenade.lifetime_finished = time + GRENADE_TRIBOLTqc_TIMER;
+	grenade.lifetime_finished = time + TRIDENT_TIMER;
 	
 	SUB_ChangeModel (grenade, "progs/placeholder_progs/proj_grenade_mini_nosmoke.mdl");
 	
 	
-	grenade.think = GRENADE_TRIBOLTqc_Think;
+	grenade.think = TRIDENT_Think;
 	grenade.movetype = MOVETYPE_FLYMISSILE;
 	
 
 	
-	grenade.touch = GRENADE_TRIBOLTqc_BoltTouch;		//grenade.touch = GRENADE_TRIBOLTqc_Touch;
+	grenade.touch = TRIDENT_BoltTouch;		//grenade.touch = TRIDENT_Touch;
 	
-	grenade.th_die = GRENADE_TRIBOLTqc_BoltExplode;		//grenade.th_die = GRENADE_TRIBOLTqc_Explode;
+	grenade.th_die = TRIDENT_BoltExplode;		//grenade.th_die = TRIDENT_Explode;
 	
 	
 	
@@ -159,16 +159,16 @@ entity(vector org, vector vel) launch_impaler_GRENADE_TRIBOLTqc =
 }
 //=============================================================================================
 
-void() GRENADE_TRIBOLTqc_Think =
+void() TRIDENT_Think =
 {
 	if (time > self.lifetime_finished)
 	{
-		GRENADE_TRIBOLTqc_BoltExplode();			//GRENADE_TRIBOLTqc_Explode();
+		TRIDENT_BoltExplode();			//TRIDENT_Explode();
 		return;
 	}
 	self.flags &~= FL_ONGROUND;
 	self.oldvelocity = self.velocity;
-	self.velocity.z -= GRENADE_TRIBOLTqc_GRAVITY;
+	self.velocity.z -= TRIDENT_GRAVITY;
 	self.nextthink = time + 0.05;
 	self.angles = vectoangles(self.velocity);
 }
@@ -177,39 +177,39 @@ void() GRENADE_TRIBOLTqc_Think =
 // h4724
 
 
-void() GRENADE_TRIBOLTqc_BoltExplode =
+void() TRIDENT_BoltExplode =
 {
-	T_RadiusDamage (self, self.trueowner, GRENADE_TRIBOLTqc_DMG, other, DMGTYPE_EXPLOSION);
+	T_RadiusDamage (self, self.trueowner, TRIDENT_DAMAGE, other, DMGTYPE_EXPLOSION);
 	
 	BecomeExplosion();		//after timer ends
 }
 
 
-void() GRENADE_TRIBOLTqc_BoltTouchExplode =
+void() TRIDENT_BoltTouchExplode =
 {
 	if (other.health)
 	{
-		T_Damage (other, self, self.trueowner, GRENADE_TRIBOLTqc_DMG, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );
+		T_Damage (other, self, self.trueowner, TRIDENT_DAMAGE, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );
 	}
 	
-	T_RadiusDamage (self, self.trueowner, GRENADE_TRIBOLTqc_DMG, other, DMGTYPE_EXPLOSION);
+	T_RadiusDamage (self, self.trueowner, TRIDENT_DAMAGE, other, DMGTYPE_EXPLOSION);
 	
-	//T_GibDownedZombies (self, GRENADE_TRIBOLTqc_DMG);
+	//T_GibDownedZombies (self, TRIDENT_DAMAGE);
 }
 //=============================================================================================
 
-void() GRENADE_TRIBOLTqc_BoltTouch =
+void() TRIDENT_BoltTouch =
 {
 	if (other == self.owner ) return;		// don't explode on owner
 	if (CheckProjectilePassthru()) return;
 
 	self.velocity = '0 0 0';
-	GRENADE_TRIBOLTqc_ExplosiveTouch();
+	TRIDENT_ExplosiveTouch();
 	return;
 }
 //=============================================================================================
 
-void() GRENADE_TRIBOLTqc_ExplosiveTouch =
+void() TRIDENT_ExplosiveTouch =
 {	
 	if (other == self.owner ) return;        	// don't explode on owner
 	if (CheckProjectilePassthru()) return;
@@ -220,7 +220,7 @@ void() GRENADE_TRIBOLTqc_ExplosiveTouch =
 		else
 			BecomeExplosion();			//BecomeMiniBlast(0); //normal, no TE_effects
 	
-		GRENADE_TRIBOLTqc_BoltTouchExplode();
+		TRIDENT_BoltTouchExplode();
 		self.velocity = '0 0 0';
 		return;
 	}

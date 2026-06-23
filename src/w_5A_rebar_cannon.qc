@@ -2,8 +2,8 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	REBAR_BUFF_NAME		=	"Rebar Cannon Buff";
-string	REBAR_BUFF_MODEL	=	"progs/v_rebar.mdl";
+string	REBAR_CANNON_NAME		=	"Rebar Cannon Buff";
+string	REBAR_CANNON_MODEL	=	"progs/v_rebar.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPREAD		DESCRIPTION
@@ -14,19 +14,19 @@ string	REBAR_BUFF_MODEL	=	"progs/v_rebar.mdl";
 
 //=============================================================================================
 	
-	float	REBAR_BUFF_ROF		=	1;		//seconds post-fire
+	float	REBAR_CANNON_COOLDOWN		=	1;		//seconds post-fire
 	
-	float	REBAR_BUFF_COUNT	=	1;		//number of shots
-	float	REBAR_BUFF_DMG 		=	150;	// 140	//damage per shot
+	float	REBAR_CANNON_COUNT	=	1;		//number of shots
+	float	REBAR_CANNON_DAMAGE 		=	150;	// 140	//damage per shot
 
-	float	REBAR_BUFF_COST		=	10;		//ammo cost to fire
+	float	REBAR_CANNON_COST		=	10;		//ammo cost to fire
 	
-	//float	REBAR_BUFF_SPEED	=	1400;		//arc velocity
-	//float	REBAR_BUFF_GRAVITY	=	0.75;		//arc sinkage
+	//float	REBAR_CANNON_VELOCITY	=	1400;		//arc velocity
+	//float	REBAR_CANNON_GRAVITY	=	0.75;		//arc sinkage
 
 //=============================================================================================
 
-float() weaponanim_REBAR_BUFF =
+float() weaponanim_REBAR_CANNON =
 {
 	if (self.attack_finished > time)
 		return FALSE;
@@ -37,25 +37,25 @@ float() weaponanim_REBAR_BUFF =
 		return FALSE;
 	}
 
-	self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_BUFF_COST;
+	self.currentammo = self.ammo_nails = self.ammo_nails - REBAR_CANNON_COST;
 
-	self.attack_finished = time + REBAR_BUFF_ROF;
+	self.attack_finished = time + REBAR_CANNON_COOLDOWN;
 	
 	SUB_CallAsSelf(player_shot1, self.animcontroller);
 	
 	//self.effects = self.effects | EF_MUZZLEFLASH;
 
 	SuperDamageSound();
-	W_Fire_REBAR_BUFF();
+	W_Fire_REBAR_CANNON();
 
 	self.weaponframe = 11;
-	self.think = weaponanim_REBAR_BUFF_loop;
+	self.think = weaponanim_REBAR_CANNON_loop;
 	self.nextthink = time + 0.05;
 	
 	return TRUE;
 }
 
-void() weaponanim_REBAR_BUFF_loop =
+void() weaponanim_REBAR_CANNON_loop =
 {
 	if (self.weaponframe == 18)	sound (self, CHAN_AUTO, "rebar/bow_reload2.wav", 0.3, ATTN_NORM);
 	if (self.weaponframe == 20)	sound (self, CHAN_AUTO, "rebar/bow_clank.wav", 0.4, ATTN_NORM);
@@ -70,13 +70,13 @@ void() weaponanim_REBAR_BUFF_loop =
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_REBAR_BUFF_loop;
+	self.think = weaponanim_REBAR_CANNON_loop;
 	self.nextthink = time + 0.05;
 
 }
 //=============================================================================================
 
-void() W_Fire_REBAR_BUFF =
+void() W_Fire_REBAR_CANNON =
 {
 	sound (self, CHAN_WEAPON, "rebar/penfire.wav", 1, ATTN_NORM);
 	sound (self, CHAN_AUTO, "rebar/bow_reload1.wav", 0.5, ATTN_NORM);
@@ -88,11 +88,11 @@ void() W_Fire_REBAR_BUFF =
 	vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15;
 	vector mvel = v_forward*base + v_up*160;
 	
-	launch_impaler_REBAR_BUFF(org, mvel);
+	launch_impaler_REBAR_CANNON(org, mvel);
 }
 //=============================================================================================
 
-entity(vector org, vector vel) launch_impaler_REBAR_BUFF =
+entity(vector org, vector vel) launch_impaler_REBAR_CANNON =
 {
 	entity impaler;
 	//gunshot(org);
@@ -104,7 +104,7 @@ entity(vector org, vector vel) launch_impaler_REBAR_BUFF =
 
 	impaler.gravity = .75;
 	impaler.think = ImpalerThink;
-	impaler.touch = ImpalerTouch_REBAR_BUFF;
+	impaler.touch = ImpalerTouch_REBAR_CANNON;
 	impaler.alpha = 1;
 	//impaler.movetype = MOVETYPE_FLYMISSILE;
 
@@ -113,7 +113,7 @@ entity(vector org, vector vel) launch_impaler_REBAR_BUFF =
 
 //=============================================================================================
 
-void() ImpalerTouch_REBAR_BUFF =
+void() ImpalerTouch_REBAR_CANNON =
 {
 	if (CheckProjectilePassthru()) return;
 
@@ -127,7 +127,7 @@ void() ImpalerTouch_REBAR_BUFF =
 		if (other.classname == "monster_zombie")
 			T_Damage(other, self, self.trueowner, 59);
 		else
-			T_Damage(other, self, self.trueowner, REBAR_BUFF_DMG);
+			T_Damage(other, self, self.trueowner, REBAR_CANNON_DAMAGE);
 
 		if (other.solid != SOLID_BSP) {
 			ThrowGib ("progs/zom_gib.mdl", GibVelocityForHealth(20));

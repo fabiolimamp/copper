@@ -221,7 +221,7 @@ void() Manual_Reload =
 			else if (self.weaponmodel == "progs/placeholder_progs/v_pistol_bigiron.mdl")	weaponanim_reload_PISTOL_BIGIRON();
 			*/
 			
-			if (self.weaponmodel == "progs/placeholder_progs/v_pistol_revolver.mdl")	weaponanim_reload_PISTOL_REVOLVER();
+			if (self.weaponmodel == "progs/placeholder_progs/v_pistol_revolver.mdl")	weaponanim_reload_REVOLVER();
 			else										weaponanim_reloadpistol();
 		}	
 		else if (self.pistol_ammo_count == 10)	weaponanim_twirlpistol();

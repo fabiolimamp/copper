@@ -2,8 +2,8 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	NAIL_SPINUPv2_NAME	=	"NAIL_SPINUPv2";
-string	NAIL_SPINUPv2_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
+string	RIVETER_NAME	=	"Riveter";
+string	RIVETER_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPEED		DESCRIPTION
@@ -21,33 +21,33 @@ string	NAIL_SPINUPv2_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
 //=============================================================================================
 	
 	
-	float	NAIL_SPINUPv2_ROF	=	0.2;		//seconds post-fire
+	float	RIVETER_COOLDOWN	=	0.2;		//seconds post-fire
 	
-	float	NAIL_SPINUPv2_DMG 	=	20;		//damage per shot
+	float	RIVETER_DAMAGE 	=	20;		//damage per shot
 
-	float	NAIL_SPINUPv2_COST	=	2;		//ammo cost to fire
+	float	RIVETER_COST	=	2;		//ammo cost to fire
 	
-	float	NAIL_SPINUPv2_SPEED	=	1200;		//velocity
+	float	RIVETER_VELOCITY	=	1200;		//velocity
 	
-	float	NAIL_SPINUPv2_VUP	=	0;		//v_up launch angle
+	float	RIVETER_VUP	=	0;		//v_up launch angle
 	
-	float	NAIL_SPINUPv2_GRAVITY	=	-0.001;		//base gravity
+	float	RIVETER_GRAVITY	=	-0.001;		//base gravity
 
 	
 	
-	vector	NAIL_SPINUPv2_SPREAD	=	'200 100 0';	//NAIL_SPINUPv2_SPREAD_x	//NAIL_SPINUPv2_SPREAD_y	//weighted_crandom(4);
+	vector	RIVETER_SPREAD	=	'200 100 0';	//RIVETER_SPREAD_x	//RIVETER_SPREAD_y	//weighted_crandom(4);
 
 
 
-	.float	NAIL_SPINUPv2_LEVEL;				//0 ~ MAX
+	.float	RIVETER_LEVEL;				//0 ~ MAX
 	
-	float	NAIL_SPINUPv2_MAX_LEVEL		=	4;	//number of shots to reach MAX
+	float	RIVETER_MAX_LEVEL		=	4;	//number of shots to reach MAX
 	
-	float	NAIL_SPINUPv2_MAX_ROF		=	0.12;	//max firerate
+	float	RIVETER_MAX_COOLDOWN		=	0.12;	//max firerate
 	
-	float	NAIL_SPINUPv2_MAX_SPEED		=	1600;	//max nail speed
+	float	RIVETER_MAX_VELOCITY		=	1600;	//max nail speed
 	
-	float	NAIL_SPINUPv2_MAX_VUP		=	30;	//max v_up angle
+	float	RIVETER_MAX_VUP		=	30;	//max v_up angle
 	
 	
 	
@@ -57,18 +57,18 @@ string	NAIL_SPINUPv2_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
 	
 	
 	
-	float	NAIL_SPINUPv2_SUM_ROF	=	(NAIL_SPINUPv2_ROF - NAIL_SPINUPv2_MAX_ROF) / NAIL_SPINUPv2_MAX_LEVEL;
+	float	RIVETER_SUM_ROF	=	(RIVETER_COOLDOWN - RIVETER_MAX_COOLDOWN) / RIVETER_MAX_LEVEL;
 	
-	float	NAIL_SPINUPv2_SUM_SPEED	=	(NAIL_SPINUPv2_MAX_SPEED - NAIL_SPINUPv2_SPEED) / NAIL_SPINUPv2_MAX_LEVEL;
+	float	RIVETER_SUM_VELOCITY	=	(RIVETER_MAX_VELOCITY - RIVETER_VELOCITY) / RIVETER_MAX_LEVEL;
 	
-	float	NAIL_SPINUPv2_SUM_VUP	=	(NAIL_SPINUPv2_MAX_VUP - NAIL_SPINUPv2_VUP) / NAIL_SPINUPv2_MAX_LEVEL;
+	float	RIVETER_SUM_VUP	=	(RIVETER_MAX_VUP - RIVETER_VUP) / RIVETER_MAX_LEVEL;
 	
 
 
 //=============================================================================================
 
 
-float() weaponanim_NAIL_SPINUPv2 =
+float() weaponanim_RIVETER =
 {
 	if (self.attack_finished > time)
 		return FALSE;
@@ -79,23 +79,23 @@ float() weaponanim_NAIL_SPINUPv2 =
 		return FALSE;
 	}
 	
-	self.currentammo = self.ammo_nails = self.ammo_nails - NAIL_SPINUPv2_COST;
+	self.currentammo = self.ammo_nails = self.ammo_nails - RIVETER_COST;
 
 	
-	self.attack_finished = time + (NAIL_SPINUPv2_ROF - (self.NAIL_SPINUPv2_LEVEL * NAIL_SPINUPv2_SUM_ROF));
+	self.attack_finished = time + (RIVETER_COOLDOWN - (self.RIVETER_LEVEL * RIVETER_SUM_ROF));
 	
 	/*
-	if 	(self.NAIL_SPINUPv2_LEVEL == 0)	dprint("spinup 0  [    ]\n");
-	else if (self.NAIL_SPINUPv2_LEVEL == 1)	dprint("spinup 1  [\b-\b   ]\n");
-	else if (self.NAIL_SPINUPv2_LEVEL == 2)	dprint("spinup 2  [\b--\b  ]\n");
-	else if (self.NAIL_SPINUPv2_LEVEL == 3)	dprint("spinup 3  [\b---\b ]\n");
-	else if (self.NAIL_SPINUPv2_LEVEL == 4)	dprint("spinup 4  [\b++++\b] MAX\n");
+	if 	(self.RIVETER_LEVEL == 0)	dprint("spinup 0  [    ]\n");
+	else if (self.RIVETER_LEVEL == 1)	dprint("spinup 1  [\b-\b   ]\n");
+	else if (self.RIVETER_LEVEL == 2)	dprint("spinup 2  [\b--\b  ]\n");
+	else if (self.RIVETER_LEVEL == 3)	dprint("spinup 3  [\b---\b ]\n");
+	else if (self.RIVETER_LEVEL == 4)	dprint("spinup 4  [\b++++\b] MAX\n");
 	else					dprint("???");
 	*/
 	
-	if (self.NAIL_SPINUPv2_LEVEL < NAIL_SPINUPv2_MAX_LEVEL)	self.NAIL_SPINUPv2_LEVEL++;
+	if (self.RIVETER_LEVEL < RIVETER_MAX_LEVEL)	self.RIVETER_LEVEL++;
 
-	else	self.NAIL_SPINUPv2_LEVEL = NAIL_SPINUPv2_MAX_LEVEL;
+	else	self.RIVETER_LEVEL = RIVETER_MAX_LEVEL;
 
 	
 	//SUB_CallAsSelf(player_shot1, self.animcontroller);
@@ -105,7 +105,7 @@ float() weaponanim_NAIL_SPINUPv2 =
 	SuperDamageSound();
 	
 		
-	W_Fire_NAIL_SPINUPv2_Heavy();	//arc
+	W_Fire_RIVETER_Heavy();	//arc
 		
 	
 	self.effects |= EF_MUZZLEFLASH;
@@ -118,32 +118,32 @@ float() weaponanim_NAIL_SPINUPv2 =
 
 
 	self.weaponframe = 11;
-	self.think = weaponanim_NAIL_SPINUPv2_loop;
+	self.think = weaponanim_RIVETER_loop;
 	self.nextthink = time + 0.025;
 	
 	return TRUE;
 }
 
-void() weaponanim_NAIL_SPINUPv2_loop =
+void() weaponanim_RIVETER_loop =
 {
 	if (self.weaponframe == 13) Eject_BulletCasing();
 	
 	if (self.weaponframe >= 20)
 	{
 		self.weaponframe = 10;
-		self.NAIL_SPINUPv2_LEVEL = 0;
+		self.RIVETER_LEVEL = 0;
 		return;
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_NAIL_SPINUPv2_loop;
+	self.think = weaponanim_RIVETER_loop;
 	self.nextthink = time + 0.025;
 }
 
 //=============================================================================================
 //=============================================================================================
 
-void() W_Fire_NAIL_SPINUPv2_Heavy =
+void() W_Fire_RIVETER_Heavy =
 {
 	self.punchangle_x = -1;
 	makevectors (self.v_angle);
@@ -152,28 +152,28 @@ void() W_Fire_NAIL_SPINUPv2_Heavy =
 	
 	
 	
-	float spread_spreader = ((NAIL_SPINUPv2_MAX_LEVEL * NAIL_SPINUPv2_MAX_LEVEL) + NAIL_SPINUPv2_MAX_LEVEL) - (self.NAIL_SPINUPv2_LEVEL * NAIL_SPINUPv2_MAX_LEVEL);	
+	float spread_spreader = ((RIVETER_MAX_LEVEL * RIVETER_MAX_LEVEL) + RIVETER_MAX_LEVEL) - (self.RIVETER_LEVEL * RIVETER_MAX_LEVEL);	
 	
 	//spread_spreader ((4 * 4 = 16) + 4 = 20) - (0~4 * 4) = 0,4,8,12,16,20 MAX
 	
 		
 	
-	vector mvel = (v_forward*(NAIL_SPINUPv2_SPEED + (self.NAIL_SPINUPv2_LEVEL*NAIL_SPINUPv2_SUM_SPEED)))
+	vector mvel = (v_forward*(RIVETER_VELOCITY + (self.RIVETER_LEVEL*RIVETER_SUM_VELOCITY)))
 	
-		+ (weighted_crandom(spread_spreader)*NAIL_SPINUPv2_SPREAD_x*v_right)
+		+ (weighted_crandom(spread_spreader)*RIVETER_SPREAD_x*v_right)
 	
-		+ (v_up*(NAIL_SPINUPv2_VUP + (self.NAIL_SPINUPv2_LEVEL*NAIL_SPINUPv2_SUM_VUP)))
+		+ (v_up*(RIVETER_VUP + (self.RIVETER_LEVEL*RIVETER_SUM_VUP)))
 	
-		+ (weighted_crandom(spread_spreader)*NAIL_SPINUPv2_SPREAD_y*v_up);
+		+ (weighted_crandom(spread_spreader)*RIVETER_SPREAD_y*v_up);
 
 
 
-	launch_NAIL_SPINUPv2_Heavy (org, mvel + v_right*-13);
+	launch_RIVETER_Heavy (org, mvel + v_right*-13);
 }
 
 //=============================================================================================
 
-entity(vector org, vector vel) launch_NAIL_SPINUPv2_Heavy =
+entity(vector org, vector vel) launch_RIVETER_Heavy =
 {
 	entity nail;
 	
@@ -183,7 +183,7 @@ entity(vector org, vector vel) launch_NAIL_SPINUPv2_Heavy =
 	SUB_ChangeModel (nail, "progs/placeholder_progs/proj_nail_heavy.mdl");
 
 		
-	nail.touch = NAIL_SPINUPv2_Heavy_touch;	//dont pierce with nail
+	nail.touch = RIVETER_Heavy_touch;	//dont pierce with nail
 	
 	nail.alpha = 1;
 	//nail.movetype = MOVETYPE_FLYMISSILE;	//point vs bbox
@@ -191,14 +191,14 @@ entity(vector org, vector vel) launch_NAIL_SPINUPv2_Heavy =
 
 	//nail.avelocity = '0 0 -3000';
 
-	nail.gravity = NAIL_SPINUPv2_GRAVITY;
+	nail.gravity = RIVETER_GRAVITY;
 	
-	//nail.gravity = NAIL_SPINUPv2_MAX_GRAVITY - (self.NAIL_SPINUPv2_LEVEL * NAIL_SPINUPv2_SUM_GRAVITY);
+	//nail.gravity = RIVETER_MAX_GRAVITY - (self.RIVETER_LEVEL * RIVETER_SUM_GRAVITY);
 
 	return nail;
 }
 
-void() ImpalerFade_NAIL_SPINUPv2 =
+void() ImpalerFade_RIVETER =
 {
 	self.alpha -= 0.025;
 	
@@ -220,14 +220,14 @@ void() ImpalerFade_NAIL_SPINUPv2 =
 }
 //=============================================================================================
 
-void() NAIL_SPINUPv2_Heavy_touch =
+void() RIVETER_Heavy_touch =
 {
 	if (!CheckValidSpikeTouch()) return;
 
 	if (other.takedamage)
 	{
-		spawn_touchblood (other, NAIL_SPINUPv2_DMG);
-		T_Damage (other, self, self.trueowner, NAIL_SPINUPv2_DMG);
+		spawn_touchblood (other, RIVETER_DAMAGE);
+		T_Damage (other, self, self.trueowner, RIVETER_DAMAGE);
 				
 		sound_bullet_hit_enemy(1);
 		
@@ -273,7 +273,7 @@ void() NAIL_SPINUPv2_Heavy_touch =
 		remove(self);
 }
 
-void() updateRebars_NAIL_SPINUPv2 =
+void() updateRebars_RIVETER =
 {
 	entity e = find(world, classname, "impaler");
 	while (e)

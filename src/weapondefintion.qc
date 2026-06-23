@@ -49,15 +49,15 @@ weaponclass_t wpc_PISTOL_STECHKIN = {
 	weaponanim_draw // drawfunction
 };
 
-weaponclass_t wpc_PISTOL_REVOLVER = {
+weaponclass_t wpc_REVOLVER = {
 	IT_SHOTGUN,
 	2, // slot
-	PISTOL_REVOLVER_NAME, // name
-	PISTOL_REVOLVER_MODEL, // model
+	REVOLVER_NAME, // name
+	REVOLVER_MODEL, // model
 	5, // ammofield
 	0, // ammo_item
 	0, // ammo_usage
-	weaponanim_PISTOL_REVOLVER, // animfunction
+	weaponanim_REVOLVER, // animfunction
 	SUB_Null, // idlefunction
 	weaponanim_draw // drawfunction
 };
@@ -66,7 +66,7 @@ weaponclass_t wpc_PISTOL_REVOLVER = {
 // SLOT 3: Shells
 // ====================================================================================
 
-weaponclass_t wpc_SHOTGUN_FLAK = {
+weaponclass_t wpc_FLAK_SHOTGUN = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
 	"Flak Shotgun",
@@ -79,15 +79,15 @@ weaponclass_t wpc_SHOTGUN_FLAK = {
 	weaponanim_draw
 };
 
-weaponclass_t wpc_SSG_ROTARY = {
+weaponclass_t wpc_ROTARY_SHOTGUN = {
 	IT_SUPER_SHOTGUN,
 	3, // slot
-	SSG_ROTARY_NAME,
-	SSG_ROTARY_MODEL,
+	ROTARY_SHOTGUN_NAME,
+	ROTARY_SHOTGUN_MODEL,
 	1, // ammofield
 	IT_SHELLS, // ammo_item
-	SSG_ROTARY_COST, // ammo_usage
-	weaponanim_SSG_ROTARY,
+	ROTARY_SHOTGUN_COST, // ammo_usage
+	weaponanim_ROTARY_SHOTGUN,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -96,7 +96,7 @@ weaponclass_t wpc_SSG_ROTARY = {
 // SLOT 4: Nailgun
 // ====================================================================================
 
-weaponclass_t wpc_NAIL_TWIN = {
+weaponclass_t wpc_TWIN_NAILGUNS = {
 	IT_NAILGUN,
 	4, // slot
 	"Twin Nailgun",
@@ -109,15 +109,15 @@ weaponclass_t wpc_NAIL_TWIN = {
 	weaponanim_draw
 };
 
-weaponclass_t wpc_NAIL_SPINUPv2 = {
+weaponclass_t wpc_RIVETER = {
 	IT_NAILGUN,
 	4, // slot
-	NAIL_SPINUPv2_NAME,
-	NAIL_SPINUPv2_MODEL,
+	RIVETER_NAME,
+	RIVETER_MODEL,
 	2, // ammofield
 	IT_NAILS, // ammo_item
-	NAIL_SPINUPv2_COST, // ammo_usage
-	weaponanim_NAIL_SPINUPv2,
+	RIVETER_COST, // ammo_usage
+	weaponanim_RIVETER,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -126,15 +126,15 @@ weaponclass_t wpc_NAIL_SPINUPv2 = {
 // SLOT 5: Rebar
 // ====================================================================================
 
-weaponclass_t wpc_REBAR_BUFF = {
+weaponclass_t wpc_REBAR_CANNON = {
 	IT_SUPER_NAILGUN,
 	5, // slot
-	REBAR_BUFF_NAME,
-	REBAR_BUFF_MODEL,
+	REBAR_CANNON_NAME,
+	REBAR_CANNON_MODEL,
 	2, // ammofield
 	IT_NAILS, // ammo_item
-	REBAR_BUFF_COST, // ammo_usage
-	weaponanim_REBAR_BUFF,
+	REBAR_CANNON_COST, // ammo_usage
+	weaponanim_REBAR_CANNON,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -169,15 +169,15 @@ weaponclass_t wpc_GRENADE_LAUNCHER = {
 	weaponanim_draw
 };
 
-weaponclass_t wpc_GRENADE_TRIBOLTqc = {
+weaponclass_t wpc_TRIDENT = {
 	IT_GRENADE_LAUNCHER,
 	6, // slot
-	GRENADE_TRIBOLTqc_NAME,
-	GRENADE_TRIBOLTqc_MODEL,
+	TRIDENT_NAME,
+	TRIDENT_MODEL,
 	3, // ammofield
 	IT_ROCKETS, // ammo_item
-	GRENADE_TRIBOLTqc_COST, // ammo_usage
-	weaponanim_GRENADE_TRIBOLTqc,
+	TRIDENT_COST, // ammo_usage
+	weaponanim_TRIDENT,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -186,20 +186,20 @@ weaponclass_t wpc_GRENADE_TRIBOLTqc = {
 // SLOT 7: Rockets
 // ====================================================================================
 
-weaponclass_t wpc_ROCKET_RPG = {
+weaponclass_t wpc_RPG = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
-	ROCKET_RPG_NAME,
-	ROCKET_RPG_MODEL,
+	RPG_NAME,
+	RPG_MODEL,
 	3, // ammofield
 	IT_ROCKETS, // ammo_item
-	ROCKET_RPG_COST, // ammo_usage
-	weaponanim_ROCKET_RPG,
+	RPG_COST, // ammo_usage
+	weaponanim_RPG,
 	SUB_Null,
 	weaponanim_draw
 };
 
-weaponclass_t wpc_ROCKET_MMML = {
+weaponclass_t wpc_MMML = {
 	IT_ROCKET_LAUNCHER,
 	7, // slot
 	"Multi-Missile Launcher",
@@ -216,7 +216,7 @@ weaponclass_t wpc_ROCKET_MMML = {
 // SLOT 8: Superweapon
 // ====================================================================================
 
-weaponclass_t wpc_POWER_INVOKER = {
+weaponclass_t wpc_INVOKER = {
 	IT_LIGHTNING,
 	8, // slot
 	"The Invoker",
@@ -229,15 +229,15 @@ weaponclass_t wpc_POWER_INVOKER = {
 	weaponanim_draw_invoker
 };
 
-weaponclass_t wpc_POWER_RIFLE = {
+weaponclass_t wpc_RAILGUN = {
 	IT_LIGHTNING,
 	8, // slot
-	POWER_RIFLE_NAME,
-	POWER_RIFLE_MODEL,
+	RAILGUN_NAME,
+	RAILGUN_MODEL,
 	4, // ammofield
 	IT_CELLS, // ammo_item
-	POWER_RIFLE_COST, // ammo_usage
-	weaponanim_POWER_RIFLE,
+	RAILGUN_COST, // ammo_usage
+	weaponanim_RAILGUN,
 	SUB_Null,
 	weaponanim_draw_invoker
 };
@@ -246,14 +246,14 @@ weaponclass_t wpc_POWER_RIFLE = {
 // SLOT X: Secretweapon
 // ====================================================================================
 
-weaponclass_t wpc_SECRET_ASH = {
+weaponclass_t wpc_BULLPUP = {
 	IT_NAILGUN,
 	4, // slot
-	ash_NAME,
-	ash_MODEL,
+	BULLPUP_NAME,
+	BULLPUP_MODEL,
 	2, // ammofield
 	IT_NAILS, // ammo_item
-	ash_COST, // ammo_usage
+	BULLPUP_COST, // ammo_usage
 	weaponanim_ash,
 	SUB_Null,
 	weaponanim_draw_ash
@@ -272,41 +272,41 @@ weaponclass_t weaponsclass[] = {
 //─────────────────────────────────────────[2]  PISTOLS {bullets}
 
 	wpc_PISTOL_STECHKIN,
-	wpc_PISTOL_REVOLVER,
+	wpc_REVOLVER,
 	
 //─────────────────────────────────────────[3]  SHOTGUNS {shells}
 
-	wpc_SHOTGUN_FLAK,
-	wpc_SSG_ROTARY,
+	wpc_FLAK_SHOTGUN,
+	wpc_ROTARY_SHOTGUN,
 	
 //─────────────────────────────────────────[4]  NAILGUNS {scraps}
 
-	wpc_NAIL_TWIN,
-	wpc_NAIL_SPINUPv2,
+	wpc_TWIN_NAILGUNS,
+	wpc_RIVETER,
 	
 //─────────────────────────────────────────[5]  REBARS {scraps}
 
-	wpc_REBAR_BUFF,
+	wpc_REBAR_CANNON,
 	wpc_SAW_CANNON,
 	
 //─────────────────────────────────────────[6]  GRENADES {explosives}
 
 	wpc_GRENADE_LAUNCHER,
-	wpc_GRENADE_TRIBOLTqc,
+	wpc_TRIDENT,
 	
 //─────────────────────────────────────────[7]  ROCKETS {explosives}
 
-	wpc_ROCKET_RPG,
-	wpc_ROCKET_MMML,
+	wpc_RPG,
+	wpc_MMML,
 	
 //─────────────────────────────────────────[8]  POWER WEAPONS {fragments}
 
-	wpc_POWER_RIFLE,
-	wpc_POWER_INVOKER,
+	wpc_RAILGUN,
+	wpc_INVOKER,
 
 //─────────────────────────────────────────[X]  SECRET WEAPONS {---}
 	
-	wpc_SECRET_ASH
+	wpc_BULLPUP
 
 //.........................................
 };
@@ -324,23 +324,23 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_MELEE_WRENCH}, 1},
 
 	// 2 PISTOLS
-	{{wpc_PISTOL_STECHKIN, wpc_PISTOL_REVOLVER}, 2},
+	{{wpc_PISTOL_STECHKIN, wpc_REVOLVER}, 2},
 
 	// 3 SHOTGUNS
-	{{wpc_SHOTGUN_FLAK, wpc_SSG_ROTARY}, 2},
+	{{wpc_FLAK_SHOTGUN, wpc_ROTARY_SHOTGUN}, 2},
 
 	// 4 NAILGUNS
-	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUPv2}, 2},
+	{{wpc_TWIN_NAILGUNS, wpc_RIVETER}, 2},
 
 	// 5 REBARS
-	{{wpc_REBAR_BUFF, wpc_SAW_CANNON}, 2},
+	{{wpc_REBAR_CANNON, wpc_SAW_CANNON}, 2},
 
 	// 6 GRENADES
-	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_TRIBOLTqc}, 2},
+	{{wpc_GRENADE_LAUNCHER, wpc_TRIDENT}, 2},
 
 	// 7 ROCKETS
-	{{wpc_ROCKET_RPG, wpc_ROCKET_MMML}, 2},
+	{{wpc_RPG, wpc_MMML}, 2},
 
 	// 8 POWER WEAPONS
-	{{wpc_POWER_RIFLE, wpc_POWER_INVOKER}, 2}
+	{{wpc_RAILGUN, wpc_INVOKER}, 2}
 };

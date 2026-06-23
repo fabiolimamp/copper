@@ -18,7 +18,7 @@
 //=============================================================================================
 
 
-	float	POWER_INVOKER_DMG =	666;
+	float	INVOKER_DAMAGE =	666;
 
 
 //=============================================================================================
@@ -153,21 +153,21 @@ void() W_FireInvoker =
 	vector up = v_up;
 	vector right = v_right;
 
-	invokerTrace(POWER_INVOKER_DMG, org + (up * 32) + (right * -32), dir, TRUE); // top left
-	invokerTrace(POWER_INVOKER_DMG, org + (up * 32) + (right * 0), dir, TRUE); // top center
-	invokerTrace(POWER_INVOKER_DMG, org + (up * 32) + (right * 32), dir, TRUE); // top right
-	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * -32), dir, TRUE); // center left
-	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * 0), dir, TRUE); // center
-	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * 32), dir, TRUE); // center right
-	invokerTrace(POWER_INVOKER_DMG, org + (up * -32) + (right * -32), dir, TRUE); // bottom left
-	invokerTrace(POWER_INVOKER_DMG, org + (up * -32) + (right * 0), dir, TRUE); // bottom center
-	invokerTrace(POWER_INVOKER_DMG, org + (up * -32) + (right * 32), dir, TRUE); // bottom right
+	invokerTrace(INVOKER_DAMAGE, org + (up * 32) + (right * -32), dir, TRUE); // top left
+	invokerTrace(INVOKER_DAMAGE, org + (up * 32) + (right * 0), dir, TRUE); // top center
+	invokerTrace(INVOKER_DAMAGE, org + (up * 32) + (right * 32), dir, TRUE); // top right
+	invokerTrace(INVOKER_DAMAGE, org + (up * 0) + (right * -32), dir, TRUE); // center left
+	invokerTrace(INVOKER_DAMAGE, org + (up * 0) + (right * 0), dir, TRUE); // center
+	invokerTrace(INVOKER_DAMAGE, org + (up * 0) + (right * 32), dir, TRUE); // center right
+	invokerTrace(INVOKER_DAMAGE, org + (up * -32) + (right * -32), dir, TRUE); // bottom left
+	invokerTrace(INVOKER_DAMAGE, org + (up * -32) + (right * 0), dir, TRUE); // bottom center
+	invokerTrace(INVOKER_DAMAGE, org + (up * -32) + (right * 32), dir, TRUE); // bottom right
 
 	// extra invisible traces to the sides of the crosshair to catch up rogue swarmers
-	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * -12), dir, FALSE); // left
-	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * -24), dir, FALSE); // left
-	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * 12), dir, FALSE); // right
-	invokerTrace(POWER_INVOKER_DMG, org + (up * 0) + (right * 24), dir, FALSE); // right
+	invokerTrace(INVOKER_DAMAGE, org + (up * 0) + (right * -12), dir, FALSE); // left
+	invokerTrace(INVOKER_DAMAGE, org + (up * 0) + (right * -24), dir, FALSE); // left
+	invokerTrace(INVOKER_DAMAGE, org + (up * 0) + (right * 12), dir, FALSE); // right
+	invokerTrace(INVOKER_DAMAGE, org + (up * 0) + (right * 24), dir, FALSE); // right
 }
 
 void(float invoke_damage, vector org, vector dir, float drawTrail) invokerTrace =

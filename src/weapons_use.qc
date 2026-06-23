@@ -850,7 +850,7 @@ float(float imp) W_ChangeSlot =
 			*/
 			
 			if (self.weaponmodel == "progs/placeholder_progs/v_pistol_revolver.mdl")	
-				weaponanim_reload_PISTOL_REVOLVER();
+				weaponanim_reload_REVOLVER();
 			else
 				weaponanim_reloadpistol();
 

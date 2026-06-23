@@ -14,7 +14,7 @@ string	SAW_CANNON_MODEL	=	"progs/placeholder_progs/v_rebar_buzzsaw_charge_1.mdl"
 								//frames: 11-51		         (11-20, 21-30, 31-40, 41-50, 51+)	
 								//total refire at 40fps = 1 second charge + 0.5 cooldown
 	float	SAW_CANNON_COST		=	5;		//ammo cost to fire, drains per charge level
-	float	SAW_CANNON_SPEED	=	2000;		//arc velocity
+	float	SAW_CANNON_VELOCITY	=	2000;		//arc velocity
 
 //=============================================================================================
 
@@ -142,7 +142,7 @@ void() W_Fire_SAW_CANNON_CHARGE =
 	
 	self.punchangle_x = -2;
 	makevectors (self.v_angle);
-	float base = SAW_CANNON_SPEED;
+	float base = SAW_CANNON_VELOCITY;
 	
 	//vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15 + v_right*8;
 	vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15;			//let's try firing buzzsaws from center like Rebar Cannon

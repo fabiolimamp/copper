@@ -2,8 +2,8 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	ROCKET_RPG_NAME		=	"ROCKET_RPG";
-string	ROCKET_RPG_MODEL	=	"progs/placeholder_progs/v_rocket_rpg.mdl";
+string	RPG_NAME		=	"RPG";
+string	RPG_MODEL	=	"progs/placeholder_progs/v_rocket_rpg.mdl";
 
 //	ROF	COUNT * DMG	COST	SPEED_BASE	DESCRIPTION
 //	0.8	1	120	1	1000		//ID RL (120+)
@@ -12,22 +12,22 @@ string	ROCKET_RPG_MODEL	=	"progs/placeholder_progs/v_rocket_rpg.mdl";
 //=============================================================================================
 	
 	
-	float	ROCKET_RPG_ROF		=	1.2;		//seconds post-fire
+	float	RPG_COOLDOWN		=	1.2;		//seconds post-fire
 	
-	float	ROCKET_RPG_DMG_MAIN	=	100;		//damage per shot
-	float	ROCKET_RPG_DMG_ADD	=	60;	 	//damage per shot
+	float	RPG_DAMAGE_MAIN	=	100;		//damage per shot
+	float	RPG_DAMAGE_ADD	=	60;	 	//damage per shot
 	
-	float	ROCKET_RPG_COST		=	1;		//ammo cost to fire
+	float	RPG_COST		=	1;		//ammo cost to fire
 		
-	float	ROCKET_RPG_SPEED_BASE	=	40;		//rocket speed start
-	float	ROCKET_RPG_SPEED_MULTI	=	1.6;		//accelerator	
+	float	RPG_SPEED_BASE	=	40;		//rocket speed start
+	float	RPG_SPEED_MULTI	=	1.6;		//accelerator	
 	
-	float	ROCKET_RPG_SPEED_MAX	=	2000;		//rocket speed limit
+	float	RPG_VELOCITY_MAX	=	2000;		//rocket speed limit
 	
 
 //=============================================================================================
 
-float() weaponanim_ROCKET_RPG =
+float() weaponanim_RPG =
 {
 	if (self.attack_finished > time)
 		return FALSE;
@@ -38,9 +38,9 @@ float() weaponanim_ROCKET_RPG =
 		return FALSE;
 	}
 
-	self.currentammo = self.ammo_rockets = self.ammo_rockets - ROCKET_RPG_COST;
+	self.currentammo = self.ammo_rockets = self.ammo_rockets - RPG_COST;
 
-	self.attack_finished = time + ROCKET_RPG_ROF;
+	self.attack_finished = time + RPG_COOLDOWN;
 	
 	SUB_CallAsSelf(player_rockatt1, self.animcontroller);
 	
@@ -48,19 +48,19 @@ float() weaponanim_ROCKET_RPG =
 
 
 
-	W_Fire_ROCKET_RPG();
+	W_Fire_RPG();
 
 
 
 	self.weaponframe = 11;
 	
-	self.think = weaponanim_ROCKET_RPG_loop;
+	self.think = weaponanim_RPG_loop;
 	self.nextthink = time + 0.05;
 	
 	return TRUE;
 }
 
-void() weaponanim_ROCKET_RPG_loop =
+void() weaponanim_RPG_loop =
 {
 	if (self.weaponframe >= 50)
 	{
@@ -69,13 +69,13 @@ void() weaponanim_ROCKET_RPG_loop =
 	}
 	else 	self.weaponframe++;
 
-	self.think = weaponanim_ROCKET_RPG_loop;
+	self.think = weaponanim_RPG_loop;
 	self.nextthink = time + 0.05;
 }
 
 //=============================================================================================
 
-void() W_Fire_ROCKET_RPG =
+void() W_Fire_RPG =
 {
 	local entity missile;
 	local vector loc;
@@ -88,22 +88,22 @@ void() W_Fire_ROCKET_RPG =
 	makevectors (self.v_angle);
 	loc = self.origin + v_forward * 8 + '0 0 16' + v_right*8;
 	
-	missile = launch_ROCKET_RPG( loc, v_forward * 1 );
+	missile = launch_RPG( loc, v_forward * 1 );
 }
 //=============================================================================================
 
-entity(vector org, vector vel) launch_ROCKET_RPG =
+entity(vector org, vector vel) launch_RPG =
 {
 	entity missile;
 	
 	missile = launch_projectile(org, vel, "rocket");	// FLYMISSILE
 
-	missile.touch = T_ROCKET_RPG_Touch;
+	missile.touch = T_RPG_Touch;
 	missile.type = "missile";
 	
 	missile.nextthink = time;
-	missile.velocity = v_forward * ROCKET_RPG_SPEED_BASE;
-	missile.think = ROCKET_RPG_think;
+	missile.velocity = v_forward * RPG_SPEED_BASE;
+	missile.think = RPG_think;
 	
 	SUB_ChangeModel (missile, "progs/proj_missile.mdl");
 	
@@ -111,11 +111,11 @@ entity(vector org, vector vel) launch_ROCKET_RPG =
 }
 //=============================================================================================
 
-void() ROCKET_RPG_think =
+void() RPG_think =
 {
 	float spd = vlen(self.velocity);
-	spd *= ROCKET_RPG_SPEED_MULTI;
-	if (spd > ROCKET_RPG_SPEED_MAX) spd = ROCKET_RPG_SPEED_MAX;
+	spd *= RPG_SPEED_MULTI;
+	if (spd > RPG_VELOCITY_MAX) spd = RPG_VELOCITY_MAX;
 	self.velocity = normalize(self.velocity) * spd;
 
 	
@@ -127,7 +127,7 @@ void() ROCKET_RPG_think =
 
 //=============================================================================================
 
-void() T_ROCKET_RPG_Touch =
+void() T_RPG_Touch =
 {
 	if (other == self.owner) return;		// don't explode on owner
 	if (CheckProjectilePassthru()) return;
@@ -138,14 +138,14 @@ void() T_ROCKET_RPG_Touch =
 		return;
 	}
 
-	T_ROCKET_RPG_Explode();
+	T_RPG_Explode();
 
 	self.origin = self.origin - 8*normalize(self.velocity);
-	T_ROCKET_RPG_ExplosiveTouch();
+	T_RPG_ExplosiveTouch();
 }
 //=============================================================================================
 
-void() T_ROCKET_RPG_ExplosiveTouch =
+void() T_RPG_ExplosiveTouch =
 {
 	if (other.classname == "monster_shambler")
 		BecomeWeakExplosion();
@@ -154,14 +154,14 @@ void() T_ROCKET_RPG_ExplosiveTouch =
 		BecomeBoxExplosion();	//big
 }
 
-void() T_ROCKET_RPG_Explode =
+void() T_RPG_Explode =
 {
 	if (other.health)
 	{
-		T_Damage (other, self, self.trueowner, ROCKET_RPG_DMG_MAIN + ROCKET_RPG_DMG_ADD, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
+		T_Damage (other, self, self.trueowner, RPG_DAMAGE_MAIN + RPG_DAMAGE_ADD, DMGTYPE_EXPLOSION | DMGTYPE_ZKILL );	// so ogre rockets kill zombies despite being too weak
 	}
 
 	// don't do radius damage to other, because all damage will be done in the impact
-	T_RadiusDamage (self, self.trueowner, ROCKET_RPG_DMG_MAIN, other, DMGTYPE_EXPLOSION);
-	T_RadiusDamage (self, self.trueowner, ROCKET_RPG_DMG_ADD, other, DMGTYPE_EXPLOSION);
+	T_RadiusDamage (self, self.trueowner, RPG_DAMAGE_MAIN, other, DMGTYPE_EXPLOSION);
+	T_RadiusDamage (self, self.trueowner, RPG_DAMAGE_ADD, other, DMGTYPE_EXPLOSION);
 }
