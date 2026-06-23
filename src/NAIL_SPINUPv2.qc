@@ -84,14 +84,14 @@ float() weaponanim_NAIL_SPINUPv2 =
 	
 	self.attack_finished = time + (NAIL_SPINUPv2_ROF - (self.NAIL_SPINUPv2_LEVEL * NAIL_SPINUPv2_SUM_ROF));
 	
-	
+	/*
 	if 	(self.NAIL_SPINUPv2_LEVEL == 0)	dprint("spinup 0  [    ]\n");
 	else if (self.NAIL_SPINUPv2_LEVEL == 1)	dprint("spinup 1  [\b-\b   ]\n");
 	else if (self.NAIL_SPINUPv2_LEVEL == 2)	dprint("spinup 2  [\b--\b  ]\n");
 	else if (self.NAIL_SPINUPv2_LEVEL == 3)	dprint("spinup 3  [\b---\b ]\n");
 	else if (self.NAIL_SPINUPv2_LEVEL == 4)	dprint("spinup 4  [\b++++\b] MAX\n");
 	else					dprint("???");
-	
+	*/
 	
 	if (self.NAIL_SPINUPv2_LEVEL < NAIL_SPINUPv2_MAX_LEVEL)	self.NAIL_SPINUPv2_LEVEL++;
 
