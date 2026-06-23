@@ -356,7 +356,7 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw_1 =
 		if (other.customflags & CFL_GIBBED)
 		{
 			if (other.model == "progs/soldier_pistol_qbj.mdl")
-								
+			{			
 				dprint("/n/bSoldier_p got gibbed...");
 				
 				setmodel (other, "progs/placeholder_progs/splithalf_soldier_p_legs.mdl");
@@ -373,6 +373,7 @@ void() ImpalerTouch_REBAR_BUZZSAW2_Buzzsaw_1 =
 				
 				//FX_Split_Half(other.splithalftorso, other.splithalflegs, other.enemydropgun, other.origin, other.oldvelocity);
 				//TODO ^^^ this needs some work so we don't have raw other. calls inside the Touch function
+			}
 		}
 		
 		
