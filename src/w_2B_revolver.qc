@@ -3,7 +3,8 @@
 //=============================================================================================
 
 string	REVOLVER_NAME	=	"Revolver";
-string	REVOLVER_MODEL	=	"progs/placeholder_progs/v_pistol_revolver.mdl";
+//string	REVOLVER_MODEL	=	"progs/placeholder_progs/v_pistol_revolver.mdl";
+string	REVOLVER_MODEL	=	"progs/placeholder_progs/v_revolver.mdl";
 
 /*
 	mateva revolver (WIP)
@@ -86,7 +87,7 @@ float() weaponanim_REVOLVER =
 	SuperDamageSound();
 	
 			
-	W_Fire_REVOLVER(); //fancy tracers and all that
+	//W_Fire_REVOLVER(); //fancy tracers and all that
 	
 	
 	// --------------------------------
@@ -107,6 +108,8 @@ float() weaponanim_REVOLVER =
 
 void() weaponanim_REVOLVER_loop =
 {	
+	if (self.weaponframe == 13) W_Fire_REVOLVER(); //fancy tracers and all that
+	
 	
 	if (self.pistol_ammo_count <= 0 && time > (self.attack_finished - 0.1))
 	{
