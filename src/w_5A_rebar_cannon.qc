@@ -187,3 +187,69 @@ void() ImpalerTouch_REBAR_BUFF =
 	else
 		remove(self);	
 }
+
+//=============================================================================================
+
+void() ImpalerThink =
+{
+	if (time > self.lifetime_finished)
+	{
+		ImpalerFade();
+		return;
+	}
+	self.flags &~= FL_ONGROUND;
+	self.oldvelocity = self.velocity;
+	//self.velocity.z -= 25;
+	self.nextthink = time + 0.05;
+	self.angles = vectoangles(self.velocity);
+}
+
+void() ImpalerFade =
+{
+	self.alpha -= 0.025;
+	
+	if (self.alpha <= 0)
+	{
+		remove(self);
+		return;
+	}
+
+	if (!self.state)
+	{
+		self.angles = vectoangles(self.velocity);
+		self.flags &~= FL_ONGROUND;
+		self.oldvelocity = self.velocity;
+	}
+
+	self.think = ImpalerFade;
+	self.nextthink = time + 0.05;
+}
+
+//=============================================================================================
+
+void() updateRebars =
+{
+	entity e = find(world, classname, "impaler");
+	while (e)
+	{
+		if (e.state)
+		{
+			// hole is in a valid non-world solid entity
+			if (e.owner && e.owner.solid == SOLID_BSP)
+			{
+				if (e.owner.absmin != e.pos1)
+				{
+					setorigin(e, e.origin - e.pos1 + e.owner.absmin);
+					e.pos1 = e.owner.absmin;
+				}
+			}
+
+			// hole was originally in a non-world entity, but it was removed or changed to non-solid
+			else if (e.state == 2) { 
+				remove(e);
+			}
+		}
+
+		e = find(e, classname, "impaler");
+	}
+}

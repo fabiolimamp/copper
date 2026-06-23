@@ -139,15 +139,15 @@ weaponclass_t wpc_REBAR_BUFF = {
 	weaponanim_draw
 };
 
-weaponclass_t wpc_REBAR_BUZZSAW2 = {
+weaponclass_t wpc_SAW_CANNON = {
 	IT_SUPER_NAILGUN,
 	5, // slot
-	REBAR_BUZZSAW2_NAME,
-	REBAR_BUZZSAW2_MODEL,
+	SAW_CANNON_NAME,
+	SAW_CANNON_MODEL,
 	2, // ammofield
 	IT_NAILS, // ammo_item
-	REBAR_BUZZSAW2_COST, // ammo_usage
-	weaponanim_REBAR_BUZZSAW2,
+	SAW_CANNON_COST, // ammo_usage
+	weaponanim_SAW_CANNON,
 	SUB_Null,
 	weaponanim_draw
 };
@@ -287,7 +287,7 @@ weaponclass_t weaponsclass[] = {
 //─────────────────────────────────────────[5]  REBARS {scraps}
 
 	wpc_REBAR_BUFF,
-	wpc_REBAR_BUZZSAW2,
+	wpc_SAW_CANNON,
 	
 //─────────────────────────────────────────[6]  GRENADES {explosives}
 
@@ -333,7 +333,7 @@ weaponslot_t weaponslots[9] = {
 	{{wpc_NAIL_TWIN, wpc_NAIL_SPINUPv2}, 2},
 
 	// 5 REBARS
-	{{wpc_REBAR_BUFF, wpc_REBAR_BUZZSAW2}, 2},
+	{{wpc_REBAR_BUFF, wpc_SAW_CANNON}, 2},
 
 	// 6 GRENADES
 	{{wpc_GRENADE_LAUNCHER, wpc_GRENADE_TRIBOLTqc}, 2},

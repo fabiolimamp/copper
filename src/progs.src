@@ -33,25 +33,36 @@ w_lightning.qc
 w_shotguns.qc
 w_rockets.qc
 w_nails.qc
-w_1_wrench.qc
-w_2_pistol.qc
-w_3_flakshotgun.qc
-w_4_twinnailgun.qc
-w_5_rebarcannon.qc
-w_6_grenadelauncher.qc
-w_7_clusterrocket.qc
-w_8_invoker.qc
-w_berserk.qc
 
-PISTOL_REVOLVER.qc
-SSG_ROTARY.qc
-NAIL_SPINUPv2.qc
-REBAR_BUFF.qc
-REBAR_BUZZSAW2.qc
-GRENADE_TRIBOLTqc.qc
-ROCKET_RPG.qc
-POWER_RIFLE.qc
-SECRET_ASH.qc
+
+w_1_skullcracker.qc
+w_2A_service_pistol.qc
+w_2B_revolver.qc
+w_3A_flak_shotgun.qc
+w_3B_rotary_shotgun.qc
+w_4A_twin_nailguns.qc
+w_4B_riveter.qc
+w_5A_rebar_cannon.qc
+w_5B_saw_cannon.qc	//temp name
+w_6A_grenade_launcher.qc
+w_6B_trident.qc
+w_7A_RPG.qc
+w_7B_MMML.qc
+w_8A_railgun.qc		//temp name
+w_8B_invoker.qc
+w_X_bullpup.qc		//secret
+w_P_berserk.qc		//powerup
+
+
+//PISTOL_REVOLVER.qc
+//SSG_ROTARY.qc
+//NAIL_SPINUPv2.qc
+//REBAR_BUFF.qc
+//SAW_CANNON.qc
+//GRENADE_TRIBOLTqc.qc
+//ROCKET_RPG.qc
+//POWER_RIFLE.qc
+//SECRET_ASH.qc
 
 /*
 MELEE_KNIFE.qc
