@@ -15,7 +15,7 @@ string	SAW_CANNON_MODEL	=	"progs/placeholder_progs/v_rebar_buzzsaw_charge_1.mdl"
 								//total refire at 40fps = 1 second charge + 0.5 cooldown
 	float	SAW_CANNON_COST		=	5;		//ammo cost to fire, drains per charge level
 	float	SAW_CANNON_VELOCITY	=	2000;		//arc velocity
-
+	
 //=============================================================================================
 
 float() weaponanim_SAW_CANNON =
@@ -211,6 +211,8 @@ void() SAW_CANNON_Buzzsaw_Think =
 
 void() SAW_CANNON_Buzzsaw_Touch_1 =
 {
+	local float buzzsaw_damage_total;	// = self.buzzsaw_charge * SAW_CANNON_DAMAGE
+	
 	self.gravity = 1;
 	
 	if (CheckProjectilePassthru()) return;
@@ -226,12 +228,14 @@ void() SAW_CANNON_Buzzsaw_Touch_1 =
 			T_Damage(other, self, self.trueowner, 59);
 		else
 		{
-			if 	(self.model == "progs/placeholder_progs/proj_buzz_hot_1.mdl")	T_Damage(other, self, self.trueowner, 1 * SAW_CANNON_DAMAGE);
-			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_2.mdl")	T_Damage(other, self, self.trueowner, 2 * SAW_CANNON_DAMAGE);
-			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_3.mdl")	T_Damage(other, self, self.trueowner, 3 * SAW_CANNON_DAMAGE);
-			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_4.mdl")	T_Damage(other, self, self.trueowner, 4 * SAW_CANNON_DAMAGE);
-			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_5.mdl")	T_Damage(other, self, self.trueowner, 5 * SAW_CANNON_DAMAGE);
-			else	T_Damage(other, self, self.trueowner, SAW_CANNON_DAMAGE);
+			if 	(self.model == "progs/placeholder_progs/proj_buzz_hot_1.mdl")	buzzsaw_damage_total = 1 * SAW_CANNON_DAMAGE;
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_2.mdl")	buzzsaw_damage_total = 2 * SAW_CANNON_DAMAGE;
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_3.mdl")	buzzsaw_damage_total = 3 * SAW_CANNON_DAMAGE;
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_4.mdl")	buzzsaw_damage_total = 4 * SAW_CANNON_DAMAGE;
+			else if (self.model == "progs/placeholder_progs/proj_buzz_hot_5.mdl")	buzzsaw_damage_total = 5 * SAW_CANNON_DAMAGE;
+			else	T_Damage(other, self, self.trueowner, 0);
+			
+			T_Damage(other, self, self.trueowner, buzzsaw_damage_total);
 		}
 		
 		
@@ -239,7 +243,7 @@ void() SAW_CANNON_Buzzsaw_Touch_1 =
 		// TEMP/WIP... makes every gibbed enemy a soldier_p lol
 		if (other.customflags & CFL_GIBBED)
 		{
-			if (other.model == "progs/soldier_pistol_qbj.mdl")
+			//if (other.model == "progs/soldier_pistol_qbj.mdl")	//why doesn't this work???
 			{			
 				dprint("/n/bSoldier_p got gibbed...");
 				
@@ -252,8 +256,8 @@ void() SAW_CANNON_Buzzsaw_Touch_1 =
 				other.nextthink = time + 0.1;
 				
 				GoopBlood(0);
-				
-				Throw_Split_Half_Torso("progs/placeholder_progs/splithalf_soldier_p_torso.mdl", (self.oldvelocity * -0.05) + '0 0 200');
+												
+				Throw_Split_Half_Torso("progs/placeholder_progs/splithalf_soldier_p_torso.mdl", (self.oldvelocity * -0.05) + v_up*(buzzsaw_damage_total*1.5));
 				
 				//FX_Split_Half(other.splithalftorso, other.splithalflegs, other.enemydropgun, other.origin, other.oldvelocity);
 				//TODO ^^^ this needs some work so we don't have raw other. calls inside the Touch function
