@@ -144,8 +144,8 @@ vector(float damage, vector dir) BulletImpact =
 
 	org = trace_endpos - dir*4;
 	
-	if (trace_ent.flags & FL_MONSTER)
-		sound_bullet_hit_enemy(0.8);
+	//if (trace_ent.flags & FL_MONSTER)
+		//sound_bullet_hit_enemy(0.8);
 	
 	if (trace_ent.takedamage)
 	{
