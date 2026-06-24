@@ -903,6 +903,8 @@ void() hurt_touch =
 	{
 		if (other.movetype == MOVETYPE_NOCLIP)
 			return FALSE;
+		if (self.spawnflags & 32)
+			return FALSE;
 	}
 	if (other.health <= 0)
 		return FALSE;
@@ -917,12 +919,16 @@ void() hurt_touch =
 		if (time < self.attack_finished)
 			return;
 	
+	if (self.spawnflags & 16) //check if they're going to die from the next hit, and gib them if possible
+	{
+		if (other.health <= self.dmg) T_Damage (other, self, self, other.health + 750);
+	}
+	
 	if (self.spawnflags & 1)
 	{
 		T_Damage (other, self, self, other.health + min(other.armorvalue, other.health / other.armortype) + 5);
 	}
-	else
-		T_Damage (other, self, self, self.dmg);
+	else T_Damage (other, self, self, self.dmg);
 	
 	self.dmgtime = time;
 	self.attack_finished = time + self.delay;
@@ -943,9 +949,11 @@ void() hurt_touch =
 /*FGD
 @baseclass base(TriggerNoTargets) = Hurt [
 	spawnflags(flags) = [
-		1 : "Just Kill Them" : 0
+		1 : "Just Kill (Don't Gib)" : 0
 		2 : "Biosuits are Immune" : 0
 		8 : "Don't Hurt Monsters" : 0
+		16 : "When Killed, Force Gib" : 0
+		32 : "Don't hurt players"
 	]
 	dmg(integer) : "Damage" : 5
 	delay(string) : "Interval (seconds)" : "1"
