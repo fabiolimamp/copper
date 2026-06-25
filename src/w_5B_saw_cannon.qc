@@ -266,7 +266,7 @@ void() SAW_CANNON_Buzzsaw_Touch_1 =
 		// TEMP/WIP... makes every gibbed enemy a soldier_p lol
 		if (other.customflags & CFL_GIBBED)
 		{
-			//if (other.model == "progs/soldier_pistol_qbj.mdl")	//why doesn't this work???
+			if (other.classname == "monster_army_pistol")
 			{			
 				dprint("/n/bSoldier_p got gibbed...");
 				
