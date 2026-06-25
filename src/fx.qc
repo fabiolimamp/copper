@@ -139,7 +139,7 @@ void(vector dir, string trailstring) Draw_Projectiletrail =
 		dir = v_forward;
 	}
 	
-	fx.angles = vectoangles(dir);
+	fx.angles = self.angles;
 	fx.nextthink = time;
 	
 	fx.frame = 0;
