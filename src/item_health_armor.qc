@@ -201,19 +201,19 @@ void() armor_touch =
 	if (self.cnt == 1)
 	{
 		sprint(other, "\b+\b5   Picked up an Armor Shard ");
-		sound(other, CHAN_ITEM, "items/armor_shard.wav", 1, ATTN_NORM);
+		sound(other, CHAN_ITEM, "placeholder_sound/items/armor_shard.wav", 1, ATTN_NORM);
 	}
 
 	if (self.cnt == 2)
 	{
 		sprint(other, "\b+\b25  Picked up Light Armor");
-		sound(other, CHAN_ITEM, "items/armor_light.wav", 1, ATTN_NORM);
+		sound(other, CHAN_ITEM, "placeholder_sound/items/armor_light.wav", 1, ATTN_NORM);
 	}
 
 	if (self.cnt == 3)
 	{
 		sprint(other, "\b+\b100 Picked up Heavy Armor");
-		sound(other, CHAN_ITEM, "items/armor_heavy.wav", 1, ATTN_NORM);
+		sound(other, CHAN_ITEM, "placeholder_sound/items/armor_heavy.wav", 1, ATTN_NORM);
 	}
 
 	sprint(other, "\n");
