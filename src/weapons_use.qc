@@ -264,6 +264,11 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_buzz_3.mdl");
 	precache_model ("progs/placeholder_progs/proj_buzz_4.mdl");
 	precache_model ("progs/placeholder_progs/proj_buzz_5.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_trail_1.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_trail_2.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_trail_3.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_trail_4.mdl");
+	precache_model ("progs/placeholder_progs/proj_buzz_trail_5.mdl");
 	precache_model ("progs/placeholder_progs/railtrail_smoke.mdl");
 	precache_model ("progs/placeholder_progs/railtrail_tracer.mdl");
 	precache_model ("progs/placeholder_progs/proj_grenade_mini.mdl");

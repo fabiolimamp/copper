@@ -185,7 +185,7 @@ entity(vector org, vector vel) Launch_SAW_CANNON_Buzzsaw =
 	else if (buzzsaw.trueowner.buzzsaw_charge == 3)	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_hot_3.mdl");
 	else if (buzzsaw.trueowner.buzzsaw_charge == 4)	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_hot_4.mdl");
 	else if (buzzsaw.trueowner.buzzsaw_charge == 5)	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_hot_5.mdl");	//_hot leaves trail + glowing
-	else	SUB_ChangeModel (buzzsaw, "progs/null.mdl");
+	else	SUB_ChangeModel (buzzsaw, "progs/placeholder_progs/proj_buzz_hot_1.mdl");
 
 	return buzzsaw;
 }
@@ -200,8 +200,31 @@ void() SAW_CANNON_Buzzsaw_Think =
 	self.flags &~= FL_ONGROUND;
 	self.oldvelocity = self.velocity;
 	//self.velocity.z -= 25;
-	self.nextthink = time + 0.05;
+	self.nextthink = time + 0.05;			//<--- delay prevents trail from showing up in players face when firing
+	self.think = SAW_CANNON_Buzzsaw_Think_Trail;
 	self.angles = vectoangles(self.velocity);
+}
+
+void() SAW_CANNON_Buzzsaw_Think_Trail =
+{
+	if (time > self.lifetime_finished)
+	{
+		ImpalerFade();
+		return;
+	}
+	self.flags &~= FL_ONGROUND;
+	self.oldvelocity = self.velocity;
+	//self.velocity.z -= 25;
+	self.nextthink = time + 0.01;			//<--- very fast nextthink so trail gaps are spaced closer
+	self.think = SAW_CANNON_Buzzsaw_Think_Trail;
+	self.angles = vectoangles(self.velocity);
+	
+	if 	(self.model == "progs/placeholder_progs/proj_buzz_hot_1.mdl")	Draw_Projectiletrail(self.angles, "progs/placeholder_progs/proj_buzz_trail_1.mdl");
+	else if (self.model == "progs/placeholder_progs/proj_buzz_hot_2.mdl")	Draw_Projectiletrail(self.angles, "progs/placeholder_progs/proj_buzz_trail_2.mdl");
+	else if (self.model == "progs/placeholder_progs/proj_buzz_hot_3.mdl")	Draw_Projectiletrail(self.angles, "progs/placeholder_progs/proj_buzz_trail_3.mdl");
+	else if (self.model == "progs/placeholder_progs/proj_buzz_hot_4.mdl")	Draw_Projectiletrail(self.angles, "progs/placeholder_progs/proj_buzz_trail_4.mdl");
+	else if (self.model == "progs/placeholder_progs/proj_buzz_hot_5.mdl")	Draw_Projectiletrail(self.angles, "progs/placeholder_progs/proj_buzz_trail_5.mdl");
+	else	Draw_Projectiletrail(self.angles, "progs/placeholder_progs/proj_buzz_trail_1.mdl");
 }
 
 //=============================================================================================
