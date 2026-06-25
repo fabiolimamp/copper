@@ -246,7 +246,7 @@ void() StartWeapon =
 */
 
 /*QUAKED weapon_pistol (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
-Pistol.
+Service Pistol / Revolver.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -255,7 +255,19 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_pistol.mdl" }) = weapon_pistol : "Pistol." []
+@PointClass base(Weapon) model(
+
+        {{
+
+            spawnflags & 8 ->   ":progs/placeholder_progs/g_pistol_revolver.mdl",
+
+                                ":progs/g_pistol.mdl"
+
+        }}
+
+    ) 
+
+ = weapon_pistol : "Service Pistol / Revolver." []
 */
 void() weapon_pistol =
 {
@@ -284,7 +296,7 @@ void() weapon_shotgun = {weapon_pistol();} //for legacy compat
 
 
 /*QUAKED weapon_flak (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
-Flak shotgun.
+Flak shotgun / rotary shotgun.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -293,8 +305,19 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_flakshotgun.mdl" }) = weapon_flak : "Flak Shotgun.
-16 shells." []
+@PointClass base(Weapon) model(
+
+        {{
+
+            spawnflags & 8 ->   ":progs/placeholder_progs/g_shotgun_rotary.mdl",
+
+                                ":progs/g_flakshotgun.mdl"
+
+        }}
+
+    ) 
+
+ = weapon_flak : "Flak Shotgun / Rotary Shotgun." []
 */
 void() weapon_flak =
 {
@@ -324,7 +347,7 @@ void() weapon_supershotgun = {weapon_flak();} //for legacy compat
 
 
 /*QUAKED weapon_nailgun (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
-Twin Nailgun.
+Twin Nailgun / Riveter.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -333,7 +356,19 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_tnailgun.mdl" }) = weapon_nailgun : "Twin Nailgun.
+@PointClass base(Weapon) model(
+
+        {{
+
+            spawnflags & 8 ->   ":progs/placeholder_progs/g_nailgun_windup.mdl",
+
+                                ":progs/g_tnailgun.mdl"
+
+        }}
+
+    ) 
+
+ = weapon_nailgun : "Twin Nailgun / Riveter.
 30 nails." []
 */
 void() weapon_nailgun =
@@ -367,7 +402,19 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_rebar.mdl" }) = weapon_rebar : "Rebar Cannon.
+@PointClass base(Weapon) model(
+
+        {{
+
+            spawnflags & 8 ->   ":progs/placeholder_progs/g_rebar_buzzsaw.mdl",
+
+                                ":progs/g_rebar.mdl"
+
+        }}
+
+    ) 
+
+ = weapon_rebar : "Rebar Cannon / Buzzsaw.
 30 nails." []
 */
 void() weapon_rebar =
@@ -394,7 +441,7 @@ void() weapon_rebar =
 void() weapon_supernailgun = {weapon_rebar();} //for legacy compat
 
 /*QUAKED weapon_grenadelauncher (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
-Grenade Launcher.
+Grenade Launcher / Tribolt.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -403,7 +450,19 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_grenlauncher.mdl" }) = weapon_grenadelauncher : "Grenade Launcher.
+@PointClass base(Weapon) model(
+
+        {{
+
+            spawnflags & 8 ->   ":progs/placeholder_progs/g_grenade_tribolt.mdl",
+
+                                ":progs/g_grenlauncher.mdl"
+
+        }}
+
+    ) 
+
+ = weapon_grenadelauncher : "Grenade Launcher / Tribolt.
 8 rockets." []
 */
 void() weapon_grenadelauncher =
@@ -428,7 +487,7 @@ void() weapon_grenadelauncher =
 }
 
 /*QUAKED weapon_mmml (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
-Multi Mini-Missile Launcher.
+Multi Mini-Missile Launcher / RPG.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -437,7 +496,19 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_mmml.mdl" }) = weapon_mmml : "Multi Mini-Missile Launcher.
+@PointClass base(Weapon) model(
+
+        {{
+
+            spawnflags & 8 ->   ":progs/g_mmml.mdl",
+
+                                ":progs/placeholder_progs/g_rocket_rpg.mdl"
+
+        }}
+
+    ) 
+
+ = weapon_mmml : "RPG / Multi Mini-Missile Launcher.
 8 rockets." []
 */
 void() weapon_mmml =
@@ -466,7 +537,7 @@ void() weapon_mmml =
 void() weapon_rocketlauncher = {weapon_mmml();} //for legacy compat
 
 /*QUAKED weapon_invoker (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
-The Invoker.
+The Invoker / Railgun.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -475,7 +546,19 @@ Keys:
 "count" - limit number of times to respawn
 */
 /*FGD
-@PointClass base(Weapon) model({ "path": ":progs/g_invoker.mdl" }) = weapon_invoker : "The Invoker.
+@PointClass base(Weapon) model(
+
+        {{
+
+            spawnflags & 8 ->   ":progs/g_invoker.mdl",
+
+                                ":progs/placeholder_progs/g_railgun_rifle.mdl"
+
+        }}
+
+    ) 
+
+ = weapon_invoker : "Railgun / Invoker.
 1 cell." []
 */
 void() weapon_invoker =
