@@ -145,7 +145,8 @@ void() W_Fire_SAW_CANNON_CHARGE =
 	float base = SAW_CANNON_VELOCITY;
 	
 	//vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15 + v_right*8;
-	vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15;			//let's try firing buzzsaws from center like Rebar Cannon
+	vector org = self.origin + self.view_ofs - v_up*12 + v_forward*15 + v_right*12;
+	//vector org = self.origin + self.view_ofs - v_up*8 + v_forward*15;		// center
 	vector mvel = v_forward*base + v_up*160;
 	
 	Launch_SAW_CANNON_Buzzsaw (org, mvel);

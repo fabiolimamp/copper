@@ -156,7 +156,7 @@ void(vector dir, string trailstring) Draw_Projectiletrail =
 void() anim_projectiletrail =
 {
 	self.alpha -= 0.10;
-	self.frame ++;
+	//self.frame ++;
 
 	//if (self.frame >= 6)
 	if (self.alpha <= 0)
