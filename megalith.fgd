@@ -269,7 +269,7 @@ Spawnflag Usage:
 
         {{
 
-            spawnflags & 8 ->   ":progs/placeholder_progs/g_nailgun_windup.mdl",
+            spawnflags & 8 ->   ":progs/placeholder_progs/g_riveter.mdl",
 
                                 ":progs/g_tnailgun.mdl"
 

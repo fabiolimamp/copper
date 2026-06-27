@@ -3,7 +3,7 @@
 //=============================================================================================
 
 string	RIVETER_NAME	=	"Riveter";
-string	RIVETER_MODEL	=	"progs/placeholder_progs/v_nail_drum.mdl";
+string	RIVETER_MODEL	=	"progs/placeholder_progs/v_riveter.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPEED		DESCRIPTION

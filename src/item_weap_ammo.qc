@@ -360,7 +360,7 @@ Keys:
 
         {{
 
-            spawnflags & 8 ->   ":progs/placeholder_progs/g_nailgun_windup.mdl",
+            spawnflags & 8 ->   ":progs/placeholder_progs/g_riveter.mdl",
 
                                 ":progs/g_tnailgun.mdl"
 
@@ -375,16 +375,16 @@ void() weapon_nailgun =
 {
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe ("progs/g_tnailgun.mdl");
-	precache_model_safe ("progs/placeholder_progs/g_nailgun_windup.mdl");
+	precache_model_safe ("progs/placeholder_progs/g_riveter.mdl");
 	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 	{
-		setmodel (self, "progs/placeholder_progs/g_nailgun_windup.mdl");
+		setmodel (self, "progs/placeholder_progs/g_riveter.mdl");
 		self.invokedmodel = "progs/g_tnailgun.mdl";
 	}
 	else
 	{
 		setmodel (self, "progs/g_tnailgun.mdl");
-		self.invokedmodel = "progs/placeholder_progs/g_nailgun_windup.mdl";
+		self.invokedmodel = "progs/placeholder_progs/g_riveter.mdl";
 	}
 	self.items = IT_NAILGUN;
 	self.ammo_nails = 30;

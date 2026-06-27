@@ -316,6 +316,8 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_nail_turbo.mdl");		
 	precache_model ("progs/placeholder_progs/v_nail_lmg.mdl");
 	precache_model ("progs/placeholder_progs/v_nail_drum.mdl");
+	precache_model ("progs/placeholder_progs/v_riveter.mdl");
+	precache_model ("progs/placeholder_progs/g_riveter.mdl");
 	
 	precache_model ("progs/placeholder_progs/v_rebar_multi.mdl");	
 	precache_model ("progs/placeholder_progs/v_rebar_wide.mdl");	
