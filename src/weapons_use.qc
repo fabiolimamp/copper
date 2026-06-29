@@ -370,6 +370,9 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/splithalf_soldier_p_gun.mdl");
 	precache_model ("progs/placeholder_progs/splithalf_soldier_p_torso.mdl");
 	
+	precache_model ("progs/placeholder_progs/proj_magic_claw.mdl");
+	precache_model ("progs/placeholder_progs/proj_magic_claw_trail.mdl");
+	
 	//=============================================================================================	
 
 

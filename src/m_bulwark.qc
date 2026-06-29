@@ -218,13 +218,13 @@ void(float side) blwk_fire =
 	magic = launch_projectile(shot_org, dir*800, "magic");
 	magic.dmg = 15;
 	magic.touch = spike_touch;
-	SUB_ChangeModel(magic, "progs/s_light.spr");
-
+	SUB_ChangeModel(magic, "progs/placeholder_progs/proj_magic_claw.mdl");
+	
 	spread_dir = normalize(target_pos + v_right * 130 * side - shot_org);
 	magic2 = launch_projectile(shot_org, spread_dir*800, "magic");
 	magic2.dmg = 15;
 	magic2.touch = spike_touch;
-	SUB_ChangeModel(magic2, "progs/s_light.spr");
+	SUB_ChangeModel(magic2, "progs/placeholder_progs/proj_magic_claw.mdl");
 }
 
 void() blwk_magic1	=[65, blwk_magic2  ] {ai_face(); self.lip = 0; self.cnt = 1;}
@@ -240,6 +240,7 @@ void() blwk_magic10	=[74, blwk_magic11 ] {}
 void() blwk_magic11	=[75, blwk_magic12 ] {}
 void() blwk_magic12	=[76, blwk_magic13 ] {blwk_fire(-self.cnt); self.cnt = -self.cnt;}
 void() blwk_magic13	=[77, blwk_run1    ] {ai_attack_finished(1 + random());}
+
 
 //============================================================================
 // LEAP ATTACK
@@ -649,7 +650,8 @@ void() monster_bulwark =
 
 	precache_model ("progs/placeholder_progs/mon_bulwark.mdl");
 	precache_model ("progs/gibs/gibhead_shambler.mdl");
-	precache_model ("progs/s_light.spr");
+	precache_model ("progs/placeholder_progs/proj_magic_claw.mdl");
+	precache_model ("progs/placeholder_progs/proj_magic_claw_trail.mdl");
 
 	self.gibgroup = GIBGROUP_TAR_ALLOWED;
 	self.health = 400;
