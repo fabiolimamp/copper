@@ -226,6 +226,184 @@ void() Draw_Tracertrail_Segment_Think =
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+void() Fire_Grounded_Attack =
+{
+	makevectors (self.v_angle);
+	
+	vector	yaw = vectoangles2(v_forward);
+	
+	yaw = normalize(yaw);
+	
+	dprint2(vtos(yaw), "yaw\n");	//FIXME: pitch = z should be removed but keep radius distance???
+	
+	dprint("\bFIXME!\n");
+	
+	
+			
+	vector 	next_startpos = self.origin + self.view_ofs;
+	vector 	prev_startpos;
+	
+	dprint("check floor...\n");
+	
+	traceline2(next_startpos, next_startpos + '0 0 -96', self, TRACE_NOMONSTERS|TRACE_WATER);		//v_up * -96
+	
+	prev_startpos = next_startpos;
+	next_startpos = trace_endpos;
+		
+	if (trace_ent == self)	
+		return;
+		
+	if (trace_fraction == 1.0)
+		return;
+	
+	else
+	{
+		dprint("floor valid, draw grounded, check air above...\n");
+		
+		Draw_Groundedtrail (v_forward, trace_endpos, "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+						
+		traceline2(next_startpos, next_startpos + '0 0 64', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * 64
+		
+		prev_startpos = next_startpos;
+		next_startpos = trace_endpos;
+						
+		Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+		
+		if (trace_ent == self)	
+			return;
+		
+		if (trace_fraction != 1.0)
+			return;
+		
+		else
+		{
+			dprint("air above valid, check air forwards...\n");
+			
+			traceline2(next_startpos, next_startpos + v_forward * 96, self, TRACE_NOMONSTERS|TRACE_WATER);		//*16
+			
+			prev_startpos = next_startpos;
+			next_startpos = trace_endpos;
+									
+			Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+			
+			if (trace_ent == self)	
+				return;
+		
+			if (trace_fraction != 1.0)
+				return;
+				
+			else
+			{
+				dprint("forwards air valid, check air max upper range...\n");
+												
+				traceline2(next_startpos, next_startpos + '0 0 -16', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * -16
+				
+				prev_startpos = next_startpos;
+				next_startpos = trace_endpos;
+								
+				Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+				
+				if (trace_ent == self)	
+					return;
+				
+				if (trace_fraction != 1.0)
+					return;
+					
+				else
+				{
+					dprint("max air upper range valid, check ground max lower range...\n");
+													
+					traceline2(next_startpos, next_startpos + '0 0 -96', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * -96
+					
+					prev_startpos = next_startpos;
+					next_startpos = trace_endpos;
+										
+					Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+					
+					if (trace_ent == self)	
+						return;
+					
+					if (trace_fraction == 1.0)
+						return;
+					
+					else
+					{
+						dprint("ground max lower range valid, loop...\n");
+					}
+				}
+			}
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+		
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void(vector dir, vector org, string trailstring) Draw_Groundedtrail =
+{
+	entity fx;
+	
+	fx = spawn ();
+	fx.owner = self;
+	fx.movetype = MOVETYPE_NONE;
+	fx.solid = SOLID_NOT;
+	fx.classname = "impact";
+
+	if (dir == VEC_ORIGIN) {
+		makevectors(self.v_angle);
+		dir = v_forward;
+	}
+	
+	fx.angles = self.angles;
+	fx.nextthink = time;
+	
+	fx.frame = 0;
+	fx.alpha = 1;
+	
+	fx.think = anim_groundedtrail;
+		
+	setmodel (fx, trailstring);
+
+	//setorigin (fx, self.origin);
+	setorigin (fx, org);
+	setsize (fx, '0 0 0', '0 0 0');
+}
+
+void() anim_groundedtrail =
+{
+	self.alpha -= 0.04;
+	self.frame ++;
+
+	if (self.frame >= 20)
+	//if (self.alpha <= 0)
+	{
+		remove(self);
+		return;
+	}
+	self.think = anim_groundedtrail;
+	self.nextthink = time + 0.05;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
 void(float size) GibBloodBath =
 {
 	entity blood = spawn();

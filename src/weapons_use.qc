@@ -373,6 +373,8 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/proj_magic_claw.mdl");
 	precache_model ("progs/placeholder_progs/proj_magic_claw_trail.mdl");
 	
+	precache_model ("progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+	
 	//=============================================================================================	
 
 

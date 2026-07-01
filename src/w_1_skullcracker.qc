@@ -53,6 +53,8 @@ float() weaponanim_wrench =
 	SUB_CallAsSelf(player_wrench1, self.animcontroller);
 	
 	
+	Fire_Grounded_Attack();
+	
 	self.think = weaponanim_wrench_loop;
 	self.nextthink = time + 0.05;
 
