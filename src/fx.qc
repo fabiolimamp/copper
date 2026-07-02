@@ -232,6 +232,7 @@ void() Fire_Grounded_Attack =
 {
 	makevectors (self.v_angle);
 	
+	/*
 	vector	yaw = vectoangles2(v_forward);
 	
 	yaw = normalize(yaw);
@@ -239,9 +240,8 @@ void() Fire_Grounded_Attack =
 	dprint2(vtos(yaw), "yaw\n");	//FIXME: pitch = z should be removed but keep radius distance???
 	
 	dprint("\bFIXME!\n");
+	*/
 	
-	
-			
 	vector 	next_startpos = self.origin + self.view_ofs;
 	vector 	prev_startpos;
 	
@@ -260,96 +260,83 @@ void() Fire_Grounded_Attack =
 	
 	else
 	{
-		dprint("floor valid, draw grounded, check air above...\n");
-		
-		Draw_Groundedtrail (v_forward, trace_endpos, "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
-						
-		traceline2(next_startpos, next_startpos + '0 0 64', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * 64
-		
-		prev_startpos = next_startpos;
-		next_startpos = trace_endpos;
-						
-		Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
-		
-		if (trace_ent == self)	
-			return;
-		
-		if (trace_fraction != 1.0)
-			return;
-		
-		else
+		float stop_loop;
+		for (stop_loop = 0; stop_loop < 32; stop_loop++)	//max number of ground attacks spawned
 		{
-			dprint("air above valid, check air forwards...\n");
+			dprint("floor valid, draw grounded, check air above...\n");
 			
-			traceline2(next_startpos, next_startpos + v_forward * 96, self, TRACE_NOMONSTERS|TRACE_WATER);		//*16
+			Draw_Groundedtrail ('0 0 0', trace_endpos, "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+							
+			traceline2(next_startpos, next_startpos + '0 0 64', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * 64
 			
 			prev_startpos = next_startpos;
 			next_startpos = trace_endpos;
-									
+							
 			Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
 			
 			if (trace_ent == self)	
 				return;
-		
+			
 			if (trace_fraction != 1.0)
 				return;
-				
+			
 			else
 			{
-				dprint("forwards air valid, check air max upper range...\n");
-												
-				traceline2(next_startpos, next_startpos + '0 0 -16', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * -16
+				dprint("air above valid, check air forwards...\n");
+				
+				traceline2(next_startpos, next_startpos + v_forward * 32, self, TRACE_NOMONSTERS|TRACE_WATER);		//*16
 				
 				prev_startpos = next_startpos;
 				next_startpos = trace_endpos;
-								
+										
 				Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
 				
 				if (trace_ent == self)	
 					return;
-				
+			
 				if (trace_fraction != 1.0)
 					return;
 					
 				else
 				{
-					dprint("max air upper range valid, check ground max lower range...\n");
+					dprint("forwards air valid, check air max upper range...\n");
 													
-					traceline2(next_startpos, next_startpos + '0 0 -96', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * -96
+					traceline2(next_startpos, next_startpos + '0 0 -16', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * -16
 					
 					prev_startpos = next_startpos;
 					next_startpos = trace_endpos;
-										
+									
 					Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
 					
 					if (trace_ent == self)	
 						return;
 					
-					if (trace_fraction == 1.0)
+					if (trace_fraction != 1.0)
 						return;
-					
+						
 					else
 					{
-						dprint("ground max lower range valid, loop...\n");
+						dprint("max air upper range valid, check floor...\n");
+														
+						traceline2(next_startpos, next_startpos + '0 0 -96', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * -96
+						
+						prev_startpos = next_startpos;
+						next_startpos = trace_endpos;
+											
+						Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+						
+						if (trace_ent == self)	
+							return;
+						
+						if (trace_fraction == 1.0)
+							return;
 					}
 				}
-			}
-			
+				
+			}	
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	}
-	
-		
+		//stop_loop
+	}	
 }
 
 
