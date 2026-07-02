@@ -227,6 +227,99 @@ void() Draw_Tracertrail_Segment_Think =
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+//launch_groundedattack (org, vel, "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+
+
+entity(vector org, vector vel, string groundedmodel) launch_groundedattack =
+{
+	entity g;
+	
+	g = spawn();
+	g.owner = g.trueowner = self;
+	g.movetype = MOVETYPE_NONE;
+	g.solid = SOLID_TRIGGER;
+
+	g.angles = vectoangles(vel);
+	
+	g.type = "static";
+	//g.touch = projectile_touch_null;
+	g.th_die = SUB_Remove;
+	g.think = SUB_Remove;
+	g.nextthink = time + 1;
+	//g.customflags |= CFL_PROJECTILE;
+
+	setsize (g, VEC_ORIGIN, VEC_ORIGIN);
+	setorigin (g, org);
+
+	//g.velocity = g.oldvelocity = vel;
+	
+	//g.classname = "grounded";
+	
+	
+	
+	//g.solid = SOLID_TRIGGER;
+	//g.movetype = MOVETYPE_TOSS;
+	g.classname = "AmalGoop";
+	
+	
+	
+	g.touch = groundedattack_touch;
+	setmodel(g, groundedmodel);	//"progs/placeholder_progs/fx_grounded_magic_lava.mdl"
+	g.dmg = 30;
+	
+	
+	return g;
+}
+
+void() groundedattack_touch =
+{
+
+	if (!played_tink) {
+		sound (self, CHAN_BODY, "weapons/tink1.wav", 1, ATTN_STATIC);
+		played_tink = 1;
+	}
+
+	//if (!CheckValidTouch()) return;
+	//if (other.flags & FL_MONSTER) return;
+	
+	
+	//if (other.classname != "player")
+	if (other.classname == "player")
+		return;
+	if (other.health <= 0)
+		return;
+	if (other.movetype == MOVETYPE_NOCLIP)
+		return;
+	// players in telelimbo aren't supposed to 'be' anywhere
+	if (other.flags & CFL_LIMBO)
+		return;
+	
+	
+	
+	if (other.flags & FL_CLIENT) return;
+	if (self.attack_finished > time) return;
+
+	T_Damage(other, self.owner, self, self.dmg);
+
+	if (random() > .5)
+	{
+		sound(self, CHAN_VOICE, "amalg/amalg_goop1.wav", .6, ATTN_NORM);
+	}
+	else
+		sound(self, CHAN_VOICE, "amalg/amalg_goop2.wav", .6, ATTN_NORM);
+
+	GoopBlood(0);
+	remove(self); //change this to an animation l8r
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 void() Fire_Grounded_Attack =
 {
@@ -243,7 +336,7 @@ void() Fire_Grounded_Attack =
 	vector 	next_startpos = self.origin + self.view_ofs;
 	vector 	prev_startpos;
 	
-	dprint("check floor...\n");
+	//dprint("check floor...\n");
 	
 	traceline2(next_startpos, next_startpos + '0 0 -96', self, TRACE_NOMONSTERS|TRACE_WATER);		//v_up * -96
 	
@@ -261,16 +354,20 @@ void() Fire_Grounded_Attack =
 		float stop_loop;
 		for (stop_loop = 0; stop_loop < 32; stop_loop++)	//max number of ground attacks spawned
 		{
-			dprint("floor valid, draw grounded, check air above...\n");
+			//dprint("floor valid, draw grounded, check air above...\n");
 			
 			Draw_Groundedtrail (yaw, trace_endpos, "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+			
+			launch_groundedattack (trace_endpos, '0 0 1', "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+			
+			
 							
 			traceline2(next_startpos, next_startpos + '0 0 64', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * 64
 			
 			prev_startpos = next_startpos;
 			next_startpos = trace_endpos;
 							
-			Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+			//Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
 			
 			if (trace_ent == self)	
 				return;
@@ -280,14 +377,14 @@ void() Fire_Grounded_Attack =
 			
 			else
 			{
-				dprint("air above valid, check air forwards...\n");
+				//dprint("air above valid, check air forwards...\n");
 				
 				traceline2(next_startpos, next_startpos + yaw * 32, self, TRACE_NOMONSTERS|TRACE_WATER);		//*16
 				
 				prev_startpos = next_startpos;
 				next_startpos = trace_endpos;
 										
-				Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+				//Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
 				
 				if (trace_ent == self)	
 					return;
@@ -297,14 +394,14 @@ void() Fire_Grounded_Attack =
 					
 				else
 				{
-					dprint("forwards air valid, check air max upper range...\n");
+					//dprint("forwards air valid, check air max upper range...\n");
 													
 					traceline2(next_startpos, next_startpos + '0 0 -16', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * -16
 					
 					prev_startpos = next_startpos;
 					next_startpos = trace_endpos;
 									
-					Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+					//Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
 					
 					if (trace_ent == self)	
 						return;
@@ -314,14 +411,14 @@ void() Fire_Grounded_Attack =
 						
 					else
 					{
-						dprint("max air upper range valid, check floor...\n");
+						//dprint("max air upper range valid, check floor...\n");
 														
 						traceline2(next_startpos, next_startpos + '0 0 -96', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * -96
 						
 						prev_startpos = next_startpos;
 						next_startpos = trace_endpos;
 											
-						Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+						//Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
 						
 						if (trace_ent == self)	
 							return;
@@ -356,9 +453,9 @@ void(vector dir, vector org, string trailstring) Draw_Groundedtrail =
 	}
 		
 	fx.angles = self.angles;
-	fx.nextthink = time;
+	fx.nextthink = time + 1;
 	
-	fx.frame = 0;
+	fx.frame = 10;
 	fx.alpha = 1;
 	
 	fx.think = anim_groundedtrail;
@@ -389,6 +486,7 @@ void() anim_groundedtrail =
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
 void(float size) GibBloodBath =
 {
 	entity blood = spawn();
