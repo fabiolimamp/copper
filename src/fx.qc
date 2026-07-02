@@ -232,16 +232,14 @@ void() Fire_Grounded_Attack =
 {
 	makevectors (self.v_angle);
 	
-	/*
-	vector	yaw = vectoangles2(v_forward);
 	
-	yaw = normalize(yaw);
 	
-	dprint2(vtos(yaw), "yaw\n");	//FIXME: pitch = z should be removed but keep radius distance???
-	
-	dprint("\bFIXME!\n");
-	*/
-	
+	//convert v_forward into yaw vector (without pitch) and keeps radius length in tact!
+	v_forward.z = 0;
+	vector yaw = v_forward * (1/vlen(v_forward));	
+
+
+
 	vector 	next_startpos = self.origin + self.view_ofs;
 	vector 	prev_startpos;
 	
@@ -265,7 +263,7 @@ void() Fire_Grounded_Attack =
 		{
 			dprint("floor valid, draw grounded, check air above...\n");
 			
-			Draw_Groundedtrail ('0 0 0', trace_endpos, "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+			Draw_Groundedtrail (yaw, trace_endpos, "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
 							
 			traceline2(next_startpos, next_startpos + '0 0 64', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * 64
 			
@@ -284,7 +282,7 @@ void() Fire_Grounded_Attack =
 			{
 				dprint("air above valid, check air forwards...\n");
 				
-				traceline2(next_startpos, next_startpos + v_forward * 32, self, TRACE_NOMONSTERS|TRACE_WATER);		//*16
+				traceline2(next_startpos, next_startpos + yaw * 32, self, TRACE_NOMONSTERS|TRACE_WATER);		//*16
 				
 				prev_startpos = next_startpos;
 				next_startpos = trace_endpos;
@@ -356,7 +354,7 @@ void(vector dir, vector org, string trailstring) Draw_Groundedtrail =
 		makevectors(self.v_angle);
 		dir = v_forward;
 	}
-	
+		
 	fx.angles = self.angles;
 	fx.nextthink = time;
 	
