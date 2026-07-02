@@ -230,6 +230,80 @@ void() Draw_Tracertrail_Segment_Think =
 //launch_groundedattack (org, vel, "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
 
 
+entity(vector org, vector vel, string groundedmodel) launch_groundedattack_fromenemy =
+{
+	entity g;
+	
+	g = spawn();
+	g.owner = g.trueowner = self;
+	g.movetype = MOVETYPE_NONE;
+	g.solid = SOLID_TRIGGER;
+
+	g.angles = vectoangles(vel);
+	
+	g.type = "static";
+	//g.touch = projectile_touch_null;
+	g.th_die = SUB_Remove;
+	g.think = SUB_Remove;
+	g.nextthink = time + 1;
+	//g.customflags |= CFL_PROJECTILE;
+
+	setsize (g, VEC_ORIGIN, VEC_ORIGIN);
+	setorigin (g, org);
+
+	//g.velocity = g.oldvelocity = vel;
+	
+	//g.classname = "grounded";
+	
+	
+	
+	//g.solid = SOLID_TRIGGER;
+	//g.movetype = MOVETYPE_TOSS;
+	g.classname = "AmalGoop";
+	
+	
+	
+	g.touch = groundedattack_fromenemy_touch;
+	setmodel(g, groundedmodel);	//"progs/placeholder_progs/fx_grounded_magic_lava.mdl"
+	g.dmg = 30;
+	
+	
+	return g;
+}
+
+void() groundedattack_fromenemy_touch =
+{
+
+	if (!played_tink) {
+		sound (self, CHAN_BODY, "weapons/tink1.wav", 1, ATTN_STATIC);
+		played_tink = 1;
+	}
+
+	if (!CheckValidTouch()) return;
+	if (other.flags & FL_MONSTER) return;
+	if (other.flags & FL_CLIENT) return;
+	if (self.attack_finished > time) return;
+
+	T_Damage(other, self.owner, self, self.dmg);
+
+	if (random() > .5)
+	{
+		sound(self, CHAN_VOICE, "amalg/amalg_goop1.wav", .6, ATTN_NORM);
+	}
+	else
+		sound(self, CHAN_VOICE, "amalg/amalg_goop2.wav", .6, ATTN_NORM);
+
+	GoopBlood(0);
+	remove(self); //change this to an animation l8r
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//launch_groundedattack (org, vel, "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+
+
 entity(vector org, vector vel, string groundedmodel) launch_groundedattack =
 {
 	entity g;
@@ -321,7 +395,177 @@ void() groundedattack_touch =
 
 
 
-void() Fire_Grounded_Attack =
+//Fire_Grounded_Attack_Delay(shot_org, dir);
+
+void () Fire_Grounded_Attack_Delay =
+{
+	entity magic;
+	vector shot_org, target_pos, dir;
+
+	ai_face();
+	makevectors(self.angles);
+	self.effects = self.effects | EF_MUZZLEFLASH;
+
+	shot_org = self.origin + v_forward * 24 + '0 0 16';
+	target_pos = enemy_vispos() + enemy_aim_vertical();
+
+	dir = normalize(target_pos - shot_org);
+	
+	
+	
+	
+	
+	magic = spawn();
+	magic.owner = magic.trueowner = self;
+	magic.movetype = MOVETYPE_NONE;
+	magic.solid = SOLID_NOT;
+
+	
+	magic.angles = dir;
+		
+	//magic.th_die = SUB_Remove;
+	magic.think = SUB_Remove;
+	magic.nextthink = time + 0.1;
+	
+
+	setsize (magic, VEC_ORIGIN, VEC_ORIGIN);
+	setorigin (magic, shot_org);
+
+	
+	
+	
+	
+	
+	
+		
+	//makevectors (self.v_angle);
+	
+	//convert v_forward into yaw vector (without pitch) and keeps radius length in tact!
+	//v_forward.z = 0;
+	//vector yaw = v_forward * (1/vlen(v_forward));	
+	
+	//dir.z = 0;
+	//vector yaw = dir * (1/vlen(dir));	
+
+	//vector 	next_startpos = self.origin + self.view_ofs;
+	//vector 	next_startpos = shot_org;
+	//vector 	prev_startpos;
+	
+	//dprint("check floor...\n");
+	traceline2(shot_org, shot_org + '0 0 -96', self, TRACE_NOMONSTERS|TRACE_WATER);
+	
+	//prev_startpos = next_startpos;
+	//next_startpos = trace_endpos;
+		
+	if (trace_ent == self)	
+		return;
+		
+	if (trace_fraction == 1.0)
+		return;
+	
+	else
+	{
+		magic.think = grounded_attack_checkloop_think;
+		//magic.nextthink = time + 0.1;
+	}
+}
+
+
+
+void()	grounded_attack_checkloop_think =
+{	
+	local float count;
+	
+	if (count >= 32)	//max number of ground attacks spawned
+		return;
+	
+	makevectors (self.v_angle);
+	
+	//convert v_forward into yaw vector (without pitch) and keeps radius length in tact!
+	v_forward.z = 0;
+	vector yaw = v_forward * (1/vlen(v_forward));	
+	
+	vector 	next_startpos = self.origin + self.view_ofs;
+	vector 	prev_startpos;
+	
+	//dprint("floor valid, draw grounded, check air above...\n");			
+	Draw_Groundedtrail (yaw, trace_endpos, "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+	//launch_groundedattack (trace_endpos, '0 0 1', "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+	launch_groundedattack_fromenemy (trace_endpos, '0 0 1', "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+								
+	traceline2(next_startpos, next_startpos + '0 0 64', self, TRACE_NOMONSTERS|TRACE_WATER);
+	
+	prev_startpos = next_startpos;
+	next_startpos = trace_endpos;
+	
+	if (trace_ent == self)	
+		return;
+	
+	if (trace_fraction != 1.0)
+		return;
+	
+	else
+	{
+		//dprint("air above valid, check air forwards...\n");				
+		traceline2(next_startpos, next_startpos + yaw * 32, self, TRACE_NOMONSTERS|TRACE_WATER);
+		
+		prev_startpos = next_startpos;
+		next_startpos = trace_endpos;
+		
+		if (trace_ent == self)	
+			return;
+	
+		if (trace_fraction != 1.0)
+			return;
+			
+		else
+		{
+			//dprint("forwards air valid, check air max upper range...\n");													
+			traceline2(next_startpos, next_startpos + '0 0 -16', self, TRACE_NOMONSTERS|TRACE_WATER);
+			
+			prev_startpos = next_startpos;
+			next_startpos = trace_endpos;
+											
+			if (trace_ent == self)	
+				return;
+			
+			if (trace_fraction != 1.0)
+				return;
+				
+			else
+			{
+				//dprint("max air upper range valid, check floor...\n");							
+				traceline2(next_startpos, next_startpos + '0 0 -96', self, TRACE_NOMONSTERS|TRACE_WATER);
+				
+				prev_startpos = next_startpos;
+				next_startpos = trace_endpos;
+													
+				if (trace_ent == self)	
+					return;
+				
+				if (trace_fraction == 1.0)
+					return;
+				
+				else
+				{
+					count++;
+					self.think = grounded_attack_checkloop_think;
+					self.nextthink = time + 0.1;
+				}
+			}
+		}
+	}	
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+void() Fire_Grounded_Attack_Instant =
 {
 	makevectors (self.v_angle);
 	
