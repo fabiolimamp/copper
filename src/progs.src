@@ -81,6 +81,7 @@ mapvar.qc
 fog.qc		// atmosfear
 t_void.qc	// bottomless pits
 fx.qc		// more dots
+grounded_cast.qc
 
 // prefixed all these so I can more easily open all the monster files at once
 m_ogre.qc
