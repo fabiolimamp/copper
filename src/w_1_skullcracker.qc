@@ -55,6 +55,9 @@ float() weaponanim_wrench =
 	
 	Fire_Grounded_Attack_Instant();
 	
+	//Start_Grounded_Cast();
+	
+	
 	self.think = weaponanim_wrench_loop;
 	self.nextthink = time + 0.05;
 

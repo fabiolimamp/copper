@@ -10,7 +10,7 @@
     Slug trail patterns can appear instantly by doing all the traceline checks in a single function using for() loops
 
 
-//=================================================================================================                                                                                                          
+//=================================================================================================
                                                                
                                                                                                          
                                      (2)╭────╭────╭────╭────╮(3)                                                                      
@@ -83,3 +83,194 @@
 
 
 =================================================================================================*/
+
+
+
+
+
+
+
+
+void() Start_Grounded_Cast =
+{
+	makevectors (self.v_angle);
+	
+		
+	//convert v_forward into yaw vector (without pitch) and keeps radius length in tact!
+	v_forward.z = 0;
+	vector yaw = v_forward * (1/vlen(v_forward));	
+
+
+
+	vector 	next_startpos = self.origin + self.view_ofs;
+	//vector 	prev_startpos;
+	
+	//dprint("check floor...\n");
+	
+	traceline2(next_startpos, next_startpos + '0 0 -96', self, TRACE_NOMONSTERS|TRACE_WATER);		//v_up * -96
+	
+	//prev_startpos = next_startpos;
+	//next_startpos = trace_endpos;
+		
+	if (trace_ent == self)	
+		return;
+		
+	if (trace_fraction == 1.0)
+		return;
+	
+	else
+	{
+		entity cast = SpawnTempEnt_Grounded_Cast(trace_endpos, yaw);
+		
+		//cast.nextthink = time + 0.1;
+	}
+}
+
+
+
+
+
+entity(vector org, vector yaw/*, string cname*/) SpawnTempEnt_Grounded_Cast =
+{
+	entity cast;
+		
+	cast = spawn();
+	cast.owner = cast.trueowner = self;
+	//cast.movetype = MOVETYPE_FLYMISSILE;
+	cast.movetype = MOVETYPE_NONE;
+	//cast.solid = SOLID_BBOX;
+	cast.solid = SOLID_NOT;
+
+	cast.angles = vectoangles(yaw);
+	
+	cast.type = "spike";
+	cast.touch = projectile_touch_null;
+	//cast.lifetime_finished = time + 0.2;
+	//cast.th_die = SUB_Remove;
+	cast.th_die = Grounded_Cast_Think;
+	//cast.think = SUB_Remove;
+	cast.think = Grounded_Cast_Think;
+	//cast.nextthink = time + 6;
+	cast.nextthink = time + 0.1;
+	cast.customflags |= CFL_PROJECTILE;
+
+	setsize (cast, VEC_ORIGIN, VEC_ORIGIN);
+	setorigin (cast, org);
+
+	//cast.velocity = cast.oldvelocity = vel;
+	
+	//cast.classname = cname;
+	cast.classname = "grounded";
+	
+	return cast;
+}
+
+
+
+
+
+void() Grounded_Cast_Think =
+{
+	SUB_Remove();	//clear SpawnTempEnt
+	
+	
+	makevectors (self.v_angle);
+	
+		
+	//convert v_forward into yaw vector (without pitch) and keeps radius length in tact!
+	v_forward.z = 0;
+	vector yaw = v_forward * (1/vlen(v_forward));	
+
+
+
+	vector 	next_startpos = self.origin + self.view_ofs;
+	vector 	prev_startpos;
+	
+		
+	
+	//traceline2(next_startpos, next_startpos + '0 0 -96', self, TRACE_NOMONSTERS|TRACE_WATER);
+		
+	
+	
+	
+	//float stop_loop;
+	//for (stop_loop = 0; stop_loop < 32; stop_loop++)	//max number of ground attacks spawned
+	
+	//dprint("floor valid, draw grounded, check air above...\n");
+	
+	
+		Draw_Groundedtrail (yaw, trace_endpos, "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+		
+		entity cast = SpawnTempEnt_Grounded_Cast(trace_endpos, yaw);
+	
+	//	launch_groundedattack (trace_endpos, '0 0 1', "progs/placeholder_progs/fx_grounded_magic_lava.mdl");
+	
+		
+					
+	traceline2(next_startpos, next_startpos + '0 0 64', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * 64
+	
+	prev_startpos = next_startpos;
+	next_startpos = trace_endpos;
+					
+	//Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+	
+	if (trace_ent == self)	
+		return;
+	
+	if (trace_fraction != 1.0)
+		return;
+	
+	else
+	{
+		//dprint("air above valid, check air forwards...\n");
+		
+		traceline2(next_startpos, next_startpos + yaw * 32, self, TRACE_NOMONSTERS|TRACE_WATER);		// * 16
+		
+		prev_startpos = next_startpos;
+		next_startpos = trace_endpos;
+								
+		Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+		
+		if (trace_ent == self)	
+			return;
+	
+		if (trace_fraction != 1.0)
+			return;
+			
+		else
+		{
+			//dprint("forwards air valid, check air max upper range...\n");
+											
+			traceline2(next_startpos, next_startpos + '0 0 -16', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * -16
+			
+			prev_startpos = next_startpos;
+			next_startpos = trace_endpos;
+							
+			Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+			
+			if (trace_ent == self)	
+				return;
+			
+			if (trace_fraction != 1.0)
+				return;
+				
+			else
+			{
+				//dprint("max air upper range valid, check floor...\n");
+												
+				traceline2(next_startpos, next_startpos + '0 0 -96', self, TRACE_NOMONSTERS|TRACE_WATER);	//v_up * -96
+				
+				prev_startpos = next_startpos;
+				next_startpos = trace_endpos;
+									
+				Draw_Tracertrail(self, prev_startpos, next_startpos, 0, "progs/placeholder_progs/railtrail_tracer.mdl", 1);
+				
+				if (trace_ent == self)	
+					return;
+				
+				if (trace_fraction == 1.0)
+					return;
+			}
+		}
+	}	
+}
