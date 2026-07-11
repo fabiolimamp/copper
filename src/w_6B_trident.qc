@@ -3,7 +3,7 @@
 //=============================================================================================
 
 string	TRIDENT_NAME	=	"TRIDENT";
-string	TRIDENT_MODEL	=	"progs/placeholder_progs/v_grenade_triboltqc.mdl";
+string	TRIDENT_MODEL	=	"progs/placeholder_progs/v_trident.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPEED_BASE	DESCRIPTION

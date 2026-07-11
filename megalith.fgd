@@ -297,7 +297,7 @@ Spawnflag Usage:
 
         {{
 
-            spawnflags & 8 ->   ":progs/placeholder_progs/g_grenade_tribolt.mdl",
+            spawnflags & 8 ->   ":progs/placeholder_progs/g_trident.mdl",
 
                                 ":progs/g_grenlauncher.mdl"
 
@@ -305,7 +305,7 @@ Spawnflag Usage:
 
     ) 
 
- = weapon_grenadelauncher : "Grenade Launcher / Tribolt.
+ = weapon_grenadelauncher : "Grenade Launcher / Trident.
 8 rockets." []
 @PointClass base(Weapon) model(
 

@@ -454,7 +454,7 @@ Keys:
 
         {{
 
-            spawnflags & 8 ->   ":progs/placeholder_progs/g_grenade_tribolt.mdl",
+            spawnflags & 8 ->   ":progs/placeholder_progs/g_trident.mdl",
 
                                 ":progs/g_grenlauncher.mdl"
 
@@ -462,23 +462,23 @@ Keys:
 
     ) 
 
- = weapon_grenadelauncher : "Grenade Launcher / Tribolt.
+ = weapon_grenadelauncher : "Grenade Launcher / Trident.
 8 rockets." []
 */
 void() weapon_grenadelauncher =
 {
 	if (!SUB_ShouldSpawn()) return;
 	precache_model_safe ("progs/g_grenlauncher.mdl");
-	precache_model_safe ("progs/placeholder_progs/g_grenade_tribolt.mdl");
+	precache_model_safe ("progs/placeholder_progs/g_trident.mdl");
 	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 	{
-		setmodel (self, "progs/placeholder_progs/g_grenade_tribolt.mdl");
+		setmodel (self, "progs/placeholder_progs/g_trident.mdl");
 		self.invokedmodel = "progs/g_grenlauncher.mdl";
 	}
 	else
 	{
 		setmodel (self, "progs/g_grenlauncher.mdl");
-		self.invokedmodel = "progs/placeholder_progs/g_grenade_tribolt.mdl";
+		self.invokedmodel = "progs/placeholder_progs/g_trident.mdl";
 	}
 	self.items = IT_GRENADE_LAUNCHER;
 	self.ammo_rockets = 8;
