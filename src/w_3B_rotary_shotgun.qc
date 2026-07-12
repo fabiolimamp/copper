@@ -2,7 +2,7 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	ROTARY_SHOTGUN_NAME	=	"ROTARY_SHRotary Shotgun";
+string	ROTARY_SHOTGUN_NAME	=	"Rotary Shotgun";
 string	ROTARY_SHOTGUN_MODEL	=	"progs/placeholder_progs/v_ssg_rotary.mdl";
 
 

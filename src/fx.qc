@@ -2703,7 +2703,7 @@ float		numbulletholes, numbulletsframe;
 // maximum bulletholes on the map
 float BULLETHOLES_MAX = 150;			// MAX ON SCREEN (if over limit, removes last created hole)
 // maximum bulletholes spawned per frame
-//float BULLETHOLES_MAXFRAME = 30;		// GLOBAL MAX (stops creating new holes after this limit)
+float BULLETHOLES_MAXFRAME = 30;		// GLOBAL MAX (stops creating new holes after this limit)
 
 float BULLETHOLES_LIFETIME = 60;		// TIME +
 
