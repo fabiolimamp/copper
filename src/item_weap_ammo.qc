@@ -537,7 +537,7 @@ void() weapon_mmml =
 void() weapon_rocketlauncher = {weapon_mmml();} //for legacy compat
 
 /*QUAKED weapon_invoker (0 0 1) (-16 -16 0) (16 16 56) ? ? SUSPENDED ALTERNATE
-The Invoker / Railgun.
+Dagger / Invoker.
 
 Keys:
 "target/2/3/4/k" - entity to trigger when picked up
@@ -552,29 +552,29 @@ Keys:
 
             spawnflags & 8 ->   ":progs/g_invoker.mdl",
 
-                                ":progs/placeholder_progs/g_railgun_rifle.mdl"
+                                ":progs/placeholder_progs/g_dagger.mdl"
 
         }}
 
     ) 
 
- = weapon_invoker : "Railgun / Invoker.
+ = weapon_invoker : "Dagger / Invoker.
 1 cell." []
 */
 void() weapon_invoker =
 {
 	if (!SUB_ShouldSpawn()) return;
-	precache_model_safe ("progs/placeholder_progs/g_railgun_rifle.mdl");
+	precache_model_safe ("progs/placeholder_progs/g_dagger.mdl");
 	precache_model_safe ("progs/g_invoker.mdl");
 
 	if (self.spawnflags & ITEM_WEAPON_ALTERNATE)
 	{
 		setmodel (self, "progs/g_invoker.mdl");
-		self.invokedmodel = "progs/placeholder_progs/g_railgun_rifle.mdl";
+		self.invokedmodel = "progs/placeholder_progs/g_dagger.mdl";
 	}
 	else
 	{
-		setmodel (self, "progs/placeholder_progs/g_railgun_rifle.mdl");
+		setmodel (self, "progs/placeholder_progs/g_dagger.mdl");
 		self.invokedmodel = "progs/g_invoker.mdl";
 	}
 

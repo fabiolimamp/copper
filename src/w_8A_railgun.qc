@@ -2,8 +2,8 @@
 // Placeholder weapons testing
 //=============================================================================================
 
-string	RAILGUN_NAME	=	"Railgun (temp name)";
-string	RAILGUN_MODEL	=	"progs/placeholder_progs/v_power_rifle.mdl";
+string	RAILGUN_NAME	=	"Dagger (temp name)";
+string	RAILGUN_MODEL	=	"progs/placeholder_progs/v_dagger.mdl";
 
 
 //	ROF	COUNT * DMG	COST	SPREAD		DESCRIPTION
@@ -75,9 +75,10 @@ void() weaponanim_RAILGUN_loop =
 
 void() W_Fire_RAILGUN =
 {
-	sound (self, CHAN_AUTO, "rebar/penfire.wav", 1, ATTN_NORM);
+	//sound (self, CHAN_AUTO, "rebar/penfire.wav", 1, ATTN_NORM);
 	sound (self, CHAN_AUTO, "placeholder_sound/sniper.wav", 1, ATTN_NORM);
-	sound (self, CHAN_AUTO, "pistol/pistol_fire.wav", 1, ATTN_NORM);
+	//sound (self, CHAN_AUTO, "pistol/pistol_fire.wav", 1, ATTN_NORM);
+	sound (self, CHAN_AUTO, "placeholder_sound/blade_shing1.wav", 1, ATTN_NORM);
 	
 	
 	
@@ -98,7 +99,7 @@ void() W_Fire_RAILGUN =
 	
 	//Start_Smoketrail_ROCKET_INSTANT();
 	
-	Draw_Tracertrail(self, org, trace_endpos, 0, "progs/placeholder_progs/railtrail_smoke.mdl", 1);
+	Draw_Tracertrail(self, org, trace_endpos, 0, "progs/placeholder_progs/railtrail_dagger.mdl", 1);
 	
 	
 	FX_Impact(FX_CHAINS, trace_endpos, 0);

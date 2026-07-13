@@ -222,6 +222,7 @@ void() W_Precache =
 	precache_sound ("placeholder_sound/knife_hit3.wav");
 	precache_sound ("placeholder_sound/knife_hit4.wav");
 	precache_sound ("placeholder_sound/knife_hitwall1.wav");
+	precache_sound ("placeholder_sound/blade_shing1.wav");
 	
 	precache_sound ("placeholder_sound/ash_casing.wav");
 	precache_sound ("placeholder_sound/ash_casing2.wav");
@@ -356,7 +357,10 @@ void() W_Precache =
 	precache_model ("progs/placeholder_progs/v_rocket_triple.mdl");
 			
 	precache_model ("progs/placeholder_progs/v_power_rifle.mdl");	
-	
+	precache_model ("progs/placeholder_progs/g_dagger.mdl");	
+	precache_model ("progs/placeholder_progs/v_dagger.mdl");	
+	precache_model ("progs/placeholder_progs/railtrail_dagger.mdl");
+		
 	precache_model ("progs/placeholder_progs/wish/g_ash.mdl");
 	precache_model ("progs/placeholder_progs/wish/v_ash.mdl");
 	precache_model ("progs/placeholder_progs/wish/casing_big.mdl");
